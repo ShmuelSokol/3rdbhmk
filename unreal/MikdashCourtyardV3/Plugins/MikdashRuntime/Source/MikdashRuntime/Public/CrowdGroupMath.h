@@ -183,6 +183,21 @@ public:
         { Bucket[I]=Bucket.back();Bucket.pop_back();break; }
         if(Bucket.empty()) Cells.erase(It);
     }
+    /** Move an occupant to a point already validated by the caller (a committed vertex-animation
+     * segment: SegmentClear was asked when the segment was planned). No clearance test here --
+     * refusing would leave the index holding a position the figure is no longer at. */
+    bool Relocate(int Id,const Vec2& From,const Vec2& To)
+    {
+        if(!Safe(From)||!Safe(To)) return false;
+        const uint64_t Old=Key(Coord(From.X),Coord(From.Y)),New=Key(Coord(To.X),Coord(To.Y));
+        auto It=Cells.find(Old);if(It==Cells.end()) return false;
+        if(Old==New)
+        { for(auto& E:It->second) if(E.Id==Id){E.Position=To;return true;}return false; }
+        bool Found=false;for(const auto& E:It->second) if(E.Id==Id) Found=true;
+        if(!Found) return false;
+        auto& Destination=Cells[New];if(Destination.size()>=MaxCell) return false;
+        Destination.push_back({Id,To});Remove(Id,From);return true;
+    }
     bool Move(int Id,const Vec2& From,const Vec2& To)
     {
         if(!SegmentClear(From,To,Id)) return false;

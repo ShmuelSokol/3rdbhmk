@@ -1712,3 +1712,91 @@ Files: `Scripts/create_herodian_ashlar_layouts.py` (slices, seed screen, `--prov
   The trial map carries the layouts apply as evidence. To remove it: `release_antirepeat.py
   -AntiRepeatRevert=<...apply-Candidate48FrameTrial-20260911T043107033892Z.json> -Candidate48FrameTrial`, then
   `release_antirepeat_layouts.py -ARLayoutsRevert=<...layoutsbuild-20260911T043003676054Z.json>`.
+
+
+### 2026-09-11 ~04:30-05:00Z - Crowd VAT: the instanced crowd is now vertex-animated (both maps), frame acceptance pending
+
+* **TRAP (from the coordinator, recorded here as asked): after ANY class-layout change in MikdashRuntime
+  (UPROPERTY added, removed or reordered), build BOTH targets.** Editor: `Build.bat MikdashCourtyardV3Editor Win64
+  Development -Project=<uproject> -WaitMutex -NoHotReload`; Game: `Build.bat MikdashCourtyardV3 Win64 Development
+  -Project=<uproject> -WaitMutex`. Always from a generated .bat calling Build.bat by FULL PATH (this box sets
+  `NoDefaultCurrentDirectoryInExePath=1`). Otherwise the cooker serialises the NEW layout while the staged game exe
+  is the OLD one, and every packaged capture crashes on load: `MikdashCrowdField_0: Bad export index 277503/16970`
+  (AsyncLoading2.cpp), even on an untouched map. My editor-only rebuild at 04:29Z (new AMikdashCrowdField
+  UPROPERTYs) did exactly that. `Checkpoint-Build.ps1` passes `-build`, so checkpoint cooks rebuild the game
+  themselves; frame-trial cooks and bare captures do NOT.
+* **What changed.** `AMikdashCrowdField` gained an opt-in `bUseVertexAnimation` (default false = the historical
+  frozen posed meshes, code path unchanged). On: PoseMeshes are six VAT-baked PilgrimRigV3 bodies
+  (`/Game/MikdashV3/Runtime/CrowdVATV1`, 2,400 tris each, WalkV2 walk 72 frames + idle 192 frames at 60 Hz,
+  16-bit), material `M_CrowdVAT_V1` + 58 MIs, 11 per-instance custom floats (layout in
+  `Scripts/create_crowd_vat_v2.spec.json`). Bodies are interleaved over the components (a party is no longer six
+  copies of one person), paused parties idle and resume after ~9-15 s instead of standing forever.
+* **No-slide contract** (`MikdashCrowd::VatCommit`, tests in `Plugins/MikdashRuntime/Tests/CrowdFieldMathTest.cpp`
+  VatChecks): the material draws a figure at Anchor + Velocity*(t-T0) and advances its walk phase at
+  Rate = speed / (119.95 cm/s * scale) / 1.2 s from the same anchor and clamp; the CPU commits the identical
+  expression at each budgeted visit and validates the NEXT segment before the figure walks it. A figure that cannot
+  move plays the idle; it never walks in place.
+* **Maps.** `Scripts/release_crowd_vat.py -CrowdVatApplyAll` (full guard pattern, checkpoints
+  `ReviewCheckpoints/CrowdVAT-*`): Candidate48 then Main50, 240 -> 1,600 figures, only `MikdashCrowdField_0`
+  changed, readback after reopen clean. Main50 also lost the 8 Sep tint fix's 15 per-component override materials
+  (they would have replaced the VAT material). Revert PROVEN on Candidate48 (`-CrowdVatRevertAndReapply`): back to
+  the static 240 crowd, then reapplied. Receipts: `SourceAssets/runtime-review/crowd-field/vat-v2/`.
+* **NOT yet accepted:** M_CrowdVAT_V1 has only ever been built under -nullrhi. Acceptance is a packaged-build
+  -dumpmovie filmstrip (`Scripts/capture_people_walk_movie.ps1 -FixedFps 10`, `-ExtraArgs -CrowdCount=240`
+  re-seeds exactly the cp11 statue cluster) plus frame time (`Scripts/capture_crowd_frametime.ps1`,
+  `Scripts/analyze_crowd_frametime.py`). If the first cook shows the default material on the crowd (bind pose,
+  arms out, gliding), revert both maps with `release_crowd_vat.py -CrowdVatRevert -CrowdVatTarget=<map>`.
+* **TRAP, measured 2026-09-11 05:00Z: in UE 5.8 UAT runs as `dotnet.exe AutomationTool.dll`, so
+  `Get-Process AutomationTool` NEVER sees another agent's cook.** Checkpoint-Build.ps1's slot gate passed while a
+  BuildCookRun (dotnet PID 12276) held the UAT mutex, and RunUAT died in 0 s with "A conflicting instance of
+  AutomationTool is already running" (job Checkpoint-cpcrowdvat-20260911T045915Z; maps untouched). Any slot gate must
+  also match a `dotnet` process whose command line contains `AutomationTool` (Get-CimInstance Win32_Process).
+* **M_CrowdVAT_V1 crashed a cook (2026-09-11 ~05:01Z) and is being replaced by a stock-node V2.** The retaining-wall
+  agent's cp19 attempt 1 (`Checkpoint-cp19-20260911T045925Z`) died on ShaderCompileWorker -1073741819 with three
+  `M_CrowdVAT_V1` jobs in the dead batch (LightMapDensity PS x2, ShadowDepth PS; FLocalVertexFactory), 5 errors, exit 25.
+  The same crash is in my own `Fable-CrowdVat-Bake-02.log`. Attempt 2 (`Checkpoint-cp19-20260911T050158Z`) cooked
+  8,794 packages with 0 errors, `checkpoint_playable` - so per EnclosureMath.h 6b-ii the V1 HLSL compiled and the
+  first failure was the worker dying. BUT V1 is exactly the pattern 6b forbids: author-written HLSL in Custom nodes,
+  fed by PerInstanceCustomData, driving WPO and vertex interpolators - and it sampled textures in the vertex stage.
+  I read 6b/6b-ii too late; the rule applies to every VAT material. Fix: `create_crowd_vat_v2.py -CrowdVatMaterialV2`
+  builds `M_CrowdVAT_V2` with STOCK NODES ONLY (TextureSampleParameter2D in MipLevel mode, level 0, for the vertex
+  stage; frame interpolation by Wrap addressing on V; the crossfade and 8-colour palette as stock arithmetic; the run
+  refuses if a Custom node exists), re-points the six mesh slots to `MI_CrowdVAT2_*`, and DELETES the V1 master and
+  its 58 instances from Content (copies in `ReviewCheckpoints/CrowdVATMatV1-*`) so no cook compiles V1 again. Maps are
+  not touched (materials live on the meshes). The next cook compiles V2 cold: that cook is the acceptance test.
+* **M_CrowdVAT_V2 (stock nodes) PASSED a cold cook, 2026-09-11 05:20-05:25Z.** The retaining-wall agent's
+  `Checkpoint-cp19b-20260911T052025Z` cooked after the six crowd meshes were re-pointed to `MI_CrowdVAT2_*`: its log
+  shows "Missing cached shadermap for .../M_CrowdVAT_V2 in PCD3D_SM6 ... compiling" and the same for SM5 (fresh DDC
+  keys, i.e. a genuine cold compile), ZERO ShaderCompileWorker terminations, 8,794 packages, "Success - 0 error(s),
+  0 warning(s)", `checkpoint_playable`. V1 removal is still pending: the saved mesh packages still NAME every V1
+  instance even with every slot on V2, so `-CrowdVatMaterialV2` refused the delete (correctly);
+  `create_crowd_vat_v2.py -CrowdVatRemoveV1` finds the property that holds them and deletes V1 only when the saved
+  bytes are clean. V1 copies: `ReviewCheckpoints/CrowdVATMatV1-20260911T051456863013Z`.
+* **Frame time, measured (packaged, court camera `3300 2434 380 -4 90 0`, 1280x720, vsync off, ~57 s recorded
+  per run, CSV profiler; `SourceAssets/perf-review/crowd-vat/crowd-vat-frametime-summary.json`).** Before = cp17,
+  240 STATIC statues: frame median 19.61 ms (51.0 fps), game 7.16, GPU 19.34; crowd cost vs `-CrowdCount=0`
+  +0.07 ms frame / +0.45 ms game / +0.01 ms GPU. After = cp19b, 1,600 VAT figures on M_CrowdVAT_V2: frame 19.80 ms
+  (50.5 fps), game 8.03, GPU 19.67; crowd cost +0.02 ms frame / +0.47 ms game / +0.17 ms GPU. A crowd ~7x larger and
+  animated costs the same game-thread time and ~0.2 ms GPU on this GPU-bound (~20 ms) frame. Caveats: one camera,
+  which sees only part of the crowd; the two builds also differ by other agents' work, which is why each is compared
+  only with its own crowd-off run; `analyze_crowd_frametime.py` needs `csv.field_size_limit` raised (the profiler's
+  EVENTS column overflows the default).
+* **Movie acceptance (cp19b, -dumpmovie -benchmark -fps=10, court camera; frames in
+  `SourceAssets/visual-review/movie-cp19vat-court-cluster240/` and `-crowd1600/`, sheets `crowdvat-cp19b-*.png`).**
+  The crowd MOVES: at 1,600, figures walk mid-stride with alternating legs and counter-swinging arms, six bodies and
+  varied garments, neighbours out of phase. The cp11 statue cluster (re-seeded exactly with `-CrowdCount=240`) now
+  idles: frames 40 vs 84 differ in 2.05% of the cluster's pixels (>12 levels, mean 2.74) against 0% on a bare-wall
+  control, where cp11 was pixel-identical. Foot plant: a standing figure's sandals match at (0,0) for 0.4 s
+  (residual 2.0-3.7) like the paving control (0.2-0.4); ONE walking figure's planted sandal matched (0,0) for 0.1 s
+  before lifting - a one-step visual confirmation only; the no-slide property otherwise rests on the tested anchor
+  identity. Limits seen: the capture script keeps only frames after a wall-clock settle, so each movie holds 8.4 s,
+  not 37 s; the Ghost camera can sit inside a crowd figure (no collision); the Youth body's short tunic shows
+  cylinder legs; turns step at each CPU visit (up to MaxTurn x sweep time).
+* **Open: V1 still in Content.** Two `-CrowdVatRemoveV1` runs: every slot is V2, no Python-visible property and no
+  `obj refs` chain holds V1, yet a clean re-save still writes all V1 instance names into each mesh package, so the
+  guard refused the delete (correctly). V1's shader map is in this box's DDC and V2 cooks cold clean, so cooks here
+  pass; a clean-DDC cook would still compile V1. Next step: read the mesh package import table offline to find the
+  serialized owner, or rebuild the six meshes fresh.
+* Stale note corrected: "VAT impossible, AnimToTexture not installed" (`Scripts/create_crowd_vat.py`) was wrong;
+  the plugin ships with 5.8 and bakes from Python (`-EnablePlugins=AnimToTexture,GeometryScripting`, hidden
+  editor). Its own skeletal->static converter returns None under -nullrhi with no log line; use GeometryScript.

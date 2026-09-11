@@ -1,0 +1,4995 @@
+{
+  "status": "baked_saved_verify_pending",
+  "mode": "bake",
+  "utc": "2026-09-11T04:26:39.562606+00:00",
+  "stamp": "20260911T042639562606Z",
+  "commandLine": "/Engine/Maps/Entry -ExecutePythonScript=C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/create_crowd_vat_v2.py -unattended -nosplash -nullrhi -EnablePlugins=AnimToTexture,GeometryScripting -CrowdVatBake -abslog=C:/Mikdash/Working-5.8/Fable-CrowdVat-Bake-03.log",
+  "variants": [
+    {
+      "id": "V3_Pilgrim_Man_Standard",
+      "short": "Man_Standard",
+      "walkSource": {
+        "path": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk",
+        "keys": 73,
+        "lengthSec": 1.2,
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard_Skeleton.V3_Pilgrim_Man_Standard_Skeleton",
+        "onBodySkeleton": true
+      },
+      "idleSource": {
+        "path": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle",
+        "keys": 193,
+        "lengthSec": 3.2,
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard_Skeleton.V3_Pilgrim_Man_Standard_Skeleton",
+        "onBodySkeleton": true
+      },
+      "sourceDynamic": {
+        "triangles": 19600,
+        "boundsMin": [
+          -56.08099,
+          -20.236597,
+          0.0
+        ],
+        "boundsMax": [
+          57.998871,
+          21.935495,
+          179.400009
+        ]
+      },
+      "decimation": {
+        "dynamicTrianglesBefore": 19600,
+        "dynamicTrianglesAfter": 2400,
+        "target": 2400,
+        "simplifyOptionsApplied": {
+          "auto_compact": true,
+          "allow_seam_collapse": true
+        }
+      },
+      "skeletalSlots": [
+        "Skin",
+        "Linen",
+        "Mantle",
+        "Headcloth",
+        "Sash",
+        "Leather",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Iris"
+      ],
+      "convertRoute": "GeometryScript copy_mesh_from_skeletal_mesh + create_new_static_mesh_asset_from_mesh",
+      "converted": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1324,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -20.276842,
+          -0.011577
+        ],
+        "boundsMax": [
+          57.338219,
+          22.4797,
+          180.983826
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 1
+      },
+      "decimated": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1324,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -20.276842,
+          -0.011577
+        ],
+        "boundsMax": [
+          57.338219,
+          22.4797,
+          180.983826
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 1
+      },
+      "walkBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk",
+        "frames": 72,
+        "rowsPerFrame": 1,
+        "minBBox": [
+          -35.771694,
+          -49.927544,
+          -14.80471
+        ],
+        "sizeBBox": [
+          71.525078,
+          94.581696,
+          31.046967
+        ],
+        "width": 1324,
+        "height": 72,
+        "uvChannel": 1,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "idleBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle",
+        "frames": 192,
+        "rowsPerFrame": 1,
+        "minBBox": [
+          -30.512833,
+          -0.577277,
+          -9.289909
+        ],
+        "sizeBBox": [
+          61.010014,
+          4.150053,
+          10.576225
+        ],
+        "width": 1324,
+        "height": 192,
+        "uvChannel": 2,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "baked": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1324,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -20.276842,
+          -9.289909
+        ],
+        "boundsMax": [
+          57.338219,
+          22.4797,
+          180.983826
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 3
+      },
+      "textures": {
+        "WalkPosition": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkPosition.T_CrowdVAT_Man_Standard_WalkPosition",
+        "WalkNormal": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkNormal.T_CrowdVAT_Man_Standard_WalkNormal",
+        "IdlePosition": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdlePosition.T_CrowdVAT_Man_Standard_IdlePosition",
+        "IdleNormal": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdleNormal.T_CrowdVAT_Man_Standard_IdleNormal"
+      },
+      "mesh": "/Game/MikdashV3/Runtime/CrowdVATV1/Meshes/SM_CrowdVAT_Man_Standard.SM_CrowdVAT_Man_Standard",
+      "slotMaterials": [
+        [
+          0,
+          "Skin",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Standard_Skin.MI_CrowdVAT_Man_Standard_Skin"
+        ],
+        [
+          1,
+          "Linen",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Standard_Linen.MI_CrowdVAT_Man_Standard_Linen"
+        ],
+        [
+          2,
+          "Mantle",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Standard_Mantle.MI_CrowdVAT_Man_Standard_Mantle"
+        ],
+        [
+          3,
+          "Headcloth",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Standard_Headcloth.MI_CrowdVAT_Man_Standard_Headcloth"
+        ],
+        [
+          4,
+          "Sash",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Standard_Sash.MI_CrowdVAT_Man_Standard_Sash"
+        ],
+        [
+          5,
+          "Leather",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Standard_Leather.MI_CrowdVAT_Man_Standard_Leather"
+        ],
+        [
+          6,
+          "Hair",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Standard_Hair.MI_CrowdVAT_Man_Standard_Hair"
+        ],
+        [
+          7,
+          "Eyes",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Standard_Eyes.MI_CrowdVAT_Man_Standard_Eyes"
+        ],
+        [
+          8,
+          "Trim",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Standard_Trim.MI_CrowdVAT_Man_Standard_Trim"
+        ],
+        [
+          9,
+          "Iris",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Standard_Iris.MI_CrowdVAT_Man_Standard_Iris"
+        ]
+      ]
+    },
+    {
+      "id": "V3_Pilgrim_Man_Elder",
+      "short": "Man_Elder",
+      "walkSource": {
+        "path": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk.V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk",
+        "keys": 73,
+        "lengthSec": 1.2,
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_Elder_Skeleton.V3_Pilgrim_Man_Elder_Skeleton",
+        "onBodySkeleton": true
+      },
+      "idleSource": {
+        "path": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle.V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle",
+        "keys": 193,
+        "lengthSec": 3.2,
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_Elder_Skeleton.V3_Pilgrim_Man_Elder_Skeleton",
+        "onBodySkeleton": true
+      },
+      "sourceDynamic": {
+        "triangles": 19804,
+        "boundsMin": [
+          -56.08099,
+          -18.836281,
+          0.0
+        ],
+        "boundsMax": [
+          57.998871,
+          19.696466,
+          179.400009
+        ]
+      },
+      "decimation": {
+        "dynamicTrianglesBefore": 19804,
+        "dynamicTrianglesAfter": 2400,
+        "target": 2400,
+        "simplifyOptionsApplied": {
+          "auto_compact": true,
+          "allow_seam_collapse": true
+        }
+      },
+      "skeletalSlots": [
+        "Skin",
+        "Linen",
+        "Mantle",
+        "Headcloth",
+        "Sash",
+        "Leather",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Iris"
+      ],
+      "convertRoute": "GeometryScript copy_mesh_from_skeletal_mesh + create_new_static_mesh_asset_from_mesh",
+      "converted": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1328,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -18.787743,
+          -0.01216
+        ],
+        "boundsMax": [
+          57.338219,
+          20.300821,
+          180.343323
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 1
+      },
+      "decimated": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1328,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -18.787743,
+          -0.01216
+        ],
+        "boundsMax": [
+          57.338219,
+          20.300821,
+          180.343323
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 1
+      },
+      "walkBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk.V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk",
+        "frames": 72,
+        "rowsPerFrame": 1,
+        "minBBox": [
+          -35.771694,
+          -49.859261,
+          -14.80471
+        ],
+        "sizeBBox": [
+          71.525078,
+          94.513412,
+          31.128023
+        ],
+        "width": 1328,
+        "height": 72,
+        "uvChannel": 1,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "idleBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle.V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle",
+        "frames": 192,
+        "rowsPerFrame": 1,
+        "minBBox": [
+          -30.512833,
+          -0.704061,
+          -9.289909
+        ],
+        "sizeBBox": [
+          61.010014,
+          4.276836,
+          10.630943
+        ],
+        "width": 1328,
+        "height": 192,
+        "uvChannel": 2,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "baked": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1328,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -18.787743,
+          -9.289909
+        ],
+        "boundsMax": [
+          57.338219,
+          20.300821,
+          180.343323
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 3
+      },
+      "textures": {
+        "WalkPosition": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkPosition.T_CrowdVAT_Man_Elder_WalkPosition",
+        "WalkNormal": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkNormal.T_CrowdVAT_Man_Elder_WalkNormal",
+        "IdlePosition": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdlePosition.T_CrowdVAT_Man_Elder_IdlePosition",
+        "IdleNormal": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdleNormal.T_CrowdVAT_Man_Elder_IdleNormal"
+      },
+      "mesh": "/Game/MikdashV3/Runtime/CrowdVATV1/Meshes/SM_CrowdVAT_Man_Elder.SM_CrowdVAT_Man_Elder",
+      "slotMaterials": [
+        [
+          0,
+          "Skin",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Elder_Skin.MI_CrowdVAT_Man_Elder_Skin"
+        ],
+        [
+          1,
+          "Linen",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Elder_Linen.MI_CrowdVAT_Man_Elder_Linen"
+        ],
+        [
+          2,
+          "Mantle",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Elder_Mantle.MI_CrowdVAT_Man_Elder_Mantle"
+        ],
+        [
+          3,
+          "Headcloth",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Elder_Headcloth.MI_CrowdVAT_Man_Elder_Headcloth"
+        ],
+        [
+          4,
+          "Sash",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Elder_Sash.MI_CrowdVAT_Man_Elder_Sash"
+        ],
+        [
+          5,
+          "Leather",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Elder_Leather.MI_CrowdVAT_Man_Elder_Leather"
+        ],
+        [
+          6,
+          "Hair",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Elder_Hair.MI_CrowdVAT_Man_Elder_Hair"
+        ],
+        [
+          7,
+          "Eyes",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Elder_Eyes.MI_CrowdVAT_Man_Elder_Eyes"
+        ],
+        [
+          8,
+          "Trim",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Elder_Trim.MI_CrowdVAT_Man_Elder_Trim"
+        ],
+        [
+          9,
+          "Iris",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Elder_Iris.MI_CrowdVAT_Man_Elder_Iris"
+        ]
+      ]
+    },
+    {
+      "id": "V3_Pilgrim_Man_Heavy",
+      "short": "Man_Heavy",
+      "walkSource": {
+        "path": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/WalkV2/V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Walk.V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Walk",
+        "keys": 73,
+        "lengthSec": 1.2,
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/V3_Pilgrim_Man_Heavy/SkeletalMeshes/V3_Pilgrim_Man_Heavy_Skeleton.V3_Pilgrim_Man_Heavy_Skeleton",
+        "onBodySkeleton": true
+      },
+      "idleSource": {
+        "path": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/WalkV2/V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Idle.V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Idle",
+        "keys": 193,
+        "lengthSec": 3.2,
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/V3_Pilgrim_Man_Heavy/SkeletalMeshes/V3_Pilgrim_Man_Heavy_Skeleton.V3_Pilgrim_Man_Heavy_Skeleton",
+        "onBodySkeleton": true
+      },
+      "sourceDynamic": {
+        "triangles": 20084,
+        "boundsMin": [
+          -56.08099,
+          -24.554728,
+          0.0
+        ],
+        "boundsMax": [
+          57.998871,
+          23.50811,
+          182.0
+        ]
+      },
+      "decimation": {
+        "dynamicTrianglesBefore": 20084,
+        "dynamicTrianglesAfter": 2400,
+        "target": 2400,
+        "simplifyOptionsApplied": {
+          "auto_compact": true,
+          "allow_seam_collapse": true
+        }
+      },
+      "skeletalSlots": [
+        "Skin",
+        "Linen",
+        "Mantle",
+        "Headcloth",
+        "Sash",
+        "Leather",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Iris"
+      ],
+      "convertRoute": "GeometryScript copy_mesh_from_skeletal_mesh + create_new_static_mesh_asset_from_mesh",
+      "converted": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1330,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -24.696163,
+          -0.034179
+        ],
+        "boundsMax": [
+          57.338219,
+          23.084906,
+          182.090363
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 1
+      },
+      "decimated": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1330,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -24.696163,
+          -0.034179
+        ],
+        "boundsMax": [
+          57.338219,
+          23.084906,
+          182.090363
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 1
+      },
+      "walkBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/WalkV2/V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Walk.V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Walk",
+        "frames": 72,
+        "rowsPerFrame": 1,
+        "minBBox": [
+          -35.771694,
+          -49.870323,
+          -14.84523
+        ],
+        "sizeBBox": [
+          71.525078,
+          94.524475,
+          31.246389
+        ],
+        "width": 1330,
+        "height": 72,
+        "uvChannel": 1,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "idleBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/WalkV2/V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Idle.V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Idle",
+        "frames": 192,
+        "rowsPerFrame": 1,
+        "minBBox": [
+          -30.512833,
+          -0.601357,
+          -9.289909
+        ],
+        "sizeBBox": [
+          61.010014,
+          4.174132,
+          12.016716
+        ],
+        "width": 1330,
+        "height": 192,
+        "uvChannel": 2,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "baked": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1330,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -24.696163,
+          -9.289909
+        ],
+        "boundsMax": [
+          57.338219,
+          23.084906,
+          182.090363
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 3
+      },
+      "textures": {
+        "WalkPosition": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkPosition.T_CrowdVAT_Man_Heavy_WalkPosition",
+        "WalkNormal": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkNormal.T_CrowdVAT_Man_Heavy_WalkNormal",
+        "IdlePosition": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdlePosition.T_CrowdVAT_Man_Heavy_IdlePosition",
+        "IdleNormal": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdleNormal.T_CrowdVAT_Man_Heavy_IdleNormal"
+      },
+      "mesh": "/Game/MikdashV3/Runtime/CrowdVATV1/Meshes/SM_CrowdVAT_Man_Heavy.SM_CrowdVAT_Man_Heavy",
+      "slotMaterials": [
+        [
+          0,
+          "Skin",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Heavy_Skin.MI_CrowdVAT_Man_Heavy_Skin"
+        ],
+        [
+          1,
+          "Linen",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Heavy_Linen.MI_CrowdVAT_Man_Heavy_Linen"
+        ],
+        [
+          2,
+          "Mantle",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Heavy_Mantle.MI_CrowdVAT_Man_Heavy_Mantle"
+        ],
+        [
+          3,
+          "Headcloth",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Heavy_Headcloth.MI_CrowdVAT_Man_Heavy_Headcloth"
+        ],
+        [
+          4,
+          "Sash",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Heavy_Sash.MI_CrowdVAT_Man_Heavy_Sash"
+        ],
+        [
+          5,
+          "Leather",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Heavy_Leather.MI_CrowdVAT_Man_Heavy_Leather"
+        ],
+        [
+          6,
+          "Hair",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Heavy_Hair.MI_CrowdVAT_Man_Heavy_Hair"
+        ],
+        [
+          7,
+          "Eyes",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Heavy_Eyes.MI_CrowdVAT_Man_Heavy_Eyes"
+        ],
+        [
+          8,
+          "Trim",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Heavy_Trim.MI_CrowdVAT_Man_Heavy_Trim"
+        ],
+        [
+          9,
+          "Iris",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Man_Heavy_Iris.MI_CrowdVAT_Man_Heavy_Iris"
+        ]
+      ]
+    },
+    {
+      "id": "V3_Pilgrim_Woman_Elder",
+      "short": "Woman_Elder",
+      "walkSource": {
+        "path": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/WalkV2/V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Walk.V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Walk",
+        "keys": 73,
+        "lengthSec": 1.2,
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/V3_Pilgrim_Woman_Elder/SkeletalMeshes/V3_Pilgrim_Woman_Elder_Skeleton.V3_Pilgrim_Woman_Elder_Skeleton",
+        "onBodySkeleton": true
+      },
+      "idleSource": {
+        "path": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/WalkV2/V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Idle.V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Idle",
+        "keys": 193,
+        "lengthSec": 3.2,
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/V3_Pilgrim_Woman_Elder/SkeletalMeshes/V3_Pilgrim_Woman_Elder_Skeleton.V3_Pilgrim_Woman_Elder_Skeleton",
+        "onBodySkeleton": true
+      },
+      "sourceDynamic": {
+        "triangles": 19444,
+        "boundsMin": [
+          -56.08099,
+          -22.967299,
+          0.0
+        ],
+        "boundsMax": [
+          57.998871,
+          21.159733,
+          179.400009
+        ]
+      },
+      "decimation": {
+        "dynamicTrianglesBefore": 19444,
+        "dynamicTrianglesAfter": 2400,
+        "target": 2400,
+        "simplifyOptionsApplied": {
+          "auto_compact": true,
+          "allow_seam_collapse": true
+        }
+      },
+      "skeletalSlots": [
+        "Skin",
+        "Linen",
+        "Mantle",
+        "Headcloth",
+        "Sash",
+        "Leather",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Iris"
+      ],
+      "convertRoute": "GeometryScript copy_mesh_from_skeletal_mesh + create_new_static_mesh_asset_from_mesh",
+      "converted": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1322,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -22.932007,
+          -0.041087
+        ],
+        "boundsMax": [
+          57.338219,
+          21.294218,
+          180.740234
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 1
+      },
+      "decimated": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1322,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -22.932007,
+          -0.041087
+        ],
+        "boundsMax": [
+          57.338219,
+          21.294218,
+          180.740234
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 1
+      },
+      "walkBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/WalkV2/V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Walk.V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Walk",
+        "frames": 72,
+        "rowsPerFrame": 1,
+        "minBBox": [
+          -35.771694,
+          -49.926903,
+          -14.80471
+        ],
+        "sizeBBox": [
+          71.525078,
+          94.581055,
+          31.407896
+        ],
+        "width": 1322,
+        "height": 72,
+        "uvChannel": 1,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "idleBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/WalkV2/V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Idle.V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Idle",
+        "frames": 192,
+        "rowsPerFrame": 1,
+        "minBBox": [
+          -30.512833,
+          -0.608903,
+          -9.289909
+        ],
+        "sizeBBox": [
+          61.010014,
+          4.181679,
+          10.534019
+        ],
+        "width": 1322,
+        "height": 192,
+        "uvChannel": 2,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "baked": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1322,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -22.932007,
+          -9.289909
+        ],
+        "boundsMax": [
+          57.338219,
+          21.294218,
+          180.740234
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 3
+      },
+      "textures": {
+        "WalkPosition": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkPosition.T_CrowdVAT_Woman_Elder_WalkPosition",
+        "WalkNormal": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkNormal.T_CrowdVAT_Woman_Elder_WalkNormal",
+        "IdlePosition": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdlePosition.T_CrowdVAT_Woman_Elder_IdlePosition",
+        "IdleNormal": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdleNormal.T_CrowdVAT_Woman_Elder_IdleNormal"
+      },
+      "mesh": "/Game/MikdashV3/Runtime/CrowdVATV1/Meshes/SM_CrowdVAT_Woman_Elder.SM_CrowdVAT_Woman_Elder",
+      "slotMaterials": [
+        [
+          0,
+          "Skin",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Elder_Skin.MI_CrowdVAT_Woman_Elder_Skin"
+        ],
+        [
+          1,
+          "Linen",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Elder_Linen.MI_CrowdVAT_Woman_Elder_Linen"
+        ],
+        [
+          2,
+          "Mantle",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Elder_Mantle.MI_CrowdVAT_Woman_Elder_Mantle"
+        ],
+        [
+          3,
+          "Headcloth",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Elder_Headcloth.MI_CrowdVAT_Woman_Elder_Headcloth"
+        ],
+        [
+          4,
+          "Sash",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Elder_Sash.MI_CrowdVAT_Woman_Elder_Sash"
+        ],
+        [
+          5,
+          "Leather",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Elder_Leather.MI_CrowdVAT_Woman_Elder_Leather"
+        ],
+        [
+          6,
+          "Hair",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Elder_Hair.MI_CrowdVAT_Woman_Elder_Hair"
+        ],
+        [
+          7,
+          "Eyes",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Elder_Eyes.MI_CrowdVAT_Woman_Elder_Eyes"
+        ],
+        [
+          8,
+          "Trim",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Elder_Trim.MI_CrowdVAT_Woman_Elder_Trim"
+        ],
+        [
+          9,
+          "Iris",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Elder_Iris.MI_CrowdVAT_Woman_Elder_Iris"
+        ]
+      ]
+    },
+    {
+      "id": "V3_Pilgrim_Woman_Young",
+      "short": "Woman_Young",
+      "walkSource": {
+        "path": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/WalkV2/V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Walk.V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Walk",
+        "keys": 73,
+        "lengthSec": 1.2,
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/V3_Pilgrim_Woman_Young/SkeletalMeshes/V3_Pilgrim_Woman_Young_Skeleton.V3_Pilgrim_Woman_Young_Skeleton",
+        "onBodySkeleton": true
+      },
+      "idleSource": {
+        "path": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/WalkV2/V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Idle.V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Idle",
+        "keys": 193,
+        "lengthSec": 3.2,
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/V3_Pilgrim_Woman_Young/SkeletalMeshes/V3_Pilgrim_Woman_Young_Skeleton.V3_Pilgrim_Woman_Young_Skeleton",
+        "onBodySkeleton": true
+      },
+      "sourceDynamic": {
+        "triangles": 19396,
+        "boundsMin": [
+          -56.08099,
+          -21.124495,
+          0.0
+        ],
+        "boundsMax": [
+          57.998871,
+          20.436827,
+          179.400009
+        ]
+      },
+      "decimation": {
+        "dynamicTrianglesBefore": 19396,
+        "dynamicTrianglesAfter": 2400,
+        "target": 2400,
+        "simplifyOptionsApplied": {
+          "auto_compact": true,
+          "allow_seam_collapse": true
+        }
+      },
+      "skeletalSlots": [
+        "Skin",
+        "Linen",
+        "Mantle",
+        "Headcloth",
+        "Sash",
+        "Leather",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Iris"
+      ],
+      "convertRoute": "GeometryScript copy_mesh_from_skeletal_mesh + create_new_static_mesh_asset_from_mesh",
+      "converted": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1318,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -21.470482,
+          -0.012041
+        ],
+        "boundsMax": [
+          57.338219,
+          20.664904,
+          182.465164
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 1
+      },
+      "decimated": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1318,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -21.470482,
+          -0.012041
+        ],
+        "boundsMax": [
+          57.338219,
+          20.664904,
+          182.465164
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 1
+      },
+      "walkBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/WalkV2/V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Walk.V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Walk",
+        "frames": 72,
+        "rowsPerFrame": 1,
+        "minBBox": [
+          -35.771694,
+          -49.857826,
+          -14.80471
+        ],
+        "sizeBBox": [
+          71.525078,
+          94.511978,
+          31.090858
+        ],
+        "width": 1318,
+        "height": 72,
+        "uvChannel": 1,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "idleBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/WalkV2/V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Idle.V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Idle",
+        "frames": 192,
+        "rowsPerFrame": 1,
+        "minBBox": [
+          -30.512833,
+          -0.626628,
+          -9.289909
+        ],
+        "sizeBBox": [
+          61.010014,
+          4.199404,
+          10.61367
+        ],
+        "width": 1318,
+        "height": 192,
+        "uvChannel": 2,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "baked": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1318,
+        "sections": 10,
+        "boundsMin": [
+          -56.495815,
+          -21.470482,
+          -9.289909
+        ],
+        "boundsMax": [
+          57.338219,
+          20.664904,
+          182.465164
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Mantle",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 3
+      },
+      "textures": {
+        "WalkPosition": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkPosition.T_CrowdVAT_Woman_Young_WalkPosition",
+        "WalkNormal": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkNormal.T_CrowdVAT_Woman_Young_WalkNormal",
+        "IdlePosition": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdlePosition.T_CrowdVAT_Woman_Young_IdlePosition",
+        "IdleNormal": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdleNormal.T_CrowdVAT_Woman_Young_IdleNormal"
+      },
+      "mesh": "/Game/MikdashV3/Runtime/CrowdVATV1/Meshes/SM_CrowdVAT_Woman_Young.SM_CrowdVAT_Woman_Young",
+      "slotMaterials": [
+        [
+          0,
+          "Skin",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Young_Skin.MI_CrowdVAT_Woman_Young_Skin"
+        ],
+        [
+          1,
+          "Linen",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Young_Linen.MI_CrowdVAT_Woman_Young_Linen"
+        ],
+        [
+          2,
+          "Mantle",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Young_Mantle.MI_CrowdVAT_Woman_Young_Mantle"
+        ],
+        [
+          3,
+          "Headcloth",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Young_Headcloth.MI_CrowdVAT_Woman_Young_Headcloth"
+        ],
+        [
+          4,
+          "Sash",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Young_Sash.MI_CrowdVAT_Woman_Young_Sash"
+        ],
+        [
+          5,
+          "Leather",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Young_Leather.MI_CrowdVAT_Woman_Young_Leather"
+        ],
+        [
+          6,
+          "Hair",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Young_Hair.MI_CrowdVAT_Woman_Young_Hair"
+        ],
+        [
+          7,
+          "Eyes",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Young_Eyes.MI_CrowdVAT_Woman_Young_Eyes"
+        ],
+        [
+          8,
+          "Trim",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Young_Trim.MI_CrowdVAT_Woman_Young_Trim"
+        ],
+        [
+          9,
+          "Iris",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Woman_Young_Iris.MI_CrowdVAT_Woman_Young_Iris"
+        ]
+      ]
+    },
+    {
+      "id": "V3_Pilgrim_Youth",
+      "short": "Youth",
+      "walkSource": {
+        "path": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/WalkV2/V3_Pilgrim_YouthA_Pilgrim_Original_Walk.V3_Pilgrim_YouthA_Pilgrim_Original_Walk",
+        "keys": 73,
+        "lengthSec": 1.2,
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/V3_Pilgrim_Youth/SkeletalMeshes/V3_Pilgrim_Youth_Skeleton.V3_Pilgrim_Youth_Skeleton",
+        "onBodySkeleton": true
+      },
+      "idleSource": {
+        "path": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/WalkV2/V3_Pilgrim_YouthA_Pilgrim_Original_Idle.V3_Pilgrim_YouthA_Pilgrim_Original_Idle",
+        "keys": 193,
+        "lengthSec": 3.2,
+        "skeleton": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/V3_Pilgrim_Youth/SkeletalMeshes/V3_Pilgrim_Youth_Skeleton.V3_Pilgrim_Youth_Skeleton",
+        "onBodySkeleton": true
+      },
+      "sourceDynamic": {
+        "triangles": 13476,
+        "boundsMin": [
+          -56.08099,
+          -12.335993,
+          0.0
+        ],
+        "boundsMax": [
+          57.998871,
+          19.696466,
+          178.600006
+        ]
+      },
+      "decimation": {
+        "dynamicTrianglesBefore": 13476,
+        "dynamicTrianglesAfter": 2400,
+        "target": 2400,
+        "simplifyOptionsApplied": {
+          "auto_compact": true,
+          "allow_seam_collapse": true
+        }
+      },
+      "skeletalSlots": [
+        "Skin",
+        "Linen",
+        "Headcloth",
+        "Sash",
+        "Leather",
+        "Hair",
+        "Eyes",
+        "Trim",
+        "Iris"
+      ],
+      "convertRoute": "GeometryScript copy_mesh_from_skeletal_mesh + create_new_static_mesh_asset_from_mesh",
+      "converted": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1306,
+        "sections": 9,
+        "boundsMin": [
+          -55.935047,
+          -12.307426,
+          -0.019983
+        ],
+        "boundsMax": [
+          57.505882,
+          19.507599,
+          179.917358
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 1
+      },
+      "decimated": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1306,
+        "sections": 9,
+        "boundsMin": [
+          -55.935047,
+          -12.307426,
+          -0.019983
+        ],
+        "boundsMax": [
+          57.505882,
+          19.507599,
+          179.917358
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 1
+      },
+      "walkBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/WalkV2/V3_Pilgrim_YouthA_Pilgrim_Original_Walk.V3_Pilgrim_YouthA_Pilgrim_Original_Walk",
+        "frames": 72,
+        "rowsPerFrame": 1,
+        "minBBox": [
+          -35.722237,
+          -49.930962,
+          -14.759266
+        ],
+        "sizeBBox": [
+          71.610405,
+          94.706711,
+          31.062241
+        ],
+        "width": 1306,
+        "height": 72,
+        "uvChannel": 1,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "idleBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/WalkV2/V3_Pilgrim_YouthA_Pilgrim_Original_Idle.V3_Pilgrim_YouthA_Pilgrim_Original_Idle",
+        "frames": 192,
+        "rowsPerFrame": 1,
+        "minBBox": [
+          -30.509657,
+          -0.694634,
+          -9.25045
+        ],
+        "sizeBBox": [
+          61.19857,
+          4.298565,
+          10.063805
+        ],
+        "width": 1306,
+        "height": 192,
+        "uvChannel": 2,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "baked": {
+        "lods": 1,
+        "triangles": 2400,
+        "vertices": 1306,
+        "sections": 9,
+        "boundsMin": [
+          -55.935047,
+          -12.307426,
+          -9.25045
+        ],
+        "boundsMax": [
+          57.505882,
+          19.507599,
+          179.917358
+        ],
+        "slots": [
+          "Skin",
+          "Linen",
+          "Headcloth",
+          "Sash",
+          "Leather",
+          "Hair",
+          "Eyes",
+          "Trim",
+          "Iris"
+        ],
+        "uvChannels": 3
+      },
+      "textures": {
+        "WalkPosition": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkPosition.T_CrowdVAT_Youth_WalkPosition",
+        "WalkNormal": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkNormal.T_CrowdVAT_Youth_WalkNormal",
+        "IdlePosition": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdlePosition.T_CrowdVAT_Youth_IdlePosition",
+        "IdleNormal": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdleNormal.T_CrowdVAT_Youth_IdleNormal"
+      },
+      "mesh": "/Game/MikdashV3/Runtime/CrowdVATV1/Meshes/SM_CrowdVAT_Youth.SM_CrowdVAT_Youth",
+      "slotMaterials": [
+        [
+          0,
+          "Skin",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Youth_Skin.MI_CrowdVAT_Youth_Skin"
+        ],
+        [
+          1,
+          "Linen",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Youth_Linen.MI_CrowdVAT_Youth_Linen"
+        ],
+        [
+          2,
+          "Headcloth",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Youth_Headcloth.MI_CrowdVAT_Youth_Headcloth"
+        ],
+        [
+          3,
+          "Sash",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Youth_Sash.MI_CrowdVAT_Youth_Sash"
+        ],
+        [
+          4,
+          "Leather",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Youth_Leather.MI_CrowdVAT_Youth_Leather"
+        ],
+        [
+          5,
+          "Hair",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Youth_Hair.MI_CrowdVAT_Youth_Hair"
+        ],
+        [
+          6,
+          "Eyes",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Youth_Eyes.MI_CrowdVAT_Youth_Eyes"
+        ],
+        [
+          7,
+          "Trim",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Youth_Trim.MI_CrowdVAT_Youth_Trim"
+        ],
+        [
+          8,
+          "Iris",
+          "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/MI_CrowdVAT_Youth_Iris.MI_CrowdVAT_Youth_Iris"
+        ]
+      ]
+    }
+  ],
+  "errors": [],
+  "api": {
+    "AnimToTextureBPLibrary": {
+      "present": true,
+      "props": [],
+      "members": [
+        "acquire_editor_element_handle",
+        "animation_to_texture",
+        "call_method",
+        "cast",
+        "convert_skeletal_mesh_to_static_mesh",
+        "get_class",
+        "get_default_object",
+        "get_editor_property",
+        "get_fname",
+        "get_full_name",
+        "get_name",
+        "get_outer",
+        "get_outermost",
+        "get_package",
+        "get_path_name",
+        "get_typed_outer",
+        "get_world",
+        "is_editor_property_overridden",
+        "is_package_external",
+        "modify",
+        "rename",
+        "reset_editor_property",
+        "set_editor_properties",
+        "set_editor_property",
+        "set_light_map_index",
+        "static_class",
+        "update_material_instance_from_data_asset"
+      ]
+    },
+    "AnimToTextureDataAsset": {
+      "present": true,
+      "props": [
+        "anim_sequences",
+        "animation_index",
+        "animations",
+        "attach_to_socket",
+        "auto_play",
+        "bone_min_b_box",
+        "bone_position_texture",
+        "bone_rotation_texture",
+        "bone_rows_per_frame",
+        "bone_size_b_box",
+        "bone_weight_rows_per_frame",
+        "bone_weight_texture",
+        "enforce_power_of_two",
+        "frame",
+        "max_height",
+        "max_width",
+        "mode",
+        "num_bone_influences",
+        "num_bones",
+        "num_driver_triangles",
+        "num_frames",
+        "precision",
+        "root_transform",
+        "sample_rate",
+        "sigma",
+        "skeletal_lod_index",
+        "skeletal_mesh",
+        "static_lod_index",
+        "static_mesh",
+        "uv_channel",
+        "vertex_min_b_box",
+        "vertex_normal_texture",
+        "vertex_position_texture",
+        "vertex_rows_per_frame",
+        "vertex_size_b_box"
+      ],
+      "members": [
+        "acquire_editor_element_handle",
+        "anim_sequences",
+        "animation_index",
+        "animations",
+        "attach_to_socket",
+        "auto_play",
+        "bone_min_b_box",
+        "bone_position_texture",
+        "bone_rotation_texture",
+        "bone_rows_per_frame",
+        "bone_size_b_box",
+        "bone_weight_rows_per_frame",
+        "bone_weight_texture",
+        "bp_get_bone_position_texture",
+        "bp_get_bone_rotation_texture",
+        "bp_get_bone_weight_texture",
+        "bp_get_skeletal_mesh",
+        "bp_get_static_mesh",
+        "call_method",
+        "cast",
+        "enforce_power_of_two",
+        "frame",
+        "get_class",
+        "get_default_object",
+        "get_editor_property",
+        "get_fname",
+        "get_full_name",
+        "get_index_from_anim_sequence",
+        "get_name",
+        "get_outer",
+        "get_outermost",
+        "get_package",
+        "get_path_name",
+        "get_typed_outer",
+        "get_world",
+        "is_editor_property_overridden",
+        "is_package_external",
+        "max_height",
+        "max_width",
+        "mode",
+        "modify",
+        "num_bone_influences",
+        "num_bones",
+        "num_driver_triangles",
+        "num_frames",
+        "precision",
+        "rename",
+        "reset_editor_property",
+        "root_transform",
+        "sample_rate",
+        "set_editor_properties",
+        "set_editor_property",
+        "sigma",
+        "skeletal_lod_index",
+        "skeletal_mesh",
+        "static_class",
+        "static_lod_index",
+        "static_mesh",
+        "uv_channel",
+        "vertex_min_b_box",
+        "vertex_normal_texture",
+        "vertex_position_texture",
+        "vertex_rows_per_frame",
+        "vertex_size_b_box"
+      ]
+    },
+    "AnimToTextureAnimSequenceInfo": {
+      "present": true,
+      "props": [
+        "anim_sequence",
+        "enabled",
+        "end_frame",
+        "start_frame",
+        "use_custom_range"
+      ],
+      "members": [
+        "anim_sequence",
+        "assign",
+        "cast",
+        "copy",
+        "enabled",
+        "end_frame",
+        "export_text",
+        "get_editor_property",
+        "import_text",
+        "set_editor_properties",
+        "set_editor_property",
+        "start_frame",
+        "static_struct",
+        "to_dict",
+        "to_tuple",
+        "use_custom_range"
+      ]
+    },
+    "AnimToTextureMode": {
+      "present": true,
+      "props": [],
+      "members": [
+        "BONE",
+        "VERTEX",
+        "cast",
+        "get_display_name",
+        "name",
+        "static_enum",
+        "value"
+      ]
+    },
+    "AnimToTexturePrecision": {
+      "present": true,
+      "props": [],
+      "members": [
+        "EIGHT_BITS",
+        "SIXTEEN_BITS",
+        "cast",
+        "get_display_name",
+        "name",
+        "static_enum",
+        "value"
+      ]
+    },
+    "GeometryScript_MeshSimplification": {
+      "present": true,
+      "props": [],
+      "members": [
+        "acquire_editor_element_handle",
+        "apply_cluster_simplify_to_edge_length",
+        "apply_editor_simplify_to_triangle_count",
+        "apply_editor_simplify_to_vertex_count",
+        "apply_simplify_to_edge_length",
+        "apply_simplify_to_planar",
+        "apply_simplify_to_polygroup_topology",
+        "apply_simplify_to_tolerance",
+        "apply_simplify_to_triangle_count",
+        "apply_simplify_to_vertex_count",
+        "call_method",
+        "cast",
+        "get_class",
+        "get_default_object",
+        "get_editor_property",
+        "get_fname",
+        "get_full_name",
+        "get_name",
+        "get_outer",
+        "get_outermost",
+        "get_package",
+        "get_path_name",
+        "get_typed_outer",
+        "get_world",
+        "is_editor_property_overridden",
+        "is_package_external",
+        "modify",
+        "rename",
+        "reset_editor_property",
+        "set_editor_properties",
+        "set_editor_property",
+        "static_class"
+      ]
+    },
+    "GeometryScriptSimplifyMeshOptions": {
+      "present": true,
+      "props": [
+        "allow_seam_collapse",
+        "allow_seam_smoothing",
+        "allow_seam_splits",
+        "auto_compact",
+        "color_attribute_weight",
+        "edge_length_weight_map",
+        "geometric_tolerance_weight_map",
+        "method",
+        "normal_attribute_weight",
+        "preserve_vertex_positions",
+        "quadric_error_weight_map",
+        "quadric_variant",
+        "regularize_weight",
+        "retain_quadric_memory",
+        "scale_correction",
+        "tangent_attribute_weight",
+        "tex_coord_attribute_weight"
+      ],
+      "members": [
+        "allow_seam_collapse",
+        "allow_seam_smoothing",
+        "allow_seam_splits",
+        "assign",
+        "auto_compact",
+        "cast",
+        "color_attribute_weight",
+        "copy",
+        "edge_length_weight_map",
+        "export_text",
+        "geometric_tolerance_weight_map",
+        "get_editor_property",
+        "import_text",
+        "method",
+        "normal_attribute_weight",
+        "preserve_vertex_positions",
+        "quadric_error_weight_map",
+        "quadric_variant",
+        "regularize_weight",
+        "retain_quadric_memory",
+        "scale_correction",
+        "set_editor_properties",
+        "set_editor_property",
+        "static_struct",
+        "tangent_attribute_weight",
+        "tex_coord_attribute_weight",
+        "to_dict",
+        "to_tuple"
+      ]
+    },
+    "GeometryScript_AssetUtils": {
+      "present": true,
+      "props": [],
+      "members": [
+        "acquire_editor_element_handle",
+        "call_method",
+        "cast",
+        "check_static_mesh_has_available_lod",
+        "convert_material_list_to_material_map",
+        "convert_material_map_to_material_list",
+        "copy_mesh_from_skeletal_mesh",
+        "copy_mesh_from_static_mesh",
+        "copy_mesh_from_static_mesh_v2",
+        "copy_mesh_to_skeletal_mesh",
+        "copy_mesh_to_static_mesh",
+        "copy_morph_target_to_skeletal_mesh",
+        "copy_skin_weight_profile_to_skeletal_mesh",
+        "get_class",
+        "get_default_object",
+        "get_editor_property",
+        "get_fname",
+        "get_full_name",
+        "get_lod_material_list_from_skeletal_mesh",
+        "get_material_list_from_skeletal_mesh",
+        "get_material_list_from_static_mesh",
+        "get_name",
+        "get_num_static_mesh_lo_ds_of_type",
+        "get_num_static_mesh_lods_of_type",
+        "get_outer",
+        "get_outermost",
+        "get_package",
+        "get_path_name",
+        "get_section_material_list_from_static_mesh",
+        "get_typed_outer",
+        "get_world",
+        "is_editor_property_overridden",
+        "is_package_external",
+        "modify",
+        "rename",
+        "reset_editor_property",
+        "set_editor_properties",
+        "set_editor_property",
+        "static_class"
+      ]
+    },
+    "GeometryScriptCopyMeshToAssetOptions": {
+      "present": true,
+      "props": [
+        "apply_nanite_settings",
+        "bone_hierarchy_mismatch_handling",
+        "clean_assigned_materials",
+        "defer_mesh_post_edit_change",
+        "emit_transaction",
+        "enable_recompute_normals",
+        "enable_recompute_tangents",
+        "enable_remove_degenerates",
+        "generate_lightmap_u_vs",
+        "nanite_settings",
+        "new_material_slot_names",
+        "new_material_usage",
+        "new_materials",
+        "new_nanite_settings",
+        "remap_bone_indices_to_match_asset",
+        "replace_materials",
+        "use_build_scale",
+        "use_original_vertex_order"
+      ],
+      "members": [
+        "apply_nanite_settings",
+        "assign",
+        "bone_hierarchy_mismatch_handling",
+        "cast",
+        "clean_assigned_materials",
+        "copy",
+        "defer_mesh_post_edit_change",
+        "emit_transaction",
+        "enable_recompute_normals",
+        "enable_recompute_tangents",
+        "enable_remove_degenerates",
+        "export_text",
+        "generate_lightmap_u_vs",
+        "get_editor_property",
+        "import_text",
+        "nanite_settings",
+        "new_material_slot_names",
+        "new_material_usage",
+        "new_materials",
+        "new_nanite_settings",
+        "remap_bone_indices_to_match_asset",
+        "replace_materials",
+        "set_editor_properties",
+        "set_editor_property",
+        "static_struct",
+        "to_dict",
+        "to_tuple",
+        "use_build_scale",
+        "use_original_vertex_order"
+      ]
+    },
+    "GeometryScriptCopyMeshFromAssetOptions": {
+      "present": true,
+      "props": [
+        "apply_build_settings",
+        "ignore_remove_degenerates",
+        "request_tangents",
+        "use_build_scale"
+      ],
+      "members": [
+        "apply_build_settings",
+        "assign",
+        "cast",
+        "copy",
+        "export_text",
+        "get_editor_property",
+        "ignore_remove_degenerates",
+        "import_text",
+        "request_tangents",
+        "set_editor_properties",
+        "set_editor_property",
+        "static_struct",
+        "to_dict",
+        "to_tuple",
+        "use_build_scale"
+      ]
+    },
+    "Texture2DFactoryNew": {
+      "present": true,
+      "props": [
+        "asset_import_task",
+        "automated_import_data",
+        "context_class",
+        "create_new",
+        "edit_after_new",
+        "editor_import",
+        "formats",
+        "supported_class",
+        "supported_workflows",
+        "text"
+      ],
+      "members": [
+        "acquire_editor_element_handle",
+        "asset_import_task",
+        "automated_import_data",
+        "call_method",
+        "cast",
+        "context_class",
+        "create_new",
+        "edit_after_new",
+        "editor_import",
+        "formats",
+        "get_class",
+        "get_default_object",
+        "get_editor_property",
+        "get_fname",
+        "get_full_name",
+        "get_name",
+        "get_outer",
+        "get_outermost",
+        "get_package",
+        "get_path_name",
+        "get_typed_outer",
+        "get_world",
+        "is_editor_property_overridden",
+        "is_package_external",
+        "modify",
+        "rename",
+        "reset_editor_property",
+        "script_factory_can_import",
+        "script_factory_create_file",
+        "set_editor_properties",
+        "set_editor_property",
+        "static_class",
+        "supported_class",
+        "supported_workflows",
+        "text"
+      ]
+    },
+    "MaterialExpressionVertexInterpolator": {
+      "present": true,
+      "props": [
+        "desc",
+        "material_expression_editor_x",
+        "material_expression_editor_y"
+      ],
+      "members": [
+        "acquire_editor_element_handle",
+        "call_method",
+        "cast",
+        "get_class",
+        "get_default_object",
+        "get_editor_property",
+        "get_fname",
+        "get_full_name",
+        "get_name",
+        "get_outer",
+        "get_outermost",
+        "get_package",
+        "get_path_name",
+        "get_typed_outer",
+        "get_world",
+        "is_editor_property_overridden",
+        "is_package_external",
+        "material_expression_editor_x",
+        "material_expression_editor_y",
+        "modify",
+        "rename",
+        "reset_editor_property",
+        "set_editor_properties",
+        "set_editor_property",
+        "static_class"
+      ]
+    },
+    "MaterialExpressionTransform": {
+      "present": true,
+      "props": [
+        "desc",
+        "material_expression_editor_x",
+        "material_expression_editor_y",
+        "transform_source_type",
+        "transform_type"
+      ],
+      "members": [
+        "acquire_editor_element_handle",
+        "call_method",
+        "cast",
+        "get_class",
+        "get_default_object",
+        "get_editor_property",
+        "get_fname",
+        "get_full_name",
+        "get_name",
+        "get_outer",
+        "get_outermost",
+        "get_package",
+        "get_path_name",
+        "get_typed_outer",
+        "get_world",
+        "is_editor_property_overridden",
+        "is_package_external",
+        "material_expression_editor_x",
+        "material_expression_editor_y",
+        "modify",
+        "rename",
+        "reset_editor_property",
+        "set_editor_properties",
+        "set_editor_property",
+        "static_class"
+      ]
+    },
+    "StaticMeshEditorSubsystem": {
+      "present": true,
+      "props": [],
+      "members": [
+        "acquire_editor_element_handle",
+        "add_simple_collisions",
+        "add_simple_collisions_with_notification",
+        "add_uv_channel",
+        "bulk_set_convex_decomposition_collisions",
+        "bulk_set_convex_decomposition_collisions_with_notification",
+        "call_method",
+        "cast",
+        "create_proxy_mesh_actor",
+        "enable_section_affect_distance_field_lighting",
+        "enable_section_cast_shadow",
+        "enable_section_collision",
+        "enable_section_force_opaque",
+        "enable_section_visible_in_ray_tracing",
+        "generate_box_uv_channel",
+        "generate_cylindrical_uv_channel",
+        "generate_planar_uv_channel",
+        "get_class",
+        "get_collision_complexity",
+        "get_convex_collision_count",
+        "get_default_object",
+        "get_editor_property",
+        "get_fname",
+        "get_full_name",
+        "get_lod_build_settings",
+        "get_lod_count",
+        "get_lod_group",
+        "get_lod_material_slot",
+        "get_lod_reduction_settings",
+        "get_lod_screen_sizes",
+        "get_name",
+        "get_nanite_settings",
+        "get_nanite_source_filename",
+        "get_num_uv_channels",
+        "get_number_materials",
+        "get_number_verts",
+        "get_outer",
+        "get_outermost",
+        "get_package",
+        "get_path_name",
+        "get_simple_collision_count",
+        "get_typed_outer",
+        "get_world",
+        "has_instance_vertex_colors",
+        "has_vertex_colors",
+        "import_lod",
+        "import_nanite_hi_res_mesh",
+        "insert_uv_channel",
+        "is_editor_property_overridden",
+        "is_package_external",
+        "is_section_affect_distance_field_lighting_enabled",
+        "is_section_cast_shadow_enabled",
+        "is_section_collision_enabled",
+        "is_section_force_opaque_enabled",
+        "is_section_visible_in_ray_tracing_enabled",
+        "join_static_mesh_actors",
+        "merge_static_mesh_actors",
+        "modify",
+        "reimport_all_custom_lo_ds",
+        "reimport_all_custom_lods",
+        "remove_collisions",
+        "remove_collisions_with_notification",
+        "remove_lods",
+        "remove_uv_channel",
+        "rename",
+        "replace_mesh_components_materials",
+        "replace_mesh_components_materials_on_actors",
+        "replace_mesh_components_meshes",
+        "replace_mesh_components_meshes_on_actors",
+        "reset_editor_property",
+        "set_allow_cpu_access",
+        "set_convex_decomposition_collisions",
+        "set_convex_decomposition_collisions_with_notification",
+        "set_editor_properties",
+        "set_editor_property",
+        "set_generate_lightmap_uv",
+        "set_lod_build_settings",
+        "set_lod_from_static_mesh",
+        "set_lod_group",
+        "set_lod_material_slot",
+        "set_lod_reduction_settings",
+        "set_lod_screen_sizes",
+        "set_lods",
+        "set_lods_with_notification",
+        "set_nanite_settings",
+        "static_class",
+        "update_nanite_source_filename"
+      ]
+    },
+    "AnimationLibrary": {
+      "present": true,
+      "props": [],
+      "members": [
+        "acquire_editor_element_handle",
+        "add_animation_notify_event",
+        "add_animation_notify_event_from_source",
+        "add_animation_notify_event_object",
+        "add_animation_notify_state_event",
+        "add_animation_notify_state_event_object",
+        "add_animation_notify_track",
+        "add_animation_sync_marker",
+        "add_curve",
+        "add_curve_meta_data",
+        "add_float_curve_key",
+        "add_float_curve_keys",
+        "add_meta_data",
+        "add_meta_data_object",
+        "add_node_asset_override",
+        "add_transformation_curve_key",
+        "add_transformation_curve_keys",
+        "add_vector_curve_key",
+        "add_vector_curve_keys",
+        "add_virtual_bone",
+        "call_method",
+        "cast",
+        "contains_meta_data_of_class",
+        "copy_anim_notifies_from_sequence",
+        "copy_animation_curve_names_to_skeleton",
+        "does_bone_name_exist",
+        "does_curve_exist",
+        "evaluate_bone_timecode_and_slate_attributes_at_time",
+        "evaluate_root_bone_timecode_attributes_at_time",
+        "evaluate_root_bone_timecode_subframe_attribute_at_time",
+        "extract_root_track_transform",
+        "finalize_bone_animation",
+        "find_bone_path_to_root",
+        "get_additive_animation_type",
+        "get_additive_base_pose_type",
+        "get_anim_notify_event_duration",
+        "get_anim_notify_event_trigger_time",
+        "get_animation_curve_names",
+        "get_animation_graphs",
+        "get_animation_interpolation_type",
+        "get_animation_notify_event_names",
+        "get_animation_notify_events",
+        "get_animation_notify_events_for_track",
+        "get_animation_notify_track_names",
+        "get_animation_sync_markers",
+        "get_animation_sync_markers_for_track",
+        "get_animation_track_names",
+        "get_bone_compression_settings",
+        "get_bone_pose_for_frame",
+        "get_bone_pose_for_time",
+        "get_bone_poses_for_frame",
+        "get_bone_poses_for_time",
+        "get_class",
+        "get_curve_compression_settings",
+        "get_curve_meta_data_material",
+        "get_curve_meta_data_morph_target",
+        "get_curve_meta_data_names",
+        "get_default_object",
+        "get_editor_property",
+        "get_float_keys",
+        "get_float_value_at_time",
+        "get_fname",
+        "get_frame_at_time",
+        "get_full_name",
+        "get_meta_data",
+        "get_meta_data_of_class",
+        "get_montage_slot_names",
+        "get_name",
+        "get_nodes_of_class",
+        "get_num_curve_meta_data",
+        "get_num_frames",
+        "get_num_keys",
+        "get_outer",
+        "get_outermost",
+        "get_package",
+        "get_path_name",
+        "get_rate_scale",
+        "get_raw_track_data",
+        "get_raw_track_position_data",
+        "get_raw_track_rotation_data",
+        "get_raw_track_scale_data",
+        "get_root_motion_lock_type",
+        "get_sequence_length",
+        "get_skeleton_additional_preview_meshes",
+        "get_skeleton_preview_mesh",
+        "get_time_at_frame",
+        "get_transformation_keys",
+        "get_typed_outer",
+        "get_unique_marker_names",
+        "get_variable_frame_stripping_settings",
+        "get_vector_keys",
+        "get_world",
+        "is_editor_property_overridden",
+        "is_package_external",
+        "is_root_motion_enabled",
+        "is_root_motion_lock_forced",
+        "is_valid_anim_notify_track_name",
+        "is_valid_animation_sync_marker_name",
+        "is_valid_raw_animation_track_name",
+        "is_valid_time",
+        "modify",
+        "remove_all_animation_notify_tracks",
+        "remove_all_animation_sync_markers",
+        "remove_all_bone_animation",
+        "remove_all_curve_data",
+        "remove_all_meta_data",
+        "remove_all_virtual_bones",
+        "remove_animation_notify_events_by_name",
+        "remove_animation_notify_events_by_track",
+        "remove_animation_notify_track",
+        "remove_animation_sync_markers_by_name",
+        "remove_animation_sync_markers_by_track",
+        "remove_bone_animation",
+        "remove_bone_selective_animation",
+        "remove_curve",
+        "remove_curve_meta_data",
+        "remove_meta_data",
+        "remove_meta_data_of_class",
+        "remove_virtual_bone",
+        "remove_virtual_bones"
+      ]
+    }
+  },
+  "namespace": "/Game/MikdashV3/Runtime/CrowdVATV1",
+  "protectedBefore": {
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard.uasset": "9f6fa7d8605282e5acc7eb5b018b4f359118478330127cce9f358b9738b2f075",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.uasset": "596c079016c8964216528d60961497f19cd696fa171fb22c375dc0c696255489",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle.uasset": "a96605ef26ef5b7d0ab7b7fae0972178f0cd00c57811a70baef549a760136388",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard_Skeleton.uasset": "c15e7ea36dedb9b48d7e3513794b88ec8c803897d3d1c907e96ae0095c8e0d81",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_Elder.uasset": "2a8ad72eee6d64eaf6bd87cf59a21118312ea35cdfb375556e770c9048516db9",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk.uasset": "fd8d602f7d458d81a73540095ef8fd83b2040cffe363ebc706a283975d364645",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle.uasset": "658ce4a0bfe707c4b68109f1ec762203148d2c80322f2d31f76489836d423c71",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_Elder_Skeleton.uasset": "1bcfd257d8e1771fb91138d7b864105f2b3fd2c02f14ec757aa77319d2b72e7f",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/V3_Pilgrim_Man_Heavy/SkeletalMeshes/V3_Pilgrim_Man_Heavy.uasset": "72360ce036afee2cec54b95d1e058cad82590fecc42d54355dc56c4b1a75abad",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/WalkV2/V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Walk.uasset": "8b251c98389e608b2bd4fc8e011ed6f43cc042ea696d25697a204aa8bfae8899",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/WalkV2/V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Idle.uasset": "203c40c3ef15c2caa16edbfef9919d413cd74df9df9f57bb0022077f8202445a",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/V3_Pilgrim_Man_Heavy/SkeletalMeshes/V3_Pilgrim_Man_Heavy_Skeleton.uasset": "94991d2d409f8d15e5c65111f02a7cddc3309b5a202c5d60e77196a796048095",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/V3_Pilgrim_Woman_Elder/SkeletalMeshes/V3_Pilgrim_Woman_Elder.uasset": "dcc12bb5de7f491ac5f53634b34b9e966f9b290bcb3138a4925c83eee0ddd4e8",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/WalkV2/V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Walk.uasset": "adebbde53981f3e56cab925e2f7797b73b4613b1eef2bdc88942dc191f4ab1b0",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/WalkV2/V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Idle.uasset": "a800988f4d9a5424768ec0317bd3aa2ab3e80285032d7c348f7880c956e49ddc",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/V3_Pilgrim_Woman_Elder/SkeletalMeshes/V3_Pilgrim_Woman_Elder_Skeleton.uasset": "c115b61874567d19791cb45b9646d139edacaaf10f1cd12767a88f723b4d3b01",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/V3_Pilgrim_Woman_Young/SkeletalMeshes/V3_Pilgrim_Woman_Young.uasset": "df10866987f8bf3f4fdea33d7a34a1f9bc3b97d745ae7acdf0581472d0b7548f",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/WalkV2/V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Walk.uasset": "6bbe7023e079b392814d73dad45c224756a24e995333386e388dd93aa114f690",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/WalkV2/V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Idle.uasset": "663da275fe64cab5df69220cd8fc738dd4872f5585e0f00fcff36e69710d7a93",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/V3_Pilgrim_Woman_Young/SkeletalMeshes/V3_Pilgrim_Woman_Young_Skeleton.uasset": "4502d8d92d5378959913e50e14724f38666446eaa63eacefde1905313320cbe3",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/V3_Pilgrim_Youth/SkeletalMeshes/V3_Pilgrim_Youth.uasset": "6ac881527078b89cbec3baac7fe17ec2bdcb6a3fae402a4239a4fd0cf1e2c4c4",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/WalkV2/V3_Pilgrim_YouthA_Pilgrim_Original_Walk.uasset": "100922fdf514425cd71c39be052f1b8704ad7c52fec02b9ea4f1e9062b9c71be",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/WalkV2/V3_Pilgrim_YouthA_Pilgrim_Original_Idle.uasset": "4bf95b3f6c4ba48ed0e7ecc9eec5eb39d5b2f1264fa7e61da4ecf911cfe3603a",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/V3_Pilgrim_Youth/SkeletalMeshes/V3_Pilgrim_Youth_Skeleton.uasset": "e2471f55f6d9b51cf97782381814577c020525558f569593f47c71eaa439a66a",
+    "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap": "4851ad9e6cdcbffa5078e4e95c545304964257272bbc552cee644e1052f5280b",
+    "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap": "f9d6453ec8dbb7d7a604d8f5bacab02257613c947bce8a9cf2b77198fb3eefc5",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Materials/M_CrowdRobeV1.uasset": "7b42387b14aca0879840a1cc8cb3d78223af880d07423ea0de3214f817dbef64",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Materials/M_CrowdSkinV1.uasset": "51d74964328888f93afd057a6cc77e7a362eb21a1bfbdc52982442619dc6bf12",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Materials/M_CrowdWrapV1.uasset": "9745b41f1554a0cc299df4cfc1bd802b8e1e38a1b2a4ada04b028343eea5fe94",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P0.uasset": "63b1089fcc217aac42bfd98e90cae293c297d6b4ad93b90e9db3649393a5e33a",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P1.uasset": "93f5aaf52de16e980be53356fb31c73e70df318d70364b6df9e61538af5126f2",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P2.uasset": "63747bcbe2e8d12c12e35f7a027cc306027293d31a6acfabdc7bc443e13ec496",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P3.uasset": "a7164a3f4991c8952d81187da10b3775524aeb02f602091ea20afafabbd13f05",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P4.uasset": "d6066fc59a5d57f37c35935aefa653d6f6aa5e46d093c341b9984053ebca4bca",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P5.uasset": "067187a8f156ee93ae4512e1bb1e9139164b847adc785264490b44805a710934"
+  },
+  "textureSettings": {
+    "T_CrowdVAT_Man_Standard_WalkPosition": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Man_Standard_WalkNormal": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Man_Standard_IdlePosition": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Man_Standard_IdleNormal": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Man_Elder_WalkPosition": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Man_Elder_WalkNormal": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Man_Elder_IdlePosition": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Man_Elder_IdleNormal": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Man_Heavy_WalkPosition": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Man_Heavy_WalkNormal": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Man_Heavy_IdlePosition": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Man_Heavy_IdleNormal": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Woman_Elder_WalkPosition": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Woman_Elder_WalkNormal": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Woman_Elder_IdlePosition": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Woman_Elder_IdleNormal": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Woman_Young_WalkPosition": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Woman_Young_WalkNormal": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Woman_Young_IdlePosition": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Woman_Young_IdleNormal": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Youth_WalkPosition": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Youth_WalkNormal": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Youth_IdlePosition": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    },
+    "T_CrowdVAT_Youth_IdleNormal": {
+      "srgb": "False",
+      "filter": "<TextureFilter.TF_NEAREST: 0>",
+      "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+      "never_stream": "True",
+      "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+    }
+  },
+  "resolvedPins": [
+    [
+      "MaterialExpressionCustom",
+      "T",
+      "T"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "Phase0",
+      "Phase0"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "IdleTarget",
+      "IdleTarget"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "T0",
+      "T0"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "Rate",
+      "Rate"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "TSwitch",
+      "TSwitch"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "IdleOff",
+      "IdleOff"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "Horizon",
+      "Horizon"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "UVW",
+      "UVW"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "UVI",
+      "UVI"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "WalkTex",
+      "WalkTex"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "IdleTex",
+      "IdleTex"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "WalkFrames",
+      "WalkFrames"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "IdleFrames",
+      "IdleFrames"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "IdleSeconds",
+      "IdleSeconds"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "Blend",
+      "Blend"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "NegDt",
+      "NegDt"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "WalkMin",
+      "WalkMin"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "WalkSize",
+      "WalkSize"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "IdleMin",
+      "IdleMin"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "IdleSize",
+      "IdleSize"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "T",
+      "T"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "Phase0",
+      "Phase0"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "IdleTarget",
+      "IdleTarget"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "T0",
+      "T0"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "Rate",
+      "Rate"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "TSwitch",
+      "TSwitch"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "IdleOff",
+      "IdleOff"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "Horizon",
+      "Horizon"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "UVW",
+      "UVW"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "UVI",
+      "UVI"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "WalkTex",
+      "WalkTex"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "IdleTex",
+      "IdleTex"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "WalkFrames",
+      "WalkFrames"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "IdleFrames",
+      "IdleFrames"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "IdleSeconds",
+      "IdleSeconds"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "Blend",
+      "Blend"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "NegDt",
+      "NegDt"
+    ],
+    [
+      "MaterialExpressionTransform",
+      "Input",
+      "None"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "T",
+      "T"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "T0",
+      "T0"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "Horizon",
+      "Horizon"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "NegDt",
+      "NegDt"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "VX",
+      "VX"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "VY",
+      "VY"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "VZ",
+      "VZ"
+    ],
+    [
+      "MaterialExpressionAdd",
+      "A",
+      "A"
+    ],
+    [
+      "MaterialExpressionAdd",
+      "B",
+      "B"
+    ],
+    [
+      "MaterialExpressionTransform",
+      "Input",
+      "None"
+    ],
+    [
+      "MaterialExpressionVertexInterpolator",
+      "VS",
+      "VS"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "Base",
+      "Base"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "PaletteMix",
+      "PaletteMix"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "SkinVariation",
+      "SkinVariation"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "Tint",
+      "Tint"
+    ],
+    [
+      "MaterialExpressionCustom",
+      "IdleOff",
+      "IdleOff"
+    ],
+    [
+      "MaterialExpressionVertexInterpolator",
+      "VS",
+      "VS"
+    ]
+  ],
+  "master": {
+    "path": "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/M_CrowdVAT_V1.M_CrowdVAT_V1",
+    "expressions": 42,
+    "usedWithInstancedStaticMeshes": true,
+    "tangentSpaceNormal": false
+  },
+  "materialInstances": {
+    "MI_CrowdVAT_Man_Standard_Skin": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkPosition.T_CrowdVAT_Man_Standard_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkNormal.T_CrowdVAT_Man_Standard_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdlePosition.T_CrowdVAT_Man_Standard_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdleNormal.T_CrowdVAT_Man_Standard_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.927544,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581696,
+        31.046967
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.577277,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.150053,
+        10.576225
+      ],
+      "BaseColor": [
+        0.455,
+        0.272,
+        0.173
+      ],
+      "Roughness": 0.62,
+      "PaletteMix": 0.0,
+      "SkinVariation": 1.0
+    },
+    "MI_CrowdVAT_Man_Standard_Linen": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkPosition.T_CrowdVAT_Man_Standard_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkNormal.T_CrowdVAT_Man_Standard_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdlePosition.T_CrowdVAT_Man_Standard_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdleNormal.T_CrowdVAT_Man_Standard_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.927544,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581696,
+        31.046967
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.577277,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.150053,
+        10.576225
+      ],
+      "BaseColor": [
+        0.7,
+        0.63,
+        0.48
+      ],
+      "Roughness": 0.86,
+      "PaletteMix": 0.45,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Standard_Mantle": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkPosition.T_CrowdVAT_Man_Standard_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkNormal.T_CrowdVAT_Man_Standard_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdlePosition.T_CrowdVAT_Man_Standard_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdleNormal.T_CrowdVAT_Man_Standard_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.927544,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581696,
+        31.046967
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.577277,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.150053,
+        10.576225
+      ],
+      "BaseColor": [
+        0.285,
+        0.32,
+        0.268
+      ],
+      "Roughness": 0.9,
+      "PaletteMix": 0.85,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Standard_Headcloth": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkPosition.T_CrowdVAT_Man_Standard_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkNormal.T_CrowdVAT_Man_Standard_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdlePosition.T_CrowdVAT_Man_Standard_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdleNormal.T_CrowdVAT_Man_Standard_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.927544,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581696,
+        31.046967
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.577277,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.150053,
+        10.576225
+      ],
+      "BaseColor": [
+        0.74,
+        0.7,
+        0.58
+      ],
+      "Roughness": 0.86,
+      "PaletteMix": 0.25,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Standard_Sash": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkPosition.T_CrowdVAT_Man_Standard_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkNormal.T_CrowdVAT_Man_Standard_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdlePosition.T_CrowdVAT_Man_Standard_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdleNormal.T_CrowdVAT_Man_Standard_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.927544,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581696,
+        31.046967
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.577277,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.150053,
+        10.576225
+      ],
+      "BaseColor": [
+        0.47,
+        0.3,
+        0.15
+      ],
+      "Roughness": 0.82,
+      "PaletteMix": 0.55,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Standard_Leather": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkPosition.T_CrowdVAT_Man_Standard_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkNormal.T_CrowdVAT_Man_Standard_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdlePosition.T_CrowdVAT_Man_Standard_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdleNormal.T_CrowdVAT_Man_Standard_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.927544,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581696,
+        31.046967
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.577277,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.150053,
+        10.576225
+      ],
+      "BaseColor": [
+        0.14,
+        0.08,
+        0.042
+      ],
+      "Roughness": 0.7,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Standard_Hair": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkPosition.T_CrowdVAT_Man_Standard_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkNormal.T_CrowdVAT_Man_Standard_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdlePosition.T_CrowdVAT_Man_Standard_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdleNormal.T_CrowdVAT_Man_Standard_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.927544,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581696,
+        31.046967
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.577277,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.150053,
+        10.576225
+      ],
+      "BaseColor": [
+        0.07,
+        0.036,
+        0.02
+      ],
+      "Roughness": 0.75,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Standard_Eyes": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkPosition.T_CrowdVAT_Man_Standard_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkNormal.T_CrowdVAT_Man_Standard_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdlePosition.T_CrowdVAT_Man_Standard_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdleNormal.T_CrowdVAT_Man_Standard_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.927544,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581696,
+        31.046967
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.577277,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.150053,
+        10.576225
+      ],
+      "BaseColor": [
+        0.76,
+        0.742,
+        0.715
+      ],
+      "Roughness": 0.35,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Standard_Trim": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkPosition.T_CrowdVAT_Man_Standard_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkNormal.T_CrowdVAT_Man_Standard_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdlePosition.T_CrowdVAT_Man_Standard_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdleNormal.T_CrowdVAT_Man_Standard_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.927544,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581696,
+        31.046967
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.577277,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.150053,
+        10.576225
+      ],
+      "BaseColor": [
+        0.36,
+        0.255,
+        0.12
+      ],
+      "Roughness": 0.8,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Standard_Iris": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkPosition.T_CrowdVAT_Man_Standard_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_WalkNormal.T_CrowdVAT_Man_Standard_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdlePosition.T_CrowdVAT_Man_Standard_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Standard_IdleNormal.T_CrowdVAT_Man_Standard_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.927544,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581696,
+        31.046967
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.577277,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.150053,
+        10.576225
+      ],
+      "BaseColor": [
+        0.135,
+        0.098,
+        0.062
+      ],
+      "Roughness": 0.35,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Elder_Skin": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkPosition.T_CrowdVAT_Man_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkNormal.T_CrowdVAT_Man_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdlePosition.T_CrowdVAT_Man_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdleNormal.T_CrowdVAT_Man_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.859261,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.513412,
+        31.128023
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.704061,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.276836,
+        10.630943
+      ],
+      "BaseColor": [
+        0.51,
+        0.33,
+        0.222
+      ],
+      "Roughness": 0.62,
+      "PaletteMix": 0.0,
+      "SkinVariation": 1.0
+    },
+    "MI_CrowdVAT_Man_Elder_Linen": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkPosition.T_CrowdVAT_Man_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkNormal.T_CrowdVAT_Man_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdlePosition.T_CrowdVAT_Man_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdleNormal.T_CrowdVAT_Man_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.859261,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.513412,
+        31.128023
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.704061,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.276836,
+        10.630943
+      ],
+      "BaseColor": [
+        0.855,
+        0.83,
+        0.76
+      ],
+      "Roughness": 0.86,
+      "PaletteMix": 0.45,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Elder_Mantle": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkPosition.T_CrowdVAT_Man_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkNormal.T_CrowdVAT_Man_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdlePosition.T_CrowdVAT_Man_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdleNormal.T_CrowdVAT_Man_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.859261,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.513412,
+        31.128023
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.704061,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.276836,
+        10.630943
+      ],
+      "BaseColor": [
+        0.64,
+        0.615,
+        0.545
+      ],
+      "Roughness": 0.9,
+      "PaletteMix": 0.85,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Elder_Headcloth": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkPosition.T_CrowdVAT_Man_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkNormal.T_CrowdVAT_Man_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdlePosition.T_CrowdVAT_Man_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdleNormal.T_CrowdVAT_Man_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.859261,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.513412,
+        31.128023
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.704061,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.276836,
+        10.630943
+      ],
+      "BaseColor": [
+        0.88,
+        0.86,
+        0.8
+      ],
+      "Roughness": 0.86,
+      "PaletteMix": 0.25,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Elder_Sash": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkPosition.T_CrowdVAT_Man_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkNormal.T_CrowdVAT_Man_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdlePosition.T_CrowdVAT_Man_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdleNormal.T_CrowdVAT_Man_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.859261,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.513412,
+        31.128023
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.704061,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.276836,
+        10.630943
+      ],
+      "BaseColor": [
+        0.56,
+        0.18,
+        0.15
+      ],
+      "Roughness": 0.82,
+      "PaletteMix": 0.55,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Elder_Leather": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkPosition.T_CrowdVAT_Man_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkNormal.T_CrowdVAT_Man_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdlePosition.T_CrowdVAT_Man_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdleNormal.T_CrowdVAT_Man_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.859261,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.513412,
+        31.128023
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.704061,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.276836,
+        10.630943
+      ],
+      "BaseColor": [
+        0.14,
+        0.08,
+        0.042
+      ],
+      "Roughness": 0.7,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Elder_Hair": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkPosition.T_CrowdVAT_Man_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkNormal.T_CrowdVAT_Man_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdlePosition.T_CrowdVAT_Man_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdleNormal.T_CrowdVAT_Man_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.859261,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.513412,
+        31.128023
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.704061,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.276836,
+        10.630943
+      ],
+      "BaseColor": [
+        0.68,
+        0.662,
+        0.63
+      ],
+      "Roughness": 0.75,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Elder_Eyes": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkPosition.T_CrowdVAT_Man_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkNormal.T_CrowdVAT_Man_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdlePosition.T_CrowdVAT_Man_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdleNormal.T_CrowdVAT_Man_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.859261,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.513412,
+        31.128023
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.704061,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.276836,
+        10.630943
+      ],
+      "BaseColor": [
+        0.76,
+        0.742,
+        0.715
+      ],
+      "Roughness": 0.35,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Elder_Trim": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkPosition.T_CrowdVAT_Man_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkNormal.T_CrowdVAT_Man_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdlePosition.T_CrowdVAT_Man_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdleNormal.T_CrowdVAT_Man_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.859261,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.513412,
+        31.128023
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.704061,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.276836,
+        10.630943
+      ],
+      "BaseColor": [
+        0.5,
+        0.43,
+        0.3
+      ],
+      "Roughness": 0.8,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Elder_Iris": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkPosition.T_CrowdVAT_Man_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_WalkNormal.T_CrowdVAT_Man_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdlePosition.T_CrowdVAT_Man_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Elder_IdleNormal.T_CrowdVAT_Man_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.859261,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.513412,
+        31.128023
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.704061,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.276836,
+        10.630943
+      ],
+      "BaseColor": [
+        0.135,
+        0.098,
+        0.062
+      ],
+      "Roughness": 0.35,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Heavy_Skin": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkPosition.T_CrowdVAT_Man_Heavy_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkNormal.T_CrowdVAT_Man_Heavy_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdlePosition.T_CrowdVAT_Man_Heavy_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdleNormal.T_CrowdVAT_Man_Heavy_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.870323,
+        -14.84523
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.524475,
+        31.246389
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.601357,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.174132,
+        12.016716
+      ],
+      "BaseColor": [
+        0.33,
+        0.185,
+        0.112
+      ],
+      "Roughness": 0.62,
+      "PaletteMix": 0.0,
+      "SkinVariation": 1.0
+    },
+    "MI_CrowdVAT_Man_Heavy_Linen": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkPosition.T_CrowdVAT_Man_Heavy_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkNormal.T_CrowdVAT_Man_Heavy_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdlePosition.T_CrowdVAT_Man_Heavy_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdleNormal.T_CrowdVAT_Man_Heavy_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.870323,
+        -14.84523
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.524475,
+        31.246389
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.601357,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.174132,
+        12.016716
+      ],
+      "BaseColor": [
+        0.51,
+        0.42,
+        0.3
+      ],
+      "Roughness": 0.86,
+      "PaletteMix": 0.45,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Heavy_Mantle": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkPosition.T_CrowdVAT_Man_Heavy_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkNormal.T_CrowdVAT_Man_Heavy_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdlePosition.T_CrowdVAT_Man_Heavy_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdleNormal.T_CrowdVAT_Man_Heavy_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.870323,
+        -14.84523
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.524475,
+        31.246389
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.601357,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.174132,
+        12.016716
+      ],
+      "BaseColor": [
+        0.245,
+        0.18,
+        0.125
+      ],
+      "Roughness": 0.9,
+      "PaletteMix": 0.85,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Heavy_Headcloth": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkPosition.T_CrowdVAT_Man_Heavy_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkNormal.T_CrowdVAT_Man_Heavy_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdlePosition.T_CrowdVAT_Man_Heavy_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdleNormal.T_CrowdVAT_Man_Heavy_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.870323,
+        -14.84523
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.524475,
+        31.246389
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.601357,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.174132,
+        12.016716
+      ],
+      "BaseColor": [
+        0.56,
+        0.47,
+        0.35
+      ],
+      "Roughness": 0.86,
+      "PaletteMix": 0.25,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Heavy_Sash": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkPosition.T_CrowdVAT_Man_Heavy_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkNormal.T_CrowdVAT_Man_Heavy_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdlePosition.T_CrowdVAT_Man_Heavy_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdleNormal.T_CrowdVAT_Man_Heavy_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.870323,
+        -14.84523
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.524475,
+        31.246389
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.601357,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.174132,
+        12.016716
+      ],
+      "BaseColor": [
+        0.33,
+        0.14,
+        0.105
+      ],
+      "Roughness": 0.82,
+      "PaletteMix": 0.55,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Heavy_Leather": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkPosition.T_CrowdVAT_Man_Heavy_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkNormal.T_CrowdVAT_Man_Heavy_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdlePosition.T_CrowdVAT_Man_Heavy_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdleNormal.T_CrowdVAT_Man_Heavy_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.870323,
+        -14.84523
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.524475,
+        31.246389
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.601357,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.174132,
+        12.016716
+      ],
+      "BaseColor": [
+        0.14,
+        0.08,
+        0.042
+      ],
+      "Roughness": 0.7,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Heavy_Hair": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkPosition.T_CrowdVAT_Man_Heavy_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkNormal.T_CrowdVAT_Man_Heavy_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdlePosition.T_CrowdVAT_Man_Heavy_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdleNormal.T_CrowdVAT_Man_Heavy_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.870323,
+        -14.84523
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.524475,
+        31.246389
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.601357,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.174132,
+        12.016716
+      ],
+      "BaseColor": [
+        0.045,
+        0.024,
+        0.014
+      ],
+      "Roughness": 0.75,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Heavy_Eyes": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkPosition.T_CrowdVAT_Man_Heavy_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkNormal.T_CrowdVAT_Man_Heavy_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdlePosition.T_CrowdVAT_Man_Heavy_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdleNormal.T_CrowdVAT_Man_Heavy_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.870323,
+        -14.84523
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.524475,
+        31.246389
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.601357,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.174132,
+        12.016716
+      ],
+      "BaseColor": [
+        0.76,
+        0.742,
+        0.715
+      ],
+      "Roughness": 0.35,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Heavy_Trim": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkPosition.T_CrowdVAT_Man_Heavy_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkNormal.T_CrowdVAT_Man_Heavy_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdlePosition.T_CrowdVAT_Man_Heavy_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdleNormal.T_CrowdVAT_Man_Heavy_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.870323,
+        -14.84523
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.524475,
+        31.246389
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.601357,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.174132,
+        12.016716
+      ],
+      "BaseColor": [
+        0.2,
+        0.14,
+        0.085
+      ],
+      "Roughness": 0.8,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Man_Heavy_Iris": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkPosition.T_CrowdVAT_Man_Heavy_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_WalkNormal.T_CrowdVAT_Man_Heavy_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdlePosition.T_CrowdVAT_Man_Heavy_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Man_Heavy_IdleNormal.T_CrowdVAT_Man_Heavy_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.870323,
+        -14.84523
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.524475,
+        31.246389
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.601357,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.174132,
+        12.016716
+      ],
+      "BaseColor": [
+        0.135,
+        0.098,
+        0.062
+      ],
+      "Roughness": 0.35,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Elder_Skin": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkPosition.T_CrowdVAT_Woman_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkNormal.T_CrowdVAT_Woman_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdlePosition.T_CrowdVAT_Woman_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdleNormal.T_CrowdVAT_Woman_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.926903,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581055,
+        31.407896
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.608903,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.181679,
+        10.534019
+      ],
+      "BaseColor": [
+        0.44,
+        0.268,
+        0.175
+      ],
+      "Roughness": 0.62,
+      "PaletteMix": 0.0,
+      "SkinVariation": 1.0
+    },
+    "MI_CrowdVAT_Woman_Elder_Linen": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkPosition.T_CrowdVAT_Woman_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkNormal.T_CrowdVAT_Woman_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdlePosition.T_CrowdVAT_Woman_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdleNormal.T_CrowdVAT_Woman_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.926903,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581055,
+        31.407896
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.608903,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.181679,
+        10.534019
+      ],
+      "BaseColor": [
+        0.56,
+        0.59,
+        0.6
+      ],
+      "Roughness": 0.86,
+      "PaletteMix": 0.45,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Elder_Mantle": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkPosition.T_CrowdVAT_Woman_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkNormal.T_CrowdVAT_Woman_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdlePosition.T_CrowdVAT_Woman_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdleNormal.T_CrowdVAT_Woman_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.926903,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581055,
+        31.407896
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.608903,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.181679,
+        10.534019
+      ],
+      "BaseColor": [
+        0.27,
+        0.33,
+        0.36
+      ],
+      "Roughness": 0.9,
+      "PaletteMix": 0.85,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Elder_Headcloth": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkPosition.T_CrowdVAT_Woman_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkNormal.T_CrowdVAT_Woman_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdlePosition.T_CrowdVAT_Woman_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdleNormal.T_CrowdVAT_Woman_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.926903,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581055,
+        31.407896
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.608903,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.181679,
+        10.534019
+      ],
+      "BaseColor": [
+        0.64,
+        0.66,
+        0.655
+      ],
+      "Roughness": 0.86,
+      "PaletteMix": 0.25,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Elder_Sash": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkPosition.T_CrowdVAT_Woman_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkNormal.T_CrowdVAT_Woman_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdlePosition.T_CrowdVAT_Woman_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdleNormal.T_CrowdVAT_Woman_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.926903,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581055,
+        31.407896
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.608903,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.181679,
+        10.534019
+      ],
+      "BaseColor": [
+        0.36,
+        0.3,
+        0.23
+      ],
+      "Roughness": 0.82,
+      "PaletteMix": 0.55,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Elder_Leather": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkPosition.T_CrowdVAT_Woman_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkNormal.T_CrowdVAT_Woman_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdlePosition.T_CrowdVAT_Woman_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdleNormal.T_CrowdVAT_Woman_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.926903,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581055,
+        31.407896
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.608903,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.181679,
+        10.534019
+      ],
+      "BaseColor": [
+        0.14,
+        0.08,
+        0.042
+      ],
+      "Roughness": 0.7,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Elder_Hair": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkPosition.T_CrowdVAT_Woman_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkNormal.T_CrowdVAT_Woman_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdlePosition.T_CrowdVAT_Woman_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdleNormal.T_CrowdVAT_Woman_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.926903,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581055,
+        31.407896
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.608903,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.181679,
+        10.534019
+      ],
+      "BaseColor": [
+        0.615,
+        0.6,
+        0.572
+      ],
+      "Roughness": 0.75,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Elder_Eyes": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkPosition.T_CrowdVAT_Woman_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkNormal.T_CrowdVAT_Woman_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdlePosition.T_CrowdVAT_Woman_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdleNormal.T_CrowdVAT_Woman_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.926903,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581055,
+        31.407896
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.608903,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.181679,
+        10.534019
+      ],
+      "BaseColor": [
+        0.76,
+        0.742,
+        0.715
+      ],
+      "Roughness": 0.35,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Elder_Trim": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkPosition.T_CrowdVAT_Woman_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkNormal.T_CrowdVAT_Woman_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdlePosition.T_CrowdVAT_Woman_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdleNormal.T_CrowdVAT_Woman_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.926903,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581055,
+        31.407896
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.608903,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.181679,
+        10.534019
+      ],
+      "BaseColor": [
+        0.24,
+        0.24,
+        0.215
+      ],
+      "Roughness": 0.8,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Elder_Iris": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkPosition.T_CrowdVAT_Woman_Elder_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_WalkNormal.T_CrowdVAT_Woman_Elder_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdlePosition.T_CrowdVAT_Woman_Elder_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Elder_IdleNormal.T_CrowdVAT_Woman_Elder_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.926903,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.581055,
+        31.407896
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.608903,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.181679,
+        10.534019
+      ],
+      "BaseColor": [
+        0.135,
+        0.098,
+        0.062
+      ],
+      "Roughness": 0.35,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Young_Skin": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkPosition.T_CrowdVAT_Woman_Young_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkNormal.T_CrowdVAT_Woman_Young_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdlePosition.T_CrowdVAT_Woman_Young_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdleNormal.T_CrowdVAT_Woman_Young_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.857826,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.511978,
+        31.090858
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.626628,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.199404,
+        10.61367
+      ],
+      "BaseColor": [
+        0.52,
+        0.33,
+        0.215
+      ],
+      "Roughness": 0.62,
+      "PaletteMix": 0.0,
+      "SkinVariation": 1.0
+    },
+    "MI_CrowdVAT_Woman_Young_Linen": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkPosition.T_CrowdVAT_Woman_Young_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkNormal.T_CrowdVAT_Woman_Young_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdlePosition.T_CrowdVAT_Woman_Young_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdleNormal.T_CrowdVAT_Woman_Young_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.857826,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.511978,
+        31.090858
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.626628,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.199404,
+        10.61367
+      ],
+      "BaseColor": [
+        0.62,
+        0.6,
+        0.54
+      ],
+      "Roughness": 0.86,
+      "PaletteMix": 0.45,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Young_Mantle": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkPosition.T_CrowdVAT_Woman_Young_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkNormal.T_CrowdVAT_Woman_Young_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdlePosition.T_CrowdVAT_Woman_Young_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdleNormal.T_CrowdVAT_Woman_Young_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.857826,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.511978,
+        31.090858
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.626628,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.199404,
+        10.61367
+      ],
+      "BaseColor": [
+        0.14,
+        0.19,
+        0.3
+      ],
+      "Roughness": 0.9,
+      "PaletteMix": 0.85,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Young_Headcloth": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkPosition.T_CrowdVAT_Woman_Young_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkNormal.T_CrowdVAT_Woman_Young_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdlePosition.T_CrowdVAT_Woman_Young_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdleNormal.T_CrowdVAT_Woman_Young_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.857826,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.511978,
+        31.090858
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.626628,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.199404,
+        10.61367
+      ],
+      "BaseColor": [
+        0.64,
+        0.625,
+        0.57
+      ],
+      "Roughness": 0.86,
+      "PaletteMix": 0.25,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Young_Sash": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkPosition.T_CrowdVAT_Woman_Young_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkNormal.T_CrowdVAT_Woman_Young_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdlePosition.T_CrowdVAT_Woman_Young_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdleNormal.T_CrowdVAT_Woman_Young_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.857826,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.511978,
+        31.090858
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.626628,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.199404,
+        10.61367
+      ],
+      "BaseColor": [
+        0.22,
+        0.25,
+        0.38
+      ],
+      "Roughness": 0.82,
+      "PaletteMix": 0.55,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Young_Leather": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkPosition.T_CrowdVAT_Woman_Young_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkNormal.T_CrowdVAT_Woman_Young_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdlePosition.T_CrowdVAT_Woman_Young_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdleNormal.T_CrowdVAT_Woman_Young_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.857826,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.511978,
+        31.090858
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.626628,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.199404,
+        10.61367
+      ],
+      "BaseColor": [
+        0.14,
+        0.08,
+        0.042
+      ],
+      "Roughness": 0.7,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Young_Hair": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkPosition.T_CrowdVAT_Woman_Young_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkNormal.T_CrowdVAT_Woman_Young_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdlePosition.T_CrowdVAT_Woman_Young_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdleNormal.T_CrowdVAT_Woman_Young_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.857826,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.511978,
+        31.090858
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.626628,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.199404,
+        10.61367
+      ],
+      "BaseColor": [
+        0.085,
+        0.05,
+        0.028
+      ],
+      "Roughness": 0.75,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Young_Eyes": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkPosition.T_CrowdVAT_Woman_Young_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkNormal.T_CrowdVAT_Woman_Young_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdlePosition.T_CrowdVAT_Woman_Young_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdleNormal.T_CrowdVAT_Woman_Young_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.857826,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.511978,
+        31.090858
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.626628,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.199404,
+        10.61367
+      ],
+      "BaseColor": [
+        0.76,
+        0.742,
+        0.715
+      ],
+      "Roughness": 0.35,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Young_Trim": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkPosition.T_CrowdVAT_Woman_Young_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkNormal.T_CrowdVAT_Woman_Young_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdlePosition.T_CrowdVAT_Woman_Young_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdleNormal.T_CrowdVAT_Woman_Young_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.857826,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.511978,
+        31.090858
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.626628,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.199404,
+        10.61367
+      ],
+      "BaseColor": [
+        0.32,
+        0.3,
+        0.22
+      ],
+      "Roughness": 0.8,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Woman_Young_Iris": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkPosition.T_CrowdVAT_Woman_Young_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_WalkNormal.T_CrowdVAT_Woman_Young_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdlePosition.T_CrowdVAT_Woman_Young_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Woman_Young_IdleNormal.T_CrowdVAT_Woman_Young_IdleNormal",
+      "WalkMinBBox": [
+        -35.771694,
+        -49.857826,
+        -14.80471
+      ],
+      "WalkSizeBBox": [
+        71.525078,
+        94.511978,
+        31.090858
+      ],
+      "IdleMinBBox": [
+        -30.512833,
+        -0.626628,
+        -9.289909
+      ],
+      "IdleSizeBBox": [
+        61.010014,
+        4.199404,
+        10.61367
+      ],
+      "BaseColor": [
+        0.135,
+        0.098,
+        0.062
+      ],
+      "Roughness": 0.35,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Youth_Skin": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkPosition.T_CrowdVAT_Youth_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkNormal.T_CrowdVAT_Youth_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdlePosition.T_CrowdVAT_Youth_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdleNormal.T_CrowdVAT_Youth_IdleNormal",
+      "WalkMinBBox": [
+        -35.722237,
+        -49.930962,
+        -14.759266
+      ],
+      "WalkSizeBBox": [
+        71.610405,
+        94.706711,
+        31.062241
+      ],
+      "IdleMinBBox": [
+        -30.509657,
+        -0.694634,
+        -9.25045
+      ],
+      "IdleSizeBBox": [
+        61.19857,
+        4.298565,
+        10.063805
+      ],
+      "BaseColor": [
+        0.52,
+        0.33,
+        0.215
+      ],
+      "Roughness": 0.62,
+      "PaletteMix": 0.0,
+      "SkinVariation": 1.0
+    },
+    "MI_CrowdVAT_Youth_Linen": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkPosition.T_CrowdVAT_Youth_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkNormal.T_CrowdVAT_Youth_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdlePosition.T_CrowdVAT_Youth_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdleNormal.T_CrowdVAT_Youth_IdleNormal",
+      "WalkMinBBox": [
+        -35.722237,
+        -49.930962,
+        -14.759266
+      ],
+      "WalkSizeBBox": [
+        71.610405,
+        94.706711,
+        31.062241
+      ],
+      "IdleMinBBox": [
+        -30.509657,
+        -0.694634,
+        -9.25045
+      ],
+      "IdleSizeBBox": [
+        61.19857,
+        4.298565,
+        10.063805
+      ],
+      "BaseColor": [
+        0.72,
+        0.545,
+        0.285
+      ],
+      "Roughness": 0.86,
+      "PaletteMix": 0.45,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Youth_Headcloth": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkPosition.T_CrowdVAT_Youth_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkNormal.T_CrowdVAT_Youth_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdlePosition.T_CrowdVAT_Youth_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdleNormal.T_CrowdVAT_Youth_IdleNormal",
+      "WalkMinBBox": [
+        -35.722237,
+        -49.930962,
+        -14.759266
+      ],
+      "WalkSizeBBox": [
+        71.610405,
+        94.706711,
+        31.062241
+      ],
+      "IdleMinBBox": [
+        -30.509657,
+        -0.694634,
+        -9.25045
+      ],
+      "IdleSizeBBox": [
+        61.19857,
+        4.298565,
+        10.063805
+      ],
+      "BaseColor": [
+        0.76,
+        0.62,
+        0.4
+      ],
+      "Roughness": 0.86,
+      "PaletteMix": 0.25,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Youth_Sash": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkPosition.T_CrowdVAT_Youth_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkNormal.T_CrowdVAT_Youth_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdlePosition.T_CrowdVAT_Youth_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdleNormal.T_CrowdVAT_Youth_IdleNormal",
+      "WalkMinBBox": [
+        -35.722237,
+        -49.930962,
+        -14.759266
+      ],
+      "WalkSizeBBox": [
+        71.610405,
+        94.706711,
+        31.062241
+      ],
+      "IdleMinBBox": [
+        -30.509657,
+        -0.694634,
+        -9.25045
+      ],
+      "IdleSizeBBox": [
+        61.19857,
+        4.298565,
+        10.063805
+      ],
+      "BaseColor": [
+        0.33,
+        0.24,
+        0.14
+      ],
+      "Roughness": 0.82,
+      "PaletteMix": 0.55,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Youth_Leather": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkPosition.T_CrowdVAT_Youth_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkNormal.T_CrowdVAT_Youth_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdlePosition.T_CrowdVAT_Youth_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdleNormal.T_CrowdVAT_Youth_IdleNormal",
+      "WalkMinBBox": [
+        -35.722237,
+        -49.930962,
+        -14.759266
+      ],
+      "WalkSizeBBox": [
+        71.610405,
+        94.706711,
+        31.062241
+      ],
+      "IdleMinBBox": [
+        -30.509657,
+        -0.694634,
+        -9.25045
+      ],
+      "IdleSizeBBox": [
+        61.19857,
+        4.298565,
+        10.063805
+      ],
+      "BaseColor": [
+        0.14,
+        0.08,
+        0.042
+      ],
+      "Roughness": 0.7,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Youth_Hair": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkPosition.T_CrowdVAT_Youth_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkNormal.T_CrowdVAT_Youth_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdlePosition.T_CrowdVAT_Youth_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdleNormal.T_CrowdVAT_Youth_IdleNormal",
+      "WalkMinBBox": [
+        -35.722237,
+        -49.930962,
+        -14.759266
+      ],
+      "WalkSizeBBox": [
+        71.610405,
+        94.706711,
+        31.062241
+      ],
+      "IdleMinBBox": [
+        -30.509657,
+        -0.694634,
+        -9.25045
+      ],
+      "IdleSizeBBox": [
+        61.19857,
+        4.298565,
+        10.063805
+      ],
+      "BaseColor": [
+        0.085,
+        0.05,
+        0.028
+      ],
+      "Roughness": 0.75,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Youth_Eyes": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkPosition.T_CrowdVAT_Youth_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkNormal.T_CrowdVAT_Youth_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdlePosition.T_CrowdVAT_Youth_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdleNormal.T_CrowdVAT_Youth_IdleNormal",
+      "WalkMinBBox": [
+        -35.722237,
+        -49.930962,
+        -14.759266
+      ],
+      "WalkSizeBBox": [
+        71.610405,
+        94.706711,
+        31.062241
+      ],
+      "IdleMinBBox": [
+        -30.509657,
+        -0.694634,
+        -9.25045
+      ],
+      "IdleSizeBBox": [
+        61.19857,
+        4.298565,
+        10.063805
+      ],
+      "BaseColor": [
+        0.76,
+        0.742,
+        0.715
+      ],
+      "Roughness": 0.35,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Youth_Trim": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkPosition.T_CrowdVAT_Youth_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkNormal.T_CrowdVAT_Youth_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdlePosition.T_CrowdVAT_Youth_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdleNormal.T_CrowdVAT_Youth_IdleNormal",
+      "WalkMinBBox": [
+        -35.722237,
+        -49.930962,
+        -14.759266
+      ],
+      "WalkSizeBBox": [
+        71.610405,
+        94.706711,
+        31.062241
+      ],
+      "IdleMinBBox": [
+        -30.509657,
+        -0.694634,
+        -9.25045
+      ],
+      "IdleSizeBBox": [
+        61.19857,
+        4.298565,
+        10.063805
+      ],
+      "BaseColor": [
+        0.29,
+        0.2,
+        0.105
+      ],
+      "Roughness": 0.8,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    },
+    "MI_CrowdVAT_Youth_Iris": {
+      "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkPosition.T_CrowdVAT_Youth_WalkPosition",
+      "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_WalkNormal.T_CrowdVAT_Youth_WalkNormal",
+      "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdlePosition.T_CrowdVAT_Youth_IdlePosition",
+      "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdVATV1/Textures/T_CrowdVAT_Youth_IdleNormal.T_CrowdVAT_Youth_IdleNormal",
+      "WalkMinBBox": [
+        -35.722237,
+        -49.930962,
+        -14.759266
+      ],
+      "WalkSizeBBox": [
+        71.610405,
+        94.706711,
+        31.062241
+      ],
+      "IdleMinBBox": [
+        -30.509657,
+        -0.694634,
+        -9.25045
+      ],
+      "IdleSizeBBox": [
+        61.19857,
+        4.298565,
+        10.063805
+      ],
+      "BaseColor": [
+        0.135,
+        0.098,
+        0.062
+      ],
+      "Roughness": 0.35,
+      "PaletteMix": 0.0,
+      "SkinVariation": 0.0
+    }
+  },
+  "protectedAfter": {
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard.uasset": "9f6fa7d8605282e5acc7eb5b018b4f359118478330127cce9f358b9738b2f075",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.uasset": "596c079016c8964216528d60961497f19cd696fa171fb22c375dc0c696255489",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle.uasset": "a96605ef26ef5b7d0ab7b7fae0972178f0cd00c57811a70baef549a760136388",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard_Skeleton.uasset": "c15e7ea36dedb9b48d7e3513794b88ec8c803897d3d1c907e96ae0095c8e0d81",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_Elder.uasset": "2a8ad72eee6d64eaf6bd87cf59a21118312ea35cdfb375556e770c9048516db9",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk.uasset": "fd8d602f7d458d81a73540095ef8fd83b2040cffe363ebc706a283975d364645",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle.uasset": "658ce4a0bfe707c4b68109f1ec762203148d2c80322f2d31f76489836d423c71",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_Elder_Skeleton.uasset": "1bcfd257d8e1771fb91138d7b864105f2b3fd2c02f14ec757aa77319d2b72e7f",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/V3_Pilgrim_Man_Heavy/SkeletalMeshes/V3_Pilgrim_Man_Heavy.uasset": "72360ce036afee2cec54b95d1e058cad82590fecc42d54355dc56c4b1a75abad",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/WalkV2/V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Walk.uasset": "8b251c98389e608b2bd4fc8e011ed6f43cc042ea696d25697a204aa8bfae8899",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/WalkV2/V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Idle.uasset": "203c40c3ef15c2caa16edbfef9919d413cd74df9df9f57bb0022077f8202445a",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/V3_Pilgrim_Man_Heavy/SkeletalMeshes/V3_Pilgrim_Man_Heavy_Skeleton.uasset": "94991d2d409f8d15e5c65111f02a7cddc3309b5a202c5d60e77196a796048095",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/V3_Pilgrim_Woman_Elder/SkeletalMeshes/V3_Pilgrim_Woman_Elder.uasset": "dcc12bb5de7f491ac5f53634b34b9e966f9b290bcb3138a4925c83eee0ddd4e8",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/WalkV2/V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Walk.uasset": "adebbde53981f3e56cab925e2f7797b73b4613b1eef2bdc88942dc191f4ab1b0",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/WalkV2/V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Idle.uasset": "a800988f4d9a5424768ec0317bd3aa2ab3e80285032d7c348f7880c956e49ddc",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/V3_Pilgrim_Woman_Elder/SkeletalMeshes/V3_Pilgrim_Woman_Elder_Skeleton.uasset": "c115b61874567d19791cb45b9646d139edacaaf10f1cd12767a88f723b4d3b01",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/V3_Pilgrim_Woman_Young/SkeletalMeshes/V3_Pilgrim_Woman_Young.uasset": "df10866987f8bf3f4fdea33d7a34a1f9bc3b97d745ae7acdf0581472d0b7548f",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/WalkV2/V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Walk.uasset": "6bbe7023e079b392814d73dad45c224756a24e995333386e388dd93aa114f690",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/WalkV2/V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Idle.uasset": "663da275fe64cab5df69220cd8fc738dd4872f5585e0f00fcff36e69710d7a93",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/V3_Pilgrim_Woman_Young/SkeletalMeshes/V3_Pilgrim_Woman_Young_Skeleton.uasset": "4502d8d92d5378959913e50e14724f38666446eaa63eacefde1905313320cbe3",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/V3_Pilgrim_Youth/SkeletalMeshes/V3_Pilgrim_Youth.uasset": "6ac881527078b89cbec3baac7fe17ec2bdcb6a3fae402a4239a4fd0cf1e2c4c4",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/WalkV2/V3_Pilgrim_YouthA_Pilgrim_Original_Walk.uasset": "100922fdf514425cd71c39be052f1b8704ad7c52fec02b9ea4f1e9062b9c71be",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/WalkV2/V3_Pilgrim_YouthA_Pilgrim_Original_Idle.uasset": "4bf95b3f6c4ba48ed0e7ecc9eec5eb39d5b2f1264fa7e61da4ecf911cfe3603a",
+    "Content/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/V3_Pilgrim_Youth/SkeletalMeshes/V3_Pilgrim_Youth_Skeleton.uasset": "e2471f55f6d9b51cf97782381814577c020525558f569593f47c71eaa439a66a",
+    "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap": "4851ad9e6cdcbffa5078e4e95c545304964257272bbc552cee644e1052f5280b",
+    "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap": "f9d6453ec8dbb7d7a604d8f5bacab02257613c947bce8a9cf2b77198fb3eefc5",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Materials/M_CrowdRobeV1.uasset": "7b42387b14aca0879840a1cc8cb3d78223af880d07423ea0de3214f817dbef64",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Materials/M_CrowdSkinV1.uasset": "51d74964328888f93afd057a6cc77e7a362eb21a1bfbdc52982442619dc6bf12",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Materials/M_CrowdWrapV1.uasset": "9745b41f1554a0cc299df4cfc1bd802b8e1e38a1b2a4ada04b028343eea5fe94",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P0.uasset": "63b1089fcc217aac42bfd98e90cae293c297d6b4ad93b90e9db3649393a5e33a",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P1.uasset": "93f5aaf52de16e980be53356fb31c73e70df318d70364b6df9e61538af5126f2",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P2.uasset": "63747bcbe2e8d12c12e35f7a027cc306027293d31a6acfabdc7bc443e13ec496",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P3.uasset": "a7164a3f4991c8952d81187da10b3775524aeb02f602091ea20afafabbd13f05",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P4.uasset": "d6066fc59a5d57f37c35935aefa653d6f6aa5e46d093c341b9984053ebca4bca",
+    "Content/MikdashV3/Runtime/CrowdFieldV1/Meshes/SM_CrowdFigure_P5.uasset": "067187a8f156ee93ae4512e1bb1e9139164b847adc785264490b44805a710934"
+  },
+  "protectedChanged": [],
+  "finishedUtc": "2026-09-11T04:27:05.002114+00:00"
+}

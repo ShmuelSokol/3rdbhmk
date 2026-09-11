@@ -104,8 +104,24 @@ struct FMikdashCrowdAgent
     int32 GroupMember = 0;
     uint8 bStanding : 1;
     uint8 bValid : 1;
+    /** Vertex animation only: 1 while the figure plays (or blends into) the idle clip. */
+    uint8 bIdleAnim : 1;
 
-    FMikdashCrowdAgent() : bStanding(0), bValid(0) {}
+    // Vertex-animation state (AMikdashCrowdField::bUseVertexAnimation only). With it on,
+    // Position and GroundZCm are the ANCHOR: where the figure stood at AnchorTime. M_CrowdVAT_V1
+    // draws it at Anchor + Velocity * (t - AnchorTime) and advances the walk phase at WalkRate
+    // from the same anchor with the same clamp; MikdashCrowd::VatCommit is the CPU half of that
+    // contract, so ground travel and stride cannot drift apart between visits.
+    FVector2D Velocity = FVector2D::ZeroVector;
+    float VelocityZ = 0.f;
+    double AnchorTime = 0.0;
+    float WalkPhaseAtAnchor = 0.f;
+    float WalkRate = 0.f;
+    float HorizonSeconds = 0.f;
+    double SwitchTime = -1000.0;
+    float IdleOffset = 0.f;
+
+    FMikdashCrowdAgent() : bStanding(0), bValid(0), bIdleAnim(1) {}
 };
 
 /**
@@ -122,7 +138,10 @@ struct FMikdashCrowdAgent
  * WHAT IT IS NOT. These are instanced background figures. They have no collision, no
  * navigation, no dialog and no articulated
  * limbs: each instance holds one frozen stride pose and the motion you see is its translation
- * across the ground plus a gait bob and lean written into its transform. Anyone who needs to
+ * across the ground plus a gait bob and lean written into its transform -- UNLESS
+ * bUseVertexAnimation is on, in which case every figure is a VAT-baked PilgrimRigV3 body whose
+ * material plays the WalkV2 walk (paced from its own ground speed, so it cannot slide) or the
+ * idle, each figure on its own phase. Anyone who needs to
  * be talked to, walked around or looked in the eye is a MikdashResidentCharacter, and there
  * are still only 24 of those.
  * Group mode adds deterministic social steering, spatial separation and static-world
@@ -234,6 +253,77 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|Motion", meta = (ClampMin = "0.0"))
     float MaxTurnDegreesPerSecond = 90.f;
+
+    // ---------------------------------------------------------------- vertex animation
+
+    /** Opt-in (project convention: placing or rebuilding changes nothing until a release script
+     * turns it on). Off: the historical frozen posed meshes with a CPU bob. On: PoseMeshes are
+     * VAT-baked bodies (Scripts/create_crowd_vat_v2.py) whose M_CrowdVAT_V1 material plays the
+     * WalkV2 walk and the idle from per-instance custom data this actor writes (11 floats, layout
+     * in Scripts/create_crowd_vat_v2.spec.json); bodies are interleaved over the components so a
+     * party is not six copies of one person; BobAmplitudeCm/LeanAmplitudeDegrees are ignored (the
+     * clip carries its own pelvis bob); and group steering runs even with bEnableVisitorGroups off,
+     * because its look-ahead segment check is what keeps an extrapolated figure out of walls. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|VertexAnimation")
+    bool bUseVertexAnimation = false;
+
+    /** Ground speed of the baked walk at play rate 1 and body scale 1. 119.95 cm/s is the WalkV2
+     * clip, measured in engine (MeasuredWalkClipGroundSpeedCm in MikdashResidentCharacter.h). Pace
+     * AND stride rate are both derived from it: that is the whole no-slide guarantee. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|VertexAnimation", meta = (ClampMin = "10.0"))
+    float VatWalkGroundSpeedCmPerSecond = 119.95f;
+
+    /** Seconds per baked walk cycle (two steps). WalkV2: 1.2 s, 100 steps/min. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|VertexAnimation", meta = (ClampMin = "0.1"))
+    float VatWalkCycleSeconds = 1.2f;
+
+    /** Per-figure cadence half-width: natural pace = ground speed x scale x (1 +/- this). The
+     * residents use 0.07 and it is what keeps two neighbours from stepping together. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|VertexAnimation", meta = (ClampMin = "0.0", ClampMax = "0.3"))
+    float VatCadenceSpread = 0.07f;
+
+    /** Play-rate band the walk may be driven at; slower than 0.6 x the minimum is a stop (idle). */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|VertexAnimation", meta = (ClampMin = "0.1"))
+    float VatMinPlayRate = 0.45f;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|VertexAnimation", meta = (ClampMin = "0.1"))
+    float VatMaxPlayRate = 1.55f;
+
+    /** How far ahead in time one visit plans (and the material may extrapolate): 1.5 sweeps,
+     * clamped to this band. The planned segment is validated before the figure walks it. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|VertexAnimation", meta = (ClampMin = "0.02"))
+    float VatMinHorizonSeconds = 0.12f;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|VertexAnimation", meta = (ClampMin = "0.05"))
+    float VatMaxHorizonSeconds = 0.7f;
+
+    /** A figure that stopped stays idle at least this long before it walks again (no flicker). */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|VertexAnimation", meta = (ClampMin = "0.0"))
+    float VatMinIdleSeconds = 1.0f;
+
+    /** Yaw added to every instance. PilgrimRigV3 bodies face +Y after the glTF import, the crowd
+     * heading convention is +X: -90. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|VertexAnimation")
+    float MeshYawOffsetDegrees = 0.f;
+
+    /** Seconds after which a paused visitor group turns back toward its anchor instead of
+     * standing forever (a permanently paused party was one source of the statue clusters).
+     * 0 keeps the historical behaviour. Vertex-animation runtime only. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|VertexAnimation", meta = (ClampMin = "0.0"))
+    float PausedGroupResumeSeconds = 0.f;
+
+    static constexpr int32 VatCustomDataFloats = 11;
+
+    /** Figures currently walking (not idle). O(N); for receipts and probes. */
+    UFUNCTION(BlueprintPure, Category = "Crowd|VertexAnimation")
+    int32 GetVatWalkingCount() const;
+
+    UFUNCTION(BlueprintPure, Category = "Crowd|VertexAnimation")
+    int32 GetVatResumedGroupCount() const { return ResumedVisitorGroups; }
+
+    /** One figure's anchor, velocity and stride rate. A probe can check the no-slide identity
+     * |Velocity| == WalkCyclesPerSecond x VatWalkGroundSpeedCmPerSecond x Scale x VatWalkCycleSeconds. */
+    UFUNCTION(BlueprintPure, Category = "Crowd|VertexAnimation")
+    bool GetVatAgentState(int32 AgentIndex, FVector& AnchorLocation, FVector& Velocity, float& WalkCyclesPerSecond,
+                          float& Scale, bool& bIdle) const;
 
     /** Distance covered by one full gait cycle; drives the bob and the material phase rate. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crowd|Motion", meta = (ClampMin = "10.0"))
@@ -405,14 +495,27 @@ private:
         int32 ZoneIndex=0;
         FVector2D SeedAnchor=FVector2D::ZeroVector;
         MikdashCrowdGroups::Travel Travel;
+        double PausedSince=-1.0;
     };
     TArray<FVisitorGroup> VisitorGroups;
     MikdashCrowdGroups::SpatialIndex VisitorSpacing;
     int32 GroupedVisitors=0,IndividualVisitors=0,RefusedGroups=0,PausedVisitorGroups=0;
     int32 GroupSweepsLastFrame=0,GroupRejectedMovesLastFrame=0,GroupWaitVisitsLastFrame=0;
+    int32 ResumedVisitorGroups=0;
     bool bSocialRuntime=false;
     void SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& GlobalIndex);
     void StepSocialAgent(int32 Index,double Dt,const MikdashCrowd::FlowZone& Flow);
+    /** Vertex-animation visit: commit the anchor along the segment validated last time, then plan
+     * and validate the next Horizon seconds of travel. A figure that cannot walk idles. */
+    void StepSocialAgentVat(int32 Index, double Now, float Horizon, const MikdashCrowd::FlowZone& Flow);
+    void CommitVat(FMikdashCrowdAgent& Agent, double Now) const;
+    void SetVatIdle(FMikdashCrowdAgent& Agent, double Now) const;
+    /** False when the figure is still inside its minimum idle hold (it then stays idle). */
+    bool SetVatWalk(FMikdashCrowdAgent& Agent, double Now, const FVector2D& Velocity2D, float VelocityZ, float Horizon, double Speed) const;
+    void AppendVatCustomData(int32 Index, TArray<float>& Out) const;
+    void PushVat(int32 GlobalStart, int32 GlobalCount);
+    double VatNow() const;
+    TArray<float> CustomScratch;
     bool SocialSegmentAllowed(int32 ZoneIndex,const MikdashCrowd::Vec2& From,const MikdashCrowd::Vec2& To) const;
 
     /** Reusable scratch for one batched transform run; never freed between frames. */

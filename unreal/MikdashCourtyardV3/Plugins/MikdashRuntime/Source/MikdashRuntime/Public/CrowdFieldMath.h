@@ -544,4 +544,121 @@ inline double HeightScaleFor(uint32_t Seed, uint32_t Index, double MinScale = 0.
     if (!(MaxScale > MinScale)) return 1.0;
     return HashRange(Seed, Index, 53u, MinScale, MaxScale);
 }
+
+// ---------------------------------------------------------------------------
+// Vertex-animated crowd (AMikdashCrowdField::bUseVertexAnimation)
+// ---------------------------------------------------------------------------
+//
+// THE ANCHOR CONTRACT, shared word for word with M_CrowdVAT_V1 (Scripts/create_crowd_vat_v2.py).
+// The CPU visits a figure only every few frames. Between visits the MATERIAL draws it at
+//     position = Anchor + Velocity * dt,   walk phase = frac(PhaseAtAnchor + Rate * dt),
+//     dt = clamp(t - AnchorTime, -NegDt, Horizon)
+// and at the next visit the CPU commits exactly the same expression with dt clamped to
+// [0, Horizon], then plans a new velocity from there. Position and stride are integrated from one
+// anchor with one clamp, so they cannot drift apart. Rate comes from the speed:
+//     Rate = Speed / (ClipGroundSpeed * Scale) / CycleSeconds
+// which makes ground travel per walk cycle = ClipGroundSpeed * Scale * CycleSeconds, the clip's
+// own stride scaled with the figure: the stance foot is world-fixed. That identity is what the
+// tests below pin down.
+
+struct VatAnchor
+{
+    double X = 0, Y = 0, Z = 0;
+    double Time = 0;
+    double VelX = 0, VelY = 0, VelZ = 0;
+    double Phase = 0;      // walk cycles, 0..1
+    double Rate = 0;       // walk cycles per second
+    double Horizon = 0;    // seconds the material may extrapolate
+};
+
+/** Advance an anchor to Now along its current velocity, exactly as the material draws it. */
+inline void VatCommit(VatAnchor& A, double Now)
+{
+    if (!std::isfinite(Now)) return;
+    const double H = std::isfinite(A.Horizon) ? std::max(0.0, A.Horizon) : 0.0;
+    const double Dt = Clamp(Now - A.Time, 0.0, H);
+    A.X += A.VelX * Dt;
+    A.Y += A.VelY * Dt;
+    A.Z += A.VelZ * Dt;
+    const double P = A.Phase + A.Rate * Dt;
+    A.Phase = std::isfinite(P) ? P - std::floor(P) : 0.0;
+    A.Time = Now;
+}
+
+/** The speed a figure may actually walk at: clamped into the play-rate band the clip supports,
+ * or 0 when it is too slow to be a walk at all (the figure then idles instead of shuffling). */
+inline double VatPlayableSpeed(double Speed, double ClipGroundSpeed, double Scale, double MinRate, double MaxRate)
+{
+    const double G = ClipGroundSpeed * Scale;
+    if (!std::isfinite(Speed) || !std::isfinite(G) || !(G > 0) || Speed <= 0) return 0.0;
+    const double Lo = std::max(0.0, MinRate) * G, Hi = std::max(MinRate, MaxRate) * G;
+    if (Speed < 0.6 * Lo) return 0.0;
+    return Clamp(Speed, Lo, Hi);
+}
+
+/** Walk cycles per second for a ground speed: the no-slide rate. */
+inline double VatCyclesPerSecond(double Speed, double ClipGroundSpeed, double Scale, double CycleSeconds)
+{
+    const double G = ClipGroundSpeed * Scale;
+    if (!std::isfinite(Speed) || !(G > 0) || !(CycleSeconds > 0) || Speed <= 0) return 0.0;
+    return Speed / G / CycleSeconds;
+}
+
+/** How long the material may extrapolate a figure: 1.5 sweeps, clamped. Longer than the gap
+ * between visits so a figure never stalls; bounded so the look-ahead segment the CPU validated
+ * (Speed * Horizon) stays short. */
+inline double VatHorizonSeconds(int FramesPerSweepCount, double DeltaSeconds, double MinH, double MaxH)
+{
+    const double Lo = std::max(0.0, MinH), Hi = std::max(Lo, MaxH);
+    if (!std::isfinite(DeltaSeconds) || DeltaSeconds <= 0 || FramesPerSweepCount <= 0) return Lo;
+    return Clamp(1.5 * FramesPerSweepCount * DeltaSeconds, Lo, Hi);
+}
+
+/** Per-figure cadence bias, 1 +/- Spread, deterministic. Natural pace = ground speed * scale * cadence. */
+inline double CadenceFor(uint32_t Seed, uint32_t Index, double Spread)
+{
+    const double S = std::isfinite(Spread) ? Clamp(Spread, 0.0, 0.5) : 0.0;
+    return 1.0 + HashRange(Seed, Index, 61u, -S, S);
+}
+
+// Interleaved body assignment for the vertex-animated crowd: global index g lives on component
+// g % P at local index g / P, so a party seeded on consecutive indices gets different bodies
+// (the blocked layout above gives a whole zone one or two bodies).
+inline int InterleavedPose(int GlobalIndex, int PoseCount)
+{
+    if (PoseCount <= 1 || GlobalIndex < 0) return 0;
+    return GlobalIndex % PoseCount;
+}
+inline int InterleavedLocal(int GlobalIndex, int PoseCount)
+{
+    if (GlobalIndex < 0) return 0;
+    if (PoseCount <= 1) return GlobalIndex;
+    return GlobalIndex / PoseCount;
+}
+/** Instances component Pose holds when Total are interleaved over PoseCount components. */
+inline int InterleavedCount(int Pose, int Total, int PoseCount)
+{
+    if (Total <= 0) return 0;
+    if (PoseCount <= 1) return Pose == 0 ? Total : 0;
+    if (Pose < 0 || Pose >= PoseCount || Total <= Pose) return 0;
+    return (Total - Pose + PoseCount - 1) / PoseCount;
+}
+/** The contiguous local range of component Pose covered by the global window [Start, Start+Count). */
+inline void InterleavedWindow(int Start, int Count, int Pose, int PoseCount, int& OutFirst, int& OutCount)
+{
+    OutFirst = 0;
+    OutCount = 0;
+    if (Count <= 0 || Start < 0) return;
+    if (PoseCount <= 1)
+    {
+        if (Pose == 0) { OutFirst = Start; OutCount = Count; }
+        return;
+    }
+    if (Pose < 0 || Pose >= PoseCount) return;
+    const int First = Start + ((Pose - Start % PoseCount) + PoseCount) % PoseCount;
+    const int End = Start + Count;   // exclusive
+    if (First >= End) return;
+    OutFirst = First / PoseCount;
+    OutCount = (End - 1 - First) / PoseCount + 1;
+}
 }  // namespace MikdashCrowd

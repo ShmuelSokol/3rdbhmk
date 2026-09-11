@@ -1,0 +1,139 @@
+{
+  "script": "Scripts/prove_combu_floor.py",
+  "scriptSha256": "0a20815ddb127c235efddae72b1fd3612f0d6e5d9c5f032b679a2a91ce448388",
+  "metricScriptSha256": "9ebae6364f176abb0e2df5c312c872c0ffc9d6070bcce0d9ed6eef34fe2d2930",
+  "utc": "2026-09-11T03:20:21.011668+00:00",
+  "frames": {
+    "before": {
+      "file": "SourceAssets/visual-review/arv3c-before-02-herodian-ashlar-inner-east-gate-jamb-walkingheight.png",
+      "sha256": "17aa304043f30a9e76536287a00daea4130d63c3626d7f54a3a3fd52f3c03e90"
+    },
+    "after": {
+      "file": "SourceAssets/visual-review/arv3c-after-02-herodian-ashlar-inner-east-gate-jamb-walkingheight.png",
+      "sha256": "bcec5907678161ea82d19b05acd54d2761f90025db436e00374ba9633e1c1bff"
+    }
+  },
+  "tilePeriodPx": 1322,
+  "wallWidthPx": 3840,
+  "combWindowPx": 2644,
+  "identity": {
+    "before": {
+      "combU": 0.57715,
+      "onePlusRhoOver2": 0.57715,
+      "rhoHalves300cm": 0.1543,
+      "acU": 0.51853,
+      "rowMeanPowerFraction": 0.41765,
+      "acURowMeanRemoved": 0.15933,
+      "headJointAcf300cm": 0.0445
+    },
+    "after": {
+      "combU": 0.49605,
+      "onePlusRhoOver2": 0.49605,
+      "rhoHalves300cm": -0.00791,
+      "acU": 0.37908,
+      "rowMeanPowerFraction": 0.37369,
+      "acURowMeanRemoved": -0.0084,
+      "headJointAcf300cm": 0.03936
+    },
+    "whiteNoiseCombU": 0.49992
+  },
+  "surrogates": {
+    "period600cm_controlPixels": {
+      "combURatio": {
+        "n": 61,
+        "min": 0.8075,
+        "p10": 0.8197,
+        "median": 0.8564,
+        "p90": 0.8845,
+        "max": 0.9069,
+        "fracAtOrBelow0_75": 0.0
+      },
+      "acURatio": {
+        "n": 61,
+        "min": 0.7246,
+        "p10": 0.7436,
+        "median": 0.7917,
+        "p90": 0.8283,
+        "max": 0.8571,
+        "fracAtOrBelow0_75": 0.1311
+      }
+    },
+    "noRepeatInFrame_controlPixels": {
+      "combURatio": {
+        "n": 72,
+        "min": 0.8186,
+        "p10": 0.8194,
+        "median": 0.8689,
+        "p90": 0.9284,
+        "max": 0.9328,
+        "fracAtOrBelow0_75": 0.0
+      },
+      "acURatio": {
+        "n": 72,
+        "min": 0.7306,
+        "p10": 0.761,
+        "median": 0.7926,
+        "p90": 0.8229,
+        "max": 0.8524,
+        "fracAtOrBelow0_75": 0.0417
+      }
+    },
+    "attempt3PixelsNewHeadJointsPerTile": {
+      "combURatio": {
+        "n": 360,
+        "min": 0.832,
+        "p10": 0.8374,
+        "median": 0.8419,
+        "p90": 0.8576,
+        "max": 0.8978,
+        "fracAtOrBelow0_75": 0.0
+      },
+      "acURatio": {
+        "n": 360,
+        "min": 0.702,
+        "p10": 0.7122,
+        "median": 0.7287,
+        "p90": 0.7515,
+        "max": 0.7975,
+        "fracAtOrBelow0_75": 0.8889
+      },
+      "headJointAcf300cm": {
+        "n": 360,
+        "min": -0.025,
+        "p10": -0.0113,
+        "median": -0.0018,
+        "p90": 0.0179,
+        "max": 0.047,
+        "fracAtOrBelow0_75": 1.0
+      },
+      "models": "the 600 x 300 cm proposal and any per-cell layout choice: per-stone variants ON, bed joints kept, head joints differ"
+    },
+    "attempt3PixelsNewHeadJointsPerCourseBand": {
+      "combURatio": {
+        "n": 60,
+        "min": 0.8238,
+        "p10": 0.8354,
+        "median": 0.8462,
+        "p90": 0.855,
+        "max": 0.8938,
+        "fracAtOrBelow0_75": 0.0
+      },
+      "acURatio": {
+        "n": 60,
+        "min": 0.7048,
+        "p10": 0.7125,
+        "median": 0.7298,
+        "p90": 0.7431,
+        "max": 0.7659,
+        "fracAtOrBelow0_75": 0.9
+      }
+    }
+  },
+  "bar": {
+    "combUMax": 0.43286,
+    "equivalentRho300cmMax": -0.13428,
+    "noRepeatFloorCombU": 0.5,
+    "noRepeatFloorRatio": 0.8663
+  },
+  "verdict": "NO_LAYOUT_BREAK_CAN_PASS_COMBU: the x0.75 combU bar needs anti-correlated 300 cm halves; every non-repeating surrogate sits at x0.81-0.93. Not built; the bar needs a decision from Shmuel."
+}

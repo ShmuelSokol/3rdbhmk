@@ -641,6 +641,260 @@
     "check_parity compared the whole texture dict; now only the keys the live instance sets."
    ],
    "cleanup": "Left as evidence. Remove: -AntiRepeatRevert=<applyTrial> -Candidate48FrameTrial, then release_antirepeat_variants.py -ARVariantsRevert=<build>."
+  },
+  "layoutBreakOfflineEvaluation2026_09_11": {
+   "state": "EVALUATED_OFFLINE_NOT_BUILT_NOT_APPLIED",
+   "verdict": "NO_LAYOUT_BREAK_CAN_PASS_COMBU: the x0.75 combU bar needs anti-correlated 300 cm halves; every non-repeating surrogate sits at x0.81-0.93. Not built; the bar needs a decision from Shmuel.",
+   "evidence": "SourceAssets/material-review/AntiRepeatV1/combu-floor-proof-20260911T032018Z.json",
+   "script": "Scripts/prove_combu_floor.py",
+   "identity": "WALL 3840 px, period 1322 px: comb_u FFT is 2644 px, comb = every even bin, so combU = (1 + rho)/2 exactly, rho = correlation of the two 300 cm halves. Control 0.5772 (rho 0.154); attempt 3 0.4960 (rho -0.008); white noise 0.4999.",
+   "bar": "combU <= 0.4329 needs rho(300 cm) <= -0.134 (anti-correlated halves). A non-repeating wall scores 0.50 = x0.866. Attempt 3 already sits at that floor.",
+   "surrogateCombURatio": {
+    "period600cm_controlPixels": {
+     "n": 61,
+     "min": 0.8075,
+     "p10": 0.8197,
+     "median": 0.8564,
+     "p90": 0.8845,
+     "max": 0.9069,
+     "fracAtOrBelow0_75": 0.0
+    },
+    "noRepeatInFrame_controlPixels": {
+     "n": 72,
+     "min": 0.8186,
+     "p10": 0.8194,
+     "median": 0.8689,
+     "p90": 0.9284,
+     "max": 0.9328,
+     "fracAtOrBelow0_75": 0.0
+    },
+    "attempt3PixelsNewHeadJointsPerTile": {
+     "n": 360,
+     "min": 0.832,
+     "p10": 0.8374,
+     "median": 0.8419,
+     "p90": 0.8576,
+     "max": 0.8978,
+     "fracAtOrBelow0_75": 0.0
+    },
+    "attempt3PixelsNewHeadJointsPerCourseBand": {
+     "n": 60,
+     "min": 0.8238,
+     "p10": 0.8354,
+     "median": 0.8462,
+     "p90": 0.855,
+     "max": 0.8938,
+     "fracAtOrBelow0_75": 0.0
+    }
+   },
+   "surrogateAcURatio": {
+    "period600cm_controlPixels": {
+     "n": 61,
+     "min": 0.7246,
+     "p10": 0.7436,
+     "median": 0.7917,
+     "p90": 0.8283,
+     "max": 0.8571,
+     "fracAtOrBelow0_75": 0.1311
+    },
+    "noRepeatInFrame_controlPixels": {
+     "n": 72,
+     "min": 0.7306,
+     "p10": 0.761,
+     "median": 0.7926,
+     "p90": 0.8229,
+     "max": 0.8524,
+     "fracAtOrBelow0_75": 0.0417
+    },
+    "attempt3PixelsNewHeadJointsPerTile": {
+     "n": 360,
+     "min": 0.702,
+     "p10": 0.7122,
+     "median": 0.7287,
+     "p90": 0.7515,
+     "max": 0.7975,
+     "fracAtOrBelow0_75": 0.8889
+    },
+    "attempt3PixelsNewHeadJointsPerCourseBand": {
+     "n": 60,
+     "min": 0.7048,
+     "p10": 0.7125,
+     "median": 0.7298,
+     "p90": 0.7431,
+     "max": 0.7659,
+     "fracAtOrBelow0_75": 0.9
+    }
+   },
+   "acUFloor": "after attempt 3, per-row-mean power fraction 0.374 vs acU 0.379; acU with row mean removed -0.008. Bed joints hold their height along every course, so every coursed wall keeps this.",
+   "layoutStillRepeats": "YES by eye: identical rising joints every 300 cm in every course of arv3c-after-02. Rising-joint acf at 300 cm: control 0.044, attempt 3 0.039, layout-break model median -0.002.",
+   "decision": "Coordinator, 2026-09-11, on this proof: raw combU replaced (corrects a broken metric, does not relax a standard). New acceptance recorded in status2026_09_10.acceptanceV2_2026_09_11, fixed before any layout-break frame existed.",
+   "enginesRun": 0,
+   "assetsTouched": 0
+  },
+  "acceptanceV2_2026_09_11": {
+   "version": "v2-2026-09-11",
+   "jointRepeatRatioMax": 0.75,
+   "rhoRatioMax": 0.75,
+   "acURatioMax": 0.75,
+   "detailNormalizedRatioMin": 0.85,
+   "detailKeys": [
+    "edgeEnergy",
+    "edgeEnergySmoothed",
+    "verticalEnergySmoothed"
+   ],
+   "jointMap": "d = max(box_x21(L) - L, 0); box_y41(d); per-row mean removed",
+   "jointBandRows": 196,
+   "jointLagWindowPx": 40,
+   "jointBandPeriodSource": "CONTROL frame: per band argmax of highpass(luma) row autocorrelation over lags 300-1900",
+   "rhoRatio": "(combU_after - 0.5) / (combU_before - 0.5); combU = (1 + rho)/2 exactly with 2 periods in view",
+   "visualChecks": [
+    "bossRaisedAt1to1",
+    "noStoneCutAtTileEdge",
+    "noSliverStones",
+    "noMidBlockSeam",
+    "noDashedBedJoint",
+    "noFalseRidge"
+   ],
+   "decidedBy": "coordinator, 2026-09-11, on SourceAssets/material-review/AntiRepeatV1/combu-floor-proof-20260911T032018Z.json",
+   "state": "IN_FORCE",
+   "fixedUtc": "2026-09-11T03:53:50.607771+00:00",
+   "fixedBeforeAnyLayoutBreakFrame": true,
+   "fixedBeforeNote": "Written before any layout-break asset was generated, built or rendered. No frame of the layout-break build exists at fixedUtc.",
+   "replaces": "v1: acU <= x0.75 AND raw combU <= x0.75 AND detail >= x0.80 (status2026_09_10.acceptanceGateForNextAttempt, measure_antirepeat_frame.py THRESHOLDS)",
+   "why": "Changed ONCE, by the coordinator, to correct a broken metric, not to relax a standard. With two 300 cm periods in view combU = (1 + rho)/2 exactly (proof: SourceAssets/material-review/AntiRepeatV1/combu-floor-proof-20260911T032018Z.json, Scripts/prove_combu_floor.py). A wall with no repeat scores x0.87; x0.75 needs the second period to be the INVERSE of the first, which is itself a pattern. A bar the ideal answer fails measures the wrong thing. The primary bar is now the rising-joint repeat, the repeat the eye sees; detail tightened from 0.80 to 0.85.",
+   "criteriaAllRequired": [
+    "jointRepeat ratio <= 0.75 (primary)",
+    "rhoRatio (combU-0.5) after/before <= 0.75",
+    "acU ratio <= 0.75 (unchanged; report the margin, do not tune to it)",
+    "detail normalised >= 0.85 on edgeEnergy, edgeEnergySmoothed, verticalEnergySmoothed",
+    "visual JSON: every visualChecks key true (boss raised at 1:1; no stone cut at a tile edge; no sliver; no attempt-2 defect)"
+   ],
+   "verdictWithoutVisual": "PENDING_VISUAL, never PASS",
+   "measureScript": "Scripts/measure_antirepeat_frame.py",
+   "measureScriptSha256": "09a4bd14112c3c2ce066d7eabd1c96ea0e77f6a8ede0d56a91cd0f2cadc13700",
+   "calibrationOnExistingFrames": {
+    "evidence": "SourceAssets/material-review/AntiRepeatV1/frame-evidence-arv3c-variants-v2recheck.json",
+    "attempt3UnderV2": {
+     "jointRepeat": {
+      "ratio": 0.9343,
+      "max": 0.75,
+      "pass": false
+     },
+     "rhoRatio": {
+      "ratio": -0.0512,
+      "max": 0.75,
+      "pass": true
+     },
+     "acU": {
+      "ratio": 0.7311,
+      "max": 0.75,
+      "pass": true,
+      "marginToBar": 0.0189
+     },
+     "detail": {
+      "normalized": {
+       "edgeEnergy": 0.9802,
+       "edgeEnergySmoothed": 0.987,
+       "verticalEnergySmoothed": 0.9842
+      },
+      "min": 0.85,
+      "pass": true
+     }
+    },
+    "attempt3VerdictUnderV2": "FAIL",
+    "jointRepeatControl": 0.5378,
+    "jointRepeatAttempt3": 0.5025,
+    "reading": "v2 FAILS attempt 3 on the joint repeat (x0.934), as the eye does: the layout still repeats. It is not a laxer bar."
+   },
+   "gate": "release_antirepeat.py do_apply reads THIS entry: evidence acceptanceVersion must equal version, every criterion must pass at these bars, and the visual checks must all be true."
+  },
+  "layoutsFrameTrial2026_09_11": {
+   "state": "BLOCKED_CAPTURE_GAME_EXE_STALE_NOT_APPLIED_TO_ANY_SHIPPING_MAP",
+   "updatedUtc": "2026-09-11T04:43:29.910673+00:00",
+   "goal": "Break the Ashlar stone LAYOUT period itself (attempt 3 left the rising joints repeating every 300 cm: joint repeat x0.93 under acceptance v2).",
+   "acceptance": "status2026_09_10.acceptanceV2_2026_09_11, fixed before any frame of this build existed",
+   "design": "samplingAssets.layouts; Scripts/create_herodian_ashlar_layouts.py (15 Wang-edge slices), Scripts/release_antirepeat_layouts.py (Texture2DArrays + stock-node master, 9 fetches/pixel)",
+   "layout": "SourceAssets/material-review/HerodianAshlarV5Layouts/layout.json (jitter 30 cm, stagger >= 30 / 35.9 cm, every stone 1.25-3.2 H)",
+   "offlinePrediction": {
+    "jointRepeatRatio": {
+     "median": 0.43,
+     "worst": 0.67,
+     "n": 8
+    },
+    "acURatioModel": {
+     "median": 0.73,
+     "note": "close to the 0.75 bar: report the margin, do not tune"
+    }
+   },
+   "trialMapReset": "attempt 3 trial apply reverted first: SourceAssets/material-review/AntiRepeatV1/antirepeat-revert-Candidate48FrameTrial-20260911T040517062924Z.json (REVERTED_REOPENED, protected unchanged)",
+   "colour": {
+    "poolMeanR": 0.7521,
+    "poolMeanBoverR": 0.886,
+    "screenSize": 128
+   },
+   "inMemoryProbe": {
+    "script": "scratch probe_layouts_inmemory.py (P3, 2026-09-11 04:21Z), result C:/Mikdash/Working-5.8/ARLayoutRuns/probe-layouts-inmemory.json",
+    "saved": "NOTHING: every save stubbed, AntiRepeatV1 namespace .uasset hashes identical before and after",
+    "arrays": "Texture2DArray x3 created under r.AllowTexture2DArrayCreation from 3 existing 2048 slices each; compression/sRGB/LOD copied (TC_DEFAULT sRGB, TC_NORMALMAP, TC_MASKS); mips restored to TMGS_FROM_TEXTURE_GROUP; TA_WRAP",
+    "master": "real release_antirepeat_layouts.py graph: 0 compile errors (-nullrhi), 521 stock nodes, 0 Custom, 48 ComponentMasks all 4 channels set, 9 fetches/pixel, TruncateLWC on the hash path",
+    "caveat": "-nullrhi compile is not the cook compile (ComponentMask trap): the cook log is checked for material failures before any capture",
+    "probeReceipts": "antirepeat-layoutsprobe-*.json in the receipt folder are records of the probe process only (P1 stub failure, P3 success)"
+   },
+   "layoutProof": {
+    "file": "SourceAssets/material-review/HerodianAshlarV5Layouts/layout-proof.json",
+    "status": "LAYOUT_SLICES_PROVED",
+    "stoneLengthsCm": [
+     127.05,
+     202.95
+    ],
+    "jointAtSwitchLines": "90 of 90",
+    "courseHeightsCm": [
+     101.52,
+     92.04,
+     106.44
+    ],
+    "diagonalJointMasksIdenticalPerType": true,
+    "poolColour": {
+     "R": 0.7522,
+     "BoverR": 0.8859
+    },
+    "bossBevelCm": 1.9,
+    "generation": "15 slices at 2048 on UE bundled Python 3.11, 3 workers, 175-231 s per slice"
+   },
+   "receipts": {
+    "trialReset": "SourceAssets/material-review/AntiRepeatV1/antirepeat-revert-Candidate48FrameTrial-20260911T040517062924Z.json",
+    "build": "SourceAssets/material-review/AntiRepeatV1/antirepeat-layoutsbuild-20260911T043003676054Z.json",
+    "buildVerify": "SourceAssets/material-review/AntiRepeatV1/antirepeat-layoutsverify-20260911T043045268715Z.json",
+    "applyTrial": "SourceAssets/material-review/AntiRepeatV1/antirepeat-apply-Candidate48FrameTrial-20260911T043107033892Z.json",
+    "verifyTrial": "SourceAssets/material-review/AntiRepeatV1/antirepeat-verify-Candidate48FrameTrial-20260911T043221442037Z.json"
+   },
+   "build": {
+    "newAssets": 50,
+    "imports": 45,
+    "arrays": {
+     "Albedo": "TC_DEFAULT sRGB, 53 MB",
+     "Normal": "TC_NORMALMAP, 104 MB",
+     "ARM": "TC_MASKS, 55 MB"
+    },
+    "arraySlices": 15,
+    "mips": "TMGS_FROM_TEXTURE_GROUP",
+    "master": "521 stock nodes, 0 Custom, 0 compile errors (-nullrhi), 9 fetches/pixel",
+    "trimReused": "9 attempt-3 Trim assets hash-checked unchanged",
+    "trialSlotsApplied": 1488
+   },
+   "cookArv4a": {
+    "archive": "C:/Mikdash/Builds/FrameTrial-arv4a-20260911T043414Z",
+    "status": "frame_trial_cooked",
+    "materialFailures": 0,
+    "mapHashesUnchangedByCook": true
+   },
+   "blocker": {
+    "symptom": "every capture (before AND after) crashes on load: ObjectSerializationError MikdashCrowdField_0 Bad export index 277503/16970",
+    "cause": "MikdashRuntime editor plugin rebuilt 04:29Z by the crowd-VAT pass (MikdashCrowdField.h/.cpp changed); staged game exe is the 09-10 22:10 build",
+    "notCausedByThisWork": "the untouched Candidate48 crashes identically; the cook reported no material/shader failure",
+    "fix": "Game-target build (UBT, not this agent), then rerun cook + capture only (chain_v4_cook_capture.ps1 -Label arv4c); a detached watcher does it when the exe is newer than the plugin DLL",
+    "thenMeasure": "measure_antirepeat_frame.py --sampling layouts --visual <json>; apply Candidate48 then Main50 ONLY on v2 PASS"
+   }
   }
  },
  "samplingAssets": {
@@ -888,6 +1142,551 @@
        "address": "TA_WRAP"
       }
      }
+    }
+   }
+  },
+  "layouts": {
+   "why": "2026-09-11, attempt 4: breaks the stone LAYOUT period itself, which attempt 3 (per-stone surface variants on one layout) could not: its rising-joint repeat measured x0.93. 1-D Wang edges per course with V5 bed joints; see Scripts/create_herodian_ashlar_layouts.py. Ashlar only: the Trim keeps attempt 3's per-stone variants instance, unchanged.",
+   "source": {
+    "folder": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts",
+    "textureFolder": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures",
+    "layoutJson": "SourceAssets/material-review/HerodianAshlarV5Layouts/layout.json",
+    "layoutProof": "SourceAssets/material-review/HerodianAshlarV5Layouts/layout-proof.json",
+    "imports": {
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S00_Albedo.png",
+      "kind": "Albedo",
+      "slice": 0,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S00_Normal.png",
+      "kind": "Normal",
+      "slice": 0,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S00_ARM.png",
+      "kind": "ARM",
+      "slice": 0,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S01_Albedo.png",
+      "kind": "Albedo",
+      "slice": 1,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S01_Normal.png",
+      "kind": "Normal",
+      "slice": 1,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S01_ARM.png",
+      "kind": "ARM",
+      "slice": 1,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S02_Albedo.png",
+      "kind": "Albedo",
+      "slice": 2,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S02_Normal.png",
+      "kind": "Normal",
+      "slice": 2,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S02_ARM.png",
+      "kind": "ARM",
+      "slice": 2,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S03_Albedo.png",
+      "kind": "Albedo",
+      "slice": 3,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S03_Normal.png",
+      "kind": "Normal",
+      "slice": 3,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S03_ARM.png",
+      "kind": "ARM",
+      "slice": 3,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S04_Albedo.png",
+      "kind": "Albedo",
+      "slice": 4,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S04_Normal.png",
+      "kind": "Normal",
+      "slice": 4,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S04_ARM.png",
+      "kind": "ARM",
+      "slice": 4,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S05_Albedo.png",
+      "kind": "Albedo",
+      "slice": 5,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S05_Normal.png",
+      "kind": "Normal",
+      "slice": 5,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S05_ARM.png",
+      "kind": "ARM",
+      "slice": 5,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S06_Albedo.png",
+      "kind": "Albedo",
+      "slice": 6,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S06_Normal.png",
+      "kind": "Normal",
+      "slice": 6,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S06_ARM.png",
+      "kind": "ARM",
+      "slice": 6,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S07_Albedo.png",
+      "kind": "Albedo",
+      "slice": 7,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S07_Normal.png",
+      "kind": "Normal",
+      "slice": 7,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S07_ARM.png",
+      "kind": "ARM",
+      "slice": 7,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S08_Albedo.png",
+      "kind": "Albedo",
+      "slice": 8,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S08_Normal.png",
+      "kind": "Normal",
+      "slice": 8,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S08_ARM.png",
+      "kind": "ARM",
+      "slice": 8,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S09_Albedo.png",
+      "kind": "Albedo",
+      "slice": 9,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S09_Normal.png",
+      "kind": "Normal",
+      "slice": 9,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S09_ARM.png",
+      "kind": "ARM",
+      "slice": 9,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S10_Albedo.png",
+      "kind": "Albedo",
+      "slice": 10,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S10_Normal.png",
+      "kind": "Normal",
+      "slice": 10,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S10_ARM.png",
+      "kind": "ARM",
+      "slice": 10,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S11_Albedo.png",
+      "kind": "Albedo",
+      "slice": 11,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S11_Normal.png",
+      "kind": "Normal",
+      "slice": 11,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S11_ARM.png",
+      "kind": "ARM",
+      "slice": 11,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S12_Albedo.png",
+      "kind": "Albedo",
+      "slice": 12,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S12_Normal.png",
+      "kind": "Normal",
+      "slice": 12,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S12_ARM.png",
+      "kind": "ARM",
+      "slice": 12,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S13_Albedo.png",
+      "kind": "Albedo",
+      "slice": 13,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S13_Normal.png",
+      "kind": "Normal",
+      "slice": 13,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S13_ARM.png",
+      "kind": "ARM",
+      "slice": 13,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S14_Albedo.png",
+      "kind": "Albedo",
+      "slice": 14,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S14_Normal.png",
+      "kind": "Normal",
+      "slice": 14,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S14_ARM.png",
+      "kind": "ARM",
+      "slice": 14,
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+     }
+    },
+    "arrays": {
+     "Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_Albedo",
+      "kind": "Albedo",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "slices": [
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_Albedo",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_Albedo",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_Albedo",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_Albedo",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_Albedo",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_Albedo",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_Albedo",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_Albedo",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_Albedo",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_Albedo",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_Albedo",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_Albedo",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_Albedo",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_Albedo",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_Albedo"
+      ]
+     },
+     "Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_Normal",
+      "kind": "Normal",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "slices": [
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_Normal",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_Normal",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_Normal",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_Normal",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_Normal",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_Normal",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_Normal",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_Normal",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_Normal",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_Normal",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_Normal",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_Normal",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_Normal",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_Normal",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_Normal"
+      ]
+     },
+     "ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_ARM",
+      "kind": "ARM",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "slices": [
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_ARM",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_ARM",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_ARM",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_ARM",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_ARM",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_ARM",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_ARM",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_ARM",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_ARM",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_ARM",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_ARM",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_ARM",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_ARM",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_ARM",
+       "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_ARM"
+      ]
+     }
+    }
+   },
+   "newMasters": {
+    "TriplanarLayouts": {
+     "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/M_AntiRepeat_TriplanarLayouts",
+     "modelledOn": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+     "blendExponent": 4.0,
+     "tangentSpaceNormal": false,
+     "textureParameters": {
+      "AlbedoArray": "SAMPLERTYPE_COLOR",
+      "NormalArray": "SAMPLERTYPE_NORMAL",
+      "ARMArray": "SAMPLERTYPE_MASKS"
+     },
+     "scalarParameters": [
+      "TilingCm",
+      "NormalStrength",
+      "RoughnessScale",
+      "Metallic",
+      "AlbedoFlatness",
+      "LayoutEnable"
+     ],
+     "vectorParameters": [
+      "Tint",
+      "LayoutQ0",
+      "LayoutQ1",
+      "LayoutQ2",
+      "LayoutP0",
+      "LayoutP1",
+      "LayoutP2",
+      "CourseBounds"
+     ],
+     "sliceIndex": "interior: a == b ? diag(a, vI) : 3a + b; left boundary stone: diag(a, vL); right: diag(b, vR); diag(x, 0) = 4x, diag(x, v>0) = 9 + 2x + (v - 1)",
+     "hash": "frac(sin(fmod(dot(float3(k, cy, salt), float3(12.9898, 78.233, 37.719)), 2 pi)) * 43758.5453); type = floor(3h), salt 0; surface salt course+10 (boundary) / course+20 (interior)",
+     "textureFetchesPerPixel": {
+      "before": 9,
+      "after": 9
+     }
+    },
+    "TriplanarVariants": {
+     "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/M_AntiRepeat_TriplanarVariants",
+     "modelledOn": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+     "blendExponent": 4.0,
+     "tangentSpaceNormal": false,
+     "variantSlots": [
+      "",
+      "_B",
+      "_C"
+     ],
+     "textureParameters": {
+      "Albedo": "SAMPLERTYPE_COLOR",
+      "Normal": "SAMPLERTYPE_NORMAL",
+      "ARM": "SAMPLERTYPE_MASKS",
+      "Albedo_B": "SAMPLERTYPE_COLOR",
+      "Normal_B": "SAMPLERTYPE_NORMAL",
+      "ARM_B": "SAMPLERTYPE_MASKS",
+      "Albedo_C": "SAMPLERTYPE_COLOR",
+      "Normal_C": "SAMPLERTYPE_NORMAL",
+      "ARM_C": "SAMPLERTYPE_MASKS",
+      "StoneKey": "SAMPLERTYPE_LINEAR_COLOR"
+     },
+     "scalarParameters": [
+      "TilingCm",
+      "NormalStrength",
+      "RoughnessScale",
+      "Metallic",
+      "AlbedoFlatness",
+      "VariantCount",
+      "VariantEnable"
+     ],
+     "vectorParameters": [
+      "Tint"
+     ],
+     "hash": "frac(sin(fmod(dot(float3(home, vcell, stone), float3(12.9898, 78.233, 37.719)), 2 pi)) * 43758.5453), stock nodes",
+     "textureFetchesPerPixel": {
+      "before": 9,
+      "after": 30
+     }
+    }
+   },
+   "instances": {
+    "Ashlar": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/MI_AntiRepeat_Ashlar_V5Layouts",
+    "Trim": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/MI_AntiRepeat_Trim_V5Variants"
+   },
+   "reusedFromVariants": {
+    "Trim": {
+     "instance": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/MI_AntiRepeat_Trim_V5Variants",
+     "master": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/M_AntiRepeat_TriplanarVariants",
+     "buildReceipt": "SourceAssets/material-review/AntiRepeatV1/antirepeat-variantsbuild-20260911T023748988488Z.json"
+    }
+   },
+   "variantOverrides": {
+    "Ashlar": {
+     "master": "TriplanarLayouts",
+     "macroNoise": false,
+     "schemeVariant": null,
+     "textures": {
+      "AlbedoArray": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_Albedo",
+      "NormalArray": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_Normal",
+      "ARMArray": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_ARM"
+     },
+     "scalars": {
+      "TilingCm": 300.0,
+      "NormalStrength": 1.0,
+      "RoughnessScale": 1.0,
+      "Metallic": 0.0,
+      "AlbedoFlatness": 0.0,
+      "LayoutEnable": 1.0
+     },
+     "tint": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "vectors": {
+      "LayoutQ0": [
+       0.4129999999999999,
+       0.36299999999999993,
+       0.31299999999999994,
+       0.0
+      ],
+      "LayoutP0": [
+       0.02666666666666667,
+       0.07666666666666666,
+       0.12666666666666668,
+       0.0
+      ],
+      "LayoutQ1": [
+       0.2968333333333334,
+       0.24683333333333338,
+       0.19683333333333336,
+       0.0
+      ],
+      "LayoutP1": [
+       0.12666666666666668,
+       0.17666666666666667,
+       0.22666666666666666,
+       0.0
+      ],
+      "LayoutQ2": [
+       0.19333333333333333,
+       0.14333333333333334,
+       0.09333333333333334,
+       0.0
+      ],
+      "LayoutP2": [
+       0.2501666666666667,
+       0.3001666666666667,
+       0.3501666666666667,
+       0.0
+      ],
+      "CourseBounds": [
+       0.33839035991218475,
+       0.6452046144266238,
+       0.0,
+       0.0
+      ],
+      "Tint": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "Trim": {
+     "master": "TriplanarVariants",
+     "macroNoise": false,
+     "schemeVariant": null,
+     "textures": {
+      "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Trim_Albedo",
+      "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Trim_Normal",
+      "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Trim_ARM",
+      "Albedo_B": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Trim_Albedo",
+      "Normal_B": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Trim_Normal",
+      "ARM_B": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Trim_ARM",
+      "Albedo_C": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Trim_Albedo",
+      "Normal_C": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Trim_Normal",
+      "ARM_C": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Trim_ARM",
+      "StoneKey": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5v_Trim_StoneKey"
+     },
+     "scalars": {
+      "TilingCm": 300.0,
+      "NormalStrength": 1.0,
+      "RoughnessScale": 1.0,
+      "Metallic": 0.0,
+      "AlbedoFlatness": 0.0,
+      "VariantCount": 3.0,
+      "VariantEnable": 1.0
+     },
+     "tint": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ]
     }
    }
   }

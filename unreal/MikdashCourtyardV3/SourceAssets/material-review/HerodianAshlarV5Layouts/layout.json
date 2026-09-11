@@ -1,0 +1,195 @@
+{
+ "scheme": "1-D Wang tiles per course, 3 boundary types hashed per (boundary k, cell row cy), aligned grid at u = 0",
+ "solver": "exact grid search (scratch layout_solve.py, 2026-09-11): lengths in [1.25H, 3.2H], stagger >= 30 cm within a cell row over all 81 type sequences, >= 35 cm across the cell-row bed joint over all independent pairs",
+ "heightsExact": [
+  101.51710797365543,
+  92.0442763543317,
+  106.43861567201289
+ ],
+ "heightsSource": "create_herodian_ashlar_v5.layout_courses(VARIANTS[Ashlar], Random(6120)): V5 bed joints, unchanged",
+ "jitterCm": 30.0,
+ "typeSpacingCm": 15.0,
+ "stagger": {
+  "within01": 30.0,
+  "within12": 31.049999999999955,
+  "cross20": 35.89999999999998
+ },
+ "courses": [
+  [
+   [
+    8.0,
+    123.89999999999998
+   ],
+   [
+    23.0,
+    108.89999999999998
+   ],
+   [
+    38.0,
+    93.89999999999998
+   ]
+  ],
+  [
+   [
+    38.0,
+    89.05000000000001
+   ],
+   [
+    53.0,
+    74.05000000000001
+   ],
+   [
+    68.0,
+    59.05000000000001
+   ]
+  ],
+  [
+   [
+    75.05000000000001,
+    58.0
+   ],
+   [
+    90.05000000000001,
+    43.0
+   ],
+   [
+    105.05000000000001,
+    28.0
+   ]
+  ]
+ ],
+ "courseNote": "courses[c][a] = [p, q]: type-a boundary stone runs -p .. +q cm about the boundary",
+ "stoneLengths": [
+  {
+   "boundary": [
+    131.9,
+    131.9,
+    131.9
+   ],
+   "interior": [
+    138.1,
+    153.1,
+    168.1,
+    183.1,
+    198.1
+   ]
+  },
+  {
+   "boundary": [
+    127.05,
+    127.05,
+    127.05
+   ],
+   "interior": [
+    142.95,
+    157.95,
+    172.95,
+    187.95,
+    202.95
+   ]
+  },
+  {
+   "boundary": [
+    133.05,
+    133.05,
+    133.05
+   ],
+   "interior": [
+    136.95,
+    151.95,
+    166.95,
+    181.95,
+    196.95
+   ]
+  }
+ ],
+ "surfaceSeeds": {
+  "0": 7004,
+  "1": 7100,
+  "2": 7205,
+  "3": 7305,
+  "4": 7405,
+  "5": 7502,
+  "6": 7607,
+  "7": 7703,
+  "8": 7803,
+  "9": 7902,
+  "10": 8004,
+  "11": 8105,
+  "12": 8202,
+  "13": 8302,
+  "14": 8405
+ },
+ "surfaceSeedScreen": {
+  "size": 128,
+  "poolMeanR": 0.7521,
+  "poolMeanBoverR": 0.886,
+  "target": {
+   "R": 0.752,
+   "BoverR": 0.886,
+   "source": "attempt-3 pool target (AGENTS.md: Ashlar R 0.752, B/R 0.886)"
+  },
+  "perSlice": {
+   "0": [
+    0.7303,
+    0.899
+   ],
+   "1": [
+    0.7414,
+    0.887
+   ],
+   "2": [
+    0.7645,
+    0.881
+   ],
+   "3": [
+    0.7538,
+    0.884
+   ],
+   "4": [
+    0.7582,
+    0.891
+   ],
+   "5": [
+    0.7496,
+    0.902
+   ],
+   "6": [
+    0.7681,
+    0.895
+   ],
+   "7": [
+    0.7419,
+    0.886
+   ],
+   "8": [
+    0.7503,
+    0.881
+   ],
+   "9": [
+    0.7577,
+    0.887
+   ],
+   "10": [
+    0.7564,
+    0.886
+   ],
+   "11": [
+    0.7491,
+    0.878
+   ],
+   "12": [
+    0.7515,
+    0.869
+   ],
+   "13": [
+    0.7494,
+    0.874
+   ],
+   "14": [
+    0.759,
+    0.89
+   ]
+  }
+ }
+}

@@ -498,13 +498,37 @@ def layout_courses(cfg, rng):
     return heights, courses
 
 
+def explicit_courses(cfg, heights, layout, surface_rng):
+    """Anti-repeat LAYOUT slices (2026-09-11): the stones of each course come from `layout` instead of the layout
+    rng, while the course heights (so every bed joint) stay V5's own. layout = [[(x0_cm, L_cm), ...] per course],
+    the stones of one course partitioning the 300 cm row cyclically (x0 may be negative: a stone straddling u = 0,
+    which the renderer wraps inside this one texture). Every surface draw comes from surface_rng, in stone order."""
+    if len(layout) != len(heights):
+        raise RuntimeError('layout has %d courses, V5 has %d' % (len(layout), len(heights)))
+    courses, y0 = [], 0.0
+    for c, H in enumerate(heights):
+        stones = sorted(((x0 % TILE_CM), L) for x0, L in layout[c])
+        total = sum(L for _, L in stones)
+        if abs(total - TILE_CM) > 1e-6:
+            raise RuntimeError('course %d stones sum to %.6f cm, not %.0f' % (c, total, TILE_CM))
+        for (xa, La), (xb, _) in zip(stones, stones[1:] + [(stones[0][0] + TILE_CM, 0)]):
+            if abs(xa + La - xb) > 1e-6:
+                raise RuntimeError('course %d is not a partition at %.4f cm' % (c, xa + La))
+        courses.append([draw_block_surface(cfg, surface_rng, L, H, x0, y0) for x0, L in stones])
+        y0 += H
+    return courses
+
+
 # ------------------------------------------------------------------------------------- render
-def generate(name, cfg, size, log, surface_seed=None):
+def generate(name, cfg, size, log, surface_seed=None, layout=None):
     t0 = time.time()
     rng = random.Random(cfg['seed'])
     px = TILE_CM / size                      # cm per pixel
     heights, courses = layout_courses(cfg, rng)
-    if surface_seed is not None:
+    if layout is not None:
+        # anti-repeat LAYOUT slice: V5's course heights (bed joints), stones from the layout, surface from the seed
+        courses = explicit_courses(cfg, heights, layout, random.Random(surface_seed))
+    elif surface_seed is not None:
         # anti-repeat tile variant: same stones and joints, every surface draw re-rolled (reroll_surface)
         courses = reroll_surface(cfg, courses, random.Random(surface_seed))
     bounds = []

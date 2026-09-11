@@ -1,0 +1,2257 @@
+{
+  "status": "BUILT_SAVED_READBACK_APPLY_PENDING",
+  "mode": "layoutsbuild",
+  "stamp": "20260911T043003676054Z",
+  "target": null,
+  "map": null,
+  "instruction": "Shmuel, verbatim, 2026-09-09: \"I don't wanna see, like, repeating patterns all over.\" The Herodian ashlar is a 300 cm tile, so on a 60 m wall the same five stones appear 20 times in a grid; the Jerusalem paving is a 500 cm tile over the courts and the mount platform. The textures are accepted and are NOT re-authored: the repetition is broken in the material graph.",
+  "priority": 1,
+  "specSha256": "766b8895f5504c9f79d4d453c62cc220b732e0e4c303877c2efb55c866495609",
+  "scriptSha256": "f75318d996fb716e1f0df9b8f5154bb3b5e97684b52e05004aeb6457aae06f88",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "commandLine": " C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject -run=pythonscript -unattended -nullrhi -abslog=C:/Mikdash/Working-5.8/ARLayoutRuns/E2-layouts-build.log -script=C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_antirepeat_layouts.py -ARLayoutsBuild",
+  "allowCountDrift": false,
+  "errors": [],
+  "stages": [
+    {
+      "stage": "checked",
+      "utc": "2026-09-11T04:30:09.654557+00:00"
+    },
+    {
+      "stage": "imported",
+      "utc": "2026-09-11T04:30:19.141348+00:00",
+      "count": 45
+    },
+    {
+      "stage": "array_saved_Albedo",
+      "utc": "2026-09-11T04:30:20.955870+00:00"
+    },
+    {
+      "stage": "array_saved_Normal",
+      "utc": "2026-09-11T04:30:22.919418+00:00"
+    },
+    {
+      "stage": "array_saved_ARM",
+      "utc": "2026-09-11T04:30:24.657712+00:00"
+    },
+    {
+      "stage": "master_saved",
+      "utc": "2026-09-11T04:30:24.891415+00:00"
+    },
+    {
+      "stage": "instance_saved",
+      "utc": "2026-09-11T04:30:24.903926+00:00"
+    }
+  ],
+  "samplingMode": "layouts",
+  "samplingModeNote": "No UV warp. 15 Herodian Ashlar LAYOUT slices (1-D Wang edges per course, V5 bed joints) in Texture2DArrays; every 300 cm boundary carries 1 of 3 boundary-stone types, hashed per cell row; slice switches happen only at joints (analytic thresholds), boundary stones render from a diagonal slice where they wrap inside one texture. Implicit samplers, stock nodes, no Custom node. Built by Scripts/release_antirepeat_layouts.py.",
+  "allowMirrorAddress": false,
+  "layoutsScript": "Scripts/release_antirepeat_layouts.py",
+  "layoutsScriptSha256": "789caf0340868d614ebe1cc5664f4d63cec16432ef844b0fcfa79ae462da0004",
+  "scope": {
+    "priority": 1,
+    "variants": [
+      "Ashlar",
+      "Trim"
+    ],
+    "masters": [
+      "TriplanarLayouts",
+      "TriplanarVariants"
+    ],
+    "masterAssets": {
+      "TriplanarLayouts": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/M_AntiRepeat_TriplanarLayouts",
+      "TriplanarVariants": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/M_AntiRepeat_TriplanarVariants"
+    },
+    "instanceAssets": {
+      "Ashlar": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/MI_AntiRepeat_Ashlar_V5Layouts",
+      "Trim": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/MI_AntiRepeat_Trim_V5Variants"
+    }
+  },
+  "sourceProof": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/layout-proof.json",
+    "sha256": "0119b25c0031b513d319167ff1928ef0aa8fb96abd56effcfab0ef56405b003f",
+    "status": "LAYOUT_SLICES_PROVED",
+    "checks": {
+      "min": 127.05,
+      "max": 202.95,
+      "rule": "1.25 H .. 3.2 H per course (V5)",
+      "violations": []
+    }
+  },
+  "reusedAssets": {
+    "Trim": {
+      "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Trim_Albedo": {
+        "variantsBuild": "3f4c82c639399e1df5e0aaccbff9de84ad40c560a109207ca1bb54953e632a06",
+        "now": "3f4c82c639399e1df5e0aaccbff9de84ad40c560a109207ca1bb54953e632a06"
+      },
+      "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Trim_Normal": {
+        "variantsBuild": "8d2f90392e97d81a08452cd7f33779028dfae1e26529fe250db091bc2ffa4023",
+        "now": "8d2f90392e97d81a08452cd7f33779028dfae1e26529fe250db091bc2ffa4023"
+      },
+      "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Trim_ARM": {
+        "variantsBuild": "ea31d5013dafd556bb087a3b030a46594bff9fcc91ddbf45439090071bbbf9a2",
+        "now": "ea31d5013dafd556bb087a3b030a46594bff9fcc91ddbf45439090071bbbf9a2"
+      },
+      "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Trim_Albedo": {
+        "variantsBuild": "7364a90a070b89dbcb8ffa38d625e8c8bed30d2691b5a4b9f02966f7e0df856f",
+        "now": "7364a90a070b89dbcb8ffa38d625e8c8bed30d2691b5a4b9f02966f7e0df856f"
+      },
+      "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Trim_Normal": {
+        "variantsBuild": "4f7c162a22065d5f27fcbe4daa6f5e211b976aa2145d8fb911072c903bb3ba04",
+        "now": "4f7c162a22065d5f27fcbe4daa6f5e211b976aa2145d8fb911072c903bb3ba04"
+      },
+      "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Trim_ARM": {
+        "variantsBuild": "3013eb9d4e4fe1ee6ef05e81826f1819551628440cb31bf16476da6e190f8b1e",
+        "now": "3013eb9d4e4fe1ee6ef05e81826f1819551628440cb31bf16476da6e190f8b1e"
+      },
+      "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5v_Trim_StoneKey": {
+        "variantsBuild": "5eefd792180b5feb8a04b50edafb89f6418f55cc99504e6441355b01c84f7517",
+        "now": "5eefd792180b5feb8a04b50edafb89f6418f55cc99504e6441355b01c84f7517"
+      },
+      "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/M_AntiRepeat_TriplanarVariants": {
+        "variantsBuild": "c2dd7110bb88e8820e61eee32125f1c5fedc09774319a2eeea9c20c60b7ca946",
+        "now": "c2dd7110bb88e8820e61eee32125f1c5fedc09774319a2eeea9c20c60b7ca946"
+      },
+      "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/MI_AntiRepeat_Trim_V5Variants": {
+        "variantsBuild": "25ce8acc39a20604d4897f93ab90166459e6d589640f526c5f17a37f987b5cb5",
+        "now": "25ce8acc39a20604d4897f93ab90166459e6d589640f526c5f17a37f987b5cb5"
+      }
+    }
+  },
+  "buildCheckpoint": {
+    "path": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\AntiRepeat-LayoutsBuild-20260911T043003676054Z",
+    "files": {
+      "M_AntiRepeat_Planar.uasset": "8c930f08bfcb4c146461058be03a0f11a2019025cd7c8289f173d791bcab9b4c",
+      "M_AntiRepeat_Triplanar.uasset": "cb765d5632a837f876eabd3f157d6be07c836db8dae0d8ca8deb91e59ba3785a",
+      "M_AntiRepeat_Triplanar_Implicit.uasset": "631b6a726bbb3bc665c1af2bf5ff2cd5ca5a3d836b2b144590ada438bd04d925",
+      "MI_AntiRepeat_Ashlar.uasset": "ca9b0119718d924f6248ae949fcd55c19e36efce3cd41bfe5e617f5f0744f4af",
+      "MI_AntiRepeat_Ashlar_V5_Implicit.uasset": "550afaed9a4b074c58efdf51c029999a49e1e1753ddf8c52f0123350f63fc583",
+      "MI_AntiRepeat_JerusalemFloorSlabs.uasset": "f3406f91facfab02f3ead35bf94ec35c146aae3a4d09910d958807d86aa90eba",
+      "MI_AntiRepeat_JerusalemPaving.uasset": "c40e5e49940070e8d00721515e231da5a468869068b30b1a74e885c36ca56351",
+      "MI_AntiRepeat_PavingSlabs.uasset": "1f71c6cb6ab21ce4d36c8b15955365e442c439a32d9b9414080a59c7bb05b037",
+      "MI_AntiRepeat_Trim.uasset": "cc357eee8171a331164528821afcc1f6b41542aff1e1f483df25a3cd73068be3",
+      "MI_AntiRepeat_Trim_V5_Implicit.uasset": "47281d9213a1d7a6c246548f2fde19bc904bc1d28faf62eae64e9aefc19f1eac",
+      "Textures/T_AntiRepeat_MacroNoise.uasset": "b785ea1f4ce8ebd86cd5c4b61e20e890099600b072928e0c4d9795fb6f0c907a",
+      "Variants/M_AntiRepeat_TriplanarVariants.uasset": "c2dd7110bb88e8820e61eee32125f1c5fedc09774319a2eeea9c20c60b7ca946",
+      "Variants/MI_AntiRepeat_Ashlar_V5Variants.uasset": "2eec81198387a27cf148b62e8eaf873ee77b333d708b06d0330a6e51239c3a8e",
+      "Variants/MI_AntiRepeat_Trim_V5Variants.uasset": "25ce8acc39a20604d4897f93ab90166459e6d589640f526c5f17a37f987b5cb5",
+      "Variants/Textures/T_HerodianV5v_Ashlar_StoneKey.uasset": "424d672b4fe8db97f09928a14c26de4f44ddf32f4c44599300fd82d269176d41",
+      "Variants/Textures/T_HerodianV5v_Trim_StoneKey.uasset": "5eefd792180b5feb8a04b50edafb89f6418f55cc99504e6441355b01c84f7517",
+      "Variants/Textures/T_HerodianV5vB_Ashlar_Albedo.uasset": "423b697eafc9cb61f94918c037f6343e87c2ff1a6a20df8b15b8f31874d9c73c",
+      "Variants/Textures/T_HerodianV5vB_Ashlar_ARM.uasset": "4cb011c767583a6338c4a50aa6499b6c0fa22f8ecd348f24eaf30eac261fcee8",
+      "Variants/Textures/T_HerodianV5vB_Ashlar_Normal.uasset": "7fc0901555201a288748e2d9e186cacc0faeab312a23f56521d033292d873427",
+      "Variants/Textures/T_HerodianV5vB_Trim_Albedo.uasset": "3f4c82c639399e1df5e0aaccbff9de84ad40c560a109207ca1bb54953e632a06",
+      "Variants/Textures/T_HerodianV5vB_Trim_ARM.uasset": "ea31d5013dafd556bb087a3b030a46594bff9fcc91ddbf45439090071bbbf9a2",
+      "Variants/Textures/T_HerodianV5vB_Trim_Normal.uasset": "8d2f90392e97d81a08452cd7f33779028dfae1e26529fe250db091bc2ffa4023",
+      "Variants/Textures/T_HerodianV5vC_Ashlar_Albedo.uasset": "21a42c075704195009d4442b15a3fca3c202e6b7ede663ef06e3131c57dffc1c",
+      "Variants/Textures/T_HerodianV5vC_Ashlar_ARM.uasset": "07201de5b4a86dd358ec76aff78edc10ca7f430ff4f8852a3b81af199b3e7904",
+      "Variants/Textures/T_HerodianV5vC_Ashlar_Normal.uasset": "aa39e648d1103dabeef5984cae60a7287aa8646bbe865bdaa515a6b6d3f5526d",
+      "Variants/Textures/T_HerodianV5vC_Trim_Albedo.uasset": "7364a90a070b89dbcb8ffa38d625e8c8bed30d2691b5a4b9f02966f7e0df856f",
+      "Variants/Textures/T_HerodianV5vC_Trim_ARM.uasset": "3013eb9d4e4fe1ee6ef05e81826f1819551628440cb31bf16476da6e190f8b1e",
+      "Variants/Textures/T_HerodianV5vC_Trim_Normal.uasset": "4f7c162a22065d5f27fcbe4daa6f5e211b976aa2145d8fb911072c903bb3ba04"
+    }
+  },
+  "protectedBefore": {
+    "Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap": "4851ad9e6cdcbffa5078e4e95c545304964257272bbc552cee644e1052f5280b",
+    "Content\\MikdashV3\\FutureMountV1\\L_FutureMount.umap": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap": "f9d6453ec8dbb7d7a604d8f5bacab02257613c947bce8a9cf2b77198fb3eefc5",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\ExteriorFixesV1\\MI_M_Context_Asphalt_ExteriorV1.uasset": "9b6b52ddae5b54d0693ba29bd859f036c9e756dc83f4c842e77376871e6d6ac9",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\ExteriorFixesV1\\MI_M_Context_Building_ExteriorV1.uasset": "a64de0f94d57ee2034a160fc404e5b54098aad3300ffa5cfabdc5ed011d4ffde",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\ExteriorFixesV1\\MI_M_Context_CityWall_ExteriorV1.uasset": "44db78ca3d5c8ddbff89d9e47331777117fc6202fb3c6bdf4c29d15ffc43eaf1",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\ExteriorFixesV1\\MI_M_Context_StonePath_ExteriorV1.uasset": "914e42c64826f00a244b18935e3b322c8227162f176b1a596bd17088e4e82539",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\ExteriorFixesV1\\MI_M_Context_Terrain_ExteriorV1.uasset": "2dc7a0d4bf90312da87c449678786b779959908e91119ce3c826869dd193a632",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\M_Context_Asphalt.uasset": "58070251081e672850c4ba974eee9d47141314b24186434541bdde388f3d2406",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\M_Context_Building.uasset": "cebfd36d95292f2b9df53634d48c31a8cdaeacbab2fdef1ee4f8e0b986732c2a",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\M_Context_CityWall.uasset": "7b07fb41b03370d22d4975c17a3cd375a2cb5bdbbb0c6e8c9860523323962a96",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\M_Context_StonePath.uasset": "b20ce068b31cbbc8aaedb42d5c11a571e5462e27ad20b9ce09a15c019b0bea20",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\M_Context_Terrain.uasset": "6ac2561f9db4f8244d71273135311b84448db969f5f17a0feb7c16ce451ff62b",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_D.uasset": "a5ed5c25618900049d29bfbfad4beafd9707922481e9c2f4b4165bd1cdc022fd",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_N.uasset": "5af993d96a32d65d519e01839cf89ea02b1dd4b952c2663cc37d3dafd5fc376c",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_R.uasset": "0dd9f77b3a94cd15c421177bbfd04759f6021b05e9abe45a061ef69b7494258e",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_facade_limestone_D.uasset": "e9f1640d192bb8b5efcfc4846b5763804ff9db86507c5082e539c0396020f2a1",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_facade_limestone_N.uasset": "5e318d18b925851950c40530d1c3bbfba3c2dd85fdbe70f48fbce41c474db7f0",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_facade_limestone_R.uasset": "ef62a24ced1a008ef6f6eaba792a88426c484c59d64dea853a69dcb02ab3ebd1",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_ground_dry_rocky_D.uasset": "7d30db7d404921b2e461ec5ea029f898eb97f56e1ff2183b7fbac4d5495386b2",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_ground_dry_rocky_N.uasset": "abbaa4cfb94cc57768e971fd21044f3a52b339296f4231b66a261571369228bb",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_ground_dry_rocky_R.uasset": "bb12801d6cb71588818d20225d8362e4128fb903f33cb7b4eac832ff5e178aa3",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_path_cobble_limestone_D.uasset": "eaf4ab05ae55d7224a9d429c18366da07c45ea54ff51a55ddbfddf525206c89c",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_path_cobble_limestone_N.uasset": "526443f0e945a6bca7353e5d6c094db64df14e5e01e5f61e8533bee077699ada",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_path_cobble_limestone_R.uasset": "eb4a7fe2b146db224e3dfe6feaa9d37daed4c7a4f1e7f3b321254126b91da862",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_road_asphalt_D.uasset": "29a9de9f243af145c547fb155bb2f1a839f98ed9df072a355f3eeb4e159e3166",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_road_asphalt_N.uasset": "a3880e3ba4f041936f2dbd4eb32dbc434bb8517c8d8e9d81238bcb973761b548",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_road_asphalt_R.uasset": "e9716d1b9192a7f81a6cd37000338eadc1e42c050a7ad02a4f2bf9e62c63b1ed",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_scrub_dry_grass_D.uasset": "0beb6829abfb49d0d5b6d34650efb80bcc082a730a5b519212177443689527b7",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_scrub_dry_grass_N.uasset": "7eb7f18395bfccb95ffc8fbb870fffd87ca0f9dc195fbc958aa1af41d3103fb0",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_scrub_dry_grass_R.uasset": "5ba7afb1d994082a38ea2db875fa3ef4fadefdad1aece053bf622457da71aa7c",
+    "Content\\MikdashV3\\Maps\\Courtyard.umap": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "Content\\MikdashV3\\MaterialReview\\AntiRepeatV1\\Maps\\FrameTrial_Candidate48.umap": "323378d36701a59895b92832f265126ead2b0c392f8fb4983e28f1d0bb278b51",
+    "Content\\MikdashV3\\MaterialReview\\AtmospherePilotV1\\Maps\\CourtyardAtmosphere.umap": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\MI_HerodianV4_Ashlar.uasset": "7e18229f8d3b383e0ea51b97c2bcb81673fb11af43092dfe5de158920c465508",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\MI_HerodianV4_AshlarWeathered.uasset": "044f2f058268aad46144e6b1d890bd2288f6c3beed2e6a18def9f5aa34bebfd3",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\MI_HerodianV4_Trim.uasset": "5c6e70733ae7c4de67ffb141f8d1fae289ae521b26a5e773fa808922563f7ca3",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV4_Ashlar_Albedo.uasset": "73d3ef4904d1f243d9ae480abf93da0821090c8fc28abf86760dda7303db781b",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV4_Ashlar_ARM.uasset": "0a5bed1a4ec2af97580827e4452db3802262edd52385a40e7b95c5e7cbd87e2b",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV4_Ashlar_Normal.uasset": "e2791e21a81e4bb4b2cdc74249de33366592a23da584346bb3531cce63d81472",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV4_Trim_Albedo.uasset": "f74860664cea66dece556f7e0b14ca02b3752d6f0ae32a79c230efd5c6e50384",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV4_Trim_ARM.uasset": "89bc70409296561bc51253adef991525262471c3c44aedc0b77885e02778f078",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV4_Trim_Normal.uasset": "633bd1e9eb184c7346e8b2b117f7d61a55e3328876e2d42a39f7578b19e71049",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5_Ashlar_Albedo.uasset": "f5ab2ec870747ac207797a746e74f1700eb4e42b925fafbc6a07dab23a161352",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5_Ashlar_ARM.uasset": "696868772cdbc1a633aee6e656e53a5957561699cb791f64f607aa99b5108bed",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5_Ashlar_Normal.uasset": "191a5c7a5ea64a6db871844b977585056d8f4b1a4fcee07f623a3bb1db3f3f71",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5_Trim_Albedo.uasset": "a50e720c84a5248d244a1daa977e1c31b11305f7582b2b73004e1e07be46bc93",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5_Trim_ARM.uasset": "24d8a58f1310b7c2a9de56abae0e983f49d69fa90b23f512c394d02ff9823186",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5_Trim_Normal.uasset": "7545a83ead8d6d5a2304bcacc9cc47ba8b4ae9f8bc9c308a0e2b8aba25b7e7e4",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5b_Ashlar_Albedo.uasset": "c83a740cd7fc9f2d9708528e78cf617c02af0e3b5a4dd071dfc392bf2880b257",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5b_Ashlar_ARM.uasset": "9a23961f23aa77e428f9aa3919b5568793dabad8236b2bae5f8fcf4078ce0331",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5b_Ashlar_Normal.uasset": "bfdc0e490e96988cd5a33ef70597f0833813eab12250943ef1e47e8f60081682",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5b_Trim_Albedo.uasset": "1204135611458f4e8e6dbd0396e2bd2496fa0e4f19b9f60b61137a7b6b668a73",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5b_Trim_ARM.uasset": "66675d2a16ff1d1f8852ec9e2f7a9a031444df032cd0d0c8d62ffcba3c1c7a90",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5b_Trim_Normal.uasset": "b73d4058743b814cc764487d08f2a39dfb0621f76c5c873e445061000ce635ad",
+    "Content\\MikdashV3\\MaterialReview\\JerusalemFloorSlabsV1\\M_JerusalemFloorSlabs_500cm.uasset": "d8b7ea741e77fee629505d369c7571392c34c22bd0381f731a6aa7f568519a50",
+    "Content\\MikdashV3\\MaterialReview\\JerusalemPavingV2\\M_JerusalemPaving_500cm.uasset": "16512e926de9d00388a56fbc7ccb4970e48bffe93eb8ceea1c40c208dd55c318",
+    "Content\\MikdashV3\\MaterialReview\\JerusalemPavingV2\\T_JerusalemPaving_BaseColor.uasset": "d3f46754c34de48e1642eb9efc215c7c752c2d1c3ae1fc863d4112adee09ded7",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_0.uasset": "42306c15084ad019f38fb26bf79463cdea85c7264ee84d53496ff5a0ccf3211a",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_1.uasset": "f95bedcb6a2e972f325908000c0b52fe9d18f86a074ff12aa7189686048a6679",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_24.uasset": "21e679104ac983ca62d315b077e19b16bd6826ef680e551b7ea9f7dce411cacb",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_25.uasset": "3c99ebe16a7ec2cf1f997e770755e8461575fde5135e9f868f803cf3300fc1ca",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\T_KotelWallPhoto.uasset": "1bdef650c131a0fa42dbecb51002b793fba009d724e0eb5c6b8650c6fbe07ce0",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\M_KotelAshlarV2.uasset": "4002f954eace044b085c2dc624a1ca4952d2f962021bd62b8eb51adfb96775b3",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E0.uasset": "bbd600c069448aea36210f64494b66b957dfca3f3d82adc484218bbab436ca06",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E1.uasset": "d94bda840d3024e86559bd877cfff5cb844e638a7b4595ef2465a0b68cff98e3",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E24.uasset": "45f7e2074c3dffc26600c6a6e94a4813e583e7ae4506b56c707ee66b6fae78bf",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E25.uasset": "b9d2b74cdeddb6671cd3e028a4d2c57f7d86e2eb7cbc8c57f73bb7f5350cb1e5",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\MI_LimestoneV2_Ashlar.uasset": "8df8e5501cbd587493c0674ff4f872940b4f4c2e3ec7b0ed64da0f10d260da2c",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\MI_LimestoneV2_Trim.uasset": "29298e46b7a958ea007992981aaf96093e4a762b9f6dd002b92ae43d5dd49186",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Ashlar_Albedo.uasset": "0f5b1cb1c549b221fe12c835f6e19648fe8f9730e28f54b9322cd1498919901d",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Ashlar_ARM.uasset": "0482693acf9a4739de724f37b9e7b59fa0c56a6dc3beac24b3758ab976baf54c",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Ashlar_Normal.uasset": "2f68e42efd59bd8f6fa33d094ee8a228f9aa1496350dfa8fe41f1b249535cf80",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Trim_Albedo.uasset": "6b8b164d6b63bd8352e5c85178a23f783af52a00b1bffd654edc5fee556a11c8",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Trim_ARM.uasset": "b1b665dd38581b6e0daff22c3a4f5a2b59c1b01bfeb59c4ef92d0cc6b2b7b7d1",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Trim_Normal.uasset": "818c60b4f5306dec621f45e580221d3020ecb4fb020e5d2676c74022f0e48ebb",
+    "Content\\MikdashV3\\MaterialReview\\SanctuaryFinishesV1\\Maps\\CourtyardGold.umap": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_Albedo.uasset": "1eda131c2accd37572871fddeb8c84112b4b29adc0b0870eb01869cccc3165f1",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_ARM.uasset": "032a1819c27bbdd049639707ea6ce486f06b67fce3e8d85a62ba860dcfb79424",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_Height.uasset": "13840299ead16d898d0d6ae79c6afe1a37e75d0974df6efc1bb11c35309f2370",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_Normal.uasset": "d6c641e0954950aa35c0593011a1fc432ee8e04fefa7961606b997f49eeb4fd5",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_CedarPlanks.uasset": "6bd351c19bfa676df2716f44fc4a943660a177e6576133cf5667d0095648cce7",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_GoldFloor.uasset": "af725e303e00ce676347cacedd595044a3b556589975544e1cda952eed00c62f",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_GoldHammered.uasset": "298f28933d0df6d53687559d695871f216a350eee046c5a94fab4394242fcd04",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_LimestoneAshlar.uasset": "3ba277f255c35c5f7a97cd2a2ceeea3b616d070565d1db8d0281f926ca822011",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_LimestoneTrim.uasset": "debd00b106923949f0d017c6410823acfa1a4c5f17b51466b237fd594e2229df",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_Marble.uasset": "67f1742ef8a16724b4bd4c97a9aded75b3db7f2f30eb61b5b248a1274bd3b030",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_PavingInner.uasset": "337ed64d3705067c6aebc75145605d1e9b7c6e391996b0b3132a19997bc8fd07",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_PavingSlabs.uasset": "cb00d59d0bbadfe38558d7135ba1867e611ef3cbaaa802dbabf57456c7c1b75a",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_Plaster.uasset": "bf1e33d569fecde4e719dbd3ecc845fc8ddf68726449bbb7b5cc79cc011c44b6",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_RoughStone.uasset": "861c9ea605edcc800e541c65a9b79ff8a13cf0ec512c295481f48521b9fcc2ac",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_Albedo.uasset": "70ebaf05acccfcd8c9f97defaec21184c0e0d7940f5c55eaf9a13939ab5064a8",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_ARM.uasset": "a60241b01f6392748ae82aa33a4865698e87e1c4e467055727a6abf6c0f22370",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_Height.uasset": "d60910ca6d16727d284aee1101a81a7e612b8ec6c03e56c825c445e4d0dadc25",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_Normal.uasset": "4367db165b77d28c3344182bfabbb9c525def9ea0ae9eddc26b3407275136a3d",
+    "Content\\MikdashV3\\Materials\\PBR\\M_PBR_Tiled.uasset": "7a1aaf9db94dd1865ed1ca6ca94e7fc3439db0dd688e03cfedaa1da62da2fb34",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_Albedo.uasset": "e24886d7dc7a92dbff6fb47e5a413572d8b83ae96287775f0b86f5b295e222f2",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_ARM.uasset": "5460ce33c0d4e78c395c46451caec915470621fca1294010b306b647c284785d",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_Height.uasset": "8caf7472a30220cfd9261692a35746c392bb054aeaa28a55539d05a666525c2a",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_Normal.uasset": "4e5a16c4f2bbb28e815d21df5ecf2a9709f5d98702b68039dc43edac222e14fa",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_Albedo.uasset": "04b5fe066dcf3afc065bd41daba5d857490b1fdbc7e02c432152574ea6e658a1",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_ARM.uasset": "7468dcddf77e67ad10f7e4a6cfc6efea8f133e48d0e3c67124707085283acbe6",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_Height.uasset": "e2cee6661055a12018ae5f287a6d6615f46cc8b80dc4cf6100f28f99c47f02ee",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_Normal.uasset": "9e44a6ab31a1a3cec82ad497dc1dda2add41b901916b9b4380c6d64f5feff58c",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_Albedo.uasset": "055043611ed797c2db4f17543cd059ef765daa92cbbdc106b6e8bd9377ee8b1d",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_ARM.uasset": "ef45a0067f1e06f1a080e1f15552f90c2e88aa7fb47dfa7b750f21ecdf632a88",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_Height.uasset": "29da4790064c27b05745010b4a4de1f20d091bc2ef9326e6b6a9a05ea53a2300",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_Normal.uasset": "00cca8c06e4eaa364f915208d9be42a6b144d28a959f487adf036b1a3fe904c0",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_Albedo.uasset": "84a42fb842ca351a73bf0b9f240fbbaafecb118eb5e660a3deee00da3de68709",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_ARM.uasset": "4f7c3a1037ca8775523cbd488d5646fc9ccaf329f2fee7e76d9cb5a3160636f8",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_Height.uasset": "178ead4e26e183ce77991e8cc4b1c2ef18fad4483feec390d5937710f29435c1",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_Normal.uasset": "be1e0b21d430928afa927d53f46528bcde69c3e326e2d77fa282ad82ee02a2be",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_Albedo.uasset": "d982037860d79a1ae7cbf21a1014b40f4da36f2b0e944370c95426cce9fdf45d",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_ARM.uasset": "a916d3bc6acbdef093ed5ffb93b22d02eaadafbf8b61632b891d0593ac8c0db2",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_Height.uasset": "32b3766c8c6ceb5f045fefe0dfbf94bb205257ca246ef0b764cadc6ee99cedce",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_Normal.uasset": "329247b7dee8bd17bafe7e05cac15e5899860aaca4bddc15f17ca0ed01c8a173"
+  },
+  "parityBefore": {
+    "Ashlar": {
+      "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+      "class": "MaterialInstanceConstant",
+      "uassetSha256": "7e18229f8d3b383e0ea51b97c2bcb81673fb11af43092dfe5de158920c465508",
+      "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "textures": {
+        "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+        "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+        "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+      },
+      "tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "textures": {
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S00_Albedo.png",
+      "pngSha256": "cb84ce6465218e8e8161b0017bf58241149701402dce4fc9fd73585f9bb8820b",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "5b056b3657e57224ec053e10b969a1108fc97b37aa1cc5f6ea4a5e37500c1e54"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S00_Normal.png",
+      "pngSha256": "81d03b2d01edb5b24f572e988ef6f2c8927841de85d02aa1ca1513f8dfba7bce",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "845d6593fce6cfc7f98979cf6bcaa476b97f2e47161ddbe43c850acac4cd7dcf"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S00_ARM.png",
+      "pngSha256": "61dc553d63d5bb2c2039174f2e100b612f67e691d2b735ca107a1d763e6a014e",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "2293f0509bc2a9e29e43589ed287562dc6f542d044db466ce3b91737955b0d76"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S01_Albedo.png",
+      "pngSha256": "9df6100f9a0074043185702b6fa01d004c74918b5ec646d6498ba522310123c6",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "30910dcda6594f2b941b0cfb50115b81ffa1fae0dde497b1bdecbfb4b41162a6"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S01_Normal.png",
+      "pngSha256": "b7c5f6d2a7289948e075f2362658da2c20dc6e850c5caa1e897ecf2be4213d0d",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "14c50cb0a12c4877d0d4131c378c661c711e0813410a3e81002b01976c2ffcf6"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S01_ARM.png",
+      "pngSha256": "0ced1f2d8bcc0ef7b7fe414f563862c54d5e291b305072fe30252984513386c8",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "17894a4a13ea68160a3ccb8fb42d1f7517d4f9088caabb55e30dcc73009392d2"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S02_Albedo.png",
+      "pngSha256": "3b78a18cfef859d3314aeaadfca7dca67b7430d428373a8ebe0dc245853b3eff",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "9c6559b3d38eb594d41bb5252663731264d7c4b1c9271985d926034c23ee7b71"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S02_Normal.png",
+      "pngSha256": "f2bb11c54ed6c306a936ead967741feae8221ad9845593e206b6b7714e6bbcfe",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "4815c115d561a8e237c9b9f4a397ef8f9034b7509e8fc319601d278771b3a1e0"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S02_ARM.png",
+      "pngSha256": "eef07a1d7f0ef12adda6bf342c313a526ce7708abb11a39aa98fe2f588c9610d",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "57976297acff10f334f451e21bac105bf98f6d269fcd8ca911ff67f88389b9a2"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S03_Albedo.png",
+      "pngSha256": "39cb2f67a48c8ca162f88a66e68fdaf4389e9b46483f1b9634293a2a88d76912",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "3ccd61dfa2ac3e89f52fc381d75d33ff8be7bfd0f6a8024a9170d2ac02f3dd29"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S03_Normal.png",
+      "pngSha256": "9b22825fc9ed4befcd1cb488687d2f612a8bed15b3bf3cee0f0b138766ae1117",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "1b119c5f831058bf831ee75332e8ef12c5438ee0719a559c621841e7ee97a7cc"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S03_ARM.png",
+      "pngSha256": "a5cb7429a3b2c181bed30412f3b43fcb51692771a96a7b605636ae7037b98940",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "02d3bdbf2b9c8679977fa3cf41dad96c5edeb19eaefc3bb7e8cfee30027a34c0"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S04_Albedo.png",
+      "pngSha256": "e85da7452b45ecb6840f1ffe907de00457936502077be7c19a231c83b8fb02dc",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "74cfd295d0aeeab164775f204c5553d18b2fa531eea483d0255f17fdbdcec37b"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S04_Normal.png",
+      "pngSha256": "4eaae3e91ed24984e145946fff70859f04e6f585aaf18df881462953516703bd",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "ad71ba2b051c83ef2e7d7ccf9dfe032f8343d7876379f45da63c475951ecce1d"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S04_ARM.png",
+      "pngSha256": "f931d07be76979e5fc97a31f5fb0a08c3cb4235a9cdd45653e08839cdb4b1b8a",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "dfa4c4940d6394168b6aa4e80feeae379095f4e446cbef96066c95a31f3ca031"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S05_Albedo.png",
+      "pngSha256": "fd0b6dcf129d15bee71d88dfc95466a0c2f22f9c2e62b23e36e8c7b43df67f11",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "51aa5479ebd4835703816dd4ff67e3abd3dce71f89a837fef4681776be3fb2ca"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S05_Normal.png",
+      "pngSha256": "a029cc833751c3a2c3c2f91305b2962de0a99f6b90d80c281e43a97a5a7b172f",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "16a453ccc2432c8e135ca07d33e1f0ba1b56952316d52198b19e8073d783a0d8"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S05_ARM.png",
+      "pngSha256": "3e99b8c08f48585fa4040ddc6d640585e1b5688dad52dae3c84a89e4744b3796",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "046c40a49c6f1c18e4f0302219d9ff9bfa4a465e88b3a4b6abdb686d7abc5078"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S06_Albedo.png",
+      "pngSha256": "2c7ea0ccb6d8dd5fd256eb3b40431701446f0c4f5220c43640264d69f28eb023",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "9e6a79a806103ee4dc2013cc0c0acf7da5c6fa713918ce8d3481d7845fae1034"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S06_Normal.png",
+      "pngSha256": "27ea1cffc29c3c84d5fd15e80e395463147dc43b65784e0905588833c253df4b",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "778201a7d35c162e038872945aafe09b026b540def0c097254029ff910388fce"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S06_ARM.png",
+      "pngSha256": "f44811aa32ba1345c2e09fa7e7bd3dbbd500fff7c3e458177ff45b7137dc9b2b",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "4ea7c78aeb9ba75b8b8b019d26d5dc53ceb300b466a11c75546d2763316eabaf"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S07_Albedo.png",
+      "pngSha256": "201361c0fc043b7b3e3d935ea6007b436e6fd875556e633c5a10aef6903ffd67",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "c003dfc2362881b1e46ad08a845557abb63d79b43ce6410cb0fae703c96960f3"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S07_Normal.png",
+      "pngSha256": "d02c7fa4dbeb0ac4f83f38049b6326b17e6d0d52ce74b0bed9304e69b82ef555",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "8c6903986b6d55d99e5ad1c8cd6043e54173ef861757cc550e7a449ab485e676"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S07_ARM.png",
+      "pngSha256": "1dcedd952b9c6c3bc8179b5d1cfcf21c82c21a4a6697367e4aa9277a43f93569",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "755a973940194e8b94e3b4d1a5c0961612c6ec2eff1b13878d71464c88447d22"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S08_Albedo.png",
+      "pngSha256": "622f62f5f468fd5abeb48339d0935c1efb226392efce0fa39a02517f60445473",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "b91cbd7b39fdbbe9f751fd8a49984c9892f78d44fb9e8872c5c7038087d7fcbe"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S08_Normal.png",
+      "pngSha256": "c96ecf0034fc6dbd024e7bbb0d9f971f71854b7491825b2b60ba4ecc1c172412",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "c526d7ce2433b250f34ef79c036e38f688f5065b056b1f2cf187dcabbaf36975"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S08_ARM.png",
+      "pngSha256": "420bc11c1a17217ac31c032a6376347647253fb0a11035051208627a19f0368e",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "b41d16e0db6cdac58de25454dc02f31ad993c984007d8ca07c3bdeae4b366bf8"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S09_Albedo.png",
+      "pngSha256": "9e0a60044d90882992e413b3e573fc50635ec56a198cb39f48cef865a4c44baf",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "038db66d42713caf831c15a1891a16bcdc7c0cefd311fd35361d858ab6e27a6b"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S09_Normal.png",
+      "pngSha256": "ef0ca4b45a323b48bcdd73316348471abb966021f179d61e0f78ccafa168bbc5",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "76dc5d6d8f3d2dd83285d455f53fb12145d562b2a4b1935d700638db205707d8"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S09_ARM.png",
+      "pngSha256": "5cbfa39d3b6b3cd5e01e2b3142b0e2379569fd6209bbebcea94a440e52db978f",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "61a566717bea5be319c7374bb52d353ff828d3feeccdb17a6bc8eb79554d3758"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S10_Albedo.png",
+      "pngSha256": "1fe8652f57e66cc32469d620d9fd3eae41600142bdde6123846bc00e3c0ad8f9",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "8c75c3a1eb10beca802006032f1b1d2a714fdce241a6069a651fbdecc033d2cc"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S10_Normal.png",
+      "pngSha256": "4bd3bd793d525494b2c93225f43011c261e942b41ea0dd14ed7820bda0e0d52e",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "7530ad6121f051d3025f9caf90018051c1ff5b8dcebab3b8c7c6d382aedadd8e"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S10_ARM.png",
+      "pngSha256": "b965eb7dad7eb58c43f64ddaff4819f100805d53ef4101cd7aaf40e8db2fb997",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "fb532938ad8ec6722c04a19047f8bc7638ecc7a7223a727c16921ab1e93ecafd"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S11_Albedo.png",
+      "pngSha256": "66a9919fe9054c4defe677995d29b734120e1786c5dee091339b1ca4964bc7e0",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "52287dcabbb759f1acb1f2e248474fea6840963607f6b4325a9b05ce3eed7376"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S11_Normal.png",
+      "pngSha256": "44edc9a3be214466ad59d39253afce143fad37947d13749761aff088974dd212",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "db823655a98b14459e122ef0947700c1ff3475acf06ed11d1343cd3d4bf27208"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S11_ARM.png",
+      "pngSha256": "583dd66fa3e185370f59d888587379f4453837dcc7ca148e16f5fe18c7f87e58",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "a94ab8db4dfe1be277154bba68d04664ced42d5e1233f93d0d7b8f85402dbe6c"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S12_Albedo.png",
+      "pngSha256": "60e39d4d52136b4f8a53d4efdf87942914cdb04d4f3b4545caeabcb795f99e9f",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "caac890fd053df90b66954e9dc0021855b20939db09afe2ac2d4a79632de7f90"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S12_Normal.png",
+      "pngSha256": "68368bd19e2482127221e5a0339bf9cc8be27c367a179626f434e558c3b97be6",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "2c91f8b57ca1ae86eaf33c9c040d37f890f3ac664ef44ff4d421ffae680cdf96"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S12_ARM.png",
+      "pngSha256": "a5999de03bc91b8d49ba803a2a3ca00775dec847dbb41bc5ce4d3aa971e0c096",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "e9758dd59b6adfbde93c815b823c8cb92c3d8a6642c677a45420203fc3a20528"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S13_Albedo.png",
+      "pngSha256": "3aa1cd82034ca27dc1ef4ec59c305b6faa92d6cf33afbc69a2b1489e2bdea43a",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "45d84b5ca0b56f9d007be0dbee09851223d0a685ebd3465e247e44dfe5d010bb"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S13_Normal.png",
+      "pngSha256": "a8edac195888367dabe731bf0601fcec28c96714a2e309fa543a86b170ac99ab",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "a698bf3d5a16815cc60eba8d15b85078e8388407a1b992c6866c9d908a80c003"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S13_ARM.png",
+      "pngSha256": "14e7d6629877a5ece4613e493b292df8afe4ead7f00e65e90e130213a366e587",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "8d1b6d5836653c694569af75bb0e08b464e36b597023eb9c5bfe92723f226a10"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_Albedo",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S14_Albedo.png",
+      "pngSha256": "c6c0b693e622df33573f0a1e0525fdcfe318667200f2e6288f076698a5ecefcf",
+      "kind": "Albedo",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_Albedo",
+        "class": "Texture2D",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "d7154776ce966435f2664c543d1a1992c96b4c9d897361d6498144acd61f62e6"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_Normal",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S14_Normal.png",
+      "pngSha256": "ad59a1ec689bf727d784cdf0138c2ea2a2594d86a3f72ad78cb64851d71acdde",
+      "kind": "Normal",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_Normal",
+        "class": "Texture2D",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "8fb22cda82bf2cb5c1333226bf31145f0361fd6fbb3e925b5cacf120f3ec5ab9"
+    },
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_ARM",
+      "png": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S14_ARM.png",
+      "pngSha256": "f39ce19626cbc7c86bfa007f44ec9aec7b346e60a8fac7c0aaf9df9b7ca6b8e4",
+      "kind": "ARM",
+      "settingsNotCopied": {},
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_ARM",
+        "class": "Texture2D",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "filter": "TF_DEFAULT",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "virtual_texture_streaming": false,
+        "lod_bias": 0,
+        "max_texture_size": 0,
+        "flip_green_channel": false,
+        "never_stream": false,
+        "compression_no_alpha": false,
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      "uassetSha256": "8c8c15d65d8ed784b8e10a5b8f8b0ba13f058678be56e2545b42d6056def3336"
+    }
+  },
+  "arrays": {
+    "Albedo": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_Albedo",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_Albedo",
+        "class": "Texture2DArray",
+        "compression_settings": "TC_DEFAULT",
+        "srgb": true,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "address_z": "TA_CLAMP",
+        "never_stream": true,
+        "sourceTextures": [
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_Albedo",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_Albedo",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_Albedo",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_Albedo",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_Albedo",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_Albedo",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_Albedo",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_Albedo",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_Albedo",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_Albedo",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_Albedo",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_Albedo",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_Albedo",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_Albedo",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_Albedo"
+        ]
+      },
+      "uassetSha256": "38e91f3247c24ad23e1266b9ebba0097255d04512000516c992d9328f489c715",
+      "uassetBytes": 53234710
+    },
+    "Normal": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_Normal",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_Normal",
+        "class": "Texture2DArray",
+        "compression_settings": "TC_NORMALMAP",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD_NORMAL_MAP",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "address_z": "TA_CLAMP",
+        "never_stream": true,
+        "sourceTextures": [
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_Normal",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_Normal",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_Normal",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_Normal",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_Normal",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_Normal",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_Normal",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_Normal",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_Normal",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_Normal",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_Normal",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_Normal",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_Normal",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_Normal",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_Normal"
+        ]
+      },
+      "uassetSha256": "324c1febea4c99f40f2b7e2518f6839d05e818df8b24257b75039e1e047e6094",
+      "uassetBytes": 104448549
+    },
+    "ARM": {
+      "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_ARM",
+      "readback": {
+        "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_ARM",
+        "class": "Texture2DArray",
+        "compression_settings": "TC_MASKS",
+        "srgb": false,
+        "lod_group": "TEXTUREGROUP_WORLD",
+        "mip_gen_settings": "TMGS_FROM_TEXTURE_GROUP",
+        "address_x": "TA_WRAP",
+        "address_y": "TA_WRAP",
+        "address_z": "TA_CLAMP",
+        "never_stream": true,
+        "sourceTextures": [
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_ARM",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_ARM",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_ARM",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_ARM",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_ARM",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_ARM",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_ARM",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_ARM",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_ARM",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_ARM",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_ARM",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_ARM",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_ARM",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_ARM",
+          "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_ARM"
+        ]
+      },
+      "uassetSha256": "31f9f7f07f9d7b12f1f92b28b24af6a51aa2fce6bf90a505a5434067bc162288",
+      "uassetBytes": 54758281
+    }
+  },
+  "resolvedPinNames": {
+    "MaterialExpressionDivide": {
+      "A": "A",
+      "B": "B"
+    },
+    "MaterialExpressionComponentMask": {
+      "Input": "None"
+    },
+    "MaterialExpressionTruncateLWC": {
+      "Input": "None"
+    },
+    "MaterialExpressionAbs": {
+      "Input": "None"
+    },
+    "MaterialExpressionPower": {
+      "Base": "Base"
+    },
+    "MaterialExpressionDotProduct": {
+      "A": "A",
+      "B": "B"
+    },
+    "MaterialExpressionFloor": {
+      "Input": "None"
+    },
+    "MaterialExpressionFrac": {
+      "Input": "None"
+    },
+    "MaterialExpressionSubtract": {
+      "A": "A",
+      "B": "B"
+    },
+    "MaterialExpressionMultiply": {
+      "A": "A",
+      "B": "B"
+    },
+    "MaterialExpressionSaturate": {
+      "Input": "None"
+    },
+    "MaterialExpressionOneMinus": {
+      "Input": "None"
+    },
+    "MaterialExpressionAppendVector": {
+      "A": "A",
+      "B": "B"
+    },
+    "MaterialExpressionAdd": {
+      "A": "A",
+      "B": "B"
+    },
+    "MaterialExpressionFmod": {
+      "A": "A",
+      "B": "B"
+    },
+    "MaterialExpressionSine": {
+      "Input": "None"
+    },
+    "MaterialExpressionTextureSampleParameter2DArray": {
+      "UVs": "UVs"
+    },
+    "MaterialExpressionLinearInterpolate": {
+      "A": "A",
+      "Alpha": "Alpha"
+    },
+    "MaterialExpressionNormalize": {
+      "VectorInput": "VectorInput"
+    }
+  },
+  "master": {
+    "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/M_AntiRepeat_TriplanarLayouts",
+    "nodeCount": 521,
+    "samplesPerPlane": {
+      "X": 3,
+      "Y": 3,
+      "Z": 3
+    },
+    "hashPathLWC": "MaterialExpressionTruncateLWC",
+    "compileErrors": [],
+    "customNodes": 0,
+    "componentMasks": 48,
+    "expressionCount": 521,
+    "textureFetchesPerPixel": 9,
+    "scalarParameters": [
+      "AlbedoFlatness",
+      "LayoutEnable",
+      "Metallic",
+      "NormalStrength",
+      "RoughnessScale",
+      "TilingCm"
+    ],
+    "textureParameters": [
+      "ARMArray",
+      "AlbedoArray",
+      "NormalArray"
+    ],
+    "vectorParameters": [
+      "CourseBounds",
+      "LayoutP0",
+      "LayoutP1",
+      "LayoutP2",
+      "LayoutQ0",
+      "LayoutQ1",
+      "LayoutQ2",
+      "Tint"
+    ],
+    "usage": {
+      "MATUSAGE_NANITE": true,
+      "MATUSAGE_INSTANCED_STATIC_MESHES": true
+    },
+    "tangentSpaceNormal": false,
+    "inputsWired": {
+      "MP_BASE_COLOR": "MaterialExpressionMultiply",
+      "MP_METALLIC": "MaterialExpressionScalarParameter",
+      "MP_ROUGHNESS": "MaterialExpressionMultiply",
+      "MP_NORMAL": "MaterialExpressionNormalize",
+      "MP_AMBIENT_OCCLUSION": "MaterialExpressionComponentMask"
+    },
+    "statistics": {
+      "available": false,
+      "num_pixel_shader_instructions": 0,
+      "num_vertex_shader_instructions": 0,
+      "num_interpolator_scalars": 0,
+      "num_samplers": 0,
+      "why": "every counter read back 0: -nullrhi builds no shader map, so instruction and sampler counts are not measurable in this process. The exact per-pixel texture fetch count in shaderCost.textureFetchesPerPixel is counted from the graph and is the honest cost figure here."
+    },
+    "uassetSha256": "b705b1f24260fcbb58e0cf7eca0954a54864fb2c9c3b44159152562737b26762"
+  },
+  "instance": {
+    "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/MI_AntiRepeat_Ashlar_V5Layouts",
+    "master": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/M_AntiRepeat_TriplanarLayouts",
+    "replaces": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+    "readback": {
+      "path": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/MI_AntiRepeat_Ashlar_V5Layouts",
+      "class": "MaterialInstanceConstant",
+      "parent": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/M_AntiRepeat_TriplanarLayouts",
+      "scalars": {
+        "AlbedoFlatness": 0.0,
+        "LayoutEnable": 1.0,
+        "Metallic": 0.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "TilingCm": 300.0
+      },
+      "textures": {
+        "ARMArray": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_ARM",
+        "AlbedoArray": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_Albedo",
+        "NormalArray": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_Normal"
+      },
+      "tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "usage": {
+        "MATUSAGE_NANITE": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        },
+        "MATUSAGE_INSTANCED_STATIC_MESHES": {
+          "enabled": true,
+          "explicitlyOverridden": true
+        }
+      },
+      "explicitScalarOverrides": [
+        "AlbedoFlatness",
+        "LayoutEnable",
+        "Metallic",
+        "NormalStrength",
+        "RoughnessScale",
+        "TilingCm"
+      ],
+      "vectors": {
+        "LayoutQ0": [
+          0.4129999876022339,
+          0.3630000054836273,
+          0.31299999356269836,
+          0.0
+        ],
+        "LayoutP0": [
+          0.02666666731238365,
+          0.07666666805744171,
+          0.12666666507720947,
+          0.0
+        ],
+        "LayoutQ1": [
+          0.296833336353302,
+          0.24683333933353424,
+          0.19683332741260529,
+          0.0
+        ],
+        "LayoutP1": [
+          0.12666666507720947,
+          0.17666666209697723,
+          0.2266666740179062,
+          0.0
+        ],
+        "LayoutQ2": [
+          0.19333332777023315,
+          0.1433333307504654,
+          0.09333333373069763,
+          0.0
+        ],
+        "LayoutP2": [
+          0.250166654586792,
+          0.30016666650772095,
+          0.3501666784286499,
+          0.0
+        ],
+        "CourseBounds": [
+          0.3383903503417969,
+          0.6452046036720276,
+          0.0,
+          0.0
+        ],
+        "Tint": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "statistics": {
+      "available": false,
+      "num_pixel_shader_instructions": 0,
+      "num_vertex_shader_instructions": 0,
+      "num_interpolator_scalars": 0,
+      "num_samplers": 0,
+      "why": "every counter read back 0: -nullrhi builds no shader map, so instruction and sampler counts are not measurable in this process. The exact per-pixel texture fetch count in shaderCost.textureFetchesPerPixel is counted from the graph and is the honest cost figure here."
+    },
+    "uassetSha256": "118c4673643f9a69e7449f0ef8a0158981d8d253ba1733d12eca7a14d1ce680c"
+  },
+  "parityAfter": {
+    "Ashlar": {
+      "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+      "class": "MaterialInstanceConstant",
+      "uassetSha256": "7e18229f8d3b383e0ea51b97c2bcb81673fb11af43092dfe5de158920c465508",
+      "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+      "scalars": {
+        "TilingCm": 300.0,
+        "NormalStrength": 1.0,
+        "RoughnessScale": 1.0,
+        "Metallic": 0.0,
+        "AlbedoFlatness": 0.0
+      },
+      "textures": {
+        "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+        "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+        "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM"
+      },
+      "tint": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "diskResolved": {
+    "Ashlar": {
+      "self": {
+        "owner": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/MI_AntiRepeat_Ashlar_V5Layouts",
+        "pointer": "self",
+        "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/MI_AntiRepeat_Ashlar_V5Layouts",
+        "assetRegistryResolves": true,
+        "loads": true,
+        "class": "MaterialInstanceConstant",
+        "diskPath": "Content\\MikdashV3\\MaterialReview\\AntiRepeatV1\\Layouts\\MI_AntiRepeat_Ashlar_V5Layouts.uasset",
+        "diskExists": true,
+        "sha256": "118c4673643f9a69e7449f0ef8a0158981d8d253ba1733d12eca7a14d1ce680c",
+        "status": "OK"
+      },
+      "parent": {
+        "owner": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/MI_AntiRepeat_Ashlar_V5Layouts",
+        "pointer": "parent",
+        "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/M_AntiRepeat_TriplanarLayouts",
+        "assetRegistryResolves": true,
+        "loads": true,
+        "class": "Material",
+        "diskPath": "Content\\MikdashV3\\MaterialReview\\AntiRepeatV1\\Layouts\\M_AntiRepeat_TriplanarLayouts.uasset",
+        "diskExists": true,
+        "sha256": "b705b1f24260fcbb58e0cf7eca0954a54864fb2c9c3b44159152562737b26762",
+        "status": "OK"
+      },
+      "texture:ARMArray": {
+        "owner": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/MI_AntiRepeat_Ashlar_V5Layouts",
+        "pointer": "texture:ARMArray",
+        "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_ARM",
+        "assetRegistryResolves": true,
+        "loads": true,
+        "class": "Texture2DArray",
+        "diskPath": "Content\\MikdashV3\\MaterialReview\\AntiRepeatV1\\Layouts\\Textures\\T2DA_HerodianV5L_Ashlar_ARM.uasset",
+        "diskExists": true,
+        "sha256": "31f9f7f07f9d7b12f1f92b28b24af6a51aa2fce6bf90a505a5434067bc162288",
+        "status": "OK"
+      },
+      "texture:AlbedoArray": {
+        "owner": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/MI_AntiRepeat_Ashlar_V5Layouts",
+        "pointer": "texture:AlbedoArray",
+        "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_Albedo",
+        "assetRegistryResolves": true,
+        "loads": true,
+        "class": "Texture2DArray",
+        "diskPath": "Content\\MikdashV3\\MaterialReview\\AntiRepeatV1\\Layouts\\Textures\\T2DA_HerodianV5L_Ashlar_Albedo.uasset",
+        "diskExists": true,
+        "sha256": "38e91f3247c24ad23e1266b9ebba0097255d04512000516c992d9328f489c715",
+        "status": "OK"
+      },
+      "texture:NormalArray": {
+        "owner": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/MI_AntiRepeat_Ashlar_V5Layouts",
+        "pointer": "texture:NormalArray",
+        "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_Normal",
+        "assetRegistryResolves": true,
+        "loads": true,
+        "class": "Texture2DArray",
+        "diskPath": "Content\\MikdashV3\\MaterialReview\\AntiRepeatV1\\Layouts\\Textures\\T2DA_HerodianV5L_Ashlar_Normal.uasset",
+        "diskExists": true,
+        "sha256": "324c1febea4c99f40f2b7e2518f6839d05e818df8b24257b75039e1e047e6094",
+        "status": "OK"
+      }
+    }
+  },
+  "preexistingNamespaceAssetsChanged": [],
+  "newAssetHashes": {
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_Albedo": "5b056b3657e57224ec053e10b969a1108fc97b37aa1cc5f6ea4a5e37500c1e54",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_Normal": "845d6593fce6cfc7f98979cf6bcaa476b97f2e47161ddbe43c850acac4cd7dcf",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S00_ARM": "2293f0509bc2a9e29e43589ed287562dc6f542d044db466ce3b91737955b0d76",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_Albedo": "30910dcda6594f2b941b0cfb50115b81ffa1fae0dde497b1bdecbfb4b41162a6",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_Normal": "14c50cb0a12c4877d0d4131c378c661c711e0813410a3e81002b01976c2ffcf6",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S01_ARM": "17894a4a13ea68160a3ccb8fb42d1f7517d4f9088caabb55e30dcc73009392d2",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_Albedo": "9c6559b3d38eb594d41bb5252663731264d7c4b1c9271985d926034c23ee7b71",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_Normal": "4815c115d561a8e237c9b9f4a397ef8f9034b7509e8fc319601d278771b3a1e0",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S02_ARM": "57976297acff10f334f451e21bac105bf98f6d269fcd8ca911ff67f88389b9a2",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_Albedo": "3ccd61dfa2ac3e89f52fc381d75d33ff8be7bfd0f6a8024a9170d2ac02f3dd29",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_Normal": "1b119c5f831058bf831ee75332e8ef12c5438ee0719a559c621841e7ee97a7cc",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S03_ARM": "02d3bdbf2b9c8679977fa3cf41dad96c5edeb19eaefc3bb7e8cfee30027a34c0",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_Albedo": "74cfd295d0aeeab164775f204c5553d18b2fa531eea483d0255f17fdbdcec37b",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_Normal": "ad71ba2b051c83ef2e7d7ccf9dfe032f8343d7876379f45da63c475951ecce1d",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S04_ARM": "dfa4c4940d6394168b6aa4e80feeae379095f4e446cbef96066c95a31f3ca031",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_Albedo": "51aa5479ebd4835703816dd4ff67e3abd3dce71f89a837fef4681776be3fb2ca",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_Normal": "16a453ccc2432c8e135ca07d33e1f0ba1b56952316d52198b19e8073d783a0d8",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S05_ARM": "046c40a49c6f1c18e4f0302219d9ff9bfa4a465e88b3a4b6abdb686d7abc5078",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_Albedo": "9e6a79a806103ee4dc2013cc0c0acf7da5c6fa713918ce8d3481d7845fae1034",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_Normal": "778201a7d35c162e038872945aafe09b026b540def0c097254029ff910388fce",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S06_ARM": "4ea7c78aeb9ba75b8b8b019d26d5dc53ceb300b466a11c75546d2763316eabaf",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_Albedo": "c003dfc2362881b1e46ad08a845557abb63d79b43ce6410cb0fae703c96960f3",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_Normal": "8c6903986b6d55d99e5ad1c8cd6043e54173ef861757cc550e7a449ab485e676",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S07_ARM": "755a973940194e8b94e3b4d1a5c0961612c6ec2eff1b13878d71464c88447d22",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_Albedo": "b91cbd7b39fdbbe9f751fd8a49984c9892f78d44fb9e8872c5c7038087d7fcbe",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_Normal": "c526d7ce2433b250f34ef79c036e38f688f5065b056b1f2cf187dcabbaf36975",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S08_ARM": "b41d16e0db6cdac58de25454dc02f31ad993c984007d8ca07c3bdeae4b366bf8",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_Albedo": "038db66d42713caf831c15a1891a16bcdc7c0cefd311fd35361d858ab6e27a6b",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_Normal": "76dc5d6d8f3d2dd83285d455f53fb12145d562b2a4b1935d700638db205707d8",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S09_ARM": "61a566717bea5be319c7374bb52d353ff828d3feeccdb17a6bc8eb79554d3758",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_Albedo": "8c75c3a1eb10beca802006032f1b1d2a714fdce241a6069a651fbdecc033d2cc",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_Normal": "7530ad6121f051d3025f9caf90018051c1ff5b8dcebab3b8c7c6d382aedadd8e",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S10_ARM": "fb532938ad8ec6722c04a19047f8bc7638ecc7a7223a727c16921ab1e93ecafd",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_Albedo": "52287dcabbb759f1acb1f2e248474fea6840963607f6b4325a9b05ce3eed7376",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_Normal": "db823655a98b14459e122ef0947700c1ff3475acf06ed11d1343cd3d4bf27208",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S11_ARM": "a94ab8db4dfe1be277154bba68d04664ced42d5e1233f93d0d7b8f85402dbe6c",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_Albedo": "caac890fd053df90b66954e9dc0021855b20939db09afe2ac2d4a79632de7f90",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_Normal": "2c91f8b57ca1ae86eaf33c9c040d37f890f3ac664ef44ff4d421ffae680cdf96",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S12_ARM": "e9758dd59b6adfbde93c815b823c8cb92c3d8a6642c677a45420203fc3a20528",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_Albedo": "45d84b5ca0b56f9d007be0dbee09851223d0a685ebd3465e247e44dfe5d010bb",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_Normal": "a698bf3d5a16815cc60eba8d15b85078e8388407a1b992c6866c9d908a80c003",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S13_ARM": "8d1b6d5836653c694569af75bb0e08b464e36b597023eb9c5bfe92723f226a10",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_Albedo": "d7154776ce966435f2664c543d1a1992c96b4c9d897361d6498144acd61f62e6",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_Normal": "8fb22cda82bf2cb5c1333226bf31145f0361fd6fbb3e925b5cacf120f3ec5ab9",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T_HerodianV5L_Ashlar_S14_ARM": "8c8c15d65d8ed784b8e10a5b8f8b0ba13f058678be56e2545b42d6056def3336",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_Albedo": "38e91f3247c24ad23e1266b9ebba0097255d04512000516c992d9328f489c715",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_Normal": "324c1febea4c99f40f2b7e2518f6839d05e818df8b24257b75039e1e047e6094",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/Textures/T2DA_HerodianV5L_Ashlar_ARM": "31f9f7f07f9d7b12f1f92b28b24af6a51aa2fce6bf90a505a5434067bc162288",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/M_AntiRepeat_TriplanarLayouts": "b705b1f24260fcbb58e0cf7eca0954a54864fb2c9c3b44159152562737b26762",
+    "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts/MI_AntiRepeat_Ashlar_V5Layouts": "118c4673643f9a69e7449f0ef8a0158981d8d253ba1733d12eca7a14d1ce680c"
+  },
+  "shaderCost": {
+    "textureFetchesPerPixel": {
+      "M_PBR_Tiled": 9,
+      "layouts": 9
+    },
+    "arraySlices": 15,
+    "note": "Texture2DArrays are fully resident (NeverStream after creation)"
+  },
+  "revertCommand": "-ARLayoutsRevert=\"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\material-review\\AntiRepeatV1\\antirepeat-layoutsbuild-20260911T043003676054Z.json\"",
+  "protectedAfter": {
+    "Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap": "4851ad9e6cdcbffa5078e4e95c545304964257272bbc552cee644e1052f5280b",
+    "Content\\MikdashV3\\FutureMountV1\\L_FutureMount.umap": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap": "f9d6453ec8dbb7d7a604d8f5bacab02257613c947bce8a9cf2b77198fb3eefc5",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\ExteriorFixesV1\\MI_M_Context_Asphalt_ExteriorV1.uasset": "9b6b52ddae5b54d0693ba29bd859f036c9e756dc83f4c842e77376871e6d6ac9",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\ExteriorFixesV1\\MI_M_Context_Building_ExteriorV1.uasset": "a64de0f94d57ee2034a160fc404e5b54098aad3300ffa5cfabdc5ed011d4ffde",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\ExteriorFixesV1\\MI_M_Context_CityWall_ExteriorV1.uasset": "44db78ca3d5c8ddbff89d9e47331777117fc6202fb3c6bdf4c29d15ffc43eaf1",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\ExteriorFixesV1\\MI_M_Context_StonePath_ExteriorV1.uasset": "914e42c64826f00a244b18935e3b322c8227162f176b1a596bd17088e4e82539",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\ExteriorFixesV1\\MI_M_Context_Terrain_ExteriorV1.uasset": "2dc7a0d4bf90312da87c449678786b779959908e91119ce3c826869dd193a632",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\M_Context_Asphalt.uasset": "58070251081e672850c4ba974eee9d47141314b24186434541bdde388f3d2406",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\M_Context_Building.uasset": "cebfd36d95292f2b9df53634d48c31a8cdaeacbab2fdef1ee4f8e0b986732c2a",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\M_Context_CityWall.uasset": "7b07fb41b03370d22d4975c17a3cd375a2cb5bdbbb0c6e8c9860523323962a96",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\M_Context_StonePath.uasset": "b20ce068b31cbbc8aaedb42d5c11a571e5462e27ad20b9ce09a15c019b0bea20",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\M_Context_Terrain.uasset": "6ac2561f9db4f8244d71273135311b84448db969f5f17a0feb7c16ce451ff62b",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_D.uasset": "a5ed5c25618900049d29bfbfad4beafd9707922481e9c2f4b4165bd1cdc022fd",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_N.uasset": "5af993d96a32d65d519e01839cf89ea02b1dd4b952c2663cc37d3dafd5fc376c",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_R.uasset": "0dd9f77b3a94cd15c421177bbfd04759f6021b05e9abe45a061ef69b7494258e",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_facade_limestone_D.uasset": "e9f1640d192bb8b5efcfc4846b5763804ff9db86507c5082e539c0396020f2a1",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_facade_limestone_N.uasset": "5e318d18b925851950c40530d1c3bbfba3c2dd85fdbe70f48fbce41c474db7f0",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_facade_limestone_R.uasset": "ef62a24ced1a008ef6f6eaba792a88426c484c59d64dea853a69dcb02ab3ebd1",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_ground_dry_rocky_D.uasset": "7d30db7d404921b2e461ec5ea029f898eb97f56e1ff2183b7fbac4d5495386b2",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_ground_dry_rocky_N.uasset": "abbaa4cfb94cc57768e971fd21044f3a52b339296f4231b66a261571369228bb",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_ground_dry_rocky_R.uasset": "bb12801d6cb71588818d20225d8362e4128fb903f33cb7b4eac832ff5e178aa3",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_path_cobble_limestone_D.uasset": "eaf4ab05ae55d7224a9d429c18366da07c45ea54ff51a55ddbfddf525206c89c",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_path_cobble_limestone_N.uasset": "526443f0e945a6bca7353e5d6c094db64df14e5e01e5f61e8533bee077699ada",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_path_cobble_limestone_R.uasset": "eb4a7fe2b146db224e3dfe6feaa9d37daed4c7a4f1e7f3b321254126b91da862",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_road_asphalt_D.uasset": "29a9de9f243af145c547fb155bb2f1a839f98ed9df072a355f3eeb4e159e3166",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_road_asphalt_N.uasset": "a3880e3ba4f041936f2dbd4eb32dbc434bb8517c8d8e9d81238bcb973761b548",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_road_asphalt_R.uasset": "e9716d1b9192a7f81a6cd37000338eadc1e42c050a7ad02a4f2bf9e62c63b1ed",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_scrub_dry_grass_D.uasset": "0beb6829abfb49d0d5b6d34650efb80bcc082a730a5b519212177443689527b7",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_scrub_dry_grass_N.uasset": "7eb7f18395bfccb95ffc8fbb870fffd87ca0f9dc195fbc958aa1af41d3103fb0",
+    "Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_scrub_dry_grass_R.uasset": "5ba7afb1d994082a38ea2db875fa3ef4fadefdad1aece053bf622457da71aa7c",
+    "Content\\MikdashV3\\Maps\\Courtyard.umap": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "Content\\MikdashV3\\MaterialReview\\AntiRepeatV1\\Maps\\FrameTrial_Candidate48.umap": "323378d36701a59895b92832f265126ead2b0c392f8fb4983e28f1d0bb278b51",
+    "Content\\MikdashV3\\MaterialReview\\AtmospherePilotV1\\Maps\\CourtyardAtmosphere.umap": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\MI_HerodianV4_Ashlar.uasset": "7e18229f8d3b383e0ea51b97c2bcb81673fb11af43092dfe5de158920c465508",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\MI_HerodianV4_AshlarWeathered.uasset": "044f2f058268aad46144e6b1d890bd2288f6c3beed2e6a18def9f5aa34bebfd3",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\MI_HerodianV4_Trim.uasset": "5c6e70733ae7c4de67ffb141f8d1fae289ae521b26a5e773fa808922563f7ca3",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV4_Ashlar_Albedo.uasset": "73d3ef4904d1f243d9ae480abf93da0821090c8fc28abf86760dda7303db781b",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV4_Ashlar_ARM.uasset": "0a5bed1a4ec2af97580827e4452db3802262edd52385a40e7b95c5e7cbd87e2b",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV4_Ashlar_Normal.uasset": "e2791e21a81e4bb4b2cdc74249de33366592a23da584346bb3531cce63d81472",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV4_Trim_Albedo.uasset": "f74860664cea66dece556f7e0b14ca02b3752d6f0ae32a79c230efd5c6e50384",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV4_Trim_ARM.uasset": "89bc70409296561bc51253adef991525262471c3c44aedc0b77885e02778f078",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV4_Trim_Normal.uasset": "633bd1e9eb184c7346e8b2b117f7d61a55e3328876e2d42a39f7578b19e71049",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5_Ashlar_Albedo.uasset": "f5ab2ec870747ac207797a746e74f1700eb4e42b925fafbc6a07dab23a161352",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5_Ashlar_ARM.uasset": "696868772cdbc1a633aee6e656e53a5957561699cb791f64f607aa99b5108bed",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5_Ashlar_Normal.uasset": "191a5c7a5ea64a6db871844b977585056d8f4b1a4fcee07f623a3bb1db3f3f71",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5_Trim_Albedo.uasset": "a50e720c84a5248d244a1daa977e1c31b11305f7582b2b73004e1e07be46bc93",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5_Trim_ARM.uasset": "24d8a58f1310b7c2a9de56abae0e983f49d69fa90b23f512c394d02ff9823186",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5_Trim_Normal.uasset": "7545a83ead8d6d5a2304bcacc9cc47ba8b4ae9f8bc9c308a0e2b8aba25b7e7e4",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5b_Ashlar_Albedo.uasset": "c83a740cd7fc9f2d9708528e78cf617c02af0e3b5a4dd071dfc392bf2880b257",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5b_Ashlar_ARM.uasset": "9a23961f23aa77e428f9aa3919b5568793dabad8236b2bae5f8fcf4078ce0331",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5b_Ashlar_Normal.uasset": "bfdc0e490e96988cd5a33ef70597f0833813eab12250943ef1e47e8f60081682",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5b_Trim_Albedo.uasset": "1204135611458f4e8e6dbd0396e2bd2496fa0e4f19b9f60b61137a7b6b668a73",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5b_Trim_ARM.uasset": "66675d2a16ff1d1f8852ec9e2f7a9a031444df032cd0d0c8d62ffcba3c1c7a90",
+    "Content\\MikdashV3\\MaterialReview\\HerodianAshlarV4\\Textures\\T_HerodianV5b_Trim_Normal.uasset": "b73d4058743b814cc764487d08f2a39dfb0621f76c5c873e445061000ce635ad",
+    "Content\\MikdashV3\\MaterialReview\\JerusalemFloorSlabsV1\\M_JerusalemFloorSlabs_500cm.uasset": "d8b7ea741e77fee629505d369c7571392c34c22bd0381f731a6aa7f568519a50",
+    "Content\\MikdashV3\\MaterialReview\\JerusalemPavingV2\\M_JerusalemPaving_500cm.uasset": "16512e926de9d00388a56fbc7ccb4970e48bffe93eb8ceea1c40c208dd55c318",
+    "Content\\MikdashV3\\MaterialReview\\JerusalemPavingV2\\T_JerusalemPaving_BaseColor.uasset": "d3f46754c34de48e1642eb9efc215c7c752c2d1c3ae1fc863d4112adee09ded7",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_0.uasset": "42306c15084ad019f38fb26bf79463cdea85c7264ee84d53496ff5a0ccf3211a",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_1.uasset": "f95bedcb6a2e972f325908000c0b52fe9d18f86a074ff12aa7189686048a6679",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_24.uasset": "21e679104ac983ca62d315b077e19b16bd6826ef680e551b7ea9f7dce411cacb",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\M_PhotoFace_25.uasset": "3c99ebe16a7ec2cf1f997e770755e8461575fde5135e9f868f803cf3300fc1ca",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\T_KotelWallPhoto.uasset": "1bdef650c131a0fa42dbecb51002b793fba009d724e0eb5c6b8650c6fbe07ce0",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\M_KotelAshlarV2.uasset": "4002f954eace044b085c2dc624a1ca4952d2f962021bd62b8eb51adfb96775b3",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E0.uasset": "bbd600c069448aea36210f64494b66b957dfca3f3d82adc484218bbab436ca06",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E1.uasset": "d94bda840d3024e86559bd877cfff5cb844e638a7b4595ef2465a0b68cff98e3",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E24.uasset": "45f7e2074c3dffc26600c6a6e94a4813e583e7ae4506b56c707ee66b6fae78bf",
+    "Content\\MikdashV3\\MaterialReview\\KotelStoneV2\\Meshes\\SM_KotelAshlarV2_E25.uasset": "b9d2b74cdeddb6671cd3e028a4d2c57f7d86e2eb7cbc8c57f73bb7f5350cb1e5",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\MI_LimestoneV2_Ashlar.uasset": "8df8e5501cbd587493c0674ff4f872940b4f4c2e3ec7b0ed64da0f10d260da2c",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\MI_LimestoneV2_Trim.uasset": "29298e46b7a958ea007992981aaf96093e4a762b9f6dd002b92ae43d5dd49186",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Ashlar_Albedo.uasset": "0f5b1cb1c549b221fe12c835f6e19648fe8f9730e28f54b9322cd1498919901d",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Ashlar_ARM.uasset": "0482693acf9a4739de724f37b9e7b59fa0c56a6dc3beac24b3758ab976baf54c",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Ashlar_Normal.uasset": "2f68e42efd59bd8f6fa33d094ee8a228f9aa1496350dfa8fe41f1b249535cf80",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Trim_Albedo.uasset": "6b8b164d6b63bd8352e5c85178a23f783af52a00b1bffd654edc5fee556a11c8",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Trim_ARM.uasset": "b1b665dd38581b6e0daff22c3a4f5a2b59c1b01bfeb59c4ef92d0cc6b2b7b7d1",
+    "Content\\MikdashV3\\MaterialReview\\LimestoneV2\\Textures\\T_LimestoneV2_Trim_Normal.uasset": "818c60b4f5306dec621f45e580221d3020ecb4fb020e5d2676c74022f0e48ebb",
+    "Content\\MikdashV3\\MaterialReview\\SanctuaryFinishesV1\\Maps\\CourtyardGold.umap": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_Albedo.uasset": "1eda131c2accd37572871fddeb8c84112b4b29adc0b0870eb01869cccc3165f1",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_ARM.uasset": "032a1819c27bbdd049639707ea6ce486f06b67fce3e8d85a62ba860dcfb79424",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_Height.uasset": "13840299ead16d898d0d6ae79c6afe1a37e75d0974df6efc1bb11c35309f2370",
+    "Content\\MikdashV3\\Materials\\PBR\\CedarPlanks\\T_CedarPlanks_Normal.uasset": "d6c641e0954950aa35c0593011a1fc432ee8e04fefa7961606b997f49eeb4fd5",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_CedarPlanks.uasset": "6bd351c19bfa676df2716f44fc4a943660a177e6576133cf5667d0095648cce7",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_GoldFloor.uasset": "af725e303e00ce676347cacedd595044a3b556589975544e1cda952eed00c62f",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_GoldHammered.uasset": "298f28933d0df6d53687559d695871f216a350eee046c5a94fab4394242fcd04",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_LimestoneAshlar.uasset": "3ba277f255c35c5f7a97cd2a2ceeea3b616d070565d1db8d0281f926ca822011",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_LimestoneTrim.uasset": "debd00b106923949f0d017c6410823acfa1a4c5f17b51466b237fd594e2229df",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_Marble.uasset": "67f1742ef8a16724b4bd4c97a9aded75b3db7f2f30eb61b5b248a1274bd3b030",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_PavingInner.uasset": "337ed64d3705067c6aebc75145605d1e9b7c6e391996b0b3132a19997bc8fd07",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_PavingSlabs.uasset": "cb00d59d0bbadfe38558d7135ba1867e611ef3cbaaa802dbabf57456c7c1b75a",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_Plaster.uasset": "bf1e33d569fecde4e719dbd3ecc845fc8ddf68726449bbb7b5cc79cc011c44b6",
+    "Content\\MikdashV3\\Materials\\PBR\\Instances\\MI_PBR_RoughStone.uasset": "861c9ea605edcc800e541c65a9b79ff8a13cf0ec512c295481f48521b9fcc2ac",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_Albedo.uasset": "70ebaf05acccfcd8c9f97defaec21184c0e0d7940f5c55eaf9a13939ab5064a8",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_ARM.uasset": "a60241b01f6392748ae82aa33a4865698e87e1c4e467055727a6abf6c0f22370",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_Height.uasset": "d60910ca6d16727d284aee1101a81a7e612b8ec6c03e56c825c445e4d0dadc25",
+    "Content\\MikdashV3\\Materials\\PBR\\LimestoneAshlar\\T_LimestoneAshlar_Normal.uasset": "4367db165b77d28c3344182bfabbb9c525def9ea0ae9eddc26b3407275136a3d",
+    "Content\\MikdashV3\\Materials\\PBR\\M_PBR_Tiled.uasset": "7a1aaf9db94dd1865ed1ca6ca94e7fc3439db0dd688e03cfedaa1da62da2fb34",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_Albedo.uasset": "e24886d7dc7a92dbff6fb47e5a413572d8b83ae96287775f0b86f5b295e222f2",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_ARM.uasset": "5460ce33c0d4e78c395c46451caec915470621fca1294010b306b647c284785d",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_Height.uasset": "8caf7472a30220cfd9261692a35746c392bb054aeaa28a55539d05a666525c2a",
+    "Content\\MikdashV3\\Materials\\PBR\\Marble\\T_Marble_Normal.uasset": "4e5a16c4f2bbb28e815d21df5ecf2a9709f5d98702b68039dc43edac222e14fa",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_Albedo.uasset": "04b5fe066dcf3afc065bd41daba5d857490b1fdbc7e02c432152574ea6e658a1",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_ARM.uasset": "7468dcddf77e67ad10f7e4a6cfc6efea8f133e48d0e3c67124707085283acbe6",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_Height.uasset": "e2cee6661055a12018ae5f287a6d6615f46cc8b80dc4cf6100f28f99c47f02ee",
+    "Content\\MikdashV3\\Materials\\PBR\\PavingSlabs\\T_PavingSlabs_Normal.uasset": "9e44a6ab31a1a3cec82ad497dc1dda2add41b901916b9b4380c6d64f5feff58c",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_Albedo.uasset": "055043611ed797c2db4f17543cd059ef765daa92cbbdc106b6e8bd9377ee8b1d",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_ARM.uasset": "ef45a0067f1e06f1a080e1f15552f90c2e88aa7fb47dfa7b750f21ecdf632a88",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_Height.uasset": "29da4790064c27b05745010b4a4de1f20d091bc2ef9326e6b6a9a05ea53a2300",
+    "Content\\MikdashV3\\Materials\\PBR\\Plaster\\T_Plaster_Normal.uasset": "00cca8c06e4eaa364f915208d9be42a6b144d28a959f487adf036b1a3fe904c0",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_Albedo.uasset": "84a42fb842ca351a73bf0b9f240fbbaafecb118eb5e660a3deee00da3de68709",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_ARM.uasset": "4f7c3a1037ca8775523cbd488d5646fc9ccaf329f2fee7e76d9cb5a3160636f8",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_Height.uasset": "178ead4e26e183ce77991e8cc4b1c2ef18fad4483feec390d5937710f29435c1",
+    "Content\\MikdashV3\\Materials\\PBR\\RoughStone\\T_RoughStone_Normal.uasset": "be1e0b21d430928afa927d53f46528bcde69c3e326e2d77fa282ad82ee02a2be",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_Albedo.uasset": "d982037860d79a1ae7cbf21a1014b40f4da36f2b0e944370c95426cce9fdf45d",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_ARM.uasset": "a916d3bc6acbdef093ed5ffb93b22d02eaadafbf8b61632b891d0593ac8c0db2",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_Height.uasset": "32b3766c8c6ceb5f045fefe0dfbf94bb205257ca246ef0b764cadc6ee99cedce",
+    "Content\\MikdashV3\\Materials\\PBR\\ScratchedMetal\\T_ScratchedMetal_Normal.uasset": "329247b7dee8bd17bafe7e05cac15e5899860aaca4bddc15f17ca0ed01c8a173"
+  },
+  "protectedUnchanged": true
+}

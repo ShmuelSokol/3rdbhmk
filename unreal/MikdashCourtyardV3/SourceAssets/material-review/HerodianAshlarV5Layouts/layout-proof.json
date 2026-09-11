@@ -1,0 +1,427 @@
+{
+ "status": "LAYOUT_SLICES_PROVED",
+ "utc": "2026-09-11T04:49:23Z",
+ "script": "Scripts/create_herodian_ashlar_layouts.py",
+ "scriptSha256": "6155abb641cf35717b9be41a7b8bd663dcfceed76064a4335ab878a13eafc4b3",
+ "size": 2048,
+ "checks": {
+  "stoneLengthsCm": {
+   "min": 127.05,
+   "max": 202.95,
+   "rule": "1.25 H .. 3.2 H per course (V5)",
+   "violations": []
+  },
+  "tileEdge": "every interior stone lies inside (0, 300); boundary stones are rendered only from diagonals",
+  "courseHeightsCmAllSlices": [
+   [
+    101.52,
+    92.04,
+    106.44
+   ]
+  ],
+  "jointAtSwitchLines": "90 of 90",
+  "diagonalJointMaskSha": {
+   "0": [
+    "c8a1b512cd70a332b2f4d9e51e53c585c11bbefd24ef27e0d405dd7e2f310a52",
+    "c8a1b512cd70a332b2f4d9e51e53c585c11bbefd24ef27e0d405dd7e2f310a52",
+    "c8a1b512cd70a332b2f4d9e51e53c585c11bbefd24ef27e0d405dd7e2f310a52"
+   ],
+   "1": [
+    "4155fb506d28a8569b986ef021c5b6439d82d73cf4b473e5e6e32a529a49f8f9",
+    "4155fb506d28a8569b986ef021c5b6439d82d73cf4b473e5e6e32a529a49f8f9",
+    "4155fb506d28a8569b986ef021c5b6439d82d73cf4b473e5e6e32a529a49f8f9"
+   ],
+   "2": [
+    "411e05f555957a2e0b6f4877b8df2f8e601a7f9726fc449319008bfe14df442d",
+    "411e05f555957a2e0b6f4877b8df2f8e601a7f9726fc449319008bfe14df442d",
+    "411e05f555957a2e0b6f4877b8df2f8e601a7f9726fc449319008bfe14df442d"
+   ]
+  },
+  "colour": {
+   "poolMeanR": 0.7522,
+   "poolMeanBoverR": 0.8859,
+   "target": {
+    "R": 0.752,
+    "BoverR": 0.886,
+    "source": "attempt-3 pool target (AGENTS.md: Ashlar R 0.752, B/R 0.886)"
+   },
+   "perSliceRMinMax": [
+    0.7298,
+    0.7673
+   ]
+  },
+  "v5Parameters": {
+   "boss_edge_cm": 1.9,
+   "grain_cm": 0.075,
+   "base_srgb": [
+    0.7523,
+    0.7175,
+    0.6631
+   ],
+   "generatorSha256": "cf4700e56b4f4a69c30077a4d6cd121db64d020589c4ceb637773cc4be38d108"
+  }
+ },
+ "problems": [],
+ "files": {
+  "0": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S00_Albedo.png",
+    "sha256": "cb84ce6465218e8e8161b0017bf58241149701402dce4fc9fd73585f9bb8820b"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S00_Normal.png",
+    "sha256": "81d03b2d01edb5b24f572e988ef6f2c8927841de85d02aa1ca1513f8dfba7bce"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S00_ARM.png",
+    "sha256": "61dc553d63d5bb2c2039174f2e100b612f67e691d2b735ca107a1d763e6a014e"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S00_JointMask.png",
+    "sha256": "c8a1b512cd70a332b2f4d9e51e53c585c11bbefd24ef27e0d405dd7e2f310a52",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S00_Regions.png",
+    "sha256": "f1f5cf84fc02b985fdbc5a5dba038aa58798fb05d125a1a7fc5ca0cbe9e614df",
+    "imported": false
+   }
+  },
+  "1": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S01_Albedo.png",
+    "sha256": "9df6100f9a0074043185702b6fa01d004c74918b5ec646d6498ba522310123c6"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S01_Normal.png",
+    "sha256": "b7c5f6d2a7289948e075f2362658da2c20dc6e850c5caa1e897ecf2be4213d0d"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S01_ARM.png",
+    "sha256": "0ced1f2d8bcc0ef7b7fe414f563862c54d5e291b305072fe30252984513386c8"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S01_JointMask.png",
+    "sha256": "bb000bbaea59519c7c2794e18e5469d0597b478d6ac16d5865878e09ee0adb85",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S01_Regions.png",
+    "sha256": "e57942e1d352049d42947762688c638654a1d45b336945b7ce6858e66d1c2091",
+    "imported": false
+   }
+  },
+  "2": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S02_Albedo.png",
+    "sha256": "3b78a18cfef859d3314aeaadfca7dca67b7430d428373a8ebe0dc245853b3eff"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S02_Normal.png",
+    "sha256": "f2bb11c54ed6c306a936ead967741feae8221ad9845593e206b6b7714e6bbcfe"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S02_ARM.png",
+    "sha256": "eef07a1d7f0ef12adda6bf342c313a526ce7708abb11a39aa98fe2f588c9610d"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S02_JointMask.png",
+    "sha256": "bf4e4cb9bda3fc898bc9b0182740fadb133e7e1a03b61e5459bad29af4c3e5d5",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S02_Regions.png",
+    "sha256": "d37f0fe18d03469fa3b0d810e8ff7c28cb4e87aa13f69c9fa0d5cca132427a89",
+    "imported": false
+   }
+  },
+  "3": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S03_Albedo.png",
+    "sha256": "39cb2f67a48c8ca162f88a66e68fdaf4389e9b46483f1b9634293a2a88d76912"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S03_Normal.png",
+    "sha256": "9b22825fc9ed4befcd1cb488687d2f612a8bed15b3bf3cee0f0b138766ae1117"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S03_ARM.png",
+    "sha256": "a5cb7429a3b2c181bed30412f3b43fcb51692771a96a7b605636ae7037b98940"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S03_JointMask.png",
+    "sha256": "26a59851ae88aef86da8d45d5304659601fba4632981c78fde1cf055286bbcd5",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S03_Regions.png",
+    "sha256": "04279a5f837cdb8996187ddadc518ae7e565cab0da692976bb2f11f535a5f4b8",
+    "imported": false
+   }
+  },
+  "4": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S04_Albedo.png",
+    "sha256": "e85da7452b45ecb6840f1ffe907de00457936502077be7c19a231c83b8fb02dc"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S04_Normal.png",
+    "sha256": "4eaae3e91ed24984e145946fff70859f04e6f585aaf18df881462953516703bd"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S04_ARM.png",
+    "sha256": "f931d07be76979e5fc97a31f5fb0a08c3cb4235a9cdd45653e08839cdb4b1b8a"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S04_JointMask.png",
+    "sha256": "4155fb506d28a8569b986ef021c5b6439d82d73cf4b473e5e6e32a529a49f8f9",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S04_Regions.png",
+    "sha256": "daba4d1ded96766f0fac086ef30f67e6517f82ee9e4282829c7396ea430651eb",
+    "imported": false
+   }
+  },
+  "5": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S05_Albedo.png",
+    "sha256": "fd0b6dcf129d15bee71d88dfc95466a0c2f22f9c2e62b23e36e8c7b43df67f11"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S05_Normal.png",
+    "sha256": "a029cc833751c3a2c3c2f91305b2962de0a99f6b90d80c281e43a97a5a7b172f"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S05_ARM.png",
+    "sha256": "3e99b8c08f48585fa4040ddc6d640585e1b5688dad52dae3c84a89e4744b3796"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S05_JointMask.png",
+    "sha256": "03157059d40856ef52e9c0571c70846590356784bd297ae3f2cb44a3dbe23efe",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S05_Regions.png",
+    "sha256": "adbd8554428716cc58d9511dcd620b3e53cd4f0ce2e9113f1007afc250fa95c9",
+    "imported": false
+   }
+  },
+  "6": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S06_Albedo.png",
+    "sha256": "2c7ea0ccb6d8dd5fd256eb3b40431701446f0c4f5220c43640264d69f28eb023"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S06_Normal.png",
+    "sha256": "27ea1cffc29c3c84d5fd15e80e395463147dc43b65784e0905588833c253df4b"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S06_ARM.png",
+    "sha256": "f44811aa32ba1345c2e09fa7e7bd3dbbd500fff7c3e458177ff45b7137dc9b2b"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S06_JointMask.png",
+    "sha256": "51a45b7e7a6b52bfd89e54133e4d37add4120801d99e8a10ad551e8946e81c4f",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S06_Regions.png",
+    "sha256": "9bbc2c8faaad5fb9ed3886b934f2b6f1ed45fa74eac5bc079ae837405443eaf3",
+    "imported": false
+   }
+  },
+  "7": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S07_Albedo.png",
+    "sha256": "201361c0fc043b7b3e3d935ea6007b436e6fd875556e633c5a10aef6903ffd67"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S07_Normal.png",
+    "sha256": "d02c7fa4dbeb0ac4f83f38049b6326b17e6d0d52ce74b0bed9304e69b82ef555"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S07_ARM.png",
+    "sha256": "1dcedd952b9c6c3bc8179b5d1cfcf21c82c21a4a6697367e4aa9277a43f93569"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S07_JointMask.png",
+    "sha256": "4ce342556510fbaa7f1fef451470484080fe6852ef34975d0caa7241ce14e7c2",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S07_Regions.png",
+    "sha256": "60ba495c5d379f111cc65d76fb3b36f49c409b37ee545b50c1e2e72035842b47",
+    "imported": false
+   }
+  },
+  "8": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S08_Albedo.png",
+    "sha256": "622f62f5f468fd5abeb48339d0935c1efb226392efce0fa39a02517f60445473"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S08_Normal.png",
+    "sha256": "c96ecf0034fc6dbd024e7bbb0d9f971f71854b7491825b2b60ba4ecc1c172412"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S08_ARM.png",
+    "sha256": "420bc11c1a17217ac31c032a6376347647253fb0a11035051208627a19f0368e"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S08_JointMask.png",
+    "sha256": "411e05f555957a2e0b6f4877b8df2f8e601a7f9726fc449319008bfe14df442d",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S08_Regions.png",
+    "sha256": "84ef9543dfe55629e05bcc0fdf9b26c5dcf69c9551c9657b9d2cf5e2605d4055",
+    "imported": false
+   }
+  },
+  "9": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S09_Albedo.png",
+    "sha256": "9e0a60044d90882992e413b3e573fc50635ec56a198cb39f48cef865a4c44baf"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S09_Normal.png",
+    "sha256": "ef0ca4b45a323b48bcdd73316348471abb966021f179d61e0f78ccafa168bbc5"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S09_ARM.png",
+    "sha256": "5cbfa39d3b6b3cd5e01e2b3142b0e2379569fd6209bbebcea94a440e52db978f"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S09_JointMask.png",
+    "sha256": "c8a1b512cd70a332b2f4d9e51e53c585c11bbefd24ef27e0d405dd7e2f310a52",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S09_Regions.png",
+    "sha256": "847fd9cb77ac4f8262db19f7e7be9008203311307630b9708c4222075ba57e00",
+    "imported": false
+   }
+  },
+  "10": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S10_Albedo.png",
+    "sha256": "1fe8652f57e66cc32469d620d9fd3eae41600142bdde6123846bc00e3c0ad8f9"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S10_Normal.png",
+    "sha256": "4bd3bd793d525494b2c93225f43011c261e942b41ea0dd14ed7820bda0e0d52e"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S10_ARM.png",
+    "sha256": "b965eb7dad7eb58c43f64ddaff4819f100805d53ef4101cd7aaf40e8db2fb997"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S10_JointMask.png",
+    "sha256": "c8a1b512cd70a332b2f4d9e51e53c585c11bbefd24ef27e0d405dd7e2f310a52",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S10_Regions.png",
+    "sha256": "30c7b3d07790c4d7349d9826e568ec2c68bd8091026ff8b47474fed9ba7bd4a9",
+    "imported": false
+   }
+  },
+  "11": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S11_Albedo.png",
+    "sha256": "66a9919fe9054c4defe677995d29b734120e1786c5dee091339b1ca4964bc7e0"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S11_Normal.png",
+    "sha256": "44edc9a3be214466ad59d39253afce143fad37947d13749761aff088974dd212"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S11_ARM.png",
+    "sha256": "583dd66fa3e185370f59d888587379f4453837dcc7ca148e16f5fe18c7f87e58"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S11_JointMask.png",
+    "sha256": "4155fb506d28a8569b986ef021c5b6439d82d73cf4b473e5e6e32a529a49f8f9",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S11_Regions.png",
+    "sha256": "ef6b194c5cf5f21fef5784b5231a8708a1cd332a184862c5c5f3bb1b2070405d",
+    "imported": false
+   }
+  },
+  "12": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S12_Albedo.png",
+    "sha256": "60e39d4d52136b4f8a53d4efdf87942914cdb04d4f3b4545caeabcb795f99e9f"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S12_Normal.png",
+    "sha256": "68368bd19e2482127221e5a0339bf9cc8be27c367a179626f434e558c3b97be6"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S12_ARM.png",
+    "sha256": "a5999de03bc91b8d49ba803a2a3ca00775dec847dbb41bc5ce4d3aa971e0c096"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S12_JointMask.png",
+    "sha256": "4155fb506d28a8569b986ef021c5b6439d82d73cf4b473e5e6e32a529a49f8f9",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S12_Regions.png",
+    "sha256": "5ea57a033ce156cbb3396b810f7ce4d87e1879de10e8455489c08f554c728fb4",
+    "imported": false
+   }
+  },
+  "13": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S13_Albedo.png",
+    "sha256": "3aa1cd82034ca27dc1ef4ec59c305b6faa92d6cf33afbc69a2b1489e2bdea43a"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S13_Normal.png",
+    "sha256": "a8edac195888367dabe731bf0601fcec28c96714a2e309fa543a86b170ac99ab"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S13_ARM.png",
+    "sha256": "14e7d6629877a5ece4613e493b292df8afe4ead7f00e65e90e130213a366e587"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S13_JointMask.png",
+    "sha256": "411e05f555957a2e0b6f4877b8df2f8e601a7f9726fc449319008bfe14df442d",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S13_Regions.png",
+    "sha256": "399da9714de00f9631501d1985bac3723b50932b07d793cb2b6019b407271e9c",
+    "imported": false
+   }
+  },
+  "14": {
+   "Albedo": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S14_Albedo.png",
+    "sha256": "c6c0b693e622df33573f0a1e0525fdcfe318667200f2e6288f076698a5ecefcf"
+   },
+   "Normal": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S14_Normal.png",
+    "sha256": "ad59a1ec689bf727d784cdf0138c2ea2a2594d86a3f72ad78cb64851d71acdde"
+   },
+   "ARM": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S14_ARM.png",
+    "sha256": "f39ce19626cbc7c86bfa007f44ec9aec7b346e60a8fac7c0aaf9df9b7ca6b8e4"
+   },
+   "JointMask": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S14_JointMask.png",
+    "sha256": "411e05f555957a2e0b6f4877b8df2f8e601a7f9726fc449319008bfe14df442d",
+    "imported": false
+   },
+   "Regions": {
+    "path": "SourceAssets/material-review/HerodianAshlarV5Layouts/T_HerodianV5L_Ashlar_S14_Regions.png",
+    "sha256": "7601076b0a71c16af709d489db8db1f0c760a4fd230fa0d9884e23ce5e249b13",
+    "imported": false
+   }
+  }
+ }
+}

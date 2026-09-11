@@ -1,0 +1,21 @@
+{
+  "status": "STARTED",
+  "mode": "layoutsprobe",
+  "stamp": "probe20260911T042138Z",
+  "target": null,
+  "map": null,
+  "instruction": "Shmuel, verbatim, 2026-09-09: \"I don't wanna see, like, repeating patterns all over.\" The Herodian ashlar is a 300 cm tile, so on a 60 m wall the same five stones appear 20 times in a grid; the Jerusalem paving is a 500 cm tile over the courts and the mount platform. The textures are accepted and are NOT re-authored: the repetition is broken in the material graph.",
+  "priority": 1,
+  "specSha256": "8af9adf3588c8644b25ac920e101a10aad8a9aaf316cff37f48adb35721c7028",
+  "scriptSha256": "f75318d996fb716e1f0df9b8f5154bb3b5e97684b52e05004aeb6457aae06f88",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "commandLine": " C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject -run=pythonscript -unattended -nullrhi -abslog=C:/Mikdash/Working-5.8/ARLayoutRuns/P3-probe-layouts-inmemory.log -script=C:/Users/shmue/AppData/Local/Temp/claude/C--Mikdash/5fc175f9-915c-4dbd-a939-b7c7ecc4da9b/scratchpad/probe_layouts_inmemory.py -ARLayoutsProbe",
+  "allowCountDrift": false,
+  "errors": [],
+  "stages": [],
+  "samplingMode": "layouts",
+  "samplingModeNote": "No UV warp. 15 Herodian Ashlar LAYOUT slices (1-D Wang edges per course, V5 bed joints) in Texture2DArrays; every 300 cm boundary carries 1 of 3 boundary-stone types, hashed per cell row; slice switches happen only at joints (analytic thresholds), boundary stones render from a diagonal slice where they wrap inside one texture. Implicit samplers, stock nodes, no Custom node. Built by Scripts/release_antirepeat_layouts.py.",
+  "allowMirrorAddress": false,
+  "layoutsScript": "Scripts/release_antirepeat_layouts.py",
+  "layoutsScriptSha256": "789caf0340868d614ebe1cc5664f4d63cec16432ef844b0fcfa79ae462da0004"
+}

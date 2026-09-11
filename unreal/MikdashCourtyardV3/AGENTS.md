@@ -1602,3 +1602,113 @@ NOT help: combU is measured along the rows.
 the assets are under `/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants` (build `antirepeat-variantsbuild-20260911T023748988488Z.json`).
 To remove them: `release_antirepeat.py -AntiRepeatRevert=<that apply receipt> -Candidate48FrameTrial`, then
 `release_antirepeat_variants.py -ARVariantsRevert=<that build receipt>` (that revert path was exercised and works: `antirepeat-variantsrevert-20260911T023705716077Z.json`).
+
+## Anti-repeat attempt 4, 11 Sep 2026: evaluated offline BEFORE building. The combU bar cannot be passed by ANY layout break; nothing built, nothing applied
+
+Evidence `SourceAssets/material-review/AntiRepeatV1/combu-floor-proof-20260911T032018Z.json`, from `Scripts/prove_combu_floor.py`. It reads only the
+rendered arv3c frames, using measure_antirepeat_frame.py's own functions. No engine process ran, and no asset or map was touched.
+
+**The metric identity, exact to 4 decimals on both frames.** WALL is 3840 px and the tile period 1322 px, so `comb_u` runs its FFT over
+2 x 1322 px and the comb is every EVEN bin. Even bins carry |a+b|^2 and odd bins |a-b|^2 for the two 300 cm halves a and b, so
+**combU = (1 + rho) / 2**, where rho is the correlation of the two halves. Control: rho 0.154, combU 0.577. Attempt 3: rho -0.008,
+combU 0.496. White noise: 0.500. The bar, x0.75 of 0.577 = 0.433, therefore needs **rho(300 cm) <= -0.134: ANTI-correlated halves.** Any
+wall whose halves are unrelated, including a real non-repeating one, sits at combU 0.50, which is x0.87. **Attempt 3 already reached that
+floor.** Its "x0.860 FAIL" was not repeat left in the luma; it was the best any non-repeating wall can score.
+
+| surrogate, rendered pixels | combU x (bar 0.75) | acU x (bar 0.75) |
+|---|---|---|
+| 600 cm period (control tile + the tile shifted), 60 shifts | 0.81-0.91, 0 pass | median 0.79 |
+| no repeat anywhere in frame, 81 cases | median 0.87, 0 pass | median 0.79 |
+| attempt-3 pixels + different head joints per 300 cm tile (= the 600 x 300 proposal), 360 cases | 0.83-0.85, 0 pass | median 0.73, 89 % pass |
+| attempt-3 pixels + different head joints per course band, 60 cases | 0.82-0.85, 0 pass | median 0.73, 90 % pass |
+
+**acU also has a floor.** After attempt 3, 0.374 of the wall's power is per-row mean: bed joints and course-wide tone. Every coursed
+wall keeps that, because courses hold their height along the whole wall. acU is 0.379; with the row mean removed it is -0.008.
+
+**Does the layout still repeat? Yes, to the eye.** In both arv3c frames the rising joints of every course fall at the same x every
+300 cm (551 px on a 1600-wide view), and the 300 cm stone of course 3 repeats at identical length. The luma metrics barely see it,
+because thin joints carry little power. A rising-joint map (|d/dx|, row mean removed) gives acf 0.044 on the control and 0.039 on
+attempt 3; head joints that differ per tile model at 0.000.
+
+**Next, a DECISION for Shmuel, not an agent:** the combU <= x0.75 bar as written is satisfiable only by a deliberately complementary tile
+pair, which is itself a repeat. No agent may build to game it, and no agent may relax it unasked. A correctly posed replacement would be,
+for example, (combU - 0.5) after / before <= 0.75, which is rho after/before; attempt 3 is -0.05. Or the same x0.75 bar on the
+rising-joint acf, which is the thing the eye sees repeating. If a bar is accepted, the build is **course-band layout tiles with matched
+bed joints** (head joints differ, no stone cut at a tile edge, no stone under the V5 minimum length, per-stone variants kept on top).
+Model: acU x0.73, rising-joint acf about 0.
+
+### The acceptance bar changed ONCE, 11 Sep 2026, and was fixed before any layout-break frame existed
+
+The coordinator's decision on the proof above. It corrects a broken metric and does not relax a standard: raw combU <= x0.75 was
+unpassable by the ideal answer, a wall with no repeat. The spec holds it at `status2026_09_10.acceptanceV2_2026_09_11`, written
+before any layout-break asset was generated. `measure_antirepeat_frame.py` implements it as `ACCEPTANCE_V2`, and `do_apply` gates on it.
+ALL of these are required:
+1. **Joint repeat <= x0.75 (primary).** This measures the repeat the eye sees: dark thin vertical lines, `max(box_x21(L) - L, 0)` then
+   `box_y41`, with the per-row mean removed. For each 196-row band, take the autocorrelation peak within +-40 px of that band's period
+   as read off the CONTROL frame, then average over the bands. **The per-band period is needed because the camera's 5 deg pitch makes the
+   period run 1307 -> 1416 px down the wall.** At one fixed lag the thin lines decorrelate: 0.06 on the control, which is noise. With
+   per-band periods the control reads 0.538 and attempt 3 reads 0.503, i.e. **attempt 3 FAILS at x0.934**, as the eye does.
+2. **rho ratio = (combU - 0.5) after / before <= x0.75.** It replaces raw combU. Attempt 3 is -0.05.
+3. **acU <= x0.75**, unchanged. Attempt 3 is x0.731, only 0.019 under the bar: report the margin, and never tune to it.
+4. **Detail >= x0.85**, paving-normalised (raised from 0.80).
+5. **A visual JSON (`--visual`)** with every check true: boss raised at 1:1, no stone cut at a tile edge, no sliver, no mid-block seam,
+   no dashed bed joint, no false ridge. If the numbers pass and no visual file is given, the verdict is `PENDING_VISUAL`, never PASS.
+Attempt 3 re-measured under v2: `frame-evidence-arv3c-variants-v2recheck.json`, verdict FAIL on joint repeat only.
+
+## Anti-repeat attempt 4, 11 Sep 2026: break the Ashlar LAYOUT with Wang-edge slices in Texture2DArrays (IN PROGRESS)
+
+**Design.** Per course, 1-D Wang tiles; bed joints are V5's own, `layout_courses(Random(6120))`, identical in every slice.
+- **Boundary types.** Every 300 cm boundary (texture u = 0, one line for all 3 courses) carries 1 of 3 boundary-stone types, hashed
+  per (boundary k, cell row cy) and shared by that row's courses.
+- **Slices.** Slice S(a,b) holds, per course, the type-a stone's right part, ONE interior stone and the type-b stone's left part. That is
+  9 slices, plus 2 extra surfaces of each diagonal S(x,x): 15 slices, stacked into 3 Texture2DArrays.
+- **Rendering.** Interior pixels come from S(a,b). Boundary-stone pixels come from a DIAGONAL slice of their type, where the stone
+  wraps inside one texture, so no stone is ever cut at a tile edge. The slice switches only at analytic joint lines
+  (LayoutQ/LayoutP/CourseBounds vector params), never inside a stone.
+- **Cost and scope.** 9 texture fetches per pixel, as M_PBR_Tiled. The Trim keeps attempt 3's per-stone variants instance.
+
+Files: `Scripts/create_herodian_ashlar_layouts.py` (slices, seed screen, `--prove`), `create_herodian_ashlar_v5.py`'s new
+`explicit_courses` / `generate(layout=...)` (V5 output byte-identical without it: Albedo/Normal/ARM/Height hashes equal at 128 px),
+`Scripts/release_antirepeat_layouts.py` (-ARLayoutsBuild / Verify / Revert), spec `samplingAssets.layouts`.
+
+**Layout numbers** are in `SourceAssets/material-review/HerodianAshlarV5Layouts/layout.json`, from an exact search:
+- **Constraints.** Every stone in [1.25 H, 3.2 H] (V5's rule). Stagger >= 30 cm within a cell row over all 81 type sequences, and
+  >= 35.9 cm across the cell-row bed joint over every independent pair.
+- **Result.** Jitter 30 cm (types 15 cm apart). Boundary stones are 127-133 cm, interiors 137-203 cm.
+- **Hard-won:** with 300 cm segments every segment holds a boundary stone plus >= 1 interior stone, so the jitter is bounded by
+  **w <= 300 - 2 x 1.25 H (34 cm on course 2)**. Random search found nothing; the exact solver did, because an ALIGNED grid makes every
+  cross-boundary joint pair >= 127 cm apart automatically. Only same-boundary stagger matters.
+- **Colour.** Surface seeds were screened at 128 px so the pool keeps V5b's colour: pool R 0.7521, B/R 0.886.
+- **Offline prediction** of the joint-repeat ratio: median x0.43, worst x0.67 over 8 hash seeds.
+
+**Traps paid for in this pass:**
+1. **Texture2DArray creation is behind `r.AllowTexture2DArrayCreation`** (Texture2DArrayFactory.cpp:40). The factory's
+   `InitialTextures` is not Python-visible. `set_editor_property('source_textures', [one])` then `(..., all)` drives
+   PostEditChangeProperty -> UpdateSourceFromSourceTextures. **The create path forces MipGenSettings = NoMipmaps and
+   NeverStream**, so mips must be turned back on and read back. `SourceTextures` is editor-only, so the slice textures do not cook.
+2. The Bash tool turned a Python `'\n'` inside a heredoc into a real newline: a SyntaxError in the written file. Write Python with
+   the Write tool.
+3. The acceptance metric at a fixed lag misses thin joint lines: the camera's 5 deg pitch moves the period 1307 -> 1416 px down
+   the wall. The joint metric uses a per-band period read off the control frame.
+4. 32-bit Python generates a 2048 slice in about 5 min. UE's bundled 64-bit Python 3.11 runs the stdlib generator faster and has no
+   2 GB limit: run parallel workers on it, 3 at a time (RAM).
+- 04:24-04:33Z: 15 slices PROVED (`HerodianAshlarV5Layouts/layout-proof.json`). Build `antirepeat-layoutsbuild-20260911T043003676054Z.json`
+  BUILT, with 50 new assets under `/Game/MikdashV3/MaterialReview/AntiRepeatV1/Layouts`. Fresh verify passed. The Trim's 9 reused
+  attempt-3 assets are unchanged. On the TRIAL copy, the attempt-3 apply was reverted (`...revert-Candidate48FrameTrial-20260911T040517062924Z.json`),
+  then the layouts build was applied (`...apply-Candidate48FrameTrial-20260911T043107033892Z.json`, 1,488 slots) and verified.
+  Candidate48 and Main50 are untouched. Frame-trial cook `arv4a` is running.
+- **04:37-04:41Z BLOCKED, not by this work.** Cook `arv4a` (`C:/Mikdash/Builds/FrameTrial-arv4a-20260911T043414Z`) was CLEAN: 0 material
+  or shader failures, and the Candidate48, trial and Main50 hashes were unchanged. But every capture, BEFORE and AFTER, crashed on load:
+  `ObjectSerializationError ... MikdashCrowdField_0: Bad export index 277503/16970` (AsyncLoading2.cpp:3087). That includes the
+  untouched Candidate48.
+  **Cause:** at 04:29Z the crowd-VAT pass rebuilt the `MikdashRuntime` EDITOR plugin after changing `MikdashCrowdField.h/.cpp`.
+  The staged game exe is still the 09-10 22:10 build. The cooker serializes with the new class layout and the old exe cannot read it.
+  **TRAP for every agent: after a C++ change, a cook without a matching Game-target build produces a build that crashes on load.**
+  Fix: a Game-target build (UBT; not this agent's to run). Then rerun the cook + capture only:
+  `scratchpad/chain_v4_cook_capture.ps1 -Label arv4c -RetryLabel arv4d`. A detached watcher (`watch_exe_then_capture.ps1`) does this
+  automatically when the exe is newer than the plugin DLL. Then measure with v2
+  (`measure_antirepeat_frame.py --sampling layouts --visual <json>`). Candidate48 and Main50 are NOT touched and must not be until
+  that evidence reads PASS.
+  The trial map carries the layouts apply as evidence. To remove it: `release_antirepeat.py
+  -AntiRepeatRevert=<...apply-Candidate48FrameTrial-20260911T043107033892Z.json> -Candidate48FrameTrial`, then
+  `release_antirepeat_layouts.py -ARLayoutsRevert=<...layoutsbuild-20260911T043003676054Z.json>`.

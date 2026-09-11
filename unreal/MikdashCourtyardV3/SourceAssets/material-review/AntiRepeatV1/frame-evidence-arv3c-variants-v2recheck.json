@@ -1,0 +1,253 @@
+{
+  "label": "arv3c-v2check",
+  "samplingMode": "variants",
+  "utc": "2026-09-11T03:51:06.853404+00:00",
+  "script": "Scripts/measure_antirepeat_frame.py",
+  "scriptSha256": "09a4bd14112c3c2ce066d7eabd1c96ea0e77f6a8ede0d56a91cd0f2cadc13700",
+  "regions": {
+    "wall": [
+      0,
+      0,
+      3840,
+      1960
+    ],
+    "paving": [
+      400,
+      2072,
+      3840,
+      2160
+    ]
+  },
+  "acceptanceVersion": "v2-2026-09-11",
+  "acceptance": {
+    "version": "v2-2026-09-11",
+    "jointRepeatRatioMax": 0.75,
+    "rhoRatioMax": 0.75,
+    "acURatioMax": 0.75,
+    "detailNormalizedRatioMin": 0.85,
+    "detailKeys": [
+      "edgeEnergy",
+      "edgeEnergySmoothed",
+      "verticalEnergySmoothed"
+    ],
+    "jointMap": "d = max(box_x21(L) - L, 0); box_y41(d); per-row mean removed",
+    "jointBandRows": 196,
+    "jointLagWindowPx": 40,
+    "jointBandPeriodSource": "CONTROL frame: per band argmax of highpass(luma) row autocorrelation over lags 300-1900",
+    "rhoRatio": "(combU_after - 0.5) / (combU_before - 0.5); combU = (1 + rho)/2 exactly with 2 periods in view",
+    "visualChecks": [
+      "bossRaisedAt1to1",
+      "noStoneCutAtTileEdge",
+      "noSliverStones",
+      "noMidBlockSeam",
+      "noDashedBedJoint",
+      "noFalseRidge"
+    ],
+    "decidedBy": "coordinator, 2026-09-11, on SourceAssets/material-review/AntiRepeatV1/combu-floor-proof-20260911T032018Z.json"
+  },
+  "criteria": {
+    "jointRepeat": {
+      "ratio": 0.9343,
+      "max": 0.75,
+      "pass": false
+    },
+    "rhoRatio": {
+      "ratio": -0.0512,
+      "max": 0.75,
+      "pass": true
+    },
+    "acU": {
+      "ratio": 0.7311,
+      "max": 0.75,
+      "pass": true,
+      "marginToBar": 0.0189
+    },
+    "detail": {
+      "normalized": {
+        "edgeEnergy": 0.9802,
+        "edgeEnergySmoothed": 0.987,
+        "verticalEnergySmoothed": 0.9842
+      },
+      "min": 0.85,
+      "pass": true
+    }
+  },
+  "visual": null,
+  "before": {
+    "file": "SourceAssets/visual-review/arv3c-before-02-herodian-ashlar-inner-east-gate-jamb-walkingheight.png",
+    "sha256": "17aa304043f30a9e76536287a00daea4130d63c3626d7f54a3a3fd52f3c03e90",
+    "wall": {
+      "edgeEnergy": 2.4212175123044792,
+      "edgeEnergySmoothed": 1.8634013468683692,
+      "verticalEnergySmoothed": 1.2494197818972328,
+      "fineStd": 2.519087879527984,
+      "lumaMean": 111.68152814984586,
+      "lumaStd": 18.624902664091476
+    },
+    "paving": {
+      "edgeEnergy": 7.610479477579729,
+      "edgeEnergySmoothed": 3.8542758459302355,
+      "verticalEnergySmoothed": 2.826537324365742,
+      "fineStd": 7.287202160955762,
+      "lumaMean": 116.49793433139534,
+      "lumaStd": 22.712946689395817
+    },
+    "tilePeriodPx": 1322,
+    "wallRepeat": {
+      "acU": 0.5185301210222041,
+      "combU": 0.5771495556307156,
+      "comb2D_car": 0.84034,
+      "acPeakNearTile": {
+        "lag": 1322,
+        "value": 0.5185301210222041
+      }
+    },
+    "jointRepeat": {
+      "value": 0.5378316947415819,
+      "bandPeaks": [
+        0.4641,
+        0.5325,
+        0.5644,
+        0.5169,
+        0.4871,
+        0.5662,
+        0.5337,
+        0.5416,
+        0.5661,
+        0.6057
+      ],
+      "bandPeakLags": [
+        1305,
+        1319,
+        1330,
+        1344,
+        1355,
+        1369,
+        1381,
+        1395,
+        1404,
+        1416
+      ],
+      "bandPeriodsFromControl": [
+        1307,
+        1319,
+        1331,
+        1344,
+        1355,
+        1368,
+        1380,
+        1393,
+        1405,
+        1416
+      ]
+    }
+  },
+  "after": {
+    "file": "SourceAssets/visual-review/arv3c-after-02-herodian-ashlar-inner-east-gate-jamb-walkingheight.png",
+    "sha256": "bcec5907678161ea82d19b05acd54d2761f90025db436e00374ba9633e1c1bff",
+    "wall": {
+      "edgeEnergy": 2.373115550207209,
+      "edgeEnergySmoothed": 1.8428861861757158,
+      "verticalEnergySmoothed": 1.2320786690801866,
+      "fineStd": 2.489376563596557,
+      "lumaMean": 112.20493487656809,
+      "lumaStd": 19.0120701075037
+    },
+    "paving": {
+      "edgeEnergy": 7.610241530235862,
+      "edgeEnergySmoothed": 3.8621409501844166,
+      "verticalEnergySmoothed": 2.8319858569372407,
+      "fineStd": 7.299533759898912,
+      "lumaMean": 116.74885384579805,
+      "lumaStd": 22.642767337945198
+    },
+    "tilePeriodPx": 1322,
+    "wallRepeat": {
+      "acU": 0.37908259995265076,
+      "combU": 0.4960482203044301,
+      "comb2D_car": 0.78927,
+      "acPeakNearTile": {
+        "lag": 702,
+        "value": 0.4035987741454712
+      }
+    },
+    "jointRepeat": {
+      "value": 0.5025144257954428,
+      "bandPeaks": [
+        0.4033,
+        0.4956,
+        0.5162,
+        0.4708,
+        0.4622,
+        0.5141,
+        0.502,
+        0.5427,
+        0.5391,
+        0.5792
+      ],
+      "bandPeakLags": [
+        1305,
+        1319,
+        1331,
+        1344,
+        1356,
+        1369,
+        1380,
+        1395,
+        1404,
+        1416
+      ],
+      "bandPeriodsFromControl": [
+        1307,
+        1319,
+        1331,
+        1344,
+        1355,
+        1368,
+        1380,
+        1393,
+        1405,
+        1416
+      ]
+    }
+  },
+  "repeatRatioAfterOverBefore": {
+    "acU": 0.7311,
+    "combU": 0.8595
+  },
+  "detailRatioAfterOverBefore": {
+    "edgeEnergy": {
+      "wall": 0.9801,
+      "paving": 1.0
+    },
+    "edgeEnergySmoothed": {
+      "wall": 0.989,
+      "paving": 1.002
+    },
+    "verticalEnergySmoothed": {
+      "wall": 0.9861,
+      "paving": 1.0019
+    },
+    "fineStd": {
+      "wall": 0.9882,
+      "paving": 1.0017
+    }
+  },
+  "detailNormalizedByPavingControl": {
+    "edgeEnergy": 0.9802,
+    "edgeEnergySmoothed": 0.987,
+    "verticalEnergySmoothed": 0.9842,
+    "fineStd": 0.9865
+  },
+  "verdict": "FAIL",
+  "failures": [
+    "jointRepeat x0.9343 (bar 0.75)"
+  ],
+  "thresholdsV1Superseded": {
+    "repeatAcURatioMax": 0.75,
+    "repeatCombURatioMax": 0.75,
+    "detailNormalizedRatioMin": 0.8,
+    "regressionReference": "x0.20 = the 2026-09-09 grad master on Nanite"
+  },
+  "verdictV1Superseded": "FAIL"
+}

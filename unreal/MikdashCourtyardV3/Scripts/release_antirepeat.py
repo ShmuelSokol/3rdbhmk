@@ -157,7 +157,8 @@ def _hash(x, y, salt):
 # 'variants' (2026-09-10) is not a UV warp at all: layout-identical V5 tile variants picked per STONE by a
 # stock-node hash, built by Scripts/release_antirepeat_variants.py (not by -AntiRepeatBuild). It is listed
 # here so apply / verify / revert resolve its assets from the receipt exactly as they do for the others.
-SAMPLING_MODES = ('grad', 'implicit', 'analytic', 'variants')
+# 'layouts' (2026-09-11): Wang-edge LAYOUT slices in Texture2DArrays, built by Scripts/release_antirepeat_layouts.py.
+SAMPLING_MODES = ('grad', 'implicit', 'analytic', 'variants', 'layouts')
 DEFAULT_SAMPLING_MODE = 'grad'
 
 # One sentence per mode, copied into every receipt so a measurement is never orphaned from the
@@ -176,6 +177,11 @@ SAMPLING_MODE_RECEIPT_NOTE = {
                 'and different surface seeds; each STONE picks one by a stock-node hash of its home cell and '
                 'index, recovered from a nearest-sampled StoneKey texture. Implicit samplers only, no Custom '
                 'node. Built by Scripts/release_antirepeat_variants.py.',
+    'layouts': 'No UV warp. 15 Herodian Ashlar LAYOUT slices (1-D Wang edges per course, V5 bed joints) in '
+               'Texture2DArrays; every 300 cm boundary carries 1 of 3 boundary-stone types, hashed per cell row; '
+               'slice switches happen only at joints (analytic thresholds), boundary stones render from a '
+               'diagonal slice where they wrap inside one texture. Implicit samplers, stock nodes, no Custom '
+               'node. Built by Scripts/release_antirepeat_layouts.py.',
     'analytic': "The 'grad' UV, seam guard intact, with Nanite's analytic "
                 'Parameters.WorldPosition_DDX/DDY in place of ddx(P) and a hardware fallback where '
                 'the vertex factory leaves them at zero. Experiment arm: it still reads pixel-parameter '
@@ -1190,6 +1196,8 @@ class Native:
         return {'path': str(dst), 'files': files}
 
     def do_build(self):
+        if self.sampling == 'layouts':
+            raise RuntimeError('-AntiRepeatSampling=layouts is built by Scripts/release_antirepeat_layouts.py -ARLayoutsBuild')
         u = self.u
         if self.sampling == 'variants':
             raise RuntimeError('-AntiRepeatSampling=variants is built by Scripts/release_antirepeat_variants.py '
@@ -1587,6 +1595,31 @@ class Native:
                 if ev.get('samplingMode') != r['builtSamplingMode']:
                     raise RuntimeError('frame evidence measured sampling mode %r, this build is %r'
                                        % (ev.get('samplingMode'), r['builtSamplingMode']))
+                # ACCEPTANCE V2 (spec status2026_09_10.acceptanceV2_2026_09_11, coordinator 2026-09-11): the verdict
+                # string alone is not trusted. The evidence must be measured under THIS version, at THESE bars, with
+                # every criterion passing and every visual check true.
+                acc = (self.spec.get('status2026_09_10') or {}).get('acceptanceV2_2026_09_11')
+                if acc and acc.get('state') == 'IN_FORCE':
+                    r['acceptanceVersion'] = acc['version']
+                    if ev.get('acceptanceVersion') != acc['version']:
+                        raise RuntimeError('frame evidence acceptance %r, the spec requires %r'
+                                           % (ev.get('acceptanceVersion'), acc['version']))
+                    crit = ev.get('criteria') or {}
+                    for key, bar in (('jointRepeat', acc['jointRepeatRatioMax']), ('rhoRatio', acc['rhoRatioMax']),
+                                     ('acU', acc['acURatioMax'])):
+                        c = crit.get(key) or {}
+                        if c.get('max') != bar or c.get('ratio') is None or not c['ratio'] <= bar:
+                            raise RuntimeError('frame evidence %s = %r at bar %r; the spec bar is %r'
+                                               % (key, c.get('ratio'), c.get('max'), bar))
+                    det = crit.get('detail') or {}
+                    lo = acc['detailNormalizedRatioMin']
+                    if det.get('min') != lo or not all((det.get('normalized') or {}).get(k, 0.0) >= lo for k in acc['detailKeys']):
+                        raise RuntimeError('frame evidence detail %r fails the spec minimum %r' % (det.get('normalized'), lo))
+                    checks = ((ev.get('visual') or {}).get('checks')) or {}
+                    missing = [k for k in acc['visualChecks'] if checks.get(k) is not True]
+                    if missing:
+                        raise RuntimeError('frame evidence visual checks not all true: %s' % missing)
+                    r['acceptanceCriteria'] = crit
         r['measurement'] = prior.get('measurement')
         r['shaderCost'] = prior.get('shaderCost')
         r['technique'] = prior.get('technique')

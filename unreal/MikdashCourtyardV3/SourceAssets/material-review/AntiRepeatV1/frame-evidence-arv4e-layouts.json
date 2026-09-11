@@ -1,0 +1,339 @@
+{
+  "label": "arv4e",
+  "samplingMode": "layouts",
+  "utc": "2026-09-11T06:19:29.536342+00:00",
+  "script": "Scripts/measure_antirepeat_frame.py",
+  "scriptSha256": "09a4bd14112c3c2ce066d7eabd1c96ea0e77f6a8ede0d56a91cd0f2cadc13700",
+  "regions": {
+    "wall": [
+      0,
+      0,
+      3840,
+      1960
+    ],
+    "paving": [
+      400,
+      2072,
+      3840,
+      2160
+    ]
+  },
+  "acceptanceVersion": "v2-2026-09-11",
+  "acceptance": {
+    "version": "v2-2026-09-11",
+    "jointRepeatRatioMax": 0.75,
+    "rhoRatioMax": 0.75,
+    "acURatioMax": 0.75,
+    "detailNormalizedRatioMin": 0.85,
+    "detailKeys": [
+      "edgeEnergy",
+      "edgeEnergySmoothed",
+      "verticalEnergySmoothed"
+    ],
+    "jointMap": "d = max(box_x21(L) - L, 0); box_y41(d); per-row mean removed",
+    "jointBandRows": 196,
+    "jointLagWindowPx": 40,
+    "jointBandPeriodSource": "CONTROL frame: per band argmax of highpass(luma) row autocorrelation over lags 300-1900",
+    "rhoRatio": "(combU_after - 0.5) / (combU_before - 0.5); combU = (1 + rho)/2 exactly with 2 periods in view",
+    "visualChecks": [
+      "bossRaisedAt1to1",
+      "noStoneCutAtTileEdge",
+      "noSliverStones",
+      "noMidBlockSeam",
+      "noDashedBedJoint",
+      "noFalseRidge"
+    ],
+    "decidedBy": "coordinator, 2026-09-11, on SourceAssets/material-review/AntiRepeatV1/combu-floor-proof-20260911T032018Z.json"
+  },
+  "criteria": {
+    "jointRepeat": {
+      "ratio": 0.3559,
+      "max": 0.75,
+      "pass": true
+    },
+    "rhoRatio": {
+      "ratio": -0.2766,
+      "max": 0.75,
+      "pass": true
+    },
+    "acU": {
+      "ratio": 0.6311,
+      "max": 0.75,
+      "pass": true,
+      "marginToBar": 0.1189
+    },
+    "detail": {
+      "normalized": {
+        "edgeEnergy": 0.9177,
+        "edgeEnergySmoothed": 0.9485,
+        "verticalEnergySmoothed": 0.9252
+      },
+      "min": 0.85,
+      "pass": true
+    }
+  },
+  "visual": {
+    "file": "SourceAssets/material-review/AntiRepeatV1/visual-check-arv4e-layouts.json",
+    "sha256": "8b7d35178ad7d11371f8925d153ea175c70869a6424af4dd7247ff960a8951fd",
+    "checks": {
+      "bossRaisedAt1to1": true,
+      "noStoneCutAtTileEdge": true,
+      "noSliverStones": true,
+      "noMidBlockSeam": true,
+      "noDashedBedJoint": true,
+      "noFalseRidge": true
+    },
+    "by": "anti-repeat attempt-4 agent, by eye on 1:1 crops, 2026-09-11 ~06:20Z",
+    "crops": "3x3 grid of 1280x720 1:1 crops of each frame (scratch crops_v4.py): after c00-c22 reviewed, before c11 as the boss control",
+    "pass": true
+  },
+  "before": {
+    "file": "SourceAssets/visual-review/arv4e-before-02-herodian-ashlar-inner-east-gate-jamb-walkingheight.png",
+    "sha256": "3fc900b894d85817686a96c2c2302744f2975f90b6427ec371430f53f02e225f",
+    "wall": {
+      "edgeEnergy": 2.4046425693281934,
+      "edgeEnergySmoothed": 1.8604818954659472,
+      "verticalEnergySmoothed": 1.2460892434941877,
+      "fineStd": 2.5074279887175464,
+      "lumaMean": 111.66460917067924,
+      "lumaStd": 18.637659182296158
+    },
+    "paving": {
+      "edgeEnergy": 7.588489934506206,
+      "edgeEnergySmoothed": 3.847756915979893,
+      "verticalEnergySmoothed": 2.8214641198199075,
+      "fineStd": 7.265762624502627,
+      "lumaMean": 115.93956237975685,
+      "lumaStd": 22.654650166842398
+    },
+    "tilePeriodPx": 1322,
+    "wallRepeat": {
+      "acU": 0.518729010387435,
+      "combU": 0.5769405718144437,
+      "comb2D_car": 0.8403,
+      "acPeakNearTile": {
+        "lag": 1322,
+        "value": 0.518729010387435
+      }
+    },
+    "jointRepeat": {
+      "value": 0.538221791608088,
+      "bandPeaks": [
+        0.4645,
+        0.5334,
+        0.565,
+        0.5173,
+        0.4875,
+        0.5663,
+        0.5334,
+        0.5414,
+        0.5667,
+        0.6066
+      ],
+      "bandPeakLags": [
+        1305,
+        1319,
+        1330,
+        1344,
+        1355,
+        1369,
+        1381,
+        1395,
+        1404,
+        1416
+      ],
+      "bandPeriodsFromControl": [
+        1307,
+        1319,
+        1331,
+        1344,
+        1355,
+        1368,
+        1380,
+        1393,
+        1405,
+        1416
+      ]
+    }
+  },
+  "after": {
+    "file": "SourceAssets/visual-review/arv4e-after-02-herodian-ashlar-inner-east-gate-jamb-walkingheight.png",
+    "sha256": "c180921ced0682fd1d5c55d5c6d1be776068e0de260acac84704360e8279099b",
+    "wall": {
+      "edgeEnergy": 2.2188433304297344,
+      "edgeEnergySmoothed": 1.7725300087503828,
+      "verticalEnergySmoothed": 1.1514966222744396,
+      "fineStd": 2.0464730984257717,
+      "lumaMean": 112.07786046914867,
+      "lumaStd": 17.737326292122606
+    },
+    "paving": {
+      "edgeEnergy": 7.630417995452498,
+      "edgeEnergySmoothed": 3.8649105896449836,
+      "verticalEnergySmoothed": 2.818126261944936,
+      "fineStd": 7.349716072834987,
+      "lumaMean": 115.22065090182346,
+      "lumaStd": 22.547278495038785
+    },
+    "tilePeriodPx": 1322,
+    "wallRepeat": {
+      "acU": 0.32735119127523293,
+      "combU": 0.4787186684741337,
+      "comb2D_car": 0.7376,
+      "acPeakNearTile": {
+        "lag": 1317,
+        "value": 0.33065396930054186
+      }
+    },
+    "jointRepeat": {
+      "value": 0.1915761834801131,
+      "bandPeaks": [
+        0.1031,
+        0.2417,
+        0.2519,
+        0.2729,
+        0.2657,
+        0.2889,
+        0.251,
+        0.1975,
+        0.0315,
+        0.0117
+      ],
+      "bandPeakLags": [
+        1311,
+        1319,
+        1330,
+        1344,
+        1355,
+        1369,
+        1380,
+        1389,
+        1416,
+        1428
+      ],
+      "bandPeriodsFromControl": [
+        1307,
+        1319,
+        1331,
+        1344,
+        1355,
+        1368,
+        1380,
+        1393,
+        1405,
+        1416
+      ]
+    }
+  },
+  "repeatRatioAfterOverBefore": {
+    "acU": 0.6311,
+    "combU": 0.8298
+  },
+  "detailRatioAfterOverBefore": {
+    "edgeEnergy": {
+      "wall": 0.9227,
+      "paving": 1.0055
+    },
+    "edgeEnergySmoothed": {
+      "wall": 0.9527,
+      "paving": 1.0045
+    },
+    "verticalEnergySmoothed": {
+      "wall": 0.9241,
+      "paving": 0.9988
+    },
+    "fineStd": {
+      "wall": 0.8162,
+      "paving": 1.0116
+    }
+  },
+  "detailNormalizedByPavingControl": {
+    "edgeEnergy": 0.9177,
+    "edgeEnergySmoothed": 0.9485,
+    "verticalEnergySmoothed": 0.9252,
+    "fineStd": 0.8068
+  },
+  "verdict": "PASS",
+  "failures": [],
+  "thresholdsV1Superseded": {
+    "repeatAcURatioMax": 0.75,
+    "repeatCombURatioMax": 0.75,
+    "detailNormalizedRatioMin": 0.8,
+    "regressionReference": "x0.20 = the 2026-09-09 grad master on Nanite"
+  },
+  "verdictV1Superseded": "FAIL",
+  "reference": {
+    "file": "SourceAssets/visual-review/arv3c-before-02-herodian-ashlar-inner-east-gate-jamb-walkingheight.png",
+    "sha256": "17aa304043f30a9e76536287a00daea4130d63c3626d7f54a3a3fd52f3c03e90",
+    "wall": {
+      "edgeEnergy": 2.4212175123044792,
+      "edgeEnergySmoothed": 1.8634013468683692,
+      "verticalEnergySmoothed": 1.2494197818972328,
+      "fineStd": 2.519087879527984,
+      "lumaMean": 111.68152814984586,
+      "lumaStd": 18.624902664091476
+    },
+    "paving": {
+      "edgeEnergy": 7.610479477579729,
+      "edgeEnergySmoothed": 3.8542758459302355,
+      "verticalEnergySmoothed": 2.826537324365742,
+      "fineStd": 7.287202160955762,
+      "lumaMean": 116.49793433139534,
+      "lumaStd": 22.712946689395817
+    },
+    "tilePeriodPx": 1322,
+    "wallRepeat": {
+      "acU": 0.5185301210222041,
+      "combU": 0.5771495556307156,
+      "comb2D_car": 0.84034,
+      "acPeakNearTile": {
+        "lag": 1322,
+        "value": 0.5185301210222041
+      }
+    },
+    "jointRepeat": {
+      "value": 0.5378316947415819,
+      "bandPeaks": [
+        0.4641,
+        0.5325,
+        0.5644,
+        0.5169,
+        0.4871,
+        0.5662,
+        0.5337,
+        0.5416,
+        0.5661,
+        0.6057
+      ],
+      "bandPeakLags": [
+        1305,
+        1319,
+        1330,
+        1344,
+        1355,
+        1369,
+        1381,
+        1395,
+        1404,
+        1416
+      ],
+      "bandPeriodsFromControl": [
+        1307,
+        1319,
+        1331,
+        1344,
+        1355,
+        1368,
+        1380,
+        1393,
+        1405,
+        1416
+      ]
+    }
+  },
+  "referenceVsBefore": {
+    "wallEdgeEnergy": 0.9932,
+    "pavingEdgeEnergy": 0.9971,
+    "acU": 1.0004
+  }
+}

@@ -1,0 +1,26 @@
+{
+ "label": "arv4e",
+ "samplingMode": "layouts",
+ "by": "anti-repeat attempt-4 agent, by eye on 1:1 crops, 2026-09-11 ~06:20Z",
+ "frames": {
+  "before": "SourceAssets/visual-review/arv4e-before-02-herodian-ashlar-inner-east-gate-jamb-walkingheight.png",
+  "after": "SourceAssets/visual-review/arv4e-after-02-herodian-ashlar-inner-east-gate-jamb-walkingheight.png"
+ },
+ "crops": "3x3 grid of 1280x720 1:1 crops of each frame (scratch crops_v4.py): after c00-c22 reviewed, before c11 as the boss control",
+ "checks": {
+  "bossRaisedAt1to1": true,
+  "noStoneCutAtTileEdge": true,
+  "noSliverStones": true,
+  "noMidBlockSeam": true,
+  "noDashedBedJoint": true,
+  "noFalseRidge": true
+ },
+ "observations": {
+  "bossRaisedAt1to1": "every stone shows the lit upper chamfer and the shadowed lower chamfer/margin line, the same read as the control crop",
+  "noStoneCutAtTileEdge": "every stone carries one continuous drafted-margin frame; no tone step or ridge inside any face",
+  "noSliverStones": "shortest stones read about 1.3 m (235-245 px at 1600 wide); structural proof min 127 cm",
+  "noDashedBedJoint": "bed joints continuous dark lines across the frame",
+  "layout": "rising-joint spacings are irregular (e.g. 242/278/245/305/245 and 235/295/238/322/240 px at 1600 wide); no fixed 300 cm pitch. A regular short/long coursing rhythm of similar-sized stones remains.",
+  "notTheSurface": "a thin dark curved line crosses the lower-left of the after frame diagonally through faces and joints: an object in front of the wall (not aligned to any joint or UV line), not a material artefact; not present in the before frame"
+ }
+}

@@ -809,8 +809,8 @@
    "gate": "release_antirepeat.py do_apply reads THIS entry: evidence acceptanceVersion must equal version, every criterion must pass at these bars, and the visual checks must all be true."
   },
   "layoutsFrameTrial2026_09_11": {
-   "state": "BLOCKED_CAPTURE_GAME_EXE_STALE_NOT_APPLIED_TO_ANY_SHIPPING_MAP",
-   "updatedUtc": "2026-09-11T04:43:29.910673+00:00",
+   "state": "APPLIED_CANDIDATE48_AND_MAIN50_VERIFIED_SHIPPING_BUILD_NOT_YET_CAPTURED",
+   "updatedUtc": "2026-09-11T06:35:56.157452+00:00",
    "goal": "Break the Ashlar stone LAYOUT period itself (attempt 3 left the rising joints repeating every 300 cm: joint repeat x0.93 under acceptance v2).",
    "acceptance": "status2026_09_10.acceptanceV2_2026_09_11, fixed before any frame of this build existed",
    "design": "samplingAssets.layouts; Scripts/create_herodian_ashlar_layouts.py (15 Wang-edge slices), Scripts/release_antirepeat_layouts.py (Texture2DArrays + stock-node master, 9 fetches/pixel)",
@@ -866,7 +866,11 @@
     "build": "SourceAssets/material-review/AntiRepeatV1/antirepeat-layoutsbuild-20260911T043003676054Z.json",
     "buildVerify": "SourceAssets/material-review/AntiRepeatV1/antirepeat-layoutsverify-20260911T043045268715Z.json",
     "applyTrial": "SourceAssets/material-review/AntiRepeatV1/antirepeat-apply-Candidate48FrameTrial-20260911T043107033892Z.json",
-    "verifyTrial": "SourceAssets/material-review/AntiRepeatV1/antirepeat-verify-Candidate48FrameTrial-20260911T043221442037Z.json"
+    "verifyTrial": "SourceAssets/material-review/AntiRepeatV1/antirepeat-verify-Candidate48FrameTrial-20260911T043221442037Z.json",
+    "applyCandidate48": "SourceAssets/material-review/AntiRepeatV1/antirepeat-apply-Candidate48-20260911T062104306714Z.json",
+    "verifyCandidate48": "SourceAssets/material-review/AntiRepeatV1/antirepeat-verify-Candidate48-20260911T062307252879Z.json",
+    "applyMain50": "SourceAssets/material-review/AntiRepeatV1/antirepeat-apply-Main50-20260911T062655840708Z.json",
+    "verifyMain50": "SourceAssets/material-review/AntiRepeatV1/antirepeat-verify-Main50-20260911T063428000110Z.json"
    },
    "build": {
     "newAssets": 50,
@@ -893,7 +897,56 @@
     "cause": "MikdashRuntime editor plugin rebuilt 04:29Z by the crowd-VAT pass (MikdashCrowdField.h/.cpp changed); staged game exe is the 09-10 22:10 build",
     "notCausedByThisWork": "the untouched Candidate48 crashes identically; the cook reported no material/shader failure",
     "fix": "Game-target build (UBT, not this agent), then rerun cook + capture only (chain_v4_cook_capture.ps1 -Label arv4c); a detached watcher does it when the exe is newer than the plugin DLL",
-    "thenMeasure": "measure_antirepeat_frame.py --sampling layouts --visual <json>; apply Candidate48 then Main50 ONLY on v2 PASS"
+    "thenMeasure": "measure_antirepeat_frame.py --sampling layouts --visual <json>; apply Candidate48 then Main50 ONLY on v2 PASS",
+    "resolved": "game exe rebuilt 00:56:51 local (newer than the 00:29:45 plugin DLL); arv4c then collided with another UAT on the shared ErrorLog.txt (slot check missed dotnet-hosted UAT; fixed); arv4e cooked and captured clean"
+   },
+   "frameEvidence": {
+    "file": "SourceAssets/material-review/AntiRepeatV1/frame-evidence-arv4e-layouts.json",
+    "verdict": "PASS",
+    "acceptanceVersion": "v2-2026-09-11",
+    "criteria": {
+     "jointRepeat": {
+      "ratio": 0.3559,
+      "max": 0.75,
+      "pass": true
+     },
+     "rhoRatio": {
+      "ratio": -0.2766,
+      "max": 0.75,
+      "pass": true
+     },
+     "acU": {
+      "ratio": 0.6311,
+      "max": 0.75,
+      "pass": true,
+      "marginToBar": 0.1189
+     },
+     "detail": {
+      "normalized": {
+       "edgeEnergy": 0.9177,
+       "edgeEnergySmoothed": 0.9485,
+       "verticalEnergySmoothed": 0.9252
+      },
+      "min": 0.85,
+      "pass": true
+     }
+    },
+    "visual": "SourceAssets/material-review/AntiRepeatV1/visual-check-arv4e-layouts.json",
+    "build": "C:/Mikdash/Builds/FrameTrial-arv4e-20260911T053312Z (NOT a checkpoint)",
+    "frames": "SourceAssets/visual-review/arv4e-{before,after}-0{1,2}-*.png",
+    "eye": "no fixed 300 cm joint pitch any more; a regular short/long coursing rhythm of similar-size stones remains; boss reads raised; no cut stone, sliver, seam, ridge or dashed bed joint. A thin dark diagonal line lower-left of the after frame is an object in front of the wall, not the surface."
+   },
+   "applied": {
+    "slotsPerMap": 1488,
+    "Ashlar": "MI_AntiRepeat_Ashlar_V5Layouts (layouts master)",
+    "Trim": "MI_AntiRepeat_Trim_V5Variants (attempt 3, reused)",
+    "protectedUnchanged": true,
+    "gate": "do_apply accepted frame-evidence-arv4e-layouts.json under acceptance v2",
+    "revert": {
+     "Candidate48": "-AntiRepeatRevert=SourceAssets/material-review/AntiRepeatV1/antirepeat-apply-Candidate48-20260911T062104306714Z.json -Candidate48",
+     "Main50": "-AntiRepeatRevert=SourceAssets/material-review/AntiRepeatV1/antirepeat-apply-Main50-20260911T062655840708Z.json -Main50"
+    },
+    "next": "the next checkpoint build of Candidate48 should be looked at on the walls at walking height (the evidence came from the frame-trial copy in one build)"
    }
   }
  },

@@ -1792,11 +1792,34 @@ Files: `Scripts/create_herodian_ashlar_layouts.py` (slices, seed screen, `--prov
   identity. Limits seen: the capture script keeps only frames after a wall-clock settle, so each movie holds 8.4 s,
   not 37 s; the Ghost camera can sit inside a crowd figure (no collision); the Youth body's short tunic shows
   cylinder legs; turns step at each CPU visit (up to MaxTurn x sweep time).
-* **Open: V1 still in Content.** Two `-CrowdVatRemoveV1` runs: every slot is V2, no Python-visible property and no
-  `obj refs` chain holds V1, yet a clean re-save still writes all V1 instance names into each mesh package, so the
-  guard refused the delete (correctly). V1's shader map is in this box's DDC and V2 cooks cold clean, so cooks here
-  pass; a clean-DDC cook would still compile V1. Next step: read the mesh package import table offline to find the
-  serialized owner, or rebuild the six meshes fresh.
+* **RESOLVED 2026-09-11 ~06:30Z: M_CrowdVAT_V1 and all 59 V1 instances are deleted; a cook passes with no V1.**
+  The "hidden reference" was NOT a reference. An offline read of the saved mesh name tables showed V1 only as bare
+  FNames with NO package path (V2 appears as full import paths, V1 never did), i.e. not an import. Readback proved
+  what they are: each slot's `ImportedMaterialSlotName`, which UE filled from the first material assigned (V1, in the
+  bake) and which is READ-ONLY from 5.8 Python (set_editor_property raises; the StaticMaterial constructor rejects
+  the keyword). They stay as harmless reimport-matching names. My earlier byte-regex guard mistook them for
+  references; the guard is now the engine's own `find_package_referencers_for_asset` in a fresh process (only V1
+  referenced V1) plus "the re-saved package imports no V1 package path". `-CrowdVatRemoveV1`
+  (`crowd-vat-removev1-20260911T062450773138Z.json`) deleted 60 assets, maps byte-identical; copies in
+  `ReviewCheckpoints/CrowdVATMatV1-remove-*`. Then: V2 bake verify `verified_after_reopen`, map verify
+  `read_only_verify_complete`, and `Checkpoint-cpvatv1gone-20260911T062936Z`: 8,825 packages, "Success - 0 error(s),
+  0 warning(s)", `checkpoint_playable`, and ZERO `M_CrowdVAT_V1` / V1-instance lines in its cook log.
 * Stale note corrected: "VAT impossible, AnimToTexture not installed" (`Scripts/create_crowd_vat.py`) was wrong;
   the plugin ships with 5.8 and bakes from Python (`-EnablePlugins=AnimToTexture,GeometryScripting`, hidden
   editor). Its own skeletal->static converter returns None under -nullrhi with no log line; use GeometryScript.
+- **06:20Z FRAME TRIAL PASS (acceptance v2).** Evidence `frame-evidence-arv4e-layouts.json`, visual `visual-check-arv4e-layouts.json`,
+  build `C:/Mikdash/Builds/FrameTrial-arv4e-20260911T053312Z`. Joint repeat x0.356, rho ratio -0.28, acU x0.631 (0.119 under the bar),
+  detail x0.918/0.949/0.925. By eye: the rising joints no longer recur at a fixed 300 cm pitch, but a regular short/long coursing
+  rhythm of similar-size stones remains. The boss reads raised; no cut stone, sliver, seam, ridge or dashed bed joint.
+  **TRAP:** UAT in 5.8 runs as `dotnet ... AutomationTool.dll`, so a process-NAME slot check misses it. Two UATs collide on the shared
+  `%LOCALAPPDATA%/UnrealEngine/Programs/AutomationTool/Saved/Logs/ErrorLog.txt` and the second dies in seconds (arv4c/arv4d).
+  Check dotnet command lines too, require the slot free for 60 s, and treat an ErrorLog.txt lock as "slot busy", not a failure.
+  Applying to Candidate48, then Main50, via the detached chain (`ARLayoutRuns/chain-v4-apply.log`).
+- **06:21-06:35Z APPLIED.** Candidate48 (`antirepeat-apply-Candidate48-20260911T062104306714Z.json`, 1,488 slots, protected unchanged)
+  passed a fresh verify (`antirepeat-verify-Candidate48-20260911T062307252879Z.json`). Then Main50 (`antirepeat-apply-Main50-20260911T062655840708Z.json`)
+  passed its fresh verify (`antirepeat-verify-Main50-20260911T063428000110Z.json`). do_apply's v2 gate accepted `frame-evidence-arv4e-layouts.json`.
+  Ashlar -> `MI_AntiRepeat_Ashlar_V5Layouts`; Trim -> attempt 3's `MI_AntiRepeat_Trim_V5Variants`.
+  Revert: `release_antirepeat.py -AntiRepeatRevert=<that apply receipt> -Candidate48|-Main50`. The layouts assets can be deleted
+  (`-ARLayoutsRevert`) only after BOTH maps and the trial copy are reverted.
+  Still to do: look at the next Candidate48 checkpoint build's walls at walking height. The evidence came from the frame-trial copy
+  in one build.

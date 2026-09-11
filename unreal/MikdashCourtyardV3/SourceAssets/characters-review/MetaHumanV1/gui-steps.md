@@ -1,5 +1,33 @@
 # MetaHuman V1 — what needs the user's clicks in UE 5.8.2
 
+> ### MEASURED 2026-09-10 — "Step 0" below is FALSE. The cloud IS on the critical path.
+>
+> `Scripts/release_metahuman_build.py` was run natively for the first time on 2026-09-10.
+> It refused, correctly, and built nothing
+> (`metahuman-build-native-20260910T235430993241Z.json`):
+>
+> * The Aoi duplicate read `has_high_resolution_textures = False` and `can_build_meta_human = False`,
+>   engine error **"Character is not rigged."** (`MetaHumanCharacterEditorSubsystem.cpp:2262`).
+> * A second probe loaded **all 29 presets** directly: **29 of 29 read `has_high_resolution_textures = False`**
+>   (`metahuman-preset-gate-probe-20260911T0001Z.json`). The flag is `VisibleAnywhere, BlueprintReadOnly`;
+>   Python's `set_editor_property` refuses it as read-only.
+> * In the whole plugin source only `MetaHumanCharacterService.cpp:277` and `:370` — the **cloud**
+>   texture-download responses — ever call `SetHasHighResolutionTextures(true)`. Rigging state is
+>   `HasFaceDNA()`; locally that can only come from importing a face DNA (i.e. replacing the face with
+>   the DNA's, the archetype being the only one shipped) or from the cloud auto-rig.
+> * The earlier inference ("the package serialises `bHasHighResolutionTextures`, so it is true") was
+>   wrong: the package name table carries the property NAME because the class schema does.
+>
+> **So the one-time GUI sign-in below ("If the cloud is ever needed") is REQUIRED**, followed per
+> character by `request_auto_rigging(JOINTS_ONLY, blocking)` + `request_texture_sources(blocking)` +
+> `build_meta_human` (the exact sequence of Epic's own `Content/Python/test_character_assembly.py`).
+> After the sign-in these can run headless as the same Windows user. `MH_Elder_Kohen` already exists
+> (unrigged) under `/Game/MetaHumans/Source`, so its rerun needs `-MetaHumanForce`.
+>
+> Rejected on purpose: a C++ bypass (`UMetaHumanCharacter::SetHasHighResolutionTextures` and
+> `SetFaceDNABuffer` are exported) would forge Epic's gate, give every character the one archetype
+> face, and feed the assembly synthesized 1024 maps where it expects the downloaded animated maps.
+
 > ### SUPERSEDING UPDATE — 2026-09-09
 >
 > **Steps 1, 2 and the summary table below are STALE. Read this box first.**

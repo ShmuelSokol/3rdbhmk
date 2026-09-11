@@ -1,0 +1,71 @@
+{
+  "kind": "native_build",
+  "generatedUtc": "20260910T235430993241Z",
+  "status": "partial_see_per_character_errors",
+  "scope": "Character assets and their assembled output only. No map opened, spawned into or saved. No visual, LOD, performance or packaged acceptance (AGENTS.md hard rule 7).",
+  "route": "preset duplication - NO Epic cloud call is made by this script",
+  "switches": {
+    "force": false,
+    "build": true,
+    "only": null,
+    "count": 1
+  },
+  "alreadyCompleted": [],
+  "attempting": [
+    "MH_Elder_Kohen"
+  ],
+  "characters": [
+    {
+      "name": "MH_Elder_Kohen",
+      "role": "elder, full grey beard; the figure a visitor is most likely to speak to",
+      "preset": "Aoi",
+      "presetEvidence": "ships WI_Beard_L_Full + WI_Mustache_L_Full pre-selected, the fullest facial hair of the 29 presets",
+      "stage": "refused_build",
+      "clearedSlots": [
+        "Outfits"
+      ],
+      "groomsWorn": {
+        "Beard": "WI_Beard_L_Full",
+        "Mustache": "WI_Mustache_L_Full",
+        "Hair": "WI_Hair_S_PulledBack",
+        "Eyebrows": "WI_Eyebrows_M_Natural"
+      },
+      "melaninApplied": {},
+      "errors": [
+        "Melanin parameter not offered by the Beard groom",
+        "Melanin parameter not offered by the Mustache groom",
+        "Melanin parameter not offered by the Hair groom",
+        "can_build_meta_human is false, so nothing was built and NO cloud service was called. CanBuildMetaHuman needs GetRiggingState()==Rigged and HasHighResolutionTextures(); presetHadHighResolutionTextures=False, presetCanBuild=False. If the preset itself already failed the gate, the no-cloud route does not hold for this preset and the cloud route in release_metahuman_enable.py applies, after the one-time GUI sign-in in gui-steps.md."
+      ],
+      "assetPath": "/Game/MetaHumans/Source/MH_Elder_Kohen.MH_Elder_Kohen",
+      "presetHadHighResolutionTextures": false,
+      "presetCanBuild": false,
+      "hasHighResolutionTextures": false,
+      "canBuild": false,
+      "saved": true
+    }
+  ],
+  "errors": [],
+  "limitations": [
+    "MetaHuman Creator is IsBetaVersion=true in 5.8.2.",
+    "Nothing in this spec is visual acceptance (AGENTS.md hard rule 7). No character has been seen in the engine.",
+    "Preset age and gender are NOT recorded anywhere in the shipped assets. Every age/gender claim in the roster above is a guess to be confirmed by eye, except where the preset's own pre-selected facial hair proves the figure is bearded.",
+    "MetaHuman fixes skin, eyes, grooms and facial rig quality. It does NOT fix locomotion: an assembled MetaHuman still needs a locomotion Animation Blueprint, and this project drives residents with a single-node PlayAnimation that cannot cross-fade.",
+    "The face rig on a preset is whatever the preset shipped with. This script requests no auto-rig, so it neither improves nor degrades it."
+  ],
+  "finishedUtc": "20260910T235458855090Z",
+  "marker": {
+    "completed": [],
+    "failed": {
+      "MH_Elder_Kohen": {
+        "stage": "refused_build",
+        "errors": [
+          "Melanin parameter not offered by the Beard groom",
+          "Melanin parameter not offered by the Mustache groom",
+          "Melanin parameter not offered by the Hair groom",
+          "can_build_meta_human is false, so nothing was built and NO cloud service was called. CanBuildMetaHuman needs GetRiggingState()==Rigged and HasHighResolutionTextures(); presetHadHighResolutionTextures=False, presetCanBuild=False. If the preset itself already failed the gate, the no-cloud route does not hold for this preset and the cloud route in release_metahuman_enable.py applies, after the one-time GUI sign-in in gui-steps.md."
+        ]
+      }
+    }
+  }
+}

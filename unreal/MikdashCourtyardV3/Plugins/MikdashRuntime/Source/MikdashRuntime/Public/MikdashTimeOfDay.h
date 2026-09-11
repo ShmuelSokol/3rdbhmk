@@ -371,6 +371,51 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mikdash|Drive")
     bool bForbidVolumetricFog = true;
 
+    // -----------------------------------------------------------------------
+    // Distant haze (HorizonHazeV1, 11 Sep 2026)
+    //
+    // The height fog inherits the SkyAtmosphere's CLEAR-SKY ambient colour (times the
+    // preset's FogColorScale), and the aerial perspective is clear-sky Rayleigh too. Both are
+    // blue even when the preset's own sky is grey overcast, so the far-field terrain ring
+    // (Scripts/release_horizon_ring.py) saturated to one flat blue strip that read as sea
+    // (frames cp21/cp21b P1 and D1). The haze is tied to the sky state each preset already
+    // carries: its CloudCoverage (after weather) pulls the fog colour toward a luminance-
+    // preserving warm grey, but only while the sun is high enough for the clear-sky ambient to
+    // be blue; the far-field fog cap and the aerial-perspective multiplier keep distant ridges
+    // stepping back in value instead of merging. Review overrides: mikdash.Haze.* console
+    // variables; mikdash.Haze.Enable 0 restores the pre-HorizonHazeV1 behaviour exactly.
+    // -----------------------------------------------------------------------
+
+    /** 0 disables the overcast haze colour; 1 applies the full tint at full cover. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mikdash|Haze", meta = (ClampMin = "0.0", ClampMax = "1.0"))
+    float OvercastHazeStrength = 1.0f;
+
+    /** Per-channel multiplier on the fog colour at full weight. Normalised to Rec.709
+     * luminance 1 before use, so it changes the haze colour and never its brightness. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mikdash|Haze")
+    FLinearColor OvercastHazeTint = FLinearColor(1.0f, 0.80f, 0.55f, 1.f);
+
+    /** Blended CloudCoverage mapped to 0..1 cover weight (smoothstep X..Y). The cloud
+     * material already reads as mostly overcast at 0.25, the Hazy summer default. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mikdash|Haze")
+    FVector2D OvercastCoverageRange = FVector2D(0.05f, 0.30f);
+
+    /** Sun altitude in degrees mapped to 0..1 (smoothstep X..Y). Below X the clear-sky
+     * ambient is already warm (dawn, sunset), so the tint fades out instead of doubling it. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mikdash|Haze")
+    FVector2D OvercastSunAltitudeRangeDeg = FVector2D(2.f, 20.f);
+
+    /** Ceiling on the height fog's max opacity. It only binds on pixels already that
+     * heavily fogged (tens of km out, low land), so nothing near the camera changes; far
+     * ridges keep part of their own value and read as land. Negative = preset value. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mikdash|Haze")
+    float FarHazeMaxOpacity = 0.45f;
+
+    /** Multiplier on the preset's AerialPerspectiveViewDistanceScale (1.7-2.2 in daylight,
+     * x1.25 more under Hazy weather). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mikdash|Haze", meta = (ClampMin = "0.0"))
+    float AerialPerspectiveMultiplier = 0.45f;
+
     /** Degrees of sun movement between sky light recaptures. Recapturing every frame is
      * the single most expensive thing a time-of-day system can do. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mikdash|Drive", meta = (ClampMin = "0.1"))
@@ -453,6 +498,10 @@ public:
 
     UFUNCTION(BlueprintPure, Category = "Mikdash|Time")
     float GetTimeOfDayHours() const { return TimeOfDayHours; }
+
+    /** 0..1: how far the fog colour is pulled toward OvercastHazeTint right now. */
+    UFUNCTION(BlueprintPure, Category = "Mikdash|Haze")
+    float GetOvercastHazeWeight() const;
 
     /** 0 at midnight, 0.5 at noon. */
     UFUNCTION(BlueprintCallable, Category = "Mikdash|Time")
@@ -568,6 +617,13 @@ protected:
     void ApplyClouds(const FMikdashSkyPreset& P);
     void ApplyFog(const FMikdashSkyPreset& P);
     void ApplyExposure(const FMikdashSkyPreset& P);
+
+    FLinearColor EffectiveFogColorScale(const FMikdashSkyPreset& P) const;
+    float EffectiveFogMaxOpacity(const FMikdashSkyPreset& P) const;
+    float EffectiveAerialPerspectiveMultiplier() const;
+
+    /** Last value of mikdash.TimeOfDay.ForcePreset acted on (review captures only). */
+    int32 LastForcedPreset = -1;
 
     void CaptureSnapshot();
     void RestoreSnapshot();

@@ -114,16 +114,37 @@
       "frames": "SourceAssets/visual-review/frame-horizon-cp21b.json (P1, P1M, D1, D2 at 1,500 m, G1, G2; 0 material warnings)",
       "verdict": "NOT YET CONVINCING. The ring renders as Judean hills (D1), and the P1 band changed from dark saturated blue [~62,78,98] to light haze [~103,114,132] within ~10-30 of the sky above it, but distant flat terrain (coastal plain/sea west, rift/Gilead NE) still forms a flat bluish strip because aerial perspective + height fog saturate it to clear-sky Rayleigh blue under an overcast sky. Planet sea level vs -500 m: no visible difference.",
       "frameTimeP1": "SourceAssets/perf-review/horizon-ring-frametime-cp20-vs-cp21b.json and -cp20-vs-cp21.json: median frame cp20 16.96, cp21 16.62, cp21b 16.84 ms; cp21b p95 33.2 ms vs cp21 18.3 with identical geometry - suspected first-run PSO hitching, re-run."
+    },
+    "cp21c": {
+      "build": "C:/Mikdash/Builds/Checkpoint-cp21c-20260911T085329Z",
+      "what": "HorizonHazeV1 code with first-guess defaults (tint 1.0/0.90/0.70, cap 0.65, aerial 0.65) plus review console variables; used as the tuning build",
+      "verdict": "Teal cast from green > 1 after luminance normalisation; candidates A/B/C swept on this build with -ExtraExec; C chosen (warmest, layering kept, near look unchanged)."
+    },
+    "cp21d": {
+      "build": "C:/Mikdash/Builds/Checkpoint-cp21d-20260911T102244Z (cook 0 errors 0 warnings, no LogMaterial fallbacks; smoke refused by another agent game, the capture launches stand in for it)",
+      "haze": "HorizonHazeV1 baked candidate C: OvercastHazeTint (1.0, 0.80, 0.55) luminance-normalised, FarHazeMaxOpacity 0.45, AerialPerspectiveMultiplier 0.45; weight = cloud cover (smoothstep 0.05..0.30) x sun altitude (smoothstep 2..20 deg)",
+      "mapNote": "Candidate map cooked at c09d6a89 = CityFacadeV1 saved on top of the -500 m ring apply (f739876e); the 24 ring actors and PlanetTopAtComponentTransform are present in it",
+      "horizon": "P1 NE horizon reads as layered distant land in Morning, Midday, Afternoon and Sunset (frame-horizon-cp21d*.json). Morning P1 band blue-minus-red -4..-14 (cp21b) -> -22..-25, row stdev 0.0024 -> 0.0033; Midday P1 +8..-2 (haze off) -> -12..-16. D1 west band ~40 -> -4..+19 at Morning. CAVEAT: Midday D1 (west, 1,500 m) still shows the far coastal plain/sea as a slate grey-blue flat strip under a partly blue sky.",
+      "nearGuard": "Interleaved warm A/B (off, on, off2, on2), clean pair off2/on2: N1 +0.45%, N2 +0.64%, N3 +0.28%, N4 -0.22% mean luminance, per-cell medians 0.4-0.7% inside the on/on2 noise, colour ~1-2/255 warmer. The first cp21d haze-off run was a cold first launch and is discarded (see memory).",
+      "frameTimeP1": "SourceAssets/perf-review/horizon-haze-frametime-cp21d-AB.json: haze on vs off -0.32 ms frame, -0.16 ms GPU (spread 0.7-0.9 ms) - no measurable cost."
     }
   },
   "openWork": [
     {
       "item": "Haze colour of fully-hazed distant terrain",
-      "why": "The remaining sea read is no longer the shell: it is ring geometry at 30-200 km saturated to the aerial-perspective / height-fog inscatter colour, which is clear-sky blue under a grey overcast sky. Height fog composites against scene depth, so unlike the shell it CAN now reach this band. Candidate levers: AMikdashTimeOfDay preset FogColorScale and AerialPerspectiveViewDistanceScale (1.7-2.2 in daylight, overriding the map), fog inscattering colour, DirectionalLight cloud_shadow_on_atmosphere_strength. This is reviewed daylight tuning owned by release_sky_tod / lighting; change it deliberately, judge by frames P1 and D1/D2."
+      "why": "The remaining sea read is no longer the shell: it is ring geometry at 30-200 km saturated to the aerial-perspective / height-fog inscatter colour, which is clear-sky blue under a grey overcast sky. Height fog composites against scene depth, so unlike the shell it CAN now reach this band. Candidate levers: AMikdashTimeOfDay preset FogColorScale and AerialPerspectiveViewDistanceScale (1.7-2.2 in daylight, overriding the map), fog inscattering colour, DirectionalLight cloud_shadow_on_atmosphere_strength. This is reviewed daylight tuning owned by release_sky_tod / lighting; change it deliberately, judge by frames P1 and D1/D2.",
+      "status": "ADDRESSED by HorizonHazeV1 (AMikdashTimeOfDay, 11 Sep): fog colour tied to each preset cloud cover and sun altitude, far-fog cap 0.45, aerial perspective x0.45; tint (1.0, 0.80, 0.55). Final acceptance: cp21d frames (SourceAssets/visual-review/frame-horizon-cp21d*.json).",
+      "evidence": [
+        "SourceAssets/visual-review/haze-near-cp21b-near-vs-cp21c-hazeoff.json (noise floor)",
+        "SourceAssets/visual-review/haze-near-cp21c-hazeoff-vs-cp21c.json (same-build near A/B)",
+        "SourceAssets/visual-review/haze-far-profiles-tune.json, -midday.json, -midday-C.json (candidates)",
+        "SourceAssets/visual-review/haze-near-flagged-cells-hazeoff-vs-on.png (flagged cells = animated streak)"
+      ]
     },
     {
       "item": "Re-run the cp21b P1 frame-time capture",
-      "why": "Median unchanged vs cp20, but p95 33 ms on the one cp21b run while cp21 (same ring) had 18.3; confirm it is first-run PSO noise."
+      "why": "Median unchanged vs cp20, but p95 33 ms on the one cp21b run while cp21 (same ring) had 18.3; confirm it is first-run PSO noise.",
+      "status": "Superseded: cp21d same-build A/B (4 runs) shows no haze cost; cp21b tail was first-run noise"
     },
     {
       "item": "Dove altitude has no cap",
@@ -132,6 +153,14 @@
     {
       "item": "Ground-level horizon",
       "why": "G1/G2 show no band, but the city and Haram walls block the western horizon from the Mount; a ground camera with an open horizon (e.g. Mount of Olives looking west) would test the haze colour at eye level."
+    },
+    {
+      "item": "Midday west horizon from altitude",
+      "why": "At Midday the cover weight is ~0.65 (clearer sky), and D1 looking west at 1,500 m still reads the coastal plain and sea as a slate grey-blue strip. It is physically the real coast; if it must read warmer, raise OvercastHazeStrength or widen OvercastCoverageRange (review cvars mikdash.Haze.*) and judge D1 at ForcePreset 3."
+    },
+    {
+      "item": "Launch collisions with other agents",
+      "why": "Twice on 11 Sep a capture of mine and another agent perf/movie probe launched in the same second (06:06:32, and around 06:29-06:31); the other agent cp20-before perf probe taken then should be re-run."
     }
   ]
 }

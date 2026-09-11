@@ -22,6 +22,9 @@ param(
     [int]$ShotWaitSeconds = 120,
     [int]$WindowWaitSeconds = 240,
     [int]$Attempts = 2,
+    # Extra console commands appended to every view's -ExecCmds, e.g.
+    # "mikdash.Haze.Enable 0" or "mikdash.TimeOfDay.ForcePreset 3,mikdash.Haze.MaxOpacity 0.5".
+    [string]$ExtraExec = '',
     [switch]$ListOnly
 )
 $ErrorActionPreference = 'Stop'
@@ -46,6 +49,14 @@ $all = [ordered]@{
                answers = 'from the Mount looking west over the wall: hills, not sea' }
     'G2'  = @{ name = 'G2-ground-temple-mount-west-MODERN'; go = '-9000 0 200 0 180 0'; preKeys = @(0x56)
                answers = 'MODERN state from the Haram looking west: hills, not sea' }
+    'N1'  = @{ name = 'N1-azarah-spawn-facing-heichal'; go = '1768 0 578 0 180 0'; preKeys = @()
+               answers = 'cp05b-01 camera: near-range look must not move' }
+    'N2'  = @{ name = 'N2-herodian-jamb-walkingheight'; go = '1752 1200 580 5 0 0'; preKeys = @()
+               answers = 'cp05b-02 camera: near-range look must not move' }
+    'N3'  = @{ name = 'N3-kotel-plaza-upper-deck-MODERN'; go = '-20732 19230 -814 -6 -12 0'; preKeys = @(0x56)
+               answers = 'cp05b-08 camera in the MODERN state: near-range look must not move' }
+    'N4'  = @{ name = 'N4-heichal-interior'; go = '-3992 0 1058 8 180 0'; preKeys = @()
+               answers = 'cp05b-09 camera: near-range look must not move' }
 }
 # powershell -File passes "-Views P1,P2,P3" as ONE string, not an array; split it here or every view is
 # "unknown" and the script throws before its first receipt write (that is what the first cp16before run did).
@@ -86,6 +97,7 @@ $report = [ordered]@{
     status = 'starting'; label = $Label; archive = $Archive; exe = $exe
     launchDir = $launchDir; photoDir = $photos; map = 'GameDefaultMap'
     recipe = 'capture_frame_precinct_macro.ps1 verbatim; P1 from cp05b-04/cp20-P1, D/G new'
+    extraExec = $ExtraExec
     startedUtc = (Get-Date).ToUniversalTime().ToString('o'); frames = @(); errors = @()
 }
 $receipt = Join-Path $outDir ("frame-horizon-$Label.json")
@@ -101,7 +113,11 @@ if (Test-Path -LiteralPath $photos) { Remove-Item -LiteralPath $photos -Recurse 
 foreach ($v in $viewList) {
   for ($attempt = 1; $attempt -le $Attempts; $attempt++) {
     $arguments = "-windowed -ResX=1600 -ResY=900 -nosplash -nosteam -notraceserver -notrace -noverifygc $iniArgs"
-    if ($v.go) { $arguments += " -ExecCmds=`"Ghost,BugItGo $($v.go)`"" }
+    if ($v.go) {
+        $exec = "Ghost,BugItGo $($v.go)"
+        if ($ExtraExec) { $exec += ',' + $ExtraExec }
+        $arguments += " -ExecCmds=`"$exec`""
+    }
     if (Test-Path -LiteralPath $gameLog) { Remove-Item -LiteralPath $gameLog -Force -EA SilentlyContinue }
     $before = @()
     if (Test-Path -LiteralPath $photos) {

@@ -1,0 +1,22 @@
+﻿{
+    "status":  "cook_archive_passed_smoke_pending",
+    "label":  "cp21d",
+    "stamp":  "20260911T102244Z",
+    "startedUtc":  "2026-09-11T10:22:45.0111986Z",
+    "command":  "\"C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Build\\BatchFiles\\RunUAT.bat\" BuildCookRun -project=\"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject\" -noP4 -platform=Win64 -clientconfig=Development -build -cook -map=/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough -AdditionalCookerOptions=-cookprocesscount=1 -AdditionalIoStoreOptions=\"-maxPartitionSize=1800000000\" -stage -pak -iostore -archive -archivedirectory=\"C:\\Mikdash\\Builds\\Checkpoint-cp21d-20260911T102244Z\" -utf8output -unattended",
+    "map":  "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+    "candidateSha256Before":  "c09d6a89f8f99635a406401df70819a43a3549da557df5076589b4894ad4912e",
+    "mainSha256Before":  "93e615fd358ccdc4128acfba703b927d67a1984efc954e48ac761c1a4a6e8a51",
+    "archive":  "C:\\Mikdash\\Builds\\Checkpoint-cp21d-20260911T102244Z",
+    "freeGBAtStart":  8.1,
+    "scope":  "Cook + archive + bounded startup smoke. NOT route, audio or interaction acceptance.",
+    "batFile":  "C:\\Mikdash\\Working-5.8\\Checkpoint-cp21d-20260911T102244Z\\cook.bat",
+    "exitCode":  0,
+    "candidateSha256After":  "c09d6a89f8f99635a406401df70819a43a3549da557df5076589b4894ad4912e",
+    "mainSha256After":  "93e615fd358ccdc4128acfba703b927d67a1984efc954e48ac761c1a4a6e8a51",
+    "childExists":  true,
+    "child":  "C:\\Mikdash\\Builds\\Checkpoint-cp21d-20260911T102244Z\\Windows\\MikdashCourtyardV3\\Binaries\\Win64\\MikdashCourtyardV3.exe",
+    "childSha256":  "4caa5025ffdc71dd02bb787d2052fc41517164aa4f554c7300fea19bbc9fec3e",
+    "archiveBytes":  4092920154,
+    "mainMapChangedDuringCook":  false
+}

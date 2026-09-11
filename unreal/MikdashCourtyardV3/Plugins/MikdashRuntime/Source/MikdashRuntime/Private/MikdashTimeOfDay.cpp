@@ -19,6 +19,23 @@ DEFINE_LOG_CATEGORY_STATIC(LogMikdashSky, Log, All);
 
 namespace
 {
+// HorizonHazeV1 review overrides. -1 (or Enable 1) means "use the actor's property"; they
+// exist so a packaged Development build can be swept with -ExecCmds instead of a cook per guess.
+TAutoConsoleVariable<int32> CVarMikdashHazeEnable(TEXT("mikdash.Haze.Enable"), 1,
+    TEXT("0 = pre-HorizonHazeV1 fog and aerial perspective exactly (A/B control)."), ECVF_Default);
+TAutoConsoleVariable<float> CVarMikdashHazeStrength(TEXT("mikdash.Haze.OvercastStrength"), -1.f,
+    TEXT("Override OvercastHazeStrength (0..1); -1 = actor value."), ECVF_Default);
+TAutoConsoleVariable<float> CVarMikdashHazeTintG(TEXT("mikdash.Haze.TintG"), -1.f,
+    TEXT("Override OvercastHazeTint.G before luminance normalisation; -1 = actor value."), ECVF_Default);
+TAutoConsoleVariable<float> CVarMikdashHazeTintB(TEXT("mikdash.Haze.TintB"), -1.f,
+    TEXT("Override OvercastHazeTint.B before luminance normalisation; -1 = actor value."), ECVF_Default);
+TAutoConsoleVariable<float> CVarMikdashHazeMaxOpacity(TEXT("mikdash.Haze.MaxOpacity"), -2.f,
+    TEXT("Override FarHazeMaxOpacity; -2 = actor value, -1 = no cap."), ECVF_Default);
+TAutoConsoleVariable<float> CVarMikdashHazeAerial(TEXT("mikdash.Haze.AerialMultiplier"), -1.f,
+    TEXT("Override AerialPerspectiveMultiplier; -1 = actor value."), ECVF_Default);
+TAutoConsoleVariable<int32> CVarMikdashForcePreset(TEXT("mikdash.TimeOfDay.ForcePreset"), -1,
+    TEXT("Review captures: jump to preset 0 Dawn .. 7 Night once when set; -1 = off."), ECVF_Default);
+
 /** Smooth 0..1 ramp, used for every preset blend so a scrub never shows a kink. */
 float SmoothStep01(float T)
 {
@@ -356,6 +373,15 @@ void AMikdashTimeOfDay::EndPlay(const EEndPlayReason::Type Reason)
 void AMikdashTimeOfDay::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+
+    const int32 Forced = CVarMikdashForcePreset.GetValueOnGameThread();
+    if (Forced >= 0 && Forced <= int32(EMikdashTimePreset::Night) && Forced != LastForcedPreset)
+    {
+        LastForcedPreset = Forced;
+        JumpToPreset(EMikdashTimePreset(Forced));
+        UE_LOG(LogMikdashSky, Display, TEXT("ForcePreset %d -> %.3f h, sun %.1f deg, cover %.3f, haze weight %.3f"),
+               Forced, TimeOfDayHours, CachedSunAltitudeDeg, CachedBlended.CloudCoverage, GetOvercastHazeWeight());
+    }
 
     const float Rate = GetRateMultiplier();
     if (Rate > 0.f && DeltaSeconds > 0.f)
@@ -1032,7 +1058,7 @@ void AMikdashTimeOfDay::ApplySkyAtmosphere(const FMikdashSkyPreset& P)
     {
         return;
     }
-    C->SetAerialPespectiveViewDistanceScale(P.AerialPerspectiveViewDistanceScale);
+    C->SetAerialPespectiveViewDistanceScale(P.AerialPerspectiveViewDistanceScale * EffectiveAerialPerspectiveMultiplier());
     C->SetMieScatteringScale(P.MieScatteringScale);
     C->SetSkyLuminanceFactor(FLinearColor(P.SkyLuminanceFactor, P.SkyLuminanceFactor, P.SkyLuminanceFactor, 1.f));
 }
@@ -1095,10 +1121,76 @@ void AMikdashTimeOfDay::ApplyFog(const FMikdashSkyPreset& P)
     C->SetFogDensity(FMath::Clamp(P.FogDensity, 0.f, MaxFogDensity));
     C->SetFogHeightFalloff(P.FogHeightFalloff);
     C->SetStartDistance(P.FogStartDistance);
-    C->SetFogMaxOpacity(P.FogMaxOpacity);
+    C->SetFogMaxOpacity(EffectiveFogMaxOpacity(P));
     C->SetVolumetricFog(bForbidVolumetricFog ? false : P.bVolumetricFog);
-    C->SetSkyAtmosphereAmbientContributionColorScale(P.FogColorScale);
+    C->SetSkyAtmosphereAmbientContributionColorScale(EffectiveFogColorScale(P));
     C->SetDirectionalInscatteringColor(P.DirectionalInscatteringLuminance);
+}
+
+// ---------------------------------------------------------------------------
+// Distant haze (HorizonHazeV1)
+// ---------------------------------------------------------------------------
+
+float AMikdashTimeOfDay::GetOvercastHazeWeight() const
+{
+    if (CVarMikdashHazeEnable.GetValueOnGameThread() == 0)
+    {
+        return 0.f;
+    }
+    const float StrengthOverride = CVarMikdashHazeStrength.GetValueOnGameThread();
+    const float Strength = FMath::Clamp(StrengthOverride >= 0.f ? StrengthOverride : OvercastHazeStrength, 0.f, 1.f);
+    const float CoverLo = float(OvercastCoverageRange.X);
+    const float CoverHi = FMath::Max(CoverLo + 1e-3f, float(OvercastCoverageRange.Y));
+    const float Cover = SmoothStep01((CachedBlended.CloudCoverage - CoverLo) / (CoverHi - CoverLo));
+    const float SunLo = float(OvercastSunAltitudeRangeDeg.X);
+    const float SunHi = FMath::Max(SunLo + 1e-3f, float(OvercastSunAltitudeRangeDeg.Y));
+    const float HighSun = SmoothStep01((CachedSunAltitudeDeg - SunLo) / (SunHi - SunLo));
+    return Strength * Cover * HighSun;
+}
+
+FLinearColor AMikdashTimeOfDay::EffectiveFogColorScale(const FMikdashSkyPreset& P) const
+{
+    const float Weight = GetOvercastHazeWeight();
+    if (Weight <= 0.f)
+    {
+        return P.FogColorScale;
+    }
+    const float TintG = CVarMikdashHazeTintG.GetValueOnGameThread();
+    const float TintB = CVarMikdashHazeTintB.GetValueOnGameThread();
+    FLinearColor Tint(OvercastHazeTint.R, TintG >= 0.f ? TintG : OvercastHazeTint.G, TintB >= 0.f ? TintB : OvercastHazeTint.B, 1.f);
+    const float Luminance = 0.2126f * Tint.R + 0.7152f * Tint.G + 0.0722f * Tint.B;
+    if (Luminance > 1e-3f)
+    {
+        Tint = FLinearColor(Tint.R / Luminance, Tint.G / Luminance, Tint.B / Luminance, 1.f);
+    }
+    else
+    {
+        Tint = FLinearColor::White;
+    }
+    return FLinearColor(P.FogColorScale.R * FMath::Lerp(1.f, Tint.R, Weight),
+                        P.FogColorScale.G * FMath::Lerp(1.f, Tint.G, Weight),
+                        P.FogColorScale.B * FMath::Lerp(1.f, Tint.B, Weight), P.FogColorScale.A);
+}
+
+float AMikdashTimeOfDay::EffectiveFogMaxOpacity(const FMikdashSkyPreset& P) const
+{
+    if (CVarMikdashHazeEnable.GetValueOnGameThread() == 0)
+    {
+        return P.FogMaxOpacity;
+    }
+    const float Override = CVarMikdashHazeMaxOpacity.GetValueOnGameThread();
+    const float Cap = Override > -1.5f ? Override : FarHazeMaxOpacity;
+    return Cap >= 0.f ? FMath::Min(P.FogMaxOpacity, Cap) : P.FogMaxOpacity;
+}
+
+float AMikdashTimeOfDay::EffectiveAerialPerspectiveMultiplier() const
+{
+    if (CVarMikdashHazeEnable.GetValueOnGameThread() == 0)
+    {
+        return 1.f;
+    }
+    const float Override = CVarMikdashHazeAerial.GetValueOnGameThread();
+    return FMath::Max(0.f, Override >= 0.f ? Override : AerialPerspectiveMultiplier);
 }
 
 bool AMikdashTimeOfDay::UsesExtendedLuminanceRange() const

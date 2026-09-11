@@ -38,7 +38,14 @@ function Free-GB { [math]::Round((Get-CimInstance Win32_OperatingSystem).FreePhy
 # --- wait for the native slot, do not fight the feature agents for it -------------------
 $deadline = (Get-Date).AddMinutes($WaitMinutes)
 while ($true) {
-    $busy = Get-Process UnrealEditor, UnrealEditor-Cmd, MikdashCourtyardV3, AutomationTool, UnrealBuildTool -ErrorAction SilentlyContinue
+    $busy = @(Get-Process UnrealEditor, UnrealEditor-Cmd, MikdashCourtyardV3, AutomationTool, UnrealBuildTool -ErrorAction SilentlyContinue)
+    # UE 5.8 runs AutomationTool and UnrealBuildTool as dotnet.exe, so the names above never match
+    # another agent's cook or build. Two UATs cannot overlap (they share ErrorLog.txt) and UBT is
+    # single-instance, so a dotnet process running either one means the slot is taken.
+    $busy += @(Get-CimInstance Win32_Process -Filter "Name='dotnet.exe'" -ErrorAction SilentlyContinue |
+               Where-Object { $_.CommandLine -match 'AutomationTool|UnrealBuildTool' } |
+               ForEach-Object { [pscustomobject]@{ ProcessName = 'dotnet(' + $(if ($_.CommandLine -match 'AutomationTool') { 'UAT' } else { 'UBT' }) + ')' } })
+    if (-not $busy.Count) { $busy = $null }
     if (-not $busy -and (Free-GB) -ge $NeedGB) { break }
     if ((Get-Date) -gt $deadline) {
         $why = if ($busy) { 'native slot held by ' + (($busy | Select-Object -ExpandProperty ProcessName -Unique) -join ',') }

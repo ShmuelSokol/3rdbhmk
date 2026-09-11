@@ -499,3 +499,35 @@ and the actor lays it again in C++, both walking the same frozen recursive split
 `EnclosureMath.h`. Producing the same 713 panels and the same 34,653 instances from two
 independent implementations is what says the receipt describes the plaza that is actually in
 the level, rather than the plaza somebody meant to build.
+
+---
+
+## Addendum 11 September 2026 - far-field macro layer on the retaining faces
+
+**Why the faces were featureless.** Not a fallback: `MI_PrecinctPlaza_Ashlar` resolved exactly to the live
+V5b set and the cooked log had no LogMaterial line for it. The close-up tile is 300 cm with nothing larger
+than 3 m; at the cp05b-04 aerial (0.5-1.5 m per pixel) the sampler takes mip 9-11 of the 2048 tile and mip 11
+is one texel. Receipt: `PrecinctMacroV1/inspect-20260911T032433516183Z.json`.
+
+**What changed (asset-only, no map saved).** `MI_PrecinctPlaza_Ashlar` was REPARENTED from
+`MI_HerodianV4_Ashlar` onto `MacroV1/M_PrecinctMacroV1_Triplanar` (M_PBR_Tiled's 61 nodes verbatim + a 43-node
+base-colour macro tail, vertical faces only, PixelDepth fade 15 -> 60 m), with explicit overrides equal to the
+values it resolved before (parity proved). Tone map `T_PrecinctMacro_ToneV2` (per-stone tone on the close tile's
+own joints, course-tone runs 2-8 m), weathering map `T_PrecinctMacro_Weather`, `MacroFarStrength` 1.3.
+Generator `Scripts/create_precinct_macro.py`; placer `Scripts/release_precinct_macro.py`.
+
+**CONSEQUENCE FOR FUTURE PASSES: this instance no longer inherits from MI_HerodianV4_Ashlar.** A V4/V5 texture
+change on the Herodian instances will NOT reach the plaza stone; copy it onto `MI_PrecinctPlaza_Ashlar`.
+It feeds the retaining bands, scarp, ribs, kerbs, channels, steps, the 2,391 approach instances and the
+Kotel plaza step/kerb/band modules.
+
+**Revert.** `-PMRevert=<retone receipt>` returns to the V1 tone map; `-PMRevert=<apply receipt>`
+(`precinct-macro-apply-20260911T033138556043Z.json`) restores the original parent. Checkpoints in
+`ReviewCheckpoints/PrecinctMacro-*`.
+
+**Measured result (cp16 vs cp17b frames).** 60 m: 3 m tile-period autocorrelation 0.675 -> 0.368. 1 km: weathering
+and stone-tone variation added (gradient energy +42 %), course banding NOT yet resolved. Not accepted as final.
+
+**Companion change.** `SURFACEWEAR_Wear_Soot_GoldenAltar_Ceiling` (DecalActor, MI_Wear_Soot, 182 x 182 cm over
+the golden altar) was the translucent grey card under the Heikhal ceiling; hidden (bHidden) on both maps.
+Restore: `-PMDecalRestore=Candidate48` / `=Main50`.

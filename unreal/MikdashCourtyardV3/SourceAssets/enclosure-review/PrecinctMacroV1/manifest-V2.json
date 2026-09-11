@@ -1,0 +1,224 @@
+{
+ "status": "generated",
+ "generator": "Scripts/create_precinct_macro.py",
+ "seed": 17170912,
+ "params": {
+  "stoneToneSigma": 0.095,
+  "courseToneSigma": 0.075,
+  "courseRunLengths": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   8
+  ],
+  "rareDarkChance": 0.07,
+  "rareDark": 0.8,
+  "rareLightChance": 0.05,
+  "rareLight": 1.1,
+  "families": {
+   "base": [
+    0.55,
+    [
+     1.0,
+     1.0,
+     1.0
+    ]
+   ],
+   "honey": [
+    0.25,
+    [
+     1.035,
+     1.0,
+     0.94
+    ]
+   ],
+   "greygold": [
+    0.2,
+    [
+     0.965,
+     0.985,
+     1.025
+    ]
+   ]
+  },
+  "stoneGradient": 0.03,
+  "marginCm": {
+   "left": 10.0,
+   "right": 10.0,
+   "bottom": 10.0,
+   "top": 13.0
+  },
+  "marginFactor": {
+   "bottom": 0.72,
+   "side": 0.88,
+   "top": 0.95
+  },
+  "jointHalfWidthCm": 1.6,
+  "jointFactor": 0.55,
+  "toneMeanTarget": 0.97,
+  "weather": {
+   "broadSigmaCm": [
+    1900,
+    2500
+   ],
+   "broadStd": 0.04,
+   "patchSigmaCm": [
+    500,
+    750
+   ],
+   "patchStd": 0.045,
+   "streakSigmaCm": [
+    40,
+    1000
+   ],
+   "streakStd": 0.07,
+   "streakMaskSigmaCm": 380,
+   "meanTarget": 1.0
+  }
+ },
+ "convention": "u = world X|Y / tileUCm, v = world Z / tileVCm; image row 0 is v = 0 (image down = world up); value 0.5 = multiplier 1.0, linear (sRGB off)",
+ "tone": {
+  "file": "T_PrecinctMacro_ToneV2.png",
+  "size": [
+   4096,
+   2048
+  ],
+  "tileCm": [
+   9600.0,
+   4800.0
+  ],
+  "cmPerPx": 2.34375,
+  "closeTilesPerPeriod": [
+   32.0,
+   16.0
+  ],
+  "sha256": "1394ab88755d210235e029eb5e6b6cb7b32320c0971736e30584f459acf159af",
+  "meanLuminanceMultiplier": 0.970000147819519,
+  "p05p95": [
+   0.6137373268604278,
+   1.2497130215167997
+  ],
+  "at100cmPerPx": {
+   "std": 0.11394241452217102,
+   "rowProfileStd": 0.07761968672275543
+  },
+  "courseTone": [
+   1.1503,
+   1.1671,
+   1.1566,
+   1.1639,
+   1.0543,
+   1.0521,
+   1.0607,
+   1.0075,
+   1.0161,
+   1.006,
+   0.9364,
+   0.926,
+   0.9241,
+   0.9065,
+   0.8943,
+   0.9208,
+   0.9148,
+   0.9226,
+   0.9032,
+   0.9138,
+   0.9094,
+   0.9462,
+   0.927,
+   0.9428,
+   0.9311,
+   1.0119,
+   1.0208,
+   1.0392,
+   1.0132,
+   1.0181,
+   1.0123,
+   1.0042,
+   1.0236,
+   0.9802,
+   1.0262,
+   1.0001,
+   1.08,
+   1.0771,
+   1.0735,
+   1.0869,
+   1.0866,
+   1.0893,
+   1.0878,
+   1.1175,
+   1.107,
+   1.1059,
+   1.1307,
+   1.1278
+  ],
+  "stoneStats": {
+   "families": {
+    "base": 1397,
+    "honey": 677,
+    "greygold": 486
+   },
+   "rareDark": 168,
+   "rareLight": 134,
+   "stones": 2560
+  }
+ },
+ "weather": {
+  "file": "T_PrecinctMacro_Weather.png",
+  "size": [
+   1024,
+   1024
+  ],
+  "tileCm": [
+   12800.0,
+   12800.0
+  ],
+  "sha256": "26b48fbaaf3b0e23804adaa434d8784dcc84af3c5500d9c2dae6652d667fb617",
+  "mean": 0.9999922513961792,
+  "std": 0.05684836953878403,
+  "min": 0.7450980544090271,
+  "max": 1.1921569108963013
+ },
+ "layoutFromCloseTile": {
+  "bedsCm": [
+   0.0,
+   101.52,
+   193.56,
+   300.0
+  ],
+  "bedCheckOffsetCm": [
+   -0.44,
+   -0.29,
+   0.29
+  ],
+  "jointsCmPerCourse": [
+   [
+    62.48
+   ],
+   [
+    7.62,
+    163.11
+   ],
+   [
+    80.49,
+    220.97
+   ]
+  ],
+  "blocksPerCourse": [
+   1,
+   2,
+   2
+  ],
+  "heightSha256": "6985d8a6d3a594ae213f55b43eae91c34ba651e3671dbb25eea0722960106dbd",
+  "sourceCmPerPx": 0.146484375
+ },
+ "closeTileMeanLinearRgb": [
+  0.5375704765319824,
+  0.4806327223777771,
+  0.4110296666622162
+ ],
+ "generationSeconds": 8.8,
+ "variant": "V2"
+}

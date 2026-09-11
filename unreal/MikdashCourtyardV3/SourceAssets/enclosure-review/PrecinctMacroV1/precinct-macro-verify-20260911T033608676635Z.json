@@ -1,0 +1,158 @@
+{
+ "status": "verified",
+ "mode": "verify",
+ "target": null,
+ "startedUtc": "2026-09-11T03:36:08.676635+00:00",
+ "script": "Scripts/release_precinct_macro.py",
+ "mapsSaved": [],
+ "commandLine": " C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject -run=pythonscript -unattended -nullrhi -nosplash -abslog=C:/Mikdash/Working-5.8/PrecinctMacro-Verify-01.log -script=C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_precinct_macro.py -PMVerify=C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/enclosure-review/PrecinctMacroV1/precinct-macro-apply-20260911T033138556043Z.json -PMVerifyMaps",
+ "verifying": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\PrecinctMacroV1\\precinct-macro-apply-20260911T033138556043Z.json",
+ "instance": {
+  "path": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+  "parent": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/M_PrecinctMacroV1_Triplanar",
+  "base": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/M_PrecinctMacroV1_Triplanar",
+  "textures": {
+   "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+   "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+   "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+   "MacroTone": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_Tone",
+   "MacroWeather": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_Weather"
+  },
+  "scalars": {
+   "TilingCm": 300.0,
+   "NormalStrength": 1.0,
+   "RoughnessScale": 1.0,
+   "Metallic": 0.0,
+   "AlbedoFlatness": 0.0,
+   "MacroTileUCm": 9600.0,
+   "MacroTileVCm": 4800.0,
+   "WeatherTileCm": 12800.0,
+   "MacroFadeStartCm": 1500.0,
+   "MacroFadeLengthCm": 4500.0,
+   "MacroNearStrength": 0.0,
+   "MacroFarStrength": 1.0,
+   "WeatherStrength": 1.0
+  },
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "MATUSAGE_NANITE": {
+   "has": true,
+   "override": true
+  },
+  "MATUSAGE_INSTANCED_STATIC_MESHES": {
+   "has": true,
+   "override": true
+  }
+ },
+ "uassetSha256": "713ba79a48c8266135abb6260613df6a94a28a85d531829dd2141499d778083c",
+ "uassetMatchesApply": true,
+ "parityEqualToBefore": true,
+ "master": {
+  "path": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/M_PrecinctMacroV1_Triplanar",
+  "numExpressions": 104,
+  "blend_mode": "<BlendMode.BLEND_OPAQUE: 0>",
+  "shading_model": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+  "two_sided": "False",
+  "tangent_space_normal": "False",
+  "used_with_nanite": "True",
+  "used_with_instanced_static_meshes": "True"
+ },
+ "textures": {
+  "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_Tone": {
+   "path": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_Tone",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+   "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+   "addressX": "<TextureAddress.TA_WRAP: 0>",
+   "addressY": "<TextureAddress.TA_WRAP: 0>",
+   "size": [
+    4096,
+    2048
+   ]
+  },
+  "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_Weather": {
+   "path": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_Weather",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+   "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+   "addressX": "<TextureAddress.TA_WRAP: 0>",
+   "addressY": "<TextureAddress.TA_WRAP: 0>",
+   "size": [
+    1024,
+    1024
+   ]
+  }
+ },
+ "decals": {
+  "Candidate48": {
+   "label": "SURFACEWEAR_Wear_Soot_GoldenAltar_Ceiling",
+   "name": "DecalActor_312",
+   "class": "DecalActor",
+   "hiddenInGame": true,
+   "locationCm": [
+    -4712.0,
+    0.0,
+    2803.2
+   ],
+   "rotation": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "boundsOrigin": [
+    -4712.0,
+    0.0,
+    2923.2
+   ],
+   "boundsExtent": [
+    80.0,
+    80.0,
+    120.0
+   ],
+   "decalSizeCm": [
+    67.2,
+    182.4,
+    182.4
+   ],
+   "decalMaterial": "/Game/MikdashV3/SurfaceDetailV2/Materials/MI_Wear_Soot",
+   "mapSha256": "4851ad9e6cdcbffa5078e4e95c545304964257272bbc552cee644e1052f5280b"
+  },
+  "Main50": {
+   "label": "SURFACEWEAR_Wear_Soot_GoldenAltar_Ceiling",
+   "name": "DecalActor_312",
+   "class": "DecalActor",
+   "hiddenInGame": true,
+   "locationCm": [
+    -4650.0,
+    0.0,
+    2920.0
+   ],
+   "rotation": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "boundsOrigin": [
+    -4650.0,
+    0.0,
+    3040.0
+   ],
+   "boundsExtent": [
+    80.0,
+    80.0,
+    120.0
+   ],
+   "decalSizeCm": [
+    70.0,
+    190.0,
+    190.0
+   ],
+   "decalMaterial": "/Game/MikdashV3/SurfaceDetailSoftV1/MI_Soft_04",
+   "mapSha256": "f9d6453ec8dbb7d7a604d8f5bacab02257613c947bce8a9cf2b77198fb3eefc5"
+  }
+ }
+}

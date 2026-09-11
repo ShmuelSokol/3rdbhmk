@@ -1,0 +1,2666 @@
+{
+ "status": "ok",
+ "mode": "inspect_read_only",
+ "map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+ "errors": [],
+ "assets": {
+  "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar": {
+   "path": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+   "class": "MaterialInstanceConstant",
+   "parent": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+   "base": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+   "scalars": {
+    "TilingCm": 300.0,
+    "AlbedoFlatness": 0.0,
+    "RoughnessScale": 1.0,
+    "Metallic": 0.0,
+    "NormalStrength": 1.0
+   },
+   "vectors": {
+    "Tint": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "textures": {
+    "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+    "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+    "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+   },
+   "usage": {
+    "MATUSAGE_NANITE": true,
+    "MATUSAGE_INSTANCED_STATIC_MESHES": true
+   }
+  },
+  "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar": {
+   "path": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+   "class": "MaterialInstanceConstant",
+   "parent": "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar",
+   "base": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+   "scalars": {
+    "TilingCm": 300.0,
+    "AlbedoFlatness": 0.0,
+    "RoughnessScale": 1.0,
+    "Metallic": 0.0,
+    "NormalStrength": 1.0
+   },
+   "vectors": {
+    "Tint": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "textures": {
+    "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+    "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+    "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal"
+   },
+   "usage": {
+    "MATUSAGE_NANITE": true,
+    "MATUSAGE_INSTANCED_STATIC_MESHES": true
+   }
+  },
+  "M_PBR_Tiled": {
+   "path": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+   "blend_mode": "<BlendMode.BLEND_OPAQUE: 0>",
+   "shading_model": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+   "two_sided": "False",
+   "tangent_space_normal": "False",
+   "used_with_nanite": "False",
+   "used_with_instanced_static_meshes": "False",
+   "used_with_static_lighting": "False",
+   "used_with_skeletal_mesh": "False",
+   "used_with_spline_meshes": "False",
+   "used_with_morph_targets": "False",
+   "used_with_particle_sprites": "False",
+   "used_with_mesh_particles": "False",
+   "used_with_niagara_sprites": "False",
+   "used_with_geometry_cache": "False",
+   "used_with_geometry_collections": "False",
+   "used_with_editor_compositing": "False",
+   "used_with_clothing": "False",
+   "used_with_water": "False",
+   "used_with_hair_strands": "False",
+   "used_with_lidar_point_cloud": "False",
+   "used_with_virtual_heightfield_mesh": "False",
+   "used_with_beam_trails": "False",
+   "numExpressions": 61
+  },
+  "retainingBandSearch": [
+   "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand"
+  ],
+  "retainingBand": {
+   "path": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand",
+   "nanite": true,
+   "boxExtent": [
+    625.0,
+    75.0,
+    125.0
+   ],
+   "origin": [
+    0.0,
+    -75.0,
+    -125.0
+   ],
+   "materials": [
+    "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar"
+   ]
+  },
+  "T_HerodianV5b_Ashlar_Albedo": {
+   "compression_settings": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+   "srgb": "True",
+   "lod_group": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+   "address_x": "<TextureAddress.TA_WRAP: 0>",
+   "address_y": "<TextureAddress.TA_WRAP: 0>",
+   "filter": "<TextureFilter.TF_DEFAULT: 3>",
+   "mip_gen_settings": "<TextureMipGenSettings.TMGS_FROM_TEXTURE_GROUP: 0>",
+   "virtual_texture_streaming": "False",
+   "never_stream": "False"
+  },
+  "MI_FX_Smoke_Ceiling": {
+   "path": "/Game/MikdashV3/FX/Materials/MI_FX_Smoke_Ceiling",
+   "class": "MaterialInstanceConstant",
+   "parent": "/Game/MikdashV3/FX/Materials/M_FX_Smoke",
+   "base": "/Game/MikdashV3/FX/Materials/M_FX_Smoke",
+   "scalars": {
+    "VFlip": 0.0,
+    "FXSeed": 0.0,
+    "PanSpeedU": 0.012000000104308128,
+    "PanSpeedV": 0.019999999552965164,
+    "NoiseTiling": 1.0,
+    "DistortStrength": 0.054999999701976776,
+    "ErosionBias": 0.44999998807907104,
+    "FXErosion": 0.0,
+    "ErosionSoftness": 0.30000001192092896,
+    "FXAge": 0.0,
+    "OpacityScale": 0.30000001192092896,
+    "OpacityFloor": 0.05999999865889549,
+    "FXFade": 1.0,
+    "DepthFadeDistance": 90.0,
+    "FXFlicker": 0.0
+   },
+   "vectors": {
+    "LitColour": [
+     0.9200000166893005,
+     0.6200000047683716,
+     0.36000001430511475,
+     1.0
+    ],
+    "SmokeColour": [
+     0.800000011920929,
+     0.7799999713897705,
+     0.7400000095367432,
+     1.0
+    ]
+   },
+   "textures": {
+    "NoiseTex": "/Game/MikdashV3/FX/Textures/T_FX_Noise_fBm_512",
+    "SmokeTex": "/Game/MikdashV3/FX/Textures/T_FX_Smoke_Puff_512"
+   },
+   "usage": {
+    "MATUSAGE_NANITE": false,
+    "MATUSAGE_INSTANCED_STATIC_MESHES": false
+   },
+   "baseInfo": {
+    "path": "/Game/MikdashV3/FX/Materials/M_FX_Smoke",
+    "blend_mode": "<BlendMode.BLEND_TRANSLUCENT: 2>",
+    "shading_model": "<MaterialShadingModel.MSM_UNLIT: 0>",
+    "two_sided": "True",
+    "tangent_space_normal": "True",
+    "used_with_nanite": "False",
+    "used_with_instanced_static_meshes": "False",
+    "used_with_static_lighting": "False",
+    "used_with_skeletal_mesh": "False",
+    "used_with_spline_meshes": "False",
+    "used_with_morph_targets": "False",
+    "used_with_particle_sprites": "False",
+    "used_with_mesh_particles": "False",
+    "used_with_niagara_sprites": "False",
+    "used_with_geometry_cache": "False",
+    "used_with_geometry_collections": "False",
+    "used_with_editor_compositing": "False",
+    "used_with_clothing": "False",
+    "used_with_water": "False",
+    "used_with_hair_strands": "False",
+    "used_with_lidar_point_cloud": "False",
+    "used_with_virtual_heightfield_mesh": "False",
+    "used_with_beam_trails": "False",
+    "numExpressions": 63
+   }
+  }
+ },
+ "world": {
+  "actorCount": 8433,
+  "ceilingZone": [
+   {
+    "label": "RELEASE_HeikhalEntranceFill",
+    "class": "RectLight",
+    "origin": [
+     -3998.0,
+     0.0,
+     2800.0
+    ],
+    "extent": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "components": [
+     {
+      "name": "BillboardComponent_0",
+      "class": "BillboardComponent"
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Kodesh partition shoulder",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5672.0,
+     -324.0,
+     1848.0
+    ],
+    "extent": [
+     48.0,
+     156.0,
+     960.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0142_architecture_Kodesh_partition_shoulder",
+      "materials": [
+       [
+        "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Kodesh partition shoulder",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5672.0,
+     324.0,
+     1848.0
+    ],
+    "extent": [
+     48.0,
+     156.0,
+     960.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0143_architecture_Kodesh_partition_shoulder",
+      "materials": [
+       [
+        "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Kodesh partition lintel",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5672.0,
+     -0.0,
+     1992.0
+    ],
+    "extent": [
+     48.0,
+     168.0,
+     816.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0144_architecture_Kodesh_partition_lintel",
+      "materials": [
+       [
+        "/Game/MikdashV3/IntegratedReviewV2/Lighting/MI_PBR_GoldMatte_Partition",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Sanctuary ceiling",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5336.0,
+     -0.0,
+     2856.0
+    ],
+    "extent": [
+     1632.0,
+     480.0,
+     48.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0148_roof_Sanctuary_ceiling",
+      "materials": [
+       [
+        "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldCeiling",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Ulam entrance pillar",
+    "class": "StaticMeshActor",
+    "origin": [
+     -2590.4,
+     -384.0,
+     2328.0
+    ],
+    "extent": [
+     48.0,
+     48.0,
+     1440.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0167_architecture_Ulam_entrance_pillar",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Ulam entrance pillar",
+    "class": "StaticMeshActor",
+    "origin": [
+     -2590.4,
+     384.0,
+     2328.0
+    ],
+    "extent": [
+     48.0,
+     48.0,
+     1440.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_0172_architecture_Ulam_entrance_pillar",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Open Heichal door",
+    "class": "StaticMeshActor",
+    "origin": [
+     -3656.0,
+     -245.8,
+     2088.0
+    ],
+    "extent": [
+     115.2,
+     5.3,
+     1200.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_1948_detail_Open_Heichal_door",
+      "materials": [
+       [
+        "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Open Heichal door",
+    "class": "StaticMeshActor",
+    "origin": [
+     -3454.4,
+     -245.8,
+     2088.0
+    ],
+    "extent": [
+     115.2,
+     5.3,
+     1200.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_1949_detail_Open_Heichal_door",
+      "materials": [
+       [
+        "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Open Heichal door",
+    "class": "StaticMeshActor",
+    "origin": [
+     -3656.0,
+     245.8,
+     2088.0
+    ],
+    "extent": [
+     115.2,
+     5.3,
+     1200.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_1950_detail_Open_Heichal_door",
+      "materials": [
+       [
+        "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Open Heichal door",
+    "class": "StaticMeshActor",
+    "origin": [
+     -3454.4,
+     245.8,
+     2088.0
+    ],
+    "extent": [
+     115.2,
+     5.3,
+     1200.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_1951_detail_Open_Heichal_door",
+      "materials": [
+       [
+        "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_GoldHammered",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Ulam nested stone door frame",
+    "class": "StaticMeshActor",
+    "origin": [
+     -2631.2,
+     -357.6,
+     2088.0
+    ],
+    "extent": [
+     19.2,
+     14.4,
+     1200.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_2307_detail_Ulam_nested_stone_door_frame",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Ulam nested stone door frame",
+    "class": "StaticMeshActor",
+    "origin": [
+     -2631.2,
+     -391.2,
+     2088.0
+    ],
+    "extent": [
+     24.0,
+     9.6,
+     1200.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_2308_detail_Ulam_nested_stone_door_frame",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Ulam nested stone door frame",
+    "class": "StaticMeshActor",
+    "origin": [
+     -2631.2,
+     -424.8,
+     2088.0
+    ],
+    "extent": [
+     14.4,
+     14.4,
+     1200.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_2309_detail_Ulam_nested_stone_door_frame",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Ulam nested stone door frame",
+    "class": "StaticMeshActor",
+    "origin": [
+     -2631.2,
+     357.6,
+     2088.0
+    ],
+    "extent": [
+     19.2,
+     14.4,
+     1200.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_2313_detail_Ulam_nested_stone_door_frame",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Ulam nested stone door frame",
+    "class": "StaticMeshActor",
+    "origin": [
+     -2631.2,
+     391.2,
+     2088.0
+    ],
+    "extent": [
+     24.0,
+     9.6,
+     1200.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_2314_detail_Ulam_nested_stone_door_frame",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Ulam nested stone door frame",
+    "class": "StaticMeshActor",
+    "origin": [
+     -2631.2,
+     424.8,
+     2088.0
+    ],
+    "extent": [
+     14.4,
+     14.4,
+     1200.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_2315_detail_Ulam_nested_stone_door_frame",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Derived union of source raised gallery slabs",
+    "class": "StaticMeshActor",
+    "origin": [
+     -248.0,
+     -0.0,
+     2688.0
+    ],
+    "extent": [
+     7488.0,
+     7488.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/Architecture/architecture_SM_2631_union_Derived_union_of_source_raised_gallery_s",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Review_HeichalSide-1",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4664.0,
+     -480.0,
+     1848.0
+    ],
+    "extent": [
+     960.0,
+     0.1,
+     960.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "materials": [
+       [
+        "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldWall",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Review_HeichalSide1",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4664.0,
+     480.0,
+     1848.0
+    ],
+    "extent": [
+     960.0,
+     0.1,
+     960.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "materials": [
+       [
+        "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldWall",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Review_KodeshSide-1",
+    "class": "StaticMeshActor",
+    "origin": [
+     -6200.0,
+     -480.0,
+     1848.0
+    ],
+    "extent": [
+     480.0,
+     0.1,
+     960.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "materials": [
+       [
+        "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldWall",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Review_KodeshSide1",
+    "class": "StaticMeshActor",
+    "origin": [
+     -6200.0,
+     480.0,
+     1848.0
+    ],
+    "extent": [
+     480.0,
+     0.1,
+     960.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "materials": [
+       [
+        "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldWall",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Review_HeichalEntranceJamb-1",
+    "class": "StaticMeshActor",
+    "origin": [
+     -3704.0,
+     -360.0,
+     1848.0
+    ],
+    "extent": [
+     0.1,
+     120.0,
+     960.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "materials": [
+       [
+        "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldWall",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "Review_HeichalEntranceJamb1",
+    "class": "StaticMeshActor",
+    "origin": [
+     -3704.0,
+     360.0,
+     1848.0
+    ],
+    "extent": [
+     0.1,
+     120.0,
+     960.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/SM_InteriorVeneerCube",
+      "materials": [
+       [
+        "/Game/MikdashV3/SanctuaryFinishV2/MI_SanctuaryV2_GoldWall",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_43",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5564.0,
+     -475.6,
+     2208.0
+    ],
+    "extent": [
+     60.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_MR_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_44",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5384.0,
+     -475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_45",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5144.0,
+     -475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_46",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4904.0,
+     -475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_47",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4664.0,
+     -475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_48",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4424.0,
+     -475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_49",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4184.0,
+     -475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_50",
+    "class": "StaticMeshActor",
+    "origin": [
+     -3944.0,
+     -475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_51",
+    "class": "StaticMeshActor",
+    "origin": [
+     -3764.0,
+     -475.6,
+     2208.0
+    ],
+    "extent": [
+     60.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_ML_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_52",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5504.0,
+     -475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_53",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5264.0,
+     -475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_54",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5024.0,
+     -475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_55",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4784.0,
+     -475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_56",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4544.0,
+     -475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_57",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4304.0,
+     -475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_58",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4064.0,
+     -475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_59",
+    "class": "StaticMeshActor",
+    "origin": [
+     -3824.0,
+     -475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_102",
+    "class": "StaticMeshActor",
+    "origin": [
+     -3764.0,
+     475.6,
+     2208.0
+    ],
+    "extent": [
+     60.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_MR_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_103",
+    "class": "StaticMeshActor",
+    "origin": [
+     -3944.0,
+     475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_104",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4184.0,
+     475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_105",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4424.0,
+     475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_106",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4664.0,
+     475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_107",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4904.0,
+     475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_108",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5144.0,
+     475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_109",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5384.0,
+     475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_110",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5564.0,
+     475.6,
+     2208.0
+    ],
+    "extent": [
+     60.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_ML_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_111",
+    "class": "StaticMeshActor",
+    "origin": [
+     -3824.0,
+     475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_112",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4064.0,
+     475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_113",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4304.0,
+     475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_114",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4544.0,
+     475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_115",
+    "class": "StaticMeshActor",
+    "origin": [
+     -4784.0,
+     475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_116",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5024.0,
+     475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_117",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5264.0,
+     475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_118",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5504.0,
+     475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_141",
+    "class": "StaticMeshActor",
+    "origin": [
+     -6620.0,
+     -475.6,
+     2208.0
+    ],
+    "extent": [
+     60.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_MR_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_142",
+    "class": "StaticMeshActor",
+    "origin": [
+     -6440.0,
+     -475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_143",
+    "class": "StaticMeshActor",
+    "origin": [
+     -6200.0,
+     -475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_144",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5960.0,
+     -475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_145",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5780.0,
+     -475.6,
+     2208.0
+    ],
+    "extent": [
+     60.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_ML_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_146",
+    "class": "StaticMeshActor",
+    "origin": [
+     -6560.0,
+     -475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_147",
+    "class": "StaticMeshActor",
+    "origin": [
+     -6320.0,
+     -475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_148",
+    "class": "StaticMeshActor",
+    "origin": [
+     -6080.0,
+     -475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_149",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5840.0,
+     -475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_172",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5780.0,
+     475.6,
+     2208.0
+    ],
+    "extent": [
+     60.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_MR_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_173",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5960.0,
+     475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_174",
+    "class": "StaticMeshActor",
+    "origin": [
+     -6200.0,
+     475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_175",
+    "class": "StaticMeshActor",
+    "origin": [
+     -6440.0,
+     475.6,
+     2208.0
+    ],
+    "extent": [
+     120.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_176",
+    "class": "StaticMeshActor",
+    "origin": [
+     -6620.0,
+     475.6,
+     2208.0
+    ],
+    "extent": [
+     60.0,
+     2.8,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_ML_D25",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_177",
+    "class": "StaticMeshActor",
+    "origin": [
+     -5840.0,
+     475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_178",
+    "class": "StaticMeshActor",
+    "origin": [
+     -6080.0,
+     475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_179",
+    "class": "StaticMeshActor",
+    "origin": [
+     -6320.0,
+     475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_A_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "RELEASE_Frieze_180",
+    "class": "StaticMeshActor",
+    "origin": [
+     -6560.0,
+     475.4,
+     2448.0
+    ],
+    "extent": [
+     120.0,
+     3.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Meshes/SM_KeruvFriezeV2_M_D30",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced",
+        "<BlendMode.BLEND_OPAQUE: 0>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   },
+   {
+    "label": "SURFACEWEAR_Wear_Soot_GoldenAltar_Ceiling",
+    "class": "DecalActor",
+    "origin": [
+     -4712.0,
+     0.0,
+     2923.2
+    ],
+    "extent": [
+     80.0,
+     80.0,
+     120.0
+    ],
+    "components": [
+     {
+      "name": "ArrowComponent0",
+      "class": "ArrowComponent"
+     },
+     {
+      "name": "Sprite",
+      "class": "BillboardComponent"
+     }
+    ],
+    "translucent": false,
+    "actorHiddenInGame": false
+   }
+  ],
+  "heikhalTranslucent": [
+   {
+    "label": "RELEASE_Water_CourtWater",
+    "class": "StaticMeshActor",
+    "origin": [
+     2974.3,
+     590.4,
+     415.0
+    ],
+    "extent": [
+     5609.7,
+     441.6,
+     448.0
+    ],
+    "components": [
+     {
+      "name": "StaticMeshComponent0",
+      "class": "StaticMeshComponent",
+      "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_CourtWater",
+      "materials": [
+       [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water",
+        "<BlendMode.BLEND_TRANSLUCENT: 2>"
+       ],
+       [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water",
+        "<BlendMode.BLEND_TRANSLUCENT: 2>"
+       ],
+       [
+        "/Game/MikdashV3/MaterialReview/MikdashWaterV1/M_MikdashWaterV1_Water",
+        "<BlendMode.BLEND_TRANSLUCENT: 2>"
+       ]
+      ],
+      "visible": true,
+      "hiddenInGame": false
+     }
+    ],
+    "translucent": true,
+    "actorHiddenInGame": false
+   }
+  ],
+  "fxDirector": [
+   {
+    "label": "RELEASE_MikdashFXDirector",
+    "class": "MikdashFXDirector",
+    "location": [
+     0.0,
+     0.0,
+     1100.0
+    ],
+    "heikhal_ceiling_z_cm": 2808.0,
+    "golden_altar_top_cm": [
+     -4650.0,
+     0.0,
+     1004.17
+    ],
+    "smoke_ceiling_material": "/Game/MikdashV3/FX/Materials/MI_FX_Smoke_Ceiling",
+    "smoke_ketores_material": "/Game/MikdashV3/FX/Materials/MI_FX_Smoke_Ketores",
+    "light_shaft_material": "/Game/MikdashV3/FX/Materials/MI_FX_LightShaft",
+    "dust_mote_material": "/Game/MikdashV3/FX/Materials/MI_FX_DustMote",
+    "heat_haze_material": "/Game/MikdashV3/FX/Materials/MI_FX_HeatHaze",
+    "card_mesh": "/Engine/BasicShapes/Plane",
+    "follow_service_actor": true,
+    "lamps_follow_service": true,
+    "effects_quality": 1.0,
+    "shaft_transforms": [],
+    "heat_haze_cm": [],
+    "service_incense_cue": "golden altar for the incense",
+    "service_actorError": "Exception(\"MikdashFXDirector: Failed to find property 'service_actor' for attribute 'service_actor' on 'MikdashFXDirector'\")"
+   }
+  ],
+  "enclosure": [
+   {
+    "label": "RELEASE_EnclosureV2_Precinct",
+    "class": "MikdashEnclosure",
+    "plaza_ashlar_material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+    "plaza_retaining_band_mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand",
+    "wall_material": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar"
+   }
+  ],
+  "serviceActors": [
+   {
+    "label": "RELEASE_KohenGadolService_Selected48_V1",
+    "class": "MikdashServiceActor",
+    "location": [
+     -3320.0,
+     0.0,
+     888.0
+    ]
+   }
+  ]
+ },
+ "finishedUtc": "2026-09-11T03:24:42.101519+00:00"
+}

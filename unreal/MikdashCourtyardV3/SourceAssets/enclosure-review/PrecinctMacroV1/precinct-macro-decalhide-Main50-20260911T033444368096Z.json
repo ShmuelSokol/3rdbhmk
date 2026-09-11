@@ -1,0 +1,93 @@
+{
+ "status": "decal_hidden",
+ "mode": "decalhide",
+ "target": "Main50",
+ "startedUtc": "2026-09-11T03:34:44.368096+00:00",
+ "script": "Scripts/release_precinct_macro.py",
+ "mapsSaved": [
+  "MikdashV3/IntegratedReviewV2/Maps/Walkthrough"
+ ],
+ "commandLine": " C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject -run=pythonscript -unattended -nullrhi -nosplash -abslog=C:/Mikdash/Working-5.8/PrecinctMacro-DecalMain-01.log -script=C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_precinct_macro.py -PMDecalHide=Main50",
+ "stage": "hash_after",
+ "mapSha256Before": "e36210c691fce8c4e44134841cc722549ace6e8d9520b33daff63f8588ae2997",
+ "otherMapsBefore": {
+  "Candidate48": "4851ad9e6cdcbffa5078e4e95c545304964257272bbc552cee644e1052f5280b"
+ },
+ "checkpoint": {
+  "file": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\PrecinctDecal-Main50-20260911T033444368096Z\\Walkthrough.umap",
+  "sha256": "e36210c691fce8c4e44134841cc722549ace6e8d9520b33daff63f8588ae2997"
+ },
+ "decalBefore": {
+  "label": "SURFACEWEAR_Wear_Soot_GoldenAltar_Ceiling",
+  "name": "DecalActor_312",
+  "class": "DecalActor",
+  "hiddenInGame": false,
+  "locationCm": [
+   -4650.0,
+   0.0,
+   2920.0
+  ],
+  "rotation": [
+   90.0,
+   0.0,
+   0.0
+  ],
+  "boundsOrigin": [
+   -4650.0,
+   0.0,
+   3040.0
+  ],
+  "boundsExtent": [
+   80.0,
+   80.0,
+   120.0
+  ],
+  "decalSizeCm": [
+   70.0,
+   190.0,
+   190.0
+  ],
+  "decalMaterial": "/Game/MikdashV3/SurfaceDetailSoftV1/MI_Soft_04"
+ },
+ "mapSha256After": "f9d6453ec8dbb7d7a604d8f5bacab02257613c947bce8a9cf2b77198fb3eefc5",
+ "decalAfterInProcess": {
+  "label": "SURFACEWEAR_Wear_Soot_GoldenAltar_Ceiling",
+  "name": "DecalActor_312",
+  "class": "DecalActor",
+  "hiddenInGame": true,
+  "locationCm": [
+   -4650.0,
+   0.0,
+   2920.0
+  ],
+  "rotation": [
+   90.0,
+   0.0,
+   0.0
+  ],
+  "boundsOrigin": [
+   -4650.0,
+   0.0,
+   3040.0
+  ],
+  "boundsExtent": [
+   80.0,
+   80.0,
+   120.0
+  ],
+  "decalSizeCm": [
+   70.0,
+   190.0,
+   190.0
+  ],
+  "decalMaterial": "/Game/MikdashV3/SurfaceDetailSoftV1/MI_Soft_04"
+ },
+ "contentDiff": [
+  "MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap"
+ ],
+ "illegalChanges": [],
+ "otherMapsAfter": {
+  "Candidate48": "4851ad9e6cdcbffa5078e4e95c545304964257272bbc552cee644e1052f5280b"
+ },
+ "restore": "-PMDecalRestore=Main50 sets bHidden back to False under the same guard; or copy C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\PrecinctDecal-Main50-20260911T033444368096Z\\Walkthrough.umap over C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap with no editor running (that also discards any later edits to this map)."
+}

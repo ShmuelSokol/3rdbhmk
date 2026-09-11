@@ -1,0 +1,93 @@
+{
+ "status": "decal_hidden",
+ "mode": "decalhide",
+ "target": "Candidate48",
+ "startedUtc": "2026-09-11T03:33:18.745490+00:00",
+ "script": "Scripts/release_precinct_macro.py",
+ "mapsSaved": [
+  "MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough"
+ ],
+ "commandLine": " C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject -run=pythonscript -unattended -nullrhi -nosplash -abslog=C:/Mikdash/Working-5.8/PrecinctMacro-DecalCand-01.log -script=C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_precinct_macro.py -PMDecalHide=Candidate48",
+ "stage": "hash_after",
+ "mapSha256Before": "9cce6a5b406426e9c351f895d966528673c87c8778294cc511bcb46fa4ad2064",
+ "otherMapsBefore": {
+  "Main50": "e36210c691fce8c4e44134841cc722549ace6e8d9520b33daff63f8588ae2997"
+ },
+ "checkpoint": {
+  "file": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\PrecinctDecal-Candidate48-20260911T033318745490Z\\Walkthrough.umap",
+  "sha256": "9cce6a5b406426e9c351f895d966528673c87c8778294cc511bcb46fa4ad2064"
+ },
+ "decalBefore": {
+  "label": "SURFACEWEAR_Wear_Soot_GoldenAltar_Ceiling",
+  "name": "DecalActor_312",
+  "class": "DecalActor",
+  "hiddenInGame": false,
+  "locationCm": [
+   -4712.0,
+   0.0,
+   2803.2
+  ],
+  "rotation": [
+   90.0,
+   0.0,
+   0.0
+  ],
+  "boundsOrigin": [
+   -4712.0,
+   0.0,
+   2923.2
+  ],
+  "boundsExtent": [
+   80.0,
+   80.0,
+   120.0
+  ],
+  "decalSizeCm": [
+   67.2,
+   182.4,
+   182.4
+  ],
+  "decalMaterial": "/Game/MikdashV3/SurfaceDetailV2/Materials/MI_Wear_Soot"
+ },
+ "mapSha256After": "4851ad9e6cdcbffa5078e4e95c545304964257272bbc552cee644e1052f5280b",
+ "decalAfterInProcess": {
+  "label": "SURFACEWEAR_Wear_Soot_GoldenAltar_Ceiling",
+  "name": "DecalActor_312",
+  "class": "DecalActor",
+  "hiddenInGame": true,
+  "locationCm": [
+   -4712.0,
+   0.0,
+   2803.2
+  ],
+  "rotation": [
+   90.0,
+   0.0,
+   0.0
+  ],
+  "boundsOrigin": [
+   -4712.0,
+   0.0,
+   2923.2
+  ],
+  "boundsExtent": [
+   80.0,
+   80.0,
+   120.0
+  ],
+  "decalSizeCm": [
+   67.2,
+   182.4,
+   182.4
+  ],
+  "decalMaterial": "/Game/MikdashV3/SurfaceDetailV2/Materials/MI_Wear_Soot"
+ },
+ "contentDiff": [
+  "MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap"
+ ],
+ "illegalChanges": [],
+ "otherMapsAfter": {
+  "Main50": "e36210c691fce8c4e44134841cc722549ace6e8d9520b33daff63f8588ae2997"
+ },
+ "restore": "-PMDecalRestore=Candidate48 sets bHidden back to False under the same guard; or copy C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\PrecinctDecal-Candidate48-20260911T033318745490Z\\Walkthrough.umap over C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap with no editor running (that also discards any later edits to this map)."
+}

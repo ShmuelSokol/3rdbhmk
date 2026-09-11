@@ -1868,4 +1868,115 @@ inline FPrecinctReport ReportUnderAmah(double SideAmot, double AmahRealCm)
     return R;
 }
 
+// ---------------------------------------------------------------------------
+// 6c. Walkable collision for the runtime-built plaza (11 September 2026)
+// ---------------------------------------------------------------------------
+// The deck is 14,641 tiles laid at BeginPlay on HISM components that never collide (the
+// constructor sets NoCollision on every precinct component). Giving those instances bodies
+// would mean 14,641 static bodies for what is, by construction, ONE flat rectangle at one
+// Z: every cell of the grid is paved (DeckTiles + WayTiles == CellsX * CellsY is asserted
+// in PlazaFieldChecks), so the walkable surface is exactly the grid rectangle. It is laid
+// as a handful of thin boxes instead - collision only, never drawn.
+//
+// Two further boxes-worth of floor are needed that no tile provides: the gate passages. The
+// deck stops at the wall's INNER face and the wall carries no collision, so a visitor who
+// has climbed an approach to its head landing outside the wall would step into the gate
+// passage and fall. PlazaGateBridgeBox floors the opening across the whole wall thickness.
+
+/** One box collision proxy, world cm: centre, half extents along its own axes, yaw about Z.
+ *  Local X runs along the side (the gate's width), local Y along the side's outward normal. */
+struct FPlazaCollisionBox
+{
+    double CentreX = 0.0, CentreY = 0.0, CentreZ = 0.0;
+    double HalfX = 0.0, HalfY = 0.0, HalfZ = 0.0;
+    double YawDegrees = 0.0;
+};
+
+/** How far below the VISIBLE deck top the collision top stands. The mount platform surface,
+ *  the residents' mount-deck floor (MikdashPeople::MountFloorZ) and the crowd's
+ *  MountPlatformDeck zone all sit at exactly deck Z with collision of their own. One
+ *  centimetre down, wherever the two overlap the existing surface is always the first hit of a
+ *  floor sweep or a downward trace, so footsteps, surface detail, resident floor review and
+ *  crowd ground traces there read exactly what they read before. Below the character's own
+ *  floor-distance band (1.9-2.4 cm), so nobody can see a walker stand 1 cm into the paving. */
+constexpr double PlazaCollisionTopDropUnrealCm = 1.0;
+
+/** Longest side of one deck proxy box. 1.43 km boxes 48 cm thick would work, but a
+ *  3,000:1 box gains nothing over 144 ordinary ones and a tile grid keeps each body's
+ *  broadphase bounds local. */
+constexpr double PlazaCollisionMaxTileUnrealCm = 12000.0;
+
+/** Tile the paved rectangle with proxy boxes. Returns the count. The union is EXACTLY the
+ *  grid rectangle (no overlap, no gap); tops at DeckTop - drop, SlabUnrealCm thick. */
+inline int PlazaDeckCollisionBoxes(const FPlazaGrid& Grid, double SlabUnrealCm,
+                                   std::vector<FPlazaCollisionBox>& Out)
+{
+    Out.clear();
+    const double W = Grid.XMaxUnrealCm - Grid.XMinUnrealCm;
+    const double H = Grid.YMaxUnrealCm - Grid.YMinUnrealCm;
+    if (!std::isfinite(W) || !std::isfinite(H) || !(W > 0.0) || !(H > 0.0)
+        || !std::isfinite(SlabUnrealCm) || !(SlabUnrealCm > 0.0)) return 0;
+    const int NX = std::max(1, static_cast<int>(std::ceil(W / PlazaCollisionMaxTileUnrealCm - 1e-9)));
+    const int NY = std::max(1, static_cast<int>(std::ceil(H / PlazaCollisionMaxTileUnrealCm - 1e-9)));
+    const double Top = Grid.DeckTopZUnrealCm - PlazaCollisionTopDropUnrealCm;
+    auto Edge = [](double Lo, double Hi, int Index, int Count)
+    {
+        return Index >= Count ? Hi : Lo + (Hi - Lo) * static_cast<double>(Index) / static_cast<double>(Count);
+    };
+    Out.reserve(static_cast<std::size_t>(NX) * static_cast<std::size_t>(NY));
+    for (int I = 0; I < NX; ++I)
+    {
+        const double X0 = Edge(Grid.XMinUnrealCm, Grid.XMaxUnrealCm, I, NX);
+        const double X1 = Edge(Grid.XMinUnrealCm, Grid.XMaxUnrealCm, I + 1, NX);
+        for (int J = 0; J < NY; ++J)
+        {
+            const double Y0 = Edge(Grid.YMinUnrealCm, Grid.YMaxUnrealCm, J, NY);
+            const double Y1 = Edge(Grid.YMinUnrealCm, Grid.YMaxUnrealCm, J + 1, NY);
+            FPlazaCollisionBox Box;
+            Box.CentreX = 0.5 * (X0 + X1);
+            Box.CentreY = 0.5 * (Y0 + Y1);
+            Box.CentreZ = Top - 0.5 * SlabUnrealCm;
+            Box.HalfX = 0.5 * (X1 - X0);
+            Box.HalfY = 0.5 * (Y1 - Y0);
+            Box.HalfZ = 0.5 * SlabUnrealCm;
+            Out.push_back(Box);
+        }
+    }
+    return NX * NY;
+}
+
+/** The floor through one gate: the opening's width, the whole wall thickness, plus
+ *  OutsideReach beyond the outer face (onto the head landing) and InsideReach beyond the
+ *  inner face (onto the deck, or onto the first tread of an inside flight on a cut side).
+ *  Top at the gate's threshold - drop. The yaw is the step/band convention of section 6b:
+ *  SideOutwardYawDegrees - 90 puts local X along the side and local +Y outward. */
+inline FPlazaCollisionBox PlazaGateBridgeBox(const FSquare& Square, const FGateOpening& Gate,
+                                             double ThresholdZUnrealCm, double WallThickUnrealCm,
+                                             double InsideReachUnrealCm, double OutsideReachUnrealCm,
+                                             double SlabUnrealCm,
+                                             double WorldCmPerAmah = ProjectCmPerAmah)
+{
+    FVec2 C[4];
+    SquareCorners(Square, C);
+    const int Side = ((Gate.Side % 4) + 4) % 4;
+    const FVec2 From = C[Side];
+    const FVec2 To = C[(Side + 1) % 4];
+    const FVec2 At = From + (To - From) * Gate.CentreFractionAlongSide;
+    const double OutYaw = SideOutwardYawDegrees(Square, Side);
+    const FVec2 Out{std::cos(DegToRad(OutYaw)), std::sin(DegToRad(OutYaw))};
+    // Distances measured INWARD from the outer face: negative is outside the wall.
+    const double Near = -OutsideReachUnrealCm;
+    const double Far = WallThickUnrealCm + InsideReachUnrealCm;
+    const double Mid = 0.5 * (Near + Far);
+    FPlazaCollisionBox Box;
+    Box.CentreX = At.X - Out.X * Mid;
+    Box.CentreY = At.Y - Out.Y * Mid;
+    Box.CentreZ = ThresholdZUnrealCm - PlazaCollisionTopDropUnrealCm - 0.5 * SlabUnrealCm;
+    Box.HalfX = 0.5 * AmotToUnrealCm(Gate.WidthAmot, WorldCmPerAmah);
+    Box.HalfY = 0.5 * (Far - Near);
+    Box.HalfZ = 0.5 * SlabUnrealCm;
+    Box.YawDegrees = OutYaw - 90.0;
+    return Box;
+}
+
 } // namespace MikdashEnclosure

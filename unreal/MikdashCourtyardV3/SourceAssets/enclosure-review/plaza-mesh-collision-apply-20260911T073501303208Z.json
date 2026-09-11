@@ -1,0 +1,292 @@
+{
+  "status": "applied_saved_readback",
+  "mode": "apply",
+  "stamp": "20260911T073501303208Z",
+  "pid": 17440,
+  "meshes": [
+    "SM_PlazaV1_DeckTile",
+    "SM_PlazaV1_WayTile",
+    "SM_PlazaV1_Step",
+    "SM_PlazaV1_Kerb",
+    "SM_PlazaV1_RetainingBand"
+  ],
+  "excluded": [
+    "SM_PlazaV1_Rib",
+    "SM_PlazaV1_Channel"
+  ],
+  "errors": [],
+  "saved": true,
+  "scope": "Box simple collision on five PrecinctPlazaV1 modules. No map is loaded or saved. Visual appearance unchanged by construction (collision is not drawn). Walking acceptance is the packaged-build walk probe, not this receipt.",
+  "meshSha256Before": {
+    "SM_PlazaV1_DeckTile": "f40da908800c3de0d037e4e80fd7ddaa0ead5784bd9ad471c78ac61f459b6bca",
+    "SM_PlazaV1_WayTile": "70698080a1014a90222267c89d4532479fdd7fcd5ee2da82443da60e6974e3fe",
+    "SM_PlazaV1_Step": "c7da035e240117c5ddfba6dcc961fe5977bfeb7d5282dcfbdb93c145a8d669df",
+    "SM_PlazaV1_Kerb": "7a88c4da33b1e9196df8dd82797fe28e509918bee20efe407c24afa1fe484101",
+    "SM_PlazaV1_RetainingBand": "c6533dc64a678de89e9d95156899ea7e3b9cb27367439faf1e5d2bbfd670cce5"
+  },
+  "mapSha256Before": {
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap": "32c2c9709cfda6cb9fb5f1421bc2e340ef1bac80df3d19302fa1062575fa7db6",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap": "778257198269d4e07d542577ac443a9de704ff5845dd68215788073f73969e42"
+  },
+  "protectedFileCount": 9203,
+  "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\PlazaMeshCollision-20260911T073501303208Z",
+  "before": {
+    "SM_PlazaV1_DeckTile": {
+      "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile",
+      "boundsMin": [
+        -625.0,
+        -625.0,
+        -50.0
+      ],
+      "boundsMax": [
+        625.0,
+        625.0,
+        0.0
+      ],
+      "simpleCollisionCount": 0,
+      "collisionComplexity": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "boxes": [],
+      "nanite": true
+    },
+    "SM_PlazaV1_WayTile": {
+      "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_WayTile",
+      "boundsMin": [
+        -625.0,
+        -625.0,
+        -50.0
+      ],
+      "boundsMax": [
+        625.0,
+        625.0,
+        0.0
+      ],
+      "simpleCollisionCount": 0,
+      "collisionComplexity": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "boxes": [],
+      "nanite": true
+    },
+    "SM_PlazaV1_Step": {
+      "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Step",
+      "boundsMin": [
+        -1250.0,
+        -50.0,
+        -25.0
+      ],
+      "boundsMax": [
+        1250.0,
+        50.0,
+        0.0
+      ],
+      "simpleCollisionCount": 0,
+      "collisionComplexity": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "boxes": [],
+      "nanite": true
+    },
+    "SM_PlazaV1_Kerb": {
+      "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Kerb",
+      "boundsMin": [
+        -625.0,
+        -25.0,
+        -50.0
+      ],
+      "boundsMax": [
+        625.0,
+        25.0,
+        25.0
+      ],
+      "simpleCollisionCount": 0,
+      "collisionComplexity": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "boxes": [],
+      "nanite": true
+    },
+    "SM_PlazaV1_RetainingBand": {
+      "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand",
+      "boundsMin": [
+        -625.0,
+        -150.0,
+        -250.0
+      ],
+      "boundsMax": [
+        625.0,
+        0.0,
+        0.0
+      ],
+      "simpleCollisionCount": 0,
+      "collisionComplexity": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "boxes": [],
+      "nanite": true
+    }
+  },
+  "after": {
+    "SM_PlazaV1_DeckTile": {
+      "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile",
+      "boundsMin": [
+        -625.0,
+        -625.0,
+        -50.0
+      ],
+      "boundsMax": [
+        625.0,
+        625.0,
+        0.0
+      ],
+      "simpleCollisionCount": 1,
+      "collisionComplexity": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "boxes": [
+        {
+          "center": [
+            0.0,
+            0.0,
+            -25.0
+          ],
+          "size": [
+            1250.0,
+            1250.0,
+            50.0
+          ]
+        }
+      ],
+      "nanite": true
+    },
+    "SM_PlazaV1_WayTile": {
+      "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_WayTile",
+      "boundsMin": [
+        -625.0,
+        -625.0,
+        -50.0
+      ],
+      "boundsMax": [
+        625.0,
+        625.0,
+        0.0
+      ],
+      "simpleCollisionCount": 1,
+      "collisionComplexity": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "boxes": [
+        {
+          "center": [
+            0.0,
+            0.0,
+            -25.0
+          ],
+          "size": [
+            1250.0,
+            1250.0,
+            50.0
+          ]
+        }
+      ],
+      "nanite": true
+    },
+    "SM_PlazaV1_Step": {
+      "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Step",
+      "boundsMin": [
+        -1250.0,
+        -50.0,
+        -25.0
+      ],
+      "boundsMax": [
+        1250.0,
+        50.0,
+        0.0
+      ],
+      "simpleCollisionCount": 1,
+      "collisionComplexity": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "boxes": [
+        {
+          "center": [
+            0.0,
+            0.0,
+            -12.5
+          ],
+          "size": [
+            2500.0,
+            100.0,
+            25.0
+          ]
+        }
+      ],
+      "nanite": true
+    },
+    "SM_PlazaV1_Kerb": {
+      "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Kerb",
+      "boundsMin": [
+        -625.0,
+        -25.0,
+        -50.0
+      ],
+      "boundsMax": [
+        625.0,
+        25.0,
+        25.0
+      ],
+      "simpleCollisionCount": 1,
+      "collisionComplexity": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "boxes": [
+        {
+          "center": [
+            0.0,
+            0.0,
+            -12.5
+          ],
+          "size": [
+            1250.0,
+            50.0,
+            75.0
+          ]
+        }
+      ],
+      "nanite": true
+    },
+    "SM_PlazaV1_RetainingBand": {
+      "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand",
+      "boundsMin": [
+        -625.0,
+        -150.0,
+        -250.0
+      ],
+      "boundsMax": [
+        625.0,
+        0.0,
+        0.0
+      ],
+      "simpleCollisionCount": 1,
+      "collisionComplexity": "<CollisionTraceFlag.CTF_USE_DEFAULT: 0>",
+      "boxes": [
+        {
+          "center": [
+            0.0,
+            -75.0,
+            -125.0
+          ],
+          "size": [
+            1250.0,
+            150.0,
+            250.0
+          ]
+        }
+      ],
+      "nanite": true
+    }
+  },
+  "meshSha256After": {
+    "SM_PlazaV1_DeckTile": "72f02e763f67fce0f3ecfbf83d95aa195ac3d90656c1e4c4218470f647f15e65",
+    "SM_PlazaV1_WayTile": "0855ec5ef898ac178be37c0df47523f501a062cd4d9122c03de6f4ea2c2a6290",
+    "SM_PlazaV1_Step": "d36748e3e4f41f40f3aaa367b3bd0ab8fdcad620ccee314c3da2e8d9038303af",
+    "SM_PlazaV1_Kerb": "1e2ea84209e81307159fa61de0fed1e94c761ff361d5037bec8a0b8255495dde",
+    "SM_PlazaV1_RetainingBand": "c0dae6589f4d962458204778b5551cdc8dd5e7f4ad8c22809c8b64ff2c369d7d"
+  },
+  "boxMatchesBounds": {
+    "SM_PlazaV1_DeckTile": true,
+    "SM_PlazaV1_WayTile": true,
+    "SM_PlazaV1_Step": true,
+    "SM_PlazaV1_Kerb": true,
+    "SM_PlazaV1_RetainingBand": true
+  },
+  "protectedChanged": [],
+  "mapSha256After": {
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap": "32c2c9709cfda6cb9fb5f1421bc2e340ef1bac80df3d19302fa1062575fa7db6",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap": "778257198269d4e07d542577ac443a9de704ff5845dd68215788073f73969e42"
+  },
+  "finishedUtc": "2026-09-11T07:35:31.394300+00:00"
+}

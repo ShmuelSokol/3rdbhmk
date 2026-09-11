@@ -1,5 +1,6 @@
 #include "MikdashEnclosure.h"
 
+#include "Components/BoxComponent.h"
 #include "Components/HierarchicalInstancedStaticMeshComponent.h"
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Components/PointLightComponent.h"
@@ -7,6 +8,9 @@
 #include "Engine/StaticMesh.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
+#include "Engine/CollisionProfile.h"
+#include "Misc/CommandLine.h"
+#include "Misc/Parse.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Materials/MaterialInterface.h"
 
@@ -108,6 +112,37 @@ uint64 PackPanel(const FPlazaPanel& Panel)
 {
     auto Field = [](int Value) { return static_cast<uint64>(static_cast<uint32>(Value + 1000) & 0xFFFFu); };
     return (Field(Panel.I0) << 48) | (Field(Panel.J0) << 32) | (Field(Panel.I1) << 16) | Field(Panel.J1);
+}
+
+/** Turn a tagged state actor's collision on or off, and make "on" real for instanced meshes.
+ *
+ *  Measured in the packaged cp22 build, 11 September 2026: RELEASE_KotelPlaza (four HISMs, saved
+ *  hidden with actor collision OFF, switched on here in MODERN) rendered in MODERN and a walking
+ *  character sank straight through its paving onto the terrain twin under it - while the approach
+ *  actor, whose HISMs use the same box-collision modules but load with actor collision ON, carried
+ *  the walker. Re-enabling an actor only refreshes the filter data of the instance bodies that
+ *  were built while it was off, and that did not make them block. Rebuilding the instance bodies
+ *  with the actor's collision already on does. Only on an off-to-on change, game worlds only. */
+void SetTaggedActorCollision(AActor* Actor, bool bEnable)
+{
+    if (Actor == nullptr) return;
+    const bool bWasEnabled = Actor->GetActorEnableCollision();
+    Actor->SetActorEnableCollision(bEnable);
+    if (!bEnable || bWasEnabled) return;
+    TInlineComponentArray<UInstancedStaticMeshComponent*> Instanced(Actor);
+    int32 Rebuilt = 0;
+    for (UInstancedStaticMeshComponent* Component : Instanced)
+    {
+        if (Component == nullptr || !Component->IsRegistered()) continue;
+        if (Component->GetCollisionEnabled() == ECollisionEnabled::NoCollision) continue;
+        Component->RecreatePhysicsState();
+        ++Rebuilt;
+    }
+    if (Rebuilt > 0)
+    {
+        UE_LOG(LogTemp, Display, TEXT("MIKDASH_STATE_COLLISION %s: collision on, rebuilt instance bodies of %d instanced component(s)"),
+               *Actor->GetName(), Rebuilt);
+    }
 }
 
 /** Unit outward vector of a side, in world XY. */
@@ -356,7 +391,7 @@ void AMikdashEnclosure::ApplyStateTaggedActors(bool bWallStands)
         const bool bHide = bWallStands ? StateTaggedHideWithWall[Index]
                                        : StateTaggedHideWithCity[Index];
         Actor->SetActorHiddenInGame(bHide);
-        if (bGameWorld) Actor->SetActorEnableCollision(!bHide);
+        if (bGameWorld) SetTaggedActorCollision(Actor, !bHide);
     }
 }
 
@@ -373,7 +408,7 @@ void AMikdashEnclosure::RestoreStateTaggedActors()
         }
         if (bGameWorld && StateTaggedPriorCollision.IsValidIndex(Index))
         {
-            Actor->SetActorEnableCollision(StateTaggedPriorCollision[Index]);
+            SetTaggedActorCollision(Actor, StateTaggedPriorCollision[Index]);
         }
     }
     StateTaggedActors.Reset();
@@ -907,6 +942,28 @@ void AMikdashEnclosure::BuildPlaza(const FSquare& Square, const FGroundProfile& 
         Components[Index]->ClearInstances();
         Components[Index]->SetStaticMesh(Meshes[Index]);
     }
+    // Section 6c. Proxies and instance bodies exist only in a GAME world: an editor world keeps
+    // the constructor's NoCollision on every precinct component, exactly as before, so no
+    // editor pass can trace against, measure or save any of it.
+    ClearPlazaCollision();
+    bPlazaCollisionAllowed = GetWorld() != nullptr && GetWorld()->IsGameWorld()
+        && !FParse::Param(FCommandLine::Get(), TEXT("MikdashNoPlazaCollision"));
+    if (bPlazaCollisionAllowed)
+    {
+        // The three walkable-or-blocking faces that are NOT flat: the inside gate flights (real
+        // 0.5-amah risers, under any walker's MaxStepHeight), and the retaining and scarp faces a
+        // visitor on the approaches or the deck would otherwise walk into. Ribs (0.25 amah proud),
+        // kerbs (0.5) and channel rims stay without collision on purpose: all three cross the
+        // crowd's MountPlatformDeck zone along the east way, and a body there would reject the
+        // crowd's WorldStatic capsule sweeps (bottom 3 cm above ground). Profile set BEFORE any
+        // instance is added, collision off until ApplyWeights turns it on with the visibility.
+        for (UHierarchicalInstancedStaticMeshComponent* Solid : {PlazaStepInstances, PlazaRetainingInstances, PlazaScarpInstances})
+        {
+            if (Solid == nullptr) continue;
+            Solid->SetCollisionProfileName(UCollisionProfile::BlockAll_ProfileName, false);
+            Solid->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+        }
+    }
     for (int Side = 0; Side < 4; ++Side)
     {
         PlazaRetainingMax[Side] = 0.0;
@@ -1209,6 +1266,15 @@ void AMikdashEnclosure::BuildPlaza(const FSquare& Square, const FGroundProfile& 
             const FGrounding G = GroundSpan(Profile, Gate.Side,
                                             std::max(0.0, T - HalfCell), std::min(1.0, T + HalfCell), 0.0);
             const double Base = PlazaWallBaseZUnrealCm(G.GroundHighZUnrealCm, DeckZ, true);
+            if (bPlazaCollisionAllowed)
+            {
+                // Floor the passage at the threshold this gate was actually built on: one tread out
+                // onto the approach's head landing, half a tread in onto the deck or first tread.
+                AddPlazaCollisionBox(PlazaGateBridgeBox(Square, Gate, Base, WallThickCm, 0.5 * Tread, Tread,
+                                                        AmotToUnrealCm(PlazaSlabThicknessAmot, CmPerAmah), CmPerAmah),
+                                     FName(TEXT("PlazaGateBridge")));
+                ++PlazaGateBridgeCount;
+            }
             const int Steps = PlazaFlightSteps(Base - DeckZ, CmPerAmah);
             if (Steps <= 0) continue;
             const int Landings = PlazaFlightLandings(Steps);
@@ -1270,7 +1336,100 @@ void AMikdashEnclosure::BuildPlaza(const FSquare& Square, const FGroundProfile& 
         if (PlazaStepInstances != nullptr) PlazaStepInstances->SetMaterial(0, PlazaAshlarMaterial);
     }
 
+    if (bPlazaCollisionAllowed)
+    {
+        std::vector<FPlazaCollisionBox> DeckBoxes;
+        PlazaDeckCollisionBoxes(Grid, AmotToUnrealCm(PlazaSlabThicknessAmot, CmPerAmah), DeckBoxes);
+        for (const FPlazaCollisionBox& Box : DeckBoxes) AddPlazaCollisionBox(Box, FName(TEXT("PlazaDeckProxy")));
+        PlazaDeckCollisionBoxCount = static_cast<int32>(DeckBoxes.size());
+    }
+
     PlazaStatus = TEXT("built");
+    UE_LOG(LogTemp, Display, TEXT("MIKDASH_PLAZA_COLLISION built %s"), *GetPlazaCollisionStatus());
+}
+
+void AMikdashEnclosure::ClearPlazaCollision()
+{
+    for (UBoxComponent* Box : PlazaCollisionBoxes)
+    {
+        if (Box != nullptr) Box->DestroyComponent();
+    }
+    PlazaCollisionBoxes.Reset();
+    PlazaDeckCollisionBoxCount = 0;
+    PlazaGateBridgeCount = 0;
+    bPlazaCollisionOn = false;
+}
+
+void AMikdashEnclosure::AddPlazaCollisionBox(const FPlazaCollisionBox& Spec, FName Kind)
+{
+    if (!(Spec.HalfX > 0.0) || !(Spec.HalfY > 0.0) || !(Spec.HalfZ > 0.0)) return;
+    UBoxComponent* Box = NewObject<UBoxComponent>(this, NAME_None,
+                                                  RF_Transient | RF_TextExportTransient | RF_DuplicateTransient);
+    // Absolute transform, set as raw properties BEFORE registration: a static component cannot
+    // be moved once registered in a world that has begun play, and the actor's own root need
+    // not sit at the origin (the instances are laid in world space for the same reason).
+    Box->SetMobility(EComponentMobility::Static);
+    Box->SetUsingAbsoluteLocation(true);
+    Box->SetUsingAbsoluteRotation(true);
+    Box->SetUsingAbsoluteScale(true);
+    Box->SetupAttachment(GetRootComponent());
+    Box->SetRelativeLocation_Direct(FVector(Spec.CentreX, Spec.CentreY, Spec.CentreZ));
+    Box->SetRelativeRotation_Direct(FRotator(0.0, Spec.YawDegrees, 0.0));
+    Box->SetRelativeScale3D_Direct(FVector::OneVector);
+    Box->InitBoxExtent(FVector(Spec.HalfX, Spec.HalfY, Spec.HalfZ));
+    Box->SetCollisionProfileName(UCollisionProfile::BlockAll_ProfileName, false);
+    Box->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    Box->SetGenerateOverlapEvents(false);
+    Box->SetCanEverAffectNavigation(false);
+    Box->SetHiddenInGame(true);
+    Box->ComponentTags.Add(FName(TEXT("MikdashPlazaFloor")));
+    Box->ComponentTags.Add(Kind);
+    Box->RegisterComponent();
+    PlazaCollisionBoxes.Add(Box);
+}
+
+void AMikdashEnclosure::ApplyPlazaCollision(bool bShow)
+{
+    UWorld* World = GetWorld();
+    const bool bGameWorld = World != nullptr && World->IsGameWorld();
+    if (!bGameWorld || !bPlazaCollisionAllowed) return;   // editor worlds: constructor NoCollision stands
+    const bool bOn = bShow && PlazaStatus == TEXT("built");
+    const ECollisionEnabled::Type Mode = bOn ? ECollisionEnabled::QueryAndPhysics : ECollisionEnabled::NoCollision;
+    // Compared first: ApplyWeights runs every frame of a dissolve, and re-setting a HISM's
+    // collision recreates every instance body.
+    for (UBoxComponent* Box : PlazaCollisionBoxes)
+    {
+        if (Box != nullptr && Box->GetCollisionEnabled() != Mode) Box->SetCollisionEnabled(Mode);
+    }
+    for (UHierarchicalInstancedStaticMeshComponent* Solid : {PlazaStepInstances, PlazaRetainingInstances, PlazaScarpInstances})
+    {
+        if (Solid != nullptr && Solid->GetCollisionEnabled() != Mode) Solid->SetCollisionEnabled(Mode);
+    }
+    if (bOn != bPlazaCollisionOn)
+    {
+        bPlazaCollisionOn = bOn;
+        UE_LOG(LogTemp, Display, TEXT("MIKDASH_PLAZA_COLLISION switched %s"), *GetPlazaCollisionStatus());
+    }
+}
+
+FString AMikdashEnclosure::GetPlazaCollisionStatus() const
+{
+    auto Count = [](const UHierarchicalInstancedStaticMeshComponent* Component)
+    {
+        return Component != nullptr ? Component->GetInstanceCount() : 0;
+    };
+    auto Mode = [](const UPrimitiveComponent* Component)
+    {
+        return Component == nullptr ? TEXT("none")
+            : Component->GetCollisionEnabled() == ECollisionEnabled::NoCollision ? TEXT("off") : TEXT("on");
+    };
+    return FString::Printf(TEXT("allowed=%d on=%d plaza=%s deckProxyBoxes=%d gateBridges=%d stepInstances=%d(%s) retainingInstances=%d(%s) scarpInstances=%d(%s) state=%d"),
+        bPlazaCollisionAllowed ? 1 : 0, bPlazaCollisionOn ? 1 : 0, *PlazaStatus,
+        PlazaDeckCollisionBoxCount, PlazaGateBridgeCount,
+        Count(PlazaStepInstances), Mode(PlazaStepInstances),
+        Count(PlazaRetainingInstances), Mode(PlazaRetainingInstances),
+        Count(PlazaScarpInstances), Mode(PlazaScarpInstances),
+        static_cast<int32>(CurrentState));
 }
 
 void AMikdashEnclosure::GetPlazaCounts(int32& OutDeckTiles, int32& OutWayTiles, int32& OutRibs,
@@ -1356,6 +1515,7 @@ void AMikdashEnclosure::ApplyWeights(const FStateWeights& Weights)
     {
         if (Component != nullptr) Component->SetVisibility(bShowWall, true);
     }
+    ApplyPlazaCollision(bShowWall);
     // Beside the plaza and for the same reason: parts of the built precinct - and parts of
     // today's city - that are whole ACTORS rather than instances on this one. Terrain twins,
     // the hillside they replace, the Kotel plaza cut and the precinct roofscape all move here.

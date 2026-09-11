@@ -1331,6 +1331,94 @@ static void DissolveChecks()
     std::printf("dissolve: 9 state pairs monotone and bounded; OVERLAY hides nothing; MODERN restores all\n");
 }
 
+// ---------------------------------------------------------------------------
+// Walkable plaza collision (section 6c)
+// ---------------------------------------------------------------------------
+static void PlazaCollisionChecks()
+{
+    const double Cm = Candidate48CmPerAmah;
+    const FSquare Square = CandidateSquare48();
+    const FPlazaGrid Grid = PlanPlazaGrid(Square, 6.0, Cm);
+    const double Slab = AmotToUnrealCm(PlazaSlabThicknessAmot, Cm);
+
+    // The drop is real, and smaller than the character's own floor-distance band.
+    assert(PlazaCollisionTopDropUnrealCm > 0.0 && PlazaCollisionTopDropUnrealCm < 1.9);
+
+    std::vector<FPlazaCollisionBox> Boxes;
+    const int Count = PlazaDeckCollisionBoxes(Grid, Slab, Boxes);
+    assert(Count == static_cast<int>(Boxes.size()));
+    assert(Count == 144);   // 143,424 cm a side / 12,000 -> 12 x 12 at 48 cm
+    double Area = 0.0;
+    double MinX = 1e300, MinY = 1e300, MaxX = -1e300, MaxY = -1e300;
+    for (const FPlazaCollisionBox& Box : Boxes)
+    {
+        assert(Box.HalfX > 0.0 && Box.HalfY > 0.0);
+        assert(2.0 * Box.HalfX <= PlazaCollisionMaxTileUnrealCm + 1e-6);
+        assert(2.0 * Box.HalfY <= PlazaCollisionMaxTileUnrealCm + 1e-6);
+        assert(Near(Box.CentreZ + Box.HalfZ, Grid.DeckTopZUnrealCm - PlazaCollisionTopDropUnrealCm, 1e-9));
+        assert(Near(2.0 * Box.HalfZ, Slab, 1e-9));
+        assert(Near(Box.YawDegrees, 0.0, 1e-12));
+        Area += 4.0 * Box.HalfX * Box.HalfY;
+        MinX = std::min(MinX, Box.CentreX - Box.HalfX);
+        MaxX = std::max(MaxX, Box.CentreX + Box.HalfX);
+        MinY = std::min(MinY, Box.CentreY - Box.HalfY);
+        MaxY = std::max(MaxY, Box.CentreY + Box.HalfY);
+    }
+    // The union is the paved rectangle exactly: same bounds, same area, so no gap and no overlap.
+    const double GridArea = (Grid.XMaxUnrealCm - Grid.XMinUnrealCm) * (Grid.YMaxUnrealCm - Grid.YMinUnrealCm);
+    assert(Near(MinX, Grid.XMinUnrealCm, 1e-6) && Near(MaxX, Grid.XMaxUnrealCm, 1e-6));
+    assert(Near(MinY, Grid.YMinUnrealCm, 1e-6) && Near(MaxY, Grid.YMaxUnrealCm, 1e-6));
+    assert(std::abs(Area - GridArea) <= GridArea * 1e-12);
+    // The measured receipt's rectangle on Candidate48, extentCm [-31488, -31536, 111936, 111888].
+    assert(Near(Grid.XMinUnrealCm, -31488.0, 1e-6) && Near(Grid.YMinUnrealCm, -31536.0, 1e-6));
+    assert(Near(Grid.XMaxUnrealCm, 111936.0, 1e-6) && Near(Grid.YMaxUnrealCm, 111888.0, 1e-6));
+    // Degenerate input builds nothing rather than something wrong.
+    FPlazaGrid Empty;
+    assert(PlazaDeckCollisionBoxes(Empty, Slab, Boxes) == 0 && Boxes.empty());
+    assert(PlazaDeckCollisionBoxes(Grid, 0.0, Boxes) == 0);
+
+    // Gate bridges: every gate floored from beyond the outer face to beyond the inner face.
+    const double Wall = AmotToUnrealCm(6.0, Cm);
+    const double Tread = AmotToUnrealCm(PlazaStepTreadAmot, Cm);
+    const std::vector<FGateOpening> Gates = BookGates(Square);
+    FVec2 C[4];
+    SquareCorners(Square, C);
+    for (const FGateOpening& Gate : Gates)
+    {
+        const double Threshold = 223.0;   // any threshold: the top must follow it exactly
+        const FPlazaCollisionBox Box = PlazaGateBridgeBox(Square, Gate, Threshold, Wall,
+                                                          0.5 * Tread, Tread, Slab, Cm);
+        assert(Near(Box.CentreZ + Box.HalfZ, Threshold - PlazaCollisionTopDropUnrealCm, 1e-9));
+        assert(Near(2.0 * Box.HalfX, AmotToUnrealCm(Gate.WidthAmot, Cm), 1e-9));
+        assert(Near(2.0 * Box.HalfY, Wall + 1.5 * Tread, 1e-9));
+        // Local +Y (yaw + 90) is the side's outward normal; local +X runs along the side.
+        const double Yaw = DegToRad(Box.YawDegrees);
+        const FVec2 AxisY{-std::sin(Yaw), std::cos(Yaw)};
+        const double OutYaw = DegToRad(SideOutwardYawDegrees(Square, Gate.Side));
+        const FVec2 Out{std::cos(OutYaw), std::sin(OutYaw)};
+        assert(Near(Dot(AxisY, Out), 1.0, 1e-12));
+        // The outer face and the inner face both lie inside the bridge's span along Out.
+        const FVec2 From = C[Gate.Side];
+        const FVec2 To = C[(Gate.Side + 1) % 4];
+        const FVec2 Face = From + (To - From) * Gate.CentreFractionAlongSide;
+        const FVec2 Centre{Box.CentreX, Box.CentreY};
+        const double OuterAlong = Dot(Face - Centre, Out);
+        const double InnerAlong = Dot((Face - Out * Wall) - Centre, Out);
+        assert(OuterAlong < Box.HalfY && OuterAlong > -Box.HalfY);
+        assert(InnerAlong < Box.HalfY && InnerAlong > -Box.HalfY);
+        assert(Near(Box.HalfY - OuterAlong, Tread, 1e-6));          // one tread onto the landing
+        assert(Near(InnerAlong + Box.HalfY, 0.5 * Tread, 1e-6));    // half a tread onto the deck
+    }
+    // The north gate's bridge on the candidate: centred on the Temple axis, reaching from
+    // one tread outside the N face (y -31824) to half a tread inside the inner face (y -31536).
+    const FPlazaCollisionBox North = PlazaGateBridgeBox(Square, Gates[0], 0.0, Wall, 0.5 * Tread, Tread, Slab, Cm);
+    assert(Near(North.CentreX, 0.0, 1e-6));
+    assert(Near(North.CentreY - North.HalfY, -31824.0 - Tread, 1e-6));
+    assert(Near(North.CentreY + North.HalfY, -31536.0 + 0.5 * Tread, 1e-6));
+    RecordInt("plazaCollisionDeckBoxes48", Count);
+    Record("plazaCollisionTopDropCm", PlazaCollisionTopDropUnrealCm);
+}
+
 int main(int Argc, char** Argv)
 {
     SquarenessChecks();
@@ -1342,6 +1430,7 @@ int main(int Argc, char** Argv)
     WallPlanChecks();
     GroundChecks();
     PlazaChecks();
+    PlazaCollisionChecks();
     DissolveChecks();
 
     if (Argc > 1)
@@ -1357,6 +1446,6 @@ int main(int Argc, char** Argv)
                  "edge and corner containment, deterministic and order-independent building selection "
                  "with the terrain-tile trap asserted, boundary sampling, the instanced wall budget "
                  "at 50 and 48 cm, the terrain-following ground profile, the plaza layout with its "
-                 "anti-repetition invariants, and the three-state dissolve" << std::endl;
+                 "anti-repetition invariants, the walkable deck proxy and gate bridges, and the three-state dissolve" << std::endl;
     return 0;
 }

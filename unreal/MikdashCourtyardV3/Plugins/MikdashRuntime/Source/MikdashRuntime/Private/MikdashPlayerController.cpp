@@ -21,6 +21,9 @@
 #include "InputCoreTypes.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/CapsuleComponent.h"
+#include "Misc/CommandLine.h"
+#include "Misc/Parse.h"
 #include "Sound/SoundBase.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Styling/CoreStyle.h"
@@ -243,6 +246,10 @@ void AMikdashPlayerController::BeginPlay()
     }
     const UMikdashFrontEnd* FrontEnd = UMikdashFrontEnd::Get(this);
     if (!FrontEnd || !FrontEnd->bEnabled) OpenMenu();
+#if !UE_BUILD_SHIPPING
+    FString ProbeSpec;
+    if (FParse::Value(FCommandLine::Get(), TEXT("MikdashWalkProbe="), ProbeSpec, false)) ParseWalkProbe(ProbeSpec);
+#endif
 }
 
 void AMikdashPlayerController::SetupInputComponent()
@@ -287,6 +294,7 @@ void AMikdashPlayerController::PlayerTick(float DeltaTime)
     UpdateFootsteps(DeltaTime);
     UpdateResidentDialog();
     if (bMenuOpen || !IsLocalController() || !GetPawn() || IsPaused()) return;
+    TickWalkProbe(DeltaTime);
     ResidentClockSeconds += FMath::Max(0.0, static_cast<double>(DeltaTime));
     ResidentSimulation.AdvanceTo(static_cast<std::uint64_t>(ResidentClockSeconds));
     const float Forward = (IsInputKeyDown(EKeys::W) || IsInputKeyDown(EKeys::Up) ? 1.f : 0.f)
@@ -557,15 +565,21 @@ void AMikdashPlayerController::UpdateFootsteps(float DeltaTime)
     // Shared tested cadence uses actual displacement, never just held input.
     if (!FootstepCadence.Advance(Distance, Speed, DeltaTime,
         WalkingCharacter->GetCharacterMovement()->IsMovingOnGround(), bMenuOpen || IsPaused())) return;
-    const UStaticMeshComponent* Floor = Cast<UStaticMeshComponent>(WalkingCharacter->GetCharacterMovement()->CurrentFloor.HitResult.GetComponent());
-    if (!Floor || !Floor->GetStaticMesh()) return;
-    const FString FloorAsset = Floor->GetStaticMesh()->GetPathName();
+    const UPrimitiveComponent* FloorComponent = WalkingCharacter->GetCharacterMovement()->CurrentFloor.HitResult.GetComponent();
+    // The runtime plaza deck is walked on through collision-only proxy boxes
+    // (AMikdashEnclosure, EnclosureMath.h 6c), which carry no mesh; they are paving.
+    const bool bPlazaProxy = FloorComponent != nullptr && FloorComponent->ComponentHasTag(FName(TEXT("MikdashPlazaFloor")));
+    const UStaticMeshComponent* Floor = Cast<UStaticMeshComponent>(FloorComponent);
+    if (!bPlazaProxy && (!Floor || !Floor->GetStaticMesh())) return;
+    const FString FloorAsset = bPlazaProxy ? FString(TEXT("MikdashPlazaFloor")) : Floor->GetStaticMesh()->GetPathName();
     const bool SoftGround = FloorAsset.StartsWith(TEXT("/Game/MikdashV3/JerusalemContext/Terrain/"))
         || FloorAsset.StartsWith(TEXT("/Game/MikdashV3/FutureMountV1/Terrain/"));
     const bool HardGround = FloorAsset.StartsWith(TEXT("/Game/MikdashV3/Architecture/"))
         || FloorAsset.StartsWith(TEXT("/Game/MikdashV3/JerusalemContext/Streets/"))
         || FloorAsset.StartsWith(TEXT("/Game/MikdashV3/JerusalemContext/Buildings/"))
-        || FloorAsset == TEXT("/Game/MikdashV3/FutureMountV1/Platform/SM_MountPlatform_Surface.SM_MountPlatform_Surface");
+        || FloorAsset == TEXT("/Game/MikdashV3/FutureMountV1/Platform/SM_MountPlatform_Surface.SM_MountPlatform_Surface")
+        || bPlazaProxy
+        || FloorAsset.StartsWith(TEXT("/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/"));
     // Unknown/new floor families require an explicit sound assignment.
     if (!SoftGround && !HardGround) return;
     const TArray<TObjectPtr<USoundBase>>& Samples = SoftGround ? SoftSteps : StoneSteps;
@@ -719,6 +733,185 @@ void AMikdashPlayerController::EndPlay(const EEndPlayReason::Type Reason)
         GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(MenuWidget.ToSharedRef());
     MenuWidget.Reset();
     Super::EndPlay(Reason);
+}
+
+void AMikdashPlayerController::ParseWalkProbe(const FString& Spec)
+{
+    TArray<FString> Fields;
+    Spec.ParseIntoArray(Fields, TEXT(";"), true);
+    for (const FString& Field : Fields)
+    {
+        FString Key, Value;
+        if (!Field.Split(TEXT("="), &Key, &Value)) continue;
+        Key = Key.TrimStartAndEnd().ToLower();
+        TArray<FString> Parts;
+        if (Key == TEXT("label")) WalkProbe.Label = Value;
+        else if (Key == TEXT("state")) WalkProbe.State = Value.ToUpper();
+        else if (Key == TEXT("delay")) WalkProbe.Delay = FCString::Atod(*Value);
+        else if (Key == TEXT("timeout")) WalkProbe.Timeout = FCString::Atod(*Value);
+        else if (Key == TEXT("start") && Value.ParseIntoArray(Parts, TEXT(":"), true) >= 3)
+        {
+            WalkProbe.Start = FVector(FCString::Atod(*Parts[0]), FCString::Atod(*Parts[1]), FCString::Atod(*Parts[2]));
+            if (Parts.Num() > 3) WalkProbe.Yaw = FCString::Atof(*Parts[3]);
+            if (Parts.Num() > 4) WalkProbe.Pitch = FCString::Atof(*Parts[4]);
+            WalkProbe.bActive = true;
+        }
+        else if (Key == TEXT("wp"))
+        {
+            TArray<FString> Points;
+            Value.ParseIntoArray(Points, TEXT("/"), true);
+            for (const FString& Point : Points)
+            {
+                if (Point.ParseIntoArray(Parts, TEXT(":"), true) >= 2)
+                    WalkProbe.Waypoints.Add(FVector2D(FCString::Atod(*Parts[0]), FCString::Atod(*Parts[1])));
+            }
+        }
+    }
+    UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE parsed label=%s active=%d state=%s start=%s yaw=%.1f pitch=%.1f waypoints=%d delay=%.1f timeout=%.1f"),
+        *WalkProbe.Label, WalkProbe.bActive ? 1 : 0, *WalkProbe.State, *WalkProbe.Start.ToString(), WalkProbe.Yaw, WalkProbe.Pitch,
+        WalkProbe.Waypoints.Num(), WalkProbe.Delay, WalkProbe.Timeout);
+}
+
+void AMikdashPlayerController::TickWalkProbe(float DeltaTime)
+{
+    if (!WalkProbe.bActive || WalkProbe.bDone) return;
+    UWorld* World = GetWorld();
+    ACharacter* Walker = Cast<ACharacter>(GetPawn());
+    if (!World || !Walker || bDoveFlight) return;
+    UCharacterMovementComponent* Movement = Walker->GetCharacterMovement();
+    const double Now = World->GetTimeSeconds();
+    const float HalfHeight = Walker->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+    auto Describe = [](const FHitResult& Hit)
+    {
+        const UPrimitiveComponent* Component = Hit.GetComponent();
+        const AActor* Owner = Component ? Component->GetOwner() : nullptr;
+        FString Mesh;
+        if (const UStaticMeshComponent* Static = Cast<UStaticMeshComponent>(Component))
+        {
+            if (Static->GetStaticMesh()) Mesh = Static->GetStaticMesh()->GetName();
+        }
+        FString Tags;
+        if (Component)
+        {
+            for (const FName& Tag : Component->ComponentTags) Tags += Tag.ToString() + TEXT("+");
+        }
+        return FString::Printf(TEXT("comp=%s owner=%s mesh=%s tags=%s"),
+            Component ? *Component->GetName() : TEXT("none"), Owner ? *Owner->GetName() : TEXT("none"),
+            Mesh.IsEmpty() ? TEXT("-") : *Mesh, Tags.IsEmpty() ? TEXT("-") : *Tags);
+    };
+    if (!WalkProbe.bStarted)
+    {
+        if (Now < WalkProbe.Delay) return;
+        if (UMikdashCinematics* Cinematics = UMikdashCinematics::Get(this))
+        {
+            if (Cinematics->IsPlaying()) Cinematics->SkipIntro();
+        }
+        FString EnclosureStatus = TEXT("no enclosure");
+        for (TActorIterator<AMikdashEnclosure> It(World); It; ++It)
+        {
+            if (WalkProbe.State == TEXT("MODERN")) It->SetPrecinctState(EMikdashPrecinctState::Modern);
+            else if (WalkProbe.State == TEXT("YECHEZKEL")) It->SetPrecinctState(EMikdashPrecinctState::Yechezkel);
+            else if (WalkProbe.State == TEXT("OVERLAY")) It->SetPrecinctState(EMikdashPrecinctState::Overlay);
+            EnclosureStatus = It->GetPlazaCollisionStatus();
+        }
+        // Undo a capture script's Ghost (no collision, cheat flying): walk as a visitor walks.
+        Movement->bCheatFlying = false;
+        Walker->SetActorEnableCollision(true);
+        Walker->TeleportTo(WalkProbe.Start, FRotator(0.f, WalkProbe.Yaw, 0.f), false, true);
+        Movement->StopMovementImmediately();
+        Movement->SetMovementMode(MOVE_Falling);
+        SetControlRotation(FRotator(WalkProbe.Pitch, WalkProbe.Yaw, 0.f));
+        WalkProbe.bStarted = true;
+        WalkProbe.StartedAt = Now;
+        WalkProbe.FallStartZ = WalkProbe.Start.Z - HalfHeight;
+        WalkProbe.bWasFalling = true;
+        UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE start label=%s t=%.2f pawn=%s capsule=%.1f/%.1f maxStep=%.1f walkableDeg=%.2f maxWalkSpeed=%.1f gravityZ=%.1f state=%s enclosure[%s]"),
+            *WalkProbe.Label, Now, *Walker->GetClass()->GetName(), Walker->GetCapsuleComponent()->GetScaledCapsuleRadius(), HalfHeight,
+            Movement->MaxStepHeight, Movement->GetWalkableFloorAngle(), Movement->MaxWalkSpeed, Movement->GetGravityZ(),
+            *WalkProbe.State, *EnclosureStatus);
+        return;
+    }
+    const double Elapsed = Now - WalkProbe.StartedAt;
+    const FVector Position = Walker->GetActorLocation();
+    const double FeetZ = Position.Z - HalfHeight;
+    const bool bFalling = Movement->IsFalling();
+    bool bSteering = false;
+    // Hold still for one second after the drop so the first samples show where it LANDED.
+    if (Elapsed > 1.0 && WalkProbe.Next < WalkProbe.Waypoints.Num())
+    {
+        const FVector2D ToGo = WalkProbe.Waypoints[WalkProbe.Next] - FVector2D(Position.X, Position.Y);
+        if (ToGo.Size() < 75.0)
+        {
+            UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE reached label=%s wp=%d t=%.2f pos=%s feetZ=%.1f"),
+                *WalkProbe.Label, WalkProbe.Next, Elapsed, *Position.ToString(), FeetZ);
+            ++WalkProbe.Next;
+            if (WalkProbe.Next >= WalkProbe.Waypoints.Num()) WalkProbe.FinishedWaypointsAt = Elapsed;
+        }
+        else
+        {
+            const FVector2D Heading = ToGo.GetSafeNormal();
+            const FVector Direction(Heading.X, Heading.Y, 0.0);
+            Walker->AddMovementInput(Direction, 1.f);
+            bSteering = true;
+            FRotator View = GetControlRotation();
+            View.Yaw = FMath::FixedTurn(View.Yaw, Direction.Rotation().Yaw, 120.f * DeltaTime);
+            View.Pitch = WalkProbe.Pitch;
+            SetControlRotation(View);
+        }
+    }
+    // Falls: from the moment it leaves the floor to the moment it lands.
+    if (bFalling && !WalkProbe.bWasFalling) WalkProbe.FallStartZ = FeetZ;
+    if (!bFalling && WalkProbe.bWasFalling)
+    {
+        const double Drop = WalkProbe.FallStartZ - FeetZ;
+        WalkProbe.LongestFallCm = FMath::Max(WalkProbe.LongestFallCm, Drop);
+        UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE landed label=%s t=%.2f dropCm=%.1f feetZ=%.1f %s"),
+            *WalkProbe.Label, Elapsed, Drop, FeetZ, *Describe(Movement->CurrentFloor.HitResult));
+    }
+    WalkProbe.bWasFalling = bFalling;
+    if (!bFalling)
+    {
+        WalkProbe.MinFeetZ = FMath::Min(WalkProbe.MinFeetZ, FeetZ);
+        WalkProbe.MaxFeetZ = FMath::Max(WalkProbe.MaxFeetZ, FeetZ);
+    }
+    // Blocked: steering but not moving. Say what is in the way.
+    const double Speed2D = Walker->GetVelocity().Size2D();
+    WalkProbe.SlowSeconds = (bSteering && Speed2D < 10.0) ? WalkProbe.SlowSeconds + DeltaTime : 0.0;
+    if (WalkProbe.SlowSeconds > 1.5)
+    {
+        WalkProbe.SlowSeconds = 0.0;
+        ++WalkProbe.StuckEvents;
+        FHitResult Block;
+        FCollisionQueryParams Query(SCENE_QUERY_STAT(MikdashWalkProbe), false, Walker);
+        const FVector Ahead = Walker->GetActorForwardVector() * 150.0;
+        World->SweepSingleByChannel(Block, Position, Position + Ahead, FQuat::Identity, ECC_Pawn,
+            FCollisionShape::MakeCapsule(Walker->GetCapsuleComponent()->GetScaledCapsuleRadius(), HalfHeight), Query);
+        UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE stuck label=%s t=%.2f pos=%s blocking=%d at=%s normal=%s %s"),
+            *WalkProbe.Label, Elapsed, *Position.ToString(), Block.bBlockingHit ? 1 : 0, *Block.ImpactPoint.ToString(),
+            *Block.ImpactNormal.ToString(), *Describe(Block));
+        if (WalkProbe.StuckEvents >= 4 && WalkProbe.Next < WalkProbe.Waypoints.Num()) ++WalkProbe.Next;
+    }
+    ++WalkProbe.Samples;
+    if (bFalling) ++WalkProbe.FallingSamples;
+    if (WalkProbe.LastLog < 0.0 || Elapsed - WalkProbe.LastLog >= 0.5)
+    {
+        WalkProbe.LastLog = Elapsed;
+        UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE sample label=%s t=%.2f pos=%.1f,%.1f,%.1f feetZ=%.1f speed2D=%.1f velZ=%.1f mode=%d grounded=%d wp=%d/%d floorZ=%.1f %s"),
+            *WalkProbe.Label, Elapsed, Position.X, Position.Y, Position.Z, FeetZ, Speed2D, Walker->GetVelocity().Z,
+            static_cast<int32>(Movement->MovementMode.GetValue()), Movement->IsMovingOnGround() ? 1 : 0,
+            WalkProbe.Next, WalkProbe.Waypoints.Num(), Movement->CurrentFloor.HitResult.ImpactPoint.Z,
+            *Describe(Movement->CurrentFloor.HitResult));
+    }
+    const bool bFinished = WalkProbe.FinishedWaypointsAt >= 0.0 && Elapsed - WalkProbe.FinishedWaypointsAt > 3.0;
+    if (bFinished || Elapsed > WalkProbe.Timeout
+        || (WalkProbe.Waypoints.Num() == 0 && Elapsed > FMath::Min(WalkProbe.Timeout, 8.0)))
+    {
+        WalkProbe.bDone = true;
+        UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE done label=%s t=%.2f reached=%d/%d finalPos=%s finalFeetZ=%.1f groundedFeetZ=[%.1f..%.1f] longestFallCm=%.1f fallingSamples=%d/%d stuckEvents=%d grounded=%d %s"),
+            *WalkProbe.Label, Elapsed, WalkProbe.Next, WalkProbe.Waypoints.Num(), *Position.ToString(), FeetZ,
+            WalkProbe.MinFeetZ, WalkProbe.MaxFeetZ, WalkProbe.LongestFallCm, WalkProbe.FallingSamples, WalkProbe.Samples,
+            WalkProbe.StuckEvents, Movement->IsMovingOnGround() ? 1 : 0, *Describe(Movement->CurrentFloor.HitResult));
+    }
 }
 
 void AMikdashPlayerController::CyclePrecinctView()

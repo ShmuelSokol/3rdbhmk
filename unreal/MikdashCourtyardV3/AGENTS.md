@@ -1,3 +1,42 @@
+## CityFacadeV1: stone facades with recessed openings on the 11,405 city buildings (material, not geometry) — 2026-09-11 10:5x UTC
+
+**Measured first, then built.** `Scripts/measure_city_visibility.py` (offline 2.5D viewshed: exact
+CitySource footprints and DEM, 4 m DSM, precinct deck + 6-amah wall and the YECHEZKEL hide set for
+the deck, gates and approach flights, the whole modern city for the Kotel plaza; 2,880 rays x
+1.5 km from 299 viewpoints). Receipt `SourceAssets/context-review/CityFacadeV1/visibility-latest.json`.
+- Seen within 300 m of where a visitor walks: **901** buildings. **340** already carry
+  OldCityFacadesV1 geometric shells; **561 are plain boxes**. Seen 300-800 m: 1,648. Beyond: 730.
+  **Never seen from the ground: 8,126.** Within the dove's 1.5 km: 8,811.
+- From the Kotel plaza: 110 seen within 300 m, **98 of them already shelled**. The plain boxes a
+  visitor meets up close are mostly on the approaches (394) and over the deck wall (253).
+
+**Built:** `M_CityFacadeV1` + `MI_CityFacade_CityStone` (`Scripts/release_city_facade.py`). The
+M_Context_Building triplanar Custom nodes verbatim, then two procedural Custom nodes: ashlar
+coursing with per-stone tone, windows / arched windows / doors / balcony doors on a per-wall grid,
+a VIEW-DEPENDENT recess (back plane found along the camera vector, so reveals, soffit and sill
+move with the viewer and carry their own world normals), shutters (some half open), iron
+grilles, balcony rails, a few lattice screens, lintels / voussoirs / sills, rain stains, per-roof
+tone. Variation per building from the per-building vertex colour, per wall from dot(P.xy, n.xy),
+per roof from roof Z. No per-instance data, no texture sampling, no derivatives in the new code
+(AA is analytic from PixelDepth; openings average out 220-800 m). Why a material: PERFORMANCE-BUDGET.md.
+
+**Applied** on both maps as a retarget of exactly the components carrying the CityDetail retint:
+Candidate48 **1,498/1,498** (receipt `native-city-facade-apply-candidate-20260911T094504048555Z.json`,
+checkpoint `ReviewCheckpoints/CityFacade-apply-candidate-20260911T094504048555Z`), Main50 **1,498/1,498**
+(`...-apply-main-20260911T104246240346Z.json`). Census after reopen exact; retint colour copied and
+read back parameter-for-parameter; `used_with_nanite` and `used_with_instanced_static_meshes` read
+back from disk; protected maps unchanged. Revert: `-CityFacadeRevert -CityFacadeTarget=<candidate|main>`.
+Note: `release_city_detail.py -CityDetailRetintClear` clears ALL overrides on those components,
+this one included.
+
+**MODERN restore re-audited after the change:** Candidate48 hide list **269/0/0**, Main50 **278/0/0**,
+`passed: true` on both, every tag ok (PrecinctCutOriginal unjudged in MODERN/OVERLAY by design).
+
+**Cook evidence (cp21d, cooked by another agent from my post-apply Candidate48 c09d6a89...):** the
+UAT log (UTF-16 - grep finds nothing until decoded) shows `Missing cached shadermap` for
+M_CityFacadeV1 in SM6 and SM5, no SCW crash, no fallback, `Success - 0 error(s), 0 warning(s)`,
+8,851 packages. cp22b was cooked from the same bytes.
+
 ## cp10/cp11: leaf cards are LEAF-SIZED, and the LOD schedule was 2x wrong — 2026-09-10 08:2x UTC
 
 **SHIPPED BUILD: `C:\Mikdash\Builds\Checkpoint-cp11-20260910T080907Z`** (`checkpoint_playable`,
@@ -1823,3 +1862,59 @@ Files: `Scripts/create_herodian_ashlar_layouts.py` (slices, seed screen, `--prov
   (`-ARLayoutsRevert`) only after BOTH maps and the trial copy are reverted.
   Still to do: look at the next Candidate48 checkpoint build's walls at walking height. The evidence came from the frame-trial copy
   in one build.
+
+## 11 Sep 2026 - plaza, approaches and Kotel plaza made walkable (collision pass)
+
+- **Facts found first.** The walker is `BP_MikdashWalker_C` (a BP_FirstPersonCharacter child): capsule 34/96, **MaxStepHeight 55**,
+  walkable 44.77 deg, 600 cm/s, measured in the packaged build. The approach riser is 24 cm (0.5 amah at 48 cm), a real step, so no ramp
+  proxy was needed. **No NavMesh exists in either map** (zero NavMeshBoundsVolume/RecastNavMesh names in the umaps): the residents'
+  `FindPathToLocationSynchronously` always fails and they walk their reviewed direct corridor; the crowd field uses zones + traces +
+  capsule sweeps. No navmesh was built - it would change nothing.
+- **Root cause 1: the PrecinctPlazaV1 meshes had NO simple collision** (imported `auto_generate_collision False`), so the Kotel plaza's
+  BlockAll HISMs and the approach HISMs gave a capsule nothing to stand on. `Scripts/release_plaza_mesh_collision.py` added ONE box
+  (from MeshDescription bounds, exact) to DeckTile, WayTile, Step, Kerb, RetainingBand; Rib and Channel deliberately none. Apply
+  `plaza-mesh-collision-apply-20260911T073501303208Z.json` (box == bounds on all five, 9,203 protected files and both maps unchanged,
+  checkpoint `ReviewCheckpoints/PlazaMeshCollision-20260911T073501303208Z`), fresh verify `plaza-mesh-collision-verify-20260911T083819071033Z.json`.
+  Revert: `python Scripts/release_plaza_mesh_collision.py --revert=<apply receipt>` (byte-exact).
+- **Root cause 2: the runtime deck was NoCollision by construction.** EnclosureMath.h section 6c + AMikdashEnclosure: 144 transient
+  `UBoxComponent` deck proxies whose top is 1 cm UNDER deck Z 0 (the mount platform, the residents' mount-deck floor and the
+  MountPlatformDeck crowd zone are all at exactly Z 0, so they keep winning every floor sweep/trace), 5 gate-bridge boxes (the deck stops
+  at the wall's inner face and the wall has no collision), and HISM instance bodies on the inside gate flights (215), retaining (10,105)
+  and scarp (1,813). Ribs/kerbs/channels get none (they cross the crowd's east-way zone; crowd WorldStatic sweeps start 3 cm above
+  ground). Game worlds only; switches with visibility in ApplyWeights; `-MikdashNoPlazaCollision` builds none of it. EnclosureMathTest
+  `PlazaCollisionChecks` (144 boxes tile the grid exactly; each bridge spans one tread outside to half a tread inside). verify.py green.
+- **Walk probe** `-MikdashWalkProbe=label=..;state=..;start=X:Y:Z:Yaw:Pitch;wp=X:Y/X:Y;delay=..;timeout=..` (development builds; logs
+  `MIKDASH_WALKPROBE` with the floor component per sample). Footsteps: proxies tagged `MikdashPlazaFloor` route to stone.
+- **Packaged acceptance, cp22 (`C:/Mikdash/Builds/Checkpoint-cp22-20260911T083910Z`, checkpoint_playable):**
+  S2 approach climb (`SourceAssets/visual-review/movie-cp22-s2-approach-climb/`, frames 0040/0070/0125/0175): dropped onto an
+  SM_PlazaV1_Step tread at feet Z -622.6, climbed tread by tread to the head landing (WayTile, feet Z 2.2), through the S2 gate on the
+  bridge, onto the deck proxy (feet Z 1.2); 3/3 waypoints, 0 stuck, no fall after the initial drop.
+  MODERN (`movie-cp22-modern-no-deck-v2/`): with MODERN in place before the drop (plaza collision on=0), the walker fell 54.1 m through
+  where the deck stands and landed on modern asphalt at Z -5309.5; it never touched a plaza surface. The v1 run caught the switch live:
+  on the deck proxy during the 2.5 s dissolve, falling in the next 0.5 s sample after it completed.
+- **Defect found: the Kotel plaza did NOT collide in MODERN** although it rendered (`movie-cp22-kotel-upper-lower-v3/` frame 0076): the
+  walker stood on the terrain twin 50 cm under each paving level. The actor is saved with actor collision OFF and switched on at runtime;
+  its HISM instance bodies never blocked afterwards (the approach actor, same modules, collision on at load, works). Fix in
+  `SetTaggedActorCollision` (MikdashEnclosure.cpp): on an off-to-on switch, `RecreatePhysicsState()` on the actor's instanced
+  components. Built into cp22b; verification pending (Kotel walk, S2 after a Y-M-O-Y round trip, MODERN drop onto the approach).
+- **Also in the plan, not fixed (changes the look):** in `kotel-plaza-plan.json` the upper-deck cells cover the 10-riser flight between
+  the levels (slab underside 175 cm over the first tread < the 192 cm capsule), so the Kotel levels connect by a 2.5 m drop, not the stair.
+- **Traps:** (1) two capture chains share one archive's `Saved/Screenshots/Windows`; the next run's cleanup deleted frames mid-copy - run
+  captures on one archive from ONE chain. (2) The CSV profiler writes in 512 KB chunks: a run that renders ~100 frames leaves a 0-byte
+  CSV (cp20 run at 1.7 fps during a concurrent 1,000-PNG copy). (3) A precinct-state switch dissolves for 2.5 s and tagged actors/plaza
+  collision switch only at its END: a probe that sets MODERN and drops at once lands on the still-colliding deck.
+- **Kotel fix VERIFIED in cp22b** (`C:/Mikdash/Builds/Checkpoint-cp22b-20260911T103748Z`, cook BUILD SUCCESSFUL; in-script smoke was
+  refused by another agent's game, then `Smoke-Build.ps1 -Archive` returned `playable`; receipt
+  `build-review/checkpoint-cp22b-20260911T103748Z.json`). In MODERN the walker landed on the Kotel plaza's own `SM_PlazaV1_DeckTile` at
+  feet Z -982.4 (upper level, paving -984.6), walked off the upper edge and landed on the lower level at feet Z -1232.4 (paving -1234.6),
+  3/3 waypoints, 0 stuck (`movie-cp22b-kotel-upper-lower/`, frames 0076 upper, 0120 lower). Log: `MIKDASH_STATE_COLLISION Actor_56:
+  collision on, rebuilt instance bodies of 4 instanced component(s)`.
+- **Round trip:** after YECHEZKEL -> OVERLAY -> YECHEZKEL the approach actor was rebuilt the same way (`Actor_57`) and the S2 climb repeated
+  exactly (landed on SM_PlazaV1_Step -622.6, head landing 2.2, deck proxy 1.2, 3/3, 0 stuck; `movie-cp22b-s2-roundtrip-v2/`).
+- **MODERN over the approach** (`movie-cp22b-modern-no-approach/`): dropped at the S2 stair's own location with MODERN in place, fell
+  42.9 m straight through and landed on modern asphalt at Z -4281.4; never grounded on anything hidden.
+- **Frame time at a plaza camera** (`BugItGo 64224 100000 300 -3 -123 0`, CSV profiler, real time, 45 s settle,
+  `perf-review/plaza-collision/`): cp20 before 20.80 ms median frame / 8.68 game / 19.93 GPU (only 227 frames flushed - indicative);
+  cp22 with collision 20.53 / 8.45 / 19.64 (2,757 frames, p95 23.98); cp22 `-MikdashNoPlazaCollision` 19.98 / 8.13 / 19.30 (2,847
+  frames, p95 22.78). Collision on vs off, same build: +0.55 ms median frame, +0.32 ms game thread; the GPU moved +0.34 ms with no
+  collision work on it, so the whole delta is at run-to-run noise level.

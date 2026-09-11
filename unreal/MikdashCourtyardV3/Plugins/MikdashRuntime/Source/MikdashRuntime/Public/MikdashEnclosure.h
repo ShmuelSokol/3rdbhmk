@@ -9,6 +9,7 @@ class UStaticMesh;
 class UMaterialInterface;
 class UMaterialInstanceDynamic;
 class UPointLightComponent;
+class UBoxComponent;
 
 /** The three states of the precinct toggle. Values match MikdashEnclosure::EPrecinctState
  *  in EnclosureMath.h, where the weight table lives; do not renumber one without the other. */
@@ -468,6 +469,13 @@ public:
     UFUNCTION(BlueprintPure, Category = "Precinct|Plaza")
     FString GetPlazaStatus() const;
 
+    /** Walkable collision of the runtime plaza (EnclosureMath.h section 6c): deck proxy boxes,
+     *  gate bridges, and the instance bodies of the inside gate flights, retaining and scarp.
+     *  Game worlds only, and on only while the plaza is visible. Launch with
+     *  -MikdashNoPlazaCollision to build none of it (the frame-time A/B switch). */
+    UFUNCTION(BlueprintPure, Category = "Precinct|Plaza")
+    FString GetPlazaCollisionStatus() const;
+
     UPROPERTY(BlueprintAssignable, Category = "Precinct")
     FMikdashPrecinctStateSignature OnPrecinctStateChanged;
 
@@ -494,6 +502,12 @@ private:
     void BuildPlaza(const MikdashEnclosure::FSquare& Square,
                     const MikdashEnclosure::FGroundProfile& Profile);
     bool PlazaEnabled() const;
+    /** Section 6c. Destroys the proxies of a previous build. */
+    void ClearPlazaCollision();
+    void AddPlazaCollisionBox(const MikdashEnclosure::FPlazaCollisionBox& Box, FName Kind);
+    /** Collision follows visibility, in game worlds only - the rule ApplyStateTaggedActors
+     *  already follows for the tagged actors, so the whole plaza switches as one. */
+    void ApplyPlazaCollision(bool bShow);
     void ApplyWeights(const MikdashEnclosure::FStateWeights& Weights);
     void GatherModernBuildings();
     /** Called from inside the GatherModernBuildings pass, BEFORE the building-identity test
@@ -527,6 +541,9 @@ private:
     UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> PlazaRetainingInstances;
     UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> PlazaScarpInstances;
     UPROPERTY(Transient) TObjectPtr<UHierarchicalInstancedStaticMeshComponent> PlazaStepInstances;
+    /** Section 6c proxies: collision only, never drawn, never saved (RF_Transient, and
+     *  created only in game worlds). Tagged MikdashPlazaFloor for the footstep router. */
+    UPROPERTY(Transient) TArray<TObjectPtr<UBoxComponent>> PlazaCollisionBoxes;
     UPROPERTY(Transient) TArray<TObjectPtr<UPointLightComponent>> MarkerLights;
     UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> OverlayDynamic;
     UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> WallDynamic;
@@ -572,6 +589,10 @@ private:
     int32 PlazaCellsY = 0;
     int32 PlazaPanels = 0;
     FString PlazaStatus = TEXT("not-built");
+    bool bPlazaCollisionAllowed = false;
+    bool bPlazaCollisionOn = false;
+    int32 PlazaDeckCollisionBoxCount = 0;
+    int32 PlazaGateBridgeCount = 0;
 
     EMikdashPrecinctState CurrentState = EMikdashPrecinctState::Yechezkel;
     MikdashEnclosure::FDissolve Transition;

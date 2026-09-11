@@ -120,4 +120,27 @@ private:
 
     UPROPERTY(Config)
     bool bSoundMuted = false;
+
+    /** Scripted walk for packaged-build acceptance (development builds only):
+     *  -MikdashWalkProbe=label=S2;state=YECHEZKEL;start=X:Y:Z:Yaw:Pitch;wp=X:Y/X:Y;delay=4;timeout=90
+     *  After `delay` game seconds it undoes a capture script's Ghost, sets the precinct state,
+     *  teleports the walking character once, steers it through the waypoints with ordinary
+     *  movement input (no further teleports, no cheats), and logs MIKDASH_WALKPROBE lines:
+     *  position, movement mode, and the component and actor it stands on. Inert without the switch. */
+    struct FWalkProbe
+    {
+        bool bActive = false, bStarted = false, bDone = false;
+        FString Label, State;
+        FVector Start = FVector::ZeroVector;
+        float Yaw = 0.f, Pitch = 0.f;
+        TArray<FVector2D> Waypoints;
+        int32 Next = 0;
+        double Delay = 4.0, Timeout = 90.0, StartedAt = 0.0, LastLog = -1.0, FinishedWaypointsAt = -1.0;
+        double MinFeetZ = 1e300, MaxFeetZ = -1e300, FallStartZ = 0.0, LongestFallCm = 0.0, SlowSeconds = 0.0;
+        bool bWasFalling = false;
+        int32 Samples = 0, FallingSamples = 0, StuckEvents = 0;
+    };
+    FWalkProbe WalkProbe;
+    void ParseWalkProbe(const FString& Spec);
+    void TickWalkProbe(float DeltaTime);
 };

@@ -66,7 +66,9 @@ the Kotel plaza, the approaches and the sanctuary have no visual acceptance at a
 4. ~~**Approaches not wired to the state toggle**~~ **WIRED** (e178fb97). 1 visible in YECHEZKEL,
    0 in MODERN and OVERLAY, on both maps, with the other five tag families re-counted for
    regression.
-5. **No collision or navmesh** on the Kotel plaza or the approaches, so the crowd system cannot
+5. ~~**No collision or navmesh**~~ **11 Sep: approaches and deck WALKED in the packaged build** (AGENTS.md
+   collision pass). Kotel plaza walked on both levels in cp22b after a runtime fix (SetTaggedActorCollision, see AGENTS.md). No navmesh exists
+   or is used by any system. Original note: no collision on the Kotel plaza or the approaches, so the crowd system cannot
    path over either — people cannot walk up the stairs they were built to walk up.
 6. `resident-routes-v2-verify` has still never run on the shipping map (needs real RHI).
 7. Soundscape adoption — blocked on a human listening to 29 files.

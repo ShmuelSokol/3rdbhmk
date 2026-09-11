@@ -319,8 +319,13 @@ N by 1.35 m, E by 9.67 m, S1 by 9.76 m. Main50 reads the same shape: S2 leaves 1
    the receipt under `buildingsUnderApproach`. The south-west flank retaining reaches **112.8 m**
    where it crosses the Hinnom, which is a wall the size of the precinct's own and is reported
    rather than tuned away.
-6. **NO COLLISION OR NAVMESH PASS.** The components take the meshes' own collision settings and
-   nothing here has been walked.
+6. ~~**NO COLLISION OR NAVMESH PASS.**~~ **WALKED, 11 September 2026.** The PrecinctPlazaV1 modules
+   had no simple collision at all; `Scripts/release_plaza_mesh_collision.py` gave Step, WayTile, DeckTile,
+   Kerb and RetainingBand one exact box each. In the packaged cp22 build a walking character dropped onto
+   the S2 flight, climbed it tread by tread to the head landing, crossed the gate and stood on the deck
+   (`SourceAssets/visual-review/movie-cp22-s2-approach-climb/`, 3/3 waypoints, 0 stuck). In MODERN the
+   hidden plaza does not collide. No navmesh: neither map has one and nothing in the project paths on one.
+   See `AGENTS.md`, 11 Sep 2026 collision pass.
 
 ---
 

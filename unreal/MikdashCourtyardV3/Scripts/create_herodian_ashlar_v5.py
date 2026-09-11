@@ -361,6 +361,100 @@ def partition(rng, total, count, lo, hi, tries=800):
     return None
 
 
+def draw_block_surface(cfg, rng, L, H, x, y0):
+    """Every per-block SURFACE draw of one stone, in exactly the order layout_courses has always made
+    them, so the V5 stream (one rng for layout and surface) is unchanged byte for byte.
+
+    Split out 2026-09-10 for the anti-repeat tile variants: layout_courses calls it with the layout rng
+    (V5 itself), and reroll_surface calls it again with a separate surface rng for a variant. x0, L,
+    y0, H are the stone's position and size (layout, fixed); everything this function draws is surface."""
+    mlo, mhi = cfg['margin_cm']
+    direction = choose(rng, list(cfg['stroke_dir'].items()))
+    wobble = math.radians(rng.uniform(-cfg['stroke_wobble_deg'], cfg['stroke_wobble_deg']))
+    angle = wobble if direction == 'horizontal' else math.pi / 2 + wobble
+    family, _, value_f, br_shift = choose(rng, [((f, w, vf, bs), w) for f, w, vf, bs in cfg['families']])
+    br, bg, bb = cfg['base_srgb']
+    value = value_f * (1.0 + rng.uniform(-cfg['value_jitter'], cfg['value_jitter']))
+    b_r = bb / br + br_shift + rng.uniform(-cfg['br_jitter'], cfg['br_jitter'])
+    # hue stays on the cream -> honey axis: G/R follows B/R, tiny independent jitter
+    gr = bg / br + 0.45 * (b_r - bb / br) + rng.uniform(-cfg['gr_jitter'], cfg['gr_jitter'])
+    r = br * value
+    tint = (min(0.98, r), min(0.98, r * gr), min(0.98, r * b_r))
+    jw = cfg['joint_cm'] / 2.0
+    m0 = rng.uniform(mlo, mhi)
+    j = cfg['margin_side_jitter']
+    mw_l = m0 * (1.0 + rng.uniform(-j, j))
+    mw_r = m0 * (1.0 + rng.uniform(-j, j))
+    mw_t = m0 * cfg['margin_top_factor'] * (1.0 + rng.uniform(-j, j))
+    mw_b = m0 * cfg['margin_bottom_factor'] * (1.0 + rng.uniform(-j, j))
+    # the boss must survive on small blocks: leave at least 8 cm of boss in each axis
+    cap_u = max(2.0, (L / 2.0 - jw - 4.0))
+    cap_v = max(2.0, (H / 2.0 - jw - 4.0))
+    mw_l, mw_r = min(mw_l, cap_u), min(mw_r, cap_u)
+    mw_t, mw_b = min(mw_t, cap_v), min(mw_b, cap_v)
+    block = dict(
+        x0=x % TILE_CM, L=L, y0=y0, H=H, family=family, angle=angle, tint=tint,
+        marginCm=[round(mw_l, 2), round(mw_r, 2), round(mw_b, 2), round(mw_t, 2)],
+        mw_l=mw_l, mw_r=mw_r, mw_b=mw_b, mw_t=mw_t,
+        boss_proud=rng.uniform(*cfg['boss_proud_cm']),
+        base=rng.uniform(-cfg['base_offset_cm'], cfg['base_offset_cm']),
+        tilt_u=rng.uniform(-cfg['tilt'], cfg['tilt']), tilt_v=rng.uniform(-cfg['tilt'], cfg['tilt']),
+        boss_amp=rng.uniform(*cfg['boss_stria_amp_cm']), boss_across=rng.uniform(*cfg['boss_stria_across_cm']),
+        boss_along=rng.uniform(*cfg['boss_stria_along_cm']),
+        marg_amp=rng.uniform(*cfg['margin_stria_amp_cm']), marg_across=rng.uniform(*cfg['margin_stria_across_cm']),
+        marg_along=rng.uniform(*cfg['margin_stria_along_cm']),
+        stria_seed=rng.randrange(1, 1 << 30), streak_seed=rng.randrange(1, 1 << 30), bio_seed=rng.randrange(1, 1 << 30),
+        patina_seed=rng.randrange(1, 1 << 30), edge_seed=rng.randrange(1, 1 << 30),
+        weathering=rng.uniform(*cfg['weathering']),
+        rough_boss=cfg['rough']['boss'] + rng.uniform(-cfg['rough_jitter'], cfg['rough_jitter']),
+        rough_margin=cfg['rough']['margin'] + rng.uniform(-cfg['rough_jitter'], cfg['rough_jitter']),
+        chips=[], pores=[])
+    if rng.random() < cfg['chip_chance']:
+        for _ in range(rng.randint(*cfg['chips_per_block'])):
+            R = rng.uniform(*cfg['chip_radius_cm'])
+            edge = rng.choice(['top', 'bottom', 'left', 'right'])
+            if edge in ('top', 'bottom'):
+                pu, pv = rng.uniform(R, max(R + 0.1, L - R)), (H if edge == 'top' else 0.0)
+            else:
+                pu, pv = (L if edge == 'right' else 0.0), rng.uniform(R, max(R + 0.1, H - R))
+            block['chips'].append((pu, pv, R, rng.uniform(*cfg['chip_depth_cm'])))
+    area = L * H
+    # V5: real limestone porosity is power-law (very many tiny, very few large) and PATCHY.
+    # V4's rng.uniform radius with an even scatter is what makes a dense pore field read as
+    # aerated concrete instead of stone, so both are shaped here.
+    lo, hi = cfg['pore_radius_cm']
+    shape = cfg.get('pore_size_shape', 2.6)
+    patch_cm, patch_cut = cfg.get('pore_patch_cm', 17.0), cfg.get('pore_patch_cut', -0.22)
+    for _ in range(int(area * cfg['pore_density_per_cm2'] * rng.uniform(0.5, 1.5))):
+        R = lo + (hi - lo) * (rng.random() ** shape)
+        m = jw + R + 0.4
+        if L - 2 * m > 0 and H - 2 * m > 0:
+            pu, pv = rng.uniform(m, L - m), rng.uniform(m, H - m)
+            if vnoise(pu / patch_cm, pv / patch_cm, block['patina_seed'] + 71) < patch_cut:
+                continue          # leave clean patches, the way weathering actually spares stone
+            block['pores'].append((pu, pv, R, R * rng.uniform(0.35, 0.65)))
+    return block
+
+
+def reroll_surface(cfg, courses, surface_rng):
+    """A tile VARIANT: the same stones (same x0, L, y0, H, and the same edge_seed, which is the only
+    surface-looking draw that moves a JOINT - it wobbles the bed and rising joint lines) with every other
+    per-block draw re-rolled from surface_rng: family and tint, value, stroke direction, drafted-margin
+    widths, boss projection, dressing, run-off, biology, patina, weathering, roughness, chips and pores.
+    The joint mask is therefore identical to the source tile's by construction; generate() writes it out
+    so that claim is diffed pixel for pixel rather than trusted."""
+    out = []
+    for course in courses:
+        row = []
+        for b in course:
+            nb = draw_block_surface(cfg, surface_rng, b['L'], b['H'], b['x0'], b['y0'])
+            nb['edge_seed'] = b['edge_seed']
+            assert (nb['x0'], nb['L'], nb['y0'], nb['H']) == (b['x0'], b['L'], b['y0'], b['H'])
+            row.append(nb)
+        out.append(row)
+    return out
+
+
 def layout_courses(cfg, rng):
     """Herodian coursing for one 300 cm tile. Course heights vary inside course_h_cm and sum to TILE_CM
     exactly; each course carries blocks_per_course blocks whose lengths sum to TILE_CM (so the tile wraps);
@@ -396,70 +490,7 @@ def layout_courses(cfg, rng):
         blocks = []
         x = offset
         for L in lengths:
-            direction = choose(rng, list(cfg['stroke_dir'].items()))
-            wobble = math.radians(rng.uniform(-cfg['stroke_wobble_deg'], cfg['stroke_wobble_deg']))
-            angle = wobble if direction == 'horizontal' else math.pi / 2 + wobble
-            family, _, value_f, br_shift = choose(rng, [((f, w, vf, bs), w) for f, w, vf, bs in cfg['families']])
-            br, bg, bb = cfg['base_srgb']
-            value = value_f * (1.0 + rng.uniform(-cfg['value_jitter'], cfg['value_jitter']))
-            b_r = bb / br + br_shift + rng.uniform(-cfg['br_jitter'], cfg['br_jitter'])
-            # hue stays on the cream -> honey axis: G/R follows B/R, tiny independent jitter
-            gr = bg / br + 0.45 * (b_r - bb / br) + rng.uniform(-cfg['gr_jitter'], cfg['gr_jitter'])
-            r = br * value
-            tint = (min(0.98, r), min(0.98, r * gr), min(0.98, r * b_r))
-            jw = cfg['joint_cm'] / 2.0
-            m0 = rng.uniform(mlo, mhi)
-            j = cfg['margin_side_jitter']
-            mw_l = m0 * (1.0 + rng.uniform(-j, j))
-            mw_r = m0 * (1.0 + rng.uniform(-j, j))
-            mw_t = m0 * cfg['margin_top_factor'] * (1.0 + rng.uniform(-j, j))
-            mw_b = m0 * cfg['margin_bottom_factor'] * (1.0 + rng.uniform(-j, j))
-            # the boss must survive on small blocks: leave at least 8 cm of boss in each axis
-            cap_u = max(2.0, (L / 2.0 - jw - 4.0))
-            cap_v = max(2.0, (H / 2.0 - jw - 4.0))
-            mw_l, mw_r = min(mw_l, cap_u), min(mw_r, cap_u)
-            mw_t, mw_b = min(mw_t, cap_v), min(mw_b, cap_v)
-            block = dict(
-                x0=x % TILE_CM, L=L, y0=y0, H=H, family=family, angle=angle, tint=tint,
-                marginCm=[round(mw_l, 2), round(mw_r, 2), round(mw_b, 2), round(mw_t, 2)],
-                mw_l=mw_l, mw_r=mw_r, mw_b=mw_b, mw_t=mw_t,
-                boss_proud=rng.uniform(*cfg['boss_proud_cm']),
-                base=rng.uniform(-cfg['base_offset_cm'], cfg['base_offset_cm']),
-                tilt_u=rng.uniform(-cfg['tilt'], cfg['tilt']), tilt_v=rng.uniform(-cfg['tilt'], cfg['tilt']),
-                boss_amp=rng.uniform(*cfg['boss_stria_amp_cm']), boss_across=rng.uniform(*cfg['boss_stria_across_cm']),
-                boss_along=rng.uniform(*cfg['boss_stria_along_cm']),
-                marg_amp=rng.uniform(*cfg['margin_stria_amp_cm']), marg_across=rng.uniform(*cfg['margin_stria_across_cm']),
-                marg_along=rng.uniform(*cfg['margin_stria_along_cm']),
-                stria_seed=rng.randrange(1, 1 << 30), streak_seed=rng.randrange(1, 1 << 30), bio_seed=rng.randrange(1, 1 << 30),
-                patina_seed=rng.randrange(1, 1 << 30), edge_seed=rng.randrange(1, 1 << 30),
-                weathering=rng.uniform(*cfg['weathering']),
-                rough_boss=cfg['rough']['boss'] + rng.uniform(-cfg['rough_jitter'], cfg['rough_jitter']),
-                rough_margin=cfg['rough']['margin'] + rng.uniform(-cfg['rough_jitter'], cfg['rough_jitter']),
-                chips=[], pores=[])
-            if rng.random() < cfg['chip_chance']:
-                for _ in range(rng.randint(*cfg['chips_per_block'])):
-                    R = rng.uniform(*cfg['chip_radius_cm'])
-                    edge = rng.choice(['top', 'bottom', 'left', 'right'])
-                    if edge in ('top', 'bottom'):
-                        pu, pv = rng.uniform(R, max(R + 0.1, L - R)), (H if edge == 'top' else 0.0)
-                    else:
-                        pu, pv = (L if edge == 'right' else 0.0), rng.uniform(R, max(R + 0.1, H - R))
-                    block['chips'].append((pu, pv, R, rng.uniform(*cfg['chip_depth_cm'])))
-            area = L * H
-            # V5: real limestone porosity is power-law (very many tiny, very few large) and PATCHY.
-            # V4's rng.uniform radius with an even scatter is what makes a dense pore field read as
-            # aerated concrete instead of stone, so both are shaped here.
-            lo, hi = cfg['pore_radius_cm']
-            shape = cfg.get('pore_size_shape', 2.6)
-            patch_cm, patch_cut = cfg.get('pore_patch_cm', 17.0), cfg.get('pore_patch_cut', -0.22)
-            for _ in range(int(area * cfg['pore_density_per_cm2'] * rng.uniform(0.5, 1.5))):
-                R = lo + (hi - lo) * (rng.random() ** shape)
-                m = jw + R + 0.4
-                if L - 2 * m > 0 and H - 2 * m > 0:
-                    pu, pv = rng.uniform(m, L - m), rng.uniform(m, H - m)
-                    if vnoise(pu / patch_cm, pv / patch_cm, block['patina_seed'] + 71) < patch_cut:
-                        continue          # leave clean patches, the way weathering actually spares stone
-                    block['pores'].append((pu, pv, R, R * rng.uniform(0.35, 0.65)))
+            block = draw_block_surface(cfg, rng, L, H, x, y0)
             blocks.append(block)
             x += L
         courses.append(blocks)
@@ -468,17 +499,21 @@ def layout_courses(cfg, rng):
 
 
 # ------------------------------------------------------------------------------------- render
-def generate(name, cfg, size, log):
+def generate(name, cfg, size, log, surface_seed=None):
     t0 = time.time()
     rng = random.Random(cfg['seed'])
     px = TILE_CM / size                      # cm per pixel
     heights, courses = layout_courses(cfg, rng)
+    if surface_seed is not None:
+        # anti-repeat tile variant: same stones and joints, every surface draw re-rolled (reroll_surface)
+        courses = reroll_surface(cfg, courses, random.Random(surface_seed))
     bounds = []
     acc = 0.0
     for H in heights:
         bounds.append(acc)
         acc += H
-    noise = OctaveStack(random.Random(cfg['seed'] * 7 + 1), size)
+    # the tile-wide mottle field is surface too, so a variant reseeds it; V5 itself keeps seed * 7 + 1
+    noise = OctaveStack(random.Random((cfg['seed'] if surface_seed is None else surface_seed) * 7 + 1), size)
     flat_blocks = [b for c in courses for b in c]
     for i, b in enumerate(flat_blocks):
         b['id'] = i
@@ -796,7 +831,61 @@ def generate(name, cfg, size, log):
                           'margin': round(counts[R_MARGIN] / total, 4), 'bossBevel': round(counts[R_BEVEL] / total, 4),
                           'boss': round(counts[R_BOSS] / total, 4)},
         'facePixelFraction': round(sum(sum(r) for r in face_mask) / total, 4)}
-    return maps, {'face': face_mask, 'boss': boss_mask, 'margin': margin_mask, 'bossEdge': boss_edge_mask}, schedule, time.time() - t0
+    extras = stone_key_and_masks(flat_blocks, block_id, region_rows, size, px)
+    return maps, {'face': face_mask, 'boss': boss_mask, 'margin': margin_mask, 'bossEdge': boss_edge_mask}, schedule, time.time() - t0, extras
+
+
+def stone_key_and_masks(flat_blocks, block_id, region_rows, size, px):
+    """Layout-only images for the anti-repeat variants (identical for every variant of one layout).
+
+    StoneKey (sampled NEAREST, no mips, uncompressed): lets the shader pick a variant per STONE rather than
+    per 300 cm cell. A per-cell pick would put a tone step through every stone that straddles the cell edge,
+    because per-stone tone is exactly what the variants change.
+      R = (d + 1) * 127.5 with d = u_unwrapped - anchor, in tile units. u_unwrapped is the pixel's u, plus 1
+          for the part of a stone that wraps round to the start of the tile; anchor = floor(stone centre) + 0.5.
+          The shader's floor(u_world - d) is then the SAME integer on every pixel of one stone, including
+          across the tile edge, and it is robust because frac(anchor) is exactly 0.5.
+      G = stone index * 17 (index <= 15), so the pick can differ between stones of one cell.
+      B = 0.
+    JointMask: 255 on joint pixels, 128 on arris pixels, 0 elsewhere - the geometry that must be identical.
+    Regions: region code * 60 (joint 0, arris 60, margin 120, bevel 180, boss 240) - reported, not required equal."""
+    for b in flat_blocks:
+        centre = (b['x0'] + b['L'] / 2.0) / TILE_CM
+        b['anchor'] = math.floor(centre) + 0.5
+    if len(flat_blocks) > 15:
+        raise RuntimeError('StoneKey stores the stone index * 17 in 8 bits; %d stones exceed 15' % len(flat_blocks))
+    key_rows, joint_rows, region_png = [], [], []
+    dmax = 0.0
+    for y in range(size):
+        ids, reg = block_id[y], region_rows[y]
+        k = bytearray(3 * size)
+        j = bytearray(3 * size)
+        g = bytearray(3 * size)
+        for x in range(size):
+            b = flat_blocks[ids[x]]
+            ut = (x + 0.5) * px
+            if b['x0'] + b['L'] > TILE_CM and ut < b['x0']:
+                ut += TILE_CM                      # the wrapped part of a stone that crosses u = 0
+            d = ut / TILE_CM - b['anchor']
+            if abs(d) > dmax:
+                dmax = abs(d)
+            k[3 * x] = int(round((d + 1.0) * 127.5))
+            k[3 * x + 1] = b['id'] * 17
+            r = reg[x]
+            jm = 255 if r == R_JOINT else (128 if r == R_ARRIS else 0)
+            j[3 * x] = j[3 * x + 1] = j[3 * x + 2] = jm
+            g[3 * x] = g[3 * x + 1] = g[3 * x + 2] = r * 60
+        key_rows.append(k)
+        joint_rows.append(j)
+        region_png.append(g)
+    if dmax > 1.0:
+        raise RuntimeError('StoneKey offset %.4f exceeds the encodable +-1 tile' % dmax)
+    return {'StoneKey': key_rows, 'JointMask': joint_rows, 'Regions': region_png,
+            'stones': [{'id': b['id'], 'x0Cm': round(b['x0'], 3), 'LCm': round(b['L'], 3), 'y0Cm': round(b['y0'], 3),
+                        'HCm': round(b['H'], 3), 'anchor': b['anchor'], 'family': b['family'],
+                        'tint': [round(t, 4) for t in b['tint']], 'weathering': round(b['weathering'], 4),
+                        'marginCm': b['marginCm'], 'bossProudCm': round(b['boss_proud'], 3)} for b in flat_blocks],
+            'maxAbsOffsetTiles': round(dmax, 4)}
 
 
 # ------------------------------------------------------------------------------------- stats
@@ -929,6 +1018,10 @@ def main(argv=None):
     ap.add_argument('--baseline', action='store_true', help='also decode the sandstone_blocks_08 normal PNG and measure it with the same code')
     ap.add_argument('--force', action='store_true')
     ap.add_argument('--out', type=Path, default=OUT)
+    ap.add_argument('--surface-seed', type=int, default=None,
+                    help='anti-repeat variant: keep the layout (and every joint), re-roll every per-stone surface draw and the mottle from this seed')
+    ap.add_argument('--tag', default='', help='file-name tag: T_HerodianV5<tag>_<Variant>_<Map>.png (default: none, the V5 names)')
+    ap.add_argument('--extras', action='store_true', help='also write StoneKey, JointMask and Regions PNGs (layout-only)')
     args = ap.parse_args(argv)
     out = args.out
     receipts = list(out.glob('herodian-v5-import-*.json'))
@@ -978,14 +1071,22 @@ def main(argv=None):
     for name in (args.variant or sorted(VARIANTS)):
         cfg = VARIANTS[name]
         log('generating %s at %d' % (name, args.size))
-        maps, masks, schedule, seconds = generate(name, cfg, args.size, log)
-        record = {'iteration': ITERATION, 'seed': cfg['seed'], 'parameters': cfg, 'schedule': schedule,
+        maps, masks, schedule, seconds, extras = generate(name, cfg, args.size, log, args.surface_seed)
+        record = {'iteration': ITERATION, 'seed': cfg['seed'], 'surfaceSeed': args.surface_seed, 'tag': args.tag,
+                  'parameters': cfg, 'schedule': schedule,
                   'generationSeconds': round(seconds, 1), 'files': {}, 'previews': {}}
         suffix = '' if args.size == DEFAULT_SIZE else '_%d' % args.size
         for kind, rows in maps.items():
-            path = out / ('T_HerodianV5_%s_%s%s.png' % (name, kind, suffix))
+            path = out / ('T_HerodianV5%s_%s_%s%s.png' % (args.tag, name, kind, suffix))
             digest = write_png_rgb(path, args.size, args.size, rows)
             record['files'][kind] = {'path': rel(path), 'sha256': digest, 'bytes': path.stat().st_size, 'imported': kind in ('Albedo', 'Normal', 'ARM')}
+        if args.extras:
+            for kind in ('StoneKey', 'JointMask', 'Regions'):
+                path = out / ('T_HerodianV5%s_%s_%s%s.png' % (args.tag, name, kind, suffix))
+                record['files'][kind] = {'path': rel(path), 'sha256': write_png_rgb(path, args.size, args.size, extras[kind]),
+                                         'imported': kind == 'StoneKey'}
+            record['stones'] = extras['stones']
+            record['stoneKeyMaxAbsOffsetTiles'] = extras['maxAbsOffsetTiles']
         log('  wrote maps')
         record['statistics'] = measure(maps, masks)
         s = record['statistics']
@@ -1002,13 +1103,13 @@ def main(argv=None):
         pv = {k: downsample2(v) if args.size > 1024 else v for k, v in maps.items()}
         psize = args.size // 2 if args.size > 1024 else args.size
         for kind, rows in pv.items():
-            path = out / 'previews' / ('T_HerodianV5_%s_%s_%d.png' % (name, kind, psize))
+            path = out / 'previews' / ('T_HerodianV5%s_%s_%s_%d.png' % (args.tag, name, kind, psize))
             record['previews'][kind] = {'path': rel(path), 'sha256': write_png_rgb(path, psize, psize, rows)}
-        lit = out / 'previews' / ('Lit_%s_%d.png' % (name, psize))
+        lit = out / 'previews' / ('Lit%s_%s_%d.png' % (args.tag, name, psize))
         record['previews']['Lit'] = {'path': rel(lit), 'sha256': write_png_rgb(lit, psize, psize, lit_preview(pv['Albedo'], pv['Normal'], pv['ARM'])),
                                      'orientation': 'world (rows flipped)', 'albedoPreserving': True}
         log('  previews done, elapsed %.1fs' % (time.time() - t_start))
-        manifest['variants'][name] = record
+        manifest['variants'][name + args.tag] = record
         manifest_path.write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
     manifest['finishedUtc'] = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
     manifest_path.write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')

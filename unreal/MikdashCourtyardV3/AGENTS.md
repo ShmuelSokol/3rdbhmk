@@ -129,10 +129,27 @@ fallbacks plus ~22 recovered-with-a-hitch). Receipt
 
 **One flag fixed six instances.** All six `MI_CityDetail_*` share the parent
 `M_Context_Building`, which was `False`. This is the same parent-level fact as the vegetation and
-is worth stating plainly: **`UMaterialInstance` has NO usage-flag property.** Do not go looking for
-one on the instance; find the base `UMaterial` and set it there.
+is worth stating plainly: **CORRECTED 2026-09-11: in UE 5.8 a `UMaterialInstance` DOES carry usage flags** - its
+`UsageFlags` are the parent's, plus `BasePropertyOverrides.bOverride_UsageFlags` bits it sets or clears
+(MaterialInstance.cpp ~2673; `MaterialEditingLibrary.set_material_usage_override`). The nine protected
+`MI_PBR_*` instances carry their Nanite repair THAT way; `M_PBR_Tiled` itself has no `bUsedWithNanite`.
+So: a flag on the parent covers every child; a flag missing on a protected parent can be supplied
+per instance, and a NEW child of `M_PBR_Tiled` does NOT inherit a sibling's override.
 
-**The only usage-flag warning left is `MI_SanctuaryV2_Gold*` missing Nanite**, deliberately
+**`MI_SanctuaryV2_Gold*` Nanite warning - SETTLED 2026-09-11 with packaged frames.** The warning was
+genuine and the "Default Material will be used" text was NOT what happened. For a Nanite STATIC mesh a
+failed Nanite material audit makes `ShouldCreateNaniteProxy()` false (NaniteResourcesHelper.h), and the
+component renders through a classic `FStaticMeshSceneProxy` WITH ITS REAL MI - no grid. cp15 frames
+`SourceAssets/visual-review/cp15shell-*.png` (floor, ceiling, veneer strip, entrance jambs) match cp05b-09
+and the editor V2 reference. Cost was 10 shell components off Nanite (boxes; negligible), plus log noise.
+Cause: `release_sanctuary_finish_v2.py` copied `MI_PBR_GoldHammered`'s textures but not its instance
+Nanite override. Fixed by `Scripts/repair_sanctuary_v2_nanite_usage.py` (instance override only, M_PBR_Tiled
+and maps byte-identical; receipts `sanctuary-v2-nanite-usage-{apply,verify}-20260911T02*.json`, checkpoint
+`ReviewCheckpoints/SanctuaryV2NaniteUsage-20260911T024615634328Z`, `--revert <apply receipt>`), cooked as cp16.
+Contrast: an ISM/HISM usage miss (the vegetation) DOES substitute the default material. Same log line,
+different consequence - which is why the frame, not the log, is the test.
+
+(Superseded:) **The only usage-flag warning left is `MI_SanctuaryV2_Gold*` missing Nanite**, deliberately
 untouched: different flag, the nine protected Nanite-repaired instances, and they render correctly
 despite the warning — which is exactly why the warning's PRESENCE is not a valid test. The
 FALLBACK is. Test by reading the cooked build's log for "Default Material will be used in game",
@@ -1531,3 +1548,57 @@ same camera, same exposure, unmodified control in frame. Measure with `Scripts/m
    message). No diagnostic means a dead worker, not a syntax error: retry once before debugging HLSL.
 4. `build_master -AntiRepeatRebuild` used `delete_all_material_expressions`; now refused. New sampling modes
    build to new asset names (`spec.samplingAssets`), resolved from the receipt.
+
+---
+
+## Anti-repeat attempt 3, 11 Sep 2026 02:47-02:56Z: layout-identical V5 variants picked per stone. Repeat reduced, NOT broken; NOT applied
+
+Evidence `SourceAssets/material-review/AntiRepeatV1/frame-evidence-arv3c-variants.json`, verdict **FAIL**. Frames
+`SourceAssets/visual-review/arv3c-{before,after}-0{1,2}-*.png`, one build `C:/Mikdash/Builds/FrameTrial-arv3c-20260911T024717Z`.
+Candidate48 and Main50 were never touched; the do_apply gate refuses this evidence.
+
+| camera 02, same build | acU x | combU x | detail (norm. by paving, which moved x1.00) |
+|---|---|---|---|
+| attempt 2 (mirror + band offset) | 0.837 | 0.939 | 0.88-0.90 |
+| **attempt 3 (per-stone variants)** | **0.731** (bar 0.75: passes) | **0.860** (bar 0.75: FAILS) | **0.98-0.99** |
+
+What the eye sees: the course-by-course dark/light alternation that recurred every 300 cm is gone; stones now vary in tone
+like one quarry (a few read reddish-honey, one reads pale cream). The boss still reads raised at 1:1. None of attempt 2's
+defects: no mid-stone ridge, no sliver, no dashed bed joint. **But the stone LAYOUT still repeats every 300 cm and stays visible.**
+
+**Why combU fails, measured:** per tile harmonic, k = 1-3 (>= 100 cm: stone tone, blotches) fell x0.69; k >= 4 (joints, drafted
+margins, bevels, ~70 % of the comb power) held x0.92. The joints are identical by construction, so no number of surface variants
+can pass this bar (the offline model gave 4 variants barely better than 3). **Next step: break the layout period itself**, e.g. a
+600 x 300 cm layout tile (4096 x 2048 at the same 6.83 px/cm) that keeps the per-stone variant pick. Band-row layout choice does
+NOT help: combU is measured along the rows.
+
+**Design facts, proved, so nobody re-derives them:**
+1. **Per stone, not per cell.** Every course of both V5 layouts has a stone crossing u = 0 (3 of 5 Ashlar stones, 5 of 12 Trim), so
+   a per-cell pick puts a tone step through them. `T_HerodianV5v_<Layout>_StoneKey` (nearest, no mips, uncompressed, layout only):
+   R = offset d to the stone's anchor (floor(centre) + 0.5), G = stone index * 17. `floor(u - d)` is the stone's home cell on every
+   pixel of the stone, across the tile edge: 0 mismatches on all 2,048 rows, still exact 479 tiles out (1.44 km).
+2. **Generator:** `create_herodian_ashlar_v5.py --surface-seed N --tag vX --extras`. With no seed it is byte-identical to V5b (all 12
+   Ashlar/Trim maps hashed). Seeds: Ashlar 18 (vB) / 28 (vC), Trim 15 / 13, chosen so the 3-tile pool averages V5's colour
+   (Ashlar R 0.752, B/R 0.886). `Scripts/prove_ashlar_variants.py` -> `HerodianAshlarV5Variants/joint-proof.json`: JointMask and
+   StoneKey 0 pixels different, every generator parameter equal (1.9 cm bevel, grain, palette).
+3. **Master** `M_AntiRepeat_TriplanarVariants`: M_PBR_Tiled's triplanar graph in stock nodes (234, 0 Custom, implicit samplers),
+   30 texture fetches per pixel against 9. VariantEnable = 0 is M_PBR_Tiled. Built by `Scripts/release_antirepeat_variants.py`;
+   apply/verify/revert are release_antirepeat.py's with `samplingAssets.variants`.
+
+**Traps paid for this pass:**
+1. **A new `MaterialExpressionComponentMask` in 5.8 starts with R, G and B ticked.** Setting only the channels you want gives float3.
+   The -nullrhi editor compile reported 0 errors; the COOK failed ("Cannot cast from larger type LWCVector3 to smaller type
+   LWCVector2") and silently used the Default Material. Set all four channels, and read the cook log for
+   `Failed to compile Material` before capturing anything (the capture chain now refuses a cook that has one).
+2. The ShaderCompileWorker 0xC0000005 on the first cook of a new master happened AGAIN (arv3b, exit 25, 3 jobs "Failed", no HLSL
+   message); the identical retry (arv3c) cooked clean.
+3. `check_parity` compared the whole texture dict against the three the live instance sets; it now compares only the live keys.
+4. In the Bash tool, `( job1 ) & ( job2 ) & wait` ran ONLY the first subshell, twice. Launch each background job on its own.
+5. The box's default Python is 32-bit (`Python38-32`): big FFTs die with MemoryError. Chunk them.
+6. The offline wall model predicted combU x0.71; the frame gave x0.86. Lighting and perspective sharpen joint lines, which carry
+   the fine harmonics. Trust the model for acU, not for combU.
+
+**Left in place as evidence:** the trial map carries the variants (`antirepeat-apply-Candidate48FrameTrial-20260911T024224984387Z.json`);
+the assets are under `/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants` (build `antirepeat-variantsbuild-20260911T023748988488Z.json`).
+To remove them: `release_antirepeat.py -AntiRepeatRevert=<that apply receipt> -Candidate48FrameTrial`, then
+`release_antirepeat_variants.py -ARVariantsRevert=<that build receipt>` (that revert path was exercised and works: `antirepeat-variantsrevert-20260911T023705716077Z.json`).

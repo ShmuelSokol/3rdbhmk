@@ -154,7 +154,10 @@ def _hash(x, y, salt):
 # vertex factory including the non-instanced FLocalVertexFactory (LocalVertexFactory.ush 555, 657,
 # 701; NaniteVertexFactory.ush 224, 943). There is no instanced-only payload that can be absent.
 # ---------------------------------------------------------------------------------------------
-SAMPLING_MODES = ('grad', 'implicit', 'analytic')
+# 'variants' (2026-09-10) is not a UV warp at all: layout-identical V5 tile variants picked per STONE by a
+# stock-node hash, built by Scripts/release_antirepeat_variants.py (not by -AntiRepeatBuild). It is listed
+# here so apply / verify / revert resolve its assets from the receipt exactly as they do for the others.
+SAMPLING_MODES = ('grad', 'implicit', 'analytic', 'variants')
 DEFAULT_SAMPLING_MODE = 'grad'
 
 # One sentence per mode, copied into every receipt so a measurement is never orphaned from the
@@ -169,6 +172,10 @@ SAMPLING_MODE_RECEIPT_NOTE = {
                 'within a cell and an integer away from smooth across one. Gives up the one-pixel '
                 'seam guard at each bed joint and at each mirror flip; keeps hardware mip selection. '
                 'Needs TA_WRAP on every variant texture.',
+    'variants': 'No UV warp. Two or more V5 tile variants with the SAME stone layout (joints proved pixel-identical) '
+                'and different surface seeds; each STONE picks one by a stock-node hash of its home cell and '
+                'index, recovered from a nearest-sampled StoneKey texture. Implicit samplers only, no Custom '
+                'node. Built by Scripts/release_antirepeat_variants.py.',
     'analytic': "The 'grad' UV, seam guard intact, with Nanite's analytic "
                 'Parameters.WorldPosition_DDX/DDY in place of ddx(P) and a hardware fallback where '
                 'the vertex factory leaves them at zero. Experiment arm: it still reads pixel-parameter '
@@ -403,6 +410,12 @@ def resolve_spec(spec, sampling):
     if alt:
         for key, path in alt.get('masters', {}).items():
             out['masters'][key]['asset'] = path
+        # A mode may bring a master of its own kind (samplingAssets.variants.newMasters) and replace
+        # whole fields of a variant (its master, textures, scalars) - not only asset paths.
+        for key, mcfg in alt.get('newMasters', {}).items():
+            out['masters'][key] = json.loads(json.dumps(mcfg))
+        for name, over in alt.get('variantOverrides', {}).items():
+            out['variants'][name].update(json.loads(json.dumps(over)))
         for name, path in alt.get('instances', {}).items():
             out['variants'][name]['newInstance'] = path
     out['resolvedSampling'] = sampling
@@ -452,7 +465,9 @@ def scheme_problems(spec, manifest=None):
         return ['measurement manifest: %r' % (exc,)]
     measured = manifest['scheme']['variants']
     for name, cfg in spec['variants'].items():
-        key = cfg['schemeVariant']
+        key = cfg.get('schemeVariant')
+        if not key:
+            continue          # no UV scheme to cross-check (samplingAssets.variants: source variety, not a warp)
         if key not in measured:
             problems.append('variant %s names an unmeasured scheme %r' % (name, key))
             continue
@@ -653,7 +668,7 @@ class Native:
                'parent': asset_path(inst.get_editor_property('parent')),
                'scalars': {n: float(ml.get_material_instance_scalar_parameter_value(inst, n)) for n in sorted(cfg['scalars'])},
                'textures': {t: asset_path(ml.get_material_instance_texture_parameter_value(inst, t))
-                            for t in sorted(list(cfg['textures']) + ['MacroNoise'])}}
+                            for t in sorted(list(cfg['textures']) + (['MacroNoise'] if cfg.get('macroNoise', True) else []))}}
         tint = ml.get_material_instance_vector_parameter_value(inst, 'Tint')
         row['tint'] = [float(tint.r), float(tint.g), float(tint.b), float(tint.a)]
         if 'slopeTint' in cfg:
@@ -674,7 +689,8 @@ class Native:
         if row['parent'] != want_parent:
             raise RuntimeError('%s parent is %s, want %s' % (row['path'], row['parent'], want_parent))
         want_tex = dict(cfg['textures'])
-        want_tex['MacroNoise'] = self.spec['noiseTexture']['asset']
+        if cfg.get('macroNoise', True):
+            want_tex['MacroNoise'] = self.spec['noiseTexture']['asset']
         if row['textures'] != want_tex:
             raise RuntimeError('%s textures %s, want %s' % (row['path'], row['textures'], want_tex))
         if not close(row['scalars'], {k: float(v) for k, v in cfg['scalars'].items()}):
@@ -725,7 +741,10 @@ class Native:
         if not close(parity.get('tint', [1.0, 1.0, 1.0, 1.0]), [float(x) for x in cfg['tint']]):
             bad['Tint'] = {'old': parity.get('tint'), 'new': cfg['tint']}
         old_tex = {k: v for k, v in parity.get('textures', {}).items() if k in cfg['textures']}
-        if old_tex and old_tex != dict(cfg['textures']):
+        # Compare only the slots the replaced material sets. A 'variants' instance carries extra slots
+        # (Albedo_B, StoneKey, ...) that the old one never had; its Albedo/Normal/ARM - the slot every
+        # pixel shows with VariantEnable = 0 - must still be exactly the live textures.
+        if old_tex and old_tex != {k: cfg['textures'][k] for k in old_tex}:
             bad['textures'] = {'old': old_tex, 'new': cfg['textures']}
         if bad:
             raise RuntimeError('%s would change the look, not only the repetition: %s' % (name, bad))
@@ -1172,6 +1191,9 @@ class Native:
 
     def do_build(self):
         u = self.u
+        if self.sampling == 'variants':
+            raise RuntimeError('-AntiRepeatSampling=variants is built by Scripts/release_antirepeat_variants.py '
+                               '-ARVariantsBuild, not by -AntiRepeatBuild (no Custom-node master, no macro noise)')
         spec = self.scope_to_priority()
         r = self.report
         self.guard_project()

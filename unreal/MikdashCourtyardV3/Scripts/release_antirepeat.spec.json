@@ -599,6 +599,48 @@
     "First trial cook: ShaderCompileWorker access violation 0xC0000005 on 3 FLocalVertexFactory jobs of the new master, no HLSL diagnostic; an identical retry cooked clean. Transient, but a new master can trip it."
    ],
    "cleanup": "Trial map left in place as the evidence (never in DefaultEngine/DefaultGame.ini, so never shipped). Remove with -AntiRepeatRevert=\"<census receipt>\" -Candidate48FrameTrial when no longer wanted."
+  },
+  "variantsFrameTrial2026_09_11": {
+   "state": "BUILT_RENDERED_MEASURED_REJECTED_NOT_APPLIED_TO_ANY_SHIPPING_MAP",
+   "verdict": "FAIL on combU. acU x0.731 (passes the 0.75 bar; attempt 2 was x0.837), combU x0.860 (bar 0.75), detail x0.98-0.99 normalized by the paving (x1.00). Boss reads raised; none of attempt 2's three defects.",
+   "whyCombUFails": "Per tile harmonic: k=1-3 (>=100 cm, stone tone and blotches) x0.69; k>=4 (joints, drafted margins, bevels, ~70% of the comb power) x0.92. The joints are identical by construction, so surface variants cannot pass combU.",
+   "nextCandidate": "Break the LAYOUT period: e.g. a 600 x 300 cm layout tile (4096 x 2048, same 6.83 px/cm) keeping the per-stone variant pick. Band-row layout choice does not help (combU is measured along rows).",
+   "design": "Per STONE, not per cell: every course has a stone crossing u=0, so a per-cell pick cuts it with a tone step. StoneKey (nearest, no mips): R = offset to anchor, G = stone index; floor(u - d) = home cell, proved 0 mismatches.",
+   "receipts": {
+    "jointProof": "SourceAssets/material-review/HerodianAshlarV5Variants/joint-proof.json",
+    "build": "SourceAssets/material-review/AntiRepeatV1/antirepeat-variantsbuild-20260911T023748988488Z.json",
+    "buildVerify": "SourceAssets/material-review/AntiRepeatV1/antirepeat-variantsverify-20260911T024149907533Z.json",
+    "applyTrial": "SourceAssets/material-review/AntiRepeatV1/antirepeat-apply-Candidate48FrameTrial-20260911T024224984387Z.json",
+    "verifyTrial": "SourceAssets/material-review/AntiRepeatV1/antirepeat-verify-Candidate48FrameTrial-20260911T024340987524Z.json",
+    "frameEvidence": "SourceAssets/material-review/AntiRepeatV1/frame-evidence-arv3c-variants.json",
+    "build_archive": "C:/Mikdash/Builds/FrameTrial-arv3c-20260911T024717Z (NOT a checkpoint)",
+    "frames": "SourceAssets/visual-review/arv3c-{before,after}-0{1,2}-*.png",
+    "failedFirstBuild": "antirepeat-variantsbuild-20260911T021254342850Z.json (ComponentMask bug; cooked to Default Material in arv3; reverted by antirepeat-variantsrevert-20260911T023705716077Z.json)"
+   },
+   "seeds": {
+    "Ashlar": {
+     "vB": 18,
+     "vC": 28
+    },
+    "Trim": {
+     "vB": 15,
+     "vC": 13
+    }
+   },
+   "cost": {
+    "textureFetchesPerPixel": {
+     "M_PBR_Tiled": 9,
+     "variants": 30
+    },
+    "nodes": 234,
+    "customNodes": 0
+   },
+   "traps": [
+    "ComponentMask in 5.8 starts R,G,B ticked: set all four; -nullrhi reports no compile error, the cook substitutes the Default Material.",
+    "SCW 0xC0000005 on the first cook of a new master again (arv3b exit 25); identical retry clean (arv3c).",
+    "check_parity compared the whole texture dict; now only the keys the live instance sets."
+   ],
+   "cleanup": "Left as evidence. Remove: -AntiRepeatRevert=<applyTrial> -Candidate48FrameTrial, then release_antirepeat_variants.py -ARVariantsRevert=<build>."
   }
  },
  "samplingAssets": {
@@ -614,6 +656,239 @@
     "PavingSlabs": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/MI_AntiRepeat_PavingSlabs_Implicit",
     "JerusalemPaving": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/MI_AntiRepeat_JerusalemPaving_Implicit",
     "JerusalemFloorSlabs": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/MI_AntiRepeat_JerusalemFloorSlabs_Implicit"
+   }
+  },
+  "variants": {
+   "why": "2026-09-10, third attempt at the ashlar repeat. Attempts 1 (explicit-gradient warp: wall went flat, x0.20) and 2 (implicit mirror + band offset on the 300 cm cell: acU x0.84, cut stones) both acted on the UV of a coursed tile whose stones straddle the cell edge. This mode changes the SOURCE instead: 2 extra V5 tiles from the same generator with the same layout RNG and new surface seeds (joints proved pixel-identical, joint-proof.json), and the choice is made per STONE, not per cell - a per-cell pick would put a tone step through every stone that straddles the cell edge. Variant A is the live V5b set itself, so VariantEnable = 0 reproduces M_PBR_Tiled.",
+   "newMasters": {
+    "TriplanarVariants": {
+     "asset": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/M_AntiRepeat_TriplanarVariants",
+     "modelledOn": "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled",
+     "blendExponent": 4.0,
+     "tangentSpaceNormal": false,
+     "variantSlots": [
+      "",
+      "_B",
+      "_C"
+     ],
+     "textureParameters": {
+      "Albedo": "SAMPLERTYPE_COLOR",
+      "Normal": "SAMPLERTYPE_NORMAL",
+      "ARM": "SAMPLERTYPE_MASKS",
+      "Albedo_B": "SAMPLERTYPE_COLOR",
+      "Normal_B": "SAMPLERTYPE_NORMAL",
+      "ARM_B": "SAMPLERTYPE_MASKS",
+      "Albedo_C": "SAMPLERTYPE_COLOR",
+      "Normal_C": "SAMPLERTYPE_NORMAL",
+      "ARM_C": "SAMPLERTYPE_MASKS",
+      "StoneKey": "SAMPLERTYPE_LINEAR_COLOR"
+     },
+     "scalarParameters": [
+      "TilingCm",
+      "NormalStrength",
+      "RoughnessScale",
+      "Metallic",
+      "AlbedoFlatness",
+      "VariantCount",
+      "VariantEnable"
+     ],
+     "vectorParameters": [
+      "Tint"
+     ],
+     "hash": "frac(sin(fmod(dot(float3(home, vcell, stone), float3(12.9898, 78.233, 37.719)), 2 pi)) * 43758.5453), stock nodes",
+     "textureFetchesPerPixel": {
+      "before": 9,
+      "after": 30
+     }
+    }
+   },
+   "instances": {
+    "Ashlar": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/MI_AntiRepeat_Ashlar_V5Variants",
+    "Trim": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/MI_AntiRepeat_Trim_V5Variants"
+   },
+   "variantOverrides": {
+    "Ashlar": {
+     "master": "TriplanarVariants",
+     "macroNoise": false,
+     "schemeVariant": null,
+     "textures": {
+      "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "Albedo_B": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Ashlar_Albedo",
+      "Normal_B": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Ashlar_Normal",
+      "ARM_B": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Ashlar_ARM",
+      "Albedo_C": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Ashlar_Albedo",
+      "Normal_C": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Ashlar_Normal",
+      "ARM_C": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Ashlar_ARM",
+      "StoneKey": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5v_Ashlar_StoneKey"
+     },
+     "scalars": {
+      "TilingCm": 300.0,
+      "NormalStrength": 1.0,
+      "RoughnessScale": 1.0,
+      "Metallic": 0.0,
+      "AlbedoFlatness": 0.0,
+      "VariantCount": 3.0,
+      "VariantEnable": 1.0
+     },
+     "tint": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    "Trim": {
+     "master": "TriplanarVariants",
+     "macroNoise": false,
+     "schemeVariant": null,
+     "textures": {
+      "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Trim_Albedo",
+      "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Trim_Normal",
+      "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Trim_ARM",
+      "Albedo_B": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Trim_Albedo",
+      "Normal_B": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Trim_Normal",
+      "ARM_B": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Trim_ARM",
+      "Albedo_C": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Trim_Albedo",
+      "Normal_C": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Trim_Normal",
+      "ARM_C": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Trim_ARM",
+      "StoneKey": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5v_Trim_StoneKey"
+     },
+     "scalars": {
+      "TilingCm": 300.0,
+      "NormalStrength": 1.0,
+      "RoughnessScale": 1.0,
+      "Metallic": 0.0,
+      "AlbedoFlatness": 0.0,
+      "VariantCount": 3.0,
+      "VariantEnable": 1.0
+     },
+     "tint": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ]
+    }
+   },
+   "source": {
+    "folder": "SourceAssets/material-review/HerodianAshlarV5Variants",
+    "jointProof": "SourceAssets/material-review/HerodianAshlarV5Variants/joint-proof.json",
+    "textureFolder": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures",
+    "namespace": "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants",
+    "imports": {
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Ashlar_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Variants/vB/T_HerodianV5vB_Ashlar_Albedo.png",
+      "kind": "Albedo",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "variant": "Ashlar",
+      "tag": "vB"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Ashlar_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Variants/vB/T_HerodianV5vB_Ashlar_Normal.png",
+      "kind": "Normal",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "variant": "Ashlar",
+      "tag": "vB"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Ashlar_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Variants/vB/T_HerodianV5vB_Ashlar_ARM.png",
+      "kind": "ARM",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "variant": "Ashlar",
+      "tag": "vB"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Ashlar_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Variants/vC/T_HerodianV5vC_Ashlar_Albedo.png",
+      "kind": "Albedo",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+      "variant": "Ashlar",
+      "tag": "vC"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Ashlar_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Variants/vC/T_HerodianV5vC_Ashlar_Normal.png",
+      "kind": "Normal",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+      "variant": "Ashlar",
+      "tag": "vC"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Ashlar_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Variants/vC/T_HerodianV5vC_Ashlar_ARM.png",
+      "kind": "ARM",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+      "variant": "Ashlar",
+      "tag": "vC"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5v_Ashlar_StoneKey": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Variants/vB/T_HerodianV5vB_Ashlar_StoneKey.png",
+      "kind": "StoneKey",
+      "variant": "Ashlar",
+      "settings": {
+       "compression": "TC_VECTOR_DISPLACEMENTMAP",
+       "srgb": false,
+       "lodGroup": "TEXTUREGROUP_WORLD",
+       "filter": "TF_NEAREST",
+       "mipGen": "TMGS_NO_MIPMAPS",
+       "address": "TA_WRAP"
+      }
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Trim_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Variants/vB/T_HerodianV5vB_Trim_Albedo.png",
+      "kind": "Albedo",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Trim_Albedo",
+      "variant": "Trim",
+      "tag": "vB"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Trim_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Variants/vB/T_HerodianV5vB_Trim_Normal.png",
+      "kind": "Normal",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Trim_Normal",
+      "variant": "Trim",
+      "tag": "vB"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vB_Trim_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Variants/vB/T_HerodianV5vB_Trim_ARM.png",
+      "kind": "ARM",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Trim_ARM",
+      "variant": "Trim",
+      "tag": "vB"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Trim_Albedo": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Variants/vC/T_HerodianV5vC_Trim_Albedo.png",
+      "kind": "Albedo",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Trim_Albedo",
+      "variant": "Trim",
+      "tag": "vC"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Trim_Normal": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Variants/vC/T_HerodianV5vC_Trim_Normal.png",
+      "kind": "Normal",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Trim_Normal",
+      "variant": "Trim",
+      "tag": "vC"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5vC_Trim_ARM": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Variants/vC/T_HerodianV5vC_Trim_ARM.png",
+      "kind": "ARM",
+      "settingsFrom": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Trim_ARM",
+      "variant": "Trim",
+      "tag": "vC"
+     },
+     "/Game/MikdashV3/MaterialReview/AntiRepeatV1/Variants/Textures/T_HerodianV5v_Trim_StoneKey": {
+      "png": "SourceAssets/material-review/HerodianAshlarV5Variants/vB/T_HerodianV5vB_Trim_StoneKey.png",
+      "kind": "StoneKey",
+      "variant": "Trim",
+      "settings": {
+       "compression": "TC_VECTOR_DISPLACEMENTMAP",
+       "srgb": false,
+       "lodGroup": "TEXTUREGROUP_WORLD",
+       "filter": "TF_NEAREST",
+       "mipGen": "TMGS_NO_MIPMAPS",
+       "address": "TA_WRAP"
+      }
+     }
+    }
    }
   }
  }

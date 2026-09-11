@@ -392,6 +392,23 @@ def load_spec():
     return json.loads(SPEC_PATH.read_text(encoding='utf-8-sig'))
 
 
+def resolve_spec(spec, sampling):
+    """The spec as a given sampling mode sees it: masters and instances at that mode's asset paths.
+
+    spec.samplingAssets.<mode> names NEW assets for a non-default mode, so the 2026-09-09 grad build
+    stays on disk unchanged as the A side of the A/B and nothing is ever rebuilt in place (which
+    build_master refuses - delete_all_material_expressions does not empty a graph in 5.8)."""
+    out = json.loads(json.dumps(spec))
+    alt = (spec.get('samplingAssets') or {}).get(sampling)
+    if alt:
+        for key, path in alt.get('masters', {}).items():
+            out['masters'][key]['asset'] = path
+        for name, path in alt.get('instances', {}).items():
+            out['variants'][name]['newInstance'] = path
+    out['resolvedSampling'] = sampling
+    return out
+
+
 def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -465,7 +482,8 @@ def protected_paths(spec, other_target_map_file=None):
     for pattern in spec.get('protectedGlobs', []):
         paths |= {Path(p) for p in glob.glob(str(ROOT / pattern), recursive=True)}
     if other_target_map_file:
-        paths.add(ROOT / other_target_map_file)
+        extra = other_target_map_file if isinstance(other_target_map_file, (list, tuple)) else [other_target_map_file]
+        paths |= {ROOT / f for f in extra}
     return sorted(paths)
 
 
@@ -514,7 +532,8 @@ def offline_check(spec=None):
             problems.append('missing protected map ' + m)
     for name, target in spec['targets'].items():
         if not (ROOT / target['mapFile']).exists():
-            problems.append('missing target map file ' + target['mapFile'])
+            problems.append(('NOTE (not fatal): frame-trial map not made yet ' if target.get('frameTrial')
+                             else 'missing target map file ') + target['mapFile'])
     manifest = None
     try:
         manifest = load_measurement(spec)
@@ -564,10 +583,13 @@ class Native:
         cfg = spec['targets'][target] if target else None
         self.map_file = (ROOT / cfg['mapFile']) if cfg else None
         self.map_asset = cfg['map'] if cfg else None
+        # EVERY other target's map joins the protected set, not only the first: with a frame-trial
+        # target in the spec there are three, and a trial run must prove both shipping maps untouched.
         self.other_map_file = None
+        self.frame_trial = bool(cfg.get('frameTrial')) if cfg else False
         if target:
             others = [t['mapFile'] for n, t in spec['targets'].items() if n != target]
-            self.other_map_file = others[0] if others else None
+            self.other_map_file = others or None
         suffix = ('%s-%s' % (target, stamp)) if target else stamp
         self.receipt_path = ROOT / spec['receiptFolder'] / ('%s%s-%s.json' % (spec['receiptPrefix'], mode, suffix))
         assert not self.receipt_path.exists()
@@ -805,11 +827,18 @@ class Native:
                                              'addressY': str(tex.get_editor_property('address_y')),
                                              'usedBy': []})
                 row['usedBy'].append('%s.%s' % (name, kind))
-                row['wrap'] = row['addressX'].endswith('TA_WRAP') and row['addressY'].endswith('TA_WRAP')
+                # UE 5.8 Python renders an enum as '<TextureAddress.TA_WRAP: 0>', so endswith('TA_WRAP')
+                # is False for EVERY texture - the check as first written (offline, never run) refused all
+                # six V5b textures on 2026-09-10. Parse the member name instead.
+                modes = [re.search(r'TA_[A-Z]+', row[k]) for k in ('addressX', 'addressY')]
+                row['addressNames'] = [m.group(0) if m else None for m in modes]
+                row['wrap'] = row['addressNames'] == ['TA_WRAP', 'TA_WRAP']
                 if not row['wrap'] and path not in offenders:
                     offenders.append(path)
         for row in rows.values():
             row['usedBy'] = sorted(set(row['usedBy']))
+        self.report['textureAddressModesRead'] = {'textures': rows, 'nonWrap': offenders}
+        self.write()
         if offenders and self.sampling == 'implicit' and not self.allow_mirror_address:
             raise RuntimeError('sampling mode implicit needs TA_WRAP on every variant texture; these are not: %s. '
                                'Re-import them as TA_WRAP, or pass -AntiRepeatAllowMirrorAddress and say in the '
@@ -823,13 +852,11 @@ class Native:
         folder, name = path.rsplit('/', 1)
         record = {'asset': path, 'kind': key, 'samplingMode': self.sampling}
         if self.assets.does_asset_exist(path):
-            if not self.rebuild:
-                raise RuntimeError('%s already exists; pass -AntiRepeatRebuild to rebuild its graph' % path)
-            material = u.load_asset(path)
-            if not isinstance(material, u.Material):
-                raise RuntimeError('Existing asset at %s is not a Material' % path)
-            ml.delete_all_material_expressions(material)
-            record['rebuilt'] = True
+            # NOT rebuilt in place, with or without -AntiRepeatRebuild: delete_all_material_expressions
+            # does not empty a material graph in 5.8 (AGENTS.md), so an in-place rebuild compiles the new
+            # Custom nodes on top of the old ones. Build under a new name (spec samplingAssets) instead.
+            raise RuntimeError('%s already exists and is not rebuilt in place (delete_all_material_expressions '
+                               'does not empty a graph). Build under a new asset name via spec samplingAssets.' % path)
         else:
             material = u.AssetToolsHelpers.get_asset_tools().create_asset(name, folder, u.Material, u.MaterialFactoryNew())
             if not isinstance(material, u.Material):
@@ -1078,11 +1105,22 @@ class Native:
                 raise RuntimeError('Noise import produced %s' % [type(o).__name__ for o in objects])
             tex = objects[0]
             record['reused'] = False
-        tex.set_editor_property('compression_settings', getattr(u.TextureCompressionSettings, cfg['compression']))
-        tex.set_editor_property('srgb', bool(cfg['srgb']))
-        tex.set_editor_property('lod_group', getattr(u.TextureGroup, cfg['lodGroup']))
-        if not self.assets.save_loaded_asset(tex, only_if_is_dirty=False):
-            raise RuntimeError('save_loaded_asset failed for ' + path)
+        want = (str(getattr(u.TextureCompressionSettings, cfg['compression'])), bool(cfg['srgb']),
+                str(getattr(u.TextureGroup, cfg['lodGroup'])))
+        have = (str(tex.get_editor_property('compression_settings')), bool(tex.get_editor_property('srgb')),
+                str(tex.get_editor_property('lod_group')))
+        record['settingsBefore'] = list(have)
+        if record['reused'] and have == want:
+            # Already exactly as specified: re-saving would rewrite a file nothing needs to change, and a
+            # build under new asset names should mutate no pre-existing asset at all.
+            record['resaved'] = False
+        else:
+            tex.set_editor_property('compression_settings', getattr(u.TextureCompressionSettings, cfg['compression']))
+            tex.set_editor_property('srgb', bool(cfg['srgb']))
+            tex.set_editor_property('lod_group', getattr(u.TextureGroup, cfg['lodGroup']))
+            if not self.assets.save_loaded_asset(tex, only_if_is_dirty=False):
+                raise RuntimeError('save_loaded_asset failed for ' + path)
+            record['resaved'] = True
         record['srgb'] = bool(tex.get_editor_property('srgb'))
         record['compression'] = str(tex.get_editor_property('compression_settings'))
         for getter in ('blueprint_get_size_x', 'get_size_x'):
@@ -1097,11 +1135,48 @@ class Native:
         return tex, record
 
     # ---------------------------------------------------------------------------------- BUILD
+    def scope_to_priority(self):
+        """Narrow the spec to the variants this run's priority covers, and the masters they need.
+
+        -AntiRepeatPriority=1 is the stone only. Building the paving too would drag the TA_MIRROR
+        JerusalemPaving texture into an implicit-mode build (which refuses it) for surfaces this run
+        will not apply. Build, apply and verify all use the same scope, so an apply at a priority the
+        build did not cover finds its instances missing and refuses."""
+        active = {n: c for n, c in self.spec['variants'].items() if int(c.get('priority', 1)) <= self.priority}
+        needed = {c['master'] for c in active.values()}
+        scoped = dict(self.spec)
+        scoped['variants'] = active
+        scoped['masters'] = {k: v for k, v in self.spec['masters'].items() if k in needed}
+        self.spec = scoped
+        self.report['scope'] = {'priority': self.priority, 'variants': sorted(active), 'masters': sorted(needed),
+                                'masterAssets': {k: v['asset'] for k, v in scoped['masters'].items()},
+                                'instanceAssets': {n: c['newInstance'] for n, c in active.items()}}
+        return scoped
+
+    def checkpoint_namespace(self, label):
+        """Copy every existing asset in this pass's namespace (maps excluded) before a build writes there."""
+        src = ROOT / 'Content' / self.spec['namespace'][6:]
+        dst = Path(self.spec['checkpointRoot']) / ('%s%s-%s' % (self.spec['checkpointPrefix'], label, self.stamp))
+        dst.mkdir(parents=True, exist_ok=False)
+        files = {}
+        for p in sorted(src.rglob('*.uasset')):
+            rel = p.relative_to(src)
+            if rel.parts and rel.parts[0] == 'Maps':
+                continue
+            (dst / rel).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(p, dst / rel)
+            if sha(dst / rel) != sha(p):
+                raise RuntimeError('Checkpoint copy differs: %s' % rel)
+            files[rel.as_posix()] = sha(p)
+        return {'path': str(dst), 'files': files}
+
     def do_build(self):
         u = self.u
-        spec = self.spec
+        spec = self.scope_to_priority()
         r = self.report
         self.guard_project()
+        r['buildCheckpoint'] = self.checkpoint_namespace('Build')
+        self.stage('namespace_checkpointed', files=len(r['buildCheckpoint']['files']))
         manifest = load_measurement(spec)
         r['measurement'] = {'path': spec['measurement']['manifest'], 'sha256': sha(ROOT / spec['measurement']['manifest']),
                             'generatorSha256': manifest.get('generatorSha256'),
@@ -1190,6 +1265,12 @@ class Native:
         r['newAssetHashes'] = {spec['noiseTexture']['asset']: r['noiseTexture']['uassetSha256']}
         r['newAssetHashes'].update({m['asset']: m['uassetSha256'] for m in r['masters'].values()})
         r['newAssetHashes'].update({i['asset']: i['uassetSha256'] for i in r['instances'].values()})
+        ns = ROOT / 'Content' / spec['namespace'][6:]
+        moved = sorted(rel for rel, digest in r['buildCheckpoint']['files'].items() if sha(ns / rel) != digest)
+        r['preexistingNamespaceAssetsChanged'] = moved
+        if moved:
+            raise RuntimeError('The build rewrote pre-existing assets it should not have touched: %s '
+                               '(originals in %s)' % (moved, r['buildCheckpoint']['path']))
         r['status'] = 'BUILT_SAVED_READBACK_APPLY_PENDING'
         return r
 
@@ -1341,7 +1422,8 @@ class Native:
                                    % (self.target, spec['targets'][self.target]['flag'],
                                       spec['countPolicy']['allowSwitch'], dict(counts)))
             return drift
-        wanted = {v: n for v, n in expected.items() if int(spec['variants'][v].get('priority', 1)) <= self.priority}
+        wanted = {v: n for v, n in expected.items()
+                  if v in spec['variants'] and int(spec['variants'][v].get('priority', 1)) <= self.priority}
         mismatch = {v: (wanted.get(v), counts.get(v, 0)) for v in set(wanted) | set(counts)
                     if int(wanted.get(v, 0)) != int(counts.get(v, 0))}
         drift['mismatch'] = mismatch
@@ -1438,7 +1520,7 @@ class Native:
     # ---------------------------------------------------------------------------------- APPLY
     def do_apply(self, build_receipt):
         u = self.u
-        spec = self.spec
+        spec = self.scope_to_priority()
         r = self.report
         prior = json.loads(Path(build_receipt).read_text(encoding='utf-8-sig'))
         r['buildReceipt'] = {'path': str(build_receipt), 'sha256': sha(build_receipt), 'status': prior.get('status')}
@@ -1449,7 +1531,17 @@ class Native:
                 raise RuntimeError('Built asset changed or missing since the build receipt: ' + asset)
         r['builtSamplingMode'] = prior.get('samplingMode', 'grad')
         r['frameEvidence'] = self.frame_evidence
-        if r['builtSamplingMode'] != 'grad' and not self.frame_evidence:
+        r['frameTrialTarget'] = self.frame_trial
+        if self.frame_trial:
+            # A frame-trial target is a COPY of the cook map that no build ships. It is where the
+            # evidence this gate asks for is PRODUCED, so the gate cannot apply to it - and it is
+            # refused outright if the copy is ever configured as a default or cooked-for-release map.
+            ini = ''.join((ROOT / 'Config' / n).read_text(encoding='utf-8', errors='replace')
+                          for n in ('DefaultEngine.ini', 'DefaultGame.ini'))
+            if self.map_asset in ini:
+                raise RuntimeError('frame-trial target %s appears in the project config; the trial '
+                                   'exemption covers only a map no build ships' % self.map_asset)
+        if r['builtSamplingMode'] != 'grad' and not self.frame_evidence and not self.frame_trial:
             # spec.status2026_09_10.acceptanceGateForNextAttempt: a mip-selection fault is
             # invisible to parameter parity and to an offline spectral simulation by
             # construction. A build in a NEW sampling mode does not reach a map until a
@@ -1457,8 +1549,22 @@ class Native:
             raise RuntimeError('build receipt was made in sampling mode %r; apply refuses without '
                                '-AntiRepeatFrameEvidence=<path to the rendered in-frame A/B> because offline '
                                'numbers cannot see a mip-selection fault' % r['builtSamplingMode'])
-        if self.frame_evidence and not Path(self.frame_evidence).exists():
-            raise RuntimeError('-AntiRepeatFrameEvidence points at a file that does not exist: %s' % self.frame_evidence)
+        if self.frame_evidence:
+            evidence = Path(self.frame_evidence)
+            if not evidence.exists():
+                raise RuntimeError('-AntiRepeatFrameEvidence points at a file that does not exist: %s' % self.frame_evidence)
+            r['frameEvidenceSha256'] = sha(evidence)
+            if evidence.suffix.lower() == '.json':
+                # A measurement receipt carries its own verdict. Existence alone would accept a receipt
+                # that MEASURED a regression, so a JSON verdict must say PASS, for this sampling mode.
+                ev = json.loads(evidence.read_text(encoding='utf-8-sig'))
+                r['frameEvidenceVerdict'] = ev.get('verdict')
+                r['frameEvidenceSamplingMode'] = ev.get('samplingMode')
+                if ev.get('verdict') != 'PASS':
+                    raise RuntimeError('frame evidence %s has verdict %r, not PASS' % (evidence, ev.get('verdict')))
+                if ev.get('samplingMode') != r['builtSamplingMode']:
+                    raise RuntimeError('frame evidence measured sampling mode %r, this build is %r'
+                                       % (ev.get('samplingMode'), r['builtSamplingMode']))
         r['measurement'] = prior.get('measurement')
         r['shaderCost'] = prior.get('shaderCost')
         r['technique'] = prior.get('technique')
@@ -1556,12 +1662,138 @@ class Native:
             raise RuntimeError('Reopened readback mismatch: %d bad slots, %d bad actor properties, census equal %s'
                                % (len(bad), len(bad_actors), counts_reopened == counts_after))
         r['revertCommand'] = ('-AntiRepeatRevert="%s" %s' % (self.receipt_path, spec['targets'][self.target]['flag']))
-        r['status'] = 'APPLIED_SAVED_REOPENED_VISUAL_REVIEW_PENDING'
+        r['status'] = ('FRAME_TRIAL_APPLIED_NOT_A_SHIPPING_MAP' if self.frame_trial
+                       else 'APPLIED_SAVED_REOPENED_VISUAL_REVIEW_PENDING')
         return r
 
     # ---------------------------------------------------------------------------------- VERIFY
+    def do_make_trial(self):
+        """Duplicate the cook map to a frame-trial copy that no build ships, and prove it is the same map.
+
+        The copy is made with EditorAssetSubsystem.duplicate_asset from the UNLOADED source, saved, and
+        then both maps are loaded in turn and censused: material counts per slot, the priority-scoped
+        plan, the actor-property rows and the full actor transform snapshot must all be equal. The source
+        map's bytes are hashed before and after and must not move; both shipping maps are in the
+        protected set for the run."""
+        spec = self.scope_to_priority()
+        r = self.report
+        cfg = spec['targets'][self.target]
+        if not cfg.get('frameTrial'):
+            raise RuntimeError('-AntiRepeatMakeTrialMap needs a target marked frameTrial, not %s' % self.target)
+        source = spec['targets'][cfg['trialSourceTarget']]
+        source_file = ROOT / source['mapFile']
+        self.guard_project()
+        ini = ''.join((ROOT / 'Config' / n).read_text(encoding='utf-8', errors='replace')
+                      for n in ('DefaultEngine.ini', 'DefaultGame.ini'))
+        if self.map_asset in ini:
+            raise RuntimeError('trial map %s appears in the project config' % self.map_asset)
+        if self.map_file.exists() or self.assets.does_asset_exist(self.map_asset):
+            raise RuntimeError('Trial map already exists: %s' % self.map_asset)
+        r['protectedBefore'] = self.protected()
+        r['sourceMap'] = source['map']
+        r['sourceMapSha256Before'] = sha(source_file)
+        dup = self.assets.duplicate_asset(source['map'], self.map_asset)
+        if dup is None:
+            raise RuntimeError('duplicate_asset returned None for %s -> %s' % (source['map'], self.map_asset))
+        r['duplicateClass'] = dup.get_class().get_name()
+        if not self.assets.save_asset(self.map_asset, only_if_is_dirty=False):
+            raise RuntimeError('save_asset failed for the trial map')
+        if not self.map_file.exists():
+            raise RuntimeError('Trial map file not on disk after save: %s' % self.map_file)
+        r['trialMapSha256'] = sha(self.map_file)
+        self.stage('duplicated')
+        if sha(source_file) != r['sourceMapSha256Before']:
+            raise RuntimeError('The source map changed while duplicating')
+        r['sourceMapSha256After'] = sha(source_file)
+        if r['sourceMapSha256After'] != r['sourceMapSha256Before']:
+            raise RuntimeError('The source map changed during the run')
+        r['revertCommand'] = '-AntiRepeatRevert="%s" %s' % (self.receipt_path, cfg['flag'])
+        r['next'] = ('-AntiRepeatCensusTrial %s in a FRESH process. Loading the duplicate in the process that '
+                     'made it trips the editor world-leak check (EditorServer.cpp:2544) and kills the commandlet '
+                     '- measured 2026-09-11 00:43Z.' % cfg['flag'])
+        r['status'] = 'TRIAL_MAP_SAVED_CENSUS_PENDING'
+        return r
+
+    def do_census_trial(self):
+        """Prove, in a fresh process, that the frame-trial copy IS its source map.
+
+        Both maps are loaded in turn and censused: per-slot material counts, the priority-scoped plan, the
+        actor-property rows and the full actor transform snapshot must all be equal. Read only; the
+        source map's bytes are hashed before and after, and both shipping maps are in the protected set."""
+        spec = self.scope_to_priority()
+        r = self.report
+        cfg = spec['targets'][self.target]
+        if not cfg.get('frameTrial'):
+            raise RuntimeError('-AntiRepeatCensusTrial needs a target marked frameTrial, not %s' % self.target)
+        source = spec['targets'][cfg['trialSourceTarget']]
+        source_file = ROOT / source['mapFile']
+        self.guard_project()
+        if not self.map_file.exists():
+            raise RuntimeError('No trial map to census: %s' % self.map_file)
+        r['protectedBefore'] = self.protected()
+        r['sourceMap'] = source['map']
+        r['sourceMapSha256Before'] = sha(source_file)
+        r['trialMapSha256'] = sha(self.map_file)
+        census = {}
+        for label, asset in (('trial', self.map_asset), ('source', source['map'])):
+            if not self.levels.load_level(asset):
+                raise RuntimeError('load_level failed for ' + asset)
+            world = self.ed.get_editor_world()
+            if world.get_outermost().get_name() != asset:
+                raise RuntimeError('Wrong map loaded: %s' % world.get_outermost().get_name())
+            rows, counts = self.enumerate_slots()
+            plan, guarded = self.build_plan(rows)
+            census[label] = {'materialCounts': dict(counts), 'slots': len(rows),
+                             'planCountsByVariant': dict(Counter(i['variant'] for i in plan)),
+                             'kotelGuardSkipped': len(guarded),
+                             'actorPropertyRows': [{k: v for k, v in i.items() if k not in ('handle', 'actor')}
+                                                   for i in self.enumerate_actor_properties()],
+                             'scene': self.scene_snapshot()}
+            self.stage('censused_' + label, slots=len(rows))
+        same = {k: census['trial'][k] == census['source'][k] for k in census['trial']}
+        r['censusEqual'] = same
+        r['census'] = {k: {kk: vv for kk, vv in v.items() if kk != 'scene'} for k, v in census.items()}
+        r['sceneActors'] = len(census['trial']['scene'])
+        if not all(same.values()):
+            raise RuntimeError('Trial map is not the source map: %s' % same)
+        r['suggestedExpectedVariantSlotCount'] = census['trial']['planCountsByVariant']
+        r['sourceMapSha256After'] = sha(source_file)
+        if r['sourceMapSha256After'] != r['sourceMapSha256Before']:
+            raise RuntimeError('The source map changed during the run')
+        if sha(self.map_file) != r['trialMapSha256']:
+            raise RuntimeError('The trial map changed after its save')
+        if self.u.EditorLoadingAndSavingUtils.get_dirty_map_packages() or self.dirty_content_names():
+            raise RuntimeError('Dirty packages left after the census')
+        r['revertCommand'] = '-AntiRepeatRevert="%s" %s' % (self.receipt_path, cfg['flag'])
+        r['status'] = 'TRIAL_MAP_CREATED_CENSUS_EQUAL'
+        return r
+
+    def do_revert_trial(self, receipt_path):
+        """Undo -AntiRepeatMakeTrialMap: delete the trial copy. Nothing references a map, and no build ships it."""
+        r = self.report
+        prior = json.loads(Path(receipt_path).read_text(encoding='utf-8-sig'))
+        r['makeTrialReceipt'] = {'path': str(receipt_path), 'sha256': sha(receipt_path), 'status': prior.get('status')}
+        if not self.frame_trial:
+            raise RuntimeError('Only a frame-trial target can be deleted by revert')
+        self.guard_project()
+        r['protectedBefore'] = self.protected()
+        r['trialMapSha256Before'] = sha(self.map_file) if self.map_file.exists() else None
+        if r['trialMapSha256Before'] is None:
+            r['status'] = 'NOTHING_TO_REVERT'
+            return r
+        world = self.ed.get_editor_world()
+        if world and world.get_outermost().get_name() == self.map_asset:
+            raise RuntimeError('Trial map is the open world; refusing to delete it')
+        if not self.assets.delete_asset(self.map_asset):
+            raise RuntimeError('delete_asset failed for ' + self.map_asset)
+        r['trialMapExistsAfter'] = self.map_file.exists()
+        if r['trialMapExistsAfter']:
+            raise RuntimeError('Trial map file still on disk after delete')
+        r['status'] = 'TRIAL_MAP_DELETED'
+        return r
+
     def do_verify(self, apply_receipt):
-        spec = self.spec
+        spec = self.scope_to_priority()
         r = self.report
         prior = json.loads(Path(apply_receipt).read_text(encoding='utf-8-sig'))
         r['applyReceipt'] = {'path': str(apply_receipt), 'sha256': sha(apply_receipt),
@@ -1718,6 +1950,8 @@ def _native_main():
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     plan_m = re.search(r'-AntiRepeatPlan(?=\s|$)', cmd)
     build_m = re.search(r'-AntiRepeatBuild(?=\s|$)', cmd)
+    maketrial_m = re.search(r'-AntiRepeatMakeTrialMap(?=\s|$)', cmd)
+    censustrial_m = re.search(r'-AntiRepeatCensusTrial(?=\s|$)', cmd)
     apply_m = re.search(r'-AntiRepeatApply=(?:"([^"]+)"|([^\s]+))', cmd)
     verify_m = re.search(r'-AntiRepeatVerify=(?:"([^"]+)"|([^\s]+))', cmd)
     revert_m = re.search(r'-AntiRepeatRevert=(?:"([^"]+)"|([^\s]+))', cmd)
@@ -1733,11 +1967,11 @@ def _native_main():
         raise RuntimeError('-AntiRepeatSampling must be one of %s' % list(SAMPLING_MODES))
     frame_evidence = (evidence_m.group(1) or evidence_m.group(2)) if evidence_m else None
     priority = int(priority_m.group(1)) if priority_m else 1
-    modes = [m for m, hit in (('plan', plan_m), ('build', build_m), ('apply', apply_m),
+    modes = [m for m, hit in (('plan', plan_m), ('build', build_m), ('maketrial', maketrial_m), ('censustrial', censustrial_m), ('apply', apply_m),
                               ('verify', verify_m), ('revert', revert_m)) if hit]
     if len(modes) != 1:
-        raise RuntimeError('Pass exactly one of -AntiRepeatPlan, -AntiRepeatBuild, -AntiRepeatApply=<receipt>, '
-                           '-AntiRepeatVerify=<receipt>, -AntiRepeatRevert=<receipt>')
+        raise RuntimeError('Pass exactly one of -AntiRepeatPlan, -AntiRepeatBuild, -AntiRepeatMakeTrialMap, -AntiRepeatCensusTrial, '
+                           '-AntiRepeatApply=<receipt>, -AntiRepeatVerify=<receipt>, -AntiRepeatRevert=<receipt>')
     mode = modes[0]
     arg, receipt = None, None
     if mode in ('apply', 'verify', 'revert'):
@@ -1748,6 +1982,19 @@ def _native_main():
         receipt = json.loads(arg.read_text(encoding='utf-8-sig'))
         if mode in ('verify', 'revert'):
             priority = int(receipt.get('priority', priority))
+    # The sampling mode of an apply, verify or revert is the one the ASSETS were built in, read off the
+    # receipt and never re-typed: it decides which asset paths the spec resolves to.
+    built_sampling = None
+    if mode == 'apply':
+        built_sampling = receipt.get('samplingMode', 'grad')
+    elif mode in ('verify', 'revert') and receipt.get('mode') not in ('maketrial', 'censustrial'):
+        built_sampling = receipt.get('builtSamplingMode', 'grad')
+    if built_sampling:
+        if sampling_m and sampling != built_sampling:
+            raise RuntimeError('-AntiRepeatSampling=%s contradicts the receipt, which was built in %s'
+                               % (sampling, built_sampling))
+        sampling = built_sampling
+    spec = resolve_spec(spec, sampling)
     target = None
     if mode != 'build':
         target = _target_from_command_line(spec, cmd, receipt if mode in ('verify', 'revert') else None)
@@ -1759,10 +2006,16 @@ def _native_main():
             native.do_plan()
         elif mode == 'build':
             native.do_build()
+        elif mode == 'maketrial':
+            native.do_make_trial()
+        elif mode == 'censustrial':
+            native.do_census_trial()
         elif mode == 'apply':
             native.do_apply(arg)
         elif mode == 'verify':
             native.do_verify(arg)
+        elif receipt.get('mode') in ('maketrial', 'censustrial'):
+            native.do_revert_trial(arg)
         else:
             native.do_revert(arg)
     except Exception as exc:  # noqa: BLE001
@@ -1773,7 +2026,7 @@ def _native_main():
     finally:
         native.report['protectedAfter'] = native.protected()
         native.report['protectedUnchanged'] = native.report['protectedAfter'] == protected_before
-        if native.map_file:
+        if native.map_file and native.map_file.exists():
             native.report['mapSha256Final'] = sha(native.map_file)
         if not native.report['protectedUnchanged']:
             changed = sorted(k for k in set(protected_before) | set(native.report['protectedAfter'])

@@ -26,6 +26,9 @@
 param(
     [Parameter(Mandatory = $true)][string]$Archive,
     [Parameter(Mandatory = $true)][ValidatePattern('^[A-Za-z0-9._-]{1,40}$')][string]$Label,
+    # Optional map package to open instead of GameDefaultMap, e.g. the anti-repeat frame-trial copy
+    # cooked alongside Candidate48. Empty = the configured default map, exactly as before.
+    [ValidatePattern('^(|/Game/[A-Za-z0-9_/]+)$')][string]$Map = '',
     [int]$MapWaitSeconds = 300,
     [int]$AfterMapSeconds = 25,
     [int]$ShotWaitSeconds = 120,
@@ -75,6 +78,7 @@ $iniArgs = '-ini:Game:[/Script/MikdashRuntime.MikdashFrontEnd]:bShowMainMenuOnBo
 $report = [ordered]@{
     status = 'starting'; label = $Label; archive = $Archive; exe = $exe
     launchDir = $launchDir; photoDir = $photos
+    map = $(if ($Map) { $Map } else { 'GameDefaultMap' })
     recipe = 'SourceAssets/visual-review/cp05b-frames-20260910.json, the same two cameras as the before-frames'
     compares = @{
         '01' = 'SourceAssets/visual-review/cp05b-01-azarah-facing-heichal-spawn.png'
@@ -89,7 +93,7 @@ if (Test-Path -LiteralPath $photos) { Remove-Item -LiteralPath $photos -Recurse 
 
 foreach ($v in $views) {
   for ($attempt = 1; $attempt -le $Attempts; $attempt++) {
-    $arguments = "-windowed -ResX=1600 -ResY=900 -nosplash -nosteam -notraceserver -notrace -noverifygc $iniArgs"
+    $arguments = "$Map -windowed -ResX=1600 -ResY=900 -nosplash -nosteam -notraceserver -notrace -noverifygc $iniArgs"
     if ($v.go) { $arguments += " -ExecCmds=`"Ghost,BugItGo $($v.go)`"" }
     if (Test-Path -LiteralPath $gameLog) { Remove-Item -LiteralPath $gameLog -Force -EA SilentlyContinue }
     $before = @()
@@ -185,7 +189,7 @@ if (Test-Path -LiteralPath $gameLog) {
         [regex]::Matches($log, '(?m)^.*LogMaterial:\s*(Warning|Error).*$') |
         ForEach-Object { $_.Value.Trim() } | Select-Object -Unique
     )
-    $report.ashlarFallback = @($report.materialWarnings | Where-Object { $_ -match 'HerodianV[45]|LimestoneAshlar|LimestoneTrim|PBR_Tiled' })
+    $report.ashlarFallback = @($report.materialWarnings | Where-Object { $_ -match 'HerodianV[45]|LimestoneAshlar|LimestoneTrim|PBR_Tiled|AntiRepeat' })
 }
 
 $got = @($report.frames | Where-Object { $_.file }).Count

@@ -1,0 +1,157 @@
+{
+  "label": "cp13t",
+  "samplingMode": "implicit",
+  "utc": "2026-09-11T00:58:32.821188+00:00",
+  "script": "Scripts/measure_antirepeat_frame.py",
+  "scriptSha256": "9ebae6364f176abb0e2df5c312c872c0ffc9d6070bcce0d9ed6eef34fe2d2930",
+  "regions": {
+    "wall": [
+      0,
+      0,
+      3840,
+      1960
+    ],
+    "paving": [
+      400,
+      2072,
+      3840,
+      2160
+    ]
+  },
+  "thresholds": {
+    "repeatAcURatioMax": 0.75,
+    "repeatCombURatioMax": 0.75,
+    "detailNormalizedRatioMin": 0.8,
+    "regressionReference": "x0.20 = the 2026-09-09 grad master on Nanite"
+  },
+  "before": {
+    "file": "SourceAssets/visual-review/cp13t-before-02-herodian-ashlar-inner-east-gate-jamb-walkingheight.png",
+    "sha256": "8ced3b5e558f1ba0aecafee4e4a33406f8193ee4e9a6a49378b4dd66ebab0802",
+    "wall": {
+      "edgeEnergy": 2.3936596168287916,
+      "edgeEnergySmoothed": 1.8591632074029538,
+      "verticalEnergySmoothed": 1.2440342404185367,
+      "fineStd": 2.500370799958807,
+      "lumaMean": 111.7325724054793,
+      "lumaStd": 18.643746057044925
+    },
+    "paving": {
+      "edgeEnergy": 7.583160176792375,
+      "edgeEnergySmoothed": 3.846349953856033,
+      "verticalEnergySmoothed": 2.819545910636848,
+      "fineStd": 7.272689397361521,
+      "lumaMean": 115.88706286667544,
+      "lumaStd": 22.653149078338576
+    },
+    "tilePeriodPx": 1322,
+    "wallRepeat": {
+      "acU": 0.5189578206087658,
+      "combU": 0.5769142116901648,
+      "comb2D_car": 0.84054,
+      "acPeakNearTile": {
+        "lag": 1322,
+        "value": 0.5189578206087658
+      }
+    }
+  },
+  "after": {
+    "file": "SourceAssets/visual-review/cp13t-after-02-herodian-ashlar-inner-east-gate-jamb-walkingheight.png",
+    "sha256": "4be5212e19a31fdab184764dc87be0d14f1ade76a3f23c89b0d9da99f7f646fb",
+    "wall": {
+      "edgeEnergy": 2.1105075474021335,
+      "edgeEnergySmoothed": 1.671638709601105,
+      "verticalEnergySmoothed": 1.1261430756635342,
+      "fineStd": 2.066731820500929,
+      "lumaMean": 111.76613108383805,
+      "lumaStd": 18.094716449944677
+    },
+    "paving": {
+      "edgeEnergy": 7.628303692212913,
+      "edgeEnergySmoothed": 3.8662999388852275,
+      "verticalEnergySmoothed": 2.8353837096194177,
+      "fineStd": 7.310590169730699,
+      "lumaMean": 117.4746590030391,
+      "lumaStd": 22.822871917518384
+    },
+    "tilePeriodPx": 1322,
+    "wallRepeat": {
+      "acU": 0.4344994951364132,
+      "combU": 0.5414729945304374,
+      "comb2D_car": 0.81331,
+      "acPeakNearTile": {
+        "lag": 1410,
+        "value": 0.4721275011954624
+      }
+    }
+  },
+  "repeatRatioAfterOverBefore": {
+    "acU": 0.8373,
+    "combU": 0.9386
+  },
+  "detailRatioAfterOverBefore": {
+    "edgeEnergy": {
+      "wall": 0.8817,
+      "paving": 1.006
+    },
+    "edgeEnergySmoothed": {
+      "wall": 0.8991,
+      "paving": 1.0052
+    },
+    "verticalEnergySmoothed": {
+      "wall": 0.9052,
+      "paving": 1.0056
+    },
+    "fineStd": {
+      "wall": 0.8266,
+      "paving": 1.0052
+    }
+  },
+  "detailNormalizedByPavingControl": {
+    "edgeEnergy": 0.8765,
+    "edgeEnergySmoothed": 0.8945,
+    "verticalEnergySmoothed": 0.9002,
+    "fineStd": 0.8223
+  },
+  "repeatBroken": false,
+  "detailSurvived": true,
+  "verdict": "FAIL",
+  "failures": [
+    "REPEAT NOT BROKEN: acU x0.837, combU x0.939 (need <= 0.75)"
+  ],
+  "notJudgedHere": "Whether the boss reads as raised is also checked by eye on 1:1 crops; verticalEnergySmoothed is the numeric proxy for the lit/shadowed chamfers.",
+  "reference": {
+    "file": "SourceAssets/visual-review/cp11c-02-herodian-ashlar-inner-east-gate-jamb-walkingheight.png",
+    "sha256": "0ac9a4c4cfc75a40e0a931b2476ff14022a32742004595bf9b2c95fefb3307e3",
+    "wall": {
+      "edgeEnergy": 2.41672098083518,
+      "edgeEnergySmoothed": 1.8631938841638083,
+      "verticalEnergySmoothed": 1.2482972914941133,
+      "fineStd": 2.52043188202203,
+      "lumaMean": 111.60408704365972,
+      "lumaStd": 18.641487782259706
+    },
+    "paving": {
+      "edgeEnergy": 7.595895735745846,
+      "edgeEnergySmoothed": 3.8496339374472788,
+      "verticalEnergySmoothed": 2.822345370917142,
+      "fineStd": 7.277971259446837,
+      "lumaMean": 115.81513335491545,
+      "lumaStd": 22.64451564023877
+    },
+    "tilePeriodPx": 1322,
+    "wallRepeat": {
+      "acU": 0.5182719205455708,
+      "combU": 0.5767279977125892,
+      "comb2D_car": 0.84023,
+      "acPeakNearTile": {
+        "lag": 1322,
+        "value": 0.5182719205455708
+      }
+    }
+  },
+  "referenceVsBefore": {
+    "wallEdgeEnergy": 0.9905,
+    "pavingEdgeEnergy": 0.9983,
+    "acU": 1.0013
+  }
+}

@@ -1493,3 +1493,41 @@ were needed: `cp11b` fixed boss/grain/colour and introduced an extreme per-block
 (chocolate blocks beside cream), which `cp11c` corrected by halving V4's `weathering` and
 `weather_dark`. **A paler base makes an existing weathering spread look far stronger** — when you
 lighten a palette, re-check the per-block darkening in the same move.
+
+---
+
+## Anti-repeat, implicit sampling on the V5 stone, 11 Sep 2026 00:40-01:00Z — detail fixed, repeat not
+
+Result in `Scripts/release_antirepeat.spec.json` → `status2026_09_10.implicitV5FrameTrial2026_09_11`,
+evidence `SourceAssets/material-review/AntiRepeatV1/frame-evidence-cp13t-implicit.json` (verdict FAIL).
+Nothing reached Candidate48 or Main50.
+
+**The mip fix works.** `-AntiRepeatSampling=implicit` held wall gradient energy at x0.88-0.90 of the
+stock wall (normalized by the unmodified paving in the same frames, which moved x1.006), against the
+old x0.20, and the boss still reads raised at 1:1. So explicit gradients from a Custom node really were
+the 09-09 defect.
+
+**The scheme does not break the repeat on this tile, and it cuts stones.** One-tile autocorrelation
+x0.84, comb x0.94. Mirror and band offset act on the 300 cm CELL; the ashlar's stones straddle the cell
+edge, so "seamless at the texel" is not "seamless at the masonry": mirror flips put a false ridge through
+the middle of a boss and make ~14 cm sliver stones, and the lost seam guard dashes the bed joints. Do not
+re-propose UV mirror/offset for a structured coursed tile. Break the repeat with several layout-identical
+tile variants (different blotch seeds) chosen per cell instead.
+
+**How to get a frame when the gate is circular.** The only box that renders is a cooked Candidate48, and
+the gate refuses Candidate48 without a frame. Make a frame-trial COPY (`-AntiRepeatMakeTrialMap`, then
+`-AntiRepeatCensusTrial` in a fresh process), apply there, cook both maps into one archive with
+`Scripts/cook_antirepeat_frame_trial.ps1`, and capture both with `capture_frame_ashlar.ps1 -Map`. Same build,
+same camera, same exposure, unmodified control in frame. Measure with `Scripts/measure_antirepeat_frame.py`
+(thresholds fixed in the file before any after-frame exists).
+
+**Traps paid for this pass:**
+1. 5.8 Python renders enums as `<TextureAddress.TA_WRAP: 0>`; `str(e).endswith('TA_WRAP')` is always False.
+   Parse the member name. (It refused six textures that were in fact TA_WRAP.)
+2. `load_level` of a World you just made with `duplicate_asset`, in the same process, dies in
+   `EditorServer.cpp:2544` "World Memory Leaks" (exit 3, receipt left STARTED). Duplicate in one process,
+   load in another.
+3. A cook compiling a NEW master can lose a ShaderCompileWorker (0xC0000005, jobs "Failed" with no HLSL
+   message). No diagnostic means a dead worker, not a syntax error: retry once before debugging HLSL.
+4. `build_master -AntiRepeatRebuild` used `delete_all_material_expressions`; now refused. New sampling modes
+   build to new asset names (`spec.samplingAssets`), resolved from the receipt.

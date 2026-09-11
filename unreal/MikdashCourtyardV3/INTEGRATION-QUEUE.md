@@ -544,3 +544,26 @@ UnrealEditor.exe <uproject> <map> -ExecutePythonScript=".../Scripts/release_walk
     -WalkV2Apply -WalkV2Target=Candidate48   (then Main50)
     -unattended -nullrhi -NoSplash -abslog=<unique>
 ```
+
+## Plaza retaining walls: next pass (queued 11 Sep, after cp20b)
+
+cp20b removed the patchwork: stone tones now sit inside the Western Wall's own range (log std 0.091
+against 0.084). But judged by eye against the real wall (see
+`SourceAssets/enclosure-review/PrecinctMacroV1/cp20b-P3-westernwall-cp19b-cp20b.png`, where the
+top panel is the Western Wall), the face still reads as an EVEN BRICK GRID, not Herodian masonry.
+What the real wall has and ours lacks, in order of how strongly the eye reads it:
+
+1. **Course heights that vary.** Every course is currently one height, about 1 m, which is what
+   makes it read as brick. Real Herodian courses vary course to course, and a few courses are much
+   taller.
+2. **Deep joint shadow.** The bed-joint dip is 0.081 against the Western Wall's 0.144, about half
+   as deep.
+3. **Face relief.** The real faces are weathered, pitted and bossed. Ours are smooth fields,
+   because the far-field tone layer carries colour only.
+4. Incidental life (plants in the joints, staining) reads strongly in the reference, and is cheap
+   as sparse decals.
+
+Constraints carried forward: only `MI_PrecinctPlaza_Ashlar` and the `M_PrecinctMacroV*` masters;
+keep the high-passed tile-lag correlation near -0.055; keep the batter ledges; the 4 m close-up
+material (`MI_HerodianV4_*`) is another pass's and must not change. Judge against the Western
+Wall at matched cm/px, not against the previous build.

@@ -639,3 +639,89 @@ Revert, newest first: `-PMRevert=precinct-macro-applyv3-20260911T051820114379Z.j
 restored). C++: copy `ReviewCheckpoints/PrecinctLedgeWash-20260911T044947659614Z/*` back (or set bPlazaLedgeWash false).
 Approaches: `ReviewCheckpoints/PrecinctApproachGrid-script-20260911T045033546716Z/release_precinct_approaches.py` is the
 pre-cp19 planner; re-run -ApproachRevert / -ApproachApply with it. `M_PrecinctMacroV2_Triplanar` stays on disk, unreferenced.
+
+## Addendum 11 September 2026 (cp20, IN PROGRESS) - one-quarry tone on the retaining faces
+
+The cp19b 60 m frame read as toy brickwork: every stone its own flat tone with a dark outline. Measured on the rectified
+P3 face against the Western Wall photo (`kotel-detail/PhotoSurfaceV1/kotel-wall-cleaned.png`, 160 stones segmented):
+
+| per stone, sRGB luminance | cp16before | cp19b | Western Wall |
+|---|---:|---:|---:|
+| std log(stone mean) | 0.107 | 0.117 | 0.084 |
+| p05-p95 ratio | 1.41 | 1.47 | 1.25 |
+| bed-joint strip dip at 3.14 cm/px | - | 0.235 | 0.144 |
+| high-passed (6 m) autocorrelation at the 300 cm tile lag | 0.751 | -0.007 | - |
+
+* Stones are right-sized in world units (courses 92-106 cm, lengths 140-300 cm, V5 layout); they read small because the
+  90-degree lens at 57 m frames 120 x 67 m of wall (about 67 courses), and each stone was a separate visual unit.
+* The dark outlines and flat stones are the MACRO, not the close tile: cp16before (close tile alone) has lit bevel lines and
+  mottled stones; V2 draws joints at 0.55 and a bottom-margin band at 0.72, lerped at MacroFarStrength 1.3, over a close
+  albedo faded 85 % to its mean.
+* cp19b's 0.276 "tile-lag correlation" has no peak at the tile lag (peak lag 41 px); it is broad weathering. The tile itself
+  is measured by the high-passed number above.
+
+**cp20 change (asset-only, `MI_PrecinctPlaza_Ashlar` only):** `-PMRetone=V4 -PMFarStrength=1.0 -PMCloseFadeFar=1.0`
+(`precinct-macro-retone-V4-20260911T061801465714Z.json`). New `T_PrecinctMacro_ToneV4` (`create_precinct_macro.py --variant V4`):
+stone sigma 0.045, course 0.016, no rare dark stones, near-neutral families, drafted margin as a thin bevel light/shadow,
+joints 0.80, a third of vertical joints merged (lengths 1.4-9 m), stone-interior mottle, 4.5 m quarry batches.
+CloseFadeFarStrength 0.85 -> 1.0 removes the last 15 % of the close tile's periodic dark/light stones. Guard: only the
+instance and the new texture changed; 9 named-protected hashes and both maps identical; close-range parity equal.
+Revert: `-PMRevert=precinct-macro-retone-V4-20260911T061801465714Z.json` (back to V3 + ToneV2 @1.3, close fade 0.85).
+Acceptance (frames pending, cp20 build): `Scripts/accept_precinct_cp20.py`.
+
+### cp20 measured (build `C:\Mikdash\Builds\Checkpoint-cp20-20260911T063740Z`, frames `visual-review/cp20-*`, `PrecinctMacroV1/accept-cp20.json`)
+
+Retone guard clean; fresh-process `-PMVerify` = verified; cook first attempt, 0 errors / 0 warnings, smoke `checkpoint_playable`;
+no precinct material fallback in any capture log.
+
+| P3 60 m, rectified | cp16before | cp19b | **cp20 (V4)** | Western Wall |
+|---|---:|---:|---:|---:|
+| per-stone std log | 0.107 | 0.117 | **0.088** | 0.084 |
+| p05-p95 ratio | 1.41 | 1.47 | **1.31** | 1.25 |
+| neighbour contrast (median abs log) | 0.059 | 0.053 | **0.025** | 0.045 |
+| bed-joint strip dip | 0.054 | 0.235 | **0.042** | 0.144 |
+| high-passed autocorr at 300 cm | 0.751 | -0.007 | **-0.061** | - |
+| cp19 screen metric corrAtLag101 (peak lag) | 0.675 (101) | 0.276 (41) | **0.619 (41)** | - |
+
+* **Quilt gone, but overshot into blandness**: at 60 m the stones nearly vanish; the dark outline went from 1.6x the Western
+  Wall's to a third of it. The cp19 screen metric ROSE to 0.62 with its peak still at 41 px (no tile peak): frame std halved
+  (0.066 -> 0.035), so broad weathering dominates it. The tile itself did not come back (high-passed -0.06).
+* 07 plaza stone at walking range: mean |diff| vs cp19b 0.0074 (noise floor 0.0057) - no regression.
+* 02 jamb changed 0.062 vs cp19b: NOT this pass - Candidate48 map sha changed between the arv4e trial (4e699f8c) and the cp20
+  cook (32c2c970) by the inner-court anti-repetition work (new layout variants visible on the jamb); the retone left both maps
+  byte-identical and `MI_HerodianV4_*` untouched.
+* P1 aerial: west face profile std 0.037 -> 0.038, south S1-S2 0.021 -> 0.017, east of S2 0.027 -> 0.023; 3 m share on the
+  west face 0.196 -> 0.100. Courses still do not read at 1 km (sub-Nyquist, as cp19b).
+
+**cp20b (in flight):** `T_PrecinctMacro_ToneV5` (same seed/stones/merges as V4) restores a light-and-shadow bed-joint frame
+aimed at dip ~0.10-0.12 and neighbour contrast ~0.035; `-PMRetone=V5 -PMFarStrength=1.0` via `cp20b-chain.ps1`.
+Revert chain: V5 receipt -> V4 state; `precinct-macro-retone-V4-20260911T061801465714Z.json` -> cp19b state.
+
+### cp20b measured - the state that stands (build `C:\Mikdash\Builds\Checkpoint-cp20b-20260911T080854Z`, frames `visual-review/cp20b-*`, `PrecinctMacroV1/accept-cp20b.json`)
+
+`-PMRetone=V5 -PMFarStrength=1.0` (`precinct-macro-retone-V5-20260911T080610644699Z.json`), guard clean (only the instance and
+`T_PrecinctMacro_ToneV5` changed; protected hashes and both maps identical; no other parameter moved; CloseFadeFarStrength stays
+1.0); fresh-process verify `verified`; cook first attempt 0 errors / 0 warnings, `checkpoint_playable`; no material fallback.
+
+| P3 60 m, rectified | cp19b | cp20 (V4) | **cp20b (V5)** | Western Wall |
+|---|---:|---:|---:|---:|
+| per-stone std log | 0.117 | 0.088 | **0.091** | 0.084 |
+| p05-p95 ratio | 1.47 | 1.31 | **1.32** | 1.25 |
+| neighbour contrast | 0.053 | 0.025 | **0.029** | 0.045 |
+| bed-joint strip dip | 0.235 | 0.042 | **0.081** | 0.144 |
+| high-passed autocorr at 300 cm (tile) | -0.007 | -0.061 | **-0.055** | - |
+| cp19 screen corrAtLag101 (peak lag px) | 0.276 (41) | 0.619 (41) | **0.472 (41)** | - |
+
+* Reads as coursed ashlar of one quarry: bed lines carry the courses as light/shadow frames, stones run 1.4-9 m, the tone
+  range is inside the Western Wall's; no quilt, no dark mortar grid. P2 (70 m): dip 0.177 -> 0.073, same read.
+* Repeat: the tile did not come back (high-passed -0.055; cp16before 0.751). The cp19 screen number is 0.47, not ~0.28: it
+  has no peak at the tile lag in any post-cp19 build and tracks the share of broad weathering in a now-quieter face. Judge
+  the tile with the high-passed number.
+* Batter-ledge washes still read (geometry, untouched). 02 jamb: only the inner-court map change (see cp20). 07 at walking
+  range: 0.0104 vs cp19b, all of it the black ribbon artefact near the camera (present in cp20, absent in cp20b) - plaza stone
+  unchanged. P1: west 0.037 -> 0.038, S1-S2 0.021 -> 0.016, east of S2 0.027 -> 0.022; still sub-Nyquist at 1 km.
+* Still short of the Western Wall: per-stone relief (weathered bossed faces, shadowed joints) and the joint shadow (0.081 vs
+  0.144). The remaining big lever for "big blocks" at this camera is framing: the 90-degree lens at 57 m shows ~67 courses.
+
+Revert, newest first: `-PMRevert=precinct-macro-retone-V5-20260911T080610644699Z.json` (-> V4) ->
+`-PMRevert=precinct-macro-retone-V4-20260911T061801465714Z.json` (-> cp19b: V3 + ToneV2 @1.3, close fade 0.85).

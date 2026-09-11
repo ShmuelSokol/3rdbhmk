@@ -1,0 +1,276 @@
+{
+ "script": "Scripts/accept_precinct_cp20.py",
+ "label": "cp20",
+ "westernWallPhoto": {
+  "nStones": 160,
+  "stdLog": 0.0838,
+  "p05p95Ratio": 1.254,
+  "medianNeighbourAbsLog": 0.0454,
+  "bedJointDipStrip_atP3scale": 0.1444,
+  "pxPerMetre": 62.9,
+  "photoWidthM": 34.5
+ },
+ "P3": {
+  "cp16before": {
+   "stones": {
+    "nStones": 3368,
+    "stdLog": 0.1072,
+    "p05p95Ratio": 1.411,
+    "medianNeighbourAbsLog": 0.0588
+   },
+   "bedJointDipStrip": 0.0542,
+   "rectAcorr": {
+    "150": -0.2039,
+    "300": 0.7829,
+    "600": 0.6614,
+    "1200": 0.46
+   },
+   "rectAcorrHighPass6m": {
+    "150": -0.6498,
+    "240": 0.0508,
+    "300": 0.7513,
+    "360": 0.179,
+    "450": -0.579
+   },
+   "screenTileAcorr_cp19def": {
+    "peakLagPx": 101,
+    "peakCorr": 0.6748,
+    "corrAtLag101": 0.6748,
+    "std": 0.0548
+   }
+  },
+  "cp19b": {
+   "stones": {
+    "nStones": 3355,
+    "stdLog": 0.1172,
+    "p05p95Ratio": 1.467,
+    "medianNeighbourAbsLog": 0.0528
+   },
+   "bedJointDipStrip": 0.2352,
+   "rectAcorr": {
+    "150": 0.4022,
+    "300": 0.3276,
+    "600": 0.2411,
+    "1200": 0.1424
+   },
+   "rectAcorrHighPass6m": {
+    "150": -0.1287,
+    "240": -0.2569,
+    "300": -0.0074,
+    "360": -0.0551,
+    "450": 0.0518
+   },
+   "screenTileAcorr_cp19def": {
+    "peakLagPx": 41,
+    "peakCorr": 0.4099,
+    "corrAtLag101": 0.2763,
+    "std": 0.0664
+   }
+  },
+  "cp20": {
+   "stones": {
+    "nStones": 3369,
+    "stdLog": 0.0884,
+    "p05p95Ratio": 1.305,
+    "medianNeighbourAbsLog": 0.0245
+   },
+   "bedJointDipStrip": 0.0419,
+   "rectAcorr": {
+    "150": 0.6765,
+    "300": 0.6079,
+    "600": 0.5012,
+    "1200": 0.2962
+   },
+   "rectAcorrHighPass6m": {
+    "150": -0.1532,
+    "240": -0.2324,
+    "300": -0.0605,
+    "360": -0.0258,
+    "450": 0.0089
+   },
+   "screenTileAcorr_cp19def": {
+    "peakLagPx": 41,
+    "peakCorr": 0.7109,
+    "corrAtLag101": 0.6188,
+    "std": 0.0349
+   }
+  }
+ },
+ "P2": {
+  "cp16before": {
+   "bedJointDipStrip": 0.0519,
+   "rectAcorrHighPass6m": {
+    "150": -0.2265,
+    "300": -0.2908,
+    "450": 0.4173
+   },
+   "screenTileAcorr_cp19def": {
+    "peakLagPx": 127,
+    "peakCorr": 0.6234,
+    "corrAtLag101": 0.3398,
+    "std": 0.06
+   }
+  },
+  "cp19b": {
+   "bedJointDipStrip": 0.1768,
+   "rectAcorrHighPass6m": {
+    "150": -0.1259,
+    "300": -0.2172,
+    "450": 0.1569
+   },
+   "screenTileAcorr_cp19def": {
+    "peakLagPx": 127,
+    "peakCorr": 0.4808,
+    "corrAtLag101": 0.3444,
+    "std": 0.0542
+   }
+  },
+  "cp20": {
+   "bedJointDipStrip": 0.0431,
+   "rectAcorrHighPass6m": {
+    "150": -0.1282,
+    "300": -0.1879,
+    "450": 0.1789
+   },
+   "screenTileAcorr_cp19def": {
+    "peakLagPx": 127,
+    "peakCorr": 0.6302,
+    "corrAtLag101": 0.4899,
+    "std": 0.0375
+   }
+  }
+ },
+ "faceProfileExit": 0,
+ "P1faceProfile": {
+  "cp16before": {
+   "west_face_full": {
+    "metresPerPx": 0.62,
+    "rawStd": 0.032,
+    "hpStd": 0.0056,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.002,
+     "tile3m": 0.0586,
+     "batter12m": 0.0466
+    },
+    "error": null
+   },
+   "south_S1toS2": {
+    "metresPerPx": 0.737,
+    "rawStd": 0.0166,
+    "hpStd": 0.0074,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.0014,
+     "tile3m": 0.0061,
+     "batter12m": 0.0924
+    },
+    "error": null
+   },
+   "south_eastOfS2": {
+    "metresPerPx": 0.925,
+    "rawStd": 0.0237,
+    "hpStd": 0.0021,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.0102,
+     "tile3m": 0.34,
+     "batter12m": 0.1094
+    },
+    "error": null
+   }
+  },
+  "cp19b": {
+   "west_face_full": {
+    "metresPerPx": 0.62,
+    "rawStd": 0.0372,
+    "hpStd": 0.0085,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.0022,
+     "tile3m": 0.1964,
+     "batter12m": 0.0289
+    },
+    "error": null
+   },
+   "south_S1toS2": {
+    "metresPerPx": 0.737,
+    "rawStd": 0.0205,
+    "hpStd": 0.009,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.0025,
+     "tile3m": 0.0399,
+     "batter12m": 0.0967
+    },
+    "error": null
+   },
+   "south_eastOfS2": {
+    "metresPerPx": 0.925,
+    "rawStd": 0.027,
+    "hpStd": 0.007,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.0021,
+     "tile3m": 0.1679,
+     "batter12m": 0.2498
+    },
+    "error": null
+   }
+  },
+  "cp20": {
+   "west_face_full": {
+    "metresPerPx": 0.62,
+    "rawStd": 0.038,
+    "hpStd": 0.0059,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.0018,
+     "tile3m": 0.0997,
+     "batter12m": 0.0247
+    },
+    "error": null
+   },
+   "south_S1toS2": {
+    "metresPerPx": 0.737,
+    "rawStd": 0.0167,
+    "hpStd": 0.0081,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.0017,
+     "tile3m": 0.0173,
+     "batter12m": 0.1267
+    },
+    "error": null
+   },
+   "south_eastOfS2": {
+    "metresPerPx": 0.925,
+    "rawStd": 0.0228,
+    "hpStd": 0.0032,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.0015,
+     "tile3m": 0.2201,
+     "batter12m": 0.1309
+    },
+    "error": null
+   }
+  }
+ },
+ "noRegression": {
+  "02_jamb_cp19b_vs_cp20": 0.06206,
+  "07_plaza_cp19b_vs_cp20": 0.00737,
+  "07_noiseFloor_cp17_vs_cp17b": 0.00572,
+  "02_noiseFloor_cp17_vs_cp19b": 0.00281
+ },
+ "sheets": {
+  "stoneScale": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\PrecinctMacroV1\\cp20-P3-stone-scale-vs-westernwall.png",
+  "order": [
+   "Western Wall (photo), same cm/px, luminance",
+   "cp19b P3 60 m (rectified luminance)",
+   "cp20 P3 60 m (rectified luminance)"
+  ],
+  "P3": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\PrecinctMacroV1\\cp20-P3-westernwall-cp19b-cp20.png",
+  "P2": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\PrecinctMacroV1\\cp20-P2-westernwall-cp19b-cp20.png"
+ }
+}

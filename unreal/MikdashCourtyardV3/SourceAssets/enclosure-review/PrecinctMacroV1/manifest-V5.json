@@ -1,0 +1,255 @@
+{
+ "status": "generated",
+ "generator": "Scripts/create_precinct_macro.py",
+ "seed": 17170914,
+ "params": {
+  "stoneToneSigma": 0.06,
+  "courseToneSigma": 0.02,
+  "courseRunLengths": [
+   1,
+   2,
+   2,
+   3,
+   4
+  ],
+  "rareDarkChance": 0.0,
+  "rareDark": 1.0,
+  "rareLightChance": 0.025,
+  "rareLight": 1.05,
+  "families": {
+   "base": [
+    0.6,
+    [
+     1.0,
+     1.0,
+     1.0
+    ]
+   ],
+   "honey": [
+    0.25,
+    [
+     1.012,
+     1.0,
+     0.986
+    ]
+   ],
+   "greygold": [
+    0.15,
+    [
+     0.992,
+     0.997,
+     1.008
+    ]
+   ]
+  },
+  "stoneGradient": 0.012,
+  "marginCm": {
+   "left": 10.0,
+   "right": 10.0,
+   "bottom": 10.0,
+   "top": 13.0
+  },
+  "marginFactor": {
+   "bottom": 0.93,
+   "side": 0.96,
+   "top": 1.0
+  },
+  "jointHalfWidthCm": 1.1,
+  "jointFactor": 0.62,
+  "toneMeanTarget": 0.97,
+  "weather": {
+   "broadSigmaCm": [
+    1900,
+    2500
+   ],
+   "broadStd": 0.04,
+   "patchSigmaCm": [
+    500,
+    750
+   ],
+   "patchStd": 0.045,
+   "streakSigmaCm": [
+    40,
+    1000
+   ],
+   "streakStd": 0.07,
+   "streakMaskSigmaCm": 380,
+   "meanTarget": 1.0
+  },
+  "bevelCm": 3.0,
+  "bevelShadow": {
+   "bottom": 0.72,
+   "side": 0.9
+  },
+  "bevelLight": {
+   "top": 1.08
+  },
+  "mergeChance": 0.33,
+  "mergeMaxRun": 2,
+  "mergedJointFactor": 0.97,
+  "mottle": {
+   "fineSigmaCm": 7.0,
+   "fineStd": 0.03,
+   "midSigmaCm": 28.0,
+   "midStd": 0.04
+  },
+  "batch": {
+   "sigmaCm": 450.0,
+   "std": 0.018
+  },
+  "vertJointFactor": 0.75
+ },
+ "convention": "u = world X|Y / tileUCm, v = world Z / tileVCm; image row 0 is v = 0 (image down = world up); value 0.5 = multiplier 1.0, linear (sRGB off)",
+ "tone": {
+  "file": "T_PrecinctMacro_ToneV5.png",
+  "size": [
+   4096,
+   2048
+  ],
+  "tileCm": [
+   9600.0,
+   4800.0
+  ],
+  "cmPerPx": 2.34375,
+  "closeTilesPerPeriod": [
+   32.0,
+   16.0
+  ],
+  "sha256": "b5b070e5725a8233eebd4c4ec5601c0269ae0989add474e2042ce458db779e16",
+  "meanLuminanceMultiplier": 0.9700010418891907,
+  "p05p95": [
+   0.7684815943241119,
+   1.1331501364707945
+  ],
+  "at100cmPerPx": {
+   "std": 0.06080562248826027,
+   "rowProfileStd": 0.022396786138415337
+  },
+  "courseTone": [
+   1.0062,
+   1.0113,
+   1.0139,
+   1.027,
+   1.0228,
+   1.0289,
+   0.9891,
+   1.0123,
+   1.0123,
+   1.015,
+   1.0011,
+   1.0211,
+   0.9884,
+   1.0011,
+   0.9788,
+   0.9834,
+   0.9887,
+   0.983,
+   0.9846,
+   1.028,
+   1.0124,
+   1.0101,
+   0.9752,
+   0.9423,
+   0.9396,
+   0.9697,
+   0.9621,
+   0.9615,
+   1.0308,
+   1.0013,
+   0.9974,
+   0.9951,
+   1.006,
+   1.0023,
+   1.0094,
+   1.0151,
+   0.9944,
+   0.999,
+   0.9969,
+   0.9989,
+   0.986,
+   0.9773,
+   0.9769,
+   1.0101,
+   1.0033,
+   0.9751,
+   0.9628,
+   0.9678
+  ],
+  "stoneStats": {
+   "families": {
+    "base": 1098,
+    "honey": 463,
+    "greygold": 262
+   },
+   "rareLight": 45,
+   "stones": 1823,
+   "mergedJoints": 737,
+   "joints": 2560,
+   "lengthCmHistogram": {
+    "600": 72,
+    "300": 516,
+    "900": 42,
+    "200": 506,
+    "100": 508,
+    "500": 68,
+    "400": 63
+   }
+  }
+ },
+ "weather": {
+  "file": "T_PrecinctMacro_Weather.png",
+  "size": [
+   1024,
+   1024
+  ],
+  "tileCm": [
+   12800.0,
+   12800.0
+  ],
+  "sha256": "26b48fbaaf3b0e23804adaa434d8784dcc84af3c5500d9c2dae6652d667fb617",
+  "mean": 0.9999922513961792,
+  "std": 0.05684836953878403,
+  "min": 0.7450980544090271,
+  "max": 1.1921569108963013
+ },
+ "layoutFromCloseTile": {
+  "bedsCm": [
+   0.0,
+   101.52,
+   193.56,
+   300.0
+  ],
+  "bedCheckOffsetCm": [
+   -0.44,
+   -0.29,
+   0.29
+  ],
+  "jointsCmPerCourse": [
+   [
+    62.48
+   ],
+   [
+    7.62,
+    163.11
+   ],
+   [
+    80.49,
+    220.97
+   ]
+  ],
+  "blocksPerCourse": [
+   1,
+   2,
+   2
+  ],
+  "heightSha256": "6985d8a6d3a594ae213f55b43eae91c34ba651e3671dbb25eea0722960106dbd",
+  "sourceCmPerPx": 0.146484375
+ },
+ "closeTileMeanLinearRgb": [
+  0.5375704765319824,
+  0.4806327223777771,
+  0.4110296666622162
+ ],
+ "generationSeconds": 45.5,
+ "variant": "V5"
+}

@@ -20,6 +20,11 @@ WHAT THIS DOES
                         M_PBR_Tiled, MI_HerodianV4_* and every other asset are byte-identical (whole Content tree
                         hashed before and after; allow-list = the instance + the new MacroV1 folder).
   -PMVerify=<receipt>   fresh-process readback of the apply (and, with -PMVerifyMaps, both maps' decal flags).
+  -PMRetone=<variant> -PMFarStrength=<v> [-PMCloseFadeFar=<v>]
+                        import T_PrecinctMacro_Tone<variant> to a fresh name (never_stream, like V2/V3), point
+                        MacroTone at it, set MacroFarStrength (and CloseFadeFarStrength when given). Works on any
+                        macro master (V1/V2/V3). Every other parameter is read back unchanged or the run fails.
+                        -PMVerify=<retone receipt> is the fresh-process reopen for it (cp20).
   -PMRevert=<receipt>   restore MI_PrecinctPlaza_Ashlar's checkpointed bytes (parent back to MI_HerodianV4_Ashlar).
                         The MacroV1 assets stay on disk, unreferenced.
   -PMDecalHide=<Candidate48|Main50>     set bHidden on SURFACEWEAR_Wear_Soot_GoldenAltar_Ceiling, save, re-read.
@@ -714,6 +719,26 @@ class Run:
         v = self.instance_values(inst)
         r['instance'] = v
         r['uassetSha256'] = sha(disk(INSTANCE))
+        if prior.get('mode') == 'retone':
+            # cp20: fresh-process reopen of a retone - every parameter must equal what the retone read back
+            want = prior['instanceAfter']
+
+            def same2(a, b):
+                if a is None or b is None:
+                    return a is None and b is None
+                return abs(a - b) <= 1e-5
+            r['uassetMatchesApply'] = r['uassetSha256'] == prior.get('instanceUassetSha256')
+            r['parentUnchanged'] = v['parent'] == want['parent']
+            r['texturesEqual'] = v['textures'] == want['textures']
+            r['scalarsMismatch'] = [k for k in want['scalars'] if not same2(want['scalars'][k], v['scalars'].get(k))]
+            t = u.load_asset(prior['texture']['asset'])
+            r['toneTexture'] = self.texture_values(t)
+            r['toneNeverStream'] = bool(t.get_editor_property('never_stream'))
+            r['usage'] = {n: v[n] for n in ('MATUSAGE_NANITE', 'MATUSAGE_INSTANCED_STATIC_MESHES') if n in v}
+            ok = (r['uassetMatchesApply'] and r['parentUnchanged'] and r['texturesEqual'] and not r['scalarsMismatch']
+                  and r['toneNeverStream'] and all(x.get('has') for x in r['usage'].values()) and len(r['usage']) == 2)
+            r['status'] = 'verified' if ok else 'verify_mismatch'
+            return
         r['uassetMatchesApply'] = r['uassetSha256'] == prior.get('instanceUassetSha256')
         r['parityEqualToBefore'] = self.parity_view(v) == prior['parity']['before']
         master = u.load_asset(FOLDER + '/' + MASTER_NAME)
@@ -756,12 +781,13 @@ class Run:
         r['status'] = 'reverted'
 
     # ------------------------------------------------------------------ retone: swap the tone map, tune far strength
-    def do_retone(self, variant, far_strength):
+    def do_retone(self, variant, far_strength, close_far=None):
         """ASSET-ONLY. Imports T_PrecinctMacro_Tone<variant> to a fresh name, points MI_PrecinctPlaza_Ashlar's
         MacroTone at it and sets MacroFarStrength. Same guard as -PMApply; -PMRevert=<this receipt> restores the
         instance bytes from before THIS step (i.e. back to the previous tone map, still on the macro master)."""
         u, ml, r = self.u, self.ml, self.r
-        master_path = FOLDER + '/' + MASTER_NAME
+        # cp20: the instance now sits on the V3 band-pass master; any macro master carries MacroTone/MacroFarStrength
+        macro_masters = [FOLDER + '/' + n for n in (MASTER_NAME, MASTER_V2_NAME, MASTER_V3_NAME)]
         man = json.loads((SRC / ('manifest-%s.json' % variant)).read_text(encoding='utf-8'))
         tone_file = SRC / man['tone']['file']
         if sha(tone_file) != man['tone']['sha256']:
@@ -779,7 +805,7 @@ class Run:
         inst = u.load_asset(INSTANCE)
         pre = self.instance_values(inst)
         r['instanceBefore'] = pre
-        if pre['parent'] != master_path:
+        if pre['parent'] not in macro_masters:
             raise RuntimeError('%s parent is %s; run -PMApply first' % (INSTANCE, pre['parent']))
         cp = CHECKPOINT_ROOT / ('PrecinctMacro-retone%s-%s' % (variant, self.stamp))
         cp.mkdir(parents=True, exist_ok=False)
@@ -808,12 +834,24 @@ class Run:
         t.set_editor_property('address_y', u.TextureAddress.TA_WRAP)
         if not self.assets.save_loaded_asset(t, only_if_is_dirty=False):
             raise RuntimeError('save failed for ' + path)
+        # same streaming policy as the V2/V3 apply: world-position UVs give the streamer no UV density
+        t.set_editor_property('never_stream', True)
+        if not self.assets.save_loaded_asset(t, only_if_is_dirty=False):
+            raise RuntimeError('save failed for ' + path + ' (never_stream)')
+        r['textureNeverStream'] = bool(t.get_editor_property('never_stream'))
+        if not r['textureNeverStream']:
+            raise RuntimeError('never_stream did not read back on ' + path)
         rb = self.texture_values(t)
         if rb.get('size') != man['tone']['size'] or rb['srgb'] is not False:
             raise RuntimeError('%s read back %s' % (path, rb))
         r['texture'] = {'asset': path, 'readback': rb, 'uassetSha256': sha(disk(path))}
         ml.set_material_instance_texture_parameter_value(inst, 'MacroTone', t)
         ml.set_material_instance_scalar_parameter_value(inst, 'MacroFarStrength', float(far_strength))
+        r['closeFadeFarStrength'] = close_far
+        if close_far is not None:
+            if 'CloseFadeFarStrength' not in pre['scalars'] or pre['scalars']['CloseFadeFarStrength'] is None:
+                raise RuntimeError('-PMCloseFadeFar given but the parent has no CloseFadeFarStrength (needs the V2/V3 master)')
+            ml.set_material_instance_scalar_parameter_value(inst, 'CloseFadeFarStrength', float(close_far))
         for n in ('MATUSAGE_NANITE', 'MATUSAGE_INSTANCED_STATIC_MESHES'):
             ml.set_material_usage_override(inst, getattr(u.MaterialUsage, n), True, True)
         ml.update_material_instance(inst)
@@ -824,6 +862,22 @@ class Run:
         r['parity'] = {'equal': self.parity_view(pre) == self.parity_view(post)}
         if not r['parity']['equal']:
             raise RuntimeError('close-range parameters changed')
+        if post['parent'] != pre['parent']:
+            raise RuntimeError('parent changed %s -> %s' % (pre['parent'], post['parent']))
+        def same(a, b):
+            if a is None or b is None:
+                return a is None and b is None
+            return abs(a - b) <= 1e-5
+        skip = {'MacroFarStrength'} | ({'CloseFadeFarStrength'} if close_far is not None else set())
+        if close_far is not None and not same(post['scalars'].get('CloseFadeFarStrength'), close_far):
+            raise RuntimeError('CloseFadeFarStrength read back %s, want %s' % (post['scalars'].get('CloseFadeFarStrength'), close_far))
+        others = {'scalars': [k for k in pre['scalars']
+                              if k not in skip and not same(pre['scalars'][k], post['scalars'].get(k))],
+                  'textures': [k for k in pre['textures']
+                               if k != 'MacroTone' and pre['textures'][k] != post['textures'].get(k)]}
+        r['otherParamsChanged'] = others
+        if others['scalars'] or others['textures']:
+            raise RuntimeError('retone changed other parameters: %s' % others)
         if post['textures']['MacroTone'] != path or abs(post['scalars']['MacroFarStrength'] - far_strength) > 1e-4:
             raise RuntimeError('retone readback %s / %s' % (post['textures']['MacroTone'], post['scalars']['MacroFarStrength']))
         for n in ('MATUSAGE_NANITE', 'MATUSAGE_INSTANCED_STATIC_MESHES'):
@@ -937,6 +991,7 @@ def main():
     restore_m = re.search(r'-PMDecalRestore=([A-Za-z0-9]+)', cmd)
     retone_m = re.search(r'-PMRetone=([A-Za-z0-9]+)', cmd)
     far_m = re.search(r'-PMFarStrength=([0-9]+(?:\.[0-9]+)?)', cmd)
+    close_m = re.search(r'-PMCloseFadeFar=([0-9]+(?:\.[0-9]+)?)', cmd)   # cp20: optional, retone only
     modes = [n for n, h in (('apply', apply_m), ('applyv2', v2_m), ('applyv3', v3_m), ('verify', verify_m), ('revert', revert_m),
                             ('decalhide', hide_m), ('decalrestore', restore_m), ('retone', retone_m)) if h]
     if len(modes) != 1:
@@ -967,7 +1022,10 @@ def main():
             m = revert_m
             run.do_revert(Path(m.group(1) or m.group(2)))
         elif mode == 'retone':
-            run.do_retone(target, far_strength)
+            close_far = float(close_m.group(1)) if close_m else None
+            if close_far is not None and not 0.0 <= close_far <= 1.0:
+                raise RuntimeError('CloseFadeFarStrength %s outside 0-1' % close_far)
+            run.do_retone(target, far_strength, close_far)
         else:
             run.do_decal(target, mode == 'decalhide')
     except Exception as err:

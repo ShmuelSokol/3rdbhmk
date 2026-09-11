@@ -76,8 +76,50 @@ if VARIANT == 'V2':
     PARAMS.update({'stoneToneSigma': 0.095, 'courseToneSigma': 0.075, 'courseRunLengths': [2, 3, 4, 5, 6, 8],
                    'rareDarkChance': 0.07, 'rareDark': 0.80, 'jointFactor': 0.55,
                    'marginFactor': {'bottom': 0.72, 'side': 0.88, 'top': 0.95}})
+# --variant V4 (cp20, 11 Sep, after the cp19b 60 m frame read as a toy-brick quilt). Measured on the rectified
+# cp19b P3 face vs the Western Wall photo (kotel-detail/PhotoSurfaceV1): per-stone log spread 1.4x the Kotel's,
+# but every stone a FLAT field (the close albedo is faded 85 % to its mean at 60 m) with a dark continuous outline
+# (bed-joint dip 0.235 vs the Kotel's 0.144 at the same 3.14 cm/px) and only two stone lengths. V4 = one quarry:
+# per-stone spread cut hard, no rare dark stones, near-neutral families, drafted margin drawn as a thin bevel
+# light/shadow instead of a dark band, joints soft, stone-interior mottle so a stone reads as stone not paint,
+# and a share of vertical joints MERGED (same tone, no drawn joint) so lengths run 1.4-9 m irregularly.
+# Built by build_tone_v4 (separate function; V1/V2 generation is byte-for-byte unchanged).
+elif VARIANT in ('V4', 'V5'):
+    SEED += 3            # V5 keeps V4's seed: same stones, merges, mottle and batches - only amplitudes differ
+    PARAMS.update({
+        'stoneToneSigma': 0.045, 'courseToneSigma': 0.016, 'courseRunLengths': [1, 2, 2, 3, 4],
+        'rareDarkChance': 0.0, 'rareDark': 1.0, 'rareLightChance': 0.025, 'rareLight': 1.05,
+        'families': {'base': [0.60, [1.0, 1.0, 1.0]],
+                     'honey': [0.25, [1.012, 1.0, 0.986]],
+                     'greygold': [0.15, [0.992, 0.997, 1.008]]},
+        'stoneGradient': 0.012,
+        'marginCm': {'left': 10.0, 'right': 10.0, 'bottom': 10.0, 'top': 13.0},
+        # the drafted margin itself is barely a tone change; its EDGE carries a thin bevel light/shadow
+        'marginFactor': {'bottom': 0.975, 'side': 0.985, 'top': 1.0},
+        'bevelCm': 2.2, 'bevelShadow': {'bottom': 0.86, 'side': 0.95}, 'bevelLight': {'top': 1.05},
+        'jointHalfWidthCm': 1.1, 'jointFactor': 0.80,
+        'mergeChance': 0.33, 'mergeMaxRun': 2, 'mergedJointFactor': 0.97,
+        'mottle': {'fineSigmaCm': 7.0, 'fineStd': 0.022, 'midSigmaCm': 28.0, 'midStd': 0.030},
+        'batch': {'sigmaCm': 450.0, 'std': 0.018},
+        'toneMeanTarget': 0.97,
+    })
 elif VARIANT != 'V1':
     raise SystemExit('unknown variant ' + VARIANT)
+# --variant V5 (cp20b): the cp20 frames showed V4 overshot - the quilt was gone but stones nearly vanished at 60 m
+# (bed-joint strip dip 0.042 vs the Western Wall's 0.144 at the same 3.14 cm/px; neighbour contrast 0.025 vs 0.045).
+# Dip is linear in (1 - line factor) x line width across cp19b and cp20 (5.5 cm -> 0.235, 1.0 cm -> 0.042), so the bed
+# line gets ~2.4 cm of darkness: joint 0.62, a 3 cm bevel shadow 0.72 under each boss, bottom margin 0.93, and a 1.08
+# bevel light along each boss top - the drafted margin as a light-and-shadow frame. Vertical joints stay softer (0.75):
+# the Western Wall reads in horizontal courses, and bed lines do not feed the horizontal repeat. Per-stone sigma 0.06
+# and stronger interior mottle so each block reads as a stone of one quarry, not as paint.
+if VARIANT == 'V5':
+    PARAMS.update({
+        'stoneToneSigma': 0.06, 'courseToneSigma': 0.02,
+        'marginFactor': {'bottom': 0.93, 'side': 0.96, 'top': 1.0},
+        'bevelCm': 3.0, 'bevelShadow': {'bottom': 0.72, 'side': 0.90}, 'bevelLight': {'top': 1.08},
+        'jointHalfWidthCm': 1.1, 'jointFactor': 0.62, 'vertJointFactor': 0.75,
+        'mottle': {'fineSigmaCm': 7.0, 'fineStd': 0.03, 'midSigmaCm': 28.0, 'midStd': 0.04},
+    })
 SUFFIX = '' if VARIANT == 'V1' else VARIANT
 
 
@@ -248,6 +290,158 @@ def build_tone(layout, rng):
     return img, course_tone, stats
 
 
+def periodic_noise_rect(rng, h, w, sigma_px_xy):
+    """Gaussian-filtered white noise on a periodic h x w domain, unit std. sigma in px (x, y)."""
+    n = rng.standard_normal((h, w))
+    fy = np.fft.fftfreq(h)[:, None]
+    fx = np.fft.fftfreq(w)[None, :]
+    sx, sy = sigma_px_xy
+    g = np.exp(-2.0 * (np.pi ** 2) * ((fx * sx) ** 2 + (fy * sy) ** 2))
+    out = np.real(np.fft.ifft2(np.fft.fft2(n) * g))
+    out -= out.mean()
+    return (out / (out.std() + 1e-12)).astype(np.float32)
+
+
+def build_tone_v4(layout, rng):
+    """V4 (cp20): one-quarry tone. Same joints as the close tile; small per-stone spread; merged joints; the drafted
+    margin as a thin bevel light/shadow; stone-interior mottle; broad quarry-batch patches. See the V4 note above."""
+    P_ = PARAMS
+    beds = layout['bedsCm']
+    joints = layout['jointsCmPerCourse']
+    ncourse = len(joints)
+    tiles_u = int(round(TONE_U_CM / TILE_CM))
+    tiles_v = int(round(TONE_V_CM / TILE_CM))
+    total_courses = tiles_v * ncourse
+    course_tone = np.zeros(total_courses)
+    i = 0
+    while i < total_courses:
+        run = int(rng.choice(P_['courseRunLengths']))
+        val = float(np.exp(rng.normal(0, P_['courseToneSigma'])))
+        for j in range(run):
+            if i + j < total_courses:
+                course_tone[i + j] = val * float(np.exp(rng.normal(0, 0.004)))
+        i += run
+    fam_names = list(P_['families'].keys())
+    fam_p = np.array([P_['families'][f][0] for f in fam_names])
+    fam_rgb = np.array([P_['families'][f][1] for f in fam_names])
+    stats = {'families': {f: 0 for f in fam_names}, 'rareLight': 0, 'stones': 0, 'mergedJoints': 0, 'joints': 0,
+             'lengthCmHistogram': {}}
+    tables, merged = [], []
+    for gc in range(total_courses):
+        k = gc % ncourse
+        js = joints[k]
+        ns = tiles_u * len(js)
+        tab = np.zeros((ns, 5))
+        mg = np.zeros(ns, dtype=bool)
+        run = 0
+        for s in range(ns):
+            stats['joints'] += 1
+            if s > 0 and run < P_['mergeMaxRun'] and rng.random() < P_['mergeChance']:
+                mg[s] = True
+                tab[s] = tab[s - 1]
+                run += 1
+                stats['mergedJoints'] += 1
+                continue
+            run = 0
+            v = float(np.exp(rng.normal(0, P_['stoneToneSigma'])))
+            if rng.random() < P_['rareLightChance']:
+                v *= P_['rareLight']
+                stats['rareLight'] += 1
+            fi = int(rng.choice(len(fam_names), p=fam_p))
+            stats['families'][fam_names[fi]] += 1
+            stats['stones'] += 1
+            tab[s, 0:3] = fam_rgb[fi] * v * course_tone[gc]
+            tab[s, 3] = 0.0                                           # no along-course gradient (merges stay seamless)
+            tab[s, 4] = rng.uniform(-1, 1) * P_['stoneGradient']
+        # stone lengths after merging, for the manifest (one course of the period)
+        widths = [((js[(s + 1) % len(js)] - js[s % len(js)]) % TILE_CM) or TILE_CM for s in range(ns)]
+        cur = None
+        for s in range(ns):
+            if mg[s] and cur is not None:
+                cur += widths[s]
+            else:
+                if cur is not None:
+                    key = str(int(round(cur / 100.0) * 100))
+                    stats['lengthCmHistogram'][key] = stats['lengthCmHistogram'].get(key, 0) + 1
+                cur = widths[s]
+        tables.append(tab)
+        merged.append(mg)
+
+    cmpp_u = TONE_U_CM / TONE_W
+    cmpp_v = TONE_V_CM / TONE_H
+    mo = P_['mottle']
+    mottle = np.exp(periodic_noise_rect(rng, TONE_H, TONE_W, (mo['fineSigmaCm'] / cmpp_u, mo['fineSigmaCm'] / cmpp_v)) * mo['fineStd']
+                    + periodic_noise_rect(rng, TONE_H, TONE_W, (mo['midSigmaCm'] / cmpp_u, mo['midSigmaCm'] / cmpp_v)) * mo['midStd'])
+    ba = P_['batch']
+    batch = np.exp(periodic_noise_rect(rng, TONE_H, TONE_W, (ba['sigmaCm'] / cmpp_u, ba['sigmaCm'] / cmpp_v)) * ba['std'])
+    x = (np.arange(TONE_W) + 0.5) * cmpp_u
+    img = np.zeros((TONE_H, TONE_W, 3), dtype=np.float32)
+    margin = P_['marginCm']
+    mf = P_['marginFactor']
+    bev = P_['bevelCm']
+    bs, bl = P_['bevelShadow'], P_['bevelLight']
+    jw = P_['jointHalfWidthCm']
+    ramp = lambda d, w: np.clip((d - w) / 1.9 + 1.0, 0.0, 1.0)
+    for row in range(TONE_H):
+        z = (row + 0.5) * cmpp_v
+        tile_row = int(z // TILE_CM)
+        zl = z - tile_row * TILE_CM
+        k = 0
+        while k < ncourse - 1 and zl >= beds[k + 1]:
+            k += 1
+        gc = tile_row * ncourse + k
+        js = np.array(joints[k])
+        nb = len(js)
+        cnt = np.zeros(TONE_W, dtype=np.int64)
+        prev = np.full(TONE_W, -1e9)
+        nxt = np.full(TONE_W, 1e9)
+        for jx in js:
+            q = np.floor((x - jx) / TILE_CM)
+            cnt += (q + 1).astype(np.int64)
+            last = jx + q * TILE_CM
+            prev = np.maximum(prev, last)
+            nxt = np.minimum(nxt, last + TILE_CM)
+        N = tiles_u * nb
+        sid = np.mod(cnt, N)
+        tab = tables[gc]
+        mL = merged[gc][sid]
+        mR = merged[gc][np.mod(sid + 1, N)]
+        dl = x - prev
+        dr = nxt - x
+        ldist = np.where(mL, 1e9, dl)
+        rdist = np.where(mR, 1e9, dr)
+        db = zl - beds[k]
+        dt = beds[k + 1] - zl
+        H = beds[k + 1] - beds[k]
+        grad = 1.0 + tab[sid, 4] * ((db / H) - 0.5) * 2.0
+        f = np.ones(TONE_W)
+        side = np.minimum(ramp(ldist, margin['left']), ramp(rdist, margin['right']))
+        f = f * (mf['side'] + (1 - mf['side']) * side)
+        if db < margin['bottom'] + 1.9:
+            f = f * (mf['bottom'] + (1 - mf['bottom']) * float(np.clip((db - margin['bottom']) / 1.9 + 1.0, 0, 1)))
+        if dt < margin['top'] + 1.9:
+            f = f * (mf['top'] + (1 - mf['top']) * float(np.clip((dt - margin['top']) / 1.9 + 1.0, 0, 1)))
+        # thin bevel line at the boss edge: light along the top, shadow along the bottom and the sides
+        on_boss_h = (ldist > margin['left']) & (rdist > margin['right'])
+        on_boss_v = (db > margin['bottom']) and (dt > margin['top'])
+        if margin['bottom'] <= db < margin['bottom'] + bev:
+            f = np.where(on_boss_h, f * bs['bottom'], f)
+        if margin['top'] <= dt < margin['top'] + bev:
+            f = np.where(on_boss_h, f * bl['top'], f)
+        if on_boss_v:
+            sb = ((ldist >= margin['left']) & (ldist < margin['left'] + bev)) | ((rdist >= margin['right']) & (rdist < margin['right'] + bev))
+            f = np.where(sb, f * bs['side'], f)
+        # joints: tight dry joints, soft; a merged joint is almost invisible
+        f = np.where(np.minimum(ldist, rdist) < jw, f * P_.get('vertJointFactor', P_['jointFactor']), f)
+        f = np.where((mL & (dl < jw)) | (mR & (dr < jw)), f * P_['mergedJointFactor'], f)
+        if min(db, dt) < jw:
+            f = f * P_['jointFactor']
+        img[row] = (tab[sid, 0:3] * (grad * f * mottle[row] * batch[row])[:, None]).astype(np.float32)
+    lum = img @ np.array([0.2126, 0.7152, 0.0722], dtype=np.float32)
+    img *= P_['toneMeanTarget'] / float(lum.mean())
+    return img, course_tone, stats
+
+
 def build_weather(rng):
     W = PARAMS['weather']
     n = WEATHER_N
@@ -284,7 +478,7 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     rng = np.random.default_rng(SEED)
     layout = measure_layout()
-    tone, course_tone, stats = build_tone(layout, rng)
+    tone, course_tone, stats = (build_tone_v4 if VARIANT in ('V4', 'V5') else build_tone)(layout, rng)
     tone_png = OUT / ('T_PrecinctMacro_Tone%s.png' % SUFFIX)
     weather_png = OUT / 'T_PrecinctMacro_Weather.png'
     Image.fromarray(encode(tone)).save(tone_png, optimize=True)

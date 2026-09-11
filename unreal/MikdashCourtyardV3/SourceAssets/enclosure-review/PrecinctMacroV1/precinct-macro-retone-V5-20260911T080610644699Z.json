@@ -1,0 +1,297 @@
+{
+ "status": "retoned_visual_acceptance_pending",
+ "mode": "retone",
+ "target": "V5",
+ "startedUtc": "2026-09-11T08:06:10.644699+00:00",
+ "script": "Scripts/release_precinct_macro.py",
+ "mapsSaved": [],
+ "commandLine": " C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject -run=pythonscript -script=C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_precinct_macro.py -PMRetone=V5 -PMFarStrength=1.0 -unattended -nullrhi -NoSplash -abslog=C:\\Mikdash\\Working-5.8\\cp20b-macro-retoneV5.log",
+ "variant": "V5",
+ "farStrength": 1.0,
+ "manifest": {
+  "seed": 17170914,
+  "params": {
+   "stoneToneSigma": 0.06,
+   "courseToneSigma": 0.02,
+   "courseRunLengths": [
+    1,
+    2,
+    2,
+    3,
+    4
+   ],
+   "rareDarkChance": 0.0,
+   "rareDark": 1.0,
+   "rareLightChance": 0.025,
+   "rareLight": 1.05,
+   "families": {
+    "base": [
+     0.6,
+     [
+      1.0,
+      1.0,
+      1.0
+     ]
+    ],
+    "honey": [
+     0.25,
+     [
+      1.012,
+      1.0,
+      0.986
+     ]
+    ],
+    "greygold": [
+     0.15,
+     [
+      0.992,
+      0.997,
+      1.008
+     ]
+    ]
+   },
+   "stoneGradient": 0.012,
+   "marginCm": {
+    "left": 10.0,
+    "right": 10.0,
+    "bottom": 10.0,
+    "top": 13.0
+   },
+   "marginFactor": {
+    "bottom": 0.93,
+    "side": 0.96,
+    "top": 1.0
+   },
+   "jointHalfWidthCm": 1.1,
+   "jointFactor": 0.62,
+   "toneMeanTarget": 0.97,
+   "weather": {
+    "broadSigmaCm": [
+     1900,
+     2500
+    ],
+    "broadStd": 0.04,
+    "patchSigmaCm": [
+     500,
+     750
+    ],
+    "patchStd": 0.045,
+    "streakSigmaCm": [
+     40,
+     1000
+    ],
+    "streakStd": 0.07,
+    "streakMaskSigmaCm": 380,
+    "meanTarget": 1.0
+   },
+   "bevelCm": 3.0,
+   "bevelShadow": {
+    "bottom": 0.72,
+    "side": 0.9
+   },
+   "bevelLight": {
+    "top": 1.08
+   },
+   "mergeChance": 0.33,
+   "mergeMaxRun": 2,
+   "mergedJointFactor": 0.97,
+   "mottle": {
+    "fineSigmaCm": 7.0,
+    "fineStd": 0.03,
+    "midSigmaCm": 28.0,
+    "midStd": 0.04
+   },
+   "batch": {
+    "sigmaCm": 450.0,
+    "std": 0.018
+   },
+   "vertJointFactor": 0.75
+  },
+  "tone": {
+   "sha256": "b5b070e5725a8233eebd4c4ec5601c0269ae0989add474e2042ce458db779e16",
+   "size": [
+    4096,
+    2048
+   ],
+   "tileCm": [
+    9600.0,
+    4800.0
+   ],
+   "at100cmPerPx": {
+    "std": 0.06080562248826027,
+    "rowProfileStd": 0.022396786138415337
+   }
+  }
+ },
+ "stage": "hash_after",
+ "namedProtectedBefore": {
+  "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled": "7a1aaf9db94dd1865ed1ca6ca94e7fc3439db0dd688e03cfedaa1da62da2fb34",
+  "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar": "3ba277f255c35c5f7a97cd2a2ceeea3b616d070565d1db8d0281f926ca822011",
+  "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar": "7e18229f8d3b383e0ea51b97c2bcb81673fb11af43092dfe5de158920c465508",
+  "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim": "5c6e70733ae7c4de67ffb141f8d1fae289ae521b26a5e773fa808922563f7ca3",
+  "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_AshlarWeathered": "044f2f058268aad46144e6b1d890bd2288f6c3beed2e6a18def9f5aa34bebfd3",
+  "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo": "c83a740cd7fc9f2d9708528e78cf617c02af0e3b5a4dd071dfc392bf2880b257",
+  "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced": "6ef5fd5af377224584af33096eec580c94b3e1997c48b2158503d73c74002013",
+  "/Game/MikdashV3/FX/Materials/MI_FX_Smoke_Ceiling": "c77cbfd1bce4174fedca7bc0d6d0d92537652b83422b56c97756e40a4cc26457",
+  "/Game/MikdashV3/SurfaceDetailV2/Materials/MI_Wear_Soot": "0d9a6b4593a24e5950f56f64c1341ebe459855ebf11a13fadbcab5a69fa89cf4"
+ },
+ "mapsBefore": {
+  "Candidate48": "56029573db519a1c2cd2268a9db71d04f9cf628d36be9b45539a54fe351a7cd1",
+  "Main50": "856980fbb11ba7336ab18a0fd91677c668fc1267164fe8feb9c9f6a7c7dd43ac"
+ },
+ "instanceBefore": {
+  "path": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+  "parent": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/M_PrecinctMacroV3_Triplanar",
+  "base": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/M_PrecinctMacroV3_Triplanar",
+  "textures": {
+   "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+   "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+   "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+   "MacroTone": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_ToneV4",
+   "MacroWeather": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_Weather"
+  },
+  "scalars": {
+   "TilingCm": 300.0,
+   "NormalStrength": 1.0,
+   "RoughnessScale": 1.0,
+   "Metallic": 0.0,
+   "AlbedoFlatness": 0.0,
+   "MacroTileUCm": 9600.0,
+   "MacroTileVCm": 4800.0,
+   "WeatherTileCm": 12800.0,
+   "MacroFadeStartCm": 1500.0,
+   "MacroFadeLengthCm": 4500.0,
+   "MacroNearStrength": 0.0,
+   "MacroFarStrength": 1.0,
+   "WeatherStrength": 1.0,
+   "CloseFadeStartCm": 2000.0,
+   "CloseFadeLengthCm": 4000.0,
+   "CloseFadeFarStrength": 1.0,
+   "CloseFadeOutStartCm": 40000.0,
+   "CloseFadeOutLengthCm": 50000.0
+  },
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "closeAlbedoMean": [
+   0.5302,
+   0.47318,
+   0.40348
+  ],
+  "MATUSAGE_NANITE": {
+   "has": true,
+   "override": true
+  },
+  "MATUSAGE_INSTANCED_STATIC_MESHES": {
+   "has": true,
+   "override": true
+  }
+ },
+ "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\PrecinctMacro-retoneV5-20260911T080610644699Z",
+ "checkpointed": {
+  "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar": {
+   "file": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\PrecinctMacro-retoneV5-20260911T080610644699Z\\MI_PrecinctPlaza_Ashlar.uasset",
+   "sha256": "1f968d5a4770d73c077fb9343fa93fca396ba6b7d312f60de42ecf5aceec436d"
+  }
+ },
+ "textureNeverStream": true,
+ "texture": {
+  "asset": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_ToneV5",
+  "readback": {
+   "path": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_ToneV5",
+   "srgb": false,
+   "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>",
+   "lodGroup": "<TextureGroup.TEXTUREGROUP_WORLD: 0>",
+   "addressX": "<TextureAddress.TA_WRAP: 0>",
+   "addressY": "<TextureAddress.TA_WRAP: 0>",
+   "size": [
+    4096,
+    2048
+   ]
+  },
+  "uassetSha256": "a63eb38bb0ca2a2469e6ffba87197953c67af079939cdbda5aa1a2c4903eeb24"
+ },
+ "closeFadeFarStrength": null,
+ "instanceAfter": {
+  "path": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+  "parent": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/M_PrecinctMacroV3_Triplanar",
+  "base": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/M_PrecinctMacroV3_Triplanar",
+  "textures": {
+   "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+   "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+   "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+   "MacroTone": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_ToneV5",
+   "MacroWeather": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_Weather"
+  },
+  "scalars": {
+   "TilingCm": 300.0,
+   "NormalStrength": 1.0,
+   "RoughnessScale": 1.0,
+   "Metallic": 0.0,
+   "AlbedoFlatness": 0.0,
+   "MacroTileUCm": 9600.0,
+   "MacroTileVCm": 4800.0,
+   "WeatherTileCm": 12800.0,
+   "MacroFadeStartCm": 1500.0,
+   "MacroFadeLengthCm": 4500.0,
+   "MacroNearStrength": 0.0,
+   "MacroFarStrength": 1.0,
+   "WeatherStrength": 1.0,
+   "CloseFadeStartCm": 2000.0,
+   "CloseFadeLengthCm": 4000.0,
+   "CloseFadeFarStrength": 1.0,
+   "CloseFadeOutStartCm": 40000.0,
+   "CloseFadeOutLengthCm": 50000.0
+  },
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "closeAlbedoMean": [
+   0.5302,
+   0.47318,
+   0.40348
+  ],
+  "MATUSAGE_NANITE": {
+   "has": true,
+   "override": true
+  },
+  "MATUSAGE_INSTANCED_STATIC_MESHES": {
+   "has": true,
+   "override": true
+  }
+ },
+ "parity": {
+  "equal": true
+ },
+ "otherParamsChanged": {
+  "scalars": [],
+  "textures": []
+ },
+ "instanceUassetSha256": "9185063f04e5c2600b0584d616ce903e112302e45a1c72311675341e1ac71520",
+ "contentDiff": [
+  "MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_ToneV5.uasset",
+  "MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar.uasset"
+ ],
+ "illegalChanges": [],
+ "namedProtectedAfter": {
+  "/Game/MikdashV3/Materials/PBR/M_PBR_Tiled": "7a1aaf9db94dd1865ed1ca6ca94e7fc3439db0dd688e03cfedaa1da62da2fb34",
+  "/Game/MikdashV3/Materials/PBR/Instances/MI_PBR_LimestoneAshlar": "3ba277f255c35c5f7a97cd2a2ceeea3b616d070565d1db8d0281f926ca822011",
+  "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Ashlar": "7e18229f8d3b383e0ea51b97c2bcb81673fb11af43092dfe5de158920c465508",
+  "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_Trim": "5c6e70733ae7c4de67ffb141f8d1fae289ae521b26a5e773fa808922563f7ca3",
+  "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/MI_HerodianV4_AshlarWeathered": "044f2f058268aad46144e6b1d890bd2288f6c3beed2e6a18def9f5aa34bebfd3",
+  "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo": "c83a740cd7fc9f2d9708528e78cf617c02af0e3b5a4dd071dfc392bf2880b257",
+  "/Game/MikdashV3/MaterialReview/KeruvFriezeV2/Materials/M_KeruvFriezeV2_Displaced": "6ef5fd5af377224584af33096eec580c94b3e1997c48b2158503d73c74002013",
+  "/Game/MikdashV3/FX/Materials/MI_FX_Smoke_Ceiling": "c77cbfd1bce4174fedca7bc0d6d0d92537652b83422b56c97756e40a4cc26457",
+  "/Game/MikdashV3/SurfaceDetailV2/Materials/MI_Wear_Soot": "0d9a6b4593a24e5950f56f64c1341ebe459855ebf11a13fadbcab5a69fa89cf4"
+ },
+ "mapsAfter": {
+  "Candidate48": "56029573db519a1c2cd2268a9db71d04f9cf628d36be9b45539a54fe351a7cd1",
+  "Main50": "856980fbb11ba7336ab18a0fd91677c668fc1267164fe8feb9c9f6a7c7dd43ac"
+ }
+}

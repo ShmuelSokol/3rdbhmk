@@ -409,6 +409,61 @@ int main()
         Check(LampBurning(L, Clamp.Where(), FirstLamp, 1.0e9), "and the lamp burns once the station is done");
     }
 
+    // ---- cp15: lamps stay lit while he is elsewhere; only the morning starts dark ----
+    {
+        Plan L; Refusal LWhy = Refusal::None;
+        Check(BuildMenorahSequence(Scenario::OrdinaryDay, A, Lamps, Dwell, L, LWhy), "carry plan builds");
+        Sequencer Carry;
+        Check(Carry.Configure(Scenario::OrdinaryDay, L, Speed, 90.0), "carry runner configures");
+        const double Kindle = 8.8, Clear = 2.8;
+        auto Lit = [&](int K) { return LampBurning(L, Carry.Where(), K, Kindle, Clear); };
+        auto Count = [&]() { int N = 0; for (int K = 0; K < 7; ++K) N += Lit(K) ? 1 : 0; return N; };
+        Check(Carry.Where().CompletedLoops == 0 && Count() == 0,
+              "morning: all seven dark before he tends any, even with a clearing moment");
+        std::size_t First = 0;
+        while (L.Items[First].Kind != StationKind::Lamp) ++First;
+        const int FirstLamp = L.Items[First].LampIndex;
+        const int NextLamp = (FirstLamp + 1) % 7;
+        int Guard = 0;
+        while (!(Carry.Where().Index == First && Carry.Where().State == Phase::Dwelling) && ++Guard < 100000) Carry.Tick(0.05, false);
+        Carry.Tick(Clear + 0.5, false);
+        Check(!Lit(FirstLamp), "morning: first lamp still dark between clearing and kindling");
+        Carry.Tick(Kindle - Clear, false);
+        Check(Lit(FirstLamp) && Count() == 1, "morning: first lamp lit at its kindling, the rest still dark");
+        while (!(L.Items[Carry.Where().Index].Kind == StationKind::WithdrawOutside && Carry.Where().State == Phase::Dwelling)
+               && ++Guard < 200000) Carry.Tick(0.05, false);
+        Check(Count() == 5, "morning: five lit while he waits outside (3:17), same as without a clearing moment");
+        while (Carry.Where().State != Phase::Waiting && ++Guard < 400000) Carry.Tick(0.05, false);
+        Check(Count() == 7, "all seven lit after he leaves");
+        Carry.Tick(45.0, false);
+        Check(Carry.Where().State == Phase::Waiting && Count() == 7, "still all seven lit halfway through the interval");
+        Carry.Tick(45.01, false);
+        Check(Carry.Where().CompletedLoops == 1 && Carry.Where().Index == 0 && Count() == 7,
+              "next sequence starts: every lamp still burning while he is away from them");
+        Check(!LampBurning(L, Carry.Where(), NextLamp, Kindle, -1.0),
+              "a negative clearing moment keeps the cp14 rule: dark from the sequence start");
+        Check(!LampBurning(L, Carry.Where(), NextLamp, Kindle, NaN), "a NaN clearing moment is the cp14 rule too");
+        Guard = 0;
+        bool AlwaysSeven = true;
+        while (!(Carry.Where().Index == First && Carry.Where().State == Phase::Dwelling) && ++Guard < 100000)
+        {
+            Carry.Tick(0.05, false);
+            if (Count() != 7) AlwaysSeven = false;
+        }
+        Check(Carry.Where().Index == First && Carry.Where().State == Phase::Dwelling && AlwaysSeven,
+              "all seven burn every frame until he is at the first lamp");
+        Carry.Tick(Clear - 0.1, false);
+        Check(Lit(FirstLamp), "a carried lamp burns until its clearing moment");
+        Carry.Tick(0.2, false);
+        Check(!Lit(FirstLamp) && Count() == 6, "it goes out at its clearing, and only it");
+        Check(LampBurning(L, Carry.Where(), FirstLamp, Kindle, Kindle + 50.0),
+              "a clearing moment past the kindling is clamped to it, so the lamp is never dark-and-carried at once");
+        Carry.Tick(Kindle - Clear, false);
+        Check(Lit(FirstLamp) && Count() == 7, "and is kindled again at its kindling moment");
+        Check(!LampBurning(L, Carry.Where(), 7, Kindle, Clear) && !LampBurning(L, Carry.Where(), -1, Kindle, Clear),
+              "no lamp outside 0..6 ever burns, carried or not");
+    }
+
     std::cout << "Service schedule: " << Passed
               << " checks passed (zones, scenario gate, paroches boundary, measured menorah anchors, "
                  "five-then-two lamp order, three-to-six-minute loop, blocked-leg hold, interval repeat)\n";

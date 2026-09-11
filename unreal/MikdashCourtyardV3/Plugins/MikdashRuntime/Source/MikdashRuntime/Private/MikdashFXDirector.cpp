@@ -4,6 +4,7 @@
 #include "PlumeMath.h"
 
 #include "Components/PointLightComponent.h"
+#include "Engine/Scene.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/StaticMesh.h"
@@ -31,6 +32,8 @@ static const FName P_Seed(TEXT("FXSeed"));       // 0..1 per-card UV offset
 static const FName P_Age(TEXT("FXAge"));         // 0..1 normalised age
 static const FName P_Flicker(TEXT("FXFlicker")); // -1..1 band-limited flicker
 static const FName P_VFlip(TEXT("VFlip"));       // 0 or 1
+/** Lamp cards only: overrides the instance's EmissiveScale (LampFlameEmissiveScale). */
+static const FName P_EmissiveScale(TEXT("EmissiveScale"));
 
 FORCEINLINE FVector ToFVector(const FVec3& V)
 {
@@ -337,10 +340,14 @@ void AMikdashFXDirector::BuildLights()
         Light->bUseTemperature = true;
         Light->SetTemperature(1850.0f);
         // A wick flame is a small light, not a lamp fixture. 260 cm of reach and a
-        // candela or so: enough to warm the gold beside it and to be seen doing it,
-        // not enough to light the hall.
+        // candela: enough to warm the gold beside it and to be seen doing it, not
+        // enough to light the hall. The units MUST be set: ULocalLightComponent's
+        // constructor leaves a NewObject light Unitless, where 1.4 is ~0.002 cd.
+        Light->IntensityUnits = ELightUnits::Candelas;
+        Light->bUseInverseSquaredFalloff = true;
+        Light->SourceRadius = LampLightSourceRadiusCm;
         Light->SetAttenuationRadius(260.0f);
-        Light->SetIntensity(1.4f);
+        Light->SetIntensity(LampLightCandela);
         Light->SetLightColor(FLinearColor(1.0f, 0.72f, 0.42f));
         Light->RegisterComponent();
         Light->SetWorldLocation(LampLightCm[K]);
@@ -555,6 +562,11 @@ TMap<FString, float> AMikdashFXDirector::GetNumericReadback() const
     Out.Add(TEXT("lampPuffingHz"), static_cast<float>(PuffingFrequencyHz(0.6)));
     Out.Add(TEXT("lampsFollowService"), bLampsFollowService ? 1.0f : 0.0f);
     Out.Add(TEXT("burningLamps"), static_cast<float>(BurningLampCount));
+    Out.Add(TEXT("lampLightCandela"), LampLightCandela);
+    Out.Add(TEXT("lampLightSourceRadiusCm"), LampLightSourceRadiusCm);
+    Out.Add(TEXT("lampFlameEmissiveScale"), LampFlameEmissiveScale);
+    Out.Add(TEXT("lampLightUnitsAreCandelas"),
+            (LampLights.Num() > 0 && LampLights[0] && LampLights[0]->IntensityUnits == ELightUnits::Candelas) ? 1.0f : 0.0f);
     for (int32 K = 0; K < LampFlameCm.Num(); ++K)
     {
         Out.Add(FString::Printf(TEXT("lamp%dY"), K), static_cast<float>(LampFlameCm[K].Y));
@@ -958,11 +970,12 @@ void AMikdashFXDirector::UpdateLamps(double Dt, const FVector& ViewCm, double Qu
             Card.Material->SetScalarParameterValue(P_Flicker, static_cast<float>(Flicker));
             Card.Material->SetScalarParameterValue(P_Fade, static_cast<float>(EffectsQuality));
             Card.Material->SetScalarParameterValue(P_Erosion, 0.22f);
+            Card.Material->SetScalarParameterValue(P_EmissiveScale, LampFlameEmissiveScale);
         }
         if (LampLights.IsValidIndex(K) && LampLights[K])
         {
             LampLights[K]->SetVisibility(true);
-            LampLights[K]->SetIntensity(static_cast<float>(1.4 * Mult * EffectsQuality));
+            LampLights[K]->SetIntensity(static_cast<float>(LampLightCandela * Mult * EffectsQuality));
         }
     }
     // Visibility is set per card above; HideFrom only clears pool entries past Count.

@@ -88,3 +88,76 @@ same lamp state. The lamp-state logic itself is proven only by the standalone te
   the Ulam, which is a cut.
 - **Seen in frames but not measured:** the static wall glow and the lid highlights do not change with the
   service at all.
+
+
+---
+
+# cp15 (2026-09-11): each lamp now visibly lights when he kindles it
+
+Packaged build `C:\Mikdash\Builds\Checkpoint-cp15-20260911T020944Z` (`checkpoint_playable`, Candidate48 cooked
+at `9cce6a5b…`). Movie `visual-review/movie-cp15-kohen-tend-close/` has 1246 frames at `-dumpmovie -benchmark
+-fps=10`, the same view as cp14 (`BugItGo -5255 60 1045 -6 108 0`). Not committed.
+
+## Result, as seen in frames
+
+- **The lamp-row diff now differs clearly from the control.** See `visual-review/cp15-lamp-row-diff.png`, with
+  numbers in the matching `.json` (made by `Scripts/lamp_row_diff.py`, same crop for both builds):
+
+  | Pair | cp14 mean \|d\| | cp14 changed | cp14 new bright px | cp15 mean \|d\| | cp15 changed | cp15 new bright px |
+  |---|---|---|---|---|---|---|
+  | control, 25 s vs 35 s | 3.14 | 0.10% | 0 | 3.16 | 0.26% | 0 |
+  | test, 35 s vs 115 s | 2.73 | 0.06% | 0 | **9.85** | **10.6%** | **209** |
+
+  At 35 s all seven lids are dull gold. At 115 s the five nearest the camera (the north end, where he starts)
+  burn: warm pools on lid and bowl, with a bright point at each crown. The two southern lamps are still dark
+  (Temidin 3:17).
+- **The kindling, 2 m away.**
+  - `visual-review/cp15-lamp1-2m-BEFORE-kindling-t44.0s.png`: his hand is at the nearest lamp, which is dark.
+  - `visual-review/cp15-lamp1-2m-AFTER-kindling-t48.0s.png`: the same lamp is burning after his hand has left.
+  - `visual-review/cp15-lamp1-kindling-sequence-crop.png` covers 38-52 s: dark to 44.0 s, a glow under his
+    fingertips at 44.5 s, lit at 45.0 s.
+  - The glow falls where the clip puts it: arrival about 36 s, plus 8.8 s.
+- **Limit, stated plainly:** at about 2.3 m and 1080p, the 3.2 x 7 cm flame card reads as a bright point at the
+  lid crown plus the warm pool from its light. No flame silhouette is resolved. A closer camera has not been
+  captured.
+
+## Why nothing lit before, and what changed
+
+1. **The director's lamp lights were ~0.002 cd, not 1.4 cd.** They are made by `NewObject<UPointLightComponent>`,
+   and the `ULocalLightComponent` constructor sets `IntensityUnits = Unitless`. Unitless to candela is
+   16/10000, so `SetIntensity(1.4)` was about 0.002 cd.
+   - They are now built in candelas at `LampLightCandela` = 1.0 cd, about a candle, which is what an olive-oil
+     wick gives. Each switches on with its own lamp's kindling.
+   - The source radius is 0.8 cm.
+   - The same Unitless bug also affects `AltarLight` (90 unitless is about 0.14 cd). It is recorded here and
+     NOT changed.
+2. **The flame cards did render. They were about three orders too dim.**
+   - `M_FX_Flame` is Surface, Additive, Unlit and two-sided, on `/Engine/BasicShapes/Plane`, which is not
+     Nanite. It needs no special usage flag.
+   - The packaged log (cp14 and cp15 alike) has no warning for any FX material. The only "Default Material
+     will be used" lines are the three `MI_SanctuaryV2_Gold*` MIs, which are missing the Nanite usage flag.
+     That is pre-existing, out of scope here, and needs its own look.
+   - `MI_FX_Flame_Lamp`'s EmissiveScale 9 amounts to about 9 cd/m². The director now writes
+     `LampFlameEmissiveScale` = 5000 per card, in the order of a small flame's luminance. That raises the
+     look only and adds no light.
+3. **The static 90 cd `RELEASE_SanctuaryV2_MenorahLamps` is disabled on both maps** (intensity 0, visible False;
+   the actor is kept). `Scripts/release_lamp_light.py`, full guard pattern:
+   - Candidate48 apply: `3fb7b767 → 7118afac`.
+   - Candidate48 revert: `→ 0988b1c1`, read back as 90 cd and visible. The bytes are not identical to the
+     original, but the properties are restored.
+   - Candidate48 re-apply: `→ 9cce6a5b`, which is the cooked map.
+   - Main50 apply: `a34f7286 → e36210c6`.
+   - Every run checkpointed to `ReviewCheckpoints\LampLight-*`, reopened, and read back numerically.
+   - Only the light actor changed. The other map and all protected assets were unchanged.
+   - The first attempt refused before saving, because the scene guard counted the light itself. The guard
+     now allows exactly that actor.
+4. **Lit state while he is elsewhere** (`LampBurning(..., ClearAtSeconds)`, `ClearAtClipSeconds` 1.6).
+   - The first sequence is the morning: every lamp stays dark until his own kindling.
+   - All seven burn after he leaves and through the 90 s interval.
+   - In later sequences a lamp stays lit until the clearing moment of its own station (2.8 s in), then is
+     kindled again at 8.8 s. That removes the cp14 cut, where all seven went out while he stood in the Ulam.
+   - The 115 s movie does not reach a second sequence. That rule is proven only by the test.
+5. **Tests:**
+   - `ServiceScheduleMathTest` passes 100,347 checks, including the new "cp15" block.
+   - `Scripts/verify.py` is green (7/7, math 32/32).
+   - UBT editor and game builds succeeded.

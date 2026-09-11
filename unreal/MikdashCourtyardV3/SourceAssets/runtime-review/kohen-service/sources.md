@@ -224,9 +224,21 @@ flames to lamps by POSITION, because on Candidate48 the director's flame array r
 south to north while the service counts north to south. The kindling moment is
 `TendClipStartSeconds` 1.2 + `KindleAtClipSeconds` 7.6 = 8.8 s into the 14 s station
 (D), which is when the authored hand (`Scripts/pilgrim_tend_v1.py`) is at the wick.
-Not modelled: the western lamp's own law (every lamp is treated as found spent). The
-lamps also go dark at the start of the next sequence, which happens while he stands
-outside in the Ulam; that is a cut (D). Pinned by `ServiceScheduleMathTest.cpp`.
+Not modelled: the western lamp's own law (every lamp is treated as found spent).
+**cp15 amendment (D), 2026-09-11:** the lamps no longer all go out at the start of the
+next sequence while he stands in the Ulam. Only the FIRST sequence is the morning, with
+every lamp dark until his own kindling. In every later sequence a lamp that is still
+burning stays lit while he is elsewhere and goes out at the CLEARING moment of its own
+station (`TendClipStartSeconds` 1.2 + `ClearAtClipSeconds` 1.6 = 2.8 s, when the
+authored hand reaches the bowl to remove the spent wick), then is kindled again at 8.8 s.
+`LampBurning(..., ClearAtSeconds)`; a negative value keeps the cp14 rule. Pinned by
+`ServiceScheduleMathTest.cpp` (the "cp15" block).
+**cp15 light:** each lamp's light is the director's own point light, switched on at its
+lamp's kindling, at 1 cd (`LampLightCandela`, about a candle; the cp14 value was built
+UNITLESS and was ~0.002 cd). The static 90 cd `RELEASE_SanctuaryV2_MenorahLamps`
+"cheat" that lit the lids from frame 0 is disabled on both maps (`Scripts/release_lamp_light.py`).
+The flame card's emissive is raised to flame luminance (`LampFlameEmissiveScale` 5000)
+so the flame reads; that adds no light.
 Off switches: `bLampsDarkUntilKindled` on the service actor and `bLampsFollowService`
 on the director. With either off, or with no running sequence in the map, all seven
 lamps burn as before.

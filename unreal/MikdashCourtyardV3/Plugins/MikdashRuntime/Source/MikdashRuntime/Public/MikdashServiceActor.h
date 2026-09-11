@@ -199,6 +199,11 @@ public:
      * kindled. Must equal pilgrim_tend_v1.KINDLE_AT for the authored clip. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service|Pacing", meta = (ClampMin = "0.0"))
     float KindleAtClipSeconds = 7.6f;
+    /** Moment inside TendAnimation at which the hand reaches the bowl and starts clearing
+     * the spent wick (pilgrim_tend_v1: 1.6 s). From the second sequence on, a lamp still
+     * burning from the previous one goes out here, not at the sequence start. Pacing (D). */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service|Pacing", meta = (ClampMin = "0.0"))
+    float ClearAtClipSeconds = 1.6f;
     /** While the sequence runs, each lamp is dark until the kindling moment of its own
      * station and burns from then until the next sequence starts (ServiceScheduleMath
      * LampBurning). AMikdashFXDirector reads it through IsLampBurning(). Off: the lamps
@@ -300,6 +305,10 @@ public:
     /** Seconds into a lamp station's dwell at which that lamp is kindled. */
     UFUNCTION(BlueprintPure, Category = "Kohen service")
     float GetKindleSecondsInStation() const;
+    /** Seconds into a lamp station's dwell at which a lamp carried lit from the previous
+     * sequence is put out for clearing. Never later than the kindling moment. */
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    float GetClearSecondsInStation() const;
     /** True while the tending clip is playing at a lamp. */
     UFUNCTION(BlueprintPure, Category = "Kohen service")
     bool IsTendingNow() const { float Unused = 0.f; return TendingClipOffset(Unused); }

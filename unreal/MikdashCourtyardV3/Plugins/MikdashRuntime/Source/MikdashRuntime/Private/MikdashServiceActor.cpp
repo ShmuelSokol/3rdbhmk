@@ -577,10 +577,19 @@ float AMikdashServiceActor::GetKindleSecondsInStation() const
         : PerLampSeconds * 0.6f;
 }
 
+float AMikdashServiceActor::GetClearSecondsInStation() const
+{
+    const float Clear = IsValid(TendAnimation)
+        ? TendClipStartSeconds + FMath::Min(ClearAtClipSeconds, TendAnimation->GetPlayLength())
+        : PerLampSeconds * 0.2f;
+    return FMath::Min(Clear, GetKindleSecondsInStation());
+}
+
 bool AMikdashServiceActor::IsLampBurning(int32 LampIndex) const
 {
     if (!IsControllingLamps()) return true;
-    return MikdashService::LampBurning(Runner.Sequence(), Runner.Where(), LampIndex, GetKindleSecondsInStation());
+    return MikdashService::LampBurning(Runner.Sequence(), Runner.Where(), LampIndex, GetKindleSecondsInStation(),
+                                       GetClearSecondsInStation());
 }
 
 FVector AMikdashServiceActor::GetServiceLampLocation(int32 LampIndex) const

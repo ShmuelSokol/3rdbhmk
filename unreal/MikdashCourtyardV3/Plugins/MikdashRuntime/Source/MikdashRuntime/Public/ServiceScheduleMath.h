@@ -893,21 +893,32 @@ private:
 //     modelled: every lamp is treated as found spent.
 //  D  KindleAtSeconds is a pacing choice inside the station's dwell. It is
 //     clamped into the dwell, so a short dwell still leaves the lamp lit.
+//  D  ClearAtSeconds (cp15) keeps the lamps lit while he is NOT at them. The FIRST
+//     sequence is the morning: every lamp is dark until his own kindling, as
+//     above. In every LATER sequence a lamp is still burning from the one before,
+//     so it stays lit while he is elsewhere and goes out only at the clearing
+//     moment of its own station (he removes the spent wick), to be kindled again
+//     at KindleAtSeconds. Without this the loop restart put all seven out at once
+//     while he stood in the Ulam. A negative or non-finite ClearAtSeconds keeps the
+//     cp14 rule (dark from every sequence start). Clamped to [0, KindleAt].
 // ---------------------------------------------------------------------------
-inline bool LampBurning(const Plan& P, const Progress& Where, int Lamp, double KindleAtSeconds)
+inline bool LampBurning(const Plan& P, const Progress& Where, int Lamp, double KindleAtSeconds,
+                        double ClearAtSeconds = -1.0)
 {
     if (Lamp < 0 || static_cast<std::size_t>(Lamp) >= LampCount || P.Count == 0) return false;
     if (Where.State == Phase::Waiting || Where.State == Phase::Complete) return true;
+    const bool Carried = Where.CompletedLoops > 0 && std::isfinite(ClearAtSeconds) && ClearAtSeconds >= 0.0;
     for (std::size_t I = 0; I < P.Count; ++I)
     {
         const Station& S = P.Items[I];
         if (S.Kind != StationKind::Lamp || S.LampIndex != Lamp) continue;
         if (I < Where.Index) return true;
-        if (I > Where.Index || Where.State != Phase::Dwelling) return false;
+        if (I > Where.Index || Where.State != Phase::Dwelling) return Carried;
         double At = std::isfinite(KindleAtSeconds) ? KindleAtSeconds : 0.0;
         if (At > S.DwellSeconds) At = S.DwellSeconds;
         if (At < 0.0) At = 0.0;
-        return Where.InPhaseSeconds >= At;
+        if (Where.InPhaseSeconds >= At) return true;
+        return Carried && Where.InPhaseSeconds < (ClearAtSeconds < At ? ClearAtSeconds : At);
     }
     return false;
 }

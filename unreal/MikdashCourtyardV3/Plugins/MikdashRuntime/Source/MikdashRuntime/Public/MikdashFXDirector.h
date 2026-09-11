@@ -243,6 +243,27 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mikdash FX|Lamps", meta = (ClampMin = "0.0"))
     float LampKindleRampSeconds = 0.8f;
 
+    /** Luminous intensity of ONE lamp's light at full flame, in CANDELAS. An olive-oil
+     *  wick is about a candle, and a candle is about 1 cd, so the default is 1.0. It will
+     *  not light the hall against the 11,000 cd doorway fill and is not meant to: at the
+     *  3-5 cm from the wick to its own lid it gives several hundred lux, a warm local pool
+     *  on the gold. (Through cp14 these lights were built UNITLESS - the ULocalLightComponent
+     *  constructor default - so the old SetIntensity(1.4) was about 0.002 cd.) */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mikdash FX|Lamps", meta = (ClampMin = "0.0"))
+    float LampLightCandela = 1.0f;
+
+    /** Radius of the light's emitting sphere: about the width of a wick flame. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mikdash FX|Lamps", meta = (ClampMin = "0.0"))
+    float LampLightSourceRadiusCm = 0.8f;
+
+    /** EmissiveScale written onto each lamp flame card, overriding MI_FX_Flame_Lamp's 9.
+     *  Emissive is scene luminance (cd/m2); a small flame's is of the order of 5,000-10,000
+     *  cd/m2, so 9 was about three orders too dark to register against gold lit by daylight
+     *  through the doors. This scales the flame's LOOK for visibility and adds no light:
+     *  the light stays LampLightCandela. Design value inside the physical range. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mikdash FX|Lamps", meta = (ClampMin = "0.0"))
+    float LampFlameEmissiveScale = 5000.0f;
+
     /** How many of the lamp flames are drawn this frame (0..7). */
     UFUNCTION(BlueprintPure, Category = "Mikdash FX|Lamps")
     int32 GetBurningLampCount() const { return BurningLampCount; }

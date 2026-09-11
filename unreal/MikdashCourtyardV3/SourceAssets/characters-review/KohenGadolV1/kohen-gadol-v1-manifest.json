@@ -1,0 +1,284 @@
+{
+  "generatedUtc": "2026-09-11T06:38:01Z",
+  "generator": "Scripts/create_kohen_gadol_v1.py",
+  "generatorSha256": "13ca2f6b0322d6ff9d41b9b4abc2ce2fa611b6a16e0789d61bcaf2b438047521",
+  "mesh": "SK_KohenGadol_V1",
+  "file": "meshes/SK_KohenGadol_V1.glb",
+  "sha256": "683354d4e8263fb9e10fa587564b841bebbf43417a230e99ac9083ac12e0ee38",
+  "skeleton": "C.skeleton() unchanged: import onto the EXISTING V3_Pilgrim_Man_Standard Skeleton",
+  "rigCompatibility": {
+    "compared": true,
+    "joints": 27,
+    "source": "SourceAssets\\characters-review\\PilgrimRigV2\\rig-definition.json",
+    "identical_rest_pose": false,
+    "movedJoints": [
+      {
+        "joint": "clavicle_r",
+        "v2_cm": [
+          -10,
+          0,
+          143
+        ],
+        "v3_cm": [
+          -11,
+          0,
+          145
+        ],
+        "reason": "shoulder shelf raised toward the acromion height"
+      },
+      {
+        "joint": "upperarm_r",
+        "v2_cm": [
+          -20,
+          0,
+          143
+        ],
+        "v3_cm": [
+          -20.5,
+          0,
+          143.0
+        ],
+        "reason": "glenohumeral joint moved out to 0.1145 H"
+      },
+      {
+        "joint": "lowerarm_r",
+        "v2_cm": [
+          -33,
+          -0.5,
+          123
+        ],
+        "v3_cm": [
+          -35.559,
+          -0.5,
+          114.765
+        ],
+        "reason": "upper arm lengthened 23.9 -> 32.0 cm along the SAME A-pose direction"
+      },
+      {
+        "joint": "hand_r",
+        "v2_cm": [
+          -44,
+          -1,
+          98
+        ],
+        "v3_cm": [
+          -47.418,
+          -1.0,
+          92.529
+        ],
+        "reason": "wrist put at 0.485 H so the fingertips reach mid-thigh"
+      },
+      {
+        "joint": "ball_r",
+        "v2_cm": [
+          -8,
+          -9,
+          3
+        ],
+        "v3_cm": [
+          -8,
+          -11.5,
+          3
+        ],
+        "reason": "foot lengthened 19.2 -> 27.2 cm"
+      },
+      {
+        "joint": "clavicle_l",
+        "v2_cm": [
+          10,
+          0,
+          143
+        ],
+        "v3_cm": [
+          11,
+          0,
+          145
+        ],
+        "reason": "shoulder shelf raised toward the acromion height"
+      },
+      {
+        "joint": "upperarm_l",
+        "v2_cm": [
+          20,
+          0,
+          143
+        ],
+        "v3_cm": [
+          20.5,
+          0,
+          143.0
+        ],
+        "reason": "glenohumeral joint moved out to 0.1145 H"
+      },
+      {
+        "joint": "lowerarm_l",
+        "v2_cm": [
+          33,
+          -0.5,
+          123
+        ],
+        "v3_cm": [
+          35.559,
+          -0.5,
+          114.765
+        ],
+        "reason": "upper arm lengthened 23.9 -> 32.0 cm along the SAME A-pose direction"
+      },
+      {
+        "joint": "hand_l",
+        "v2_cm": [
+          44,
+          -1,
+          98
+        ],
+        "v3_cm": [
+          47.418,
+          -1.0,
+          92.529
+        ],
+        "reason": "wrist put at 0.485 H so the fingertips reach mid-thigh"
+      },
+      {
+        "joint": "ball_l",
+        "v2_cm": [
+          8,
+          -9,
+          3
+        ],
+        "v3_cm": [
+          8,
+          -11.5,
+          3
+        ],
+        "reason": "foot lengthened 19.2 -> 27.2 cm"
+      }
+    ],
+    "jointNamesHierarchyAndOrderIdentical": true,
+    "armAPoseDirectionDriftDeg": 0.12174,
+    "clipsAnimateTranslationOnlyOn": [
+      "pelvis"
+    ],
+    "existingClipsRemainValid": true,
+    "why": "Rotation curves are independent of bone length; the only translated track is pelvis, which did not move; no joint was renamed, reordered or re-aimed. A new Skeleton asset is still created on import because UE stores a reference pose per Skeleton - see the release spec."
+  },
+  "jointNames": [
+    "ball_l",
+    "ball_r",
+    "calf_l",
+    "calf_r",
+    "chest",
+    "clavicle_l",
+    "clavicle_r",
+    "foot_l",
+    "foot_r",
+    "hand_l",
+    "hand_r",
+    "head",
+    "lowerarm_l",
+    "lowerarm_r",
+    "mantle_back",
+    "mantle_front",
+    "neck_01",
+    "pelvis",
+    "root",
+    "skirt_l",
+    "skirt_r",
+    "spine_01",
+    "spine_02",
+    "thigh_l",
+    "thigh_r",
+    "upperarm_l",
+    "upperarm_r"
+  ],
+  "slots": {
+    "KG_Linen": {
+      "roughness": 0.9,
+      "metallic": 0.0,
+      "specular": 0.45
+    },
+    "KG_Meil": {
+      "roughness": 0.92,
+      "metallic": 0.0,
+      "specular": 0.4
+    },
+    "KG_Ephod": {
+      "roughness": 0.58,
+      "metallic": 0.28,
+      "specular": 0.5
+    },
+    "KG_Gold": {
+      "roughness": 0.3,
+      "metallic": 1.0,
+      "specular": 0.5
+    },
+    "KG_Stones": {
+      "roughness": 0.08,
+      "metallic": 0.0,
+      "specular": 0.9
+    },
+    "KG_Wool": {
+      "roughness": 0.9,
+      "metallic": 0.0,
+      "specular": 0.4
+    },
+    "KG_Skin": {
+      "roughness": 0.7,
+      "metallic": 0.0,
+      "specular": 0.45
+    },
+    "KG_Hair": {
+      "roughness": 0.88,
+      "metallic": 0.0,
+      "specular": 0.35
+    },
+    "KG_Eyes": {
+      "roughness": 0.3,
+      "metallic": 0.0,
+      "specular": 0.5
+    },
+    "KG_Iris": {
+      "roughness": 0.28,
+      "metallic": 0.0,
+      "specular": 0.5
+    }
+  },
+  "checks": {
+    "triangles": 83264,
+    "trianglesByMaterial": {
+      "KG_Linen": 31264,
+      "KG_Meil": 17628,
+      "KG_Gold": 7716,
+      "KG_Wool": 3876,
+      "KG_Ephod": 11056,
+      "KG_Stones": 1664,
+      "KG_Skin": 8180,
+      "KG_Eyes": 576,
+      "KG_Iris": 336,
+      "KG_Hair": 968
+    },
+    "budget": 90000,
+    "maxInfluencesSampled": 4,
+    "ketonetHemZcm": [
+      4.5,
+      7.6
+    ],
+    "meilHemZcm": [
+      18.0,
+      18.0
+    ],
+    "bells": 72,
+    "pomegranates": 72,
+    "choshenStones": 12,
+    "shohamStones": 2
+  },
+  "skinField": {
+    "bandHemCm": 6.0,
+    "bandThighCm": 14.0,
+    "followTopZ": 99.0,
+    "followFullZ": 74.0,
+    "kneeTopZ": 52.0,
+    "kneeBottomZ": 30.0,
+    "followMax": 1.0
+  },
+  "seconds": 3.6
+}

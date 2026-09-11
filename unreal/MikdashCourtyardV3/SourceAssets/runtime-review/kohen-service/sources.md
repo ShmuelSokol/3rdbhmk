@@ -251,8 +251,8 @@ Heikhal and the Ulam-to-altar area, `KET-DAILY-LOCATION`) should also apply to
 this figure's golden-altar station is unresolved and belongs to whoever owns
 the incense system.
 
-### SVC-R-GARMENTS — **R**, and currently **not depicted at all**
-See §5.
+### SVC-R-GARMENTS — **R**; depicted since 2026-09-11 (KG-V1)
+See §5 for the description and §8 for what the model takes from the book, from Rambam, and what is authored.
 
 ### SVC-D-PACING — **D**
 Every number: 14 s per lamp, 8 s in the Ulam, 4 s at the doorway, 6 s on the
@@ -263,9 +263,9 @@ commissioned 3–6 minutes. The Yom Kippur variant runs 346.7 s.
 
 ---
 
-## 5. Garments — described, not modelled
+## 5. Garments — described here; modelled since 2026-09-11 as KG-V1 (see §8)
 
-**There is currently no Kohen Gadol garment asset in the project.** The actor's
+**Until 2026-09-11 there was no Kohen Gadol garment asset in the project.** The actor's
 lookup tries `MI_Garment_KohenGadolGold` first, and when it is absent falls
 back to an existing pilgrim garment material and **says so in
 `GetBodyStatus()`**, in those words: *"this is a STAND-IN, not the eight golden
@@ -352,3 +352,55 @@ qualified person of the source hierarchy, the sacred-zone mapping onto this
 mesh, the lamp order, the garment reconstruction, and the Yom Kippur module —
 per the six review items already listed at the end of
 `Research/halacha-and-service.md`. This build does not discharge any of them.
+
+---
+
+## 8. KG-V1: the eight golden garments as modelled (added 2026-09-11)
+
+Mesh: `Scripts/create_kohen_gadol_v1.py` -> `SourceAssets/characters-review/KohenGadolV1/meshes/SK_KohenGadol_V1.glb`,
+one skinned body on the unchanged PilgrimRigV3 27-bone rig (plays the shipped Idle / WalkV2 / TendLamp clips).
+Engine: `Scripts/release_kohen_gadol_v1.py`. The 24 residents and `V3_Kohen_White` are untouched.
+
+### SVC-KG-GOLD-SET — H + book — which set he wears in this scene: the GOLDEN garments
+- **Book, PDF p. 350 (printed p. 245), figures 2 and 3:** figure 2 is captioned "Kohen Gadol wearing 8 golden
+  garments"; figure 3 is "Kohen Gadol on Yom Kippur with 4 white garments". The white set is the Yom Kippur set.
+- **Rambam, Klei HaMikdash 8:1-3** (read on Sefaria, English, 2026-09-11): three sets exist - the ordinary
+  kohen's four, the Kohen Gadol's eight golden, and the Kohen Gadol's four white, which are for Yom Kippur.
+- **Klei HaMikdash 5:11** (SVC-KG-IN-HEIKHAL above): he enters the Heikhal in the ephod.
+- The scene is the ordinary-day lamp service (`service_scenario` ORDINARY_DAY; the Yom Kippur flag is off),
+  so the model is the golden set. `release_kohen_gadol_v1.py` refuses to apply to any other scenario.
+- Not reopened in this pass: Mishnah Yoma 7:5 (eight garments in daily service). It is consistent with the
+  above, but it is not cited as checked.
+
+### What each element takes from where
+
+| element | from the BOOK (p. 350 fig. 2) | from RAMBAM (Klei HaMikdash) | AUTHORED (D) or open (R) |
+|---|---|---|---|
+| **Ketonet** | white, checkered, long sleeves, to just above the feet | 8:15 boxed weave; "until slightly above the heel"; sleeves to the wrist | D: 3.2 cm checker cell, linen tone, fold amplitude; hem 6 cm (4.5 behind, 7.6 in front) |
+| **Michnasayim** | labelled "under the garments" | 8:16 navel to knee | not modelled: never visible |
+| **Avnet** | labelled "under the garments" (the Kohen Gadol's, under the me'il) | 8:1 wool embroidery on the sash | not modelled: never visible. R (sources.md §5): its form is disputed |
+| **Me'il** | techelet blue, sleeveless, to the lower shin (~18 cm above the floor, measured off the figure) | 9:3 all techelet, no sleeves, woven neck opening; 9:4 72 gold bells + 72 pomegranates, alternating, on the hem | D: blue value (the book's rendered blue, one shade deeper); hem break. R: whether the me'il is closed or open at the sides (9:4 "36 per flap"); modelled closed, as the book draws it |
+| **Bells / pomegranates** | a small alternating band at the hem | 9:4 72 + 72, pomegranates of techelet, argaman, tola'at shani, closed | D: bell and pomegranate size (1.5 / 1.9 cm), three colour bands per pomegranate |
+| **Ephod** | red woven "ma'aseh choshev" behind and at the sides, from the belt to ~40 cm above the floor, open at the front; belt knotted at the front with two hanging ends | 9:5 28-ply thread with gold; 9:9 shoulder straps with the two shoham stones, six tribes each; 9:10 ephod behind, belt tied in front | **R: Rambam 9:9 says the ephod reaches "to the feet"; the book's figure ends it ~40 cm above the floor. The model follows the BOOK.** D: the woven pattern (a red ground with purple-blue motifs, after the book's rendered cloth, plus a fine gold sheen for 9:5) |
+| **Choshen** | square over the chest directly above the belt, 4 rows of 3 stones in gold, gold chains to the shoulders | 9:6 a zeret square (half an amah; 24 cm at 48 cm/amah - drawn 23 cm); 9:8-10 gold chains above, techelet cords below to the ephod | stone colours are SAMPLED off the book's figure (viewer's left to right, top first: dark garnet, green, rose / white, slate, ice / red, white, light blue / black, grey-blue, white). R: the modern identification of the stones (sources.md §5); the tribe engravings are not modelled |
+| **Shoham stones** | gold points at the shoulders | 9:9 on the shoulder straps, six names each | D: banded sardonyx look; R: identity of shoham; names not modelled |
+| **Mitznefet** | a large wound turban, rounded, a cord running up its front | 8:2 wound like a bandage; 8:17 sixteen amot | D: every dimension (about 27 cm across, top ~190 cm) and the wrap count |
+| **Tzitz** | a gold band on the forehead below the turban | 9:1 two fingerbreadths high, ear to ear, "kodesh la-Hashem" in one or two lines (both valid); 9:2 techelet cord tied at the nape | D: 3.8 cm high. **The inscription is NOT modelled** (below mesh resolution at 2 m). The cord up the turban's front follows the book's figure; Rambam names only the nape cord |
+| **Feet** | bare | (Biat HaMikdash: nothing between foot and floor - not reopened here) | - |
+| **Face, beard** | white full beard in the figure | - | D |
+
+### SVC-D-CLOTH-SKINNING — D — how the garments move, and why they no longer clip
+The stand-in robe followed `skirt_r/_l`, which the walk clip drives at 0.45 of the hip-ankle angle; against the
+72 cm stride a leg vertex sat up to **23.85 cm** outside it on the walk (every one of 288 samples clipped) and
+2.45 cm on the tend clip, measured off the SHIPPED clips by `Scripts/measure_kohen_garment_clearance.py`.
+KG-V1 skins every lower garment with one weight field over rest space: pelvis at the hip line, the same-side
+thigh by z 74, the calf below the knee and, below z 21, the same calf/foot split the shin itself uses; a
+left/right split band 14 cm wide at the thigh and **6 cm at the hem**. The hem band was CHOSEN BY MEASUREMENT:
+at the worst walk frames (the swing leg adducts past the stance shin) the leg sat 0.84 cm outside with a
+2.2 cm band, 0.25 with 3.6, 0.03 with 4.4 and 0 with 6.0. The outer layers take the weights of the ketonet
+point beneath them and share its ring heights and angles. The hem is open (a cap became a membrane between
+the legs). The stride and every clip are unchanged. Final numbers and frames:
+`SourceAssets/characters-review/KohenGadolV1/` and `SourceAssets/service-review/KOHEN-GADOL-GARMENTS-RECEIPT.md`.
+Measurement definition (v3): a leg vertex clips only if BOTH a closed-volume parity test and a signed-distance
+test call it outside the robe, above the local hem; on the stand-in the two agree to the millimetre.
+This is presentation, not a claim about how the garments hung.

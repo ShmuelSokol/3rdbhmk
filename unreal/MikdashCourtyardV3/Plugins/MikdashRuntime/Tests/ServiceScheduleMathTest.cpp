@@ -370,6 +370,45 @@ int main()
     Check(!Motor.AcknowledgeArrival(OldGeneration,true),"old loop token remains stale");
     Check(!Motor.TickExternal(NaN) && !Motor.TickExternal(-1),"invalid external dt refused");
 
+    // ---- lamps burn only from their own station's kindling moment --------
+    {
+        Plan L; Refusal LWhy = Refusal::None;
+        Check(BuildMenorahSequence(Scenario::OrdinaryDay, A, Lamps, Dwell, L, LWhy), "lamp-state plan builds");
+        Sequencer LampRun;
+        Check(LampRun.Configure(Scenario::OrdinaryDay, L, Speed, 90.0), "lamp-state runner configures");
+        const double Kindle = 8.8;
+        auto Burning = [&]() { int N = 0; for (int K = 0; K < 7; ++K) N += LampBurning(L, LampRun.Where(), K, Kindle) ? 1 : 0; return N; };
+        Check(Burning() == 0, "every lamp is dark as the sequence starts");
+        std::size_t First = 0;
+        while (L.Items[First].Kind != StationKind::Lamp) ++First;
+        const int FirstLamp = L.Items[First].LampIndex;
+        int Guard = 0;
+        while (!(LampRun.Where().Index == First && LampRun.Where().State == Phase::Dwelling) && ++Guard < 100000) LampRun.Tick(0.05, false);
+        Check(LampRun.Where().Index == First && LampRun.Where().State == Phase::Dwelling, "runner reaches the first lamp station");
+        Check(!LampBurning(L, LampRun.Where(), FirstLamp, Kindle), "the first lamp is still dark when he arrives at it");
+        LampRun.Tick(Kindle - 0.2, false);
+        Check(!LampBurning(L, LampRun.Where(), FirstLamp, Kindle), "still dark just before its kindling moment");
+        LampRun.Tick(0.3, false);
+        Check(LampBurning(L, LampRun.Where(), FirstLamp, Kindle) && Burning() == 1, "exactly the first lamp burns after its kindling moment");
+        while (!(L.Items[LampRun.Where().Index].Kind == StationKind::WithdrawOutside && LampRun.Where().State == Phase::Dwelling)
+               && ++Guard < 200000) LampRun.Tick(0.05, false);
+        Check(Burning() == 5, "five lamps burn while he waits outside, two are dark (Temidin uMusafin 3:17)");
+        while (LampRun.Where().State != Phase::Waiting && ++Guard < 400000) LampRun.Tick(0.05, false);
+        Check(Burning() == 7, "all seven burn once the sequence is finished");
+        LampRun.Tick(90.01, false);
+        Check(LampRun.Where().Index == 0 && Burning() == 0, "the next sequence starts with every lamp dark again");
+        Check(!LampBurning(L, LampRun.Where(), 7, 0.0) && !LampBurning(L, LampRun.Where(), -1, 0.0), "no lamp outside 0..6 ever burns");
+        Plan Empty;
+        Check(!LampBurning(Empty, LampRun.Where(), 0, 0.0), "an empty plan lights nothing");
+        Sequencer Clamp;
+        Check(Clamp.Configure(Scenario::OrdinaryDay, L, Speed, 90.0), "clamp runner configures");
+        Guard = 0;
+        while (!(Clamp.Where().Index == First && Clamp.Where().State == Phase::Dwelling) && ++Guard < 100000) Clamp.Tick(0.05, false);
+        Check(!LampBurning(L, Clamp.Where(), FirstLamp, 1.0e9), "a kindling moment beyond the dwell waits for the dwell to end");
+        Clamp.Tick(L.Items[First].DwellSeconds + 0.01, false);
+        Check(LampBurning(L, Clamp.Where(), FirstLamp, 1.0e9), "and the lamp burns once the station is done");
+    }
+
     std::cout << "Service schedule: " << Passed
               << " checks passed (zones, scenario gate, paroches boundary, measured menorah anchors, "
                  "five-then-two lamp order, three-to-six-minute loop, blocked-leg hold, interval repeat)\n";

@@ -138,6 +138,8 @@ bool AMikdashServiceActor::BuildSequence(FString& OutReason)
     if (!DecodeScene(Frame, A, Decoded, SceneGeometry))
     { OutReason = TEXT("Invalid service scene-frame/legacy anchor conversion."); return false; }
     A = Decoded;
+    DecodedAnchors = Decoded;
+    bAnchorsDecoded = true;
 
     LampSchedule Lamps;
     Lamps.PerLampSeconds = PerLampSeconds;
@@ -534,13 +536,58 @@ void AMikdashServiceActor::UpdateBodyAnimation(bool bMoving)
     // Authored bodies keep their own animation setup. Switch only on real movement,
     // so a held/paused body never walks in place and clips do not restart each tick.
     if (!bBodyWasSpawned || !IsValid(BodyMesh)) return;
-    UAnimSequence* Desired = bMoving && IsValid(WalkAnimation) ? WalkAnimation.Get() : IdleAnimation.Get();
+    // At a lamp, inside the tending window, the tending clip plays once from the offset
+    // the dwell clock says; otherwise walk or idle exactly as before.
+    float TendOffset = 0.f;
+    const bool bTend = !bMoving && TendingClipOffset(TendOffset);
+    UAnimSequence* Desired = bTend ? TendAnimation.Get()
+        : (bMoving && IsValid(WalkAnimation) ? WalkAnimation.Get() : IdleAnimation.Get());
     if (!IsValid(Desired) || Desired == PlayingBodyAnimation) return;
     if (!BodyMesh->GetSkeletalMeshAsset() || Desired->GetSkeleton() != BodyMesh->GetSkeletalMeshAsset()->GetSkeleton()) return;
     BodyMesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
     BodyMesh->SetAnimation(Desired);
-    BodyMesh->Play(true);
+    if (bTend) BodyMesh->SetPosition(TendOffset, false);
+    BodyMesh->Play(!bTend);
     PlayingBodyAnimation = Desired;
+}
+
+bool AMikdashServiceActor::TendingClipOffset(float& OutOffset) const
+{
+    if (!bActive || bPaused || !IsValid(TendAnimation) || !Runner.IsReady()) return false;
+    const Progress& Where = Runner.Where();
+    if (Where.State != Phase::Dwelling || Where.Index >= Runner.Sequence().Count) return false;
+    if (Runner.Sequence().Items[Where.Index].Kind != StationKind::Lamp) return false;
+    const double Offset = Where.InPhaseSeconds - TendClipStartSeconds;
+    if (Offset < 0.0 || Offset > TendAnimation->GetPlayLength()) return false;
+    OutOffset = static_cast<float>(Offset);
+    return true;
+}
+
+bool AMikdashServiceActor::IsControllingLamps() const
+{
+    return bLampsDarkUntilKindled && bActive && Runner.IsReady();
+}
+
+float AMikdashServiceActor::GetKindleSecondsInStation() const
+{
+    // With the clip, the lamp catches when the hand is at the wick. Without it, at the
+    // same authored fraction of the dwell, so the lamps still follow the service.
+    return IsValid(TendAnimation)
+        ? TendClipStartSeconds + FMath::Min(KindleAtClipSeconds, TendAnimation->GetPlayLength())
+        : PerLampSeconds * 0.6f;
+}
+
+bool AMikdashServiceActor::IsLampBurning(int32 LampIndex) const
+{
+    if (!IsControllingLamps()) return true;
+    return MikdashService::LampBurning(Runner.Sequence(), Runner.Where(), LampIndex, GetKindleSecondsInStation());
+}
+
+FVector AMikdashServiceActor::GetServiceLampLocation(int32 LampIndex) const
+{
+    if (!bAnchorsDecoded || LampIndex < 0 || LampIndex >= static_cast<int32>(MikdashService::LampCount))
+        return FVector::ZeroVector;
+    return ToUnreal(DecodedAnchors.LampAt(static_cast<std::size_t>(LampIndex)));
 }
 
 // ---------------------------------------------------------------------------

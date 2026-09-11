@@ -880,4 +880,36 @@ private:
     Refusal LastRefusal = Refusal::NotConfigured;
     std::size_t BadStation = 0;
 };
+// ---------------------------------------------------------------------------
+// Which lamps are burning, derived ONLY from where the runner is.
+//  H  Each lamp station is hatavah as the station's own action text states it:
+//     clear the spent wick and oil, set a fresh wick and oil, kindle
+//     (Temidin uMusafin 3:11-3:12, Rambam's reading; SVC-HATAVAH). So a lamp is
+//     dark from the start of a sequence until the kindling moment of its OWN
+//     station, and burns from then until the next sequence starts. Between the
+//     two groups five burn and two are dark (Temidin uMusafin 3:17).
+//  R  Which lamp is first is BuildMenorahSequence's placeholder order
+//     (SVC-R-ORDER), not a source. The western lamp's special law is not
+//     modelled: every lamp is treated as found spent.
+//  D  KindleAtSeconds is a pacing choice inside the station's dwell. It is
+//     clamped into the dwell, so a short dwell still leaves the lamp lit.
+// ---------------------------------------------------------------------------
+inline bool LampBurning(const Plan& P, const Progress& Where, int Lamp, double KindleAtSeconds)
+{
+    if (Lamp < 0 || static_cast<std::size_t>(Lamp) >= LampCount || P.Count == 0) return false;
+    if (Where.State == Phase::Waiting || Where.State == Phase::Complete) return true;
+    for (std::size_t I = 0; I < P.Count; ++I)
+    {
+        const Station& S = P.Items[I];
+        if (S.Kind != StationKind::Lamp || S.LampIndex != Lamp) continue;
+        if (I < Where.Index) return true;
+        if (I > Where.Index || Where.State != Phase::Dwelling) return false;
+        double At = std::isfinite(KindleAtSeconds) ? KindleAtSeconds : 0.0;
+        if (At > S.DwellSeconds) At = S.DwellSeconds;
+        if (At < 0.0) At = 0.0;
+        return Where.InPhaseSeconds >= At;
+    }
+    return false;
+}
+
 }

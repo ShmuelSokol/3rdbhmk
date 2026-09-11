@@ -184,6 +184,27 @@ public:
     TObjectPtr<UAnimSequence> IdleAnimation;
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service|Body")
     TObjectPtr<UAnimSequence> WalkAnimation;
+    /** Optional lamp-tending clip on the body's skeleton, played ONCE at every Lamp
+     * station: lean in, clear the spent wick, draw back, reach again with the fresh
+     * wick and oil, hold at the wick while it is kindled, straighten. Authored offline
+     * in Scripts/pilgrim_tend_v1.py. Empty: he stands in the idle pose, as before. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service|Body")
+    TObjectPtr<UAnimSequence> TendAnimation;
+    /** Seconds after arriving at a lamp station before the tending clip starts. The dwell
+     * turn toward the lamp runs at 90 deg/s, so the quarter turn after the sideways step
+     * along the stone is finished by 1 s. Pacing (D). */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service|Pacing", meta = (ClampMin = "0.0"))
+    float TendClipStartSeconds = 1.2f;
+    /** Moment inside TendAnimation at which the hand is at the wick and the lamp is
+     * kindled. Must equal pilgrim_tend_v1.KINDLE_AT for the authored clip. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service|Pacing", meta = (ClampMin = "0.0"))
+    float KindleAtClipSeconds = 7.6f;
+    /** While the sequence runs, each lamp is dark until the kindling moment of its own
+     * station and burns from then until the next sequence starts (ServiceScheduleMath
+     * LampBurning). AMikdashFXDirector reads it through IsLampBurning(). Off: the lamps
+     * burn throughout, as they did before. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service")
+    bool bLampsDarkUntilKindled = true;
     /** Physical visual scale/facing for the explicitly configured body, never amah-scaled. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Kohen service|Body")
     float ConfiguredBodyVisualScale = 1.0f;
@@ -266,6 +287,22 @@ public:
     int32 GetStationCount() const;
     UFUNCTION(BlueprintPure, Category = "Kohen service")
     AActor* GetServiceBody() const { return Body; }
+    /** True while a running sequence decides which lamps burn. */
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    bool IsControllingLamps() const;
+    /** Lamp 0 = northernmost .. 6 = southernmost, as ServiceScheduleMath counts them.
+     * Returns true (burning, as authored) whenever the sequence is not controlling them. */
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    bool IsLampBurning(int32 LampIndex) const;
+    /** Decoded world position of lamp k as the sequence faces it; zero before a sequence is built. */
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    FVector GetServiceLampLocation(int32 LampIndex) const;
+    /** Seconds into a lamp station's dwell at which that lamp is kindled. */
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    float GetKindleSecondsInStation() const;
+    /** True while the tending clip is playing at a lamp. */
+    UFUNCTION(BlueprintPure, Category = "Kohen service")
+    bool IsTendingNow() const { float Unused = 0.f; return TendingClipOffset(Unused); }
 
 private:
     bool BuildSequence(FString& OutReason);
@@ -281,6 +318,11 @@ private:
     bool MoveIsPermitted(const FVector& To, FString& OutReason) const;
     void PlaceBody(const FVector& Feet, const FVector& FaceTarget);
     void UpdateBodyAnimation(bool bMoving);
+    /** Seconds into TendAnimation this frame should show, if the figure is dwelling at a
+     * Lamp station inside the clip's window. */
+    bool TendingClipOffset(float& OutOffset) const;
+    MikdashService::Anchors DecodedAnchors;
+    bool bAnchorsDecoded = false;
     void TickGrounded(float DeltaSeconds);
     bool GroundedDestinationPermitted(const FVector& Feet) const;
     bool MotorSegmentPermitted(const FVector& From,const FVector& To) const;

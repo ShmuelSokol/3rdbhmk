@@ -231,6 +231,22 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mikdash FX|Ketores")
     FString ServiceIncenseCue = TEXT("golden altar for the incense");
 
+    /** Let AMikdashServiceActor decide which lamps burn while its sequence runs: a lamp
+     *  is dark until the kohen kindles it at its own station and then burns until the
+     *  next sequence (AMikdashServiceActor::IsLampBurning). Off, or with no running
+     *  sequence in the map, all seven burn as before. The coupling is read-only and on
+     *  this side, like the ketores cue: the service actor never calls this one. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mikdash FX|Lamps")
+    bool bLampsFollowService = true;
+
+    /** Seconds a newly kindled flame takes to grow from a spark to full wick size. Design. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mikdash FX|Lamps", meta = (ClampMin = "0.0"))
+    float LampKindleRampSeconds = 0.8f;
+
+    /** How many of the lamp flames are drawn this frame (0..7). */
+    UFUNCTION(BlueprintPure, Category = "Mikdash FX|Lamps")
+    int32 GetBurningLampCount() const { return BurningLampCount; }
+
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mikdash FX|Ketores", meta = (ClampMin = "0.0"))
     float KetoresEmissionSeconds = 20.0f;
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mikdash FX|Ketores", meta = (ClampMin = "0.0"))
@@ -365,6 +381,9 @@ private:
     double KetoresSeconds = 0.0;
 
     int32 LiveCardCount = 0;
+    /** 0 = dark, 1 = full flame, per entry of LampFlameCm; ramps up on kindling. */
+    TArray<float> LampKindleLevel;
+    int32 BurningLampCount = 7;
     float EstimatedOverdraw = 0.0f;
     FString Status;
 };

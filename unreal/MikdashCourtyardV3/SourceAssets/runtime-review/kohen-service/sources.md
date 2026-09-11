@@ -210,6 +210,27 @@ only on the GoldenAltar station and only while dwelling there, so the plume
 cannot start early or outlive the figure's presence. Pinned by
 `ServiceScheduleMathTest.cpp`; do not reword that station's text.
 
+### SVC-LAMP-KINDLE — H (order) / D (timing) — lamps dark until he kindles them (added 2026-09-11)
+Per SVC-HATAVAH and the lamp station's own action text, every lamp station is:
+clear the spent wick and oil, set a fresh wick and oil, kindle. Through cp12 all
+seven flames burned from BeginPlay, so nothing was kindled on screen.
+`MikdashService::LampBurning` (ServiceScheduleMath.h) now derives which lamps burn
+from the runner's position ONLY: a lamp is dark from the start of a sequence until
+the kindling moment of its own station, and burns from then until the next sequence
+starts; while he waits outside, five burn and two are dark (Temidin uMusafin 3:17).
+`AMikdashFXDirector` reads `AMikdashServiceActor::IsLampBurning` each frame. That
+is read-only and on the director's side, like the ketores cue above. It matches
+flames to lamps by POSITION, because on Candidate48 the director's flame array runs
+south to north while the service counts north to south. The kindling moment is
+`TendClipStartSeconds` 1.2 + `KindleAtClipSeconds` 7.6 = 8.8 s into the 14 s station
+(D), which is when the authored hand (`Scripts/pilgrim_tend_v1.py`) is at the wick.
+Not modelled: the western lamp's own law (every lamp is treated as found spent). The
+lamps also go dark at the start of the next sequence, which happens while he stands
+outside in the Ulam; that is a cut (D). Pinned by `ServiceScheduleMathTest.cpp`.
+Off switches: `bLampsDarkUntilKindled` on the service actor and `bLampsFollowService`
+on the director. With either off, or with no running sequence in the map, all seven
+lamps burn as before.
+
 ### SVC-R-WITHDRAWAL — **R**
 The 20-second pause outside between the two groups of lamps stands in for a
 service that happens elsewhere and is **not depicted**. Its action text says so

@@ -553,6 +553,8 @@ TMap<FString, float> AMikdashFXDirector::GetNumericReadback() const
                                + KetoresTiming.AccumulateSeconds + KetoresTiming.DissipateSeconds));
     Out.Add(TEXT("lampCount"), static_cast<float>(LampFlameCm.Num()));
     Out.Add(TEXT("lampPuffingHz"), static_cast<float>(PuffingFrequencyHz(0.6)));
+    Out.Add(TEXT("lampsFollowService"), bLampsFollowService ? 1.0f : 0.0f);
+    Out.Add(TEXT("burningLamps"), static_cast<float>(BurningLampCount));
     for (int32 K = 0; K < LampFlameCm.Num(); ++K)
     {
         Out.Add(FString::Printf(TEXT("lamp%dY"), K), static_cast<float>(LampFlameCm[K].Y));
@@ -903,23 +905,53 @@ void AMikdashFXDirector::UpdateLamps(double Dt, const FVector& ViewCm, double Qu
     // and a menorah with four lit lamps would be wrong in a way a frame rate does
     // not justify. They are switched off as a block when quality reaches zero.
     const bool bOn = Quality > 0.0 && EffectsQuality > 0.0;
-    LiveCardCount += bOn ? Count : 0;
+
+    // Which lamps burn: while the kohen's sequence runs it decides (dark until he kindles
+    // each one at its own station). Matched by POSITION, not index: this director's
+    // flames run south to north on Candidate48 while the service counts north to south.
+    AMikdashServiceActor* Service = bLampsFollowService ? ServiceActor.Get() : nullptr;
+    const bool bServiceLamps = Service && Service->IsControllingLamps();
+    if (LampKindleLevel.Num() != LampFlameCm.Num()) { LampKindleLevel.Init(1.0f, LampFlameCm.Num()); }
+    BurningLampCount = 0;
+    for (int32 K = 0; K < LampFlameCm.Num(); ++K)
+    {
+        bool bBurning = true;
+        if (bServiceLamps)
+        {
+            int32 Best = -1;
+            double BestD = TNumericLimits<double>::Max();
+            for (int32 S = 0; S < 7; ++S)
+            {
+                const double D = FVector::DistSquared2D(LampFlameCm[K], Service->GetServiceLampLocation(S));
+                if (D < BestD) { BestD = D; Best = S; }
+            }
+            bBurning = Best >= 0 && Service->IsLampBurning(Best);
+        }
+        float& Level = LampKindleLevel[K];
+        Level = !bBurning ? 0.0f
+            : (LampKindleRampSeconds > 0.0f ? FMath::Min(1.0f, Level + static_cast<float>(Dt) / LampKindleRampSeconds) : 1.0f);
+        BurningLampCount += Level > 0.0f ? 1 : 0;
+    }
 
     for (int32 K = 0; K < Count; ++K)
     {
         FCard& Card = Pool[K];
-        if (!bOn)
+        const float Level = LampKindleLevel.IsValidIndex(K) ? LampKindleLevel[K] : 1.0f;
+        if (!bOn || Level <= 0.0f)
         {
             if (Card.Component) { Card.Component->SetVisibility(false); }
             if (LampLights.IsValidIndex(K) && LampLights[K]) { LampLights[K]->SetVisibility(false); }
             continue;
         }
+        ++LiveCardCount;
         const double Flicker = LampFlicker[K % 7].Advance(Dt);
-        const double Mult = FlickerMultiplier(Flicker, 0.32);
+        // A kindled wick catches small and grows: ease-out over LampKindleRampSeconds.
+        const double Grow = 1.0 - FMath::Square(1.0 - static_cast<double>(Level));
+        const double Mult = FlickerMultiplier(Flicker, 0.32) * (0.12 + 0.88 * Grow);
         // Wick scale: about 7 cm of flame on a 3 cm base. Anything larger stops
         // reading as an oil lamp and starts reading as a torch.
         const double HeightCm = 7.0 * Mult;
-        const double WidthCm = 3.2;
+        const double WidthCm = 3.2 * (0.45 + 0.55 * Grow);
         PlaceCard(Card, LampFlameCm[K] + FVector(0.0, 0.0, HeightCm * 0.5), WidthCm, HeightCm, ViewCm);
         if (Card.Material)
         {
@@ -933,7 +965,8 @@ void AMikdashFXDirector::UpdateLamps(double Dt, const FVector& ViewCm, double Qu
             LampLights[K]->SetIntensity(static_cast<float>(1.4 * Mult * EffectsQuality));
         }
     }
-    HideFrom(EGroup::LampFlames, bOn ? Count : 0);
+    // Visibility is set per card above; HideFrom only clears pool entries past Count.
+    HideFrom(EGroup::LampFlames, Count);
 }
 
 void AMikdashFXDirector::UpdateShaftsAndMotes(double Dt, const FVector& ViewCm, double Quality)

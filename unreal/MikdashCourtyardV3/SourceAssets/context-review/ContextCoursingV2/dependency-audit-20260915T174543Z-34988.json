@@ -1,0 +1,2598 @@
+{
+  "schemaVersion": 1,
+  "status": "audited_with_explicit_unknowns",
+  "stamp": "20260915T174543Z-34988",
+  "scriptSha256": "379c87445600ded87af57532fee67945329ca60fcdb4ace06fea5eb5fa7704ce",
+  "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+  "masters": [
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall",
+    "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/M_CityFacadeV1"
+  ],
+  "instances": [
+    {
+      "package": "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Canvas",
+      "parent": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "parentChain": [
+        "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Canvas",
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building"
+      ],
+      "class": "MaterialInstanceConstant",
+      "hasStaticPermutationResource": {
+        "status": "unknown",
+        "cppProperty": "bHasStaticPermutationResource",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'has_static_permutation_resource' for attribute 'has_static_permutation_resource' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'bHasStaticPermutationResource' for attribute 'bHasStaticPermutationResource' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "basePropertyOverrides": {
+        "status": "read",
+        "property": "base_property_overrides",
+        "value": {
+          "exportText": "(bOverride_OpacityMaskClipValue=False,bOverride_BlendMode=False,bOverride_ShadingModel=False,bOverride_DitheredLODTransition=False,bOverride_CastDynamicShadowAsMasked=False,bOverride_TwoSided=False,bOverride_bIsThinSurface=False,bOverride_OutputTranslucentVelocity=False,bOverride_bHasPixelAnimation=False,bOverride_bEnableTessellation=False,bOverride_DisplacementScaling=False,bOverride_bEnableDisplacementFade=False,bOverride_DisplacementFadeRange=False,bOverride_MaxWorldPositionOffsetDisplacement=False,bOverride_CompatibleWithLumenCardSharing=False,bOverride_UsageFlags=0,TwoSided=False,bIsThinSurface=False,DitheredLODTransition=False,bCastDynamicShadowAsMasked=False,bOutputTranslucentVelocity=False,bHasPixelAnimation=False,bEnableTessellation=False,bEnableDisplacementFade=False,bCompatibleWithLumenCardSharing=False,BlendMode=BLEND_Opaque,ShadingModel=MSM_DefaultLit,OpacityMaskClipValue=0.333300,DisplacementScaling=(Magnitude=4.000000,Center=0.500000),DisplacementFadeRange=(StartSizePixels=4.000000,EndSizePixels=1.000000),MaxWorldPositionOffsetDisplacement=0.000000,UsageFlags=4456576)"
+        },
+        "fields": {
+          "bOverride_OpacityMaskClipValue": {
+            "status": "read",
+            "property": "override_opacity_mask_clip_value",
+            "value": false
+          },
+          "bOverride_BlendMode": {
+            "status": "read",
+            "property": "override_blend_mode",
+            "value": false
+          },
+          "bOverride_ShadingModel": {
+            "status": "read",
+            "property": "override_shading_model",
+            "value": false
+          },
+          "bOverride_DitheredLODTransition": {
+            "status": "read",
+            "property": "override_dithered_lod_transition",
+            "value": false
+          },
+          "bOverride_CastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "override_cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOverride_TwoSided": {
+            "status": "read",
+            "property": "override_two_sided",
+            "value": false
+          },
+          "bOverride_bIsThinSurface": {
+            "status": "read",
+            "property": "override_b_is_thin_surface",
+            "value": false
+          },
+          "bOverride_OutputTranslucentVelocity": {
+            "status": "read",
+            "property": "override_output_translucent_velocity",
+            "value": false
+          },
+          "bOverride_bHasPixelAnimation": {
+            "status": "read",
+            "property": "override_b_has_pixel_animation",
+            "value": false
+          },
+          "bOverride_bEnableTessellation": {
+            "status": "read",
+            "property": "override_b_enable_tessellation",
+            "value": false
+          },
+          "bOverride_DisplacementScaling": {
+            "status": "read",
+            "property": "override_displacement_scaling",
+            "value": false
+          },
+          "bOverride_bEnableDisplacementFade": {
+            "status": "read",
+            "property": "override_b_enable_displacement_fade",
+            "value": false
+          },
+          "bOverride_DisplacementFadeRange": {
+            "status": "read",
+            "property": "override_displacement_fade_range",
+            "value": false
+          },
+          "bOverride_MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "override_max_world_position_offset_displacement",
+            "value": false
+          },
+          "bOverride_CompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "override_compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "bOverride_UsageFlags": {
+            "status": "read",
+            "property": "override_usage_flags",
+            "value": 0
+          },
+          "TwoSided": {
+            "status": "read",
+            "property": "two_sided",
+            "value": false
+          },
+          "bIsThinSurface": {
+            "status": "read",
+            "property": "is_thin_surface",
+            "value": false
+          },
+          "DitheredLODTransition": {
+            "status": "read",
+            "property": "dithered_lod_transition",
+            "value": false
+          },
+          "bCastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOutputTranslucentVelocity": {
+            "status": "read",
+            "property": "output_translucent_velocity",
+            "value": false
+          },
+          "bHasPixelAnimation": {
+            "status": "read",
+            "property": "has_pixel_animation",
+            "value": false
+          },
+          "bEnableTessellation": {
+            "status": "read",
+            "property": "enable_tessellation",
+            "value": false
+          },
+          "bEnableDisplacementFade": {
+            "status": "read",
+            "property": "enable_displacement_fade",
+            "value": false
+          },
+          "bCompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "BlendMode": {
+            "status": "read",
+            "property": "blend_mode",
+            "value": {
+              "text": "<BlendMode.BLEND_OPAQUE: 0>",
+              "pythonType": "BlendMode"
+            }
+          },
+          "ShadingModel": {
+            "status": "read",
+            "property": "shading_model",
+            "value": {
+              "text": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+              "pythonType": "MaterialShadingModel"
+            }
+          },
+          "OpacityMaskClipValue": {
+            "status": "read",
+            "property": "opacity_mask_clip_value",
+            "value": 0.33329999446868896
+          },
+          "DisplacementScaling": {
+            "status": "read",
+            "property": "displacement_scaling",
+            "value": {
+              "exportText": "(Magnitude=4.000000,Center=0.500000)"
+            }
+          },
+          "DisplacementFadeRange": {
+            "status": "read",
+            "property": "displacement_fade_range",
+            "value": {
+              "exportText": "(StartSizePixels=4.000000,EndSizePixels=1.000000)"
+            }
+          },
+          "MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "max_world_position_offset_displacement",
+            "value": 0.0
+          },
+          "UsageFlags": {
+            "status": "read",
+            "property": "usage_flags",
+            "value": 4456576
+          }
+        }
+      },
+      "staticParametersRuntime": {
+        "status": "unknown",
+        "cppProperty": "StaticParametersRuntime",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'static_parameters_runtime' for attribute 'static_parameters_runtime' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'StaticParametersRuntime' for attribute 'StaticParametersRuntime' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "naniteOverrideMaterial": {
+        "status": "read",
+        "property": "nanite_override_material",
+        "value": {
+          "exportText": "(bEnableOverride=True,OverrideMaterialEditor=None,OverrideMaterial=None,OverrideMaterialRef=None)"
+        }
+      },
+      "editorOnlyData": {
+        "status": "read",
+        "property": "editor_only_data",
+        "value": "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Canvas.MI_CityDetail_Canvas:MI_CityDetail_CanvasEditorOnlyData"
+      },
+      "editorOnlyStaticParameters": {
+        "status": "unknown",
+        "cppProperty": "StaticParameters",
+        "errors": [
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'static_parameters' for attribute 'static_parameters' on 'MaterialInstanceEditorOnlyData'",
+          "MaterialInterfaceEditorOnlyData: Property 'StaticParameters' for attribute 'StaticParameters' on 'MaterialInstanceEditorOnlyData' is protected and cannot be read"
+        ]
+      },
+      "effectiveGlobalStaticSwitches": {
+        "status": "read",
+        "names": [],
+        "values": {}
+      },
+      "recookDecision": "not_decided_by_this_audit"
+    },
+    {
+      "package": "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_CityStone",
+      "parent": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "parentChain": [
+        "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_CityStone",
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building"
+      ],
+      "class": "MaterialInstanceConstant",
+      "hasStaticPermutationResource": {
+        "status": "unknown",
+        "cppProperty": "bHasStaticPermutationResource",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'has_static_permutation_resource' for attribute 'has_static_permutation_resource' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'bHasStaticPermutationResource' for attribute 'bHasStaticPermutationResource' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "basePropertyOverrides": {
+        "status": "read",
+        "property": "base_property_overrides",
+        "value": {
+          "exportText": "(bOverride_OpacityMaskClipValue=False,bOverride_BlendMode=False,bOverride_ShadingModel=False,bOverride_DitheredLODTransition=False,bOverride_CastDynamicShadowAsMasked=False,bOverride_TwoSided=False,bOverride_bIsThinSurface=False,bOverride_OutputTranslucentVelocity=False,bOverride_bHasPixelAnimation=False,bOverride_bEnableTessellation=False,bOverride_DisplacementScaling=False,bOverride_bEnableDisplacementFade=False,bOverride_DisplacementFadeRange=False,bOverride_MaxWorldPositionOffsetDisplacement=False,bOverride_CompatibleWithLumenCardSharing=False,bOverride_UsageFlags=0,TwoSided=False,bIsThinSurface=False,DitheredLODTransition=False,bCastDynamicShadowAsMasked=False,bOutputTranslucentVelocity=False,bHasPixelAnimation=False,bEnableTessellation=False,bEnableDisplacementFade=False,bCompatibleWithLumenCardSharing=False,BlendMode=BLEND_Opaque,ShadingModel=MSM_DefaultLit,OpacityMaskClipValue=0.333300,DisplacementScaling=(Magnitude=4.000000,Center=0.500000),DisplacementFadeRange=(StartSizePixels=4.000000,EndSizePixels=1.000000),MaxWorldPositionOffsetDisplacement=0.000000,UsageFlags=4456576)"
+        },
+        "fields": {
+          "bOverride_OpacityMaskClipValue": {
+            "status": "read",
+            "property": "override_opacity_mask_clip_value",
+            "value": false
+          },
+          "bOverride_BlendMode": {
+            "status": "read",
+            "property": "override_blend_mode",
+            "value": false
+          },
+          "bOverride_ShadingModel": {
+            "status": "read",
+            "property": "override_shading_model",
+            "value": false
+          },
+          "bOverride_DitheredLODTransition": {
+            "status": "read",
+            "property": "override_dithered_lod_transition",
+            "value": false
+          },
+          "bOverride_CastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "override_cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOverride_TwoSided": {
+            "status": "read",
+            "property": "override_two_sided",
+            "value": false
+          },
+          "bOverride_bIsThinSurface": {
+            "status": "read",
+            "property": "override_b_is_thin_surface",
+            "value": false
+          },
+          "bOverride_OutputTranslucentVelocity": {
+            "status": "read",
+            "property": "override_output_translucent_velocity",
+            "value": false
+          },
+          "bOverride_bHasPixelAnimation": {
+            "status": "read",
+            "property": "override_b_has_pixel_animation",
+            "value": false
+          },
+          "bOverride_bEnableTessellation": {
+            "status": "read",
+            "property": "override_b_enable_tessellation",
+            "value": false
+          },
+          "bOverride_DisplacementScaling": {
+            "status": "read",
+            "property": "override_displacement_scaling",
+            "value": false
+          },
+          "bOverride_bEnableDisplacementFade": {
+            "status": "read",
+            "property": "override_b_enable_displacement_fade",
+            "value": false
+          },
+          "bOverride_DisplacementFadeRange": {
+            "status": "read",
+            "property": "override_displacement_fade_range",
+            "value": false
+          },
+          "bOverride_MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "override_max_world_position_offset_displacement",
+            "value": false
+          },
+          "bOverride_CompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "override_compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "bOverride_UsageFlags": {
+            "status": "read",
+            "property": "override_usage_flags",
+            "value": 0
+          },
+          "TwoSided": {
+            "status": "read",
+            "property": "two_sided",
+            "value": false
+          },
+          "bIsThinSurface": {
+            "status": "read",
+            "property": "is_thin_surface",
+            "value": false
+          },
+          "DitheredLODTransition": {
+            "status": "read",
+            "property": "dithered_lod_transition",
+            "value": false
+          },
+          "bCastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOutputTranslucentVelocity": {
+            "status": "read",
+            "property": "output_translucent_velocity",
+            "value": false
+          },
+          "bHasPixelAnimation": {
+            "status": "read",
+            "property": "has_pixel_animation",
+            "value": false
+          },
+          "bEnableTessellation": {
+            "status": "read",
+            "property": "enable_tessellation",
+            "value": false
+          },
+          "bEnableDisplacementFade": {
+            "status": "read",
+            "property": "enable_displacement_fade",
+            "value": false
+          },
+          "bCompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "BlendMode": {
+            "status": "read",
+            "property": "blend_mode",
+            "value": {
+              "text": "<BlendMode.BLEND_OPAQUE: 0>",
+              "pythonType": "BlendMode"
+            }
+          },
+          "ShadingModel": {
+            "status": "read",
+            "property": "shading_model",
+            "value": {
+              "text": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+              "pythonType": "MaterialShadingModel"
+            }
+          },
+          "OpacityMaskClipValue": {
+            "status": "read",
+            "property": "opacity_mask_clip_value",
+            "value": 0.33329999446868896
+          },
+          "DisplacementScaling": {
+            "status": "read",
+            "property": "displacement_scaling",
+            "value": {
+              "exportText": "(Magnitude=4.000000,Center=0.500000)"
+            }
+          },
+          "DisplacementFadeRange": {
+            "status": "read",
+            "property": "displacement_fade_range",
+            "value": {
+              "exportText": "(StartSizePixels=4.000000,EndSizePixels=1.000000)"
+            }
+          },
+          "MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "max_world_position_offset_displacement",
+            "value": 0.0
+          },
+          "UsageFlags": {
+            "status": "read",
+            "property": "usage_flags",
+            "value": 4456576
+          }
+        }
+      },
+      "staticParametersRuntime": {
+        "status": "unknown",
+        "cppProperty": "StaticParametersRuntime",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'static_parameters_runtime' for attribute 'static_parameters_runtime' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'StaticParametersRuntime' for attribute 'StaticParametersRuntime' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "naniteOverrideMaterial": {
+        "status": "read",
+        "property": "nanite_override_material",
+        "value": {
+          "exportText": "(bEnableOverride=True,OverrideMaterialEditor=None,OverrideMaterial=None,OverrideMaterialRef=None)"
+        }
+      },
+      "editorOnlyData": {
+        "status": "read",
+        "property": "editor_only_data",
+        "value": "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_CityStone.MI_CityDetail_CityStone:MI_CityDetail_CityStoneEditorOnlyData"
+      },
+      "editorOnlyStaticParameters": {
+        "status": "unknown",
+        "cppProperty": "StaticParameters",
+        "errors": [
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'static_parameters' for attribute 'static_parameters' on 'MaterialInstanceEditorOnlyData'",
+          "MaterialInterfaceEditorOnlyData: Property 'StaticParameters' for attribute 'StaticParameters' on 'MaterialInstanceEditorOnlyData' is protected and cannot be read"
+        ]
+      },
+      "effectiveGlobalStaticSwitches": {
+        "status": "read",
+        "names": [],
+        "values": {}
+      },
+      "recookDecision": "not_decided_by_this_audit"
+    },
+    {
+      "package": "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_DarkPlant",
+      "parent": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "parentChain": [
+        "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_DarkPlant",
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building"
+      ],
+      "class": "MaterialInstanceConstant",
+      "hasStaticPermutationResource": {
+        "status": "unknown",
+        "cppProperty": "bHasStaticPermutationResource",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'has_static_permutation_resource' for attribute 'has_static_permutation_resource' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'bHasStaticPermutationResource' for attribute 'bHasStaticPermutationResource' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "basePropertyOverrides": {
+        "status": "read",
+        "property": "base_property_overrides",
+        "value": {
+          "exportText": "(bOverride_OpacityMaskClipValue=False,bOverride_BlendMode=False,bOverride_ShadingModel=False,bOverride_DitheredLODTransition=False,bOverride_CastDynamicShadowAsMasked=False,bOverride_TwoSided=False,bOverride_bIsThinSurface=False,bOverride_OutputTranslucentVelocity=False,bOverride_bHasPixelAnimation=False,bOverride_bEnableTessellation=False,bOverride_DisplacementScaling=False,bOverride_bEnableDisplacementFade=False,bOverride_DisplacementFadeRange=False,bOverride_MaxWorldPositionOffsetDisplacement=False,bOverride_CompatibleWithLumenCardSharing=False,bOverride_UsageFlags=0,TwoSided=False,bIsThinSurface=False,DitheredLODTransition=False,bCastDynamicShadowAsMasked=False,bOutputTranslucentVelocity=False,bHasPixelAnimation=False,bEnableTessellation=False,bEnableDisplacementFade=False,bCompatibleWithLumenCardSharing=False,BlendMode=BLEND_Opaque,ShadingModel=MSM_DefaultLit,OpacityMaskClipValue=0.333300,DisplacementScaling=(Magnitude=4.000000,Center=0.500000),DisplacementFadeRange=(StartSizePixels=4.000000,EndSizePixels=1.000000),MaxWorldPositionOffsetDisplacement=0.000000,UsageFlags=4456576)"
+        },
+        "fields": {
+          "bOverride_OpacityMaskClipValue": {
+            "status": "read",
+            "property": "override_opacity_mask_clip_value",
+            "value": false
+          },
+          "bOverride_BlendMode": {
+            "status": "read",
+            "property": "override_blend_mode",
+            "value": false
+          },
+          "bOverride_ShadingModel": {
+            "status": "read",
+            "property": "override_shading_model",
+            "value": false
+          },
+          "bOverride_DitheredLODTransition": {
+            "status": "read",
+            "property": "override_dithered_lod_transition",
+            "value": false
+          },
+          "bOverride_CastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "override_cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOverride_TwoSided": {
+            "status": "read",
+            "property": "override_two_sided",
+            "value": false
+          },
+          "bOverride_bIsThinSurface": {
+            "status": "read",
+            "property": "override_b_is_thin_surface",
+            "value": false
+          },
+          "bOverride_OutputTranslucentVelocity": {
+            "status": "read",
+            "property": "override_output_translucent_velocity",
+            "value": false
+          },
+          "bOverride_bHasPixelAnimation": {
+            "status": "read",
+            "property": "override_b_has_pixel_animation",
+            "value": false
+          },
+          "bOverride_bEnableTessellation": {
+            "status": "read",
+            "property": "override_b_enable_tessellation",
+            "value": false
+          },
+          "bOverride_DisplacementScaling": {
+            "status": "read",
+            "property": "override_displacement_scaling",
+            "value": false
+          },
+          "bOverride_bEnableDisplacementFade": {
+            "status": "read",
+            "property": "override_b_enable_displacement_fade",
+            "value": false
+          },
+          "bOverride_DisplacementFadeRange": {
+            "status": "read",
+            "property": "override_displacement_fade_range",
+            "value": false
+          },
+          "bOverride_MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "override_max_world_position_offset_displacement",
+            "value": false
+          },
+          "bOverride_CompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "override_compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "bOverride_UsageFlags": {
+            "status": "read",
+            "property": "override_usage_flags",
+            "value": 0
+          },
+          "TwoSided": {
+            "status": "read",
+            "property": "two_sided",
+            "value": false
+          },
+          "bIsThinSurface": {
+            "status": "read",
+            "property": "is_thin_surface",
+            "value": false
+          },
+          "DitheredLODTransition": {
+            "status": "read",
+            "property": "dithered_lod_transition",
+            "value": false
+          },
+          "bCastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOutputTranslucentVelocity": {
+            "status": "read",
+            "property": "output_translucent_velocity",
+            "value": false
+          },
+          "bHasPixelAnimation": {
+            "status": "read",
+            "property": "has_pixel_animation",
+            "value": false
+          },
+          "bEnableTessellation": {
+            "status": "read",
+            "property": "enable_tessellation",
+            "value": false
+          },
+          "bEnableDisplacementFade": {
+            "status": "read",
+            "property": "enable_displacement_fade",
+            "value": false
+          },
+          "bCompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "BlendMode": {
+            "status": "read",
+            "property": "blend_mode",
+            "value": {
+              "text": "<BlendMode.BLEND_OPAQUE: 0>",
+              "pythonType": "BlendMode"
+            }
+          },
+          "ShadingModel": {
+            "status": "read",
+            "property": "shading_model",
+            "value": {
+              "text": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+              "pythonType": "MaterialShadingModel"
+            }
+          },
+          "OpacityMaskClipValue": {
+            "status": "read",
+            "property": "opacity_mask_clip_value",
+            "value": 0.33329999446868896
+          },
+          "DisplacementScaling": {
+            "status": "read",
+            "property": "displacement_scaling",
+            "value": {
+              "exportText": "(Magnitude=4.000000,Center=0.500000)"
+            }
+          },
+          "DisplacementFadeRange": {
+            "status": "read",
+            "property": "displacement_fade_range",
+            "value": {
+              "exportText": "(StartSizePixels=4.000000,EndSizePixels=1.000000)"
+            }
+          },
+          "MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "max_world_position_offset_displacement",
+            "value": 0.0
+          },
+          "UsageFlags": {
+            "status": "read",
+            "property": "usage_flags",
+            "value": 4456576
+          }
+        }
+      },
+      "staticParametersRuntime": {
+        "status": "unknown",
+        "cppProperty": "StaticParametersRuntime",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'static_parameters_runtime' for attribute 'static_parameters_runtime' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'StaticParametersRuntime' for attribute 'StaticParametersRuntime' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "naniteOverrideMaterial": {
+        "status": "read",
+        "property": "nanite_override_material",
+        "value": {
+          "exportText": "(bEnableOverride=True,OverrideMaterialEditor=None,OverrideMaterial=None,OverrideMaterialRef=None)"
+        }
+      },
+      "editorOnlyData": {
+        "status": "read",
+        "property": "editor_only_data",
+        "value": "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_DarkPlant.MI_CityDetail_DarkPlant:MI_CityDetail_DarkPlantEditorOnlyData"
+      },
+      "editorOnlyStaticParameters": {
+        "status": "unknown",
+        "cppProperty": "StaticParameters",
+        "errors": [
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'static_parameters' for attribute 'static_parameters' on 'MaterialInstanceEditorOnlyData'",
+          "MaterialInterfaceEditorOnlyData: Property 'StaticParameters' for attribute 'StaticParameters' on 'MaterialInstanceEditorOnlyData' is protected and cannot be read"
+        ]
+      },
+      "effectiveGlobalStaticSwitches": {
+        "status": "read",
+        "names": [],
+        "values": {}
+      },
+      "recookDecision": "not_decided_by_this_audit"
+    },
+    {
+      "package": "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Laundry",
+      "parent": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "parentChain": [
+        "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Laundry",
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building"
+      ],
+      "class": "MaterialInstanceConstant",
+      "hasStaticPermutationResource": {
+        "status": "unknown",
+        "cppProperty": "bHasStaticPermutationResource",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'has_static_permutation_resource' for attribute 'has_static_permutation_resource' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'bHasStaticPermutationResource' for attribute 'bHasStaticPermutationResource' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "basePropertyOverrides": {
+        "status": "read",
+        "property": "base_property_overrides",
+        "value": {
+          "exportText": "(bOverride_OpacityMaskClipValue=False,bOverride_BlendMode=False,bOverride_ShadingModel=False,bOverride_DitheredLODTransition=False,bOverride_CastDynamicShadowAsMasked=False,bOverride_TwoSided=False,bOverride_bIsThinSurface=False,bOverride_OutputTranslucentVelocity=False,bOverride_bHasPixelAnimation=False,bOverride_bEnableTessellation=False,bOverride_DisplacementScaling=False,bOverride_bEnableDisplacementFade=False,bOverride_DisplacementFadeRange=False,bOverride_MaxWorldPositionOffsetDisplacement=False,bOverride_CompatibleWithLumenCardSharing=False,bOverride_UsageFlags=0,TwoSided=False,bIsThinSurface=False,DitheredLODTransition=False,bCastDynamicShadowAsMasked=False,bOutputTranslucentVelocity=False,bHasPixelAnimation=False,bEnableTessellation=False,bEnableDisplacementFade=False,bCompatibleWithLumenCardSharing=False,BlendMode=BLEND_Opaque,ShadingModel=MSM_DefaultLit,OpacityMaskClipValue=0.333300,DisplacementScaling=(Magnitude=4.000000,Center=0.500000),DisplacementFadeRange=(StartSizePixels=4.000000,EndSizePixels=1.000000),MaxWorldPositionOffsetDisplacement=0.000000,UsageFlags=4456576)"
+        },
+        "fields": {
+          "bOverride_OpacityMaskClipValue": {
+            "status": "read",
+            "property": "override_opacity_mask_clip_value",
+            "value": false
+          },
+          "bOverride_BlendMode": {
+            "status": "read",
+            "property": "override_blend_mode",
+            "value": false
+          },
+          "bOverride_ShadingModel": {
+            "status": "read",
+            "property": "override_shading_model",
+            "value": false
+          },
+          "bOverride_DitheredLODTransition": {
+            "status": "read",
+            "property": "override_dithered_lod_transition",
+            "value": false
+          },
+          "bOverride_CastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "override_cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOverride_TwoSided": {
+            "status": "read",
+            "property": "override_two_sided",
+            "value": false
+          },
+          "bOverride_bIsThinSurface": {
+            "status": "read",
+            "property": "override_b_is_thin_surface",
+            "value": false
+          },
+          "bOverride_OutputTranslucentVelocity": {
+            "status": "read",
+            "property": "override_output_translucent_velocity",
+            "value": false
+          },
+          "bOverride_bHasPixelAnimation": {
+            "status": "read",
+            "property": "override_b_has_pixel_animation",
+            "value": false
+          },
+          "bOverride_bEnableTessellation": {
+            "status": "read",
+            "property": "override_b_enable_tessellation",
+            "value": false
+          },
+          "bOverride_DisplacementScaling": {
+            "status": "read",
+            "property": "override_displacement_scaling",
+            "value": false
+          },
+          "bOverride_bEnableDisplacementFade": {
+            "status": "read",
+            "property": "override_b_enable_displacement_fade",
+            "value": false
+          },
+          "bOverride_DisplacementFadeRange": {
+            "status": "read",
+            "property": "override_displacement_fade_range",
+            "value": false
+          },
+          "bOverride_MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "override_max_world_position_offset_displacement",
+            "value": false
+          },
+          "bOverride_CompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "override_compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "bOverride_UsageFlags": {
+            "status": "read",
+            "property": "override_usage_flags",
+            "value": 0
+          },
+          "TwoSided": {
+            "status": "read",
+            "property": "two_sided",
+            "value": false
+          },
+          "bIsThinSurface": {
+            "status": "read",
+            "property": "is_thin_surface",
+            "value": false
+          },
+          "DitheredLODTransition": {
+            "status": "read",
+            "property": "dithered_lod_transition",
+            "value": false
+          },
+          "bCastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOutputTranslucentVelocity": {
+            "status": "read",
+            "property": "output_translucent_velocity",
+            "value": false
+          },
+          "bHasPixelAnimation": {
+            "status": "read",
+            "property": "has_pixel_animation",
+            "value": false
+          },
+          "bEnableTessellation": {
+            "status": "read",
+            "property": "enable_tessellation",
+            "value": false
+          },
+          "bEnableDisplacementFade": {
+            "status": "read",
+            "property": "enable_displacement_fade",
+            "value": false
+          },
+          "bCompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "BlendMode": {
+            "status": "read",
+            "property": "blend_mode",
+            "value": {
+              "text": "<BlendMode.BLEND_OPAQUE: 0>",
+              "pythonType": "BlendMode"
+            }
+          },
+          "ShadingModel": {
+            "status": "read",
+            "property": "shading_model",
+            "value": {
+              "text": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+              "pythonType": "MaterialShadingModel"
+            }
+          },
+          "OpacityMaskClipValue": {
+            "status": "read",
+            "property": "opacity_mask_clip_value",
+            "value": 0.33329999446868896
+          },
+          "DisplacementScaling": {
+            "status": "read",
+            "property": "displacement_scaling",
+            "value": {
+              "exportText": "(Magnitude=4.000000,Center=0.500000)"
+            }
+          },
+          "DisplacementFadeRange": {
+            "status": "read",
+            "property": "displacement_fade_range",
+            "value": {
+              "exportText": "(StartSizePixels=4.000000,EndSizePixels=1.000000)"
+            }
+          },
+          "MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "max_world_position_offset_displacement",
+            "value": 0.0
+          },
+          "UsageFlags": {
+            "status": "read",
+            "property": "usage_flags",
+            "value": 4456576
+          }
+        }
+      },
+      "staticParametersRuntime": {
+        "status": "unknown",
+        "cppProperty": "StaticParametersRuntime",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'static_parameters_runtime' for attribute 'static_parameters_runtime' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'StaticParametersRuntime' for attribute 'StaticParametersRuntime' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "naniteOverrideMaterial": {
+        "status": "read",
+        "property": "nanite_override_material",
+        "value": {
+          "exportText": "(bEnableOverride=True,OverrideMaterialEditor=None,OverrideMaterial=None,OverrideMaterialRef=None)"
+        }
+      },
+      "editorOnlyData": {
+        "status": "read",
+        "property": "editor_only_data",
+        "value": "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Laundry.MI_CityDetail_Laundry:MI_CityDetail_LaundryEditorOnlyData"
+      },
+      "editorOnlyStaticParameters": {
+        "status": "unknown",
+        "cppProperty": "StaticParameters",
+        "errors": [
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'static_parameters' for attribute 'static_parameters' on 'MaterialInstanceEditorOnlyData'",
+          "MaterialInterfaceEditorOnlyData: Property 'StaticParameters' for attribute 'StaticParameters' on 'MaterialInstanceEditorOnlyData' is protected and cannot be read"
+        ]
+      },
+      "effectiveGlobalStaticSwitches": {
+        "status": "read",
+        "names": [],
+        "values": {}
+      },
+      "recookDecision": "not_decided_by_this_audit"
+    },
+    {
+      "package": "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Meleke",
+      "parent": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "parentChain": [
+        "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Meleke",
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building"
+      ],
+      "class": "MaterialInstanceConstant",
+      "hasStaticPermutationResource": {
+        "status": "unknown",
+        "cppProperty": "bHasStaticPermutationResource",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'has_static_permutation_resource' for attribute 'has_static_permutation_resource' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'bHasStaticPermutationResource' for attribute 'bHasStaticPermutationResource' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "basePropertyOverrides": {
+        "status": "read",
+        "property": "base_property_overrides",
+        "value": {
+          "exportText": "(bOverride_OpacityMaskClipValue=False,bOverride_BlendMode=False,bOverride_ShadingModel=False,bOverride_DitheredLODTransition=False,bOverride_CastDynamicShadowAsMasked=False,bOverride_TwoSided=False,bOverride_bIsThinSurface=False,bOverride_OutputTranslucentVelocity=False,bOverride_bHasPixelAnimation=False,bOverride_bEnableTessellation=False,bOverride_DisplacementScaling=False,bOverride_bEnableDisplacementFade=False,bOverride_DisplacementFadeRange=False,bOverride_MaxWorldPositionOffsetDisplacement=False,bOverride_CompatibleWithLumenCardSharing=False,bOverride_UsageFlags=0,TwoSided=False,bIsThinSurface=False,DitheredLODTransition=False,bCastDynamicShadowAsMasked=False,bOutputTranslucentVelocity=False,bHasPixelAnimation=False,bEnableTessellation=False,bEnableDisplacementFade=False,bCompatibleWithLumenCardSharing=False,BlendMode=BLEND_Opaque,ShadingModel=MSM_DefaultLit,OpacityMaskClipValue=0.333300,DisplacementScaling=(Magnitude=4.000000,Center=0.500000),DisplacementFadeRange=(StartSizePixels=4.000000,EndSizePixels=1.000000),MaxWorldPositionOffsetDisplacement=0.000000,UsageFlags=4456576)"
+        },
+        "fields": {
+          "bOverride_OpacityMaskClipValue": {
+            "status": "read",
+            "property": "override_opacity_mask_clip_value",
+            "value": false
+          },
+          "bOverride_BlendMode": {
+            "status": "read",
+            "property": "override_blend_mode",
+            "value": false
+          },
+          "bOverride_ShadingModel": {
+            "status": "read",
+            "property": "override_shading_model",
+            "value": false
+          },
+          "bOverride_DitheredLODTransition": {
+            "status": "read",
+            "property": "override_dithered_lod_transition",
+            "value": false
+          },
+          "bOverride_CastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "override_cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOverride_TwoSided": {
+            "status": "read",
+            "property": "override_two_sided",
+            "value": false
+          },
+          "bOverride_bIsThinSurface": {
+            "status": "read",
+            "property": "override_b_is_thin_surface",
+            "value": false
+          },
+          "bOverride_OutputTranslucentVelocity": {
+            "status": "read",
+            "property": "override_output_translucent_velocity",
+            "value": false
+          },
+          "bOverride_bHasPixelAnimation": {
+            "status": "read",
+            "property": "override_b_has_pixel_animation",
+            "value": false
+          },
+          "bOverride_bEnableTessellation": {
+            "status": "read",
+            "property": "override_b_enable_tessellation",
+            "value": false
+          },
+          "bOverride_DisplacementScaling": {
+            "status": "read",
+            "property": "override_displacement_scaling",
+            "value": false
+          },
+          "bOverride_bEnableDisplacementFade": {
+            "status": "read",
+            "property": "override_b_enable_displacement_fade",
+            "value": false
+          },
+          "bOverride_DisplacementFadeRange": {
+            "status": "read",
+            "property": "override_displacement_fade_range",
+            "value": false
+          },
+          "bOverride_MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "override_max_world_position_offset_displacement",
+            "value": false
+          },
+          "bOverride_CompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "override_compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "bOverride_UsageFlags": {
+            "status": "read",
+            "property": "override_usage_flags",
+            "value": 0
+          },
+          "TwoSided": {
+            "status": "read",
+            "property": "two_sided",
+            "value": false
+          },
+          "bIsThinSurface": {
+            "status": "read",
+            "property": "is_thin_surface",
+            "value": false
+          },
+          "DitheredLODTransition": {
+            "status": "read",
+            "property": "dithered_lod_transition",
+            "value": false
+          },
+          "bCastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOutputTranslucentVelocity": {
+            "status": "read",
+            "property": "output_translucent_velocity",
+            "value": false
+          },
+          "bHasPixelAnimation": {
+            "status": "read",
+            "property": "has_pixel_animation",
+            "value": false
+          },
+          "bEnableTessellation": {
+            "status": "read",
+            "property": "enable_tessellation",
+            "value": false
+          },
+          "bEnableDisplacementFade": {
+            "status": "read",
+            "property": "enable_displacement_fade",
+            "value": false
+          },
+          "bCompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "BlendMode": {
+            "status": "read",
+            "property": "blend_mode",
+            "value": {
+              "text": "<BlendMode.BLEND_OPAQUE: 0>",
+              "pythonType": "BlendMode"
+            }
+          },
+          "ShadingModel": {
+            "status": "read",
+            "property": "shading_model",
+            "value": {
+              "text": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+              "pythonType": "MaterialShadingModel"
+            }
+          },
+          "OpacityMaskClipValue": {
+            "status": "read",
+            "property": "opacity_mask_clip_value",
+            "value": 0.33329999446868896
+          },
+          "DisplacementScaling": {
+            "status": "read",
+            "property": "displacement_scaling",
+            "value": {
+              "exportText": "(Magnitude=4.000000,Center=0.500000)"
+            }
+          },
+          "DisplacementFadeRange": {
+            "status": "read",
+            "property": "displacement_fade_range",
+            "value": {
+              "exportText": "(StartSizePixels=4.000000,EndSizePixels=1.000000)"
+            }
+          },
+          "MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "max_world_position_offset_displacement",
+            "value": 0.0
+          },
+          "UsageFlags": {
+            "status": "read",
+            "property": "usage_flags",
+            "value": 4456576
+          }
+        }
+      },
+      "staticParametersRuntime": {
+        "status": "unknown",
+        "cppProperty": "StaticParametersRuntime",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'static_parameters_runtime' for attribute 'static_parameters_runtime' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'StaticParametersRuntime' for attribute 'StaticParametersRuntime' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "naniteOverrideMaterial": {
+        "status": "read",
+        "property": "nanite_override_material",
+        "value": {
+          "exportText": "(bEnableOverride=True,OverrideMaterialEditor=None,OverrideMaterial=None,OverrideMaterialRef=None)"
+        }
+      },
+      "editorOnlyData": {
+        "status": "read",
+        "property": "editor_only_data",
+        "value": "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Meleke.MI_CityDetail_Meleke:MI_CityDetail_MelekeEditorOnlyData"
+      },
+      "editorOnlyStaticParameters": {
+        "status": "unknown",
+        "cppProperty": "StaticParameters",
+        "errors": [
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'static_parameters' for attribute 'static_parameters' on 'MaterialInstanceEditorOnlyData'",
+          "MaterialInterfaceEditorOnlyData: Property 'StaticParameters' for attribute 'StaticParameters' on 'MaterialInstanceEditorOnlyData' is protected and cannot be read"
+        ]
+      },
+      "effectiveGlobalStaticSwitches": {
+        "status": "read",
+        "names": [],
+        "values": {}
+      },
+      "recookDecision": "not_decided_by_this_audit"
+    },
+    {
+      "package": "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Metal",
+      "parent": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "parentChain": [
+        "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Metal",
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building"
+      ],
+      "class": "MaterialInstanceConstant",
+      "hasStaticPermutationResource": {
+        "status": "unknown",
+        "cppProperty": "bHasStaticPermutationResource",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'has_static_permutation_resource' for attribute 'has_static_permutation_resource' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'bHasStaticPermutationResource' for attribute 'bHasStaticPermutationResource' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "basePropertyOverrides": {
+        "status": "read",
+        "property": "base_property_overrides",
+        "value": {
+          "exportText": "(bOverride_OpacityMaskClipValue=False,bOverride_BlendMode=False,bOverride_ShadingModel=False,bOverride_DitheredLODTransition=False,bOverride_CastDynamicShadowAsMasked=False,bOverride_TwoSided=False,bOverride_bIsThinSurface=False,bOverride_OutputTranslucentVelocity=False,bOverride_bHasPixelAnimation=False,bOverride_bEnableTessellation=False,bOverride_DisplacementScaling=False,bOverride_bEnableDisplacementFade=False,bOverride_DisplacementFadeRange=False,bOverride_MaxWorldPositionOffsetDisplacement=False,bOverride_CompatibleWithLumenCardSharing=False,bOverride_UsageFlags=0,TwoSided=False,bIsThinSurface=False,DitheredLODTransition=False,bCastDynamicShadowAsMasked=False,bOutputTranslucentVelocity=False,bHasPixelAnimation=False,bEnableTessellation=False,bEnableDisplacementFade=False,bCompatibleWithLumenCardSharing=False,BlendMode=BLEND_Opaque,ShadingModel=MSM_DefaultLit,OpacityMaskClipValue=0.333300,DisplacementScaling=(Magnitude=4.000000,Center=0.500000),DisplacementFadeRange=(StartSizePixels=4.000000,EndSizePixels=1.000000),MaxWorldPositionOffsetDisplacement=0.000000,UsageFlags=4456576)"
+        },
+        "fields": {
+          "bOverride_OpacityMaskClipValue": {
+            "status": "read",
+            "property": "override_opacity_mask_clip_value",
+            "value": false
+          },
+          "bOverride_BlendMode": {
+            "status": "read",
+            "property": "override_blend_mode",
+            "value": false
+          },
+          "bOverride_ShadingModel": {
+            "status": "read",
+            "property": "override_shading_model",
+            "value": false
+          },
+          "bOverride_DitheredLODTransition": {
+            "status": "read",
+            "property": "override_dithered_lod_transition",
+            "value": false
+          },
+          "bOverride_CastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "override_cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOverride_TwoSided": {
+            "status": "read",
+            "property": "override_two_sided",
+            "value": false
+          },
+          "bOverride_bIsThinSurface": {
+            "status": "read",
+            "property": "override_b_is_thin_surface",
+            "value": false
+          },
+          "bOverride_OutputTranslucentVelocity": {
+            "status": "read",
+            "property": "override_output_translucent_velocity",
+            "value": false
+          },
+          "bOverride_bHasPixelAnimation": {
+            "status": "read",
+            "property": "override_b_has_pixel_animation",
+            "value": false
+          },
+          "bOverride_bEnableTessellation": {
+            "status": "read",
+            "property": "override_b_enable_tessellation",
+            "value": false
+          },
+          "bOverride_DisplacementScaling": {
+            "status": "read",
+            "property": "override_displacement_scaling",
+            "value": false
+          },
+          "bOverride_bEnableDisplacementFade": {
+            "status": "read",
+            "property": "override_b_enable_displacement_fade",
+            "value": false
+          },
+          "bOverride_DisplacementFadeRange": {
+            "status": "read",
+            "property": "override_displacement_fade_range",
+            "value": false
+          },
+          "bOverride_MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "override_max_world_position_offset_displacement",
+            "value": false
+          },
+          "bOverride_CompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "override_compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "bOverride_UsageFlags": {
+            "status": "read",
+            "property": "override_usage_flags",
+            "value": 0
+          },
+          "TwoSided": {
+            "status": "read",
+            "property": "two_sided",
+            "value": false
+          },
+          "bIsThinSurface": {
+            "status": "read",
+            "property": "is_thin_surface",
+            "value": false
+          },
+          "DitheredLODTransition": {
+            "status": "read",
+            "property": "dithered_lod_transition",
+            "value": false
+          },
+          "bCastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOutputTranslucentVelocity": {
+            "status": "read",
+            "property": "output_translucent_velocity",
+            "value": false
+          },
+          "bHasPixelAnimation": {
+            "status": "read",
+            "property": "has_pixel_animation",
+            "value": false
+          },
+          "bEnableTessellation": {
+            "status": "read",
+            "property": "enable_tessellation",
+            "value": false
+          },
+          "bEnableDisplacementFade": {
+            "status": "read",
+            "property": "enable_displacement_fade",
+            "value": false
+          },
+          "bCompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "BlendMode": {
+            "status": "read",
+            "property": "blend_mode",
+            "value": {
+              "text": "<BlendMode.BLEND_OPAQUE: 0>",
+              "pythonType": "BlendMode"
+            }
+          },
+          "ShadingModel": {
+            "status": "read",
+            "property": "shading_model",
+            "value": {
+              "text": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+              "pythonType": "MaterialShadingModel"
+            }
+          },
+          "OpacityMaskClipValue": {
+            "status": "read",
+            "property": "opacity_mask_clip_value",
+            "value": 0.33329999446868896
+          },
+          "DisplacementScaling": {
+            "status": "read",
+            "property": "displacement_scaling",
+            "value": {
+              "exportText": "(Magnitude=4.000000,Center=0.500000)"
+            }
+          },
+          "DisplacementFadeRange": {
+            "status": "read",
+            "property": "displacement_fade_range",
+            "value": {
+              "exportText": "(StartSizePixels=4.000000,EndSizePixels=1.000000)"
+            }
+          },
+          "MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "max_world_position_offset_displacement",
+            "value": 0.0
+          },
+          "UsageFlags": {
+            "status": "read",
+            "property": "usage_flags",
+            "value": 4456576
+          }
+        }
+      },
+      "staticParametersRuntime": {
+        "status": "unknown",
+        "cppProperty": "StaticParametersRuntime",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'static_parameters_runtime' for attribute 'static_parameters_runtime' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'StaticParametersRuntime' for attribute 'StaticParametersRuntime' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "naniteOverrideMaterial": {
+        "status": "read",
+        "property": "nanite_override_material",
+        "value": {
+          "exportText": "(bEnableOverride=True,OverrideMaterialEditor=None,OverrideMaterial=None,OverrideMaterialRef=None)"
+        }
+      },
+      "editorOnlyData": {
+        "status": "read",
+        "property": "editor_only_data",
+        "value": "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Metal.MI_CityDetail_Metal:MI_CityDetail_MetalEditorOnlyData"
+      },
+      "editorOnlyStaticParameters": {
+        "status": "unknown",
+        "cppProperty": "StaticParameters",
+        "errors": [
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'static_parameters' for attribute 'static_parameters' on 'MaterialInstanceEditorOnlyData'",
+          "MaterialInterfaceEditorOnlyData: Property 'StaticParameters' for attribute 'StaticParameters' on 'MaterialInstanceEditorOnlyData' is protected and cannot be read"
+        ]
+      },
+      "effectiveGlobalStaticSwitches": {
+        "status": "read",
+        "names": [],
+        "values": {}
+      },
+      "recookDecision": "not_decided_by_this_audit"
+    },
+    {
+      "package": "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/MI_CityFacade_CityStone",
+      "parent": "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/M_CityFacadeV1",
+      "parentChain": [
+        "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/MI_CityFacade_CityStone",
+        "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/M_CityFacadeV1"
+      ],
+      "class": "MaterialInstanceConstant",
+      "hasStaticPermutationResource": {
+        "status": "unknown",
+        "cppProperty": "bHasStaticPermutationResource",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'has_static_permutation_resource' for attribute 'has_static_permutation_resource' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'bHasStaticPermutationResource' for attribute 'bHasStaticPermutationResource' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "basePropertyOverrides": {
+        "status": "read",
+        "property": "base_property_overrides",
+        "value": {
+          "exportText": "(bOverride_OpacityMaskClipValue=False,bOverride_BlendMode=False,bOverride_ShadingModel=False,bOverride_DitheredLODTransition=False,bOverride_CastDynamicShadowAsMasked=False,bOverride_TwoSided=False,bOverride_bIsThinSurface=False,bOverride_OutputTranslucentVelocity=False,bOverride_bHasPixelAnimation=False,bOverride_bEnableTessellation=False,bOverride_DisplacementScaling=False,bOverride_bEnableDisplacementFade=False,bOverride_DisplacementFadeRange=False,bOverride_MaxWorldPositionOffsetDisplacement=False,bOverride_CompatibleWithLumenCardSharing=False,bOverride_UsageFlags=0,TwoSided=False,bIsThinSurface=False,DitheredLODTransition=False,bCastDynamicShadowAsMasked=False,bOutputTranslucentVelocity=False,bHasPixelAnimation=False,bEnableTessellation=False,bEnableDisplacementFade=False,bCompatibleWithLumenCardSharing=False,BlendMode=BLEND_Opaque,ShadingModel=MSM_DefaultLit,OpacityMaskClipValue=0.333300,DisplacementScaling=(Magnitude=4.000000,Center=0.500000),DisplacementFadeRange=(StartSizePixels=4.000000,EndSizePixels=1.000000),MaxWorldPositionOffsetDisplacement=0.000000,UsageFlags=4456576)"
+        },
+        "fields": {
+          "bOverride_OpacityMaskClipValue": {
+            "status": "read",
+            "property": "override_opacity_mask_clip_value",
+            "value": false
+          },
+          "bOverride_BlendMode": {
+            "status": "read",
+            "property": "override_blend_mode",
+            "value": false
+          },
+          "bOverride_ShadingModel": {
+            "status": "read",
+            "property": "override_shading_model",
+            "value": false
+          },
+          "bOverride_DitheredLODTransition": {
+            "status": "read",
+            "property": "override_dithered_lod_transition",
+            "value": false
+          },
+          "bOverride_CastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "override_cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOverride_TwoSided": {
+            "status": "read",
+            "property": "override_two_sided",
+            "value": false
+          },
+          "bOverride_bIsThinSurface": {
+            "status": "read",
+            "property": "override_b_is_thin_surface",
+            "value": false
+          },
+          "bOverride_OutputTranslucentVelocity": {
+            "status": "read",
+            "property": "override_output_translucent_velocity",
+            "value": false
+          },
+          "bOverride_bHasPixelAnimation": {
+            "status": "read",
+            "property": "override_b_has_pixel_animation",
+            "value": false
+          },
+          "bOverride_bEnableTessellation": {
+            "status": "read",
+            "property": "override_b_enable_tessellation",
+            "value": false
+          },
+          "bOverride_DisplacementScaling": {
+            "status": "read",
+            "property": "override_displacement_scaling",
+            "value": false
+          },
+          "bOverride_bEnableDisplacementFade": {
+            "status": "read",
+            "property": "override_b_enable_displacement_fade",
+            "value": false
+          },
+          "bOverride_DisplacementFadeRange": {
+            "status": "read",
+            "property": "override_displacement_fade_range",
+            "value": false
+          },
+          "bOverride_MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "override_max_world_position_offset_displacement",
+            "value": false
+          },
+          "bOverride_CompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "override_compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "bOverride_UsageFlags": {
+            "status": "read",
+            "property": "override_usage_flags",
+            "value": 0
+          },
+          "TwoSided": {
+            "status": "read",
+            "property": "two_sided",
+            "value": false
+          },
+          "bIsThinSurface": {
+            "status": "read",
+            "property": "is_thin_surface",
+            "value": false
+          },
+          "DitheredLODTransition": {
+            "status": "read",
+            "property": "dithered_lod_transition",
+            "value": false
+          },
+          "bCastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOutputTranslucentVelocity": {
+            "status": "read",
+            "property": "output_translucent_velocity",
+            "value": false
+          },
+          "bHasPixelAnimation": {
+            "status": "read",
+            "property": "has_pixel_animation",
+            "value": false
+          },
+          "bEnableTessellation": {
+            "status": "read",
+            "property": "enable_tessellation",
+            "value": false
+          },
+          "bEnableDisplacementFade": {
+            "status": "read",
+            "property": "enable_displacement_fade",
+            "value": false
+          },
+          "bCompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "BlendMode": {
+            "status": "read",
+            "property": "blend_mode",
+            "value": {
+              "text": "<BlendMode.BLEND_OPAQUE: 0>",
+              "pythonType": "BlendMode"
+            }
+          },
+          "ShadingModel": {
+            "status": "read",
+            "property": "shading_model",
+            "value": {
+              "text": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+              "pythonType": "MaterialShadingModel"
+            }
+          },
+          "OpacityMaskClipValue": {
+            "status": "read",
+            "property": "opacity_mask_clip_value",
+            "value": 0.33329999446868896
+          },
+          "DisplacementScaling": {
+            "status": "read",
+            "property": "displacement_scaling",
+            "value": {
+              "exportText": "(Magnitude=4.000000,Center=0.500000)"
+            }
+          },
+          "DisplacementFadeRange": {
+            "status": "read",
+            "property": "displacement_fade_range",
+            "value": {
+              "exportText": "(StartSizePixels=4.000000,EndSizePixels=1.000000)"
+            }
+          },
+          "MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "max_world_position_offset_displacement",
+            "value": 0.0
+          },
+          "UsageFlags": {
+            "status": "read",
+            "property": "usage_flags",
+            "value": 4456576
+          }
+        }
+      },
+      "staticParametersRuntime": {
+        "status": "unknown",
+        "cppProperty": "StaticParametersRuntime",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'static_parameters_runtime' for attribute 'static_parameters_runtime' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'StaticParametersRuntime' for attribute 'StaticParametersRuntime' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "naniteOverrideMaterial": {
+        "status": "read",
+        "property": "nanite_override_material",
+        "value": {
+          "exportText": "(bEnableOverride=True,OverrideMaterialEditor=None,OverrideMaterial=None,OverrideMaterialRef=None)"
+        }
+      },
+      "editorOnlyData": {
+        "status": "read",
+        "property": "editor_only_data",
+        "value": "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/MI_CityFacade_CityStone.MI_CityFacade_CityStone:MI_CityFacade_CityStoneEditorOnlyData"
+      },
+      "editorOnlyStaticParameters": {
+        "status": "unknown",
+        "cppProperty": "StaticParameters",
+        "errors": [
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'static_parameters' for attribute 'static_parameters' on 'MaterialInstanceEditorOnlyData'",
+          "MaterialInterfaceEditorOnlyData: Property 'StaticParameters' for attribute 'StaticParameters' on 'MaterialInstanceEditorOnlyData' is protected and cannot be read"
+        ]
+      },
+      "effectiveGlobalStaticSwitches": {
+        "status": "read",
+        "names": [],
+        "values": {}
+      },
+      "recookDecision": "not_decided_by_this_audit"
+    },
+    {
+      "package": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1/MI_M_Context_Building_ExteriorV1",
+      "parent": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "parentChain": [
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1/MI_M_Context_Building_ExteriorV1",
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building"
+      ],
+      "class": "MaterialInstanceConstant",
+      "hasStaticPermutationResource": {
+        "status": "unknown",
+        "cppProperty": "bHasStaticPermutationResource",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'has_static_permutation_resource' for attribute 'has_static_permutation_resource' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'bHasStaticPermutationResource' for attribute 'bHasStaticPermutationResource' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "basePropertyOverrides": {
+        "status": "read",
+        "property": "base_property_overrides",
+        "value": {
+          "exportText": "(bOverride_OpacityMaskClipValue=False,bOverride_BlendMode=False,bOverride_ShadingModel=False,bOverride_DitheredLODTransition=False,bOverride_CastDynamicShadowAsMasked=False,bOverride_TwoSided=False,bOverride_bIsThinSurface=False,bOverride_OutputTranslucentVelocity=False,bOverride_bHasPixelAnimation=False,bOverride_bEnableTessellation=False,bOverride_DisplacementScaling=False,bOverride_bEnableDisplacementFade=False,bOverride_DisplacementFadeRange=False,bOverride_MaxWorldPositionOffsetDisplacement=False,bOverride_CompatibleWithLumenCardSharing=False,bOverride_UsageFlags=0,TwoSided=False,bIsThinSurface=False,DitheredLODTransition=False,bCastDynamicShadowAsMasked=False,bOutputTranslucentVelocity=False,bHasPixelAnimation=False,bEnableTessellation=False,bEnableDisplacementFade=False,bCompatibleWithLumenCardSharing=False,BlendMode=BLEND_Opaque,ShadingModel=MSM_DefaultLit,OpacityMaskClipValue=0.333300,DisplacementScaling=(Magnitude=4.000000,Center=0.500000),DisplacementFadeRange=(StartSizePixels=4.000000,EndSizePixels=1.000000),MaxWorldPositionOffsetDisplacement=0.000000,UsageFlags=4456576)"
+        },
+        "fields": {
+          "bOverride_OpacityMaskClipValue": {
+            "status": "read",
+            "property": "override_opacity_mask_clip_value",
+            "value": false
+          },
+          "bOverride_BlendMode": {
+            "status": "read",
+            "property": "override_blend_mode",
+            "value": false
+          },
+          "bOverride_ShadingModel": {
+            "status": "read",
+            "property": "override_shading_model",
+            "value": false
+          },
+          "bOverride_DitheredLODTransition": {
+            "status": "read",
+            "property": "override_dithered_lod_transition",
+            "value": false
+          },
+          "bOverride_CastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "override_cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOverride_TwoSided": {
+            "status": "read",
+            "property": "override_two_sided",
+            "value": false
+          },
+          "bOverride_bIsThinSurface": {
+            "status": "read",
+            "property": "override_b_is_thin_surface",
+            "value": false
+          },
+          "bOverride_OutputTranslucentVelocity": {
+            "status": "read",
+            "property": "override_output_translucent_velocity",
+            "value": false
+          },
+          "bOverride_bHasPixelAnimation": {
+            "status": "read",
+            "property": "override_b_has_pixel_animation",
+            "value": false
+          },
+          "bOverride_bEnableTessellation": {
+            "status": "read",
+            "property": "override_b_enable_tessellation",
+            "value": false
+          },
+          "bOverride_DisplacementScaling": {
+            "status": "read",
+            "property": "override_displacement_scaling",
+            "value": false
+          },
+          "bOverride_bEnableDisplacementFade": {
+            "status": "read",
+            "property": "override_b_enable_displacement_fade",
+            "value": false
+          },
+          "bOverride_DisplacementFadeRange": {
+            "status": "read",
+            "property": "override_displacement_fade_range",
+            "value": false
+          },
+          "bOverride_MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "override_max_world_position_offset_displacement",
+            "value": false
+          },
+          "bOverride_CompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "override_compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "bOverride_UsageFlags": {
+            "status": "read",
+            "property": "override_usage_flags",
+            "value": 0
+          },
+          "TwoSided": {
+            "status": "read",
+            "property": "two_sided",
+            "value": false
+          },
+          "bIsThinSurface": {
+            "status": "read",
+            "property": "is_thin_surface",
+            "value": false
+          },
+          "DitheredLODTransition": {
+            "status": "read",
+            "property": "dithered_lod_transition",
+            "value": false
+          },
+          "bCastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOutputTranslucentVelocity": {
+            "status": "read",
+            "property": "output_translucent_velocity",
+            "value": false
+          },
+          "bHasPixelAnimation": {
+            "status": "read",
+            "property": "has_pixel_animation",
+            "value": false
+          },
+          "bEnableTessellation": {
+            "status": "read",
+            "property": "enable_tessellation",
+            "value": false
+          },
+          "bEnableDisplacementFade": {
+            "status": "read",
+            "property": "enable_displacement_fade",
+            "value": false
+          },
+          "bCompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "BlendMode": {
+            "status": "read",
+            "property": "blend_mode",
+            "value": {
+              "text": "<BlendMode.BLEND_OPAQUE: 0>",
+              "pythonType": "BlendMode"
+            }
+          },
+          "ShadingModel": {
+            "status": "read",
+            "property": "shading_model",
+            "value": {
+              "text": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+              "pythonType": "MaterialShadingModel"
+            }
+          },
+          "OpacityMaskClipValue": {
+            "status": "read",
+            "property": "opacity_mask_clip_value",
+            "value": 0.33329999446868896
+          },
+          "DisplacementScaling": {
+            "status": "read",
+            "property": "displacement_scaling",
+            "value": {
+              "exportText": "(Magnitude=4.000000,Center=0.500000)"
+            }
+          },
+          "DisplacementFadeRange": {
+            "status": "read",
+            "property": "displacement_fade_range",
+            "value": {
+              "exportText": "(StartSizePixels=4.000000,EndSizePixels=1.000000)"
+            }
+          },
+          "MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "max_world_position_offset_displacement",
+            "value": 0.0
+          },
+          "UsageFlags": {
+            "status": "read",
+            "property": "usage_flags",
+            "value": 4456576
+          }
+        }
+      },
+      "staticParametersRuntime": {
+        "status": "unknown",
+        "cppProperty": "StaticParametersRuntime",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'static_parameters_runtime' for attribute 'static_parameters_runtime' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'StaticParametersRuntime' for attribute 'StaticParametersRuntime' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "naniteOverrideMaterial": {
+        "status": "read",
+        "property": "nanite_override_material",
+        "value": {
+          "exportText": "(bEnableOverride=True,OverrideMaterialEditor=None,OverrideMaterial=None,OverrideMaterialRef=None)"
+        }
+      },
+      "editorOnlyData": {
+        "status": "read",
+        "property": "editor_only_data",
+        "value": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1/MI_M_Context_Building_ExteriorV1.MI_M_Context_Building_ExteriorV1:MI_M_Context_Building_ExteriorV1EditorOnlyData"
+      },
+      "editorOnlyStaticParameters": {
+        "status": "unknown",
+        "cppProperty": "StaticParameters",
+        "errors": [
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'static_parameters' for attribute 'static_parameters' on 'MaterialInstanceEditorOnlyData'",
+          "MaterialInterfaceEditorOnlyData: Property 'StaticParameters' for attribute 'StaticParameters' on 'MaterialInstanceEditorOnlyData' is protected and cannot be read"
+        ]
+      },
+      "effectiveGlobalStaticSwitches": {
+        "status": "read",
+        "names": [],
+        "values": {}
+      },
+      "recookDecision": "not_decided_by_this_audit"
+    },
+    {
+      "package": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1/MI_M_Context_CityWall_ExteriorV1",
+      "parent": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall",
+      "parentChain": [
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1/MI_M_Context_CityWall_ExteriorV1",
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall"
+      ],
+      "class": "MaterialInstanceConstant",
+      "hasStaticPermutationResource": {
+        "status": "unknown",
+        "cppProperty": "bHasStaticPermutationResource",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'has_static_permutation_resource' for attribute 'has_static_permutation_resource' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'bHasStaticPermutationResource' for attribute 'bHasStaticPermutationResource' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "basePropertyOverrides": {
+        "status": "read",
+        "property": "base_property_overrides",
+        "value": {
+          "exportText": "(bOverride_OpacityMaskClipValue=False,bOverride_BlendMode=False,bOverride_ShadingModel=False,bOverride_DitheredLODTransition=False,bOverride_CastDynamicShadowAsMasked=False,bOverride_TwoSided=False,bOverride_bIsThinSurface=False,bOverride_OutputTranslucentVelocity=False,bOverride_bHasPixelAnimation=False,bOverride_bEnableTessellation=False,bOverride_DisplacementScaling=False,bOverride_bEnableDisplacementFade=False,bOverride_DisplacementFadeRange=False,bOverride_MaxWorldPositionOffsetDisplacement=False,bOverride_CompatibleWithLumenCardSharing=False,bOverride_UsageFlags=0,TwoSided=False,bIsThinSurface=False,DitheredLODTransition=False,bCastDynamicShadowAsMasked=False,bOutputTranslucentVelocity=False,bHasPixelAnimation=False,bEnableTessellation=False,bEnableDisplacementFade=False,bCompatibleWithLumenCardSharing=False,BlendMode=BLEND_Opaque,ShadingModel=MSM_DefaultLit,OpacityMaskClipValue=0.333300,DisplacementScaling=(Magnitude=4.000000,Center=0.500000),DisplacementFadeRange=(StartSizePixels=4.000000,EndSizePixels=1.000000),MaxWorldPositionOffsetDisplacement=0.000000,UsageFlags=4456448)"
+        },
+        "fields": {
+          "bOverride_OpacityMaskClipValue": {
+            "status": "read",
+            "property": "override_opacity_mask_clip_value",
+            "value": false
+          },
+          "bOverride_BlendMode": {
+            "status": "read",
+            "property": "override_blend_mode",
+            "value": false
+          },
+          "bOverride_ShadingModel": {
+            "status": "read",
+            "property": "override_shading_model",
+            "value": false
+          },
+          "bOverride_DitheredLODTransition": {
+            "status": "read",
+            "property": "override_dithered_lod_transition",
+            "value": false
+          },
+          "bOverride_CastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "override_cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOverride_TwoSided": {
+            "status": "read",
+            "property": "override_two_sided",
+            "value": false
+          },
+          "bOverride_bIsThinSurface": {
+            "status": "read",
+            "property": "override_b_is_thin_surface",
+            "value": false
+          },
+          "bOverride_OutputTranslucentVelocity": {
+            "status": "read",
+            "property": "override_output_translucent_velocity",
+            "value": false
+          },
+          "bOverride_bHasPixelAnimation": {
+            "status": "read",
+            "property": "override_b_has_pixel_animation",
+            "value": false
+          },
+          "bOverride_bEnableTessellation": {
+            "status": "read",
+            "property": "override_b_enable_tessellation",
+            "value": false
+          },
+          "bOverride_DisplacementScaling": {
+            "status": "read",
+            "property": "override_displacement_scaling",
+            "value": false
+          },
+          "bOverride_bEnableDisplacementFade": {
+            "status": "read",
+            "property": "override_b_enable_displacement_fade",
+            "value": false
+          },
+          "bOverride_DisplacementFadeRange": {
+            "status": "read",
+            "property": "override_displacement_fade_range",
+            "value": false
+          },
+          "bOverride_MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "override_max_world_position_offset_displacement",
+            "value": false
+          },
+          "bOverride_CompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "override_compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "bOverride_UsageFlags": {
+            "status": "read",
+            "property": "override_usage_flags",
+            "value": 0
+          },
+          "TwoSided": {
+            "status": "read",
+            "property": "two_sided",
+            "value": false
+          },
+          "bIsThinSurface": {
+            "status": "read",
+            "property": "is_thin_surface",
+            "value": false
+          },
+          "DitheredLODTransition": {
+            "status": "read",
+            "property": "dithered_lod_transition",
+            "value": false
+          },
+          "bCastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOutputTranslucentVelocity": {
+            "status": "read",
+            "property": "output_translucent_velocity",
+            "value": false
+          },
+          "bHasPixelAnimation": {
+            "status": "read",
+            "property": "has_pixel_animation",
+            "value": false
+          },
+          "bEnableTessellation": {
+            "status": "read",
+            "property": "enable_tessellation",
+            "value": false
+          },
+          "bEnableDisplacementFade": {
+            "status": "read",
+            "property": "enable_displacement_fade",
+            "value": false
+          },
+          "bCompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "BlendMode": {
+            "status": "read",
+            "property": "blend_mode",
+            "value": {
+              "text": "<BlendMode.BLEND_OPAQUE: 0>",
+              "pythonType": "BlendMode"
+            }
+          },
+          "ShadingModel": {
+            "status": "read",
+            "property": "shading_model",
+            "value": {
+              "text": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+              "pythonType": "MaterialShadingModel"
+            }
+          },
+          "OpacityMaskClipValue": {
+            "status": "read",
+            "property": "opacity_mask_clip_value",
+            "value": 0.33329999446868896
+          },
+          "DisplacementScaling": {
+            "status": "read",
+            "property": "displacement_scaling",
+            "value": {
+              "exportText": "(Magnitude=4.000000,Center=0.500000)"
+            }
+          },
+          "DisplacementFadeRange": {
+            "status": "read",
+            "property": "displacement_fade_range",
+            "value": {
+              "exportText": "(StartSizePixels=4.000000,EndSizePixels=1.000000)"
+            }
+          },
+          "MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "max_world_position_offset_displacement",
+            "value": 0.0
+          },
+          "UsageFlags": {
+            "status": "read",
+            "property": "usage_flags",
+            "value": 4456448
+          }
+        }
+      },
+      "staticParametersRuntime": {
+        "status": "unknown",
+        "cppProperty": "StaticParametersRuntime",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'static_parameters_runtime' for attribute 'static_parameters_runtime' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'StaticParametersRuntime' for attribute 'StaticParametersRuntime' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "naniteOverrideMaterial": {
+        "status": "read",
+        "property": "nanite_override_material",
+        "value": {
+          "exportText": "(bEnableOverride=True,OverrideMaterialEditor=None,OverrideMaterial=None,OverrideMaterialRef=None)"
+        }
+      },
+      "editorOnlyData": {
+        "status": "read",
+        "property": "editor_only_data",
+        "value": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1/MI_M_Context_CityWall_ExteriorV1.MI_M_Context_CityWall_ExteriorV1:MI_M_Context_CityWall_ExteriorV1EditorOnlyData"
+      },
+      "editorOnlyStaticParameters": {
+        "status": "unknown",
+        "cppProperty": "StaticParameters",
+        "errors": [
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'static_parameters' for attribute 'static_parameters' on 'MaterialInstanceEditorOnlyData'",
+          "MaterialInterfaceEditorOnlyData: Property 'StaticParameters' for attribute 'StaticParameters' on 'MaterialInstanceEditorOnlyData' is protected and cannot be read"
+        ]
+      },
+      "effectiveGlobalStaticSwitches": {
+        "status": "read",
+        "names": [],
+        "values": {}
+      },
+      "recookDecision": "not_decided_by_this_audit"
+    },
+    {
+      "package": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+      "parent": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+      "parentChain": [
+        "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+        "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building"
+      ],
+      "class": "MaterialInstanceConstant",
+      "hasStaticPermutationResource": {
+        "status": "unknown",
+        "cppProperty": "bHasStaticPermutationResource",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'has_static_permutation_resource' for attribute 'has_static_permutation_resource' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'bHasStaticPermutationResource' for attribute 'bHasStaticPermutationResource' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "basePropertyOverrides": {
+        "status": "read",
+        "property": "base_property_overrides",
+        "value": {
+          "exportText": "(bOverride_OpacityMaskClipValue=False,bOverride_BlendMode=False,bOverride_ShadingModel=False,bOverride_DitheredLODTransition=False,bOverride_CastDynamicShadowAsMasked=False,bOverride_TwoSided=False,bOverride_bIsThinSurface=False,bOverride_OutputTranslucentVelocity=False,bOverride_bHasPixelAnimation=False,bOverride_bEnableTessellation=False,bOverride_DisplacementScaling=False,bOverride_bEnableDisplacementFade=False,bOverride_DisplacementFadeRange=False,bOverride_MaxWorldPositionOffsetDisplacement=False,bOverride_CompatibleWithLumenCardSharing=False,bOverride_UsageFlags=0,TwoSided=False,bIsThinSurface=False,DitheredLODTransition=False,bCastDynamicShadowAsMasked=False,bOutputTranslucentVelocity=False,bHasPixelAnimation=False,bEnableTessellation=False,bEnableDisplacementFade=False,bCompatibleWithLumenCardSharing=False,BlendMode=BLEND_Opaque,ShadingModel=MSM_DefaultLit,OpacityMaskClipValue=0.333300,DisplacementScaling=(Magnitude=4.000000,Center=0.500000),DisplacementFadeRange=(StartSizePixels=4.000000,EndSizePixels=1.000000),MaxWorldPositionOffsetDisplacement=0.000000,UsageFlags=4456576)"
+        },
+        "fields": {
+          "bOverride_OpacityMaskClipValue": {
+            "status": "read",
+            "property": "override_opacity_mask_clip_value",
+            "value": false
+          },
+          "bOverride_BlendMode": {
+            "status": "read",
+            "property": "override_blend_mode",
+            "value": false
+          },
+          "bOverride_ShadingModel": {
+            "status": "read",
+            "property": "override_shading_model",
+            "value": false
+          },
+          "bOverride_DitheredLODTransition": {
+            "status": "read",
+            "property": "override_dithered_lod_transition",
+            "value": false
+          },
+          "bOverride_CastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "override_cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOverride_TwoSided": {
+            "status": "read",
+            "property": "override_two_sided",
+            "value": false
+          },
+          "bOverride_bIsThinSurface": {
+            "status": "read",
+            "property": "override_b_is_thin_surface",
+            "value": false
+          },
+          "bOverride_OutputTranslucentVelocity": {
+            "status": "read",
+            "property": "override_output_translucent_velocity",
+            "value": false
+          },
+          "bOverride_bHasPixelAnimation": {
+            "status": "read",
+            "property": "override_b_has_pixel_animation",
+            "value": false
+          },
+          "bOverride_bEnableTessellation": {
+            "status": "read",
+            "property": "override_b_enable_tessellation",
+            "value": false
+          },
+          "bOverride_DisplacementScaling": {
+            "status": "read",
+            "property": "override_displacement_scaling",
+            "value": false
+          },
+          "bOverride_bEnableDisplacementFade": {
+            "status": "read",
+            "property": "override_b_enable_displacement_fade",
+            "value": false
+          },
+          "bOverride_DisplacementFadeRange": {
+            "status": "read",
+            "property": "override_displacement_fade_range",
+            "value": false
+          },
+          "bOverride_MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "override_max_world_position_offset_displacement",
+            "value": false
+          },
+          "bOverride_CompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "override_compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "bOverride_UsageFlags": {
+            "status": "read",
+            "property": "override_usage_flags",
+            "value": 0
+          },
+          "TwoSided": {
+            "status": "read",
+            "property": "two_sided",
+            "value": false
+          },
+          "bIsThinSurface": {
+            "status": "read",
+            "property": "is_thin_surface",
+            "value": false
+          },
+          "DitheredLODTransition": {
+            "status": "read",
+            "property": "dithered_lod_transition",
+            "value": false
+          },
+          "bCastDynamicShadowAsMasked": {
+            "status": "read",
+            "property": "cast_dynamic_shadow_as_masked",
+            "value": false
+          },
+          "bOutputTranslucentVelocity": {
+            "status": "read",
+            "property": "output_translucent_velocity",
+            "value": false
+          },
+          "bHasPixelAnimation": {
+            "status": "read",
+            "property": "has_pixel_animation",
+            "value": false
+          },
+          "bEnableTessellation": {
+            "status": "read",
+            "property": "enable_tessellation",
+            "value": false
+          },
+          "bEnableDisplacementFade": {
+            "status": "read",
+            "property": "enable_displacement_fade",
+            "value": false
+          },
+          "bCompatibleWithLumenCardSharing": {
+            "status": "read",
+            "property": "compatible_with_lumen_card_sharing",
+            "value": false
+          },
+          "BlendMode": {
+            "status": "read",
+            "property": "blend_mode",
+            "value": {
+              "text": "<BlendMode.BLEND_OPAQUE: 0>",
+              "pythonType": "BlendMode"
+            }
+          },
+          "ShadingModel": {
+            "status": "read",
+            "property": "shading_model",
+            "value": {
+              "text": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+              "pythonType": "MaterialShadingModel"
+            }
+          },
+          "OpacityMaskClipValue": {
+            "status": "read",
+            "property": "opacity_mask_clip_value",
+            "value": 0.33329999446868896
+          },
+          "DisplacementScaling": {
+            "status": "read",
+            "property": "displacement_scaling",
+            "value": {
+              "exportText": "(Magnitude=4.000000,Center=0.500000)"
+            }
+          },
+          "DisplacementFadeRange": {
+            "status": "read",
+            "property": "displacement_fade_range",
+            "value": {
+              "exportText": "(StartSizePixels=4.000000,EndSizePixels=1.000000)"
+            }
+          },
+          "MaxWorldPositionOffsetDisplacement": {
+            "status": "read",
+            "property": "max_world_position_offset_displacement",
+            "value": 0.0
+          },
+          "UsageFlags": {
+            "status": "read",
+            "property": "usage_flags",
+            "value": 4456576
+          }
+        }
+      },
+      "staticParametersRuntime": {
+        "status": "unknown",
+        "cppProperty": "StaticParametersRuntime",
+        "errors": [
+          "MaterialInstanceConstant: Failed to find property 'static_parameters_runtime' for attribute 'static_parameters_runtime' on 'MaterialInstanceConstant'",
+          "MaterialInstanceConstant: Property 'StaticParametersRuntime' for attribute 'StaticParametersRuntime' on 'MaterialInstanceConstant' is protected and cannot be read"
+        ]
+      },
+      "naniteOverrideMaterial": {
+        "status": "read",
+        "property": "nanite_override_material",
+        "value": {
+          "exportText": "(bEnableOverride=True,OverrideMaterialEditor=None,OverrideMaterial=None,OverrideMaterialRef=None)"
+        }
+      },
+      "editorOnlyData": {
+        "status": "read",
+        "property": "editor_only_data",
+        "value": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster.MI_OldCityPlaster:MI_OldCityPlasterEditorOnlyData"
+      },
+      "editorOnlyStaticParameters": {
+        "status": "unknown",
+        "cppProperty": "StaticParameters",
+        "errors": [
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'static_parameters' for attribute 'static_parameters' on 'MaterialInstanceEditorOnlyData'",
+          "MaterialInterfaceEditorOnlyData: Property 'StaticParameters' for attribute 'StaticParameters' on 'MaterialInstanceEditorOnlyData' is protected and cannot be read"
+        ]
+      },
+      "effectiveGlobalStaticSwitches": {
+        "status": "read",
+        "names": [],
+        "values": {}
+      },
+      "recookDecision": "not_decided_by_this_audit"
+    }
+  ],
+  "errors": [],
+  "ownedContext": true,
+  "mapSaved": false,
+  "assetSaved": false,
+  "sourceHashesBefore": {
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building": "c83a1064ba18ef7f4309a803fb8ad7d447bfede5d10d989cb345d10af212076a",
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall": "e4272a60834f1200bd3ceabc8aa2519335eb59691f12c96abedca03c41b0e23b",
+    "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/M_CityFacadeV1": "80fc721af27e81665ceebcea11dc7e02f1c60b92e7ef43ba15798ddf3a2837a4",
+    "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Canvas": "bdd5b0a49cddcbcd1f7bd899f2982d39d4dcc04b040985e1690d2fb82f40a432",
+    "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_CityStone": "807b0bd486e74e0c1e755e2a0b3c5f2b50c1ec34dbd051792f8c62b5959b2583",
+    "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_DarkPlant": "4bb5998d6f05afdb86fbff951f9c6b40bfbe3552a8148c50b6e321942e0d7994",
+    "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Laundry": "15e7988c6834c93f64a9498026ef9d8857b6050f70572f84b7a5b62e5ec8baf1",
+    "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Meleke": "b0ec2b13f1e6c7b523fb5fe2da645f17998d40222cadf5999956b3c7b5e09397",
+    "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Metal": "6b1f874573f70a86603bacf378aa06730a7c4953da3e0d0798eeb00519d9854b",
+    "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster": "3e9802e918ee01119f74c11ab1f9c328c8c973d36855ed2e289ce6d33728ec7c",
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1/MI_M_Context_Building_ExteriorV1": "a64de0f94d57ee2034a160fc404e5b54098aad3300ffa5cfabdc5ed011d4ffde",
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1/MI_M_Context_CityWall_ExteriorV1": "44db78ca3d5c8ddbff89d9e47331777117fc6202fb3c6bdf4c29d15ffc43eaf1",
+    "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/MI_CityFacade_CityStone": "71a34a549439aeaa9566cc59e587f7b18f4833ec41c9294c30d45b1b1e15a884"
+  },
+  "sourceHashesAfter": {
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building": "c83a1064ba18ef7f4309a803fb8ad7d447bfede5d10d989cb345d10af212076a",
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall": "e4272a60834f1200bd3ceabc8aa2519335eb59691f12c96abedca03c41b0e23b",
+    "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/M_CityFacadeV1": "80fc721af27e81665ceebcea11dc7e02f1c60b92e7ef43ba15798ddf3a2837a4",
+    "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Canvas": "bdd5b0a49cddcbcd1f7bd899f2982d39d4dcc04b040985e1690d2fb82f40a432",
+    "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_CityStone": "807b0bd486e74e0c1e755e2a0b3c5f2b50c1ec34dbd051792f8c62b5959b2583",
+    "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_DarkPlant": "4bb5998d6f05afdb86fbff951f9c6b40bfbe3552a8148c50b6e321942e0d7994",
+    "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Laundry": "15e7988c6834c93f64a9498026ef9d8857b6050f70572f84b7a5b62e5ec8baf1",
+    "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Meleke": "b0ec2b13f1e6c7b523fb5fe2da645f17998d40222cadf5999956b3c7b5e09397",
+    "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Metal": "6b1f874573f70a86603bacf378aa06730a7c4953da3e0d0798eeb00519d9854b",
+    "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster": "3e9802e918ee01119f74c11ab1f9c328c8c973d36855ed2e289ce6d33728ec7c",
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1/MI_M_Context_Building_ExteriorV1": "a64de0f94d57ee2034a160fc404e5b54098aad3300ffa5cfabdc5ed011d4ffde",
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1/MI_M_Context_CityWall_ExteriorV1": "44db78ca3d5c8ddbff89d9e47331777117fc6202fb3c6bdf4c29d15ffc43eaf1",
+    "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/MI_CityFacade_CityStone": "71a34a549439aeaa9566cc59e587f7b18f4833ec41c9294c30d45b1b1e15a884"
+  },
+  "sourceHashUnavailable": [],
+  "unknowns": [
+    "This audit does not inspect cp24 cooked bindings, material slots or shader bytecode.",
+    "Global-name switch API is not a complete layer/blend association enumeration.",
+    "Private reflected properties may be inaccessible in Python; unknown is not false.",
+    "Registry discovery covers mounted registered assets, not unmounted content."
+  ],
+  "world": "/Engine/Maps/Entry",
+  "dirtyBefore": [],
+  "mapHashesBefore": {
+    "Content/FirstPerson/Lvl_FirstPerson.umap": "3d476154bf4cac39a59ec91b88f5ed6889af113a1ecf9690a01c89d8bc32d258",
+    "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap": "3f986fb62e889db59b01d956d4ab63718f58366874e7e64b7ec4fd0fa62e3df1",
+    "Content/MikdashV3/FutureMountV1/L_FutureMount.umap": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "Content/MikdashV3/IntegratedReviewV1/Maps/Walkthrough.umap": "0234cabb52465fbfba8c88c7a6c360bf1938f91289d4cbe94fa0ce73e04368f4",
+    "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap": "3d9f57d5b3459771ba4bcd6ab1a6dd7aa539ea6cc5075074982e8ec9ee8cee69",
+    "Content/MikdashV3/Maps/Courtyard.umap": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "Content/MikdashV3/MaterialReview/AntiRepeatV1/Maps/FrameTrial_Candidate48.umap": "4d966f9a9f25c63abb4885fa6a41f6d9fc7f80631ef6a6501b866eab98ec976e",
+    "Content/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere.umap": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0",
+    "Content/MikdashV3/MaterialReview/BusVisualAuditV1/Maps/Walkthrough.umap": "bbe702243c2fd51c7b81932f9ab3636e014c20089bad975c681ef3f0f5e8f9be",
+    "Content/MikdashV3/MaterialReview/CheckpointAudit/BeforePlatform.umap": "60540f658ccfeff733c0f8e1890e9b8f378b05baabd2f6f6402ad779f2f64d30",
+    "Content/MikdashV3/MaterialReview/IncenseSmokeReviewV1/L_IncenseSmokeReview.umap": "8a9d3e7466b1dfc68abe20a149c8a2c8946817595596671d4e1bc1508d0eac7c",
+    "Content/MikdashV3/MaterialReview/IncenseSmokeReviewV2/L_IncenseSmokeReview.umap": "d554e44729a516016591b1ebe01912a29d4cd87f2e0c8616e3cdb18c86d97c58",
+    "Content/MikdashV3/MaterialReview/IncenseSmokeReviewV3/L_IncenseSmokeReview.umap": "40aef4a74392803a791a45cd40c64454bffcde38c94e2da428d7dedc9575ee99",
+    "Content/MikdashV3/MaterialReview/InteriorExposureV1/Courtyard_InteriorExposureV1.umap": "5531d97d364165bd8323243b6a1c69c7f2897629a683d31c600dc18ad20cf788",
+    "Content/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/Maps/Walkthrough.umap": "201bfd69a7375e841c51157a635b3880abb58c01f0afab0387ec31a8ffb4354a",
+    "Content/MikdashV3/MaterialReview/KotelSurfacePolishV1/Maps/Walkthrough.umap": "b22cf5b61350fb67bcf76fe728f06ea96e82d3408450d37784345b320bced82e",
+    "Content/MikdashV3/MaterialReview/KotelSurfacePolishV2/Maps/Walkthrough.umap": "9395a3cbb79246bb4722879a94e4f6bddb9cad9e7c229061bb1900435b6c8262",
+    "Content/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold.umap": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "Content/MikdashV3/MaterialReview/SanctuaryPolishV1/Maps/CourtyardPolish.umap": "da6d8bb23fd2f159fff6794b419098652bf3b4285466419368d66dc6c531933e",
+    "Content/MikdashV3/ResidentCrowdReview/20260907T222556423474Z/Walkthrough.umap": "86a0ff691b32957ae9636021d2e20aebc204105acfe4e7bf4ef9bca162175755"
+  },
+  "registry": {
+    "micAssetCount": 792,
+    "missingParentTags": [
+      "/MetaHumanCharacter/Optional/Clothing/Common/Materials/Crewneckt/Male/M_m_top_crewneckt_nrm"
+    ],
+    "descendantsFromParentTags": [
+      "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Canvas",
+      "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_CityStone",
+      "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_DarkPlant",
+      "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Laundry",
+      "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Meleke",
+      "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Metal",
+      "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/MI_CityFacade_CityStone",
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1/MI_M_Context_Building_ExteriorV1",
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1/MI_M_Context_CityWall_ExteriorV1",
+      "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster"
+    ],
+    "isLoadingAssetsAfterWait": false,
+    "descendantsFromChildAPI": [
+      "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Canvas",
+      "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_CityStone",
+      "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_DarkPlant",
+      "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Laundry",
+      "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Meleke",
+      "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_Metal",
+      "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/MI_CityFacade_CityStone",
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1/MI_M_Context_Building_ExteriorV1",
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/ExteriorFixesV1/MI_M_Context_CityWall_ExteriorV1",
+      "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster"
+    ],
+    "discoveryMethodsAgree": true
+  },
+  "masterEvidence": {
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building": {
+      "class": "Material",
+      "hasStaticPermutationResource": {
+        "status": "unknown",
+        "cppProperty": "bHasStaticPermutationResource",
+        "errors": [
+          "Material: Failed to find property 'has_static_permutation_resource' for attribute 'has_static_permutation_resource' on 'Material'",
+          "Material: Failed to find property 'bHasStaticPermutationResource' for attribute 'bHasStaticPermutationResource' on 'Material'"
+        ]
+      },
+      "basePropertyOverrides": {
+        "status": "unknown",
+        "cppProperty": "BasePropertyOverrides",
+        "errors": [
+          "Material: Failed to find property 'base_property_overrides' for attribute 'base_property_overrides' on 'Material'",
+          "Material: Failed to find property 'BasePropertyOverrides' for attribute 'BasePropertyOverrides' on 'Material'"
+        ]
+      },
+      "staticParametersRuntime": {
+        "status": "unknown",
+        "cppProperty": "StaticParametersRuntime",
+        "errors": [
+          "Material: Failed to find property 'static_parameters_runtime' for attribute 'static_parameters_runtime' on 'Material'",
+          "Material: Failed to find property 'StaticParametersRuntime' for attribute 'StaticParametersRuntime' on 'Material'"
+        ]
+      },
+      "naniteOverrideMaterial": {
+        "status": "read",
+        "property": "nanite_override_material",
+        "value": {
+          "exportText": "(bEnableOverride=True,OverrideMaterialEditor=None,OverrideMaterial=None,OverrideMaterialRef=None)"
+        }
+      },
+      "editorOnlyData": {
+        "status": "read",
+        "property": "editor_only_data",
+        "value": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building.M_Context_Building:M_Context_BuildingEditorOnlyData"
+      },
+      "editorOnlyStaticParameters": {
+        "status": "unknown",
+        "cppProperty": "StaticParameters",
+        "errors": [
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'static_parameters' for attribute 'static_parameters' on 'MaterialEditorOnlyData'",
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'StaticParameters' for attribute 'StaticParameters' on 'MaterialEditorOnlyData'"
+        ]
+      },
+      "effectiveGlobalStaticSwitches": {
+        "status": "read",
+        "names": [],
+        "values": {}
+      },
+      "recookDecision": "not_decided_by_this_audit"
+    },
+    "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall": {
+      "class": "Material",
+      "hasStaticPermutationResource": {
+        "status": "unknown",
+        "cppProperty": "bHasStaticPermutationResource",
+        "errors": [
+          "Material: Failed to find property 'has_static_permutation_resource' for attribute 'has_static_permutation_resource' on 'Material'",
+          "Material: Failed to find property 'bHasStaticPermutationResource' for attribute 'bHasStaticPermutationResource' on 'Material'"
+        ]
+      },
+      "basePropertyOverrides": {
+        "status": "unknown",
+        "cppProperty": "BasePropertyOverrides",
+        "errors": [
+          "Material: Failed to find property 'base_property_overrides' for attribute 'base_property_overrides' on 'Material'",
+          "Material: Failed to find property 'BasePropertyOverrides' for attribute 'BasePropertyOverrides' on 'Material'"
+        ]
+      },
+      "staticParametersRuntime": {
+        "status": "unknown",
+        "cppProperty": "StaticParametersRuntime",
+        "errors": [
+          "Material: Failed to find property 'static_parameters_runtime' for attribute 'static_parameters_runtime' on 'Material'",
+          "Material: Failed to find property 'StaticParametersRuntime' for attribute 'StaticParametersRuntime' on 'Material'"
+        ]
+      },
+      "naniteOverrideMaterial": {
+        "status": "read",
+        "property": "nanite_override_material",
+        "value": {
+          "exportText": "(bEnableOverride=True,OverrideMaterialEditor=None,OverrideMaterial=None,OverrideMaterialRef=None)"
+        }
+      },
+      "editorOnlyData": {
+        "status": "read",
+        "property": "editor_only_data",
+        "value": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall.M_Context_CityWall:M_Context_CityWallEditorOnlyData"
+      },
+      "editorOnlyStaticParameters": {
+        "status": "unknown",
+        "cppProperty": "StaticParameters",
+        "errors": [
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'static_parameters' for attribute 'static_parameters' on 'MaterialEditorOnlyData'",
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'StaticParameters' for attribute 'StaticParameters' on 'MaterialEditorOnlyData'"
+        ]
+      },
+      "effectiveGlobalStaticSwitches": {
+        "status": "read",
+        "names": [],
+        "values": {}
+      },
+      "recookDecision": "not_decided_by_this_audit"
+    },
+    "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/M_CityFacadeV1": {
+      "class": "Material",
+      "hasStaticPermutationResource": {
+        "status": "unknown",
+        "cppProperty": "bHasStaticPermutationResource",
+        "errors": [
+          "Material: Failed to find property 'has_static_permutation_resource' for attribute 'has_static_permutation_resource' on 'Material'",
+          "Material: Failed to find property 'bHasStaticPermutationResource' for attribute 'bHasStaticPermutationResource' on 'Material'"
+        ]
+      },
+      "basePropertyOverrides": {
+        "status": "unknown",
+        "cppProperty": "BasePropertyOverrides",
+        "errors": [
+          "Material: Failed to find property 'base_property_overrides' for attribute 'base_property_overrides' on 'Material'",
+          "Material: Failed to find property 'BasePropertyOverrides' for attribute 'BasePropertyOverrides' on 'Material'"
+        ]
+      },
+      "staticParametersRuntime": {
+        "status": "unknown",
+        "cppProperty": "StaticParametersRuntime",
+        "errors": [
+          "Material: Failed to find property 'static_parameters_runtime' for attribute 'static_parameters_runtime' on 'Material'",
+          "Material: Failed to find property 'StaticParametersRuntime' for attribute 'StaticParametersRuntime' on 'Material'"
+        ]
+      },
+      "naniteOverrideMaterial": {
+        "status": "read",
+        "property": "nanite_override_material",
+        "value": {
+          "exportText": "(bEnableOverride=True,OverrideMaterialEditor=None,OverrideMaterial=None,OverrideMaterialRef=None)"
+        }
+      },
+      "editorOnlyData": {
+        "status": "read",
+        "property": "editor_only_data",
+        "value": "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/M_CityFacadeV1.M_CityFacadeV1:M_CityFacadeV1EditorOnlyData"
+      },
+      "editorOnlyStaticParameters": {
+        "status": "unknown",
+        "cppProperty": "StaticParameters",
+        "errors": [
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'static_parameters' for attribute 'static_parameters' on 'MaterialEditorOnlyData'",
+          "MaterialInterfaceEditorOnlyData: Failed to find property 'StaticParameters' for attribute 'StaticParameters' on 'MaterialEditorOnlyData'"
+        ]
+      },
+      "effectiveGlobalStaticSwitches": {
+        "status": "read",
+        "names": [],
+        "values": {}
+      },
+      "recookDecision": "not_decided_by_this_audit"
+    }
+  },
+  "dirtyAfter": [],
+  "mapHashesAfter": {
+    "Content/FirstPerson/Lvl_FirstPerson.umap": "3d476154bf4cac39a59ec91b88f5ed6889af113a1ecf9690a01c89d8bc32d258",
+    "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap": "3f986fb62e889db59b01d956d4ab63718f58366874e7e64b7ec4fd0fa62e3df1",
+    "Content/MikdashV3/FutureMountV1/L_FutureMount.umap": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "Content/MikdashV3/IntegratedReviewV1/Maps/Walkthrough.umap": "0234cabb52465fbfba8c88c7a6c360bf1938f91289d4cbe94fa0ce73e04368f4",
+    "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap": "3d9f57d5b3459771ba4bcd6ab1a6dd7aa539ea6cc5075074982e8ec9ee8cee69",
+    "Content/MikdashV3/Maps/Courtyard.umap": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "Content/MikdashV3/MaterialReview/AntiRepeatV1/Maps/FrameTrial_Candidate48.umap": "4d966f9a9f25c63abb4885fa6a41f6d9fc7f80631ef6a6501b866eab98ec976e",
+    "Content/MikdashV3/MaterialReview/AtmospherePilotV1/Maps/CourtyardAtmosphere.umap": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0",
+    "Content/MikdashV3/MaterialReview/BusVisualAuditV1/Maps/Walkthrough.umap": "bbe702243c2fd51c7b81932f9ab3636e014c20089bad975c681ef3f0f5e8f9be",
+    "Content/MikdashV3/MaterialReview/CheckpointAudit/BeforePlatform.umap": "60540f658ccfeff733c0f8e1890e9b8f378b05baabd2f6f6402ad779f2f64d30",
+    "Content/MikdashV3/MaterialReview/IncenseSmokeReviewV1/L_IncenseSmokeReview.umap": "8a9d3e7466b1dfc68abe20a149c8a2c8946817595596671d4e1bc1508d0eac7c",
+    "Content/MikdashV3/MaterialReview/IncenseSmokeReviewV2/L_IncenseSmokeReview.umap": "d554e44729a516016591b1ebe01912a29d4cd87f2e0c8616e3cdb18c86d97c58",
+    "Content/MikdashV3/MaterialReview/IncenseSmokeReviewV3/L_IncenseSmokeReview.umap": "40aef4a74392803a791a45cd40c64454bffcde38c94e2da428d7dedc9575ee99",
+    "Content/MikdashV3/MaterialReview/InteriorExposureV1/Courtyard_InteriorExposureV1.umap": "5531d97d364165bd8323243b6a1c69c7f2897629a683d31c600dc18ad20cf788",
+    "Content/MikdashV3/MaterialReview/KotelPhotoSurfaceV2/Maps/Walkthrough.umap": "201bfd69a7375e841c51157a635b3880abb58c01f0afab0387ec31a8ffb4354a",
+    "Content/MikdashV3/MaterialReview/KotelSurfacePolishV1/Maps/Walkthrough.umap": "b22cf5b61350fb67bcf76fe728f06ea96e82d3408450d37784345b320bced82e",
+    "Content/MikdashV3/MaterialReview/KotelSurfacePolishV2/Maps/Walkthrough.umap": "9395a3cbb79246bb4722879a94e4f6bddb9cad9e7c229061bb1900435b6c8262",
+    "Content/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold.umap": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "Content/MikdashV3/MaterialReview/SanctuaryPolishV1/Maps/CourtyardPolish.umap": "da6d8bb23fd2f159fff6794b419098652bf3b4285466419368d66dc6c531933e",
+    "Content/MikdashV3/ResidentCrowdReview/20260907T222556423474Z/Walkthrough.umap": "86a0ff691b32957ae9636021d2e20aebc204105acfe4e7bf4ef9bca162175755"
+  },
+  "mapsUnchanged": true,
+  "sourceAssetsUnchanged": true,
+  "finishedUtc": "2026-09-15T17:45:46Z"
+}

@@ -1,5 +1,61 @@
 # Astra takeover checkpoint — 15 September 2026
 
+## Current material-patch checkpoint — 15 September, 18:15 UTC
+
+Latest pushed commit before this batch is **20ae3fe4** (Kotel runtime closure).
+The new tested playable copy is:
+`C:/Mikdash/Builds/Checkpoint-contextpatch01-20260915/Windows/MikdashCourtyardV3.exe`.
+It preserves cp24 base containers and the current runtime child
+`3aee6ac4d129e6327a7077d59d83557a50c10ecb731aa94744e1eb612d02f087`.
+It now also carries the **native-tested CityWall-master-only asset patch**.
+The earlier roofruntime copy and original cp24 remain intact.
+
+**Proved:** CityWall close-up A/B/A, all three runs normal exit with four state
+readbacks each, identical actual cameras and all 20 source maps unchanged.
+Root inspected vertical courses before, horizontal courses with the patch, and
+vertical courses restored after removing it. The same verified patch bytes were
+then copied back. See `ContextCoursingV2/citywall-patch-aba.json` and
+`current-playable-patch.json` under `SourceAssets/context-review`.
+The patch mounts at Order203 and is 198,999 bytes across its three files.
+The restored A differs from initial A by 0.576/255 mean channel value in the
+fixed wall ROI, versus 4.757/255 for the patch. These are repeatability metrics,
+not production-quality scores. Flat relief and repeated texture remain visible.
+
+**Also completed, NOT mounted or visually accepted:** all three corrected
+masters plus their ten actual MIC descendants cooked successfully in a small,
+isolated filesystem cook. Nineteen packages including six texture dependencies,
+52 outputs, zero errors/warnings, 2.462 GiB aggregate private peak. The resulting
+13-package candidate patch is 793,964 bytes. Its cook and container receipts are
+`ContextCoursingV2/cook-families-20260915T180845.json` and
+`containers-families-20260915T181141.json`. Actual bundle/recipe directory:
+`C:/Mikdash/Working-5.8/ContextPatchStudies/AllCoursingFamilies-20260915T180845462Z-51ac6460/ContainerRecipeV1-20260915T181041867043Z-a4dde6b3`.
+Never substitute it for the verified CityWall-only patch without runtime tests.
+
+Next native step: capture a no-patch K2 baseline in the separate contextpatch
+copy, then test the 13-package bundle at the same camera and the source-derived
+CityFacade camera. Preserve existing patch files outside Content/Paks before
+switching; these bundles deliberately have the same stem and must not coexist.
+Use `Test-KotelClosureRuntime.ps1 -Constrained` for the four-state photo probe.
+It requires 8.75 GiB free commit, keeps 1.5 GiB reserve and caps the owned game at
+7 GiB; High/77%, 960x540 viewport, synchronous loading. A passed run came within
+3.26 MiB of the cap: do not call that ample margin. The latest K2 preflight
+refused at approximately 8.62 GiB, launching nothing. Do not lower the guard or
+repeat full-scene cooks. Continue non-native work until headroom recovers.
+
+The Entry dependency audit found 10 direct instances among 792 registered MICs,
+including both ExteriorFixesV1 children missed by the earlier offline inventory.
+All exposed base override flags were false/zero; private static resources remain
+unknown. Include the audited instances in the cook rather than inferring no
+static permutation. `Test-ContextMaterialCook.ps1 -AllCoursingFamilies -Constrained
+-DependencyAuditReceipt <dependency-audit-20260915T174543Z-34988.json>` and the
+offline `prepare_context_iostore_patch.py` now guard the exact 13-source set.
+No maps, global containers, asset registries or shared shader libraries are
+replaced. Raw logs and cooked binaries stay local, outside Git.
+
+No restart, UAC, paging, security-service, network or AnyDesk changes were made.
+The Kotel closure still has no collision; direct edge-walking remains a separate
+open item. This is a verified local patch checkpoint, not a full new game release.
+
 ## Current verified Kotel visual repair — 15 September, 17:29 UTC
 
 The local playable copy now includes the Kotel cut closure, alongside the prior

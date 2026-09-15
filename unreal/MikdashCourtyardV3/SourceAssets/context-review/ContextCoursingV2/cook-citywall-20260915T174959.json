@@ -1,0 +1,260 @@
+{
+  "status": "cook-passed-package-review-pending",
+  "startedUtc": "2026-09-15T17:49:59.8023750Z",
+  "study": "C:\\Mikdash\\Working-5.8\\ContextPatchStudies\\M_Context_CityWall-20260915T174959787Z-5363d21c",
+  "executable": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor-Cmd.exe",
+  "arguments": [
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject",
+    "-run=Cook",
+    "-TargetPlatform=Windows",
+    "-Package=/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall",
+    "-CookSinglePackage",
+    "-CookSkipRequests",
+    "-SkipZenStore",
+    "-OutputDir=C:\\Mikdash\\Working-5.8\\ContextPatchStudies\\M_Context_CityWall-20260915T174959787Z-5363d21c\\Cooked\\[Platform]",
+    "-ini:Game:[/Script/UnrealEd.ProjectPackagingSettings]:bShareMaterialShaderCode=False",
+    "-ini:Engine:[DevOptions.Shaders]:NumUnusedShaderCompilingThreads=999,[DevOptions.Shaders]:NumUnusedShaderCompilingThreadsDuringGame=999,[DevOptions.Shaders]:bForceUseSCWMemoryPressureLimits=False",
+    "-cookprocesscount=1",
+    "-NoAsyncLoadingThread",
+    "-unattended",
+    "-nosplash",
+    "-cookshowpackagenames",
+    "-cookshowinstigators",
+    "-LogCmds=LogCook Verbose,LogSavePackage Verbose",
+    "-abslog=C:\\Mikdash\\Working-5.8\\ContextPatchStudies\\M_Context_CityWall-20260915T174959787Z-5363d21c\\cook.log"
+  ],
+  "material": "M_Context_CityWall",
+  "package": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall",
+  "timeoutSeconds": 600,
+  "nativeLaunched": true,
+  "memoryProfile": "constrained-single-material",
+  "maxOwnedPrivateBytes": 5905580032,
+  "reserveBytes": 2684354560,
+  "initialRequiredFreeCommitBytes": 9126805504,
+  "peakOwnedPrivateBytes": 2619162624,
+  "minimumFreeCommitBytes": 6886678528,
+  "observedProcesses": [
+    {
+      "pid": 42708,
+      "name": "CrashReportClientEditor",
+      "startUtc": "2026-09-15T17:50:02.5211767Z"
+    },
+    {
+      "pid": 4264,
+      "name": "zenserver",
+      "startUtc": "2026-09-15T17:50:05.2541942Z"
+    },
+    {
+      "pid": 39228,
+      "name": "conhost",
+      "startUtc": "2026-09-15T17:50:02.3682012Z"
+    },
+    {
+      "pid": 33892,
+      "name": "ShaderCompileWorker",
+      "startUtc": "2026-09-15T17:50:15.4388885Z"
+    },
+    {
+      "pid": 14012,
+      "name": "UnrealTraceServer",
+      "startUtc": "2026-09-15T17:50:02.7669156Z"
+    },
+    {
+      "pid": 44336,
+      "name": "dotnet",
+      "startUtc": "2026-09-15T17:50:03.1898878Z"
+    },
+    {
+      "pid": 1348,
+      "name": "crashpad_handler",
+      "startUtc": "2026-09-15T17:50:05.3426869Z"
+    },
+    {
+      "pid": 42516,
+      "name": "cmd",
+      "startUtc": "2026-09-15T17:50:03.1102736Z"
+    },
+    {
+      "pid": 12308,
+      "name": "UnrealEditor-Cmd",
+      "startUtc": "2026-09-15T17:50:02.3296637Z"
+    }
+  ],
+  "error": null,
+  "sourceMastersBefore": {
+    "M_Context_CityWall": "e4272a60834f1200bd3ceabc8aa2519335eb59691f12c96abedca03c41b0e23b",
+    "M_Context_Building": "c83a1064ba18ef7f4309a803fb8ad7d447bfede5d10d989cb345d10af212076a",
+    "M_CityFacadeV1": "80fc721af27e81665ceebcea11dc7e02f1c60b92e7ef43ba15798ddf3a2837a4"
+  },
+  "mapCount": 20,
+  "contentFileCount": 9253,
+  "executableSha256": "ae92f55952a3c9a7def90983fcf5aedce52d8ee8e4565fbd923985e9d9d3e05e",
+  "engineVersion": {
+    "MajorVersion": 5,
+    "MinorVersion": 8,
+    "PatchVersion": 2,
+    "Changelist": 56702186,
+    "CompatibleChangelist": 55116800,
+    "IsLicenseeVersion": 0,
+    "IsPromotedBuild": 1,
+    "BranchName": "++UE5+Release-5.8"
+  },
+  "initialFreeCommitBytes": 9537404928,
+  "pid": 12308,
+  "exitCode": 0,
+  "jobMembersBeforeCleanup": [
+    42708,
+    14012,
+    4264,
+    1348
+  ],
+  "mapsUnchanged": true,
+  "sourceMastersUnchanged": true,
+  "contentMetadataUnchanged": true,
+  "outputs": [
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\AssetRegistry.bin",
+      "bytes": 2728,
+      "sha256": "f8ac96d2a625742bdf6ee9eed7eee4bea3c98727aeb4e729407480374813b28b"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\M_Context_CityWall.uasset",
+      "bytes": 4281,
+      "sha256": "f19e212f74ed86158c045e9ecd3d564a7def122686ad9984417923fdd34d3b4d"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\M_Context_CityWall.uexp",
+      "bytes": 194033,
+      "sha256": "26fac7ce07dcda505fb909944ba714a79cf4cc52ef2639c072fb735344fce119"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_D.uasset",
+      "bytes": 1536,
+      "sha256": "4bc5c0752f9c83d1d3b8804ee255e0adc41cb020b7318b0959c506862c3dcae3"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_D.ubulk",
+      "bytes": 2793472,
+      "sha256": "43e2b5dd1ddbfe6452a9bbb486633867336853474734e82836a191c02076b446"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_D.uexp",
+      "bytes": 3163,
+      "sha256": "4f58ed3350e1b9d677c631e42fb46e9608ab5df6419e2edac69640360dbafb30"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_N.uasset",
+      "bytes": 1748,
+      "sha256": "ed245e75d128712569c189a806655704770773c46b419bb6f85a7f31e208d98d"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_N.ubulk",
+      "bytes": 5586944,
+      "sha256": "15ccf9304c7ad311e6e7a16796e9dfe633e6dc6d83f53f05864fb286cb44454e"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_N.uexp",
+      "bytes": 6045,
+      "sha256": "2e58ec6458fca64b8f082e377c19ecc2d8009d371d676c414fe0b1afbc19fff6"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_R.uasset",
+      "bytes": 1673,
+      "sha256": "cf4c9c8acb3cebfeb8b44d4d9de21d18094f323662a301059898fbb24b847175"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_R.ubulk",
+      "bytes": 5586944,
+      "sha256": "b786952e20af1844083a10c1aff59a8e715a59417dbf454a3b76007262d40ce8"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_R.uexp",
+      "bytes": 5960,
+      "sha256": "81a2f18c02980ca085e0f5b773622cb6be665f285cb5159293e9d762949d3f8a"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Metadata\\CookedIniVersion.txt",
+      "bytes": 221913,
+      "sha256": "0b32ab8dcf3e48d994709ae3b096cf5ffbe5659d9a218d4ae04f320711b21bcf"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Metadata\\CookedSettings.txt",
+      "bytes": 244,
+      "sha256": "df0cf7dd5f14e73046265c3691f94ab7ad264e6647ed3c7a1d902638ecf0ec01"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Metadata\\CookMetadata.ucookmeta",
+      "bytes": 30426,
+      "sha256": "8ad746120dae0e12cb1e6db4fd57f8cea7887a1cbc8f6ec5d6f858a7e4a88749"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Metadata\\DevelopmentAssetRegistry.bin",
+      "bytes": 70877,
+      "sha256": "4a6470b09d376fd7737344fe1920b946c46fb7d61f1b3f95a1b9128b001ec5ec"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Metadata\\packagestore.manifest",
+      "bytes": 1639,
+      "sha256": "e6f40f6b51064f34097825d11724747c76abdcab86c059dccb2cedb10ab2c241"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Metadata\\ReferencedSet.txt",
+      "bytes": 363,
+      "sha256": "7451f21d5f17a0db7000c4a4e3558a6dcad3082fa3ae89176e0eb36385660ab6"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Metadata\\scriptobjects.bin",
+      "bytes": 3511612,
+      "sha256": "c9447178d1fb1432282dfd13eb0c5b6135dce49d12f1a659668ac4dac64deb6f"
+    }
+  ],
+  "cookedMapOutputs": [],
+  "cookedPackageOutputs": [
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Materials\\M_Context_CityWall.uasset",
+      "bytes": 4281,
+      "sha256": "f19e212f74ed86158c045e9ecd3d564a7def122686ad9984417923fdd34d3b4d"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_D.uasset",
+      "bytes": 1536,
+      "sha256": "4bc5c0752f9c83d1d3b8804ee255e0adc41cb020b7318b0959c506862c3dcae3"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_N.uasset",
+      "bytes": 1748,
+      "sha256": "ed245e75d128712569c189a806655704770773c46b419bb6f85a7f31e208d98d"
+    },
+    {
+      "path": "Cooked\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\JerusalemContext\\ContextMaterialsV1\\Textures\\T_Ctx_city_wall_old_stone_R.uasset",
+      "bytes": 1673,
+      "sha256": "cf4c9c8acb3cebfeb8b44d4d9de21d18094f323662a301059898fbb24b847175"
+    }
+  ],
+  "logEvidence": {
+    "successSummary": true,
+    "fatalOrError": false,
+    "mapEvidence": [],
+    "cookingPackages": [
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall",
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Textures/T_Ctx_city_wall_old_stone_D",
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Textures/T_Ctx_city_wall_old_stone_N",
+      "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Textures/T_Ctx_city_wall_old_stone_R"
+    ],
+    "requestAndCookRows": [
+      "[2026.09.15-17.50.15:088][  0]LogCook: Display: Cooking /Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Textures/T_Ctx_city_wall_old_stone_N, Instigator: { /Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall -> HardDependency }",
+      "[2026.09.15-17.50.15:088][  0]LogCook: Display: Cooking /Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Textures/T_Ctx_city_wall_old_stone_N",
+      "[2026.09.15-17.50.15:099][  0]LogCook: Display: Cooking /Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Textures/T_Ctx_city_wall_old_stone_D, Instigator: { /Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall -> HardDependency }",
+      "[2026.09.15-17.50.15:111][  0]LogCook: Display: Cooking /Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Textures/T_Ctx_city_wall_old_stone_D",
+      "[2026.09.15-17.50.15:120][  0]LogCook: Display: Cooking /Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Textures/T_Ctx_city_wall_old_stone_R, Instigator: { /Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall -> HardDependency }",
+      "[2026.09.15-17.50.15:120][  0]LogCook: Display: Cooking /Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Textures/T_Ctx_city_wall_old_stone_R",
+      "[2026.09.15-17.50.19:713][  0]LogCook: Display: Cooking /Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall, Instigator: { CommandLinePackage }",
+      "[2026.09.15-17.50.19:713][  0]LogCook: Display: Cooking /Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall"
+    ],
+    "workerCounts": [
+      1
+    ]
+  },
+  "scope": "Isolated filesystem cook only. Receipt records cooker/load map evidence, map outputs, all 20 map hashes, three source-master hashes and all Content metadata. Passed means zero observed map requests/outputs; dependency census still requires review. No packaged shader/visual acceptance.",
+  "finishedUtc": "2026-09-15T17:50:23.2809657Z"
+}

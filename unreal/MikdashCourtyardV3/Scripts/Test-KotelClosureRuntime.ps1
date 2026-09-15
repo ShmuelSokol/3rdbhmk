@@ -5,9 +5,17 @@ param(
     [Parameter(Mandatory=$true)][string]$Archive,
     [Parameter(Mandatory=$true)][ValidatePattern('^[a-fA-F0-9]{64}$')][string]$ExpectedChildSha256,
     [switch]$DisableClosure,
+    [switch]$Constrained,
+    [ValidatePattern('\A-?[0-9]+(?:\.[0-9]+)?(?: -?[0-9]+(?:\.[0-9]+)?){5}\z')]
+    [string]$CameraBugItGo='-20732 19230 -814 6 175 0',
     [ValidateRange(120,360)][int]$TimeoutSeconds=240
 )
 $ErrorActionPreference='Stop'
+$minimumStart=if($Constrained){8.75GB}else{9GB}
+$maximumPrivate=if($Constrained){7GB}else{8GB}
+$reserve=if($Constrained){1.5GB}else{1.25GB}
+$width=if($Constrained){960}else{1280}
+$height=if($Constrained){540}else{720}
 $project=Split-Path $PSScriptRoot -Parent
 $root=Join-Path $Archive 'Windows'
 $exe=Join-Path $root 'MikdashCourtyardV3/Binaries/Win64/MikdashCourtyardV3.exe'
@@ -19,7 +27,7 @@ $busy+=@(Get-CimInstance Win32_Process -Filter "Name='dotnet.exe'" | Where-Objec
 if($busy.Count){throw 'Native slot occupied; nothing launched'}
 $os=Get-CimInstance Win32_OperatingSystem
 $headroom=[long]$os.FreeVirtualMemory*1KB
-if($headroom -lt 9GB){throw 'Less than 9 GiB free commit; nothing launched'}
+if($headroom -lt $minimumStart){throw "Less than $($minimumStart/1GB) GiB free commit; nothing launched"}
 $stamp=(Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssfffZ')
 $review=Join-Path $project 'SourceAssets/context-review/KotelCutClosureV1'
 $diag=Join-Path $root 'MikdashCourtyardV3/Saved/Diagnostics'
@@ -36,18 +44,20 @@ function Map-Hashes {
 }
 $r=[ordered]@{
     status='starting';startedUtc=(Get-Date).ToUniversalTime().ToString('o')
-    archive=$Archive;childSha256=$hash;closureDisabled=[bool]$DisableClosure
-    scope='Existing cp24 cooked assets plus rebuilt runtime; no new cook. Bounded 1280x720 High/77% capture; native state checks and visual acceptance separate.'
+    archive=$Archive;childSha256=$hash;closureDisabled=[bool]$DisableClosure;requestedCamera=$CameraBugItGo
+    scope='Tests the specified archive contents and runtime without cooking. High/77% capture at the recorded viewport; native state checks and visual acceptance separate. Caller must identify any mounted asset patches.'
+    constrained=[bool]$Constrained;viewport=@($width,$height);initialRequiredFreeCommitBytes=$minimumStart
     mapHashesBefore=(Map-Hashes);initialFreeCommitBytes=$headroom
     peakPrivateBytes=[long]0;minimumFreeCommitBytes=$headroom
-    reserveBytes=[long](1.25GB);maximumPrivateBytes=[long](8GB)
+    reserveBytes=[long]$reserve;maximumPrivateBytes=[long]$maximumPrivate
 }
 function Save-Receipt {$r | ConvertTo-Json -Depth 24 | Set-Content -LiteralPath $receipt -Encoding utf8}
-$launchArgs=@('-unattended','-nosound','-nosplash','-windowed','-ResX=1280','-ResY=720',
+$launchArgs=@('-unattended','-nosound','-nosplash','-windowed',('-ResX='+$width),('-ResY='+$height),
     '-MikdashKotelClosureDiagnostic','-MikdashKotelClosureProbe',('-abslog="'+$log+'"'),
-    '-ExecCmds="sg.ViewDistanceQuality 2,sg.ShadowQuality 2,sg.GlobalIlluminationQuality 2,sg.ReflectionQuality 2,sg.PostProcessQuality 2,sg.TextureQuality 2,sg.EffectsQuality 2,sg.FoliageQuality 2,sg.ShadingQuality 2,r.ScreenPercentage 77,r.SetRes 1280x720w,Ghost,BugItGo -20732 19230 -814 6 175 0"',
+    ('-ExecCmds="sg.ViewDistanceQuality 2,sg.ShadowQuality 2,sg.GlobalIlluminationQuality 2,sg.ReflectionQuality 2,sg.PostProcessQuality 2,sg.TextureQuality 2,sg.EffectsQuality 2,sg.FoliageQuality 2,sg.ShadingQuality 2,r.ScreenPercentage 77,r.SetRes '+$width+'x'+$height+'w,Ghost,BugItGo '+$CameraBugItGo+'"'),
     ('-ini:Game:[/Script/MikdashRuntime.MikdashFrontEnd]:bShowMainMenuOnBoot=False,[/Script/MikdashRuntime.MikdashPhotoMode]:LeashRadiusCm=900000,[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=KotelProbe_'+$stamp+',[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=KotelProbe_'+$stamp+',[/Script/MikdashRuntime.MikdashSettingsSubsystem]:bApplyGraphicsToEngine=False'))
 if($DisableClosure){$launchArgs+='-MikdashDisableKotelClosure'}
+if($Constrained){$launchArgs+='-NoAsyncLoadingThread'}
 $r.arguments=$launchArgs
 Save-Receipt
 $proc=$null

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ContextCoursingV2 source material dependency audit",
+  "type": "object",
+  "required": ["schemaVersion", "status", "stamp", "scriptSha256", "engineVersion", "masters", "instances", "errors", "ownedContext", "mapSaved", "assetSaved", "sourceHashesBefore", "sourceHashesAfter", "sourceHashUnavailable", "unknowns"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "status": {"enum": ["started", "audited_with_explicit_unknowns", "refused_or_failed"]},
+    "stamp": {"type": "string"},
+    "scriptSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "engineVersion": {"type": "string"},
+    "masters": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "string"}},
+    "instances": {"type": "array", "items": {"type": "object", "required": ["package", "parent", "parentChain", "class", "recookDecision"], "properties": {
+      "package": {"type": "string"}, "parent": {"type": "string"},
+      "parentChain": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+      "class": {"type": "string"}, "recookDecision": {"const": "not_decided_by_this_audit"}
+    }}},
+    "errors": {"type": "array", "items": {"type": "string"}},
+    "unknowns": {"type": "array", "items": {"type": "string"}},
+    "ownedContext": {"type": "boolean"},
+    "mapSaved": {"const": false}, "assetSaved": {"const": false},
+    "sourceHashesBefore": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+    "sourceHashesAfter": {"type": "object", "additionalProperties": {"type": ["string", "null"]}},
+    "sourceHashUnavailable": {"type": "array", "items": {"type": "string"}},
+    "mapsUnchanged": {"type": "boolean"}, "sourceAssetsUnchanged": {"type": "boolean"},
+    "dirtyBefore": {"type": "array"}, "dirtyAfter": {"type": "array"},
+    "registry": {"type": "object"}, "masterEvidence": {"type": "object"}
+  },
+  "allOf": [{"if": {"properties": {"status": {"const": "audited_with_explicit_unknowns"}}}, "then": {
+    "required": ["mapsUnchanged", "sourceAssetsUnchanged", "registry", "dirtyAfter", "masterEvidence"],
+    "properties": {"ownedContext": {"const": true}, "mapsUnchanged": {"const": true}, "sourceAssetsUnchanged": {"const": true}, "errors": {"maxItems": 0}, "dirtyAfter": {"maxItems": 0}}
+  }}]
+}

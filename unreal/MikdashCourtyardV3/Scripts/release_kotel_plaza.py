@@ -194,7 +194,8 @@ STATE_TAG = 'KotelPlazaCutTwin'
 
 # The terrain the plaza stands on in MODERN. Cut by release_precinct_terrain_cut.py.
 TERRAIN_TILE = 'SM_JerusalemTerrain_07_08'
-TERRAIN_TWIN = ('/Game/MikdashV3/KotelPlazaCutV1/'
+# V2 since the 11 Sep 2026 stair fix (Scripts/release_kotel_twin_v2.py swaps the placed twin's mesh).
+TERRAIN_TWIN = ('/Game/MikdashV3/KotelPlazaCutV3/'
                 'SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut')
 TERRAIN_TWIN_ACTOR_LABEL = 'RELEASE_KotelPlazaCut_07_08'
 # The Kotel itself. 734.0 - 754.0 m a.s.l., 200 cm no-edit guard, NEVER TOUCHED.

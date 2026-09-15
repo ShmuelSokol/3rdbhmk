@@ -1,8 +1,9 @@
 {
  "status": "AUTHORED_OFFLINE_SOURCE_NATIVE_PLACEMENT_PENDING",
- "version": 1,
- "stamp": "20260909T232226565455Z",
- "generatorSha256": "99a35b8f75382ee538fe74d103fb4a20913887ec644549b7d81781dd26e12ddd",
+ "version": 2,
+ "stairFix": "11 September 2026. Version 1 laid the upper paving over nine of the flight's ten treads (every cell whose centre lay behind the 40 m split was upper; the flight runs 10 m further in), 175 cm above the first tread - unclimbable and invisible. Version 2: nine treads, the upper deck's front edge is the tenth riser, upper paving only behind the stair head, the flight footprint paved at the LOWER level under the treads, and each tread row clipped to the polygon at its own depth.",
+ "stamp": "20260911T123752283680Z",
+ "generatorSha256": "59dcf247b493a07479506e322791a5b44989f095df5d7fa3f4d7dbf23266c09c",
  "userInstruction": "i also want you to restore the old city to its current modern day layout... with kotel plaza and then houses up to that point",
  "source": {
   "design": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\mount-platform-design.json",
@@ -58,15 +59,173 @@
   "upperFrom": "p50 of 815 DEM samples under the upper half (738.03 m a.s.l.), rounded to a whole number of 25 cm risers",
   "risers": 10,
   "riseCm": 250.0,
-  "flightSpanCm": 11522.2,
-  "flightModules": 5,
-  "flightScaleX": 0.921775,
+  "treads": 9,
+  "stairHeadDepthCm": 4900.0,
+  "flightSpanAtSplitCm": 11522.2,
+  "flightRows": [
+   {
+    "tread": 1,
+    "depthCm": 4050.0,
+    "alongCm": [
+     -6836.3,
+     -4750.7
+    ],
+    "modules": 1,
+    "scaleX": 0.834253
+   },
+   {
+    "tread": 1,
+    "depthCm": 4050.0,
+    "alongCm": [
+     -719.1,
+     4673.3
+    ],
+    "modules": 3,
+    "scaleX": 0.718991
+   },
+   {
+    "tread": 2,
+    "depthCm": 4150.0,
+    "alongCm": [
+     -6845.6,
+     -4278.6
+    ],
+    "modules": 2,
+    "scaleX": 0.513392
+   },
+   {
+    "tread": 2,
+    "depthCm": 4150.0,
+    "alongCm": [
+     -1176.0,
+     4660.5
+    ],
+    "modules": 3,
+    "scaleX": 0.778207
+   },
+   {
+    "tread": 3,
+    "depthCm": 4250.0,
+    "alongCm": [
+     -6854.8,
+     -3806.5
+    ],
+    "modules": 2,
+    "scaleX": 0.609657
+   },
+   {
+    "tread": 3,
+    "depthCm": 4250.0,
+    "alongCm": [
+     -1913.9,
+     4653.8
+    ],
+    "modules": 3,
+    "scaleX": 0.875693
+   },
+   {
+    "tread": 4,
+    "depthCm": 4350.0,
+    "alongCm": [
+     -6864.0,
+     -3334.4
+    ],
+    "modules": 2,
+    "scaleX": 0.705922
+   },
+   {
+    "tread": 4,
+    "depthCm": 4350.0,
+    "alongCm": [
+     -2783.1,
+     4649.3
+    ],
+    "modules": 3,
+    "scaleX": 0.990989
+   },
+   {
+    "tread": 5,
+    "depthCm": 4450.0,
+    "alongCm": [
+     -6873.2,
+     4644.8
+    ],
+    "modules": 5,
+    "scaleX": 0.921441
+   },
+   {
+    "tread": 6,
+    "depthCm": 4550.0,
+    "alongCm": [
+     -6168.5,
+     4635.7
+    ],
+    "modules": 5,
+    "scaleX": 0.864335
+   },
+   {
+    "tread": 7,
+    "depthCm": 4650.0,
+    "alongCm": [
+     -5167.4,
+     4622.1
+    ],
+    "modules": 4,
+    "scaleX": 0.978953
+   },
+   {
+    "tread": 8,
+    "depthCm": 4750.0,
+    "alongCm": [
+     -4166.4,
+     4608.5
+    ],
+    "modules": 4,
+    "scaleX": 0.877488
+   },
+   {
+    "tread": 9,
+    "depthCm": 4850.0,
+    "alongCm": [
+     -3546.0,
+     4594.9
+    ],
+    "modules": 4,
+    "scaleX": 0.814088
+   }
+  ],
+  "headRiserRows": [
+   {
+    "tread": 10,
+    "depthCm": 4929.3,
+    "alongCm": [
+     -3544.1,
+     4584.1
+    ],
+    "modules": 4,
+    "scaleX": 0.812827,
+    "hiddenUnderPaving": true
+   }
+  ],
+  "headRiserSinkCm": 1.0,
+  "upperPavingMaxOverhangInFrontOfHeadCm": 19.68,
+  "headRiserAdvanceCm": 20.68,
+  "visibleTread9DepthCm": 79.32,
+  "flightFootprintM2": 854.87,
   "deckCells": 926,
   "deckCellsDroppedForWallGuard": 27,
-  "deckAreaM2": 5545.83,
-  "deckAreaVersusPolygonPercent": 99.22,
+  "deckInstances": 959,
+  "cellsSplitAtStairHead": 33,
+  "cellsLoweredUnderFlight": 132,
+  "deckAreaM2": 5546.42,
+  "deckAreaVersusPolygonPercent": 99.23,
+  "upperDeckAreaM2": 2420.11,
+  "lowerDeckAreaM2": 3126.3,
+  "visiblePavingAreaM2": 4691.55,
+  "visiblePavingVersusPolygonPercent": 83.93,
+  "coverageNote": "deckArea counts every placed cell, including the lower cells hidden under the treads (they are what the terrain cut clamps to). visiblePaving is deckArea minus the flight footprint - the paving a visitor can see; the flight covers the rest.",
   "retainedEdgePieces": 22,
-  "maxRetainedDropCm": 427.9
+  "maxRetainedDropCm": 234.8
  },
  "meshes": {
   "deck": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile",
@@ -83,7 +242,7 @@
    "key": "deck",
    "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile",
    "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving",
-   "instances": 926,
+   "instances": 959,
    "castShadow": false,
    "note": "Deck tiles clipped to the polygon and scaled in X and Y only, which is the module manifest's own sanctioned use. The paving material maps by WORLD position, so a scaled tile still lays a correct 5 m pattern."
   },
@@ -91,9 +250,9 @@
    "key": "step",
    "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_Step",
    "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
-   "instances": 50,
+   "instances": 45,
    "castShadow": true,
-   "note": "The flight between the two levels, 25 cm riser, 100 cm tread."
+   "note": "The flight between the two levels: nine 100 cm treads and ten 25 cm risers, the tenth being the upper deck's front edge. Each row spans the plaza at its own depth."
   },
   {
    "key": "kerb",
@@ -107,13 +266,13 @@
    "key": "band",
    "mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_RetainingBand",
    "material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
-   "instances": 28,
+   "instances": 22,
    "castShadow": true,
    "note": "Retaining bands down to grade, 250 cm each, never scaled in Z - the PrecinctPlazaV1 discipline, kept."
   }
  ],
- "instanceTotal": 1029,
- "triangleTotal": 12348,
+ "instanceTotal": 1051,
+ "triangleTotal": 12612,
  "buildingCensus": {
   "totalBuildingsInModel": 11437,
   "consideredWithin60mOfPlazaBbox": 97,
@@ -240,23 +399,6 @@
   "Collision, walkability and the seam to the surrounding street ribbons are untested here."
  ],
  "planFile": "kotel-plaza-plan.json",
- "planSha256": "21bc4badeb91fc58a976e02a3dcef498d6f903855160e7417b08ca972ad06db9",
- "preview": null,
- "nativePlacement": {
-  "placed": false,
-  "why": "HELD DELIBERATELY. The earthwork measurement below shows the 25 m DEM pierces this plan over 59.8% of the plaza, median 2.12 m and up to 4.90 m, and that no flat level escapes it: at the level that keeps the Kotel 18.0 m exposed the terrain pierces 75% of the area, and at the level that clears the terrain entirely the Kotel shows 10.9 m. Placing 1,029 instances under a green receipt while knowing most of them would be buried is the exact failure this project guards against.",
-  "prerequisite": "Re-tessellate and cut SM_JerusalemTerrain_08_07 against the plaza polygon (one tile - the plaza is fully interior to it, 141 m from the nearest tile edge, so no seam with any neighbouring tile is possible), by the Scripts/import_future_mount_terrain.py precedent: read the existing tile triangles and vertex colours in-engine, drop those inside the polygon, append a finer grid at deck level with a graded rim, save as a twin under a separate folder, hide the original and show the twin. Never delete.",
-  "thenPlace": "The plan in kotel-plaza-plan.json is unchanged by that pass: 4 HISM components, 1,029 instances, 12,348 triangles, reusing four PrecinctPlazaV1 meshes and two materials that this audit proved resolve on disk in both maps."
- },
- "auditCrossReference": {
-  "receipts": [
-   "SourceAssets/enclosure-review/modern-restore-audit-Candidate48-20260909T232248926330Z.json",
-   "SourceAssets/enclosure-review/modern-restore-audit-Main50-20260909T232419163242Z.json"
-  ],
-  "modernRestores": "PROVEN by state switching, both maps. Hidden actors fall from 277 to 8 (Candidate48) and 307 to 29 (Main50) on entering MODERN, and the 8 and 29 were already hidden before the audit ran. All eight plaza HISM components go invisible in MODERN and OVERLAY; all thirteen instanced components on the precinct actor resolve a mesh that exists on disk.",
-  "atTheKotelToday": "In MODERN the Western Wall Plaza footprint carries 31 visible actors: the approved Kotel surface work (RELEASE_Kotel_1..6, RELEASE_KotelStoneV2_E*, REVIEW_KotelPhoto_*), the four OSM building batches and their facade and infill batches, four SM_Jerusalem_StonePaths_03 ribbons - and NO plaza surface. The ribbons are the pedestrian way traced around the outline; the inside is bare DEM terrain. That is the gap this plan fills.",
-  "foreignActorsInModern": "RELEASE_MountAccess_Deck and RELEASE_MountAccess_Guards are visible in MODERN and cross the plaza polygon (X -18400..-12500 at Y 19972). They are the illustrative FUTURE access stair from SourceAssets/mount-access, whose own README calls it \"not existing surveyed infrastructure\". A faithful present-day Old City should not show them; they are not touched here.",
-  "cityDetailOpenItem": "The 12 RELEASE_CityDetail_Precinct_* actors are VISIBLE IN EVERY STATE including YECHEZKEL, so their 13,080 roofscape instances stand over the precinct deck with the buildings they decorate hidden under it. The CityDetail receipt calls the fix \"a one-line addition to the precinct hide set\". IT IS NOT: MikdashEnclosure.cpp BuildingIdentityLabel() returns an empty label for any actor whose single component is an InstancedStaticMeshComponent, and GatherModernBuildings() skips empty labels before the hide list is consulted. No value in ExplicitHideLabels, ExplicitHideMeshNames or ModernBuildingLabelPrefixes can reach a HISM-only actor. The fix is a plugin change and a rebuild - the same shape as the plaza's own components, which are toggled by SetVisibility in ApplyWeights. This is a YECHEZKEL defect, not a MODERN one.",
-  "plazaStatusReadsNotBuilt": "GetPlazaStatus() returns \"not-built\" on both maps in a freshly loaded editor world, while all eight components carry exactly the receipted instance counts (14,039 / 602 / 6,166 / 602 / 2,616 / 8,600 / 1,813 / 215 = 34,653). The geometry is saved and correct; only the status string is not persisted. A future -PlazaVerify that trusts that string will read a false negative."
- }
+ "planSha256": "f3483bff589169159bc99200761d90230e4726ec248226c948f0ead6dedca69c",
+ "preview": null
 }

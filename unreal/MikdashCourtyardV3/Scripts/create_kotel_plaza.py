@@ -94,6 +94,8 @@ PARAPET_HEIGHT_CM = 110.0
 MECHITZA_HEIGHT_CM = 180.0
 MECHITZA_FRACTION = 0.62   # along the wall from its north end; men's section north
 PARAPET_MIN_DROP_CM = 100.0
+RISER_HEAD_SINK_CM = 1.0   # the tenth riser's tread sits this far under the upper paving
+HEAD_ROW_CLEARANCE_CM = 1.0   # the tenth riser's face stands this far in front of every slab edge
 
 MESHES = {
     'deck': '/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile',
@@ -365,10 +367,30 @@ def build(sources):
     plan = {'deck': [], 'step': [], 'kerb': [], 'band': []}
 
     # ---- deck ------------------------------------------------------------------------
+    # THE STAIR HEAD (fixed 11 September 2026). Until then every cell whose CENTRE lay behind
+    # the 40 m split was laid at the upper level, and the flight between the levels runs from
+    # the split 10 m further in - so the upper paving was laid straight over nine of its ten
+    # treads, 175 cm above the first (a 192 cm walker could not get under it and nobody could
+    # see it). The flight is now nine treads and the upper deck's own front edge is the tenth
+    # riser - the ordinary construction of a stair - so the upper level begins at
+    #     stair_head_depth = split + (risers - 1) * tread
+    # and a cell is laid UPPER only where every point of it is at or behind that line. A cell
+    # that straddles it is split along its dominant axis into an upper part that covers every
+    # point behind the line (it may overhang the last tread by at most the line's drift across
+    # one cell, which only shortens that tread) and a lower remainder that lies wholly in front
+    # of it. Every other cell - the prayer plaza, and the whole footprint of the flight - is
+    # LOWER: under the flight the lower slab is hidden by the treads, and it is what makes the
+    # terrain cut (which reads these cells) clamp the band below the lowest tread instead of at
+    # the upper underside, 175 cm above it.
+    stair_head_depth = SPLIT_FROM_WALL_CM + (risers - 1) * TREAD_CM
     guard_poly = wall_poly
     cells = 0
     cells_dropped = 0
+    cells_split_at_stair_head = 0
+    cells_lowered_for_stair = 0
     deck_area = 0.0
+    upper_area = lower_area = 0.0
+    max_head_overhang = 0.0   # how far any upper piece reaches in front of the stair head, cm
     gx = math.floor(minx / CELL_CM) * CELL_CM
     while gx < maxx:
         gy = math.floor(miny / CELL_CM) * CELL_CM
@@ -386,14 +408,27 @@ def build(sources):
                 cells_dropped += 1
                 gy += CELL_CM
                 continue
-            width = max(1.0, cx1 - cx0)
-            height = max(1.0, cy1 - cy0)
-            z = lower_z if depth(centre, frame) <= SPLIT_FROM_WALL_CM else upper_z
-            plan['deck'].append(dict(
-                loc=[round(centre[0], 3), round(centre[1], 3), round(z, 3)],
-                rot=[0.0, 0.0, 0.0],
-                scale=[round(width / DECK_MODULE_CM, 6), round(height / DECK_MODULE_CM, 6), 1.0]))
-            deck_area += width * height
+            pieces = split_at_stair_head((cx0, cy0, cx1, cy1), frame, stair_head_depth)
+            was_upper = depth(centre, frame) > SPLIT_FROM_WALL_CM
+            if len(pieces) > 1:
+                cells_split_at_stair_head += 1
+            elif was_upper and pieces[0][1] == 'lower':
+                cells_lowered_for_stair += 1
+            for (px0, py0, px1, py1), level in pieces:
+                width = max(1.0, px1 - px0)
+                height = max(1.0, py1 - py0)
+                z = upper_z if level == 'upper' else lower_z
+                plan['deck'].append(dict(
+                    loc=[round((px0 + px1) / 2.0, 3), round((py0 + py1) / 2.0, 3), round(z, 3)],
+                    rot=[0.0, 0.0, 0.0],
+                    scale=[round(width / DECK_MODULE_CM, 6), round(height / DECK_MODULE_CM, 6), 1.0]))
+                deck_area += width * height
+                if level == 'upper':
+                    upper_area += width * height
+                    front = min(depth(c, frame) for c in ((px0, py0), (px0, py1), (px1, py0), (px1, py1)))
+                    max_head_overhang = max(max_head_overhang, stair_head_depth - front)
+                else:
+                    lower_area += width * height
             cells += 1
             gy += CELL_CM
         gx += CELL_CM
@@ -408,15 +443,56 @@ def build(sources):
     span = t1 - t0
     modules = max(1, int(math.ceil(span / STEP_MODULE_CM)))
     scale_x = span / (modules * STEP_MODULE_CM)
-    for riser in range(1, risers + 1):
+    # Nine treads: the tenth riser is the upper deck's front edge (see the stair head above).
+    # Each row spans the chord at the row's OWN depth - the polygon narrows by up to 33 m across
+    # the band, and a row tiled to the split chord hung up to 3.3 m outside the plaza, over
+    # ground the terrain cut never touches.
+    flight_rows = []
+    for riser in range(1, risers):
         d = SPLIT_FROM_WALL_CM + (riser - 0.5) * TREAD_CM
-        for m in range(modules):
-            centre_t = t0 + (m + 0.5) * (span / modules)
-            x, y = to_world(d, centre_t, frame)
+        spans = row_intervals(plaza_poly, frame, d)
+        if not spans:
+            raise RuntimeError('Tread %d has no span inside the plaza' % riser)
+        for r0, r1 in spans:
+            row_span = r1 - r0
+            row_modules = max(1, int(math.ceil(row_span / STEP_MODULE_CM)))
+            row_scale = row_span / (row_modules * STEP_MODULE_CM)
+            flight_rows.append(dict(tread=riser, depthCm=round(d, 1), alongCm=[round(r0, 1), round(r1, 1)],
+                                    modules=row_modules, scaleX=round(row_scale, 6)))
+            for m in range(row_modules):
+                centre_t = r0 + (m + 0.5) * (row_span / row_modules)
+                x, y = to_world(d, centre_t, frame)
+                plan['step'].append(dict(
+                    loc=[round(x, 3), round(y, 3), round(lower_z + riser * RISER_CM, 3)],
+                    rot=[0.0, 0.0, round(yaw, 6)],
+                    scale=[round(row_scale, 6), 1.0, 1.0]))
+    flight_footprint = sum((r['alongCm'][1] - r['alongCm'][0]) * TREAD_CM for r in flight_rows)
+    # THE TENTH RISER. Without it the riser at the stair head is the upper slab's own side face,
+    # and the paving material projects from above, so a vertical face renders as smeared streaks.
+    # One more row of the same step module at the tenth tread's depth gives the ashlar front face;
+    # its top sits RISER_HEAD_SINK_CM under the upper paving, so it is hidden without the two
+    # coplanar surfaces fighting. It is the upper level's front edge, not a tread anyone sees.
+    # The straddling upper pieces reach up to max_head_overhang in front of the stair head (that is
+    # how they leave no gap behind it), so a head row AT the head line is hidden behind their streaked
+    # side faces - measured in frame cp22d-kotel-stair-climb-0099. The row stands forward of all of
+    # them by HEAD_ROW_CLEARANCE_CM; it overlaps the back of tread 9 by the same amount.
+    head_row_advance = max_head_overhang + HEAD_ROW_CLEARANCE_CM
+    head_row_depth = SPLIT_FROM_WALL_CM + (risers - 0.5) * TREAD_CM - head_row_advance
+    head_rows = []
+    for r0, r1 in row_intervals(plaza_poly, frame, head_row_depth):
+        row_span = r1 - r0
+        row_modules = max(1, int(math.ceil(row_span / STEP_MODULE_CM)))
+        row_scale = row_span / (row_modules * STEP_MODULE_CM)
+        head_rows.append(dict(tread=risers, depthCm=round(head_row_depth, 1),
+                              alongCm=[round(r0, 1), round(r1, 1)], modules=row_modules,
+                              scaleX=round(row_scale, 6), hiddenUnderPaving=True))
+        for m in range(row_modules):
+            centre_t = r0 + (m + 0.5) * (row_span / row_modules)
+            x, y = to_world(head_row_depth, centre_t, frame)
             plan['step'].append(dict(
-                loc=[round(x, 3), round(y, 3), round(lower_z + riser * RISER_CM, 3)],
+                loc=[round(x, 3), round(y, 3), round(upper_z - RISER_HEAD_SINK_CM, 3)],
                 rot=[0.0, 0.0, round(yaw, 6)],
-                scale=[round(scale_x, 6), 1.0, 1.0]))
+                scale=[round(row_scale, 6), 1.0, 1.0]))
 
     # ---- mechitza: one barrier across the lower plaza, wall out to the flight ---------
     a_lo, a_hi = along_range(plaza_poly, frame)
@@ -452,7 +528,15 @@ def build(sources):
             mx, my = a[0] + ex * t, a[1] + ey * t
             inward = (mx - (minx + maxx) / 2.0, my - (miny + maxy) / 2.0)
             probe = (mx, my)
-            deck_z = lower_z if depth(probe, frame) <= SPLIT_FROM_WALL_CM else upper_z
+            probe_depth = depth(probe, frame)
+            if probe_depth >= stair_head_depth:
+                deck_z = upper_z
+            elif probe_depth > SPLIT_FROM_WALL_CM:
+                # beside the flight the edge is the TREAD there, not the lower plaza
+                tread = min(risers - 1, int((probe_depth - SPLIT_FROM_WALL_CM) // TREAD_CM) + 1)
+                deck_z = lower_z + tread * RISER_CM
+            else:
+                deck_z = lower_z
             ground_z = ground.at_cm(mx, my)
             drop = deck_z - ground_z
             if drop > 0.0:
@@ -479,7 +563,14 @@ def build(sources):
 
     manifest = {
         'status': 'AUTHORED_OFFLINE_SOURCE_NATIVE_PLACEMENT_PENDING',
-        'version': 1,
+        'version': 2,
+        'stairFix': ('11 September 2026. Version 1 laid the upper paving over nine of the '
+                     'flight\'s ten treads (every cell whose centre lay behind the 40 m split was '
+                     'upper; the flight runs 10 m further in), 175 cm above the first tread - '
+                     'unclimbable and invisible. Version 2: nine treads, the upper deck\'s front '
+                     'edge is the tenth riser, upper paving only behind the stair head, the '
+                     'flight footprint paved at the LOWER level under the treads, and each tread '
+                     'row clipped to the polygon at its own depth.'),
         'stamp': datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'),
         'generatorSha256': sha256_of(Path(__file__)),
         'userInstruction': 'i also want you to restore the old city to its current modern day '
@@ -528,11 +619,30 @@ def build(sources):
                          'to a whole number of 25 cm risers'
                          % (len(upper_samples), masl(upper_target)),
             'risers': risers, 'riseCm': round(risers * RISER_CM, 1),
-            'flightSpanCm': round(span, 1), 'flightModules': modules,
-            'flightScaleX': round(scale_x, 6),
+            'treads': risers - 1,
+            'stairHeadDepthCm': round(stair_head_depth, 1),
+            'flightSpanAtSplitCm': round(span, 1),
+            'flightRows': flight_rows,
+            'headRiserRows': head_rows,
+            'headRiserSinkCm': RISER_HEAD_SINK_CM,
+            'upperPavingMaxOverhangInFrontOfHeadCm': round(max_head_overhang, 3),
+            'headRiserAdvanceCm': round(head_row_advance, 3),
+            'visibleTread9DepthCm': round(TREAD_CM - head_row_advance, 3),
+            'flightFootprintM2': round(flight_footprint / 1.0e4, 2),
             'deckCells': cells, 'deckCellsDroppedForWallGuard': cells_dropped,
+            'deckInstances': len(plan['deck']),
+            'cellsSplitAtStairHead': cells_split_at_stair_head,
+            'cellsLoweredUnderFlight': cells_lowered_for_stair,
             'deckAreaM2': round(deck_area / 1.0e4, 2),
             'deckAreaVersusPolygonPercent': round(100.0 * deck_area / plaza_area, 2),
+            'upperDeckAreaM2': round(upper_area / 1.0e4, 2),
+            'lowerDeckAreaM2': round(lower_area / 1.0e4, 2),
+            'visiblePavingAreaM2': round((deck_area - flight_footprint) / 1.0e4, 2),
+            'visiblePavingVersusPolygonPercent': round(100.0 * (deck_area - flight_footprint) / plaza_area, 2),
+            'coverageNote': ('deckArea counts every placed cell, including the lower cells hidden '
+                             'under the treads (they are what the terrain cut clamps to). '
+                             'visiblePaving is deckArea minus the flight footprint - the paving a '
+                             'visitor can see; the flight covers the rest.'),
             'retainedEdgePieces': retained_edges,
             'maxRetainedDropCm': round(max_drop, 1)},
         'meshes': MESHES, 'materials': MATERIALS,
@@ -544,7 +654,9 @@ def build(sources):
                       'WORLD position, so a scaled tile still lays a correct 5 m pattern.'),
             dict(key='step', mesh=MESHES['step'], material=MATERIALS['ashlar'],
                  instances=len(plan['step']), castShadow=True,
-                 note='The flight between the two levels, 25 cm riser, 100 cm tread.'),
+                 note='The flight between the two levels: nine 100 cm treads and ten 25 cm '
+                      'risers, the tenth being the upper deck\'s front edge. Each row spans the '
+                      'plaza at its own depth.'),
             dict(key='kerb', mesh=MESHES['kerb'], material=MATERIALS['ashlar'],
                  instances=len(plan['kerb']), castShadow=True,
                  note='Perimeter parapet where the deck stands more than 1 m above ground, and '
@@ -699,6 +811,96 @@ def measure_earthwork(sources, plaza_poly, frame, ground, lower_z, upper_z):
                   'under a separate folder, and swaps them by visibility without ever deleting '
                   'the original. The plaza polygon lands on the tiles listed above.',
     }
+
+
+def split_at_stair_head(rect, frame, head_depth):
+    """One clipped deck cell -> [(rect, 'upper'|'lower'), ...] about the stair-head line.
+
+    'upper' only where every corner is at or behind the line. A straddling cell is cut along
+    its dominant axis (the world axis most nearly parallel to the plaza's depth direction) at
+    the position where the line has passed the cell's SHALLOWEST edge: the upper piece covers
+    every point behind the line, the lower piece holds only points in front of it."""
+    x0, y0, x1, y1 = rect
+    corners = [(x0, y0), (x0, y1), (x1, y0), (x1, y1)]
+    depths = [depth(c, frame) for c in corners]
+    if min(depths) >= head_depth - 1e-6:
+        return [(rect, 'upper')]
+    if max(depths) <= head_depth + 1e-6:
+        return [(rect, 'lower')]
+    nx, ny = frame['n']
+    if abs(nx) >= abs(ny):
+        # depth changes mostly along x. Solve depth = head at the corner y that reaches the
+        # line FIRST going deeper, so the upper piece contains every point behind the line.
+        ox, oy = frame['faceOrigin']
+        ys = (y0, y1)
+        xs = [ox + (head_depth - (y - oy) * ny) / nx for y in ys]
+        if nx > 0:   # deeper toward +x: the upper piece is [cut, x1]
+            cut = min(xs)
+            pieces = [((x0, y0, cut, y1), 'lower'), ((cut, y0, x1, y1), 'upper')]
+        else:        # deeper toward -x: the upper piece is [x0, cut]
+            cut = max(xs)
+            pieces = [((x0, y0, cut, y1), 'upper'), ((cut, y0, x1, y1), 'lower')]
+    else:
+        ox, oy = frame['faceOrigin']
+        xs = (x0, x1)
+        ys = [oy + (head_depth - (x - ox) * nx) / ny for x in xs]
+        if ny > 0:
+            cut = min(ys)
+            pieces = [((x0, y0, x1, cut), 'lower'), ((x0, cut, x1, y1), 'upper')]
+        else:
+            cut = max(ys)
+            pieces = [((x0, y0, x1, cut), 'upper'), ((x0, cut, x1, y1), 'lower')]
+    kept = [(r, level) for r, level in pieces
+            if (r[2] - r[0]) * (r[3] - r[1]) >= 1.0 and r[2] > r[0] and r[3] > r[1]]
+    return kept or [(rect, 'upper')]
+
+
+MIN_TREAD_RUN_CM = 150.0   # a tread segment shorter than this is a sliver, not a stair
+
+
+def intervals_at_depth(poly, frame, depth_cm):
+    """Every along-wall interval where the line at this depth is INSIDE the polygon. The plaza
+    outline is concave: a line can cross it four times, and min..max of the crossings (what
+    chord_at_depth returns) then spans the OUTSIDE gap between two inside runs - which is how
+    treads were laid over ground no deck cell covers and the terrain cut never lowers."""
+    ring = closed(poly)
+    hits = []
+    for i in range(len(ring) - 1):
+        a, b = ring[i], ring[i + 1]
+        da, db = depth(a, frame), depth(b, frame)
+        if (da > depth_cm) == (db > depth_cm):
+            continue
+        t = (depth_cm - da) / (db - da)
+        hits.append(along((a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1])), frame))
+    hits.sort()
+    return [(hits[k], hits[k + 1]) for k in range(0, len(hits) - 1, 2)]
+
+
+def row_intervals(poly, frame, depth_cm, half_depth_cm=TREAD_CM / 2.0):
+    """The along-wall spans a whole tread can occupy: the intersection of the inside intervals
+    at the tread's front and back edges, with slivers under MIN_TREAD_RUN_CM dropped."""
+    front = intervals_at_depth(poly, frame, depth_cm - half_depth_cm + 1.0)
+    back = intervals_at_depth(poly, frame, depth_cm + half_depth_cm - 1.0)
+    spans = []
+    for f0, f1 in front:
+        for b0, b1 in back:
+            lo, hi = max(f0, b0), min(f1, b1)
+            if hi - lo >= MIN_TREAD_RUN_CM:
+                spans.append((lo, hi))
+    return sorted(spans)
+
+
+def row_chord(poly, frame, depth_cm, half_depth_cm=TREAD_CM / 2.0):
+    """The along-wall extent a whole tread can occupy at this depth: the INTERSECTION of the
+    chords at its front and back edges, so no part of the tread overhangs the polygon (the
+    plaza edge slants across the 100 cm tread) and every part of it stands over deck cells -
+    which is what the terrain cut clamps to."""
+    front = chord_at_depth(poly, frame, depth_cm - half_depth_cm + 1.0)
+    back = chord_at_depth(poly, frame, depth_cm + half_depth_cm - 1.0)
+    if front is None or back is None:
+        return None
+    lo, hi = max(front[0], back[0]), min(front[1], back[1])
+    return (lo, hi) if hi > lo else None
 
 
 def chord_at_depth(poly, frame, depth_cm):

@@ -83,7 +83,16 @@ LABEL_PREFIX = 'RELEASE_PrecinctCut_'
 # The Western Wall Plaza cut is a different intervention on the same terrain, driven by the
 # KotelPlazaV1 plan and not by the precinct, so it gets its own namespace, tags and labels and
 # can be reverted on its own.
-KOTEL_ROOT = '/Game/MikdashV3/KotelPlazaCutV1'
+# V2 (11 Sep 2026): the Kotel plan's stair fix lowers the flight footprint to the LOWER deck, so the
+# band under the flight must be cut 250 cm deeper. A twin is never overwritten in place (it is reused
+# and re-verified), so the re-cut is a NEW asset; V1 stays on disk as the revert target.
+# V3 (11 Sep 2026, same day): region edges are snapped to a 0.01 cm lattice below. V2 was cut from
+# edges rebuilt from the plan's rounded centres and scales (3 and 6 decimals), which left 74 seams up
+# to 0.00075 cm wide between touching cells; the cut keeps ORIGINAL terrain in any gap between regions,
+# so each seam became a hair-thin, full-height fin of hillside standing through the paving. A walking
+# character met one on the upper Kotel deck. No 100 cm station grid can see a fin that thin.
+KOTEL_ROOT = '/Game/MikdashV3/KotelPlazaCutV3'
+KOTEL_EDGE_SNAP_CM = 0.01
 KOTEL_SUFFIX = '_KotelPlazaCut'
 KOTEL_TWIN_TAG = 'KotelPlazaCutTwin'
 KOTEL_ORIGINAL_TAG = 'KotelPlazaCutOriginal'
@@ -534,8 +543,10 @@ def kotel_job():
             raise RuntimeError('A Kotel deck cell is scaled in Z; the slab thickness would move')
         underside = location[2] - thickness
         levels[round(location[2], 3)] = round(underside, 3)
-        rectangles.append(([location[0] - half_x * scale[0], location[1] - half_y * scale[1],
-                            location[0] + half_x * scale[0], location[1] + half_y * scale[1]],
+        # Snap to KOTEL_EDGE_SNAP_CM so the edges of touching cells coincide EXACTLY (see KOTEL_ROOT).
+        snap = lambda v: round(round(v / KOTEL_EDGE_SNAP_CM) * KOTEL_EDGE_SNAP_CM, 6)
+        rectangles.append(([snap(location[0] - half_x * scale[0]), snap(location[1] - half_y * scale[1]),
+                            snap(location[0] + half_x * scale[0]), snap(location[1] + half_y * scale[1])],
                            underside))
     for key in ('lowerDeckZCm', 'upperDeckZCm'):
         if round(manifest['derived'][key], 3) not in levels:

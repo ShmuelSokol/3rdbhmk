@@ -37,6 +37,57 @@ UAT log (UTF-16 - grep finds nothing until decoded) shows `Missing cached shader
 M_CityFacadeV1 in SM6 and SM5, no SCW crash, no fallback, `Success - 0 error(s), 0 warning(s)`,
 8,851 packages. cp22b was cooked from the same bytes.
 
+
+**Frames, cp21c (before) vs cp21d (after, cooked from my post-apply map), same packaged cameras**
+(`Scripts/capture_city_facade.ps1`, receipts `SourceAssets/visual-review/city-facade/city-facade-frames-*.json`,
+metrics `metrics-cfbefore-cp21c-vs-cfafter-cp21d.json`; band = lower 60 % of frame):
+- A2 Silwan approach: building-band detail x1.091, spread 103.7 -> 106.3, mean unchanged. Windows,
+  shutters and roof tones now read on the plain-box slope. **The material's clear win.**
+- A1 West gate x1.027, D1 dove 100 m x1.024, P1 aerial x1.009 (openings fade out by 800 m by
+  design), K1 x0.997: little or nothing, because those views are dominated by shelled buildings.
+- Frame time (static camera, median of last half of 700 frames): K1 18.81 -> 19.56, A1 18.31 -> 17.57,
+  A2 18.38 -> 17.72, D1 24.27 -> 23.15, P1 17.95 -> 16.80 ms: inside run-to-run noise. The perf
+  agent's long P1 captures (5,301 / 4,694 frames) on the same two builds: frame 17.47 -> 18.47 ms,
+  GPU 16.62 -> 17.75 ms (+1.1 ms). Answered with an EARLY-OUT (fade == 0 on roofs and walls past
+  800 m skips the opening maths): `-CityFacadeRebuild`, rebuilt in place 12:10Z, both .uassets
+  checkpointed (`ReviewCheckpoints/CityFacade-rebuild-20260911T121040728100Z`), usage flags read back.
+- K1 camera (-15500 19500 -1060) landed in an alley between shelled buildings, not on the deck. K2 is
+  the PROVEN cp05b-08/N3 deck position turned west (-20732 19230 -814 6 175 0, V pre-key).
+
+**The real reason the Kotel / Jewish Quarter view reads blind:** every OldCityFacadesV1 "opening" is
+a picture-frame solid standing proud of the wall; nothing is cut, so each frame shows the box wall
+(cropped K1). 98 of 110 buildings seen from the Kotel are shelled, so the box material cannot reach
+them. Fix: **ShellOpeningsV1** (`Scripts/create_shell_openings.py` + `release_shell_openings.py`):
+63,853 flat panels (53,344 rect + 6,858 arched windows, 2,000 rect + 1,651 arched doors), 144,724
+triangles, 8 HISM actors, 2 cm off the box wall (24 cm reveal), stock-node PerInstanceRandom
+glass / shutter / door material, no shadows, no collision, 700 m cull. Positions come from RE-RUNNING
+the frozen generation and PROVING it matched (all 190 OBJs: triangles, vertices, bounds; window and
+arched totals) - under UE's Python 3.11 only (system 32-bit Python flips js_hash arches). Zones from
+`create_enclosure.hide_set` itself (41/29). Precinct-zone actors carry CityDetailZone_Precinct.
+First candidate apply failed before save on `unreal.Transform(translation=)` TypeError (fixed, same
+fallback as CityDetail); map unchanged.
+
+**Pre-existing defect seen in A1 (NOT this pass):** CityDetail roof plant floats over bare ground just
+outside the West gate in YECHEZKEL (solar heaters in cfbefore-cp21c-A1 AND cfafter-cp21d-A1). Up to
+113 kept-zone CityDetail instances lie in 100 m cells the precinct hides (68 parapets, 12 solar,
+9 tanks, 9 condensers, ...; an upper bound - binned by instance position, not by decorated building).
+Recommended fix: re-zone CityDetail by the hide_set labels of the building actor each instance sits on.
+
+**Landed (12:3x-12:5x UTC):** ShellOpeningsV1 on Candidate48 (`native-shell-openings-apply-candidate-20260911T123240206770Z.json`)
+and Main50 (`...-apply-main-20260911T123440623805Z.json`): 63,853 placed = 63,853 read back after reopen,
+8 actors, 0.0 cm transform error, shadows off, material chain resolved from disk, protected maps unchanged.
+Audits AFTER the panels: Candidate48 hide list **269/0/0**, Main50 **278/0/0**, `passed: true`, every tag ok;
+CityDetailZone_Precinct now counts 16 actors (12 CityDetail + 4 panel), hidden in YECHEZKEL, visible in
+MODERN/OVERLAY. Census re-check: 1,498/1,498 components still on MI_CityFacade_CityStone after another
+agent's Kotel plaza re-apply. Early-out proven in a real cook by cp22d (another agent, cooked after my
+rebuild): cold SM6+SM5 shadermaps for M_CityFacadeV1, `Success - 0 error(s)`, checkpoint_playable.
+**cp24** (`C:/Mikdash/Builds/Checkpoint-cp24-20260911T124738Z`): try 1 died on the documented first-cook
+trap - SCW 0xC0000005 on the NEW M_ShellOpeningV1 (stock nodes, no Custom node), 1 queued job, fallback
+compile, UAT exit 25; maps untouched. Try 2: `Success - 0 error(s), 0 warning(s)`, 8,857 packages, no
+missing shadermap (served from the DDC the fallback wrote = its HLSL compiled). Status stays
+`cook_archive_passed_smoke_pending`: Checkpoint-Build's smoke refused because a sibling agent's game was
+running ("A build is already running"); the cp24 frame captures are the playability evidence.
+
 ## cp10/cp11: leaf cards are LEAF-SIZED, and the LOD schedule was 2x wrong — 2026-09-10 08:2x UTC
 
 **SHIPPED BUILD: `C:\Mikdash\Builds\Checkpoint-cp11-20260910T080907Z`** (`checkpoint_playable`,
@@ -1918,3 +1969,69 @@ Files: `Scripts/create_herodian_ashlar_layouts.py` (slices, seed screen, `--prov
   cp22 with collision 20.53 / 8.45 / 19.64 (2,757 frames, p95 23.98); cp22 `-MikdashNoPlazaCollision` 19.98 / 8.13 / 19.30 (2,847
   frames, p95 22.78). Collision on vs off, same build: +0.55 ms median frame, +0.32 ms game thread; the GPU moved +0.34 ms with no
   collision work on it, so the whole delta is at run-to-run noise level.
+
+## 11 Sep 2026 - Kotel plaza stair un-buried (generator fix, plan version 2)
+
+- **Cause** (`Scripts/create_kotel_plaza.py` build()): every deck cell whose CENTRE lay behind the 40 m split was laid at the
+  upper level, and the flight runs from the split 10 m further in, so the upper paving covered nine of its ten treads - slab
+  underside 175 cm over the first tread against a 192 cm capsule. The same generator also laid every tread row across
+  min..max of the polygon crossings at the split: the OSM outline is concave there, so rows 1-4 crossed a 20-40 m notch
+  outside the plaza, and the rear rows hung up to 3.3 m past its narrowing west edge. And the terrain twin, cut to the plan's
+  deck undersides, stood at the UPPER underside under the flight (the DEM there is 2.7-4.6 m above the tread undersides).
+- **Fix, in the generator (plan version 2):** nine treads, the upper deck's front edge is the tenth riser (stair head at
+  depth 4900); a cell is upper only where every point is behind the head, a straddling cell splits into an upper piece and a
+  lower remainder (33 cells); the whole flight footprint is paved at the LOWER level under the treads (132 cells), so the
+  terrain cut - which reads the deck cells - clamps the band below every tread; each tread row is the intersection of the
+  polygon's INSIDE intervals at the tread's front and back edges (rows 1-4 split in two around the notch, slivers < 1.5 m
+  dropped); the perimeter follows the tread height beside the flight. Offline proof: 0 of 21,315 tread sample points
+  outside the OSM polygon, 28 (0.13 %) over no cell (all within ~20 cm of the plaza edge), upper paving over a tread only at
+  tread 9's back edge (max 10 cm).
+- **Kept:** 926 cells, 27 wall-guard cells, both deck levels, 4 mechitza + 21 parapet. Coverage by area 99.22 % -> 99.227 %
+  (the hidden lower cells count), by station 97.8 % -> 97.772 %; visible paving 83.93 % of the polygon (the flight covers
+  854.9 m2). Terrain above the deck underside: 0 of 5,473 stations, worst 5.9e-06 cm, both maps. Instances 959/41/25/22.
+- **Terrain:** `release_precinct_terrain_cut.py` Kotel namespace moved to `/Game/MikdashV3/KotelPlazaCutV2` (a twin is never
+  overwritten in place); `-CutAssets -Candidate48` built it; the new `Scripts/release_kotel_twin_v2.py` swapped the placed
+  `RELEASE_KotelPlazaCut_07_08` actor to it (checkpoint, protected hashes, save, reopen, field-by-field readback; revert
+  `python Scripts/release_kotel_twin_v2.py --revert=<apply receipt>`, byte-exact). V1 stays on disk.
+- **Receipts, Candidate48 first:** `kotel-twin-v2-apply-Candidate48-20260911T113803624706Z.json`,
+  `native-kotel-plaza-apply-Candidate48-20260911T113906097549Z.json`, then Main50 `kotel-twin-v2-apply-Main50-20260911T114014161991Z.json`,
+  `native-kotel-plaza-apply-Main50-20260911T114114275385Z.json`; fresh verifies `kotel-twin-v2-verify-*-20260911T1151*`
+  (verified_fresh_process) and `native-kotel-plaza-verify-*-20260911T115[2]*` (kotel_plaza_measured_map_unchanged).
+  Checkpoints `ReviewCheckpoints/KotelStairFix-20260911T112702Z` (scripts + v1 plan/manifest) and `KotelTwinV2-*`.
+- **Downstream readers of the plan, NOT re-run:** `release_frame_defects.spec.json` (vegetation keep-out records "926 entries")
+  and `measure_city_visibility.py`.
+- **Same day, two follow-ups the walking probe found (plan and cut stay version 2 in structure):**
+  (1) **Seam fins.** The plan stores cell centres to 3 decimals and scales to 6, so touching cell edges rebuilt from it
+  missed each other by up to 0.00075 cm at 74 seams. The terrain cut keeps ORIGINAL ground in any gap between regions,
+  so each seam was a hair-thin, full-height hillside fin standing through the paving - a 100 cm station grid cannot see it;
+  the cp22c climb (`movie-cp22c-kotel-stair-climb/`) was held 8 s by one at x -20250 on the upper level. Fix:
+  `release_precinct_terrain_cut.py` snaps every Kotel region edge to a 0.01 cm lattice (`KOTEL_EDGE_SNAP_CM`); offline scan
+  of the merged regions: 0 gaps (131 regions, was 185). New twin `/Game/MikdashV3/KotelPlazaCutV3/...` (a twin is never
+  rebuilt in place), swapped V2->V3 with `release_kotel_twin_v2.py -TwinFrom=... -TwinTo=...` on Candidate48 then Main50
+  (`kotel-twin-v2-apply-*-20260911T121[35]*`, fresh verifies `...-verify-*-20260911T1217*`), cut receipt
+  `native-terrain-cut-assets-Candidate48-20260911T121133563106Z.json` (worst vertex 5.9e-06 cm above the underside, surface
+  outside the cut moved 0.0003 cm). The cp22d climb crossed x -20250 without a stop.
+  (2) **The tenth riser.** The riser at the stair head was the upper slab's own side face, and the paving material projects
+  from above, so it rendered as vertical streaks. A tenth row of SM_PlazaV1_Step now stands in front of it, its top 1 cm under
+  the paving; it is advanced by the straddling upper pieces' measured overhang (19.68 cm) plus 1 cm, so its ashlar face is in
+  front of every slab edge and tread 9 keeps 79.3 cm. Only step positions changed (45 steps), so the V3 cut stands; the plaza
+  was rebuilt and re-verified on both maps and cooked as cp22e.
+- **Seen outside this pass, not investigated:** looking west from the Kotel plaza, a mirror-image band of the city appears
+  beyond the upper deck (frames `movie-cp22c/cp22d-kotel-stair-climb-*`). It is not the plaza geometry.
+
+## Astra project access restored — 15 September 2026
+
+Write/readback verified in the active project. The idle Unreal project-browser window was closed normally; no editor or commandlet remains. Claude's last session entries are weekly-limit notices, not active native work. Latest publication remains 8fe78604; preserve unpublished local maps and unrelated clone changes.
+
+The cp24 city-facade capture finished all six views on 11 Sep 13:11:47 UTC. They were inspected during recovery: A1 has floating ORIGINAL decorative rooftop tanks/panels; K2 has a severe ground opening beneath the Jewish Quarter; scene visual acceptance fails. Do not mistake these legacy pale vertical tanks for the newer CityDetail dark horizontal roof plant.
+
+Prepared Scripts/audit_legacy_roof_zones.py and release_legacy_roof_zones.py are now copied into the active project. The exact frozen connectivity audit verifies 11,400 building components / 242,764 triangles and maps all 6,007 original roof pairs. Candidate48 partition: 1,263 precinct pairs / 4,744 kept. Plan and offline review: SourceAssets/context-review/LegacyRoofZonesV1. Eight guard tests under Tests/test_roof_recovery.py passed offline; no native application yet. The release defaults to read-only preflight; apply is explicit and checkpointed, Candidate48-only. Full project gate and native readback/visual state restoration still owed.
+
+15 Sep native follow-up: full gate 11/11, 32/32 math suites, 8/8 roof tests PASS. Native read-only preflight verified all 12,014 transforms. Commandlet apply crashed in UnrealEd before save; Candidate48 hash stayed 3f986fb6... and checkpoint is LegacyRoofZones-20260915T124545432297Z. Actor duplication must use hidden editor -ExecutePythonScript -nullrhi rather than -run=pythonscript for this pass; receipt phase markers added. Never count the crash as an application.
+
+Editor retry duplicated and partitioned all four groups successfully (<0.000001 cm error), then exhausted Windows commit memory before map save. Disk map remains unchanged. Avoid loading the already-open Candidate48 a second time; start the editor on Engine/Maps/Entry and cap async asset compilation concurrency at 1 (supported Engine AsyncCompilationHelpers command-line flag), rather than changing system paging settings.
+
+15 Sep final recovery evidence: commandlet actor creation through import_instances_ue58._inst_component supersedes the earlier duplicate_actor/editor recipe. It created all four groups with exact counts/transforms and copied render properties, but saving still hit Windows commit exhaustion; synchronous commandlet loading also OOMed. All attempts left Candidate48 byte-identical at 3f986fb6... . Full Windows usage was 57.4 GB committed against a 68.6 GB limit before Unreal. See SourceAssets/context-review/LegacyRoofZonesV1/native-recovery-20260915.json. No new packaged build or native application is claimed. Clear memory pressure before further native jobs; do not repeat identical crashing runs. Fresh verification groups must be compared against the apply receipt because the separate verify process has no original-component baseline.
+User supplied Old City photo grids on 15 Sep: private copies at C:/Mikdash/PrivateReferences/OldCity-20260915. Visual direction and walking-view acceptance are in SourceAssets/context-review/OldCityReferenceV2/reference-notes.md. Keep family photos out of Git and game textures; use their worn rectangular paving, rough limestone, narrow lanes, arches, ramps/steps and grouped pedestrians as reference, not surveyed measurements.
+
+Pinned-plan publishing: legacy-roof-zones.json was authored with CRLF; Git autocrlf initially changed its staged SHA. Its local .gitattributes now preserves raw bytes (-text) and recognizes CR-at-EOL for whitespace checks. Staged blob SHA must equal the native PLAN_SHA, not merely the working-copy hash. The final pre-push gate passed 7/7, 32/32 math suites and 8/8 roof tests.

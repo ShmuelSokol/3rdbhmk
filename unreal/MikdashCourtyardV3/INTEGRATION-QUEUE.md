@@ -567,3 +567,47 @@ Constraints carried forward: only `MI_PrecinctPlaza_Ashlar` and the `M_PrecinctM
 keep the high-passed tile-lag correlation near -0.055; keep the batter ledges; the 4 m close-up
 material (`MI_HerodianV4_*`) is another pass's and must not change. Judge against the Western
 Wall at matched cm/px, not against the previous build.
+
+## cp26 defect queue (15 Sep, from SourceAssets/visual-review/CP26-REVIEW.md)
+
+cp26 is the first full recook since 11 Sep and the build to open
+(`C:/Mikdash/Builds/Checkpoint-cp26-20260915T214343Z`; rv4a on top of it adds the ResidentV4 people).
+Every fix in it was confirmed in frames. What is still wrong, worst first, with who owns it:
+
+1. **K1: a huge untextured white staircase underside spans the alley overhead.** Present since cp24.
+   Owner: Kotel-views pass (KotelViewsV1). Find the actor/mesh, the generator that placed it, and why it
+   is white (missing material, or a cook usage-flag fallback to the default material).
+2. **K2: Jewish Quarter houses float above the hillside.** 2,995 of 12,913 footprints float >1 cm,
+   2,046 >10 cm, worst 6.4 m. Two causes: `generate_infill` sampled terrain at the footprint CENTRE
+   (1,479 of 1,514 infill), and OSM buildings sit at their lowest CORNER so a valley crossing a wall
+   still leaves a gap (1,516 of 11,399). Owner: OldCityFoundationV2 - stone plinths, stepped footings
+   where the drop exceeds 65 cm.
+3. **K2: the Kotel closure face reads as a blockout.** Two planes with a hard jog, regular dark vertical
+   stripes, a stray tilted strip of paving above it, grey stone matching neither the Kotel nor the Old
+   City. Functionally correct (state visibility, edge collision, stair replay all pass). Owner:
+   Kotel-views pass.
+4. **Blob trees.** Two-sphere blobs in A1; at the north gate (07) they clip through the steps.
+   Owner: TreesV1 - real Jerusalem species (olive, cypress, Aleppo pine, carob, palm, Judas tree),
+   authored like every other asset here (generator + guarded release), with an offline intersection test.
+5. **Plaza retaining walls still read as brick at 60 m** (V6e, shipped since cp25). Against the Western
+   Wall: bed-joint dip 0.190 vs 0.144, course-height CV 0.542 vs 0.194, log std 0.0997 vs 0.0838,
+   5-95% ratio 1.375 vs 1.254, neighbour contrast 0.0483 vs 0.0454. Tone and neighbour contrast now
+   MATCH; what the eye reads is crisp dark joints with no drafted margins, course heights ~3x too
+   irregular (isolated 2-3 m bands in a field of 1 m courses), merged courses that still show their
+   joints at 22 m, a weathering blotch repeat on a grid, and olive-brown instead of cream limestone.
+   Owner: walls V7 pass.
+6. **Stretched texture bands at the batter setbacks** (P2, P4, P5) and a mismatched band of smaller
+   stones along P2's top edge. Owner: walls V7 pass.
+7. **Aerial views:** the platform is a flat grey slab at 1-2 km (P1, D1); D1 has a white glare band on
+   the horizon. Unowned.
+8. **South approach (A2):** plain boxes on bare dunes, flat dark ribbon roads. Unowned.
+9. **City wall:** flat uniform brown, painted-looking joints, no relief, visible repeat. Unowned.
+10. **Herodian jamb close-up (02):** blurry low-resolution stone, identical panels on every block.
+    Unowned.
+11. **Unconfirmed:** switching to Yechezkel while standing on the Kotel deck puts the camera below the
+    platform surface. Codex's earlier runs show the same, so it is not new; nobody has tested whether a
+    real player is moved. Unowned.
+
+Also open from the frame review: the residents read as people walking at 3-5 m but NOT face-on at 2 m
+(flat cheek planes, wedge nose, saw-tooth beard/headcloth boundary, eyes as dark smears), and the far
+crowd is still V3 statues - the VAT needs re-baking from the V4 bodies.

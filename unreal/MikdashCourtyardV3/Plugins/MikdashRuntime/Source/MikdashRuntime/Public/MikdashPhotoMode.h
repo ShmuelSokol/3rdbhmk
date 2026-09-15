@@ -62,6 +62,8 @@ class UCanvas;
 class UInputComponent;
 class UMikdashPhotoMode;
 class UWorld;
+class APawn;
+class USkeletalMeshComponent;
 
 /** Colour grades offered in photo mode. Numeric post process settings, no assets. */
 UENUM(BlueprintType)
@@ -307,6 +309,25 @@ private:
     void RegisterOverlay(APlayerController* Controller);
     void UnregisterOverlay(APlayerController* Controller);
     void BuildPostProcess(struct FPostProcessSettings& Out) const;
+    // Detached photo camera hides the possessed pawn's world-space body only.
+    // Exact prior flags are restored; optional CLI diagnostics read the same path.
+    bool TickPawnProbe(float DeltaSeconds);
+    void PreparePhotoPawnVisibility(APlayerController* Controller);
+    void RestorePhotoPawnVisibility(const TCHAR* Phase);
+    void RecordPawnDiagnostic(const TCHAR* Phase, bool bRestorationPassed = true, int32 InvalidReferences = 0);
+    UPROPERTY(Transient) TWeakObjectPtr<APawn> PhotoPawnVisibilityPawn;
+    UPROPERTY(Transient) TArray<TWeakObjectPtr<USkeletalMeshComponent>> PhotoPawnVisibilityMeshes;
+    TArray<bool> PhotoPawnPriorVisible;
+    TArray<bool> PhotoPawnPriorHidden;
+    FString PawnDiagnosticReceiptStem;
+    int32 PawnDiagnosticReceiptSequence = 0;
+    FTSTicker::FDelegateHandle PawnProbeTickHandle;
+    double PawnProbePhaseStartedSeconds = 0.0;
+    int32 PawnProbeStage = 0;
+    FString PawnProbePhotoPath;
+    bool bPawnProbeSucceeded = true;
+    bool bPawnDiagnosticReadbacksPassed = true;
+    bool bPawnDiagnosticReceiptSaved = false;
 
     /**
      * Retried until a player controller exists. The subsystem is created before the first

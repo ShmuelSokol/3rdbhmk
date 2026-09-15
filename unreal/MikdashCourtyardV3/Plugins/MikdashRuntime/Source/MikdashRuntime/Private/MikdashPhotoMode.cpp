@@ -7,6 +7,16 @@
 #include "CanvasItem.h"
 #include "CanvasTypes.h"
 #include "Components/InputComponent.h"
+#include "Components/PrimitiveComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Engine/SkeletalMesh.h"
+#include "Engine/StaticMesh.h"
+#include "Dom/JsonObject.h"
+#include "Serialization/JsonSerializer.h"
+#include "Misc/CommandLine.h"
+#include "Misc/Parse.h"
+#include "Misc/FileHelper.h"
 #include "Engine/Canvas.h"
 #include "Engine/Engine.h"
 #include "Engine/GameInstance.h"
@@ -16,6 +26,8 @@
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
 #include "HAL/PlatformFileManager.h"
+#include "HAL/PlatformTime.h"
+#include "HAL/PlatformMisc.h"
 #include "HighResScreenshot.h"
 #include "Kismet/GameplayStatics.h"
 #include "Misc/DateTime.h"
@@ -233,6 +245,13 @@ void UMikdashPhotoMode::Initialize(FSubsystemCollectionBase& Collection)
 {
     Super::Initialize(Collection);
     ResetSettings();
+    if (FParse::Param(FCommandLine::Get(), TEXT("MikdashPhotoPawnDiagnostic"))
+        && FParse::Param(FCommandLine::Get(), TEXT("MikdashPhotoPawnProbe")))
+    {
+        PawnProbePhaseStartedSeconds = FPlatformTime::Seconds();
+        PawnProbeTickHandle = FTSTicker::GetCoreTicker().AddTicker(
+            FTickerDelegate::CreateUObject(this, &UMikdashPhotoMode::TickPawnProbe), 0.5f);
+    }
     // The toggle key is bound lazily: at subsystem creation there is no player controller
     // yet, so binding once here would leave F2 dead for the whole run. The ticker retries
     // until a controller exists and then removes itself.
@@ -266,6 +285,11 @@ bool UMikdashPhotoMode::TryBindToggleKey(float DeltaSeconds)
 
 void UMikdashPhotoMode::Deinitialize()
 {
+    if (PawnProbeTickHandle.IsValid())
+    {
+        FTSTicker::GetCoreTicker().RemoveTicker(PawnProbeTickHandle);
+        PawnProbeTickHandle.Reset();
+    }
     if (bActive)
     {
         Exit();
@@ -279,6 +303,7 @@ void UMikdashPhotoMode::Deinitialize()
     {
         UnbindKeys(Controller);
     }
+    RestorePhotoPawnVisibility(TEXT("deinitialize"));
     Super::Deinitialize();
 }
 
@@ -365,8 +390,11 @@ bool UMikdashPhotoMode::Enter()
     }
     if (bActive)
     {
+        RestorePhotoPawnVisibility(TEXT("repeated-enter-restore"));
+        PreparePhotoPawnVisibility(GetOwningController());
         return true;
     }
+    RestorePhotoPawnVisibility(TEXT("cancelled-or-stale-enter-restore"));
 
     UWorld* World = GetWorld();
     APlayerController* Controller = GetOwningController();
@@ -376,6 +404,11 @@ bool UMikdashPhotoMode::Enter()
         return false;
     }
     BindKeys(Controller);
+    if (FParse::Param(FCommandLine::Get(), TEXT("MikdashPhotoPawnDiagnostic")))
+    {
+        PhotoPawnVisibilityPawn = Controller->GetPawn();
+        RecordPawnDiagnostic(TEXT("enter-before-camera"));
+    }
 
     FVector ViewLocation = FVector::ZeroVector;
     FRotator ViewRotation = FRotator::ZeroRotator;
@@ -451,12 +484,14 @@ bool UMikdashPhotoMode::Enter()
 
     bActive = true;
     QuietFramesLeft = 0;
+    PreparePhotoPawnVisibility(Controller);
     UE_LOG(LogMikdashPhoto, Log, TEXT("Photo mode entered at %s, leash %.0f cm."), *ViewLocation.ToString(), LeashRadiusCm);
     return true;
 }
 
 void UMikdashPhotoMode::Exit()
 {
+    RestorePhotoPawnVisibility(TEXT("exit-restore"));
     if (!bActive)
     {
         return;
@@ -972,6 +1007,7 @@ FString UMikdashPhotoMode::BuildPhotoBaseName(int32 Multiplier) const
 
 FString UMikdashPhotoMode::TakePhoto(int32 Multiplier)
 {
+    RecordPawnDiagnostic(TEXT("capture-camera-readback"));
     const int32 Scale = FMath::Clamp(Multiplier, 1, 4);
 
     FViewport* Viewport = (GEngine && GEngine->GameViewport) ? GEngine->GameViewport->Viewport : nullptr;
@@ -1033,4 +1069,297 @@ FString UMikdashPhotoMode::TakePhoto(int32 Multiplier)
     UE_LOG(LogMikdashPhoto, Log, TEXT("Photograph %d requested at %dx (%d by %d): %s"),
            PhotosTaken, Scale, Size.X * Scale, Size.Y * Scale, *LastPhotoPath);
     return LastPhotoPath;
+}
+
+// A WorldSpaceRepresentation body is hidden from its owning pawn's normal view,
+// but becomes visible when the view target is our detached photo camera. Suppress
+// only that possessed pawn body while taking photos, then restore its exact flags.
+// Visibility never propagates to attachments and no render show flags are changed.
+void UMikdashPhotoMode::PreparePhotoPawnVisibility(APlayerController* Controller)
+{
+    RestorePhotoPawnVisibility(TEXT("begin-restore-stale"));
+    APawn* PossessedPawn = Controller ? Controller->GetPawn() : nullptr;
+    PhotoPawnVisibilityPawn = PossessedPawn;
+    RecordPawnDiagnostic(TEXT("before-hide"));
+    if (!PossessedPawn)
+    {
+        RecordPawnDiagnostic(TEXT("selection-refused-no-pawn"), false);
+        return;
+    }
+    FString ComponentName;
+    const bool bDiagnostic = FParse::Param(FCommandLine::Get(), TEXT("MikdashPhotoPawnDiagnostic"));
+    if (bDiagnostic) FParse::Value(FCommandLine::Get(), TEXT("MikdashPhotoPawnComponent="), ComponentName);
+    TInlineComponentArray<USkeletalMeshComponent*> PawnMeshes;
+    PossessedPawn->GetComponents(PawnMeshes);
+    TArray<USkeletalMeshComponent*> SelectedMeshes;
+    for (USkeletalMeshComponent* MeshComponent : PawnMeshes)
+    {
+        if (MeshComponent->GetOwner() == PossessedPawn &&
+            (ComponentName.IsEmpty()
+                ? MeshComponent->FirstPersonPrimitiveType == EFirstPersonPrimitiveType::WorldSpaceRepresentation
+                : MeshComponent->GetName().Equals(ComponentName, ESearchCase::CaseSensitive)))
+            SelectedMeshes.Add(MeshComponent);
+    }
+    if (!ComponentName.IsEmpty() && SelectedMeshes.Num() != 1)
+    {
+        UE_LOG(LogMikdashPhoto, Warning, TEXT("PhotoPawnDiagnostic refused selection=%s matches=%d; no components hidden."),
+            *ComponentName, SelectedMeshes.Num());
+        RecordPawnDiagnostic(TEXT("selection-refused"), false);
+        return;
+    }
+    if (SelectedMeshes.IsEmpty())
+    {
+        RecordPawnDiagnostic(TEXT("world-space-body-absent-noop"));
+        return;
+    }
+    for (USkeletalMeshComponent* MeshComponent : SelectedMeshes)
+    {
+        PhotoPawnVisibilityMeshes.Add(MeshComponent);
+        PhotoPawnPriorVisible.Add(MeshComponent->IsVisible());
+        PhotoPawnPriorHidden.Add(MeshComponent->bHiddenInGame);
+        MeshComponent->SetVisibility(false, false);
+        MeshComponent->SetHiddenInGame(true, false);
+    }
+    bool bAllHidden = true;
+    for (USkeletalMeshComponent* MeshComponent : SelectedMeshes)
+        bAllHidden = bAllHidden && !MeshComponent->IsVisible() && MeshComponent->bHiddenInGame;
+    RecordPawnDiagnostic(TEXT("after-hide"), bAllHidden);
+}
+
+void UMikdashPhotoMode::RestorePhotoPawnVisibility(const TCHAR* Phase)
+{
+    if (PhotoPawnVisibilityMeshes.IsEmpty())
+    {
+        PhotoPawnVisibilityPawn.Reset();
+        return;
+    }
+    bool bRestored = true;
+    int32 InvalidReferences = 0;
+    for (int32 Index = 0; Index < PhotoPawnVisibilityMeshes.Num(); ++Index)
+    {
+        USkeletalMeshComponent* MeshComponent = PhotoPawnVisibilityMeshes[Index].Get();
+        if (!MeshComponent) { ++InvalidReferences; continue; }
+        MeshComponent->SetVisibility(PhotoPawnPriorVisible[Index], false);
+        MeshComponent->SetHiddenInGame(PhotoPawnPriorHidden[Index], false);
+        bRestored = bRestored && MeshComponent->IsVisible() == PhotoPawnPriorVisible[Index]
+            && MeshComponent->bHiddenInGame == PhotoPawnPriorHidden[Index];
+    }
+    // Read back before discarding the baseline; destroyed components are reported separately.
+    RecordPawnDiagnostic(Phase, bRestored, InvalidReferences);
+    PhotoPawnVisibilityMeshes.Reset();
+    PhotoPawnPriorVisible.Reset();
+    PhotoPawnPriorHidden.Reset();
+    PhotoPawnVisibilityPawn.Reset();
+}
+
+void UMikdashPhotoMode::RecordPawnDiagnostic(const TCHAR* Phase, bool bRestorationPassed, int32 InvalidReferences)
+{
+    if (!FParse::Param(FCommandLine::Get(), TEXT("MikdashPhotoPawnDiagnostic"))) return;
+    APlayerController* Controller = GetOwningController();
+    APawn* ObservedPawn = PhotoPawnVisibilityPawn.Get();
+    if (!ObservedPawn && Controller) ObservedPawn = Controller->GetPawn();
+    auto Vector = [](const FVector& V) {
+        return TArray<TSharedPtr<FJsonValue>>{MakeShared<FJsonValueNumber>(V.X), MakeShared<FJsonValueNumber>(V.Y), MakeShared<FJsonValueNumber>(V.Z)};
+    };
+    auto Transform = [&Vector](const FTransform& T) {
+        TSharedRef<FJsonObject> Value = MakeShared<FJsonObject>();
+        Value->SetArrayField(TEXT("translationCm"), Vector(T.GetTranslation()));
+        Value->SetArrayField(TEXT("scale3D"), Vector(T.GetScale3D()));
+        const FQuat Q = T.GetRotation();
+        Value->SetArrayField(TEXT("quaternionXYZW"), {MakeShared<FJsonValueNumber>(Q.X), MakeShared<FJsonValueNumber>(Q.Y),
+            MakeShared<FJsonValueNumber>(Q.Z), MakeShared<FJsonValueNumber>(Q.W)});
+        return Value;
+    };
+    TSharedRef<FJsonObject> Receipt = MakeShared<FJsonObject>();
+    bPawnDiagnosticReadbacksPassed = bPawnDiagnosticReadbacksPassed && bRestorationPassed && InvalidReferences == 0;
+    Receipt->SetStringField(TEXT("phase"), Phase);
+    FString DiagnosticComponentName;
+    FParse::Value(FCommandLine::Get(), TEXT("MikdashPhotoPawnComponent="), DiagnosticComponentName);
+    Receipt->SetStringField(TEXT("visibilityPolicy"), DiagnosticComponentName.IsEmpty()
+        ? TEXT("possessed-pawn-world-space-representation") : TEXT("diagnostic-exact-component"));
+    Receipt->SetStringField(TEXT("diagnosticComponentName"), DiagnosticComponentName);
+    Receipt->SetStringField(TEXT("probePhotoPath"), PawnProbePhotoPath);
+    Receipt->SetBoolField(TEXT("probePassed"), bPawnProbeSucceeded && bPawnDiagnosticReadbacksPassed);
+    Receipt->SetBoolField(TEXT("probePhotoExists"), !PawnProbePhotoPath.IsEmpty()
+        && FPlatformFileManager::Get().GetPlatformFile().FileSize(*PawnProbePhotoPath) > 0);
+    Receipt->SetStringField(TEXT("utc"), FDateTime::UtcNow().ToIso8601());
+    Receipt->SetStringField(TEXT("possessedPawn"), GetPathNameSafe(Controller ? Controller->GetPawn() : nullptr));
+    Receipt->SetStringField(TEXT("observedPawn"), GetPathNameSafe(ObservedPawn));
+    Receipt->SetStringField(TEXT("pawnClass"), ObservedPawn ? ObservedPawn->GetClass()->GetPathName() : TEXT("None"));
+    Receipt->SetStringField(TEXT("viewTarget"), GetPathNameSafe(Controller ? Controller->GetViewTarget() : nullptr));
+    Receipt->SetStringField(TEXT("photoCamera"), GetPathNameSafe(PhotoCamera.Get()));
+    Receipt->SetBoolField(TEXT("photoActive"), bActive);
+    Receipt->SetBoolField(TEXT("restorationReadbackPassed"), bRestorationPassed);
+    Receipt->SetNumberField(TEXT("invalidWeakReferences"), InvalidReferences);
+    if (ObservedPawn) Receipt->SetObjectField(TEXT("pawnTransform"), Transform(ObservedPawn->GetActorTransform()));
+    if (Controller && Controller->PlayerCameraManager)
+    {
+        const FMinimalViewInfo& View = Controller->PlayerCameraManager->GetCameraCacheView();
+        Receipt->SetObjectField(TEXT("actualCameraTransform"), Transform(FTransform(View.Rotation, View.Location)));
+        Receipt->SetNumberField(TEXT("actualCameraFOV"), View.FOV);
+        Receipt->SetNumberField(TEXT("actualCameraFirstPersonFOV"), View.FirstPersonFOV);
+        Receipt->SetNumberField(TEXT("actualCameraFirstPersonScale"), View.FirstPersonScale);
+        Receipt->SetBoolField(TEXT("actualCameraUsesFirstPersonParameters"), View.bUseFirstPersonParameters);
+    }
+    if (PhotoCamera && PhotoCamera->Camera)
+    {
+        Receipt->SetObjectField(TEXT("photoCameraTransform"), Transform(PhotoCamera->Camera->GetComponentTransform()));
+        Receipt->SetBoolField(TEXT("photoCameraFirstPersonFOVEnabled"), PhotoCamera->Camera->bEnableFirstPersonFieldOfView);
+        Receipt->SetBoolField(TEXT("photoCameraFirstPersonScaleEnabled"), PhotoCamera->Camera->bEnableFirstPersonScale);
+    }
+    TArray<TSharedPtr<FJsonValue>> Components;
+    if (ObservedPawn)
+    {
+        TInlineComponentArray<UPrimitiveComponent*> Primitives;
+        ObservedPawn->GetComponents(Primitives);
+        for (UPrimitiveComponent* Primitive : Primitives)
+        {
+            TSharedRef<FJsonObject> Item = MakeShared<FJsonObject>();
+            Item->SetStringField(TEXT("name"), Primitive->GetName());
+            Item->SetStringField(TEXT("path"), Primitive->GetPathName());
+            Item->SetStringField(TEXT("class"), Primitive->GetClass()->GetPathName());
+            Item->SetStringField(TEXT("owner"), GetPathNameSafe(Primitive->GetOwner()));
+            Item->SetStringField(TEXT("attachParent"), GetPathNameSafe(Primitive->GetAttachParent()));
+            Item->SetStringField(TEXT("attachSocket"), Primitive->GetAttachSocketName().ToString());
+            Item->SetObjectField(TEXT("worldTransform"), Transform(Primitive->GetComponentTransform()));
+            Item->SetObjectField(TEXT("relativeTransform"), Transform(Primitive->GetRelativeTransform()));
+            Item->SetArrayField(TEXT("boundsOriginCm"), Vector(Primitive->Bounds.Origin));
+            Item->SetArrayField(TEXT("boundsExtentCm"), Vector(Primitive->Bounds.BoxExtent));
+            Item->SetNumberField(TEXT("boundsSphereRadiusCm"), Primitive->Bounds.SphereRadius);
+            Item->SetBoolField(TEXT("visible"), Primitive->IsVisible());
+            Item->SetBoolField(TEXT("hiddenInGame"), Primitive->bHiddenInGame);
+            Item->SetBoolField(TEXT("actorHidden"), Primitive->GetOwner() && Primitive->GetOwner()->IsHidden());
+            Item->SetBoolField(TEXT("ownerNoSee"), Primitive->bOwnerNoSee);
+            Item->SetBoolField(TEXT("onlyOwnerSee"), Primitive->bOnlyOwnerSee);
+            Item->SetNumberField(TEXT("firstPersonPrimitiveType"), static_cast<int32>(Primitive->FirstPersonPrimitiveType));
+            Item->SetBoolField(TEXT("castShadow"), Primitive->CastShadow);
+            Item->SetBoolField(TEXT("castHiddenShadow"), Primitive->bCastHiddenShadow);
+            Item->SetBoolField(TEXT("registered"), Primitive->IsRegistered());
+            if (const USkeletalMeshComponent* Skeletal = Cast<USkeletalMeshComponent>(Primitive))
+            {
+                Item->SetStringField(TEXT("mesh"), GetPathNameSafe(Skeletal->GetSkeletalMeshAsset()));
+                const int32 SnapshotIndex = PhotoPawnVisibilityMeshes.IndexOfByPredicate([Skeletal](const TWeakObjectPtr<USkeletalMeshComponent>& Ref) { return Ref.Get() == Skeletal; });
+                Item->SetBoolField(TEXT("diagnosticSelected"), SnapshotIndex != INDEX_NONE);
+                if (SnapshotIndex != INDEX_NONE)
+                {
+                    Item->SetBoolField(TEXT("priorVisible"), PhotoPawnPriorVisible[SnapshotIndex]);
+                    Item->SetBoolField(TEXT("priorHiddenInGame"), PhotoPawnPriorHidden[SnapshotIndex]);
+                }
+            }
+            else if (const UStaticMeshComponent* Static = Cast<UStaticMeshComponent>(Primitive))
+                Item->SetStringField(TEXT("mesh"), GetPathNameSafe(Static->GetStaticMesh()));
+            Components.Add(MakeShared<FJsonValueObject>(Item));
+        }
+    }
+    Receipt->SetArrayField(TEXT("pawnPrimitives"), Components);
+    FString JSON;
+    const TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&JSON);
+    FJsonSerializer::Serialize(Receipt, Writer);
+    if (PawnDiagnosticReceiptStem.IsEmpty())
+        PawnDiagnosticReceiptStem = FString::Printf(TEXT("PhotoPawn-%lld"), FDateTime::UtcNow().GetTicks());
+    const FString Directory = FPaths::ProjectSavedDir() / TEXT("Diagnostics");
+    FPlatformFileManager::Get().GetPlatformFile().CreateDirectoryTree(*Directory);
+    const FString Output = Directory / FString::Printf(TEXT("%s-%03d.json"), *PawnDiagnosticReceiptStem, PawnDiagnosticReceiptSequence++);
+    const bool Saved = FFileHelper::SaveStringToFile(JSON, *Output);
+    bPawnDiagnosticReceiptSaved = Saved;
+    UE_LOG(LogMikdashPhoto, Display, TEXT("PhotoPawnDiagnostic phase=%s tracked=%d restoreReadback=%d invalidRefs=%d saved=%d receipt=%s\n%s"),
+        Phase, PhotoPawnVisibilityMeshes.Num(), bRestorationPassed, InvalidReferences, Saved, *Output, *JSON);
+}
+
+bool UMikdashPhotoMode::TickPawnProbe(float DeltaSeconds)
+{
+    (void)DeltaSeconds;
+    const double Now = FPlatformTime::Seconds();
+    const double Elapsed = Now - PawnProbePhaseStartedSeconds;
+    auto Finish = [this](const TCHAR* Phase) {
+        Exit(); // restores every still-valid component before the final receipt
+        RecordPawnDiagnostic(Phase);
+        UE_LOG(LogMikdashPhoto, Display, TEXT("PhotoPawnProbe complete passed=%d receiptSaved=%d photo=%s"),
+            bPawnProbeSucceeded && bPawnDiagnosticReadbacksPassed, bPawnDiagnosticReceiptSaved, *PawnProbePhotoPath);
+        PawnProbeTickHandle.Reset();
+        // Both flags were required when installing this ticker. A failed file write
+        // never masquerades as a completed probe; leave the log for the outer watchdog.
+        if (bPawnDiagnosticReceiptSaved) FPlatformMisc::RequestExit(false);
+        return false;
+    };
+    if (PawnProbeStage == 0)
+    {
+        if (!GetWorld() || !GetOwningController() || !GetOwningController()->GetPawn())
+        {
+            if (Elapsed < 120.0) return true;
+            bPawnProbeSucceeded = false;
+            return Finish(TEXT("probe-failed-no-pawn"));
+        }
+        PawnProbeStage = 1;
+        PawnProbePhaseStartedSeconds = Now;
+        return true;
+    }
+    if (PawnProbeStage == 1)
+    {
+        if (Elapsed < 15.0) return true;
+        if (!Enter())
+        {
+            bPawnProbeSucceeded = false;
+            return Finish(TEXT("probe-failed-enter"));
+        }
+        PawnProbeStage = 2;
+        PawnProbePhaseStartedSeconds = Now;
+        return true;
+    }
+    if (PawnProbeStage == 2)
+    {
+        if (Elapsed < 3.0) return true;
+        PawnProbePhotoPath = TakePhoto(2);
+        if (PawnProbePhotoPath.IsEmpty())
+        {
+            bPawnProbeSucceeded = false;
+            return Finish(TEXT("probe-failed-capture-request"));
+        }
+        PawnProbeStage = 3;
+        PawnProbePhaseStartedSeconds = Now;
+        RecordPawnDiagnostic(TEXT("probe-photo-requested"));
+        return true;
+    }
+    if (PawnProbeStage == 4)
+    {
+        if (Elapsed < 1.0) return true; // observe the restored view after its 0.25s blend
+        RecordPawnDiagnostic(TEXT("probe-first-exit-camera"));
+        // One further photo session, including an idempotent Enter while already active.
+        // No second screenshot: this isolates snapshot/restoration across re-entry.
+        if (!Enter() || !Enter())
+        {
+            bPawnProbeSucceeded = false;
+            return Finish(TEXT("probe-failed-repeat-enter"));
+        }
+        RecordPawnDiagnostic(TEXT("probe-repeat-enter"));
+        PawnProbeStage = 5;
+        PawnProbePhaseStartedSeconds = Now;
+        return true;
+    }
+    if (PawnProbeStage == 5)
+    {
+        if (Elapsed < 1.0) return true;
+        Exit();
+        RecordPawnDiagnostic(TEXT("probe-repeat-exit"));
+        PawnProbeStage = 6;
+        PawnProbePhaseStartedSeconds = Now;
+        return true;
+    }
+    if (PawnProbeStage == 6)
+    {
+        if (Elapsed < 1.0) return true;
+        return Finish(TEXT("probe-complete"));
+    }
+    if (Elapsed < 5.0) return true;
+    if (FPlatformFileManager::Get().GetPlatformFile().FileSize(*PawnProbePhotoPath) > 0)
+    {
+        Exit();
+        RecordPawnDiagnostic(TEXT("probe-exited-await-camera"));
+        PawnProbeStage = 4;
+        PawnProbePhaseStartedSeconds = Now;
+        return true;
+    }
+    if (Elapsed < 30.0) return true;
+    bPawnProbeSucceeded = false;
+    return Finish(TEXT("probe-failed-png-timeout"));
 }

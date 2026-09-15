@@ -1,5 +1,31 @@
 # Astra takeover checkpoint — 15 September 2026
 
+## Current photo fix and Kotel study — 15 September, 16:31 UTC
+
+Photo-mode camera obstruction is now fixed in the local test copy. Its current game
+child SHA256 is `c1f56f30d0eacc819e9ba7f6f8681e5ddcf9cd199121a5d25d0ffd29ee0f22fc`.
+The launcher path below is unchanged. Both Editor/Game compiled and linked; the
+production-policy GPU probe `CameraObstructionV1/probe-20260915T161445204Z.json`
+passed 18 phases including repeated Enter, active Enter and both exits. Native pixels
+were inspected: the rods are absent. Only the possessed player's skeletal
+WorldSpaceRepresentation body is hidden while photographing. Original component
+flags and pawn camera restore; other primitives and all 20 maps remain unchanged.
+Earlier broad and single-component diagnostic A/Bs establish the body as the cause.
+See `CameraObstructionV1/production-acceptance.json`. This retains the rooftop fix
+and existing cp24 cooked assets; it still is not a full recook or public release.
+
+The Kotel Entry-only A/B/A now passes the cavity-facing visual test:
+`KotelCutClosureV1/native-study-20260915T162720Z-4144.json`. The one-sided magenta
+closure fills the blue gap; hiding it restores the gap. All production assets and
+maps remain unchanged. The first B frame exposed incorrect native triangle facing
+and remains rejected. The import now reverses canonical indices only, preserving
+positions and cavity normals. Next: opposite-side culling, suitable vertical stone
+material, collision and integration in a new namespace, then main-scene comparison.
+No production Kotel repair has been placed yet. GPU editor startup uses more
+memory than the earlier 2 GiB study target: measured peak was about 6.14 GiB private.
+Current wrapper requires 9 GiB headroom and stops at 6.5 GiB private or below 2 GiB
+free commit. This does not authorize a full-scene cook at unchanged headroom.
+
 ## Current verified state — 15 September, 15:40 UTC (supersedes older steps below)
 
 The legacy floating rooftop equipment is repaired in a local playable test copy:

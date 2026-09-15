@@ -21,6 +21,8 @@ param(
     [Parameter(Mandatory = $true)][ValidatePattern('^[A-Za-z0-9._-]{1,40}$')][string]$Label,
     [string[]]$Only = @(),
     [switch]$IncludeRoofStateViews,
+    # Diagnostic only: each view uses a new owned process; no user setting is saved.
+    [ValidateSet('None','SkeletalMeshes','InstancedStaticMeshes')][string]$DiagnosticHide = 'None',
     [int]$SlotWaitMinutes = 120,
     [int]$MapWaitSeconds = 300,
     [int]$AfterMapSeconds = 25,
@@ -33,7 +35,6 @@ $exe = Join-Path $Archive 'Windows\MikdashCourtyardV3\Binaries\Win64\MikdashCour
 if (-not (Test-Path -LiteralPath $exe)) { throw "Packaged exe not found: $exe" }
 $launchDir = Join-Path $Archive 'Windows'
 $photos = Join-Path $launchDir 'MikdashPhotos'
-$gameLog = Join-Path $Archive 'Windows\MikdashCourtyardV3\Saved\Logs\MikdashCourtyardV3.log'
 $csvDir = Join-Path $Archive 'Windows\MikdashCourtyardV3\Saved\Profiling\CSV'
 $outDir = 'C:\Mikdash\Working-5.8\MikdashCourtyardV3\SourceAssets\visual-review\city-facade'
 New-Item -ItemType Directory -Force -Path $outDir | Out-Null
@@ -107,10 +108,21 @@ $report = [ordered]@{
     frames = @(); errors = @()
 }
 $receipt = Join-Path $outDir ("city-facade-frames-$Label.json")
+# Reject a reused label before writing any receipt, including a prior failed run.
+$reservedOutputs = @($receipt)
+foreach ($view in $views) {
+    $reservedOutputs += Join-Path $outDir ("$Label-$($view.name).log")
+    $reservedOutputs += Join-Path $outDir ("$Label-$($view.name).png")
+}
+foreach ($reserved in $reservedOutputs) {
+    if (Test-Path -LiteralPath $reserved) { throw "Use a fresh label; evidence already exists: $reserved" }
+}
 function Save-Receipt { ($report | ConvertTo-Json -Depth 6) | Set-Content -LiteralPath $receipt -Encoding utf8 }
 Save-Receipt
 
 foreach ($v in $views) {
+    $gameLog = Join-Path $outDir ("$Label-$($v.name).log")
+    if (Test-Path -LiteralPath $gameLog) { throw "Use a fresh label; diagnostic log already exists: $gameLog" }
     # Two agents polling at the same cadence both saw a free slot in the same second on 11 Sep and
     # launched two games from the same archive (shared Saved\Logs); one died with code -1. So: wait for
     # free, then settle a RANDOM 10-40 s and require the slot to still be free before launching.
@@ -124,13 +136,13 @@ foreach ($v in $views) {
     if (-not $clear) { $report.errors += "$($v.name): slot never freed"; Save-Receipt; continue }
     $report.status = 'capturing'; Save-Receipt
 
+    $renderDiagnostic = if ($DiagnosticHide -eq 'None') { '' } else { "ShowFlag.$DiagnosticHide,ShowFlag.$DiagnosticHide 0," }
     $arguments = "-windowed -ResX=1600 -ResY=900 -nosplash -nosteam -notraceserver -notrace -noverifygc " +
-                 "$iniArgs -ExecCmds=`"Ghost,BugItGo $($v.go),CsvProfile Frames=$CsvFrames`""
-    if (Test-Path -LiteralPath $gameLog) { Remove-Item -LiteralPath $gameLog -Force -EA SilentlyContinue }
+                 "$iniArgs -abslog=`"$gameLog`" -ExecCmds=`"${renderDiagnostic}Ghost,BugItGo $($v.go),CsvProfile Frames=$CsvFrames`""
     $csvBefore = @(); if (Test-Path -LiteralPath $csvDir) { $csvBefore = @(Get-ChildItem -LiteralPath $csvDir -Filter *.csv | Select-Object -ExpandProperty FullName) }
     $before = @(); if (Test-Path -LiteralPath $photos) { $before = @(Get-ChildItem -LiteralPath $photos -Filter *.png | Select-Object -ExpandProperty FullName) }
-    $proc = Start-Process -FilePath $exe -ArgumentList $arguments -PassThru -WorkingDirectory $launchDir
-    $entry = [ordered]@{ view = $v.name; why = $v.why; bugItGo = $v.go; pid = $proc.Id }
+    $proc = Start-Process -FilePath $exe -ArgumentList $arguments -PassThru -WorkingDirectory $launchDir -WindowStyle Hidden
+    $entry = [ordered]@{ view = $v.name; why = $v.why; bugItGo = $v.go; pid = $proc.Id; log = $gameLog; diagnosticHide = $DiagnosticHide }
     try {
         $deadline = (Get-Date).AddSeconds($MapWaitSeconds); $mapUp = $false
         while ((Get-Date) -lt $deadline) {

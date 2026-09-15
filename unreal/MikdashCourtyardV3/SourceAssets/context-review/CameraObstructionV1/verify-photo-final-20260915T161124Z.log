@@ -1,0 +1,42 @@
+verify: C:\Mikdash\Working-5.8\MikdashCourtyardV3
+-- environment
+  PASS  no stray UnrealEditor process
+  PASS  DefaultEngine.ini SecurityToken empty
+  PASS  map present and plausible size  /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough; defaults/cook agree; 72.7 MB
+-- python
+  PASS  Scripts/*.py parse (326 files)
+  PASS  Scripts/*.spec.json valid (67 files)
+  PASS  receipts parse (1603 files)
+  WARN  219 receipt(s) record a failure:
+          canonical-material-review-transfer-failure.json: FAILED_NO_COMPONENT_CHANGES
+          unreal-v3-validation.json: failed
+          arrival-review\ExteriorReviewV1\native-exterior-fixes-20260908T003715238869Z.json: failed_before_map_save_checkpoint_available
+          arrival-review\ExteriorReviewV1\native-exterior-fixes-20260908T021433809698Z.json: failed_before_map_save_checkpoint_available
+          arrival-review\ExteriorReviewV1\native-exterior-fixes-20260908T021803750614Z.json: failed_before_map_save_checkpoint_available
+          arrival-review\TransitV2\native-placement-20260907T173220192861Z.json: failed_placing_map_unchanged
+          build-review\checkpoint-coursing01-20260915T150337Z.json: failed
+          build-review\checkpoint-coursing02-20260915T150702Z.json: failed
+          build-review\checkpoint-coursing03-20260915T151108Z.json: failed
+          build-review\checkpoint-cp02-20260909T235427Z.json: failed
+          ... and 209 more
+  INFO  map parity: 30 pass(es) ran on both maps, 1 legacy-only, 7 ship-only
+  WARN  ran on the LEGACY map only - check whether the shipping map needs it:
+          resident-routes-v2-verify
+  INFO  ran on the shipping map only (often correct, e.g. the Aron re-pivot):
+          aron-alignment-release
+          native-approach-verify
+          native-gate-security
+          native-plaza-assets
+          native-surface-detail
+          native-terrain-cut-assets
+-- C++
+  SKIP  standalone math tests (--quick)
+  PASS  no stray UnrealEditor process
+  PASS  no stray UnrealEditor process
+  BUILD LOG  C:\Mikdash\Working-5.8\verify-ubt-MikdashCourtyardV3Editor-2j8n3kzn.log
+  PASS  no stray UnrealEditor process
+  BUILD LOG  C:\Mikdash\Working-5.8\verify-ubt-MikdashCourtyardV3-5dkogdf8.log
+  PASS  plugin C++ compiles (editor and game)
+
+10/10 checks passed
+verify: green

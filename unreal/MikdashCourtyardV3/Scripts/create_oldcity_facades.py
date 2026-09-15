@@ -1390,6 +1390,56 @@ def infill_candidate_ok(wings, ring, zones, wall_ring, street_index, existing_in
     return True
 
 
+# ------------------------------------------------------------------ infill base rule
+# DEFECT, 15 Sep 2026 (context-review/OldCityFoundationV1/diagnosis.md and
+# OldCityFoundationV2/census-before.json): V1 sampled the terrain at the plot CENTRE, so on a
+# slope every downhill wall hangs in the air - 1,479 of the 1,514 V1 infill buildings, up to
+# 3.6 m. 'centre_v1' is kept ONLY so the frozen OldCityFacadesV1 set, and the shell-opening proof
+# that regenerates it, still reproduce byte for byte. The already-imported V1 infill is repaired
+# by Scripts/oldcity_foundations_v2.py (stone plinth + stepped footing, new namespace). Any NEW
+# infill generation must set INFILL_BASE_RULE = 'ground_min_v2': the floor line drops to the
+# exact lowest terrain along the wing boundaries, so no wall can float (the uphill side is
+# buried, the same rule buildJerusalem() gives the OSM extrusions), and it still needs the V2
+# foundation pass for the OSM valley-crossing edges and the visible stone base.
+INFILL_BASE_RULE = 'centre_v1'
+
+
+def ground_min_z(source, wings):
+    """Exact minimum of the source terrain along every wing boundary, UE cm (PL breakpoints)."""
+    lowest = None
+    for polygon in wings:
+        count = len(polygon)
+        for index in range(count):
+            a, b = polygon[index], polygon[(index + 1) % count]
+            ua = (a[0] / AMAH_CM - TX - source.origin) / source.step
+            va = (a[1] / AMAH_CM - TZ - source.origin) / source.step
+            ub = (b[0] / AMAH_CM - TX - source.origin) / source.step
+            vb = (b[1] / AMAH_CM - TZ - source.origin) / source.step
+            params = {0.0, 1.0}
+            for p, q in ((ua, ub), (va, vb), (ua + va, ub + vb)):
+                if abs(q - p) < 1e-12:
+                    continue
+                for k in range(int(math.ceil(min(p, q))), int(math.floor(max(p, q))) + 1):
+                    t = (k - p) / (q - p)
+                    if 0.0 < t < 1.0:
+                        params.add(t)
+            for t in params:
+                x = a[0] + (b[0] - a[0]) * t
+                y = a[1] + (b[1] - a[1]) * t
+                z = ue_z(source.height_at(x / AMAH_CM - TX, y / AMAH_CM - TZ))
+                lowest = z if lowest is None else min(lowest, z)
+    return lowest
+
+
+def infill_base_z(source, cx, cy, wings, rule=None):
+    rule = rule or INFILL_BASE_RULE
+    if rule == 'centre_v1':
+        return ue_z(source.height_at(cx / AMAH_CM - TX, cy / AMAH_CM - TZ))
+    if rule == 'ground_min_v2':
+        return ground_min_z(source, wings)
+    raise ValueError('Unknown INFILL_BASE_RULE %r' % rule)
+
+
 def generate_infill(mask, ring, zones, wall_ring, street_index, existing_index, source):
     """Authored 2-3 storey block and courtyard massing in the empty parts of the walls."""
     placed_index = Grid2D(2500.0)
@@ -1464,7 +1514,7 @@ def generate_infill(mask, ring, zones, wall_ring, street_index, existing_index, 
                     continue
                 counter += 1
                 storeys = INFILL_STOREYS[counter % len(INFILL_STOREYS)]
-                base_z = ue_z(source.height_at(cx / AMAH_CM - TX, cy / AMAH_CM - TZ))
+                base_z = infill_base_z(source, cx, cy, wings)
                 records.append({
                     'infillId': counter,
                     'id': 900000000 + counter,

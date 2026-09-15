@@ -611,3 +611,8 @@ Every fix in it was confirmed in frames. What is still wrong, worst first, with 
 Also open from the frame review: the residents read as people walking at 3-5 m but NOT face-on at 2 m
 (flat cheek planes, wedge nose, saw-tooth beard/headcloth boundary, eyes as dark smears), and the far
 crowd is still V3 statues - the VAT needs re-baking from the V4 bodies.
+
+**Added 15 Sep from the OldCityFoundationV2 before frames (street level, S1/S2), unowned:** the Old City
+lanes are UNPAVED EARTH right up to the building walls. The owner's own photo reference
+(`SourceAssets/context-review/OldCityReferenceV2/reference-notes.md`) is worn rectangular paving, ramps
+and steps between the lanes. At eye level this reads worse than the floating fronts do from K2.

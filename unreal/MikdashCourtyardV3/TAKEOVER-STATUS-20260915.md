@@ -5,6 +5,14 @@ Full filesystem access works. The active project is
 `C:\Mikdash\GitHub\3rdbhmk`. Claude's recent session entries are weekly-limit notices.
 No editor, game, commandlet or cook remains running at this checkpoint.
 
+Latest completed material work: horizontal coursing correction is applied to
+M_Context_Building, M_Context_CityWall, and M_CityFacadeV1. Native before/after cube
+renders were visually inspected, all three original masters saved, and a separate
+fresh Unreal process verified the corrected code. All20 project maps remain unchanged.
+See SourceAssets/context-review/ContextCoursingV2/review.md for evidence, backup,
+rejected captures and limits. This change fits memory without a full map load.
+It is not in the old packaged cp24/download; no new cook has been made.
+
 ## Verified and preserved
 
 - Full gate: 11/11, including 32/32 standalone C++ math suites. Editor and Game UBT

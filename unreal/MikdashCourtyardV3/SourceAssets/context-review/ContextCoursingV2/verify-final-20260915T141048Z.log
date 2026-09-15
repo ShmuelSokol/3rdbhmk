@@ -1,0 +1,37 @@
+verify: C:\Mikdash\Working-5.8\MikdashCourtyardV3
+-- environment
+  PASS  no stray UnrealEditor process
+  PASS  DefaultEngine.ini SecurityToken empty
+  PASS  map present and plausible size  /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough; defaults/cook agree; 72.7 MB
+-- python
+  PASS  Scripts/*.py parse (325 files)
+  PASS  Scripts/*.spec.json valid (67 files)
+  PASS  receipts parse (1565 files)
+  WARN  216 receipt(s) record a failure:
+          canonical-material-review-transfer-failure.json: FAILED_NO_COMPONENT_CHANGES
+          unreal-v3-validation.json: failed
+          arrival-review\ExteriorReviewV1\native-exterior-fixes-20260908T003715238869Z.json: failed_before_map_save_checkpoint_available
+          arrival-review\ExteriorReviewV1\native-exterior-fixes-20260908T021433809698Z.json: failed_before_map_save_checkpoint_available
+          arrival-review\ExteriorReviewV1\native-exterior-fixes-20260908T021803750614Z.json: failed_before_map_save_checkpoint_available
+          arrival-review\TransitV2\native-placement-20260907T173220192861Z.json: failed_placing_map_unchanged
+          build-review\checkpoint-cp02-20260909T235427Z.json: failed
+          build-review\checkpoint-cp05-20260910T043655Z.json: failed
+          build-review\checkpoint-cp06-20260910T060959Z.json: failed
+          build-review\checkpoint-cp11-20260910T080238Z.json: failed
+          ... and 206 more
+  INFO  map parity: 30 pass(es) ran on both maps, 1 legacy-only, 7 ship-only
+  WARN  ran on the LEGACY map only - check whether the shipping map needs it:
+          resident-routes-v2-verify
+  INFO  ran on the shipping map only (often correct, e.g. the Aron re-pivot):
+          aron-alignment-release
+          native-approach-verify
+          native-gate-security
+          native-plaza-assets
+          native-surface-detail
+          native-terrain-cut-assets
+-- C++
+  PASS  standalone math tests (32/32 passed)
+  SKIP  plugin C++ compiles (pass --build; it is slow and must run serial)
+
+7/7 checks passed
+verify: green

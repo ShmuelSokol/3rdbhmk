@@ -338,7 +338,8 @@ float3 p = P.xyz / TileCm;
 float3 n = normalize(N.xyz);
 float3 w = pow(abs(n), 4.0);
 w /= max(w.x + w.y + w.z, 1e-4);
-float2 uvX = p.zy;
+// Keep world height in texture V on both wall projections (horizontal courses).
+float2 uvX = p.yz;
 float2 uvY = p.xz;
 float2 uvZ = p.xy * RoofScale;
 float3 aX = Texture2DSample(Albedo, AlbedoSampler, uvX).rgb;
@@ -370,7 +371,7 @@ float3 p = P.xyz / TileCm;
 float3 n = normalize(N.xyz);
 float3 w = pow(abs(n), 4.0);
 w /= max(w.x + w.y + w.z, 1e-4);
-float3 sX = Texture2DSample(Nrm, NrmSampler, p.zy).xyz;
+float3 sX = Texture2DSample(Nrm, NrmSampler, p.yz).xyz;
 float3 sY = Texture2DSample(Nrm, NrmSampler, p.xz).xyz;
 float3 sZ = Texture2DSample(Nrm, NrmSampler, p.xy * RoofScale).xyz;
 float3 tX; float3 tY; float3 tZ;
@@ -380,10 +381,10 @@ tZ.xy = (sZ.xy * 2.0 - 1.0) * float2(1.0, NormalGreenSign) * NormalStrength;
 tX.z = sqrt(saturate(1.0 - dot(tX.xy, tX.xy)));
 tY.z = sqrt(saturate(1.0 - dot(tY.xy, tY.xy)));
 tZ.z = sqrt(saturate(1.0 - dot(tZ.xy, tZ.xy)));
-tX = float3(tX.xy + n.zy, abs(tX.z) * n.x);
+tX = float3(tX.xy + n.yz, abs(tX.z) * n.x);
 tY = float3(tY.xy + n.xz, abs(tY.z) * n.y);
 tZ = float3(tZ.xy + n.xy, abs(tZ.z) * n.z);
-return normalize(tX.zyx * w.x + tY.xzy * w.y + tZ.xyz * w.z);
+return normalize(tX.zxy * w.x + tY.xzy * w.y + tZ.xyz * w.z);
 '''
 
 # Inputs: GroundA, GroundR, ScrubA, ScrubR (texture objects), P, N, VC, GroundTint, ScrubTint, TileCm, ScrubTileCm,

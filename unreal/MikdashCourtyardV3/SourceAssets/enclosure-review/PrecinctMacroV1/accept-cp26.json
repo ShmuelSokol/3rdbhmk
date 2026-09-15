@@ -1,0 +1,380 @@
+{
+ "script": "Scripts/accept_precinct_cp25.py",
+ "label": "cp26",
+ "before": "cp20b",
+ "variant": "V6e",
+ "judgedAgainst": "Western Wall photo at matched cm/px (3.14 cm/px, the P3 60 m scale)",
+ "westernWall": {
+  "stdLog": 0.0838,
+  "p05p95Ratio": 1.254,
+  "medianNeighbourAbsLog": 0.0454,
+  "bedJointDip": 0.1444,
+  "courses": {
+   "n": 122,
+   "medianCm": 103.6,
+   "cv": 0.194,
+   "fracOver1p5xMedian": 0.066,
+   "p95OverMedian": 1.54
+  },
+  "intraStoneLogStd": 0.1018,
+  "nStones": 160
+ },
+ "P3": {
+  "cp20b": {
+   "stonesCloseLayout": {
+    "nStones": 3356,
+    "stdLog": 0.0914,
+    "p05p95Ratio": 1.322,
+    "medianNeighbourAbsLog": 0.0289,
+    "intraStoneLogStd": 0.035
+   },
+   "bedJointDip": 0.081,
+   "rectAcorrHighPass6m": {
+    "150": -0.1277,
+    "240": -0.2144,
+    "300": -0.0552,
+    "360": -0.0181,
+    "450": 0.018
+   },
+   "courses": {
+    "n": 2986,
+    "medianCm": 99.0,
+    "cv": 0.141,
+    "fracOver1p5xMedian": 0.079,
+    "p95OverMedian": 1.94
+   },
+   "bedVisibility": {
+    "phaseResidualCm": 32.0,
+    "bedsMeasured": 65,
+    "keptBedDip": 0.0863,
+    "ghostBedDip": 0.0851,
+    "ghostRatio": 0.986,
+    "visibleCourseHeightsCm": {
+     "n": 60,
+     "median": 101.5,
+     "cv": 0.248,
+     "fracOver1p5xMedian": 0.067,
+     "max": 198.5,
+     "histogram": {
+      "90": 17,
+      "100": 21,
+      "110": 18,
+      "200": 4
+     }
+    }
+   }
+  },
+  "cp26": {
+   "stonesCloseLayout": {
+    "nStones": 3377,
+    "stdLog": 0.0997,
+    "p05p95Ratio": 1.375,
+    "medianNeighbourAbsLog": 0.0483,
+    "intraStoneLogStd": 0.0914
+   },
+   "bedJointDip": 0.1899,
+   "rectAcorrHighPass6m": {
+    "150": -0.1159,
+    "240": -0.1576,
+    "300": -0.0294,
+    "360": 0.0093,
+    "450": 0.0383
+   },
+   "courses": {
+    "n": 3037,
+    "medianCm": 105.0,
+    "cv": 0.126,
+    "fracOver1p5xMedian": 0.075,
+    "p95OverMedian": 1.83
+   },
+   "stonesOwnLayout": {
+    "nStones": 3499,
+    "stdLog": 0.0996,
+    "p05p95Ratio": 1.363,
+    "medianNeighbourAbsLog": 0.0513,
+    "intraStoneLogStd": 0.0903
+   },
+   "bedVisibility": {
+    "phaseResidualCm": 38.0,
+    "bedsMeasured": 65,
+    "keptBedDip": 0.21,
+    "ghostBedDip": 0.2202,
+    "ghostRatio": 1.049,
+    "visibleCourseHeightsCm": {
+     "n": 52,
+     "median": 101.5,
+     "cv": 0.542,
+     "fracOver1p5xMedian": 0.173,
+     "max": 300.0,
+     "histogram": {
+      "90": 15,
+      "100": 15,
+      "110": 13,
+      "200": 3,
+      "210": 3,
+      "300": 3
+     }
+    }
+   }
+  }
+ },
+ "P2": {
+  "cp20b": {
+   "bedJointDip": 0.0728,
+   "rectAcorrHighPass6m": {
+    "150": -0.1316,
+    "300": -0.1862,
+    "450": 0.1687
+   },
+   "courses": {
+    "n": 2153,
+    "medianCm": 156.0,
+    "cv": 0.141,
+    "fracOver1p5xMedian": 0.078,
+    "p95OverMedian": 2.0
+   }
+  },
+  "cp26": {
+   "bedJointDip": 0.1736,
+   "rectAcorrHighPass6m": {
+    "150": -0.1006,
+    "300": -0.0757,
+    "450": -0.0116
+   },
+   "courses": {
+    "n": 2634,
+    "medianCm": 144.0,
+    "cv": 0.21,
+    "fracOver1p5xMedian": 0.028,
+    "p95OverMedian": 1.33
+   }
+  }
+ },
+ "table": [
+  [
+   "stone-tone log std",
+   0.0838,
+   0.0914,
+   0.0997,
+   0.0996
+  ],
+  [
+   "5-95 % ratio",
+   1.254,
+   1.322,
+   1.375,
+   1.363
+  ],
+  [
+   "neighbour contrast",
+   0.0454,
+   0.0289,
+   0.0483,
+   0.0513
+  ],
+  [
+   "bed-joint dip",
+   0.1444,
+   0.081,
+   0.1899,
+   null
+  ],
+  [
+   "course-height CV (visible beds)",
+   0.194,
+   0.248,
+   0.542,
+   null
+  ],
+  [
+   "courses > 1.5x median (visible beds)",
+   0.066,
+   0.067,
+   0.173,
+   null
+  ],
+  [
+   "course-height CV (generic detector, noisy)",
+   0.194,
+   0.141,
+   0.126,
+   null
+  ],
+  [
+   "intra-stone log std",
+   0.1018,
+   0.035,
+   0.0914,
+   0.0903
+  ],
+  [
+   "hp autocorr @300 cm",
+   null,
+   -0.0552,
+   -0.0294,
+   null
+  ]
+ ],
+ "tableColumns": [
+  "metric",
+  "Western Wall",
+  "cp20b",
+  "cp26 (close-layout segmentation)",
+  "cp26 (own V6 stones)"
+ ],
+ "crossover": {
+  "cp20bx": {
+   "P4": {
+    "distanceM": 22.0,
+    "phaseResidualCm": 36.5,
+    "keptBeds": 18,
+    "ghostBeds": 3,
+    "keptBedDip": 0.1331,
+    "ghostBedDip": 0.147,
+    "ghostRatio": 1.104,
+    "ghostBedsWorldZ": [
+     -2964,
+     -2862,
+     -1962
+    ]
+   },
+   "P5": {
+    "distanceM": 35.0,
+    "phaseResidualCm": 36.5,
+    "keptBeds": 31,
+    "ghostBeds": 4,
+    "keptBedDip": 0.109,
+    "ghostBedDip": 0.1204,
+    "ghostRatio": 1.105,
+    "ghostBedsWorldZ": [
+     -2964,
+     -2862,
+     -1962,
+     -1062
+    ]
+   }
+  },
+  "cp26": {
+   "P4": {
+    "distanceM": 22.0,
+    "phaseResidualCm": 38.0,
+    "keptBeds": 18,
+    "ghostBeds": 3,
+    "keptBedDip": 0.227,
+    "ghostBedDip": 0.2419,
+    "ghostRatio": 1.066,
+    "ghostBedsWorldZ": [
+     -2962,
+     -2860,
+     -1960
+    ]
+   },
+   "P5": {
+    "distanceM": 35.0,
+    "phaseResidualCm": 36.5,
+    "keptBeds": 31,
+    "ghostBeds": 4,
+    "keptBedDip": 0.3137,
+    "ghostBedDip": 0.3063,
+    "ghostRatio": 0.976,
+    "ghostBedsWorldZ": [
+     -2964,
+     -2862,
+     -1962,
+     -1062
+    ]
+   }
+  }
+ },
+ "crossoverNote": "ghostRatio = dip at the close beds the V6 layout merged / dip at the beds it kept. In the before build every bed is real, so its ratio is the control (~1).",
+ "faceProfileExit": 0,
+ "P1faceProfile": {
+  "cp20b": {
+   "west_face_full": {
+    "metresPerPx": 0.62,
+    "rawStd": 0.0375,
+    "hpStd": 0.0059,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.0013,
+     "tile3m": 0.1138,
+     "batter12m": 0.032
+    }
+   },
+   "south_S1toS2": {
+    "metresPerPx": 0.737,
+    "rawStd": 0.0156,
+    "hpStd": 0.0078,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.0023,
+     "tile3m": 0.0176,
+     "batter12m": 0.1214
+    }
+   },
+   "south_eastOfS2": {
+    "metresPerPx": 0.925,
+    "rawStd": 0.0218,
+    "hpStd": 0.0032,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.002,
+     "tile3m": 0.2272,
+     "batter12m": 0.0902
+    }
+   }
+  },
+  "cp26": {
+   "west_face_full": {
+    "metresPerPx": 0.62,
+    "rawStd": 0.0384,
+    "hpStd": 0.0068,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.0023,
+     "tile3m": 0.1348,
+     "batter12m": 0.0131
+    }
+   },
+   "south_S1toS2": {
+    "metresPerPx": 0.737,
+    "rawStd": 0.017,
+    "hpStd": 0.009,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.002,
+     "tile3m": 0.0221,
+     "batter12m": 0.1525
+    }
+   },
+   "south_eastOfS2": {
+    "metresPerPx": 0.925,
+    "rawStd": 0.0228,
+    "hpStd": 0.0042,
+    "bandPowerShare": {
+     "course1m": 0.0,
+     "band2p4m": 0.0016,
+     "tile3m": 0.1821,
+     "batter12m": 0.3344
+    }
+   }
+  }
+ },
+ "noRegression": {
+  "02_jamb_cp20b_vs_cp26": 0.00262,
+  "07_plaza_cp20b_vs_cp26": 0.00877,
+  "07_noiseFloor_cp17_vs_cp17b": 0.00572,
+  "02_noiseFloor_cp17_vs_cp19b": 0.00281
+ },
+ "sheets": {
+  "P3_threePanel": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\PrecinctMacroV1\\cp26-P3-westernwall-cp20b-cp26.png",
+  "stoneScale": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\PrecinctMacroV1\\cp26-P3-stone-scale-vs-westernwall.png",
+  "stoneScaleOrder": [
+   "Western Wall (photo), 3.14 cm/px, luminance",
+   "cp20b P3 rectified",
+   "cp26 P3 rectified"
+  ],
+  "P4_crossover": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\PrecinctMacroV1\\cp26-P4-crossover-cp20b-cp26.png",
+  "P5_crossover": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\PrecinctMacroV1\\cp26-P5-crossover-cp20b-cp26.png"
+ }
+}

@@ -4,3 +4,16 @@ generate_study_closure.py text eol=lf
 native_study.py text eol=lf
 # Canonical native-tested geometry includes a final CRLF; preserve its exact hash.
 closure-study.json -text whitespace=cr-at-eol
+
+# Family transaction pins the standalone native stair receipt by raw SHA256.
+stair-20260915T183302234Z.json -text whitespace=cr-at-eol
+# Native edge diagnostics pin the reviewed plan bytes.
+edge-walk-plan.md -text whitespace=cr-at-eol
+# Edge observations are compared by raw receipt identity.
+edge-*.json -text whitespace=cr-at-eol
+KotelClosureRuntimeV1-639250962615740000.json -text whitespace=cr-at-eol
+KotelClosureRuntimeV1-639250963383220000.json -text whitespace=cr-at-eol
+headless-states-*.json -text whitespace=cr-at-eol
+stair-20260915T191326473Z.json -text whitespace=cr-at-eol
+stair-20260915T191423070Z.json -text whitespace=cr-at-eol
+collision-acceptance.json -text whitespace=cr-at-eol

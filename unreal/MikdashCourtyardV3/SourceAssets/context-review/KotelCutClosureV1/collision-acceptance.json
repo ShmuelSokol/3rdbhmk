@@ -1,0 +1,119 @@
+{
+  "status": "passed-local-edge-and-regression-tests",
+  "recordedUtc": "2026-09-15T19:16:28.5618848Z",
+  "archive": "C:\\Mikdash\\Builds\\Checkpoint-edgecollision01-20260915",
+  "childSha256": "9860531e11415b304c185479b18ab0ac08a34032feba61c565ab19ad00baa435",
+  "scope": "Localized player-blocking proof at edge106; paired stairs and four-state native readback. No whole-perimeter, GPU, public-release or complete-project acceptance.",
+  "edgeOn": "Blocked by exact closure component, four capsule sweep hits, player grounded at feet -982.4cm, no actual waypoint reach.",
+  "edgeOff": "Valid deck start, then falls below terrain.",
+  "states": "Modern/Yechezkel/Overlay/Modern-again: QueryOnly/NoCollision/QueryOnly/QueryOnly, normal exit. Disabled control also passed.",
+  "stairs": "Both runs reached actual waypoints0/1/2 with zero stuck events and final upper-deck grounding.",
+  "build": "Editor and Game compiled/linked; retry10/10, no compiler warnings; prior unchanged standalone math32/32.",
+  "sourceMapsUnchanged": 20,
+  "geometry": {
+    "vertices": 2523,
+    "triangles": 841,
+    "geometryMaterialsUnchanged": true,
+    "deckTransforms": 959
+  },
+  "evidence": [
+    {
+      "closureDisabled": false,
+      "category": "blocked-retaining-edge",
+      "file": "edge-20260915T190805233Z.json",
+      "sha256": "a98811bc7dd23043db01226da92ff8c59ed4c4f62794e6f52ecd6c153b0bedc3",
+      "status": "observed-native-edge-outcome",
+      "normalExitClaimed": false
+    },
+    {
+      "closureDisabled": true,
+      "category": "falls-off-or-through",
+      "file": "edge-20260915T190930828Z.json",
+      "sha256": "ecb59ed7787812db735345bf338b5883bb3d54aa7206c954b4623418a61850f2",
+      "status": "observed-native-edge-outcome",
+      "normalExitClaimed": false
+    },
+    {
+      "closureDisabled": false,
+      "category": null,
+      "file": "headless-states-20260915T191037452Z.json",
+      "sha256": "4c31db275e774adaeefda0c8c3b848a0871a2a45ed52896e062f9280477f3fc9",
+      "status": "passed-native-headless-states",
+      "normalExitClaimed": true
+    },
+    {
+      "closureDisabled": true,
+      "category": null,
+      "file": "headless-states-20260915T191154185Z.json",
+      "sha256": "4c0df6ccccf165695ab799acebe23ef30ac096e96c4c336d93fd20169a133b20",
+      "status": "passed-native-headless-states",
+      "normalExitClaimed": true
+    },
+    {
+      "closureDisabled": false,
+      "category": null,
+      "file": "stair-20260915T191326473Z.json",
+      "sha256": "9d82993562517e88f4ea0aebd8c962f43ca4b1c50dd9d9a12596472a2c797cf1",
+      "status": "passed-native-stair-route",
+      "normalExitClaimed": false
+    },
+    {
+      "closureDisabled": true,
+      "category": null,
+      "file": "stair-20260915T191423070Z.json",
+      "sha256": "63b5875d46a0dfcb257827cef51c645a842500f472eec2c9e038bfab41d33af9",
+      "status": "passed-native-stair-route",
+      "normalExitClaimed": false
+    }
+  ],
+  "archiveAssets": [
+    {
+      "file": "global.ucas",
+      "sha256": "5b64d2016b945d7be33ec95225801cee881ebbdd0b87ca5e4a392fe3c446d9f8",
+      "kind": "cp24-base"
+    },
+    {
+      "file": "global.utoc",
+      "sha256": "6727fee684476df097bf93bf14ba5f43da467dfcca36a8f34859f5fcd451b2dd",
+      "kind": "cp24-base"
+    },
+    {
+      "file": "MikdashCourtyardV3-Windows_s1.ucas",
+      "sha256": "b723e3ec9cfae0367dc71c5ce9aa7be9066952f0796e85656d20f72cd790f1be",
+      "kind": "cp24-base"
+    },
+    {
+      "file": "MikdashCourtyardV3-Windows.pak",
+      "sha256": "166816d965fe109a1bd533e6e042478f0e53f1f2a358cca42eb1c2d6b748b51e",
+      "kind": "cp24-base"
+    },
+    {
+      "file": "MikdashCourtyardV3-Windows.ucas",
+      "sha256": "051d8ce7676e227e75c43aaf8ac4f66e6b6b34965353ef82dcc5850a2edb2e9a",
+      "kind": "cp24-base"
+    },
+    {
+      "file": "MikdashCourtyardV3-Windows.utoc",
+      "sha256": "1d0865e0ca6352ab41162b28b6f2f5a4bc0acde9bfdc068dfbccdb1dbe89f70f",
+      "kind": "cp24-base"
+    },
+    {
+      "file": "ContextCoursingV2_1_P.pak",
+      "sha256": "7f9cec4197133f2f6adaf2bf6b73046c0864be25f702af1c2c7c65131229b4a9",
+      "kind": "verified-citywall-only-patch"
+    },
+    {
+      "file": "ContextCoursingV2_1_P.ucas",
+      "sha256": "e42f60a14c908e3270735ce2772463a7779162e6180060826d9e24683e8c656b",
+      "kind": "verified-citywall-only-patch"
+    },
+    {
+      "file": "ContextCoursingV2_1_P.utoc",
+      "sha256": "07922df933db9c1d28d900ab878d300b6161e360f481ed8605dd7cbfc4646db6",
+      "kind": "verified-citywall-only-patch"
+    }
+  ],
+  "previousPlayableChildUnchanged": true,
+  "materialPatchScope": "CityWall-only patch; full13family candidate NOT installed or visually accepted",
+  "next": "Render full13 material A/B when existing8.75GiB GPU guard permits; do not lower guards or restart/alter remote-access/security services."
+}

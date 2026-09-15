@@ -10,6 +10,7 @@
 #include "StaticMeshResources.h"
 #include "Engine/World.h"
 #include "PhysicsEngine/BodyInstance.h"
+#include "PhysicsEngine/BodySetup.h"
 #include "EngineUtils.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/Pawn.h"
@@ -59,12 +60,29 @@ bool ActualVisible(const UPrimitiveComponent* Component)
     return Component && Component->IsRegistered() && Component->IsVisible() && !Component->bHiddenInGame
         && Component->GetOwner() && !Component->GetOwner()->IsHidden();
 }
+bool ClosurePhysicsDataReady(const UDynamicMeshComponent* Component)
+{
+    const UBodySetup* Setup = Component ? Component->GetBodySetup() : nullptr;
+    if (!Setup || !Setup->bCreatedPhysicsMeshes || Setup->bFailedToCreatePhysicsMeshes
+        || !Setup->bDoubleSidedGeometry || Setup->CollisionTraceFlag != CTF_UseComplexAsSimple
+        || Setup->TriMeshGeometries.Num() == 0) return false;
+    for (const auto& TriangleMesh : Setup->TriMeshGeometries) if (!TriangleMesh.IsValid()) return false;
+    return true;
+}
+bool ClosureResponsesMatch(const UPrimitiveComponent* Component)
+{
+    FCollisionResponseContainer Expected(ECR_Ignore);
+    Expected.SetResponse(ECC_Pawn, ECR_Block);
+    return Component && Component->GetCollisionObjectType() == ECC_WorldStatic
+        && Component->GetCollisionResponseToChannels() == Expected;
+}
 TSharedRef<FJsonObject> ComponentReadback(const UPrimitiveComponent* Component)
 {
     TSharedRef<FJsonObject> Item = MakeShared<FJsonObject>();
     Item->SetBoolField(TEXT("exists"), Component != nullptr);
     if (!Component) return Item;
     Item->SetStringField(TEXT("path"), Component->GetPathName());
+    Item->SetStringField(TEXT("componentName"), Component->GetName());
     Item->SetStringField(TEXT("class"), Component->GetClass()->GetPathName());
     Item->SetStringField(TEXT("worldTransform"), Component->GetComponentTransform().ToString());
     Item->SetBoolField(TEXT("visible"), Component->IsVisible());
@@ -75,6 +93,10 @@ TSharedRef<FJsonObject> ComponentReadback(const UPrimitiveComponent* Component)
     Item->SetNumberField(TEXT("collisionMode"), static_cast<int32>(Component->GetCollisionEnabled()));
     Item->SetNumberField(TEXT("configuredCollisionMode"), static_cast<int32>(Component->BodyInstance.GetCollisionEnabled(false)));
     Item->SetStringField(TEXT("collisionProfile"), Component->GetCollisionProfileName().ToString());
+    Item->SetNumberField(TEXT("pawnResponse"), static_cast<int32>(Component->GetCollisionResponseToChannel(ECC_Pawn)));
+    Item->SetBoolField(TEXT("physicsStateCreated"), Component->IsPhysicsStateCreated());
+    const FBodyInstance* PhysicsBody = Component->GetBodyInstance();
+    Item->SetBoolField(TEXT("bodyInstanceValid"), PhysicsBody && PhysicsBody->IsValidBodyInstance());
     Item->SetBoolField(TEXT("affectsNavigation"), Component->CanEverAffectNavigation());
     Item->SetBoolField(TEXT("generatesOverlap"), Component->GetGenerateOverlapEvents());
     Item->SetStringField(TEXT("material"), GetPathNameSafe(Component->GetMaterial(0)));
@@ -82,6 +104,7 @@ TSharedRef<FJsonObject> ComponentReadback(const UPrimitiveComponent* Component)
     if (const AActor* ComponentActor = Component->GetOwner())
     {
         Item->SetStringField(TEXT("actor"), ComponentActor->GetPathName());
+        Item->SetStringField(TEXT("actorName"), ComponentActor->GetName());
         Item->SetStringField(TEXT("actorTransform"), ComponentActor->GetActorTransform().ToString());
         Item->SetBoolField(TEXT("actorHidden"), ComponentActor->IsHidden());
         Item->SetBoolField(TEXT("actorCollisionEnabled"), ComponentActor->GetActorEnableCollision());
@@ -107,6 +130,19 @@ TSharedRef<FJsonObject> ComponentReadback(const UPrimitiveComponent* Component)
     }
     if (const UInstancedStaticMeshComponent* Instances = Cast<UInstancedStaticMeshComponent>(Component))
         Item->SetNumberField(TEXT("instanceCount"), Instances->GetInstanceCount());
+    if (const UDynamicMeshComponent* Dynamic = Cast<UDynamicMeshComponent>(Component))
+    {
+        const UBodySetup* Setup = Dynamic->GetBodySetup();
+        Item->SetBoolField(TEXT("physicsDataReady"), ClosurePhysicsDataReady(Dynamic));
+        Item->SetBoolField(TEXT("pawnOnlyResponses"), ClosureResponsesMatch(Dynamic));
+        Item->SetBoolField(TEXT("asyncCooking"), Dynamic->bUseAsyncCooking);
+        Item->SetBoolField(TEXT("complexCollisionEnabled"), Dynamic->bEnableComplexCollision);
+        Item->SetBoolField(TEXT("physicsMeshesCreated"), Setup && Setup->bCreatedPhysicsMeshes);
+        Item->SetBoolField(TEXT("physicsMeshCreationFailed"), Setup && Setup->bFailedToCreatePhysicsMeshes);
+        Item->SetBoolField(TEXT("doubleSidedPhysics"), Setup && Setup->bDoubleSidedGeometry);
+        Item->SetNumberField(TEXT("chaosTriangleMeshCount"), Setup ? Setup->TriMeshGeometries.Num() : 0);
+        Item->SetNumberField(TEXT("collisionTraceFlag"), Setup ? static_cast<int32>(Setup->CollisionTraceFlag) : -1);
+    }
     return Item;
 }
 const EMikdashPrecinctState ProbeStates[] = {EMikdashPrecinctState::Modern, EMikdashPrecinctState::Yechezkel,
@@ -218,15 +254,25 @@ void AMikdashEnclosure::PrepareKotelClosure()
     KotelClosure->SetHiddenInGame(true);
     KotelClosure->SetWorldTransform(FTransform::Identity);
     KotelClosure->SetCollisionProfileName(TEXT("NoCollision"));
+    KotelClosure->SetCollisionObjectType(ECC_WorldStatic);
+    KotelClosure->SetCollisionResponseToAllChannels(ECR_Ignore);
+    KotelClosure->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);
     KotelClosure->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     KotelClosure->SetCanEverAffectNavigation(false);
     KotelClosure->SetGenerateOverlapEvents(false);
-    KotelClosure->SetComplexAsSimpleCollisionEnabled(false, false);
+    KotelClosure->bUseAsyncCooking = false;
+    KotelClosure->SetDeferredCollisionUpdatesEnabled(true, false);
+    KotelClosure->SetComplexAsSimpleCollisionEnabled(true, false);
+    KotelClosure->GetBodySetup()->bDoubleSidedGeometry = true;
     KotelClosure->SetTangentsType(EDynamicMeshComponentTangentsMode::AutoCalculated);
     KotelClosure->SetMaterial(0, PlazaAshlarMaterial);
     KotelClosure->SetMesh(MoveTemp(Mesh));
     KotelClosure->ComponentTags.Add(TEXT("KotelClosureRuntimeV1"));
     KotelClosure->RegisterComponent();
+    // Build the final immutable face mesh synchronously only after registration.
+    // Hidden states retain cooked Chaos geometry but expose no collision queries.
+    KotelClosure->SetDeferredCollisionUpdatesEnabled(false, false);
+    KotelClosure->UpdateCollision(false);
     double PositionError, NormalError, UVError;
     if (!ValidateKotelClosureMesh(PositionError, NormalError, UVError))
     { Refuse(TEXT("registered-mesh-readback-failed")); return; }
@@ -278,13 +324,17 @@ bool AMikdashEnclosure::ValidateKotelClosureMesh(double& OutPositionErrorCm, dou
     OutPositionErrorCm = OutNormalError = OutUVError = 0.0;
     if (!bKotelClosureValidated) return false;
     if (bKotelClosureDisabled) return !KotelClosure.IsValid();
+    const bool CollisionActive = ActualVisible(KotelClosure.Get());
+    const ECollisionEnabled::Type ExpectedCollision = CollisionActive ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision;
     if (!KotelClosure.IsValid() || !KotelClosure->IsRegistered() || !KotelClosure->HasAnyFlags(RF_Transient)
         || !Identity(KotelClosure->GetComponentTransform()) || KotelClosure->GetMaterial(0) != PlazaAshlarMaterial
-        || KotelClosure->GetCollisionEnabled() != ECollisionEnabled::NoCollision
-        || KotelClosure->BodyInstance.GetCollisionEnabled(false) != ECollisionEnabled::NoCollision
-        || KotelClosure->GetCollisionProfileName() != FName(TEXT("NoCollision"))
+        || KotelClosure->GetCollisionEnabled() != ExpectedCollision
+        || KotelClosure->BodyInstance.GetCollisionEnabled(false) != ExpectedCollision
+        || !ClosureResponsesMatch(KotelClosure.Get()) || !ClosurePhysicsDataReady(KotelClosure.Get())
         || KotelClosure->CanEverAffectNavigation() || KotelClosure->GetGenerateOverlapEvents()
-        || KotelClosure->bEnableComplexCollision
+        || !KotelClosure->bEnableComplexCollision || KotelClosure->bUseAsyncCooking
+        || KotelClosure->CollisionType != CTF_UseComplexAsSimple
+        || (CollisionActive && (!KotelClosure->IsPhysicsStateCreated() || !KotelClosure->BodyInstance.IsValidBodyInstance()))
         || KotelClosure->GetTangentsType() != EDynamicMeshComponentTangentsMode::AutoCalculated) return false;
     bool Passed = true;
     KotelClosure->ProcessMesh([&](const FDynamicMesh3& Mesh) {
@@ -328,6 +378,7 @@ void AMikdashEnclosure::ApplyKotelClosureVisibility()
     {
         ClearKotelClosure();
         KotelClosureStatus = TEXT("guard:source-lost-or-moved");
+        UE_LOG(LogTemp, Warning, TEXT("KotelClosureRuntimeV1 %s"), *KotelClosureStatus);
         return;
     }
     if (KotelClosure.IsValid() && KotelClosure->IsVisible() != Show)
@@ -337,10 +388,22 @@ void AMikdashEnclosure::ApplyKotelClosureVisibility()
         {
             ClearKotelClosure();
             KotelClosureStatus = TEXT("guard:state-swap-readback-failed");
+            UE_LOG(LogTemp, Warning, TEXT("KotelClosureRuntimeV1 %s"), *KotelClosureStatus);
             return;
         }
         KotelClosure->SetVisibility(Show, false);
         KotelClosure->SetHiddenInGame(!Show, false);
+        KotelClosure->SetCollisionEnabled(Show ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
+        if (!ValidateKotelClosureMesh(PositionError, NormalError, UVError))
+        {
+            ClearKotelClosure();
+            KotelClosureStatus = TEXT("guard:collision-state-activation-failed");
+            UE_LOG(LogTemp, Warning, TEXT("KotelClosureRuntimeV1 %s"), *KotelClosureStatus);
+            return;
+        }
+        KotelClosureStatus = Show ? TEXT("active-visible") : TEXT("prepared-hidden");
+        if (FParse::Param(FCommandLine::Get(), TEXT("MikdashKotelClosureDiagnostic")))
+            UE_LOG(LogTemp, Display, TEXT("KotelClosureRuntimeV1 collision state readback %s"), *GetKotelClosureRuntimeReadback());
     }
     KotelClosureStatus = Show ? TEXT("active-visible") : TEXT("prepared-hidden");
 }
@@ -349,6 +412,7 @@ FString AMikdashEnclosure::GetKotelClosureRuntimeStatus() const { return KotelCl
 TSharedRef<FJsonObject> AMikdashEnclosure::KotelClosureReadback() const
 {
     TSharedRef<FJsonObject> Row = MakeShared<FJsonObject>();
+    Row->SetStringField(TEXT("collisionPolicy"), TEXT("pawn-only-query-v1"));
     double DeckError, PositionError, NormalError, UVError;
     const bool SourcesPassed = ValidateKotelClosureSources(DeckError);
     const bool MeshPassed = ValidateKotelClosureMesh(PositionError, NormalError, UVError);
@@ -406,7 +470,11 @@ bool AMikdashEnclosure::FinishKotelClosureProbe(const TCHAR* Reason)
     Receipt->SetStringField(TEXT("generatorSha256"), UTF8_TO_TCHAR(Data::GeneratorSha256));
     Receipt->SetStringField(TEXT("expectedSourceTerrainAssetSha256"), UTF8_TO_TCHAR(Data::TerrainSha256));
     Receipt->SetStringField(TEXT("sourceHashScope"), TEXT("frozen provenance only; runtime guards compare identities, transforms and runtime closure mesh readback, not asset-file SHA"));
-    Receipt->SetStringField(TEXT("scope"), TEXT("native identity/geometry/visibility/physics readback; PNG visual acceptance separate"));
+    const bool Headless = FParse::Param(FCommandLine::Get(), TEXT("MikdashKotelClosureHeadless"));
+    Receipt->SetBoolField(TEXT("headless"), Headless);
+    Receipt->SetStringField(TEXT("scope"), Headless
+        ? TEXT("headless native identity/geometry/visibility/physics readback only; no photo or visual acceptance")
+        : TEXT("native identity/geometry/visibility/physics readback; PNG visual acceptance separate"));
     Receipt->SetBoolField(TEXT("disabled"), bKotelClosureDisabled);
     Receipt->SetArrayField(TEXT("states"), KotelClosureProbeRows);
     TArray<TSharedPtr<FJsonValue>> Photos;
@@ -433,6 +501,53 @@ bool AMikdashEnclosure::TickKotelClosureProbe(float DeltaSeconds)
     const double Elapsed = Now - KotelClosureProbeStageStart;
     UWorld* World = GetWorld();
     APlayerController* Controller = World ? World->GetFirstPlayerController() : nullptr;
+    if (FParse::Param(FCommandLine::Get(), TEXT("MikdashKotelClosureHeadless")))
+    {
+        if (!Controller || !Controller->GetPawn())
+        {
+            if (KotelClosureProbeStage == 0 && Elapsed < 120.0) return true;
+            bKotelClosureProbePassed = false;
+            return FinishKotelClosureProbe(TEXT("failed-headless-no-player"));
+        }
+        if (KotelClosureProbeStage == 0)
+        {
+            KotelClosureProbeStage = 1;
+            KotelClosureProbeStageStart = Now;
+            return true;
+        }
+        if (KotelClosureProbeStage == 1)
+        {
+            if (Elapsed < 15.0) return true;
+            SetPrecinctStateOver(ProbeStates[KotelClosureProbeStateIndex], 0.0f);
+            KotelClosureProbeStage = 2;
+            KotelClosureProbeStageStart = Now;
+            return true;
+        }
+        if (Elapsed < 1.0) return true;
+        TSharedRef<FJsonObject> Row = KotelClosureReadback();
+        Row->SetStringField(TEXT("state"), ProbeStateNames[KotelClosureProbeStateIndex]);
+        Row->SetStringField(TEXT("photoPath"), TEXT(""));
+        Row->SetBoolField(TEXT("headless"), true);
+        const bool ExpectedVisible = ProbeStates[KotelClosureProbeStateIndex] != EMikdashPrecinctState::Yechezkel;
+        const UStaticMeshComponent* Terrain = KotelClosureTerrain.Get();
+        const UInstancedStaticMeshComponent* Deck = KotelClosureDeck.Get();
+        const bool StatePassed = Terrain && Deck && ActualVisible(Terrain) == ExpectedVisible
+            && ActualVisible(Deck) == ExpectedVisible
+            && Terrain->GetOwner()->GetActorEnableCollision() == ExpectedVisible
+            && Deck->GetOwner()->GetActorEnableCollision() == ExpectedVisible;
+        Row->SetBoolField(TEXT("sourceStateVisibilityAndActorCollisionPassed"), StatePassed);
+        const bool Passed = Row->GetBoolField(TEXT("passed")) && StatePassed;
+        Row->SetBoolField(TEXT("passed"), Passed);
+        bKotelClosureProbePassed = bKotelClosureProbePassed && Passed;
+        KotelClosureProbeRows.Add(MakeShared<FJsonValueObject>(Row));
+        UE_LOG(LogTemp, Display, TEXT("KotelClosureRuntimeV1 headless state=%s passed=%d"),
+            ProbeStateNames[KotelClosureProbeStateIndex], Passed);
+        ++KotelClosureProbeStateIndex;
+        if (KotelClosureProbeStateIndex >= UE_ARRAY_COUNT(ProbeStates)) return FinishKotelClosureProbe(TEXT("complete-headless"));
+        SetPrecinctStateOver(ProbeStates[KotelClosureProbeStateIndex], 0.0f);
+        KotelClosureProbeStageStart = Now;
+        return true;
+    }
     UMikdashPhotoMode* Photo = UMikdashPhotoMode::Get(this);
     if (KotelClosureProbeStage == 0)
     {

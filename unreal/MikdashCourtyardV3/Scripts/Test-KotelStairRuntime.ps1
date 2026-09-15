@@ -6,10 +6,21 @@ param(
     [Parameter(Mandatory=$true)][string]$Archive,
     [Parameter(Mandatory=$true)][ValidatePattern('^[a-fA-F0-9]{64}$')][string]$ExpectedChildSha256,
     [switch]$DisableClosure,
+    [switch]$Constrained,
+    [switch]$PlanOnly,
     [ValidateRange(60,180)][int]$TimeoutSeconds=90
 )
 $ErrorActionPreference='Stop'
 $project=Split-Path $PSScriptRoot -Parent
+# NullRHI physics replay only: the prior 172339339Z run peaked at 0.970 GiB.
+# The opt-in lowers the private cap by 6 GiB and raises the system reserve by
+# 1.5 GiB. It leaves a 0.5 GiB initial cushion; no GPU/full-cook guard changes.
+$limits=[ordered]@{name='default';initialBytes=[long](9GB);maximumBytes=[long](8.5GB);reserveBytes=[long](2GB)}
+if($Constrained){$limits=[ordered]@{name='constrained-nullrhi-physics';initialBytes=[long](6.5GB);maximumBytes=[long](2.5GB);reserveBytes=[long](3.5GB)}}
+if($PlanOnly){
+    [ordered]@{nativeLaunched=$false;nullRHI=$true;archive=$Archive;expectedChildSha256=$ExpectedChildSha256;memoryProfile=$limits.name;initialFreeCommitGiB=($limits.initialBytes/1GB);maximumPrivateGiB=($limits.maximumBytes/1GB);reserveGiB=($limits.reserveBytes/1GB);timeoutSeconds=$TimeoutSeconds;normalExitClaimed=$false}|ConvertTo-Json
+    return
+}
 $root=Join-Path $Archive 'Windows'
 $exe=Join-Path $root 'MikdashCourtyardV3/Binaries/Win64/MikdashCourtyardV3.exe'
 $hash=(Get-FileHash -LiteralPath $exe).Hash.ToLowerInvariant()
@@ -18,7 +29,7 @@ $busy=@(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3 -ErrorActio
 $busy+=@(Get-CimInstance Win32_Process -Filter "Name='dotnet.exe'"|Where-Object {$_.CommandLine -match 'AutomationTool|UnrealBuildTool'})
 if($busy.Count){throw 'Native slot occupied'}
 $free=[long](Get-CimInstance Win32_OperatingSystem).FreeVirtualMemory*1KB
-if($free -lt 9GB){throw 'Less than 9 GiB free commit'}
+if($free -lt $limits.initialBytes){throw ('Less than {0} GiB free commit ({1})' -f ($limits.initialBytes/1GB),$limits.name)}
 $stamp=(Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssfffZ')
 $review=Join-Path $project 'SourceAssets/context-review/KotelCutClosureV1'
 New-Item -ItemType Directory -Path $review -Force | Out-Null
@@ -31,7 +42,7 @@ function Map-Hashes {
     }
     return $result
 }
-$r=[ordered]@{status='starting';archive=$Archive;childSha256=$hash;closureDisabled=[bool]$DisableClosure;startedUtc=(Get-Date).ToUniversalTime().ToString('o');scope='Native NullRHI character movement replay; no rendered acceptance or normal-exit claim';peakPrivateBytes=[long]0;minimumFreeCommitBytes=$free;mapHashesBefore=(Map-Hashes)}
+$r=[ordered]@{status='starting';archive=$Archive;childSha256=$hash;closureDisabled=[bool]$DisableClosure;startedUtc=(Get-Date).ToUniversalTime().ToString('o');scope='Native NullRHI character movement replay; no rendered acceptance or normal-exit claim';memoryProfile=$limits.name;initialRequiredFreeCommitBytes=$limits.initialBytes;initialFreeCommitBytes=$free;maximumPrivateBytes=$limits.maximumBytes;reserveBytes=$limits.reserveBytes;normalExitClaimed=$false;peakPrivateBytes=[long]0;minimumFreeCommitBytes=$free;mapHashesBefore=(Map-Hashes)}
 function Save-Receipt {$r|ConvertTo-Json -Depth 8|Set-Content -LiteralPath $output -Encoding utf8}
 function Read-InitialClosure([string]$LogText) {
     $marker='KotelClosureRuntimeV1 initial readback '
@@ -80,7 +91,7 @@ try {
         $free=[long](Get-CimInstance Win32_OperatingSystem).FreeVirtualMemory*1KB
         $r.peakPrivateBytes=[Math]::Max([long]$r.peakPrivateBytes,$private)
         $r.minimumFreeCommitBytes=[Math]::Min([long]$r.minimumFreeCommitBytes,$free)
-        if($private -gt 8.5GB -or $free -lt 2GB){throw 'Owned walk probe reached memory reserve'}
+        if($private -gt $limits.maximumBytes -or $free -lt $limits.reserveBytes){throw ('Owned NullRHI walk probe reached memory bound ({0} GiB private / {1} GiB reserve; {2})' -f ($limits.maximumBytes/1GB),($limits.reserveBytes/1GB),$limits.name)}
     }
     $done=@($text -split '\r?\n'|Where-Object {$_ -match 'MIKDASH_WALKPROBE done label=KotelClosureStair '})
     $reached=@([regex]::Matches($text,'MIKDASH_WALKPROBE reached label=KotelClosureStair wp=(\d+) ')|ForEach-Object {$_.Groups[1].Value})

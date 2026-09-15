@@ -807,11 +807,14 @@ void AMikdashPlayerController::TickWalkProbe(float DeltaTime)
             if (Cinematics->IsPlaying()) Cinematics->SkipIntro();
         }
         FString EnclosureStatus = TEXT("no enclosure");
+        // Diagnostic setup must apply the requested collision state before the drop.
+        // A normal 2.5s dissolve otherwise leaves the new state's floor disabled
+        // after teleport, confounding the probe before its first movement input.
         for (TActorIterator<AMikdashEnclosure> It(World); It; ++It)
         {
-            if (WalkProbe.State == TEXT("MODERN")) It->SetPrecinctState(EMikdashPrecinctState::Modern);
-            else if (WalkProbe.State == TEXT("YECHEZKEL")) It->SetPrecinctState(EMikdashPrecinctState::Yechezkel);
-            else if (WalkProbe.State == TEXT("OVERLAY")) It->SetPrecinctState(EMikdashPrecinctState::Overlay);
+            if (WalkProbe.State == TEXT("MODERN")) It->SetPrecinctStateOver(EMikdashPrecinctState::Modern, 0.0f);
+            else if (WalkProbe.State == TEXT("YECHEZKEL")) It->SetPrecinctStateOver(EMikdashPrecinctState::Yechezkel, 0.0f);
+            else if (WalkProbe.State == TEXT("OVERLAY")) It->SetPrecinctStateOver(EMikdashPrecinctState::Overlay, 0.0f);
             EnclosureStatus = It->GetPlazaCollisionStatus();
         }
         // Undo a capture script's Ghost (no collision, cheat flying): walk as a visitor walks.

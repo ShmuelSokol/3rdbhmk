@@ -1,4 +1,49 @@
 # Astra takeover checkpoint — 15 September 2026
+## Verified Kotel edge collision checkpoint — 15 September, 19:17 UTC
+
+Latest native-tested copy:
+`C:/Mikdash/Builds/Checkpoint-edgecollision01-20260915/Windows/MikdashCourtyardV3.exe`.
+Child SHA256 `9860531e11415b304c185479b18ab0ac08a34032feba61c565ab19ad00baa435`.
+The prior contextpatch01, edgeprobe01 and original cp24 copies are preserved.
+This copy has the same six cp24 base containers and the same verified CityWall-only
+three-file patch. It has NOT received the full13 material candidate.
+
+The retaining face now blocks Pawn queries when its source terrain is visible.
+It retains the same841 triangles,2523 vertices,959 deck transforms and material;
+no reflected fields were added. Native ON190805233Z blocks the player at edge106
+(four exact closure-body capsule hits; grounded feet -982.4cm); OFF190930828Z
+reproduces the fall with a valid deck start. Headless state runs191037452Z and
+191154185Z passed Modern/Yechezkel/Overlay/Modern-again and normal exit. Enabled
+collision modes are1/0/1/1; the hidden state has no live body. Both stair replays
+191326473Z/191423070Z reached all three actual waypoints, zero stuck events,
+finished grounded on the upper deck. All20 source maps and all9 archive containers
+were verified unchanged. `KotelCutClosureV1/collision-acceptance.json` records it.
+
+Verification: first full diagnostic gate11/11 including32/32 math; final collision
+build retry10/10, Editor and Game both compiled/linked without warnings. The first
+collision link failure is preserved in collision-build-attempt1.json. All raw logs
+stay local. A localized edge test is NOT whole-perimeter or GPU acceptance. No new
+render was performed for this collision-only binary; its visual geometry is unchanged.
+
+Next work: full13 material A/B renders when the existing8.75GiB free-commit GPU guard
+permits; preserve the verified CityWall-only files transactionally. Do not lower the
+GPU guard, retry full cooks under16GiB, or restart/change AnyDesk/security services.
+The three-minute heartbeat remains ACTIVE; this is an intermediate checkpoint.
+## Headless family-patch checkpoint — 15 September, 18:33 UTC
+
+The full 13-material candidate mounted at Order203 and completed the real
+three-waypoint Kotel stair replay in NullRHI. The transaction restored all three
+verified CityWall-only patch files afterward; all six base containers, the child
+executable and all 20 source maps remain hash-identical. Receipt:
+`SourceAssets/context-review/ContextCoursingV2/family-headless-20260915T183251292Z.json`.
+This proves loading and the tested movement route, NOT rendered material quality.
+The playable copy remains CityWall-only; the other family materials await GPU A/B.
+
+The physics-only constrained probe has its own measured budget: 6.5 GiB initial
+headroom, 2.5 GiB child cap, 3.5 GiB reserve. This run peaked at about 1.12 GiB.
+It stops its owned child after completed diagnostic events and does not claim a
+normal game exit. GPU guards and the 16 GiB full-cook guard are unchanged.
+The first ON/OFF edge runs (184111081Z and 184210020Z) are inconclusive: the diagnostic switched to MODERN and immediately dropped the pawn while the plaza collision stayed disabled for its 2.5-second transition. Exact start placement is inside deck instance106, not a plan gap. Both runs fell before steering; neither establishes a production floor or retaining-wall collision defect. The diagnostic-only instant-state setup fix compiled with gate11/11 and math32/32 for edgeprobe01 (child6deeb50d...). Corrected ON185132894Z/OFF185225086Z both land on the deck, then cross the edge and fall below terrain. This establishes a localized collision gap. Pawn-only collision for the generated retaining face and a four-state headless readback are now in preparation; native acceptance pending.
 
 ## Current material-patch checkpoint — 15 September, 18:15 UTC
 

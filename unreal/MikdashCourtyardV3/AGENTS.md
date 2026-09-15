@@ -2130,3 +2130,58 @@ A paired .pak/.utoc/.ucas asset-only overlay was built in an isolated study from
 Publication verification for material patch: final quick gate6/6 passes (329 Python files,1662 receipts). Preserve ContextCoursingV2 JSON raw bytes with -text, the audit Python with eol=lf, and the executed builder with -text. Native dependency-audit receipt is CRLF and its091504... SHA is required by the 13-family validator; Windows working-copy success alone is insufficient. Compare indexed SHA before pushing.
 
 Material dependency publication: clone lacked only MI_CityFacade_CityStone.uasset among the13 audited sources. Copied this exact15,941-byte pre-existing native asset explicitly (SHA71a34a549439aeaa9566cc59e587f7b18f4833ec41c9294c30d45b1b1e15a884); remaining12cloneasset hashes already matched. Runtime audit validation should be run from the publication clone as well as the active project to catch missing assets.
+
+15 Sep 18:33 UTC: full13 material candidate passed transactional NullRHI mount
+(Order203) and actual three-waypoint stair replay; all3 verified CityWall-only
+patch files restored and all6 base containers/child/all20 maps unchanged.
+See ContextCoursingV2/family-headless-20260915T183251292Z.json. Headless loading
+is not GPU shader/material acceptance. Physics-only Constrained profile keeps
+6.5GiB initial/2.5GiB child cap/3.5GiB reserve; measured1.12GiB child peak.
+GPU8.75GiB initial and full-cook16GiB guards remain unchanged. The walk probe
+has no exit command; owned-child shutdown after completed evidence is not a
+normal-exit claim. Keep raw .log files local.
+
+15 Sep 18:42 UTC: edge ON/OFF receipts184111081Z/184210020Z are INCONCLUSIVE,
+not a retaining-wall failure. WalkProbe switched to MODERN then immediately
+teleported/dropped. Actor66 deck collision enabled2.524/2.525s later, after pawn
+was already below the slab. SetPrecinctState uses TransitionSeconds=2.5; its
+logical state is not physical readiness. StartXY is inside deckinstance106 with
+28cm capsule margin. Diagnostic setup must complete its requested state BEFORE
+teleport/falling (SetPrecinctStateOver(...,0) available). Do not change ordinary
+user transitions or raise startingZ arbitrarily to conceal this test flaw.
+
+15 Sep 18:52 UTC: after diagnostic instant-state fix compiled (11/11 gate,
+32/32 math; child6deeb50d...), ON185132894Z/OFF185225086Z both land correctly
+on deckinstance106 atfeet-982.4 beforesteering, then cross the cutedge and fall
+belowterrain (finalfeet-6413.1/-6407.2,grounded0). This is now a localized
+collisiongap, independent of the visualface toggle. All20 mapsunchanged. A
+Pawn-only query collision repair for the generated841triangleclosure is being
+prepared; do not claim physical repair until native blocking/stairs/state tests.
+
+15 Sep collision compile finding: calling UBodySetupCore::GetCollisionTraceFlag
+from the runtime plugin introduces a PhysicsCore link dependency and failed the
+Editor target with LNK2019. For a guard checking our explicitly configured
+CTF_UseComplexAsSimple value, read the public CollisionTraceFlag field instead
+of a helper that also resolves engine defaults. UE5.8 deprecates ChaosTriMeshes
+in favor of TriMeshGeometries. Preserve failed compiler logs and rebuild both
+targets before runtime acceptance; do not edit source during an owned build.
+
+Edge-wrapper versioning: Test-KotelEdgeRuntime.ps1 now defaults to
+-ExpectedCollisionMode PawnBlocking and requires the new physics readback plus
+exact dynamic component/actor identity (dynamic meshes legitimately report
+mesh='-' in a sweep). To replay pre-repair binaries, pass
+-ExpectedCollisionMode VisualOnly explicitly. Never loosen the initial deck
+landing or use the walk-probe done counter as successful traversal evidence.
+
+15 Sep19:17UTC: localizedKotel edge collision accepted in separate
+Checkpoint-edgecollision01-20260915, child9860531e11415b304c185479b18ab0ac08a34032feba61c565ab19ad00baa435.
+ON190805233Z blocks at exactclosurebody (4sweeps,groundedfeet-982.4);
+OFF190930828Z restoresfall. Bothheadless4state runs191037452Z/191154185Z
+normalexit0, enabledmodes1/0/1/1, hiddenbodyabsent. Bothstairs191326473Z/
+191423070Z actual0/1/2,0stuck,finalDeckgrounded. Same841tris/2523verts/
+959decktransforms/material;20maps+9archivecontainersunchanged. SameCityWall-only
+patch, notfull13. CollisionQueryOnly/Pawn-only,double-sidedphysics only,navoff.
+Physicsbody synchronous,TriMeshGeometries actualdata/readback; no reflectedfields.
+Finalbuildretry10/10 bothtargets,no warnings;priorunchangedmath32/32.
+Read collision-acceptance.json and leadingTAKEOVER status. Localedge acceptance
+is not wholeperimeter/GPU/publicrelease. Oldplayablecopies andfailures preserved.

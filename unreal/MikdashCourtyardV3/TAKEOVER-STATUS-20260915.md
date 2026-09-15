@@ -29,8 +29,9 @@ All attempts left the saved map unchanged. No new cook or packaged build was mad
 The user is connected from a phone through AnyDesk: DO NOT restart Windows, sign
 out, or stop AnyDesk, networking or security services to recover memory. Clear
 memory only through actions that preserve the active remote connection, then measure
-again. Do not repeat identical crashing runs. No system paging or security settings
-were changed. The current shell lacks the privilege needed for live page-file changes.
+again. Do not repeat identical crashing runs. The current shell lacks the privilege
+needed for live page-file changes. See the live-memory recovery update below before
+assuming that a paging change was applied.
 
 `EditorActorSubsystem.duplicate_actor` crashed under the commandlet before save.
 Full editor retries exceeded memory, even with an empty startup map and serialized
@@ -65,3 +66,27 @@ Publication at this checkpoint covers the tested repair scripts, plan, tests and
 Claude's prior unpublished assets/maps remain intact locally. The generic publish
 helper would select roughly 64 GB including raw capture frames, so it was not run.
 Two unrelated codex-entries.json edits and ParochesFabricV1 in the clone stay untouched.
+
+## Live-memory recovery helper, 15 September
+
+Stopped only the verified idle, weekly-limited Claude CLI process (PID 22832), freeing
+about 0.9 GB of system commit. AnyDesk remained running. Page file still measured
+49,152 MB, system commit limit 63.86 GiB, usage about 51.3 GiB before elevation.
+
+`Scripts/Expand-PagefileLive.ps1` prepares a live-only increase of the existing C:
+page file to 65,536 MB. It requires normal Windows administrator elevation; it does
+not bypass UAC, change services or registry settings, or restart. It retains at least
+30 GiB of disk space. `-CheckOnly` compiles the interop without making a change.
+Automatic management remains in effect, so the size after a future boot is not pinned.
+
+An ordinary RunAs request was launched, waited at Windows administrator consent,
+then returned "The operation was canceled by the user." The helper never launched;
+fresh readback still showed 49,152 MB. **The increase was not applied.** Do not infer
+whether the user dismissed it or Windows timed it out from that error alone.
+Read `C:\Mikdash\Working-5.8\MemoryRecovery\pagefile-*.json` and fresh Windows counters
+for the outcome. Require both the allocated page-file size and live commit limit to
+increase. A failed verification can follow an actual change if counters lag; inspect
+the current state before any retry. Do not approve Windows security prompts by automation.
+
+Verification: helper CheckOnly passed; project gate 7/7 and standalone math suites
+32/32 passed. Log: LegacyRoofZonesV1/verify-pagefile-helper-20260915T134150Z.log.

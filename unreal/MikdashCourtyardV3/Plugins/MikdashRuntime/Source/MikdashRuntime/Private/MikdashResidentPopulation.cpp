@@ -448,6 +448,22 @@ AMikdashResidentCharacter* AMikdashResidentPopulation::SpawnAuthoredBody(
     Mesh->SetRelativeScale3D(FVector(Chosen.VisualScale));
     Mesh->SetCollisionProfileName(TEXT("NoCollision"));
     Mesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+    // ResidentV4 (Scripts/create_resident_v4.py): the V4 bodies carry face-shape morph targets
+    // Face0..Face3 (nose, jaw, brow, lips). Their weights are a pure hash of the person's stable id,
+    // so residents who share one body do not share one face, and each keeps the same face every run.
+    // A body without those targets (the V2/V3 rigs, the Kohen Gadol) is left exactly as before.
+    if (Chosen.Mesh)
+    {
+        const uint32 FaceSeed = GetTypeHash(FString(UTF8_TO_TCHAR(Individual.Id.c_str()))) ^ 0x9E3779B9u;
+        for (int32 FaceIndex = 0; FaceIndex < 4; ++FaceIndex)
+        {
+            const FName Morph(*FString::Printf(TEXT("Face%d"), FaceIndex));
+            if (Chosen.Mesh->FindMorphTarget(Morph) == nullptr) continue;
+            const uint32 FaceHash = HashCombineFast(FaceSeed, GetTypeHash(FaceIndex) * 2654435761u);
+            const float FaceWeight = (static_cast<float>(FaceHash & 0xFFFFu) / 65535.0f) * 2.0f - 1.0f;
+            Mesh->SetMorphTarget(Morph, FaceWeight);
+        }
+    }
     if (bTickPoseOnlyWhenRendered)
     {
         // Two dozen skeletal bodies is most of the animation cost on this GPU. A body nobody

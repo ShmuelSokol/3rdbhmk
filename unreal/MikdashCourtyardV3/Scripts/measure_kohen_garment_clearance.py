@@ -54,6 +54,10 @@ CLIPS = [
 # The ketonet is MEANT to show under the me'il hem. A ketonet point within this height of the posed
 # me'il hem is that reveal, not a poke-through, so the me'il test only counts points above it.
 MEIL_HEM_MARGIN_CM = 1.5
+# Hooks for other bodies (defaults reproduce the Kohen Gadol measurement exactly).
+LEG_PREFIXES = ('Shin', 'Foot')
+OUTER_TOP_CAP_CM = 80.0
+OUTER_ANGLE = None      # (centre_t, half_open): skip robe points within half_open of centre_t (an open front)
 RAY_DIRS = [(math.cos(a), math.sin(a), 0.0) for a in (0.31, 2.43, 4.52)]
 CHUNK = 48
 
@@ -61,6 +65,8 @@ CHUNK = 48
 def body_parts(which):
     bones = C.skeleton()
     index = {b['name']: i for i, b in enumerate(bones)}
+    if which.startswith('v4:'):
+        return _v4_body(which[3:], bones, index)
     if which == 'current':
         variant = [v for v in C.VARIANTS if v['id'] == 'V3_Pilgrim_Man_Standard'][0]
         parts = C.assembly(variant)
@@ -68,6 +74,30 @@ def body_parts(which):
     import create_kohen_gadol_v1 as K         # noqa: E402
     parts = K.assembly()
     return bones, index, parts, K.influence, 'Ketonet', K.KETONET_SEGMENTS, 'Meil', K.MEIL_SEGMENTS
+
+
+def _v4_body(vid, bones, index):
+    """ResidentV4 (Scripts/create_resident_v4.py): legs vs the Tunic, Tunic vs the Mantle. Measured on the
+    parts BEFORE the UV seam split (same positions and weights, loft vertex order intact)."""
+    global LEG_PREFIXES, OUTER_TOP_CAP_CM, OUTER_ANGLE
+    import create_resident_v4 as R4
+    import create_resident_v4_body as B4
+    v = R4.variant(vid)
+    parts = R4.assembly(v)
+    for p in parts:
+        p['_idx'] = {}
+        for i, q in enumerate(p['vertices']):
+            p['_idx'].setdefault(q, i)
+
+    def infl(part, q, idx):
+        return R4.influence(part, part['_idx'][q], idx)
+    LEG_PREFIXES = ('Leg', 'Foot', 'Toe')
+    OUTER_TOP_CAP_CM = 140.0
+    OUTER_ANGLE = (1.5 * math.pi, B4.MANTLE_OPEN + math.radians(10))
+    has_mantle = any(p['name'] == 'Mantle' for p in parts)
+    cols = 72
+    return (bones, index, parts, infl, 'Tunic', B4.TUNIC_SEGMENTS,
+            'Mantle' if has_mantle else None, cols if has_mantle else None)
 
 
 def skin_arrays(part, influence, index):
@@ -307,7 +337,7 @@ def run(which, rate_scale=1.0, clips=None, quiet=False, keep_frames=True):
     lower = rv[faces].mean(axis=1)[:, 2] < 70.0
     low_wall = wall[rv[wall].mean(axis=1)[:, 2] < 60.0]
     rsign = tube_signs(rv, low_wall)
-    legs = [p for p in parts if p['name'].startswith(('Shin', 'Foot'))]
+    legs = [p for p in parts if p['name'].startswith(LEG_PREFIXES)]
     lv, lJ, lW, lname = [], [], [], []
     for p in legs:
         v, J, W = skin_arrays(p, influence, index)
@@ -321,7 +351,11 @@ def run(which, rate_scale=1.0, clips=None, quiet=False, keep_frames=True):
         osign = tube_signs(ov, owall)
         meil_hem_z = float(ov[ohem, 2].max())
         kmask = np.zeros(len(rv), dtype=bool)
-        kmask[:nring] = (rv[:nring, 2] > meil_hem_z + 1.5) & (rv[:nring, 2] < min(80.0, float(ov[:onring, 2].max()) - 3.0))
+        kmask[:nring] = (rv[:nring, 2] > meil_hem_z + 1.5) & (rv[:nring, 2] < min(OUTER_TOP_CAP_CM, float(ov[:onring, 2].max()) - 3.0))
+        if OUTER_ANGLE is not None:
+            tt = (np.arange(nring) % segments) * (2 * math.pi / segments)
+            dd = np.abs((tt - OUTER_ANGLE[0] + math.pi) % (2 * math.pi) - math.pi)
+            kmask[:nring] &= dd > OUTER_ANGLE[1]
         kmask[:nring] &= (np.arange(nring) % segments) % 2 == 0      # every second segment (reported)
     report = {'body': which, 'definition': 'v3 closed-volume parity AND signed distance must both say outside, above the local hem',
               'meilTestSampling': 'ketonet ring vertices from 1.5 cm above the me\'il hem to rest z 80, every 2nd segment',
@@ -378,7 +412,7 @@ def run(which, rate_scale=1.0, clips=None, quiet=False, keep_frames=True):
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('--body', choices=('current', 'kohen'), required=True)
+    ap.add_argument('--body', required=True, help="current | kohen | v4:<ResidentV4 variant id>")
     ap.add_argument('--rate-scale', type=float, default=1.0)
     ap.add_argument('--clips', default='')
     ap.add_argument('--out', default='')

@@ -1,0 +1,730 @@
+{
+  "generatedUtc": "2026-09-15T22:07:13Z",
+  "generator": "Scripts/create_resident_v4.py",
+  "generatorSha256": {
+    "create_resident_v4.py": "c1dea43ba2388c759cdb6de37467ea40840d52683713bb51c24b249e7ce19b77",
+    "create_resident_v4_face.py": "712d9fb69a783de221713982fe32cf081aa7ff4251e036e93613768422760f0c",
+    "create_resident_v4_body.py": "edbd0f6e40758e8e0ca0ff18b1882793a5cdfabf506e02c9dc24151befd68550"
+  },
+  "skeleton": "C.skeleton() unchanged: import onto each variant's EXISTING V3 Skeleton",
+  "rigCompatibility": {
+    "compared": true,
+    "joints": 27,
+    "source": "SourceAssets\\characters-review\\PilgrimRigV2\\rig-definition.json",
+    "identical_rest_pose": false,
+    "movedJoints": [
+      {
+        "joint": "clavicle_r",
+        "v2_cm": [
+          -10,
+          0,
+          143
+        ],
+        "v3_cm": [
+          -11,
+          0,
+          145
+        ],
+        "reason": "shoulder shelf raised toward the acromion height"
+      },
+      {
+        "joint": "upperarm_r",
+        "v2_cm": [
+          -20,
+          0,
+          143
+        ],
+        "v3_cm": [
+          -20.5,
+          0,
+          143.0
+        ],
+        "reason": "glenohumeral joint moved out to 0.1145 H"
+      },
+      {
+        "joint": "lowerarm_r",
+        "v2_cm": [
+          -33,
+          -0.5,
+          123
+        ],
+        "v3_cm": [
+          -35.559,
+          -0.5,
+          114.765
+        ],
+        "reason": "upper arm lengthened 23.9 -> 32.0 cm along the SAME A-pose direction"
+      },
+      {
+        "joint": "hand_r",
+        "v2_cm": [
+          -44,
+          -1,
+          98
+        ],
+        "v3_cm": [
+          -47.418,
+          -1.0,
+          92.529
+        ],
+        "reason": "wrist put at 0.485 H so the fingertips reach mid-thigh"
+      },
+      {
+        "joint": "ball_r",
+        "v2_cm": [
+          -8,
+          -9,
+          3
+        ],
+        "v3_cm": [
+          -8,
+          -11.5,
+          3
+        ],
+        "reason": "foot lengthened 19.2 -> 27.2 cm"
+      },
+      {
+        "joint": "clavicle_l",
+        "v2_cm": [
+          10,
+          0,
+          143
+        ],
+        "v3_cm": [
+          11,
+          0,
+          145
+        ],
+        "reason": "shoulder shelf raised toward the acromion height"
+      },
+      {
+        "joint": "upperarm_l",
+        "v2_cm": [
+          20,
+          0,
+          143
+        ],
+        "v3_cm": [
+          20.5,
+          0,
+          143.0
+        ],
+        "reason": "glenohumeral joint moved out to 0.1145 H"
+      },
+      {
+        "joint": "lowerarm_l",
+        "v2_cm": [
+          33,
+          -0.5,
+          123
+        ],
+        "v3_cm": [
+          35.559,
+          -0.5,
+          114.765
+        ],
+        "reason": "upper arm lengthened 23.9 -> 32.0 cm along the SAME A-pose direction"
+      },
+      {
+        "joint": "hand_l",
+        "v2_cm": [
+          44,
+          -1,
+          98
+        ],
+        "v3_cm": [
+          47.418,
+          -1.0,
+          92.529
+        ],
+        "reason": "wrist put at 0.485 H so the fingertips reach mid-thigh"
+      },
+      {
+        "joint": "ball_l",
+        "v2_cm": [
+          8,
+          -9,
+          3
+        ],
+        "v3_cm": [
+          8,
+          -11.5,
+          3
+        ],
+        "reason": "foot lengthened 19.2 -> 27.2 cm"
+      }
+    ],
+    "jointNamesHierarchyAndOrderIdentical": true,
+    "armAPoseDirectionDriftDeg": 0.12174,
+    "clipsAnimateTranslationOnlyOn": [
+      "pelvis"
+    ],
+    "existingClipsRemainValid": true,
+    "why": "Rotation curves are independent of bone length; the only translated track is pelvis, which did not move; no joint was renamed, reordered or re-aimed. A new Skeleton asset is still created on import because UE stores a reference pose per Skeleton - see the release spec."
+  },
+  "jointNames": [
+    "ball_l",
+    "ball_r",
+    "calf_l",
+    "calf_r",
+    "chest",
+    "clavicle_l",
+    "clavicle_r",
+    "foot_l",
+    "foot_r",
+    "hand_l",
+    "hand_r",
+    "head",
+    "lowerarm_l",
+    "lowerarm_r",
+    "mantle_back",
+    "mantle_front",
+    "neck_01",
+    "pelvis",
+    "root",
+    "skirt_l",
+    "skirt_r",
+    "spine_01",
+    "spine_02",
+    "thigh_l",
+    "thigh_r",
+    "upperarm_l",
+    "upperarm_r"
+  ],
+  "slots": {
+    "RV4_Skin": {
+      "roughness": 0.52,
+      "specular": 0.45,
+      "master": "skin"
+    },
+    "RV4_Eye": {
+      "roughness": 0.07,
+      "specular": 0.8,
+      "master": "cloth"
+    },
+    "RV4_Hair": {
+      "roughness": 0.62,
+      "specular": 0.38,
+      "master": "cloth"
+    },
+    "RV4_Cloth": {
+      "roughness": 0.88,
+      "specular": 0.4,
+      "master": "cloth"
+    },
+    "RV4_Garment": {
+      "roughness": 0.9,
+      "specular": 0.38,
+      "master": "cloth"
+    },
+    "RV4_Leather": {
+      "roughness": 0.66,
+      "specular": 0.42,
+      "master": "cloth"
+    }
+  },
+  "garmentSlot": "RV4_Garment",
+  "morphTargets": [
+    "Face0",
+    "Face1",
+    "Face2",
+    "Face3"
+  ],
+  "uvCm": 10.0,
+  "triangleBudget": 60000,
+  "sources": [
+    {
+      "id": "RV4-TZITZIT",
+      "grade": "S",
+      "claim": "tassels with a thread of techelet on the four corners of a man's four-cornered garment",
+      "source": "Numbers 15:38-39; Deuteronomy 22:12",
+      "authored": "string count drawn (8), length, placement on this draped panel"
+    },
+    {
+      "id": "RV4-TZITZIT-WOMEN",
+      "grade": "S",
+      "claim": "no tzitzit on the women's mantles",
+      "source": "Menachot 43a (time-bound precept)"
+    },
+    {
+      "id": "RV4-HAIR-COVER",
+      "grade": "S",
+      "claim": "married women cover their hair in public",
+      "source": "Mishnah Ketubot 7:6",
+      "authored": "the shawl-over-the-head form and the hair showing at the brow"
+    },
+    {
+      "id": "RV4-CLAVI",
+      "grade": "R",
+      "claim": "tunic with two coloured vertical bands over the shoulders; mantle corners with notched bands",
+      "source": "Y. Yadin, The Finds from the Bar-Kokhba Period in the Cave of Letters (1963) - cited from general knowledge, NOT re-read in this pass"
+    },
+    {
+      "id": "RV4-SANDALS",
+      "grade": "R",
+      "claim": "leather sandals with toe and instep thongs",
+      "source": "Cave of Letters / Masada finds - cited from general knowledge, NOT re-read in this pass"
+    },
+    {
+      "id": "RV4-AUTHORED",
+      "grade": "A",
+      "claim": "every face, colour, hem height, fold amplitude, the bloused belt, all clearance offsets"
+    }
+  ],
+  "variants": [
+    {
+      "id": "V3_Pilgrim_Man_Standard",
+      "mesh": "SK_RV4_Man_Standard",
+      "file": "meshes/SK_RV4_Man_Standard.glb",
+      "sha256": "db256f23edc531de3468d223476b3f6c52bdb2b2194b64a54ecb11fb38fdce92",
+      "triangles": 55312,
+      "trianglesByMaterial": {
+        "RV4_Skin": 24560,
+        "RV4_Eye": 1792,
+        "RV4_Hair": 7120,
+        "RV4_Cloth": 13492,
+        "RV4_Garment": 6908,
+        "RV4_Leather": 1440
+      },
+      "vertices": 29093,
+      "parts": 94,
+      "faceFingerprint": "7b4f1d30b795925ebeef3c91e89ac24337034a98826e03da05db9a2f0d850a33",
+      "face": {
+        "female": 0,
+        "soft": 0.0,
+        "nose_len": 1.0,
+        "nose_w": 1.0,
+        "hook": 0.35,
+        "jaw": 1.0,
+        "chin": 1.0,
+        "brow": 1.0,
+        "eye_sp": 1.0,
+        "lip": 1.0,
+        "cheek": 0.15,
+        "sunken": 0.0,
+        "wrinkle": 0.15,
+        "open": 1.0,
+        "tilt": 0.05,
+        "beard": "short",
+        "brow_bush": 1.0,
+        "iris": [
+          0.075,
+          0.045,
+          0.022
+        ],
+        "hair": [
+          0.045,
+          0.028,
+          0.018
+        ]
+      },
+      "dress": {
+        "tunic_hem": 32.0,
+        "mantle_hem": 54.0,
+        "sex": "m",
+        "headwear": "cloth",
+        "cloth_span": 72,
+        "tzitzit": true,
+        "clavi": [
+          0.3,
+          0.22,
+          0.13
+        ]
+      },
+      "materialsUsed": [
+        "RV4_Cloth",
+        "RV4_Eye",
+        "RV4_Garment",
+        "RV4_Hair",
+        "RV4_Leather",
+        "RV4_Skin"
+      ],
+      "seconds": 10.0,
+      "previews": [
+        "V3_Pilgrim_Man_Standard-rest-front.png",
+        "V3_Pilgrim_Man_Standard-rest-three-quarter.png",
+        "V3_Pilgrim_Man_Standard-rest-side.png",
+        "V3_Pilgrim_Man_Standard-rest-back.png",
+        "V3_Pilgrim_Man_Standard-face-three-quarter.png",
+        "V3_Pilgrim_Man_Standard-walk-t0.30-side.png",
+        "V3_Pilgrim_Man_Standard-walk-t0.60-side.png"
+      ]
+    },
+    {
+      "id": "V3_Pilgrim_Man_Heavy",
+      "mesh": "SK_RV4_Man_Heavy",
+      "file": "meshes/SK_RV4_Man_Heavy.glb",
+      "sha256": "ca799b0adbfcd0b53a8c4def921868c9a9a1b2a7273ed75dc6f55e39314d9761",
+      "triangles": 57648,
+      "trianglesByMaterial": {
+        "RV4_Skin": 24456,
+        "RV4_Eye": 1792,
+        "RV4_Hair": 8080,
+        "RV4_Cloth": 14684,
+        "RV4_Garment": 7196,
+        "RV4_Leather": 1440
+      },
+      "vertices": 30363,
+      "parts": 96,
+      "faceFingerprint": "a285d09cc75fee69f0e079597bdfc79585e5c3db194057900e53933aadd54b2d",
+      "face": {
+        "female": 0,
+        "soft": 0.0,
+        "nose_len": 0.94,
+        "nose_w": 1.28,
+        "hook": 0.1,
+        "jaw": 1.12,
+        "chin": 0.8,
+        "brow": 1.25,
+        "eye_sp": 1.04,
+        "lip": 1.15,
+        "cheek": 0.85,
+        "sunken": 0.0,
+        "wrinkle": 0.3,
+        "open": 0.88,
+        "tilt": -0.02,
+        "beard": "full",
+        "brow_bush": 1.3,
+        "iris": [
+          0.04,
+          0.025,
+          0.014
+        ],
+        "hair": [
+          0.022,
+          0.016,
+          0.013
+        ]
+      },
+      "dress": {
+        "tunic_hem": 30.0,
+        "mantle_hem": 52.0,
+        "sex": "m",
+        "headwear": "turban",
+        "tzitzit": true,
+        "clavi": [
+          0.2,
+          0.15,
+          0.1
+        ]
+      },
+      "materialsUsed": [
+        "RV4_Cloth",
+        "RV4_Eye",
+        "RV4_Garment",
+        "RV4_Hair",
+        "RV4_Leather",
+        "RV4_Skin"
+      ],
+      "seconds": 7.9,
+      "previews": [
+        "V3_Pilgrim_Man_Heavy-rest-front.png",
+        "V3_Pilgrim_Man_Heavy-rest-three-quarter.png",
+        "V3_Pilgrim_Man_Heavy-rest-side.png",
+        "V3_Pilgrim_Man_Heavy-rest-back.png",
+        "V3_Pilgrim_Man_Heavy-face-three-quarter.png",
+        "V3_Pilgrim_Man_Heavy-walk-t0.30-side.png",
+        "V3_Pilgrim_Man_Heavy-walk-t0.60-side.png"
+      ]
+    },
+    {
+      "id": "V3_Pilgrim_Man_Elder",
+      "mesh": "SK_RV4_Man_Elder",
+      "file": "meshes/SK_RV4_Man_Elder.glb",
+      "sha256": "1de7f12b31be674017a98a7b679a426f139b1ec0436d3a7b66e1da41c6ab9636",
+      "triangles": 55528,
+      "trianglesByMaterial": {
+        "RV4_Skin": 24248,
+        "RV4_Eye": 1792,
+        "RV4_Hair": 6368,
+        "RV4_Cloth": 15060,
+        "RV4_Garment": 6620,
+        "RV4_Leather": 1440
+      },
+      "vertices": 29197,
+      "parts": 95,
+      "faceFingerprint": "a707e949e6f6ec8856d2eafef196dcfe7c77a81fd720fcc2b662b77f7b3c6372",
+      "face": {
+        "female": 0,
+        "soft": 0.0,
+        "nose_len": 1.12,
+        "nose_w": 0.95,
+        "hook": 0.85,
+        "jaw": 0.93,
+        "chin": 1.1,
+        "brow": 1.1,
+        "eye_sp": 0.97,
+        "lip": 0.78,
+        "cheek": 0.0,
+        "sunken": 0.9,
+        "wrinkle": 1.0,
+        "open": 0.82,
+        "tilt": -0.1,
+        "beard": "long",
+        "brow_bush": 1.7,
+        "iris": [
+          0.11,
+          0.085,
+          0.05
+        ],
+        "hair": [
+          0.6,
+          0.585,
+          0.555
+        ]
+      },
+      "dress": {
+        "tunic_hem": 24.0,
+        "mantle_hem": 58.0,
+        "sex": "m",
+        "headwear": "cloth",
+        "cloth_span": 106,
+        "tzitzit": true,
+        "clavi": [
+          0.36,
+          0.28,
+          0.18
+        ]
+      },
+      "materialsUsed": [
+        "RV4_Cloth",
+        "RV4_Eye",
+        "RV4_Garment",
+        "RV4_Hair",
+        "RV4_Leather",
+        "RV4_Skin"
+      ],
+      "seconds": 5.9,
+      "previews": [
+        "V3_Pilgrim_Man_Elder-rest-front.png",
+        "V3_Pilgrim_Man_Elder-rest-three-quarter.png",
+        "V3_Pilgrim_Man_Elder-rest-side.png",
+        "V3_Pilgrim_Man_Elder-rest-back.png",
+        "V3_Pilgrim_Man_Elder-face-three-quarter.png",
+        "V3_Pilgrim_Man_Elder-walk-t0.30-side.png",
+        "V3_Pilgrim_Man_Elder-walk-t0.60-side.png"
+      ]
+    },
+    {
+      "id": "V3_Pilgrim_Woman_Young",
+      "mesh": "SK_RV4_Woman_Young",
+      "file": "meshes/SK_RV4_Woman_Young.glb",
+      "sha256": "9bbcf3ce78748099aef84cfe4705fa071792109f26e2f51a4d72c7f633e4eb80",
+      "triangles": 50732,
+      "trianglesByMaterial": {
+        "RV4_Skin": 23936,
+        "RV4_Eye": 1792,
+        "RV4_Hair": 2420,
+        "RV4_Garment": 8812,
+        "RV4_Cloth": 12332,
+        "RV4_Leather": 1440
+      },
+      "vertices": 26236,
+      "parts": 56,
+      "faceFingerprint": "ff9f5cb3f96d581d888085c5e5eafdb3bd4dbddd06e1f6068fccce6ff0ea8895",
+      "face": {
+        "female": 1,
+        "soft": 1.0,
+        "refine": 1.0,
+        "nose_len": 0.76,
+        "nose_w": 0.74,
+        "hook": 0.0,
+        "jaw": 0.86,
+        "chin": 0.86,
+        "brow": 0.1,
+        "eye_sp": 1.02,
+        "lip": 1.25,
+        "cheek": 0.85,
+        "sunken": 0.0,
+        "wrinkle": 0.0,
+        "open": 1.08,
+        "tilt": 0.14,
+        "beard": "none",
+        "brow_bush": 0.7,
+        "iris": [
+          0.09,
+          0.06,
+          0.03
+        ],
+        "hair": [
+          0.03,
+          0.02,
+          0.014
+        ]
+      },
+      "dress": {
+        "tunic_hem": 18.0,
+        "mantle_hem": 58.0,
+        "sex": "f",
+        "headwear": "shawl",
+        "tzitzit": false,
+        "clavi": [
+          0.14,
+          0.17,
+          0.3
+        ]
+      },
+      "materialsUsed": [
+        "RV4_Cloth",
+        "RV4_Eye",
+        "RV4_Garment",
+        "RV4_Hair",
+        "RV4_Leather",
+        "RV4_Skin"
+      ],
+      "seconds": 5.3,
+      "previewsNote": "previews/ PNGs for this variant predate the v4b refine; the six-face strip is the review"
+    },
+    {
+      "id": "V3_Pilgrim_Woman_Elder",
+      "mesh": "SK_RV4_Woman_Elder",
+      "file": "meshes/SK_RV4_Woman_Elder.glb",
+      "sha256": "a65ad077b80e1bd7b3517b08c8fca8bcedc7fcf63c32c3b40bf7c1e7773bb151",
+      "triangles": 50732,
+      "trianglesByMaterial": {
+        "RV4_Skin": 23936,
+        "RV4_Eye": 1792,
+        "RV4_Hair": 2420,
+        "RV4_Garment": 8812,
+        "RV4_Cloth": 12332,
+        "RV4_Leather": 1440
+      },
+      "vertices": 26236,
+      "parts": 56,
+      "faceFingerprint": "4ae904ac6b5387c99d489d9337c5f52679eda0e27931ad910fe1096b44fd3813",
+      "face": {
+        "female": 1,
+        "soft": 0.7,
+        "nose_len": 0.96,
+        "nose_w": 1.06,
+        "hook": 0.3,
+        "jaw": 1.0,
+        "chin": 0.95,
+        "brow": 0.4,
+        "eye_sp": 1.0,
+        "lip": 0.88,
+        "cheek": 0.55,
+        "sunken": 0.4,
+        "wrinkle": 0.85,
+        "open": 0.9,
+        "tilt": -0.04,
+        "beard": "none",
+        "brow_bush": 0.8,
+        "iris": [
+          0.06,
+          0.045,
+          0.03
+        ],
+        "hair": [
+          0.33,
+          0.31,
+          0.29
+        ]
+      },
+      "dress": {
+        "tunic_hem": 18.0,
+        "mantle_hem": 58.0,
+        "sex": "f",
+        "headwear": "shawl",
+        "tzitzit": false,
+        "clavi": [
+          0.34,
+          0.16,
+          0.14
+        ]
+      },
+      "materialsUsed": [
+        "RV4_Cloth",
+        "RV4_Eye",
+        "RV4_Garment",
+        "RV4_Hair",
+        "RV4_Leather",
+        "RV4_Skin"
+      ],
+      "seconds": 5.3,
+      "previews": [
+        "V3_Pilgrim_Woman_Elder-rest-front.png",
+        "V3_Pilgrim_Woman_Elder-rest-three-quarter.png",
+        "V3_Pilgrim_Woman_Elder-rest-side.png",
+        "V3_Pilgrim_Woman_Elder-rest-back.png",
+        "V3_Pilgrim_Woman_Elder-face-three-quarter.png",
+        "V3_Pilgrim_Woman_Elder-walk-t0.30-side.png",
+        "V3_Pilgrim_Woman_Elder-walk-t0.60-side.png"
+      ]
+    },
+    {
+      "id": "V3_Pilgrim_Youth",
+      "mesh": "SK_RV4_Youth",
+      "file": "meshes/SK_RV4_Youth.glb",
+      "sha256": "5b09449a475a411dbef19e26cb3576ba0556b4604ebcea420ada5da4939f1931",
+      "triangles": 39164,
+      "trianglesByMaterial": {
+        "RV4_Skin": 24560,
+        "RV4_Eye": 1792,
+        "RV4_Hair": 2144,
+        "RV4_Cloth": 1436,
+        "RV4_Garment": 7792,
+        "RV4_Leather": 1440
+      },
+      "vertices": 20442,
+      "parts": 54,
+      "faceFingerprint": "ab4dea6c063f51a5b0fffbc9a40e11ac91cf2f4befddbd8e4e107ab353cb6307",
+      "face": {
+        "female": 0,
+        "soft": 0.8,
+        "refine": 0.65,
+        "nose_len": 0.84,
+        "nose_w": 0.9,
+        "hook": 0.0,
+        "jaw": 0.88,
+        "chin": 0.85,
+        "brow": 0.5,
+        "eye_sp": 1.0,
+        "lip": 1.05,
+        "cheek": 0.5,
+        "sunken": 0.0,
+        "wrinkle": 0.0,
+        "open": 1.05,
+        "tilt": 0.06,
+        "beard": "none",
+        "brow_bush": 0.8,
+        "iris": [
+          0.05,
+          0.032,
+          0.018
+        ],
+        "hair": [
+          0.028,
+          0.019,
+          0.013
+        ]
+      },
+      "dress": {
+        "tunic_hem": 44.0,
+        "mantle_hem": null,
+        "sex": "m",
+        "headwear": "cap",
+        "tzitzit": false,
+        "clavi": [
+          0.4,
+          0.26,
+          0.12
+        ]
+      },
+      "materialsUsed": [
+        "RV4_Cloth",
+        "RV4_Eye",
+        "RV4_Garment",
+        "RV4_Hair",
+        "RV4_Leather",
+        "RV4_Skin"
+      ],
+      "seconds": 3.5,
+      "previewsNote": "previews/ PNGs for this variant predate the v4b refine; the six-face strip is the review"
+    }
+  ],
+  "refinePass": {
+    "utc": "2026-09-15T22:42:06Z",
+    "note": "v4b: Woman_Young refine 1.0, Youth refine .65 (softer jaw/chin, set-back narrower neck, fuller cheeks, finer brow, fuller lips, continuous brows, mouth set back). Other four GLBs rebuilt byte-identical to their receipts."
+  }
+}

@@ -1,5 +1,62 @@
 # Astra takeover checkpoint — 15 September 2026
 
+## Current verified Kotel visual repair — 15 September, 17:29 UTC
+
+The local playable copy now includes the Kotel cut closure, alongside the prior
+rooftop and photo-body repairs. Launcher:
+`C:\Mikdash\Builds\Checkpoint-roofruntime01-20260915\Windows\MikdashCourtyardV3.exe`.
+Current child SHA256:
+`3aee6ac4d129e6327a7077d59d83557a50c10ecb731aa94744e1eb612d02f087`.
+
+Native enabled/disabled four-state probes passed and images were inspected: the
+missing strip under the Jewish Quarter becomes a stone retaining surface in the
+Kotel view. Modern/Overlay show it; Yechezkel hides it. All 959 deck transforms,
+841 closure triangles and normals read back correctly. Both stair replays reached
+all three waypoints, zero stuck events, grounded on the upper deck. Final gate10/10:
+Editor compiled/linked; Game hash remained the exact native-tested binary.
+See `SourceAssets/context-review/KotelCutClosureV1/runtime-acceptance.json`.
+All20 maps and all6 original/test-copy base containers are hash-unchanged.
+
+Important limits: the added face is an authored VISUAL treatment with NoCollision;
+direct edge walking and a physical barrier remain unverified. The tested stair
+route is unchanged. This is still cp24 cooked content plus a replacement executable,
+not a full recook/public release; the saved ContextCoursingV2 materials are absent.
+Next priorities: probe the new boundary directly, then deliver the saved horizontal
+stone courses through a small tested asset patch. The source-supported but UNTESTED
+recipe/inventory is `ContextCoursingV2/asset-patch-plan.md`. Do not run a full cook
+at unchanged headroom. Facade shape/detail and terrain-edge steps still need work.
+
+The initial incompatible child and both watchdog stops are preserved. Five new
+reflected transient fields were removed; all70 existing property declarations/order
+match the last working code. Weak closure references use actor OwnedComponents for
+GC retention. Do not reintroduce schema changes into an older unversioned cook.
+The 1280x720 GPU probe measured7.36GiB private peak and1.80GiB minimum free commit.
+Its measured startup required a1.25GiB reserve/8GiB child cap; Entry/full-cook guards
+remain unchanged. No restart, administrator-consent bypass or security-service change.
+
+## In progress — 15 September, 16:49 UTC
+
+17:08 UTC update: Editor/Game compiled, but the first packaged trial failed before
+BeginPlay during unversioned AActor serialization. New reflected transient fields
+were inserted ahead of existing Enclosure properties, shifting cooked schema
+indices. Runtime-only schema-preserving correction is underway. The test archive
+has been restored to the previous working child `c1f56f30...` recorded below;
+failed binary is checkpointed under `ReviewCheckpoints/KotelRuntime-20260915T1658`.
+Native failure receipt: `KotelCutClosureV1/runtime-20260915T170601943Z.json`.
+
+Integrating the verified Kotel excavation closure as a guarded transient runtime mesh,
+without saving maps or cooking. Code and generated data are being prepared; this is
+NOT yet compiled or present in the playable copy. The original cp24 archive remains
+untouched. The current test child is still the photo-fix SHA recorded below.
+
+The closure follows only the exact KotelPlazaCutV3 terrain component: Modern/Overlay
+visible, Yechezkel hidden. `KotelPlazaCutTwin` alone is ambiguous because the deck
+actor shares it. Validate full mesh identity, identity world transform and all 959
+deck transforms. Use the loaded enclosure's PlazaAshlarMaterial; cp24's cooked parent
+is MacroV3 although the active instance now points at MacroV4. No collision/navigation
+on this visual shell; original deck, treads, protected Kotel wall collision stay intact.
+Separate native four-state photo and existing three-waypoint stair probes are prepared.
+
 ## Current photo fix and Kotel study — 15 September, 16:31 UTC
 
 Photo-mode camera obstruction is now fixed in the local test copy. Its current game

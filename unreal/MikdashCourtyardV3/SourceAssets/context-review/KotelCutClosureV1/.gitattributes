@@ -2,3 +2,5 @@
 generate_study_closure.py text eol=lf
 # Native receipts also record the executed study script's raw SHA256.
 native_study.py text eol=lf
+# Canonical native-tested geometry includes a final CRLF; preserve its exact hash.
+closure-study.json -text whitespace=cr-at-eol

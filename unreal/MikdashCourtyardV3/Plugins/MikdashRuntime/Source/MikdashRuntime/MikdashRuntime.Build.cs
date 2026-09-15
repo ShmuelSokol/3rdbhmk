@@ -13,6 +13,7 @@ public class MikdashRuntime : ModuleRules
 
         PrivateDependencyModuleNames.AddRange(new[] {
             "Slate", "SlateCore", "NavigationSystem",
+            "GeometryCore", "GeometryFramework", // guarded transient Kotel cut closure
             "RenderCore",               // photo mode high-resolution capture
             "MovieScene",               // cinematic intro playback
             "MovieSceneTracks",

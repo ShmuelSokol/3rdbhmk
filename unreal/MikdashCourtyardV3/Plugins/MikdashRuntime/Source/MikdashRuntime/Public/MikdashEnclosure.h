@@ -3,12 +3,16 @@
 #include "GameFramework/Actor.h"
 #include "EnclosureMath.h"
 #include "TimerManager.h"
+#include "Containers/Ticker.h"
 #include "MikdashEnclosure.generated.h"
 
 class UHierarchicalInstancedStaticMeshComponent;
 class UStaticMesh;
 class UInstancedStaticMeshComponent;
 class FJsonValue;
+class FJsonObject;
+class UDynamicMeshComponent;
+class UStaticMeshComponent;
 class UMaterialInterface;
 class UMaterialInstanceDynamic;
 class UPointLightComponent;
@@ -486,6 +490,11 @@ public:
     void GetLegacyRoofRuntimeCounts(int32& OutOriginalInstances, int32& OutKeptInstances,
         int32& OutVisibleInstances, double& OutMaxPositionErrorCm) const;
 
+    UFUNCTION(BlueprintPure, Category = "Precinct|Diagnostics")
+    FString GetKotelClosureRuntimeStatus() const;
+    UFUNCTION(BlueprintPure, Category = "Precinct|Diagnostics")
+    FString GetKotelClosureRuntimeReadback() const;
+
     UPROPERTY(BlueprintAssignable, Category = "Precinct")
     FMikdashPrecinctStateSignature OnPrecinctStateChanged;
 
@@ -503,6 +512,38 @@ public:
     MikdashEnclosure::FSquare GetSquare() const;
 
 private:
+    void PrepareKotelClosure();
+    void ApplyKotelClosureVisibility();
+    void ClearKotelClosure();
+    bool ValidateKotelClosureSources(double& OutDeckErrorCm) const;
+    bool ValidateKotelClosureMesh(double& OutPositionErrorCm, double& OutNormalError, double& OutUVError) const;
+    TSharedRef<FJsonObject> KotelClosureReadback() const;
+    void StartKotelClosureProbe();
+    void StopKotelClosureProbe();
+    bool TickKotelClosureProbe(float DeltaSeconds);
+    bool FinishKotelClosureProbe(const TCHAR* Reason);
+    // Keep new runtime references out of the cooked unversioned property schema.
+    // AActor::OwnedComponents retains the closure; this handle and source handles are weak.
+    TWeakObjectPtr<UDynamicMeshComponent> KotelClosure;
+    TWeakObjectPtr<UStaticMeshComponent> KotelClosureTerrain;
+    TWeakObjectPtr<UInstancedStaticMeshComponent> KotelClosureDeck;
+    TWeakObjectPtr<UMaterialInterface> KotelClosureTerrainMaterial;
+    TWeakObjectPtr<UMaterialInterface> KotelClosureDeckMaterial;
+    FName KotelClosureSourceCollisionProfiles[2];
+    uint8 KotelClosureSourceCollisionModes[2] = {0, 0};
+    FString KotelClosureStatus = TEXT("not-prepared");
+    bool bKotelClosureValidated = false;
+    bool bKotelClosureDisabled = false;
+    FTSTicker::FDelegateHandle KotelClosureProbeTicker;
+    double KotelClosureProbeStageStart = 0.0;
+    int32 KotelClosureProbeStage = 0;
+    int32 KotelClosureProbeStateIndex = 0;
+    bool bKotelClosureProbePassed = true;
+    bool bKotelClosureProbeOwnsPhoto = false;
+    FString KotelClosureProbePhoto;
+    TArray<TSharedPtr<FJsonValue>> KotelClosureProbeRows;
+    TArray<FString> KotelClosureProbePhotos;
+
     void PrepareLegacyRoofs();
     void ApplyLegacyRoofs(bool bHardHide);
     void RestoreLegacyRoofs();

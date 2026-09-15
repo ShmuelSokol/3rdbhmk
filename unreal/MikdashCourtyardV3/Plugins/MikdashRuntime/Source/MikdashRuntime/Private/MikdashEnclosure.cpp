@@ -1528,6 +1528,7 @@ void AMikdashEnclosure::ApplyWeights(const FStateWeights& Weights)
     // today's city - that are whole ACTORS rather than instances on this one. Terrain twins,
     // the hillside they replace, the Kotel plaza cut and the precinct roofscape all move here.
     ApplyStateTaggedActors(bShowWall);
+    ApplyKotelClosureVisibility();
 
     if (WallDynamic != nullptr)
     {
@@ -1590,6 +1591,7 @@ void AMikdashEnclosure::ApplyWeights(const FStateWeights& Weights)
 
 void AMikdashEnclosure::RestoreAllModernBuildings()
 {
+    ClearKotelClosure();
     RestoreLegacyRoofs();
     RestoreHiddenBuildings();
     // Same contract, one call further: whatever this actor moved, it puts back. EndPlay,
@@ -1677,6 +1679,7 @@ void AMikdashEnclosure::RebuildPrecinct()
     GatherModernBuildings();
     BuildRing();
     PrepareLegacyRoofs();
+    PrepareKotelClosure();
     ApplyWeights(WeightsFor(ToMath(CurrentState)));
 }
 
@@ -1709,6 +1712,7 @@ void AMikdashEnclosure::BeginPlay()
     Transition.ElapsedSeconds = 0.0;
     Transition.DurationSeconds = 0.0;
     RebuildPrecinct();
+    StartKotelClosureProbe();
     if (FParse::Param(FCommandLine::Get(), TEXT("MikdashLegacyRoofDiagnostic")))
         GetWorld()->GetTimerManager().SetTimer(LegacyRoofDiagnosticTimer, this,
             &AMikdashEnclosure::RunLegacyRoofDiagnosticStep, 1.0f, true, 2.0f);
@@ -1716,6 +1720,7 @@ void AMikdashEnclosure::BeginPlay()
 
 void AMikdashEnclosure::EndPlay(const EEndPlayReason::Type Reason)
 {
+    StopKotelClosureProbe();
     if (GetWorld()) GetWorld()->GetTimerManager().ClearTimer(LegacyRoofDiagnosticTimer);
     // Unconditional. Whatever went wrong, the city goes back the way it was found.
     RestoreAllModernBuildings();

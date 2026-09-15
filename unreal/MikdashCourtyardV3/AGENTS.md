@@ -2070,3 +2070,52 @@ Final photo policy accepted at16:15Z: Editor/Game compile+link and18 native prob
 Kotel study launcher lessons: PowerShell Math.Max/Min need explicit [long] operands for process counters above2GiB; the first launch was stopped by an Int32 conversion failure, not OOM. GPU Entry startup exceeded the initial4GiB watchdog with5.13GiB still free; adjusted bounded study requires9GiB headroom and preserves2GiB free, max6.5GiB private. First completed unsaved A/B/A at162119Z preserved all production assets/maps but showed only thin closure strips and a culled backdrop, so native visual acceptance failed despite passing buffer mathematics. Canonical cross-product normals do not establish Unreal front-face winding; verify the native import convention with one-sided pixels. Do not enable two-sided materials to conceal this error.
 
 Corrected Kotel study at162720Z passed cavity-facing A/B/A: native import reverses canonical indices (a,c,b) for both closure and backdrop, preserving positions/normals/UVs. One-sided magenta surface now fills the blue opening and hiding it restores that opening. All20maps/allproductionassets unchanged and no dirty /Game packages. Visual-acceptance.json records175723magenta pixels,174147previouslyblue; A0/A1 mean channel difference0.194/255, only38pixels above8. This proves the isolated seam, not main-map integration/collision/material quality. Opposite-side culling test remains pending. Keep canonical generator/JSON bytes unchanged, and preserve its eol=lf gitattributes because geometry pins generatorSHA.
+
+## Kotel runtime closure integration identity — 15 Sep 2026, 16:49 UTC (in progress)
+
+The isolated cavity-facing Entry study passed; runtime integration is being prepared,
+not yet compiled/verified. KotelPlazaCutTwin identifies TWO actors (terrain + deck),
+so a guard must require the full KotelPlazaCutV3 static mesh object path and identity
+actor/component world transforms. The closure follows the terrain owner's actual
+visibility after ApplyStateTaggedActors: Modern/Overlay visible, Yechezkel hidden.
+The source original terrain has both PrecinctCutOriginal and KotelPlazaCutOriginal;
+it stays hidden in all three modes and must not be used as the runtime owner.
+Canonical geometry winding needs (a,c,b) for native one-sided rendering; keep its
+cavity normals unchanged. The loaded PlazaAshlarMaterial has correct vertical YZ/XZ
+projection. cp24 still uses MacroV3, while the active asset was reparented to MacroV4
+AFTER cp24 cooked. Do not misdescribe current disk materials as the packaged version.
+The Kotel walk probe counts skipped waypoints in its done summary: acceptance must
+require each actual reached event (0,1,2), zero stuck events, correct grounded endpoint.
+
+15 Sep 17:08 UTC — Runtime/cooked schema trap: UPROPERTY(Transient) STILL occupies
+an unversioned property schema index. The first Kotel runtime trial inserted five
+reflected transient fields before older Enclosure fields; compilation passed but
+cp24 crashed during AActor::Serialize with InvalidSerialize outside the export
+buffer, before BeginPlay. The previous executable has been restored in the test
+archive; all maps and original cp24 remain intact. Installed CoreUObject
+UnversionedPropertySerialization.cpp375-387 includes all PropertyLink fields;
+saving excludes transient values while advancing indices. Do not insert new
+reflected fields ahead of existing fields when using an older cooked map.
+Preserve the old reflected schema for runtime-only updates; Transient alone is
+not serialization compatibility. Trial binary/log are preserved, not accepted.
+
+15 Sep 17:29 UTC — Kotel closure accepted in isolated playable copy, childSHA
+3aee6ac4d129e6327a7077d59d83557a50c10ecb731aa94744e1eb612d02f087.
+Native ON/OFF four-state probes passed; enabled images close the K2 visual gap,
+disabled control restores it. 841triangles/2523vertices/959deck transforms match;
+Modern/Overlay visible, Yechezkel hidden, source collision configurations intact.
+Paired NullRHI stair replays both reach0,1,2 in9.99s with0stuck; final grounded
+feet-982.6/-982.4cm. Initialfalls95.2/95.4cm match each other, not historic fixed-FPS
+26.4cm; do not substitute historical runtime numbers for current measured evidence.
+Final gate10/10, corrected Editor/Game built; all20maps and6base containers unchanged.
+The new thin face is NoCollision: direct edge walking/barrier acceptance still owed.
+
+The schema repair preserves all70 reflected properties exactly; new references are
+nonreflected weak pointers, component explicitly retained by actor OwnedComponents.
+Native load after this change confirms compatibility. The GPU probe's bApplyGraphicsToEngine=False
+is an EXISTING Config option; otherwise settings overwrite ResX with1920borderless.
+Enforced1280x720 High/77% probe measured7.36GiBprivate peak,1.80GiBfreecommit minimum.
+Two old2GiBwatchdog stops were NOT OOMs. The game probe now retains1.25GiBfree/8GiBprivate
+limits; Entry/full-cook limits stand. See KotelCutClosureV1/runtime-acceptance.json.
+
+15 Sep publication check: closure-study.json includes one final CRLF and its native-tested SHA is pinned by runtime generation. Its exact .gitattributes entry uses -text to preserve raw bytes; compare the indexed blob, not only the Windows working file. Keep diagnostic .log files local under the no-log publication rule; reviewed JSON receipts and native PNG evidence are published explicitly.

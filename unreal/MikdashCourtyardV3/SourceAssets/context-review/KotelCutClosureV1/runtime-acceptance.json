@@ -1,0 +1,109 @@
+{
+  "status": "accepted-native-visual-and-stair-pair",
+  "childSha256": "3aee6ac4d129e6327a7077d59d83557a50c10ecb731aa94744e1eb612d02f087",
+  "onReceipt": "runtime-20260915T171947530Z.json",
+  "offReceipt": "runtime-20260915T172138326Z.json",
+  "stairOnReceipt": "stair-20260915T172339339Z.json",
+  "stairOffReceipt": "stair-20260915T172448192Z.json",
+  "visuallyInspected": [
+    "on-phase0",
+    "on-phase1",
+    "on-phase2",
+    "on-phase3",
+    "off-phase0"
+  ],
+  "observations": [
+    "The Kotel-facing retaining surface replaces the open strip and distant underside view with stone.",
+    "Modern and Overlay show the closure; Yechezkel hides it, and Modern returns it.",
+    "The fixed K2 camera is below the Yechezkel precinct deck; that phase checks absence, not a recommended tour view.",
+    "The old vertical stone coursing, block-like facades and terrain/edge steps remain visible and need further visual work."
+  ],
+  "pixelMeasure": {
+    "repairBlueVoidPixels": 0,
+    "formerlyBluePixelsChangingOver20": 343160,
+    "scope": "Fixed K2 image band only, not proof every possible view is repaired",
+    "imageSize": [
+      2560,
+      1440
+    ],
+    "controlBlueVoidPixels": 343160,
+    "roi": [
+      0,
+      792,
+      2560,
+      1051
+    ],
+    "blueCriterion": "B > R+15 and B > G+8"
+  },
+  "nativeReadback": {
+    "collision": "NoCollision",
+    "sourceCollisionConfigurationUnchanged": true,
+    "normalExitBoth": true,
+    "phaseOrder": [
+      "Modern",
+      "Yechezkel",
+      "Overlay",
+      "Modern-again"
+    ],
+    "maxUVError": 2.391727127678699E-07,
+    "vertices": 2523,
+    "maxNormalError": 0,
+    "FOV": 90,
+    "deckInstances": 959,
+    "navigation": false,
+    "materialTwoSided": false,
+    "mapsUnchanged": 20,
+    "actualCameraLocation": "X=-20711.445 Y=19228.202 Z=-746.418",
+    "triangles": 841,
+    "maxPositionErrorCm": 0,
+    "maxDeckTransformErrorCm": 0
+  },
+  "stairPair": {
+    "durationSecondsOff": 9.99,
+    "longestFallCmOff": 95.4,
+    "longestFallCmOn": 95.2,
+    "actualReached": [
+      0,
+      1,
+      2
+    ],
+    "scope": "Paired native NullRHI stair route, not all movement boundaries",
+    "stuckEventsOff": 0,
+    "floorMesh": "SM_PlazaV1_DeckTile",
+    "feetZoff": -982.4,
+    "termination": "Wrapper stopped only its owned process after native done; no normal exit claimed",
+    "feetZon": -982.6,
+    "durationSecondsOn": 9.99,
+    "stuckEventsOn": 0
+  },
+  "memory": {
+    "viewport": "1280x720; screenshot 2x",
+    "onMinimumFreeCommitGiB": 1.7952690124511719,
+    "note": "1920 and first1280 trials were watchdog-aborted with free commit remaining; no OOM in these trials",
+    "watchdogReserveGiB": 1.25,
+    "onPeakPrivateGiB": 7.355205535888672,
+    "graphics": "High scalability groups/77% screen percentage; existing settings graphics override disabled for diagnostic",
+    "watchdogChildCapGiB": 8
+  },
+  "limitations": [
+    "This is an authored visual retaining treatment, not a sourced future wall claim.",
+    "The new thin closure has no collision. Direct edge walking and a physical barrier remain unverified; existing stair/deck physics were preserved.",
+    "Existing cp24 cooked assets with replacement native executable, not a fresh cook or public downloadable release.",
+    "The saved ContextCoursingV2 material correction is still not inside this cook.",
+    "No opposite-side visual-culling or exhaustive world/performance acceptance is claimed."
+  ],
+  "rejectedTrials": [
+    "runtime-20260915T170601943Z.json: unversioned serialization incompatibility; fixed by preserving all70 previous reflected properties",
+    "runtime-20260915T171338258Z.json: watchdog at1920 viewport; previous settings overrode ResX",
+    "runtime-20260915T171708752Z.json: healthy1280startup stopped by old2GiB reserve"
+  ],
+  "finalGate": {
+    "unchangedTests": "32 math suites previously passed;10 new data tests passed this wave",
+    "editor": "87.80s actual compilation/link",
+    "total": 10,
+    "game": "1.38s up-to-date, native-tested child hash unchanged",
+    "log": "verify-runtime-final-20260915T172657Z.log",
+    "passed": 10
+  },
+  "baseContainerIntegrity": "base-container-integrity.json"
+}

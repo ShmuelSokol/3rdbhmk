@@ -1,0 +1,58 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-11",
+  "purpose": "Switch RELEASE_CrowdField on both maps (Candidate48 first) from six frozen posed meshes to the six VAT-baked PilgrimRigV3 bodies of Scripts/create_crowd_vat_v2.py, with the vertex-animation runtime in AMikdashCrowdField turned on. One actor per map is touched; every other actor is snapshot-compared.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "targets": {
+    "Candidate48": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+    "Main50": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough"
+  },
+  "order": [
+    "Candidate48",
+    "Main50"
+  ],
+  "actorLabel": "RELEASE_CrowdField",
+  "actorClass": "/Script/MikdashRuntime.MikdashCrowdField",
+  "poseComponents": 6,
+  "checkpointRoot": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints",
+  "checkpointPrefix": "CrowdVAT-",
+  "receiptFolder": "SourceAssets/runtime-review/crowd-field/vat-v2",
+  "bakeNamespace": "/Game/MikdashV3/Runtime/CrowdVATV1",
+  "bakeVerifyStatus": "verified_after_reopen",
+  "customDataFloats": 11,
+  "wanted": {
+    "use_vertex_animation": true,
+    "activate_on_begin_play": true,
+    "crowd_count": 1600,
+    "freeze_distance_cm": 30000.0,
+    "mesh_yaw_offset_degrees": -90.0,
+    "paused_group_resume_seconds": 12.0,
+    "garment_palette_size": 8,
+    "bob_amplitude_cm": 0.0,
+    "lean_amplitude_degrees": 0.0,
+    "vat_walk_ground_speed_cm_per_second": 119.95,
+    "vat_walk_cycle_seconds": 1.2,
+    "vat_cadence_spread": 0.07,
+    "vat_min_play_rate": 0.45,
+    "vat_max_play_rate": 1.55,
+    "vat_min_horizon_seconds": 0.12,
+    "vat_max_horizon_seconds": 0.7,
+    "vat_min_idle_seconds": 1.0
+  },
+  "why": {
+    "crowd_count": "Both maps carried 240 (candidate-parity-20260910T020232999990Z.json), not the 10,000 class default. 1,600 sits inside the 1,500-2,500 the VAT plan named: each figure is 2,400 triangles against the old 1,228, and at UpdateBudgetPerFrame 500 one sweep is 4 frames, so the material extrapolates at most a few hundredths of a second at 60 fps. Frame time is measured before and after in the packaged build; lower this if the cost is not acceptable.",
+    "freeze_distance_cm": "Raised to the cull distance. A frozen vertex-animated figure is committed and set to idle, so freezing no longer means a statue, but walkers between 120 and 300 m should keep walking: the crowd lives at 30-200 m and the per-frame CPU cost is bounded by the budget, not by the distance.",
+    "mesh_yaw_offset_degrees": "PilgrimRigV3 bodies face +Y after the glTF import; the crowd heading convention is +X.",
+    "paused_group_resume_seconds": "A paused visitor party stood forever: 13 of 54 parties were paused at the end of the 8 Sep PIE run. Paused parties now idle (limbs moving) and after ~9-15 s turn back for their anchor.",
+    "garment_palette_size": "M_CrowdVAT_V1 carries the 8-entry palette of release_crowd_tint_fix.spec.json; the tint index goes out as index/(N-1).",
+    "bob_lean": "Zeroed for the record; the vertex-animation path ignores them because the clip carries its own 3.99 cm pelvis bob and 4.4 cm sway."
+  },
+  "notTouched": [
+    "the 24 MikdashResidentCharacter residents and their walk",
+    "the Kohen Gadol service actor",
+    "every lamp light",
+    "every other actor (scene snapshot compared before save)"
+  ],
+  "vatMaster": "/Game/MikdashV3/Runtime/CrowdVATV1/Materials/M_CrowdVAT_V2.M_CrowdVAT_V2",
+  "vatMasterWhy": "M_CrowdVAT_V1 (Custom-node HLSL fed by per-instance data) crashed ShaderCompileWorker in the cp19 cook; replaced by the stock-node M_CrowdVAT_V2 (create_crowd_vat_v2.py -CrowdVatMaterialV2) and V1 removed from Content."
+}

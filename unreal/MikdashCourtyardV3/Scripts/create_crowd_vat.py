@@ -1,6 +1,12 @@
 """Crowd figure source geometry for AMikdashCrowdField -- and the honest record of why it is
 posed static meshes rather than a Vertex Animation Texture.
 
+SUPERSEDED 2026-09-11. The "VAT impossible / AnimToTexture not installed" finding below is
+STALE: AnimToTexture ships in UE 5.8 (Engine/Plugins/Experimental/AnimToTexture) and is callable
+from Python. Scripts/create_crowd_vat_v2.py bakes the WalkV2 walk and idle of six PilgrimRigV3
+bodies with it; Scripts/release_crowd_vat.py puts them on RELEASE_CrowdField. This file is kept
+because release_crowd_field.spec.json hashes the posed OBJ figures it produced.
+
 WHICH PATH WAS TAKEN
 --------------------
 The brief asked for a VAT bake of the existing walk cycle, with posed static meshes as the

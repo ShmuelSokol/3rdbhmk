@@ -114,6 +114,17 @@ int main()
     Vec2 ScaledZone[4],ScaledWall[4];for(int I=0;I<4;++I){ScaledZone[I]=Zone[I]*.96;ScaledWall[I]=Wall[I]*.96;}
     World.Zone=ScaledZone;World.Protected=ScaledWall;
     Expect(!SegmentAllowed(World,{-50,0},{50,0})&&SegmentAllowed(World,{-300,0},{-250,0}),"runtime48 geometry uses unchanged physical group dimensions");
+    {
+        // Relocate commits an already-validated vertex-animation segment: no clearance test,
+        // but the occupant is found, moved across cells, and unknown ids are refused.
+        SpatialIndex R;
+        Expect(R.Insert(1,{0,0})&&R.Insert(2,{90,0}),"relocate fixture");
+        Expect(R.Relocate(1,{0,0},{450,10}),"relocate across cells without a clearance test");
+        Expect(!R.SegmentClear({440,10},{460,10},3),"relocated occupant is found at its new cell");
+        Expect(!R.SegmentClear({85,0},{86,0},3)&&R.SegmentClear({0,0},{1,0},3),"the other occupant is untouched and the vacated cell is clear");
+        Expect(!R.Relocate(7,{0,0},{10,0}),"unknown id refused");
+        Expect(R.Relocate(2,{90,0},{95,0})&&!R.SegmentClear({95,0},{96,0},3),"same-cell relocate updates the position");
+    }
     std::cout<<"CrowdGroupMath: "<<Checks<<" checks, "<<Failures<<" failures\n";
     return Failures?1:0;
 }

@@ -474,6 +474,109 @@ static void StepChecks()
                 Reseeds, Travelled, Seeded);
 }
 
+// Vertex-animated crowd: the anchor contract with M_CrowdVAT_V1 and the no-slide identity.
+static void VatChecks()
+{
+    const double G = 119.95, Cycle = 1.2;   // WalkV2 ground speed at rate 1, cycle seconds
+    // 1. No slide: for any speed and body scale, ground travel per walk cycle equals the clip's
+    //    own cycle distance scaled with the figure (143.94 cm at scale 1).
+    for (double Scale : {0.84, 0.92, 1.0, 1.08})
+    {
+        for (double Speed : {60.0, 103.0, 119.95, 138.6, 180.0})
+        {
+            const double Rate = VatCyclesPerSecond(Speed, G, Scale, Cycle);
+            const double TravelPerCycle = Speed / Rate;
+            assert(Near(TravelPerCycle, G * Scale * Cycle, 1e-9));
+        }
+    }
+    assert(Near(G * Cycle, 143.94, 1e-9));
+    assert(VatCyclesPerSecond(0.0, G, 1.0, Cycle) == 0.0);
+    assert(VatCyclesPerSecond(100.0, G, 0.0, Cycle) == 0.0);
+    // 2. Playable speed: clamped into the 0.45..1.55 play-rate band, or 0 (idle) when too slow.
+    assert(Near(VatPlayableSpeed(200.0, G, 1.0, 0.45, 1.55), 1.55 * G));
+    assert(Near(VatPlayableSpeed(50.0, G, 1.0, 0.45, 1.55), 0.45 * G));
+    assert(VatPlayableSpeed(0.6 * 0.45 * G - 0.01, G, 1.0, 0.45, 1.55) == 0.0);
+    assert(VatPlayableSpeed(-5.0, G, 1.0, 0.45, 1.55) == 0.0);
+    assert(VatPlayableSpeed(std::numeric_limits<double>::quiet_NaN(), G, 1.0, 0.45, 1.55) == 0.0);
+    assert(Near(VatPlayableSpeed(119.95, G, 1.0, 0.45, 1.55), 119.95));
+    // 3. Commit is path-independent: one visit after 0.3 s equals three visits 0.1 s apart,
+    //    because the material and the CPU integrate the same line from the same anchor.
+    VatAnchor A; A.X = 100; A.Y = -50; A.Z = 300; A.Time = 10.0; A.VelX = 90; A.VelY = 60; A.VelZ = 1.5;
+    A.Phase = 0.8; A.Rate = VatCyclesPerSecond(std::sqrt(90.0 * 90 + 60 * 60), G, 1.02, Cycle); A.Horizon = 0.5;
+    VatAnchor B = A;
+    VatCommit(A, 10.3);
+    VatCommit(B, 10.1); VatCommit(B, 10.2); VatCommit(B, 10.3);
+    assert(Near(A.X, B.X, 1e-9) && Near(A.Y, B.Y, 1e-9) && Near(A.Z, B.Z, 1e-9) && Near(A.Phase, B.Phase, 1e-9));
+    assert(Near(A.X, 100 + 90 * 0.3, 1e-9) && Near(A.Time, 10.3));
+    // Travel over the commit equals phase advance x scaled cycle distance: the foot stays put.
+    {
+        VatAnchor C; C.VelX = 118.0; C.Rate = VatCyclesPerSecond(118.0, G, 0.95, Cycle); C.Horizon = 1.0;
+        VatCommit(C, 0.37);
+        const double Cycles = C.Rate * 0.37;
+        assert(Near(C.X, Cycles * G * 0.95 * Cycle, 1e-9));
+    }
+    // 4. The horizon clamp stops travel AND stride together (a stale anchor freezes, never slides).
+    VatAnchor D; D.VelX = 100; D.Rate = 0.7; D.Horizon = 0.2; D.Time = 0;
+    VatCommit(D, 5.0);
+    assert(Near(D.X, 20.0) && Near(D.Phase, 0.14, 1e-12) && Near(D.Time, 5.0));
+    // A commit backwards in time moves nothing.
+    VatAnchor E = D; VatCommit(E, 4.0); assert(Near(E.X, D.X) && Near(E.Phase, D.Phase));
+    // 5. Horizon from the sweep period.
+    assert(Near(VatHorizonSeconds(4, 1.0 / 60.0, 0.12, 0.7), 0.12));
+    assert(Near(VatHorizonSeconds(4, 0.1, 0.12, 0.7), 0.6));
+    assert(Near(VatHorizonSeconds(20, 0.1, 0.12, 0.7), 0.7));
+    assert(Near(VatHorizonSeconds(0, 0.1, 0.12, 0.7), 0.12));
+    // Look-ahead never exceeds the group step limit at the fastest playable speed and horizon.
+    assert(VatPlayableSpeed(1e6, G, 1.08, 0.45, 1.55) * 0.7 > 100.0);   // why the actor clamps speed to 99 / Horizon
+    // 6. Cadence stays inside its band and differs between neighbours.
+    int Distinct = 0; double Last = -1;
+    for (uint32_t I = 0; I < 200; ++I)
+    {
+        const double C = CadenceFor(20260907u, I, 0.07);
+        assert(C >= 0.93 - 1e-12 && C <= 1.07 + 1e-12);
+        if (std::abs(C - Last) > 1e-6) ++Distinct;
+        Last = C;
+    }
+    assert(Distinct > 190);
+    // 7. Interleaved layout: every global index maps to exactly one (component, local) slot, the
+    //    per-component counts sum to the total, and any window maps to contiguous local ranges.
+    for (int P = 1; P <= 6; ++P)
+    {
+        for (int Total : {0, 1, 5, 6, 7, 240, 1601})
+        {
+            int Sum = 0;
+            for (int C = 0; C < P; ++C) Sum += InterleavedCount(C, Total, P);
+            assert(Sum == Total);
+            std::vector<int> Seen(static_cast<size_t>(Total > 0 ? Total : 1), 0);
+            for (int G2 = 0; G2 < Total; ++G2)
+            {
+                const int C = InterleavedPose(G2, P), L = InterleavedLocal(G2, P);
+                assert(C >= 0 && C < P && L >= 0 && L < InterleavedCount(C, Total, P));
+                assert(L * P + C == G2);
+                ++Seen[static_cast<size_t>(G2)];
+            }
+            for (int Start = 0; Start < Total; Start += 37)
+            {
+                const int Count = std::min(500, Total - Start);
+                int Covered = 0;
+                for (int C = 0; C < P; ++C)
+                {
+                    int First = 0, N = 0;
+                    InterleavedWindow(Start, Count, C, P, First, N);
+                    for (int K = 0; K < N; ++K)
+                    {
+                        const int G2 = (First + K) * P + C;
+                        assert(G2 >= Start && G2 < Start + Count);
+                        ++Covered;
+                    }
+                }
+                assert(Covered == Count);
+            }
+        }
+    }
+    std::printf("vat: stride identity holds for 4 scales x 5 speeds; commit path-independent; horizon clamps travel and stride together\n");
+}
+
 int main()
 {
     ContainmentChecks();
@@ -484,6 +587,7 @@ int main()
     DistancePolicyChecks();
     ApportionAndPoseChecks();
     StepChecks();
-    std::cout << "PASS: crowd field containment, seeding, flow, speed/phase, round-robin budget, distance policy, apportioning and stepping" << std::endl;
+    VatChecks();
+    std::cout << "PASS: crowd field containment, seeding, flow, speed/phase, round-robin budget, distance policy, apportioning, stepping and the vertex-animation anchor contract" << std::endl;
     return 0;
 }

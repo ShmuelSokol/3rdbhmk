@@ -31,7 +31,10 @@ param(
     # stride, which is useless for reading a planted foot. -benchmark -fps=N makes the
     # engine advance exactly 1/N of a game second per frame however long the frame took to
     # write, so the filmstrip is an exact 1/N-second sequence of the walk.
-    [int]$FixedFps = 0
+    [int]$FixedFps = 0,
+    # Extra engine switches, e.g. "-CrowdCount=240" to re-seed the crowd exactly as a 240-figure
+    # map would (AMikdashCrowdField seeds by a pure hash of seed and index).
+    [string]$ExtraArgs = ''
 )
 $ErrorActionPreference = 'Stop'
 
@@ -56,7 +59,7 @@ $iniArgs = '-ini:Game:[/Script/MikdashRuntime.MikdashFrontEnd]:bShowMainMenuOnBo
 # thinned out afterwards by first-write time.
 $fixed = if ($FixedFps -gt 0) { "-benchmark -fps=$FixedFps " } else { '' }
 $argline = "-windowed -ResX=$ResX -ResY=$ResY -nosplash -nosteam -notraceserver -notrace -noverifygc " +
-           "-dumpmovie $fixed$iniArgs -ExecCmds=`"Ghost,BugItGo $Go,ShowHUD`""
+           "-dumpmovie $fixed$ExtraArgs $iniArgs -ExecCmds=`"Ghost,BugItGo $Go,ShowHUD`""
 
 $report = [ordered]@{
     status = 'starting'; label = $Label; view = $View; bugItGo = $Go; archive = $Archive
@@ -64,6 +67,7 @@ $report = [ordered]@{
     method = '-dumpmovie: every rendered frame of the RUNNING world, no pause, no photo mode'
     resolution = "$ResX x $ResY"; settleSeconds = $SettleSeconds; recordSeconds = $RecordSeconds
     fixedFps = $FixedFps
+    extraArgs = $ExtraArgs
     gameSecondsPerFrame = if ($FixedFps -gt 0) { [math]::Round(1.0 / $FixedFps, 4) } else { $null }
     startedUtc = (Get-Date).ToUniversalTime().ToString('o'); errors = @()
 }

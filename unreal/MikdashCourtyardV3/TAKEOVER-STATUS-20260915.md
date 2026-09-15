@@ -26,9 +26,11 @@ No editor, game, commandlet or cook remains running at this checkpoint.
 Windows reported 57.4 GB committed against a 68.6 GB limit before Unreal. Repeated
 native attempts exhausted commit and reported that the paging file was too small.
 All attempts left the saved map unchanged. No new cook or packaged build was made.
-Clear Windows memory pressure (a restart after saving open work is the next practical
-step), then measure again. Do not repeat identical crashing runs or disable security
-software. No system paging or security settings were changed.
+The user is connected from a phone through AnyDesk: DO NOT restart Windows, sign
+out, or stop AnyDesk, networking or security services to recover memory. Clear
+memory only through actions that preserve the active remote connection, then measure
+again. Do not repeat identical crashing runs. No system paging or security settings
+were changed. The current shell lacks the privilege needed for live page-file changes.
 
 `EditorActorSubsystem.duplicate_actor` crashed under the commandlet before save.
 Full editor retries exceeded memory, even with an empty startup map and serialized

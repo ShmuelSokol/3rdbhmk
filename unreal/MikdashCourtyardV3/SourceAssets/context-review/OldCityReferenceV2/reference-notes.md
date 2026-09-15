@@ -46,3 +46,18 @@ These collages establish appearance, not surveyed dimensions or a complete stree
 
 Status: reference captured and direction recorded. No new geometry, materials or
 map application from these photographs is claimed by this note.
+
+## Source finding while native saves are memory-blocked
+
+`Scripts/release_context_materials.py` maps X-facing walls with `uvX = p.zy`,
+while Y-facing walls use `uvY = p.xz`. The X projection therefore puts world height
+in texture U; the Y projection puts height in V. This is a concrete candidate for
+the inconsistent/vertical stone coursing visible in cp24. The same X projection
+is used by its normal-map sampling and reorientation. CityFacade imports these
+HLSL blocks; the older facade shells use the context material directly.
+
+Before changing saved assets, inspect the source diffuse texture's course direction,
+then test X- and Y-facing wall samples at the same scale. Any correction must update
+albedo, roughness, normal sampling AND the normal's world-space reorientation together.
+Roof/floor XY mapping should retain its existing orientation. This is a source
+diagnosis, not a rendered fix or permission to bypass checkpoint/readback checks.

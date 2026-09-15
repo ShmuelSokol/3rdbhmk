@@ -1,4 +1,12 @@
 #include "MikdashEnclosure.h"
+#include "LegacyRoofRuntime.h"
+#include "LegacyRoofRuntimeData.h"
+#include "Dom/JsonObject.h"
+#include "Serialization/JsonSerializer.h"
+#include "Misc/FileHelper.h"
+#include "Misc/Paths.h"
+#include "HAL/FileManager.h"
+#include "HAL/PlatformMisc.h"
 
 #include "Components/BoxComponent.h"
 #include "Components/HierarchicalInstancedStaticMeshComponent.h"
@@ -1543,6 +1551,7 @@ void AMikdashEnclosure::ApplyWeights(const FStateWeights& Weights)
     // Buildings. The rule about when a building is hidden outright versus dissolving lives in
     // EnclosureMath.h so that this actor and the release receipt cannot disagree about it.
     const bool bHardHide = ShouldHardHide(Weights.ModernInside);
+    ApplyLegacyRoofs(bHardHide);
     const bool bDissolving = NeedsDissolveMaterial(Weights.ModernInside);
 
     if (!bHardHide && !bDissolving)
@@ -1581,6 +1590,7 @@ void AMikdashEnclosure::ApplyWeights(const FStateWeights& Weights)
 
 void AMikdashEnclosure::RestoreAllModernBuildings()
 {
+    RestoreLegacyRoofs();
     RestoreHiddenBuildings();
     // Same contract, one call further: whatever this actor moved, it puts back. EndPlay,
     // RebuildPrecinct and MeasureWithoutHiding all reach the tagged terrain and roofscape
@@ -1666,6 +1676,7 @@ void AMikdashEnclosure::RebuildPrecinct()
     RestoreAllModernBuildings();
     GatherModernBuildings();
     BuildRing();
+    PrepareLegacyRoofs();
     ApplyWeights(WeightsFor(ToMath(CurrentState)));
 }
 
@@ -1698,10 +1709,14 @@ void AMikdashEnclosure::BeginPlay()
     Transition.ElapsedSeconds = 0.0;
     Transition.DurationSeconds = 0.0;
     RebuildPrecinct();
+    if (FParse::Param(FCommandLine::Get(), TEXT("MikdashLegacyRoofDiagnostic")))
+        GetWorld()->GetTimerManager().SetTimer(LegacyRoofDiagnosticTimer, this,
+            &AMikdashEnclosure::RunLegacyRoofDiagnosticStep, 1.0f, true, 2.0f);
 }
 
 void AMikdashEnclosure::EndPlay(const EEndPlayReason::Type Reason)
 {
+    if (GetWorld()) GetWorld()->GetTimerManager().ClearTimer(LegacyRoofDiagnosticTimer);
     // Unconditional. Whatever went wrong, the city goes back the way it was found.
     RestoreAllModernBuildings();
     Super::EndPlay(Reason);
@@ -1714,3 +1729,359 @@ void AMikdashEnclosure::PostEditChangeProperty(FPropertyChangedEvent& Event)
     if (bRingBuilt) BuildRing();
 }
 #endif
+
+// Runtime-only, fail-open partition of the two frozen legacy roof groups. All
+// guards run before either original is hidden; originals never lose instances.
+void AMikdashEnclosure::PrepareLegacyRoofs()
+{
+    using namespace LegacyRoofRuntimeData;
+    using namespace LegacyRoofRuntime;
+    LegacyRoofStatus = TEXT("guard:not-candidate-game-world");
+    UWorld* World = GetWorld();
+    if (!World || !World->IsGameWorld()) return;
+    FString PackageName = World->GetOutermost()->GetName();
+    // PIE adds UEDPIE_<id>_ to the leaf only. Do not admit a same-named foreign map.
+    const FString Prefix = TEXT("/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/");
+    if (!PackageName.StartsWith(Prefix, ESearchCase::CaseSensitive)) return;
+    FString Leaf = PackageName.RightChop(Prefix.Len());
+    if (World->WorldType == EWorldType::PIE && Leaf.StartsWith(TEXT("UEDPIE_")))
+    {
+        const int32 Separator = Leaf.Find(TEXT("_"), ESearchCase::CaseSensitive, ESearchDir::FromStart, 7);
+        if (Separator == INDEX_NONE) return;
+        Leaf = Leaf.Mid(Separator + 1);
+    }
+    if (Leaf != TEXT("Walkthrough")) return;
+    auto Refuse = [this](const TCHAR* Why) {
+        RestoreLegacyRoofs();
+        LegacyRoofStatus = FString(TEXT("guard:")) + Why;
+        UE_LOG(LogTemp, Warning, TEXT("LegacyRoofRuntimeV1 %s"), *LegacyRoofStatus);
+    };
+    int32 Enclosures = 0;
+    for (TActorIterator<AMikdashEnclosure> It(World); It; ++It) ++Enclosures;
+    if (IsHidden() || Enclosures != 1 || ExplicitFound != 269 || ExplicitMissing || ExplicitDuplicated
+        || GetHideSetFingerprint() != UTF8_TO_TCHAR(HideFingerprint))
+    { Refuse(TEXT("hide-policy-or-controller-mismatch")); return; }
+    if (!HideWhileWallStandsTags.Contains(FName(TEXT("CityDetailZone_Precinct")))
+        || HideWhileModernCityStandsTags.Contains(FName(TEXT("CityDetailZone_Precinct")))
+        || HideWhileWallStandsTags.Contains(FName(TEXT("CityDetailZone_Kept")))
+        || HideWhileModernCityStandsTags.Contains(FName(TEXT("CityDetailZone_Kept"))))
+    { Refuse(TEXT("zone-policy-mismatch")); return; }
+    TArray<int32> Selected;
+    SelectedBuildingIndices(Selected);
+    TSet<FString> SelectedLabels;
+    TMap<FString, int32> ResolvedIdentities;
+    for (int32 Index = 0; Index < BuildingActors.Num(); ++Index)
+    {
+        if (BuildingActors[Index].IsValid())
+            ++ResolvedIdentities.FindOrAdd(BuildingIdentityLabel(BuildingActors[Index].Get()));
+    }
+    for (int32 Index : Selected)
+        if (BuildingActors[Index].IsValid()) SelectedLabels.Add(BuildingIdentityLabel(BuildingActors[Index].Get()));
+    for (const char* OwnerLabelUtf8 : PrecinctOwners)
+    {
+        const FString Label = UTF8_TO_TCHAR(OwnerLabelUtf8);
+        if (ResolvedIdentities.FindRef(Label) != 1 || !SelectedLabels.Contains(Label))
+        { Refuse(TEXT("precinct-owner-not-uniquely-selected")); return; }
+    }
+    TArray<UInstancedStaticMeshComponent*> Found[2];
+    for (TActorIterator<AActor> It(World); It; ++It)
+    {
+        TInlineComponentArray<UInstancedStaticMeshComponent*> Components;
+        It->GetComponents(Components);
+        for (UInstancedStaticMeshComponent* Component : Components)
+        {
+            if (!Component->GetStaticMesh()) continue;
+            for (int32 Group = 0; Group < 2; ++Group)
+                if (Component->GetStaticMesh()->GetPathName() == MeshPath(Group)) Found[Group].Add(Component);
+        }
+    }
+    if (Found[0].Num() != 1 || Found[1].Num() != 1)
+    { Refuse(TEXT("original-groups-not-unique-or-editor-partitioned")); return; }
+    LegacyRoofOriginals.Reset();
+    LegacyRoofOriginalLocal[0].Reset();
+    LegacyRoofOriginalLocal[1].Reset();
+    LegacyRoofMaxErrorCm = 0.0;
+    TArray<bool> Precinct;
+    Precinct.Init(false, PairCount);
+    for (const FPrecinctPair& Row : PrecinctPairs)
+    {
+        if (Row.SourceIndex >= PairCount || Row.OwnerIndex >= UE_ARRAY_COUNT(PrecinctOwners) || Precinct[Row.SourceIndex])
+        { Refuse(TEXT("compiled-partition-invalid")); return; }
+        Precinct[Row.SourceIndex] = true;
+    }
+    for (int32 Group = 0; Group < 2; ++Group)
+    {
+        UInstancedStaticMeshComponent* Source = Found[Group][0];
+        AActor* SourceActor = Source->GetOwner();
+        TInlineComponentArray<UInstancedStaticMeshComponent*> Components;
+        SourceActor->GetComponents(Components);
+        if (Source->GetClass() != UInstancedStaticMeshComponent::StaticClass() || SourceActor->GetClass() != AActor::StaticClass()
+            || Components.Num() != 1 || Source->GetInstanceCount() != PairCount || !Source->IsRegistered()
+            || !Source->IsVisible() || Source->bHiddenInGame || SourceActor->IsHidden() || !Inert(Source)
+            || !Finite(Source->GetComponentTransform()))
+        { Refuse(TEXT("original-shape-settings-or-visibility-mismatch")); return; }
+        for (FName Tag : SourceActor->Tags)
+        {
+            if (HideWhileWallStandsTags.Contains(Tag) || HideWhileModernCityStandsTags.Contains(Tag)
+                || Tag == TEXT("CityDetailZone_Kept") || Tag == TEXT("CityDetailZone_Precinct") || Tag == TEXT("LegacyRoofZonesV1"))
+            { Refuse(TEXT("original-conflicting-actor-tag")); return; }
+        }
+        for (FName Tag : Source->ComponentTags)
+        {
+            if (HideWhileWallStandsTags.Contains(Tag) || HideWhileModernCityStandsTags.Contains(Tag)
+                || Tag == TEXT("CityDetailZone_Kept") || Tag == TEXT("CityDetailZone_Precinct") || Tag == TEXT("LegacyRoofZonesV1"))
+            { Refuse(TEXT("original-conflicting-component-tag")); return; }
+        }
+        LegacyRoofOriginals.Add(Source);
+        LegacyRoofOriginalWorld[Group] = Source->GetComponentTransform();
+        LegacyRoofOriginalMaterials[Group].Reset();
+        for (int32 Slot = 0; Slot < Source->GetNumMaterials(); ++Slot)
+            LegacyRoofOriginalMaterials[Group].Add(Source->GetMaterial(Slot));
+        if (!CaptureProperties(Source, LegacyRoofOriginalRenderProperties[Group]))
+        { Refuse(TEXT("original-render-property-missing")); return; }
+        for (int32 Index = 0; Index < PairCount; ++Index)
+        {
+            FTransform Local, WorldTransform;
+            if (!Source->GetInstanceTransform(Index, Local, false) || !Source->GetInstanceTransform(Index, WorldTransform, true)
+                || !Finite(Local) || !Finite(WorldTransform))
+            { Refuse(TEXT("original-invalid-transform")); return; }
+            const float* Expected = TranslationCm[Index] + Group * 3;
+            const double Error = FVector::Distance(WorldTransform.GetTranslation(), FVector(Expected[0], Expected[1], Expected[2]));
+            LegacyRoofMaxErrorCm = FMath::Max(LegacyRoofMaxErrorCm, Error);
+            if (Error > 0.1) { Refuse(TEXT("original-frozen-position-mismatch")); return; }
+            LegacyRoofOriginalLocal[Group].Add(Local);
+        }
+    }
+    // Construct plain, unregistered ISMs; no duplication or persistent asset mutation.
+    for (int32 Group = 0; Group < 2; ++Group)
+    {
+        UInstancedStaticMeshComponent* Source = LegacyRoofOriginals[Group].Get();
+        UInstancedStaticMeshComponent* Kept = NewObject<UInstancedStaticMeshComponent>(this, NAME_None, RF_Transient);
+        if (!Kept) { Refuse(TEXT("allocation-failed")); return; }
+        LegacyRoofKept.Add(Kept); // retained before registration or any subsequent failure
+        if (!Properties(Source, Kept, true)) { Refuse(TEXT("render-property-copy-failed")); return; }
+        Kept->SetStaticMesh(Source->GetStaticMesh());
+        for (int32 Slot = 0; Slot < Source->GetNumMaterials(); ++Slot) Kept->SetMaterial(Slot, Source->GetMaterial(Slot));
+        Kept->SetCollisionProfileName(Source->GetCollisionProfileName());
+        Kept->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+        Kept->SetCanEverAffectNavigation(false);
+        Kept->SetGenerateOverlapEvents(false);
+        Kept->SetWorldTransform(Source->GetComponentTransform());
+        Kept->SetVisibility(false);
+        Kept->SetHiddenInGame(true);
+        TArray<FTransform> LocalKept;
+        LocalKept.Reserve(KeptCount);
+        for (int32 Index = 0; Index < PairCount; ++Index)
+            if (!Precinct[Index]) LocalKept.Add(LegacyRoofOriginalLocal[Group][Index]);
+        Kept->AddInstances(LocalKept, false, false, false);
+        Kept->RegisterComponent();
+    }
+    bLegacyRoofPrepared = true;
+    if (!ValidateLegacyRoofs()) { Refuse(TEXT("replacement-readback-failed")); return; }
+    LegacyRoofStatus = TEXT("prepared-originals-visible");
+    UE_LOG(LogTemp, Display, TEXT("LegacyRoofRuntimeV1 prepared pairs=6007 precinct=1263 kept=4744 maxErrorCm=%.9f plan=%s"),
+        LegacyRoofMaxErrorCm, UTF8_TO_TCHAR(PlanSHA256));
+}
+
+bool AMikdashEnclosure::ValidateLegacyRoofs() const
+{
+    using namespace LegacyRoofRuntime;
+    using namespace LegacyRoofRuntimeData;
+    if (LegacyRoofOriginals.Num() != 2) return false;
+    TArray<bool> Precinct;
+    Precinct.Init(false, PairCount);
+    for (const FPrecinctPair& Row : PrecinctPairs) Precinct[Row.SourceIndex] = true;
+    for (int32 Group = 0; Group < 2; ++Group)
+    {
+        UInstancedStaticMeshComponent* Source = LegacyRoofOriginals[Group].Get();
+        if (!Source || !Source->GetStaticMesh() || Source->GetStaticMesh()->GetPathName() != MeshPath(Group)
+            || !Source->IsRegistered() || Source->GetOwner()->IsHidden()
+            || Source->IsVisible() != !bLegacyRoofKeptVisible || Source->bHiddenInGame != bLegacyRoofKeptVisible
+            || Source->GetInstanceCount() != PairCount || !Inert(Source)
+            || LegacyRoofOriginalLocal[Group].Num() != PairCount
+            || !Source->GetComponentTransform().Equals(LegacyRoofOriginalWorld[Group], 1e-6)) return false;
+        if (Source->GetNumMaterials() != LegacyRoofOriginalMaterials[Group].Num()) return false;
+        for (int32 Slot = 0; Slot < Source->GetNumMaterials(); ++Slot)
+            if (Source->GetMaterial(Slot) != LegacyRoofOriginalMaterials[Group][Slot].Get()) return false;
+        TArray<FString> CurrentProperties;
+        if (!CaptureProperties(Source, CurrentProperties) || CurrentProperties != LegacyRoofOriginalRenderProperties[Group]) return false;
+        UInstancedStaticMeshComponent* Kept = LegacyRoofKept.IsValidIndex(Group) ? LegacyRoofKept[Group].Get() : nullptr;
+        if (bLegacyRoofPrepared && (!Kept || !Kept->IsRegistered() || Kept->GetOwner()->IsHidden()
+            || Kept->IsVisible() != bLegacyRoofKeptVisible || Kept->bHiddenInGame != !bLegacyRoofKeptVisible
+            || Kept->GetInstanceCount() != KeptCount
+            || !Inert(Kept) || !Properties(Source, Kept, false) || Kept->GetStaticMesh() != Source->GetStaticMesh()
+            || Kept->GetNumMaterials() != Source->GetNumMaterials()
+            || !Kept->GetComponentTransform().Equals(Source->GetComponentTransform(), 1e-6))) return false;
+        if (Kept)
+            for (int32 Slot = 0; Slot < Source->GetNumMaterials(); ++Slot)
+                if (Kept->GetMaterial(Slot) != Source->GetMaterial(Slot)) return false;
+        int32 KeptIndex = 0;
+        for (int32 Index = 0; Index < PairCount; ++Index)
+        {
+            FTransform Original;
+            if (!Source->GetInstanceTransform(Index, Original, false) || !Finite(Original)
+                || !Original.Equals(LegacyRoofOriginalLocal[Group][Index], 1e-6)) return false;
+            if (Kept && !Precinct[Index])
+            {
+                FTransform Replacement, SourceWorld, KeptWorld;
+                if (!Kept->GetInstanceTransform(KeptIndex, Replacement, false)
+                    || !Kept->GetInstanceTransform(KeptIndex++, KeptWorld, true)
+                    || !Source->GetInstanceTransform(Index, SourceWorld, true)
+                    || !Finite(Replacement) || !Finite(KeptWorld)
+                    || !Replacement.Equals(Original, 1e-6) || TransformError(KeptWorld, SourceWorld) > 0.1) return false;
+            }
+        }
+    }
+    return true;
+}
+
+void AMikdashEnclosure::ApplyLegacyRoofs(bool bHardHide)
+{
+    if (!bLegacyRoofPrepared || bLegacyRoofKeptVisible == bHardHide) return;
+    // Recheck before the first and every later swap, including full transforms and materials.
+    if (!ValidateLegacyRoofs())
+    {
+        RestoreLegacyRoofs();
+        LegacyRoofStatus = TEXT("guard:swap-readback-failed");
+        return;
+    }
+    for (int32 Group = 0; Group < 2; ++Group)
+    {
+        LegacyRoofOriginals[Group]->SetVisibility(!bHardHide);
+        LegacyRoofOriginals[Group]->SetHiddenInGame(bHardHide);
+        LegacyRoofKept[Group]->SetVisibility(bHardHide);
+        LegacyRoofKept[Group]->SetHiddenInGame(!bHardHide);
+    }
+    bLegacyRoofKeptVisible = bHardHide;
+    LegacyRoofStatus = bHardHide ? TEXT("active-kept-visible") : TEXT("prepared-originals-visible");
+}
+
+void AMikdashEnclosure::RestoreLegacyRoofs()
+{
+    // All admitted originals began visible, not hidden. Only our two component flags move.
+    for (UInstancedStaticMeshComponent* Kept : LegacyRoofKept)
+        if (Kept) Kept->DestroyComponent();
+    LegacyRoofKept.Reset();
+    for (const TWeakObjectPtr<UInstancedStaticMeshComponent>& Weak : LegacyRoofOriginals)
+    {
+        if (UInstancedStaticMeshComponent* Original = Weak.Get())
+        {
+            Original->SetVisibility(true);
+            Original->SetHiddenInGame(false);
+        }
+    }
+    bLegacyRoofPrepared = false;
+    bLegacyRoofKeptVisible = false;
+    LegacyRoofStatus = TEXT("restored-originals-visible");
+}
+
+FString AMikdashEnclosure::GetLegacyRoofRuntimeStatus() const { return LegacyRoofStatus; }
+void AMikdashEnclosure::GetLegacyRoofRuntimeCounts(int32& OutOriginalInstances, int32& OutKeptInstances,
+    int32& OutVisibleInstances, double& OutMaxPositionErrorCm) const
+{
+    OutOriginalInstances = OutKeptInstances = OutVisibleInstances = 0;
+    OutMaxPositionErrorCm = LegacyRoofMaxErrorCm;
+    for (const TWeakObjectPtr<UInstancedStaticMeshComponent>& Weak : LegacyRoofOriginals)
+        if (const UInstancedStaticMeshComponent* Original = Weak.Get())
+        {
+            OutOriginalInstances += Original->GetInstanceCount();
+            if (Original->IsVisible() && !Original->bHiddenInGame && !Original->GetOwner()->IsHidden())
+                OutVisibleInstances += Original->GetInstanceCount();
+        }
+    for (const UInstancedStaticMeshComponent* Kept : LegacyRoofKept)
+        if (Kept)
+        {
+            OutKeptInstances += Kept->GetInstanceCount();
+            if (Kept->IsVisible() && !Kept->bHiddenInGame && !Kept->GetOwner()->IsHidden())
+                OutVisibleInstances += Kept->GetInstanceCount();
+        }
+}
+
+void AMikdashEnclosure::RunLegacyRoofDiagnosticStep()
+{
+    // Explicit packaged/PIE diagnostic only. Timers advance even when enclosure tick is off.
+    const TCHAR* Phase = TEXT("unknown");
+    bool ExpectKept = false;
+    bool ExpectPrepared = true;
+    switch (LegacyRoofDiagnosticStep++)
+    {
+    case 0: Phase = TEXT("Yechezkel"); CurrentState = EMikdashPrecinctState::Yechezkel; ApplyWeights(WeightsFor(EPrecinctState::Yechezkel)); ExpectKept = true; break;
+    case 1: Phase = TEXT("Modern"); SetPrecinctStateOver(EMikdashPrecinctState::Modern, 0); break;
+    case 2: Phase = TEXT("Overlay"); SetPrecinctStateOver(EMikdashPrecinctState::Overlay, 0); break;
+    case 3: Phase = TEXT("Yechezkel-again"); SetPrecinctStateOver(EMikdashPrecinctState::Yechezkel, 0); ExpectKept = true; break;
+    case 4: {
+        Phase = TEXT("mid-transition-to-Modern");
+        FDissolve Half; Half.From = EPrecinctState::Yechezkel; Half.To = EPrecinctState::Modern;
+        Half.ElapsedSeconds = 0.5; Half.DurationSeconds = 1.0; ApplyWeights(BlendWeights(Half)); break;
+    }
+    case 5: Phase = TEXT("Modern-after-mid"); SetPrecinctStateOver(EMikdashPrecinctState::Modern, 0); break;
+    case 6: {
+        Phase = TEXT("mid-transition-to-Yechezkel");
+        FDissolve Half; Half.From = EPrecinctState::Modern; Half.To = EPrecinctState::Yechezkel;
+        Half.ElapsedSeconds = 0.5; Half.DurationSeconds = 1.0; ApplyWeights(BlendWeights(Half)); break;
+    }
+    case 7: Phase = TEXT("Yechezkel-after-mid"); SetPrecinctStateOver(EMikdashPrecinctState::Yechezkel, 0); ExpectKept = true; break;
+    case 8: Phase = TEXT("RestoreAll"); RestoreAllModernBuildings(); ExpectPrepared = false; break;
+    case 9: Phase = TEXT("Rebuild"); RebuildPrecinct(); ExpectKept = true; break;
+    default: GetWorld()->GetTimerManager().ClearTimer(LegacyRoofDiagnosticTimer); return;
+    }
+    int32 OriginalCount, KeptCount, VisibleCount;
+    double Error;
+    GetLegacyRoofRuntimeCounts(OriginalCount, KeptCount, VisibleCount, Error);
+    const bool Passed = ValidateLegacyRoofs() && OriginalCount == 12014
+        && KeptCount == (ExpectPrepared ? 9488 : 0) && VisibleCount == (ExpectKept ? 9488 : 12014)
+        && bLegacyRoofPrepared == ExpectPrepared && bLegacyRoofKeptVisible == ExpectKept;
+    bLegacyRoofDiagnosticPassed = bLegacyRoofDiagnosticPassed && Passed;
+    TSharedRef<FJsonObject> Row = MakeShared<FJsonObject>();
+    Row->SetStringField(TEXT("phase"), Phase);
+    Row->SetStringField(TEXT("status"), LegacyRoofStatus);
+    Row->SetNumberField(TEXT("originalInstances"), OriginalCount);
+    Row->SetNumberField(TEXT("keptInstances"), KeptCount);
+    Row->SetNumberField(TEXT("visibleInstances"), VisibleCount);
+    Row->SetNumberField(TEXT("maxPositionErrorCm"), Error);
+    Row->SetBoolField(TEXT("passed"), Passed);
+    Row->SetBoolField(TEXT("originalAndReplacementTransformsMaterialsSettingsIntact"), ValidateLegacyRoofs());
+    TArray<TSharedPtr<FJsonValue>> Groups;
+    for (int32 Group = 0; Group < LegacyRoofOriginals.Num(); ++Group)
+    {
+        const UInstancedStaticMeshComponent* Original = LegacyRoofOriginals[Group].Get();
+        const UInstancedStaticMeshComponent* Kept = LegacyRoofKept.IsValidIndex(Group) ? LegacyRoofKept[Group].Get() : nullptr;
+        TSharedRef<FJsonObject> Item = MakeShared<FJsonObject>();
+        Item->SetStringField(TEXT("mesh"), LegacyRoofRuntime::MeshPath(Group));
+        Item->SetNumberField(TEXT("originalCount"), Original ? Original->GetInstanceCount() : -1);
+        Item->SetBoolField(TEXT("originalVisible"), Original && Original->IsVisible());
+        Item->SetBoolField(TEXT("originalHiddenInGame"), Original && Original->bHiddenInGame);
+        Item->SetBoolField(TEXT("originalActorHidden"), Original && Original->GetOwner()->IsHidden());
+        Item->SetNumberField(TEXT("keptCount"), Kept ? Kept->GetInstanceCount() : 0);
+        Item->SetBoolField(TEXT("keptVisible"), Kept && Kept->IsVisible());
+        Item->SetBoolField(TEXT("keptHiddenInGame"), Kept && Kept->bHiddenInGame);
+        Item->SetBoolField(TEXT("keptTransient"), Kept && Kept->HasAnyFlags(RF_Transient));
+        Groups.Add(MakeShared<FJsonValueObject>(Item));
+    }
+    Row->SetArrayField(TEXT("groups"), Groups);
+    LegacyRoofDiagnosticRows.Add(MakeShared<FJsonValueObject>(Row));
+    UE_LOG(LogTemp, Display, TEXT("LegacyRoofRuntimeV1 probe phase=%s passed=%d originals=%d kept=%d visible=%d status=%s"),
+        Phase, Passed, OriginalCount, KeptCount, VisibleCount, *LegacyRoofStatus);
+    if (LegacyRoofDiagnosticStep == 10)
+    {
+        GetWorld()->GetTimerManager().ClearTimer(LegacyRoofDiagnosticTimer);
+        TSharedRef<FJsonObject> Receipt = MakeShared<FJsonObject>();
+        Receipt->SetStringField(TEXT("planSha256"), UTF8_TO_TCHAR(LegacyRoofRuntimeData::PlanSHA256));
+        Receipt->SetStringField(TEXT("map"), GetWorld()->GetOutermost()->GetName());
+        Receipt->SetStringField(TEXT("hideFingerprint"), GetHideSetFingerprint());
+        Receipt->SetBoolField(TEXT("passed"), bLegacyRoofDiagnosticPassed);
+        Receipt->SetStringField(TEXT("scope"), TEXT("native component state/readback; rendered visual acceptance is separate"));
+        Receipt->SetArrayField(TEXT("states"), LegacyRoofDiagnosticRows);
+        FString JSON;
+        const TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&JSON);
+        FJsonSerializer::Serialize(Receipt, Writer);
+        const FString Directory = FPaths::Combine(FPaths::ProjectSavedDir(), TEXT("Diagnostics"));
+        IFileManager::Get().MakeDirectory(*Directory, true);
+        const FString Output = FPaths::Combine(Directory, FString(TEXT("LegacyRoofRuntimeV1-")) + FDateTime::UtcNow().ToString(TEXT("%Y%m%dT%H%M%SZ")) + TEXT(".json"));
+        const bool Saved = FFileHelper::SaveStringToFile(JSON, *Output);
+        UE_LOG(LogTemp, Display, TEXT("LegacyRoofRuntimeV1 probe complete passed=%d saved=%d receipt=%s"), bLegacyRoofDiagnosticPassed, Saved, *Output);
+        if (Saved && FParse::Param(FCommandLine::Get(), TEXT("MikdashLegacyRoofDiagnostic"))
+            && FParse::Param(FCommandLine::Get(), TEXT("MikdashLegacyRoofDiagnosticExit")))
+            FPlatformMisc::RequestExit(false);
+    }
+}

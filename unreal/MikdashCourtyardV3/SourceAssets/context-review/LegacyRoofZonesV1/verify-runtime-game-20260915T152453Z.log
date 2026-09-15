@@ -1,0 +1,30 @@
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" MikdashCourtyardV3 Win64 Development -Project="C:\Mikdash\Working-5.8\MikdashCourtyardV3\MikdashCourtyardV3.uproject" -WaitMutex -NoHotReload
+Log file: C:\Users\shmue\AppData\Local\UnrealBuildTool\Log.txt
+Determining max actions to execute in parallel (8 physical cores, 8 logical cores)
+  Executing up to 8 processes, one per physical core
+  Requested 1.5 GB memory per action, 8.25 GB available: limiting max parallel actions to 5
+Using 'git status' to determine working set for adaptive non-unity build (C:\Mikdash\Working-5.8\MikdashCourtyardV3).
+UbaServer - Listening on 0.0.0.0:1345
+Building MikdashCourtyardV3...
+===== Toolchain Information =====
+Using ISPC compiler (C:\Program Files\Epic Games\UE_5.8\Engine\Source\ThirdParty\Intel\ISPC\bin\Windows\ispc.exe)
+  Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20250404, LLVM 18.1.2) 
+Using Visual Studio 14.44.35228 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207) and Windows 10.0.26100.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Adaptive Build] Excluded from MikdashRuntime unity file: MikdashBirdFlock.cpp, MikdashCinematics.cpp, MikdashCodex.cpp, MikdashCrowdField.cpp, MikdashDoveAppearance.cpp, MikdashDovePawn.cpp, MikdashEnclosure.cpp, MikdashFoliageWind.cpp, MikdashFrontEnd.cpp, MikdashFXDirector.cpp, MikdashGateSecurity.cpp, MikdashLocalization.cpp, MikdashMenuWidget.cpp, MikdashPhotoMode.cpp, MikdashPlayerController.cpp, MikdashResidentCharacter.cpp, MikdashResidentPopulation.cpp, MikdashRuntime.cpp, MikdashSaveGame.cpp, MikdashSceneUnits.cpp, MikdashServiceActor.cpp, MikdashServiceCharacter.cpp, MikdashSettings.cpp, MikdashSoundscape.cpp, MikdashSurfaceDetail.cpp, MikdashTimeOfDay.cpp, MikdashTourGuide.cpp, MikdashTransit.cpp, MikdashTransitBoardingBridge.cpp, MikdashTransitCrowdCoordinator.cpp, MikdashWater.cpp, MikdashWeather.cpp
+=================================
+Using Unreal Build Accelerator local executor to run 3 action(s)
+  CPU 8 physical cores, 8 logical cores
+  Memory 15.86 GB physical, 54.43 GB/63.86 GB committed
+  UBA Storage capacity 40 GB
+[1/3] Compile [x64] MikdashEnclosure.cpp
+[2/3] Link [x64] MikdashCourtyardV3.exe
+[3/3] WriteMetadata MikdashCourtyardV3.target [NoUba]
+
+Total time in Unreal Build Accelerator local executor: 24.11 seconds
+Output binary: C:\Mikdash\Working-5.8\MikdashCourtyardV3\Binaries\Win64\MikdashCourtyardV3.exe
+
+Result: Succeeded
+Total execution time: 25.06 seconds
+Trace written to file C:\Users\shmue\AppData\Local\UnrealBuildTool\Trace.uba with size 6.9kb
+

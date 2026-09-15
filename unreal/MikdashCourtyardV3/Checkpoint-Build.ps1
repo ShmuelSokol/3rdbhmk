@@ -21,7 +21,11 @@ param(
     [Parameter(Mandatory = $true)][ValidatePattern('^[A-Za-z0-9._-]{1,40}$')][string]$Label,
     [int]$WaitMinutes = 60,
     [double]$NeedGB = 4.0,   # this box idles near 4.3 GB free; 6 GB never arrives and only DEFERs
-    [switch]$SkipSmoke
+    [switch]$SkipSmoke,
+    [switch]$LowMemory,
+    # Material-only checkpoint using the already verified binaries. Does NOT include
+    # pending C++ changes; this distinction is recorded in the checkpoint receipt.
+    [switch]$UseExistingBinaries
 )
 $ErrorActionPreference = 'Stop'
 
@@ -34,6 +38,10 @@ $mapFile = Join-Path $project 'Content\MikdashV3\Amah48Candidate_20260908T144034
 $mainFile= Join-Path $project 'Content\MikdashV3\IntegratedReviewV2\Maps\Walkthrough.umap'
 
 function Free-GB { [math]::Round((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1MB, 1) }
+function Commit-Free-GB {
+    $memory = Get-CimInstance Win32_PerfFormattedData_PerfOS_Memory
+    [math]::Round(($memory.CommitLimit - $memory.CommittedBytes) / 1GB, 2)
+}
 
 # --- wait for the native slot, do not fight the feature agents for it -------------------
 $deadline = (Get-Date).AddMinutes($WaitMinutes)
@@ -46,10 +54,13 @@ while ($true) {
                Where-Object { $_.CommandLine -match 'AutomationTool|UnrealBuildTool' } |
                ForEach-Object { [pscustomobject]@{ ProcessName = 'dotnet(' + $(if ($_.CommandLine -match 'AutomationTool') { 'UAT' } else { 'UBT' }) + ')' } })
     if (-not $busy.Count) { $busy = $null }
-    if (-not $busy -and (Free-GB) -ge $NeedGB) { break }
+    $commitFree = Commit-Free-GB
+    # 10-11 GiB headroom still OOMed both tested profiles on this scene. Require a
+    # larger reserve before another attempt; 16 GiB is a guard, not a proven peak.
+    if (-not $busy -and (Free-GB) -ge $NeedGB -and (-not $LowMemory -or $commitFree -ge 16)) { break }
     if ((Get-Date) -gt $deadline) {
         $why = if ($busy) { 'native slot held by ' + (($busy | Select-Object -ExpandProperty ProcessName -Unique) -join ',') }
-               else { 'only {0} GB free, need {1} GB' -f (Free-GB), $NeedGB }
+               else { 'physical free {0} GB (need {1}); commit free {2} GiB (LowMemory needs 16)' -f (Free-GB), $NeedGB, $commitFree }
         Write-Output "DEFERRED: $why"
         exit 2
     }
@@ -72,9 +83,20 @@ New-Item -ItemType Directory -Path $job -ErrorAction Stop | Out-Null
 # next line reports "is not recognized as an internal or external command". Every historical
 # Astra-Cook-*.ps1 in this tree calls it bare and would fail the same way today.
 $batchFiles = 'C:\Program Files\Epic Games\UE_5.8\Engine\Build\BatchFiles'
+# UE 5.8 CookOnTheFlyServer reads these from GEditorIni. They trigger collection
+# earlier and bound queued shader work, without changing project/user INI files.
+# This is a collection threshold, NOT a hard process memory cap.
+$cookerOptions = '-cookprocesscount=1'
+if ($LowMemory) {
+    # The cooker's memory-triggered full GC has a hardcoded 60-second cooldown.
+    # PackagesPerGC takes an earlier path, so a fast cook can still release completed
+    # packages inside that minute. Synchronous loading reduces preload breadth 256 ->32.
+    $cookerOptions += ' -NoAsyncLoadingThread -ini:Editor:[CookSettings]:MemoryMinFreeVirtual=4096,[CookSettings]:MemoryMinFreePhysical=2048,[CookSettings]:MaxConcurrentShaderJobs=64,[CookSettings]:MaxPrecacheShaderJobs=8,[CookSettings]:SoftGCMinimumPeriodSeconds=5,[CookSettings]:SoftGCTimeFractionBudget=0.15,[CookSettings]:PackagesPerGC=100'
+}
+$buildOption = if ($UseExistingBinaries) { '' } else { '-build ' }
 $command = '"' + $batchFiles + '\RunUAT.bat" BuildCookRun -project="' + $project + '\MikdashCourtyardV3.uproject" -noP4 -platform=Win64 ' +
-           '-clientconfig=Development -build -cook -map=' + $mapPkg + ' ' +
-           '-AdditionalCookerOptions=-cookprocesscount=1 -AdditionalIoStoreOptions="-maxPartitionSize=1800000000" ' +
+           '-clientconfig=Development ' + $buildOption + '-cook -map=' + $mapPkg + ' ' +
+           '-AdditionalCookerOptions="' + $cookerOptions + '" -AdditionalIoStoreOptions="-maxPartitionSize=1800000000" ' +
            '-stage -pak -iostore -archive -archivedirectory="' + $archive + '" -utf8output -unattended'
 
 $r = [ordered]@{
@@ -83,6 +105,9 @@ $r = [ordered]@{
     command = $command; map = $mapPkg
     candidateSha256Before = $before; mainSha256Before = $mainBefore
     archive = $archive; freeGBAtStart = (Free-GB)
+    lowMemory = [bool]$LowMemory; commitFreeGiBAtStart = (Commit-Free-GB)
+    usesExistingBinaries = [bool]$UseExistingBinaries
+    binaryScope = $(if ($UseExistingBinaries) { 'Existing binaries only; pending C++ changes are NOT included.' } else { 'BuildCookRun build step requested.' })
     scope = 'Cook + archive + bounded startup smoke. NOT route, audio or interaction acceptance.'
 }
 function Save-Receipt { $r | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $job 'checkpoint-receipt.json') -Encoding utf8 }

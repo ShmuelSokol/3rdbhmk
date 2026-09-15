@@ -2,10 +2,13 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "EnclosureMath.h"
+#include "TimerManager.h"
 #include "MikdashEnclosure.generated.h"
 
 class UHierarchicalInstancedStaticMeshComponent;
 class UStaticMesh;
+class UInstancedStaticMeshComponent;
+class FJsonValue;
 class UMaterialInterface;
 class UMaterialInstanceDynamic;
 class UPointLightComponent;
@@ -476,6 +479,13 @@ public:
     UFUNCTION(BlueprintPure, Category = "Precinct|Plaza")
     FString GetPlazaCollisionStatus() const;
 
+    /** Runtime Candidate48 roof partition status; guard failures keep original groups visible. */
+    UFUNCTION(BlueprintPure, Category = "Precinct|Diagnostics")
+    FString GetLegacyRoofRuntimeStatus() const;
+    UFUNCTION(BlueprintPure, Category = "Precinct|Diagnostics")
+    void GetLegacyRoofRuntimeCounts(int32& OutOriginalInstances, int32& OutKeptInstances,
+        int32& OutVisibleInstances, double& OutMaxPositionErrorCm) const;
+
     UPROPERTY(BlueprintAssignable, Category = "Precinct")
     FMikdashPrecinctStateSignature OnPrecinctStateChanged;
 
@@ -493,6 +503,26 @@ public:
     MikdashEnclosure::FSquare GetSquare() const;
 
 private:
+    void PrepareLegacyRoofs();
+    void ApplyLegacyRoofs(bool bHardHide);
+    void RestoreLegacyRoofs();
+    bool ValidateLegacyRoofs() const;
+    void RunLegacyRoofDiagnosticStep();
+    UPROPERTY(Transient) TArray<TObjectPtr<UInstancedStaticMeshComponent>> LegacyRoofKept;
+    UPROPERTY(Transient) TArray<TWeakObjectPtr<UInstancedStaticMeshComponent>> LegacyRoofOriginals;
+    TArray<FTransform> LegacyRoofOriginalLocal[2];
+    FTransform LegacyRoofOriginalWorld[2];
+    TArray<TWeakObjectPtr<UMaterialInterface>> LegacyRoofOriginalMaterials[2];
+    TArray<FString> LegacyRoofOriginalRenderProperties[2];
+    FString LegacyRoofStatus = TEXT("not-prepared");
+    double LegacyRoofMaxErrorCm = 0.0;
+    bool bLegacyRoofPrepared = false;
+    bool bLegacyRoofKeptVisible = false;
+    FTimerHandle LegacyRoofDiagnosticTimer;
+    int32 LegacyRoofDiagnosticStep = 0;
+    bool bLegacyRoofDiagnosticPassed = true;
+    TArray<TSharedPtr<FJsonValue>> LegacyRoofDiagnosticRows;
+
     void BuildRing();
     /** The deck, its ways, ribs, kerbs, channels, retaining/scarp faces and gate stairs.
      *  Called by BuildRing with the square and the ground profile it already has, because

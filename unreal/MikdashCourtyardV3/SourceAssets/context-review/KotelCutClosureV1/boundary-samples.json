@@ -1,0 +1,231 @@
+{
+  "status": "offline_open_boundary_measured_native_pixel_attribution_pending",
+  "scope": "K2 west-facing cut edge samples only; not an exhaustive perimeter coverage audit",
+  "sourceHashesSha256": {
+    "SourceAssets/FutureMountV1/terrain-generated/SM_JerusalemTerrain_07_08_FutureMountCut.mesh.json": "abc6152db1d10b80476870ac843bfde232b30ccac90733994e3ecf743579095a",
+    "SourceAssets/context-review/KotelPlazaV1/kotel-plaza-plan.json": "f3483bff589169159bc99200761d90230e4726ec248226c948f0ead6dedca69c",
+    "Content/MikdashV3/KotelPlazaCutV3/SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut.uasset": "ed26cb8d2710b4a425985fed31c095fe59c13cc1f0068454bc7d53092aa78211",
+    "SourceAssets/enclosure-review/native-terrain-cut-assets-Candidate48-20260911T121133563106Z.json": "2fbaf19052b8e3740db4ea5c6c0af328dad48bdc11bf90eebf4cd8e4444e2081",
+    "SourceAssets/visual-review/city-facade/cfafter-cp24-K2-kotel-upper-deck-facing-jewish-quarter.png": "2c7733b98ab6fb137ca1a35e9cb8bf36dc278fcc9d2a604f5f08f56b5940ac61",
+    "SourceAssets/enclosure-review/plaza-manifest.json": "98f2578043a6f1cdecf39e1a2771406c684e76e292448f51939742dfddc9f74a",
+    "Scripts/release_precinct_terrain_cut.py": "6f4f22bfe62bc8b21e8271e608a55db663e83e6bfa348e5298528a3979e20728",
+    "Scripts/create_kotel_plaza.py": "59dcf247b493a07479506e322791a5b44989f095df5d7fa3f4d7dbf23266c09c",
+    "SourceAssets/context-review/KotelCutClosureV1/measure_boundary.py": "742eefebf8fe8361418e74fecd54ee8e464ccb6d432abbd7b59d8a4706517347"
+  },
+  "camera": {
+    "locationCm": [
+      -20732.0,
+      19230.0,
+      -814.0
+    ],
+    "pitchDegrees": 6.0,
+    "yawDegrees": 175.0,
+    "rollDegrees": 0.0,
+    "basis": "capture_city_facade.ps1 K2 BugItGo request; not fresh native camera readback",
+    "deckTopZcm": -984.594,
+    "eyeAboveDeckCm": 170.59400000000005,
+    "sourceTerrainZcm": -1115.605195129776
+  },
+  "sourceTriangleCount": 566,
+  "deckCellCount": 959,
+  "existingPerimeterBandCount": 22,
+  "cutEdgeSnapCm": 0.01,
+  "intervalMergeToleranceCm": 0.01,
+  "method": "Analytic ray versus union of axis-aligned V3 snapped deck rectangles; barycentric height on frozen 566-triangle mesh. Angular intervals are geometric elevations, not pixel projections or occlusion tests.",
+  "nativeAssetReceiptEvidence": {
+    "sourceTriangles": 566,
+    "twinTriangles": 2714,
+    "windingAgrees": 2714,
+    "windingTriangles": 2714,
+    "readback": {
+      "triangles": 2714,
+      "corners": {
+        "maxPositionErrorCm": 0.0009765624963620212,
+        "maxLinearColorError": 1.0312061382578008e-07,
+        "maxNormalError": 2.979477375930628e-08
+      },
+      "area2dCm2": 1217356249.6140146,
+      "sourceArea2dCm2": 1217356249.053101,
+      "area2dErrorCm2": 0.5609135627746582,
+      "maxVertexHeightAboveDeckUndersideCm": 5.859375050931703e-06,
+      "gridSpacingCm": 100.0,
+      "stationsInsideCut": 5533,
+      "stationsAboveDeckUnderside": 0,
+      "maxGridHeightAboveDeckUndersideCm": 5.859375278305379e-06,
+      "outsideStations": 116577,
+      "boundaryStationsSkipped": 0,
+      "boundaryMarginCm": 0.05,
+      "outsideMaxHeightDifferenceCm": 0.00032545917565585114
+    }
+  },
+  "samples": [
+    {
+      "yawDegrees": 150,
+      "cutBoundaryDistanceCm": 2254.5066131639524,
+      "deckBoundaryDistanceCm": 2254.5040150877394,
+      "boundaryXYcm": [
+        -22684.46,
+        20357.253306581977
+      ],
+      "sourceTriangleIndices": [
+        322
+      ],
+      "sourceGroundZcm": -551.5173064806716,
+      "insideDeckTopZcm": -984.594,
+      "insideCutTargetZcm": -1034.594,
+      "missingVerticalSurfaceHeightCm": 483.0766935193285,
+      "uncoveredAboveDeckHeightCm": 433.0766935193285,
+      "cameraPitchRayZcm": -577.0418065219925,
+      "rayBelowSourceGroundCm": 25.524500041320948,
+      "openAboveDeckAngularIntervalDegrees": [
+        -4.327210761404324,
+        6.640808278806739
+      ]
+    },
+    {
+      "yawDegrees": 160,
+      "cutBoundaryDistanceCm": 1768.684741410416,
+      "deckBoundaryDistanceCm": 1768.6806177215494,
+      "boundaryXYcm": [
+        -22394.02,
+        19834.925808755113
+      ],
+      "sourceTriangleIndices": [
+        279
+      ],
+      "sourceGroundZcm": -663.9180327515714,
+      "insideDeckTopZcm": -984.594,
+      "insideCutTargetZcm": -1034.594,
+      "missingVerticalSurfaceHeightCm": 370.6759672484286,
+      "uncoveredAboveDeckHeightCm": 320.6759672484286,
+      "cameraPitchRayZcm": -628.1037428279875,
+      "rayBelowSourceGroundCm": -35.81428992358394,
+      "openAboveDeckAngularIntervalDegrees": [
+        -5.50927683513115,
+        4.850221712997393
+      ]
+    },
+    {
+      "yawDegrees": 170,
+      "cutBoundaryDistanceCm": 1735.3437711805002,
+      "deckBoundaryDistanceCm": 1735.3398364023806,
+      "boundaryXYcm": [
+        -22440.98,
+        19531.339283491154
+      ],
+      "sourceTriangleIndices": [
+        279
+      ],
+      "sourceGroundZcm": -643.2556338980562,
+      "insideDeckTopZcm": -984.594,
+      "insideCutTargetZcm": -1034.594,
+      "missingVerticalSurfaceHeightCm": 391.33836610194385,
+      "uncoveredAboveDeckHeightCm": 341.33836610194385,
+      "cameraPitchRayZcm": -631.6080200070185,
+      "rayBelowSourceGroundCm": -11.647613891037736,
+      "openAboveDeckAngularIntervalDegrees": [
+        -5.614455990689962,
+        5.619373062153368
+      ]
+    },
+    {
+      "yawDegrees": 175,
+      "cutBoundaryDistanceCm": 1762.647405535864,
+      "deckBoundaryDistanceCm": 1762.6435157339952,
+      "boundaryXYcm": [
+        -22487.94,
+        19383.624843831712
+      ],
+      "sourceTriangleIndices": [
+        279
+      ],
+      "sourceGroundZcm": -622.593235044541,
+      "insideDeckTopZcm": -984.594,
+      "insideCutTargetZcm": -1034.594,
+      "missingVerticalSurfaceHeightCm": 412.0007649554591,
+      "uncoveredAboveDeckHeightCm": 362.0007649554591,
+      "cameraPitchRayZcm": -628.7382923981243,
+      "rayBelowSourceGroundCm": 6.145057353583297,
+      "openAboveDeckAngularIntervalDegrees": [
+        -5.5280302569971145,
+        6.1974934686033984
+      ]
+    },
+    {
+      "yawDegrees": 180,
+      "cutBoundaryDistanceCm": 1768.0,
+      "deckBoundaryDistanceCm": 1768.0,
+      "boundaryXYcm": [
+        -22500.0,
+        19230.0
+      ],
+      "sourceTriangleIndices": [
+        279
+      ],
+      "sourceGroundZcm": -617.286835338974,
+      "insideDeckTopZcm": -984.594,
+      "insideCutTargetZcm": -1034.594,
+      "missingVerticalSurfaceHeightCm": 417.30716466102604,
+      "uncoveredAboveDeckHeightCm": 367.30716466102604,
+      "cameraPitchRayZcm": -628.175712050284,
+      "rayBelowSourceGroundCm": 10.88887671130999,
+      "openAboveDeckAngularIntervalDegrees": [
+        -5.511397427235064,
+        6.348793848763322
+      ]
+    },
+    {
+      "yawDegrees": 190,
+      "cutBoundaryDistanceCm": 1878.386917996844,
+      "deckBoundaryDistanceCm": 1878.3914874166003,
+      "boundaryXYcm": [
+        -22581.85,
+        18903.821534736446
+      ],
+      "sourceTriangleIndices": [
+        279
+      ],
+      "sourceGroundZcm": -581.2728373372656,
+      "insideDeckTopZcm": -984.594,
+      "insideCutTargetZcm": -1034.594,
+      "missingVerticalSurfaceHeightCm": 453.3211626627344,
+      "uncoveredAboveDeckHeightCm": 403.3211626627344,
+      "cameraPitchRayZcm": -616.5735794508907,
+      "rayBelowSourceGroundCm": 35.30074211362512,
+      "openAboveDeckAngularIntervalDegrees": [
+        -5.189332899256668,
+        7.062802733294797
+      ]
+    },
+    {
+      "yawDegrees": 200,
+      "cutBoundaryDistanceCm": 2018.5430406100363,
+      "deckBoundaryDistanceCm": 2018.547164298903,
+      "boundaryXYcm": [
+        -22628.81,
+        18539.617619941524
+      ],
+      "sourceTriangleIndices": [
+        279
+      ],
+      "sourceGroundZcm": -560.6104384837488,
+      "insideDeckTopZcm": -984.594,
+      "insideCutTargetZcm": -1034.594,
+      "missingVerticalSurfaceHeightCm": 473.98356151625126,
+      "uncoveredAboveDeckHeightCm": 423.98356151625126,
+      "cameraPitchRayZcm": -601.8425773658288,
+      "rayBelowSourceGroundCm": 41.232138882079994,
+      "openAboveDeckAngularIntervalDegrees": [
+        -4.830783467571863,
+        7.154965776603624
+      ]
+    }
+  ],
+  "limitations": [
+    "No Unreal process, native render, collision trace, or asset edit performed.",
+    "Absence of closure faces is established by build_twin's code path, not by reading cooked GPU buffers.",
+    "The native receipt confirms saved source-model parity, not complete scene occlusion.",
+    "Existing road ribbons, buildings, reflected objects, and other scene actors are not included in these ray calculations.",
+    "The image's distant-city-looking band is consistent with the open seam; exclusive pixel causation remains unproven."
+  ]
+}

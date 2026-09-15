@@ -1,5 +1,40 @@
 # Astra takeover checkpoint — 15 September 2026
 
+## Current verified state — 15 September, 15:40 UTC (supersedes older steps below)
+
+The legacy floating rooftop equipment is repaired in a local playable test copy:
+`C:\Mikdash\Builds\Checkpoint-roofruntime01-20260915\Windows\MikdashCourtyardV3.exe`.
+This contains cp24 cooked content plus a newly compiled game child, SHA256
+`f5e973d2693578c29da54163088aa340ec2e143dada07f897cf1a90c5ad4b2a6`.
+It is NOT a full recook or a newly published download; the saved horizontal-coursing
+material fix is still absent from these older cooked assets.
+
+- Editor and Game compiled and linked successfully. Full math gate: 32/32; runtime
+  roof tests: 9/9. Ten native state transitions passed twice, most recently
+  `LegacyRoofRuntimeV1/packaged-20260915T153939Z.json`, with normal exit and all 20 map
+  hashes unchanged. Originals remain intact; 1,263 tank/panel pairs disappear with
+  their hidden building owners, leaving 4,744 pairs. Modern/Overlay restore all 6,007.
+- Six native GPU frames were inspected. A1 confirms removal of the floating fixtures;
+  elevated R1 confirms equipment returns on restored roofs in Modern and Overlay.
+  See `SourceAssets/context-review/LegacyRoofRuntimeV1/visual-acceptance.json`.
+- Missing Hebrew fonts were copied with their existing SIL OFL license into this
+  test archive, and DefaultGame.ini now stages that folder for future cooks. Native
+  logs find NotoSansHebrew. This does not certify translation, glyph coverage or RTL.
+- Two corrected low-memory cook recipes still exhausted commit. Do not repeat full
+  cooks on the same baseline. The helper now refuses below 16 GiB commit headroom;
+  that is a conservative reserve, not a proven sufficient peak. Preserve AnyDesk,
+  security services and the user's no-restart constraint.
+- The existing three-minute continuation was PAUSED and is now confirmed ACTIVE,
+  targeting this thread. No duplicate automation was created.
+
+Next: verify a small native A/B for the missing Kotel excavation closure, documented
+in `SourceAssets/context-review/KotelCutClosureV1/diagnosis.md`. Seven analytic
+boundary samples reproduce the gap; native pixel attribution and a production repair
+are still owed. Also isolate the rod crossing some camera views using the reversible
+show-flag tests in `CameraObstructionV1/diagnosis.md`. Neither defect is fixed yet.
+Use serial native jobs and low-memory studies; do not resume the older full-map
+save recipe below at unchanged memory pressure.
+
 Full filesystem access works. The active project is
 `C:\Mikdash\Working-5.8\MikdashCourtyardV3`. The publication clone is
 `C:\Mikdash\GitHub\3rdbhmk`. Claude's recent session entries are weekly-limit notices.

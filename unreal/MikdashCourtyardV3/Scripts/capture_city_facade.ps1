@@ -62,6 +62,14 @@ if ($IncludeRoofStateViews) {
            why = 'same west-gate camera as A1, MODERN after one V; original rooftop equipment must return with its buildings' },
         @{ name = 'A1-overlay-roof-restoration'; go = '-33500 0 420 3 180 0'; preKeys = @(0x56, 0x56);
            why = 'same west-gate camera as A1, OVERLAY after two V presses; original rooftop equipment must remain with its buildings' }
+        # The restored buildings occlude the roofs from ground-level A1. These
+        # elevated counterparts actually show roof equipment in all three states.
+        @{ name = 'R1-roof-overview-yechezkel'; go = '-33500 0 6500 -25 180 0';
+           why = 'elevated west-gate view; hidden-building roof equipment must be absent in YECHEZKEL' },
+        @{ name = 'R1-roof-overview-modern'; go = '-33500 0 6500 -25 180 0'; preKeys = @(0x56);
+           why = 'same elevated view in MODERN; inspect the actual restored rooftops and equipment' },
+        @{ name = 'R1-roof-overview-overlay'; go = '-33500 0 6500 -25 180 0'; preKeys = @(0x56, 0x56);
+           why = 'same elevated view in OVERLAY; inspect restored rooftop equipment' }
     )
 }
 if ($Only.Count) { $views = @($views | Where-Object { $n = $_.name; @($Only | Where-Object { $n -like "$_*" }).Count }) }

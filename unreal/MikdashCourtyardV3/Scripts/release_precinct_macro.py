@@ -25,6 +25,16 @@ WHAT THIS DOES
                         MacroTone at it, set MacroFarStrength (and CloseFadeFarStrength when given). Works on any
                         macro master (V1/V2/V3). Every other parameter is read back unchanged or the run fails.
                         -PMVerify=<retone receipt> is the fresh-process reopen for it (cp20).
+  -PMApplyV4=<variant> [-PMSet="Name:value,..."]
+                        cp25. Imports T_PrecinctMacro_Tone<variant> and T_PrecinctMacro_Relief<variant>
+                        (create_precinct_macro.py --variant V6...) to fresh names, builds M_PrecinctMacroV4_Triplanar =
+                        the V3 band-pass graph + a far-field RELIEF layer (macro normal + macro AO, vertical faces only,
+                        weighted by the same MacroFade weight as the tone; the close normal is faded with the same
+                        CloseFade weight as the close albedo), and reparents MI_PrecinctPlaza_Ashlar from V3 onto it with
+                        every live value carried over. -PMSet overrides named scalars (fade distances, strengths).
+  -PMTune [-PMTex=<variant>] -PMSet="Name:value,..."
+                        cp25 iteration on the V4 master: optionally import a new tone+relief pair, set named scalars.
+                        Every other parameter must read back unchanged. -PMVerify=<receipt> reopens either.
   -PMRevert=<receipt>   restore MI_PrecinctPlaza_Ashlar's checkpointed bytes (parent back to MI_HerodianV4_Ashlar).
                         The MacroV1 assets stay on disk, unreferenced.
   -PMDecalHide=<Candidate48|Main50>     set bHidden on SURFACEWEAR_Wear_Soot_GoldenAltar_Ceiling, save, re-read.
@@ -67,6 +77,13 @@ CLOSE_ALBEDO_MEAN = (0.5302, 0.47318, 0.40348)
 MASTER_V3_NAME = 'M_PrecinctMacroV3_Triplanar'
 CLOSE_FADE_OUT_SCALARS = {'CloseFadeOutStartCm': 40000.0, 'CloseFadeOutLengthCm': 50000.0}
 CLOSE_ALBEDO_SOURCE_SHA256_PREFIX = '211bb370177029e8'
+# V4 (cp25): V3 + a far-field RELIEF texture (R,G = -dH/du, -dH/dv encoded 0.5 + g/4; B = AO). Its normal replaces
+# the close tile's normal on vertical faces with the same distance weights as the albedo fade, so at 60 m the face
+# relief, the joint shadow and the course pattern all come from ONE fixed macro layout - never from a low close mip.
+MASTER_V4_NAME = 'M_PrecinctMacroV4_Triplanar'
+RELIEF_SCALARS = {'MacroNormalStrength': 1.0, 'MacroAOStrength': 1.0}
+TUNABLE = ('MacroFadeStartCm', 'MacroFadeLengthCm', 'MacroFarStrength', 'WeatherStrength', 'CloseFadeStartCm',
+           'CloseFadeLengthCm', 'CloseFadeFarStrength', 'MacroNormalStrength', 'MacroAOStrength')
 TEXTURES = {'MacroTone': ('T_PrecinctMacro_Tone', 'T_PrecinctMacro_Tone.png', [4096, 2048]),
             'MacroWeather': ('T_PrecinctMacro_Weather', 'T_PrecinctMacro_Weather.png', [1024, 1024])}
 
@@ -144,12 +161,12 @@ class Run:
         u, ml = self.u, self.ml
         out = {'path': P(inst), 'parent': P(inst.get_editor_property('parent')), 'base': P(inst.get_base_material()),
                'textures': {}, 'scalars': {}}
-        for n in ('Albedo', 'Normal', 'ARM', 'MacroTone', 'MacroWeather'):
+        for n in ('Albedo', 'Normal', 'ARM', 'MacroTone', 'MacroWeather', 'MacroRelief'):
             try:
                 out['textures'][n] = P(ml.get_material_instance_texture_parameter_value(inst, n))
             except Exception:
                 out['textures'][n] = None
-        for n in list(CORE_SCALARS) + list(MACRO_SCALARS) + list(CLOSE_FADE_SCALARS) + list(CLOSE_FADE_OUT_SCALARS):
+        for n in list(CORE_SCALARS) + list(MACRO_SCALARS) + list(CLOSE_FADE_SCALARS) + list(CLOSE_FADE_OUT_SCALARS) + list(RELIEF_SCALARS):
             try:
                 out['scalars'][n] = round(float(ml.get_material_instance_scalar_parameter_value(inst, n)), 6)
             except Exception:
@@ -190,7 +207,7 @@ class Run:
         return row
 
     # ------------------------------------------------------------------ the master graph
-    def build_master(self, textures, core_textures, name=MASTER_NAME, close_fade=False, close_fade_out=False):
+    def build_master(self, textures, core_textures, name=MASTER_NAME, close_fade=False, close_fade_out=False, relief=False):
         u, ml = self.u, self.ml
         path = FOLDER + '/' + name
         if self.assets.does_asset_exist(path):
@@ -392,6 +409,55 @@ class Run:
             wire(cw2, '', faded, 'Alpha')
             wire(faded, '', flat, 'A')          # replaces the core's albedo -> flat.A link
             rec['closeFadeNodes'] = rec['nodes'] - n0
+        if relief:
+            # ---------------- V4 RELIEF (cp25): far-field normal + AO from the macro's own relief texture
+            # normal = normalize(vn + closeDev * NormalStrength * (1 - cw2) + macroDev * MacroNormalStrength * weight)
+            # AO     = closeAO * lerp(1, macroAO, weight * MacroAOStrength); horizontal faces get the neutral z sample.
+            if not (close_fade and close_fade_out):
+                raise RuntimeError('relief needs the V3 band-pass close fade (cw2)')
+            n0 = rec['nodes']
+            rel_x = sampler('MacroRelief', textures['MacroRelief'], 'SAMPLERTYPE_LINEAR_COLOR', muv_x, -1800, -2300)
+            rel_y = sampler('MacroRelief', textures['MacroRelief'], 'SAMPLERTYPE_LINEAR_COLOR', muv_y, -1800, -2150)
+
+            def dec(src, x, y):        # stored 0.5 + g/4 -> g
+                m4 = wire(src, '', node(u.MaterialExpressionMultiply, x, y, const_b=4.0), 'A')
+                return wire(m4, '', node(u.MaterialExpressionAdd, x + 120, y, const_b=-2.0), 'A')
+            g_x = dec(mask(rel_x, '', -1600, -2300, r=True, g=True), -1450, -2300)
+            dev_mx = binary(u.MaterialExpressionAppendVector, zero, '', g_x, '', -1200, -2300)    # faces along X: (0, gu, gv)
+            gy_r = dec(mask(rel_y, '', -1600, -2150, r=True), -1450, -2150)
+            gy_g = dec(mask(rel_y, '', -1600, -2080, g=True), -1450, -2080)
+            dev_my = binary(u.MaterialExpressionAppendVector,
+                            binary(u.MaterialExpressionAppendVector, gy_r, '', zero, '', -1250, -2150), '', gy_g, '',
+                            -1150, -2120)                                                      # faces along Y: (gu, 0, gv)
+            zero3 = node(u.MaterialExpressionConstant3Vector, -1300, -2000, constant=u.LinearColor(0.0, 0.0, 0.0, 1.0))
+            mdev = blend3([(dev_mx, ''), (dev_my, ''), (zero3, '')], -1000, -2250)
+            mns = scalar('MacroNormalStrength', RELIEF_SCALARS['MacroNormalStrength'], -850, -2100)
+            mw = binary(u.MaterialExpressionMultiply, weight, '', mns, '', -700, -2100)
+            mdev_s = binary(u.MaterialExpressionMultiply, mdev, '', mw, '', -550, -2200)
+            keep = wire(cw2, '', node(u.MaterialExpressionOneMinus, -550, -1950), 'Input')
+            cdev = binary(u.MaterialExpressionMultiply, scaled, '', keep, '', -400, -1950)
+            b1 = binary(u.MaterialExpressionAdd, vn, '', cdev, '', -300, -2000)
+            b2 = binary(u.MaterialExpressionAdd, b1, '', mdev_s, '', -200, -2050)
+            nrm2 = wire(b2, '', node(u.MaterialExpressionNormalize, -100, -2050), 'VectorInput')
+            to_prop(nrm2, '', 'MP_NORMAL')              # replaces the core's normalize(bent) link
+            ao_x = mask(rel_x, '', -1600, -2400, b=True)
+            ao_y = mask(rel_y, '', -1600, -2450, b=True)
+            one = node(u.MaterialExpressionConstant, -1600, -2500, r=1.0)
+            aob = blend3([(ao_x, ''), (ao_y, ''), (one, '')], -1000, -2450)
+            mas = scalar('MacroAOStrength', RELIEF_SCALARS['MacroAOStrength'], -850, -2400)
+            aw = binary(u.MaterialExpressionMultiply, weight, '', mas, '', -700, -2400)
+            aol = node(u.MaterialExpressionLinearInterpolate, -550, -2450, const_a=1.0)
+            wire(aob, '', aol, 'B')
+            wire(aw, '', aol, 'Alpha')
+            aof = binary(u.MaterialExpressionMultiply, ao, '', aol, '', -400, -2450)
+            to_prop(aof, '', 'MP_AMBIENT_OCCLUSION')    # replaces the core's ARM.r link
+            # 15 samplers in all: put the six macro ones on the shared wrap sampler so the 16-sampler limit is never near
+            shared = u.SamplerSourceMode.SSM_WRAP_WORLD_GROUP_SETTINGS
+            for smp in (rel_x, rel_y, tone_x, tone_y, wea_x, wea_y):
+                smp.set_editor_property('sampler_source', shared)
+                if smp.get_editor_property('sampler_source') != shared:
+                    raise RuntimeError('sampler_source did not take')
+            rec['reliefNodes'] = rec['nodes'] - n0
         final = binary(u.MaterialExpressionMultiply, base_color, '', factor, '', -450, -800)
         to_prop(final, '', 'MP_BASE_COLOR')
 
@@ -710,6 +776,212 @@ class Run:
         r['limits'] = ('Offline readback only (-nullrhi draws nothing). Acceptance is packaged-build frames: P1 aerial, '
                        'P2/P3 60-70 m faces, 02 jamb and 07 plaza stone at walking range (fade 0 below 20 m).')
 
+    # ------------------------------------------------------------------ V4 (cp25): relief master + tune
+    def import_macro_texture(self, fname, name, compression, size):
+        u = self.u
+        path = TEX_FOLDER + '/' + name
+        if self.assets.does_asset_exist(path):
+            raise RuntimeError('%s already exists; import to fresh names only' % path)
+        task = u.AssetImportTask()
+        for k, v in dict(filename=str(SRC / fname), destination_path=TEX_FOLDER, destination_name=name,
+                         automated=True, replace_existing=False, save=False).items():
+            task.set_editor_property(k, v)
+        u.AssetToolsHelpers.get_asset_tools().import_asset_tasks([task])
+        objs = list(task.get_objects())
+        if len(objs) != 1 or not isinstance(objs[0], u.Texture2D):
+            raise RuntimeError('Import of %s produced %s' % (fname, objs))
+        t = objs[0]
+        t.set_editor_property('srgb', False)
+        t.set_editor_property('compression_settings', getattr(u.TextureCompressionSettings, compression))
+        t.set_editor_property('lod_group', u.TextureGroup.TEXTUREGROUP_WORLD)
+        t.set_editor_property('address_x', u.TextureAddress.TA_WRAP)
+        t.set_editor_property('address_y', u.TextureAddress.TA_WRAP)
+        t.set_editor_property('never_stream', True)      # world-position UVs give the streamer no UV density
+        try:
+            t.set_editor_property('virtual_texture_streaming', False)
+        except Exception:
+            pass
+        if not self.assets.save_loaded_asset(t, only_if_is_dirty=False):
+            raise RuntimeError('save failed for ' + path)
+        rb = self.texture_values(t)
+        rb['neverStream'] = bool(t.get_editor_property('never_stream'))
+        if rb.get('size') != size or rb['srgb'] is not False or compression not in rb['compression'] or not rb['neverStream']:
+            raise RuntimeError('%s read back %s' % (path, rb))
+        return t, {'asset': path, 'source': fname, 'sourceSha256': sha(SRC / fname), 'readback': rb,
+                   'uassetSha256': sha(disk(path))}
+
+    def load_pair(self, variant):
+        man = json.loads((SRC / ('manifest-%s.json' % variant)).read_text(encoding='utf-8'))
+        for key in ('tone', 'relief'):
+            if sha(SRC / man[key]['file']) != man[key]['sha256']:
+                raise RuntimeError('%s does not match its manifest' % man[key]['file'])
+            if man[key]['tileCm'] != [MACRO_SCALARS['MacroTileUCm'], MACRO_SCALARS['MacroTileVCm']]:
+                raise RuntimeError('%s tile size %s; the master expects 9600 x 4800' % (key, man[key]['tileCm']))
+        self.r['manifest'] = {'variant': variant, 'seed': man['seed'], 'params': man['params'],
+                              'tone': man['tone']['sha256'], 'relief': man['relief']['sha256'], 'stats':
+                              {k: v for k, v in man['stats'].items() if k != 'incidental'}}
+        tone, tr = self.import_macro_texture(man['tone']['file'], 'T_PrecinctMacro_Tone%s' % variant, 'TC_DEFAULT', man['tone']['size'])
+        rel, rr = self.import_macro_texture(man['relief']['file'], 'T_PrecinctMacro_Relief%s' % variant, 'TC_BC7', man['relief']['size'])
+        self.r['texturesImported'] = {'MacroTone': tr, 'MacroRelief': rr}
+        self.save()
+        return tone, rel
+
+    def guard_begin(self, tag):
+        r = self.r
+        r['stage'] = 'hash_before'
+        self.save()
+        self._before = tree_hashes()
+        r['contentFilesHashed'] = len(self._before)
+        r['namedProtectedBefore'] = {a: sha(disk(a)) for a in NAMED_PROTECTED if disk(a).exists()}
+        r['mapsBefore'] = {k: sha(CONTENT / (v + '.umap')) for k, v in MAPS.items()}
+        cp = CHECKPOINT_ROOT / ('PrecinctMacro-%s-%s' % (tag, self.stamp))
+        cp.mkdir(parents=True, exist_ok=False)
+        dst = cp / 'MI_PrecinctPlaza_Ashlar.uasset'
+        shutil.copy2(disk(INSTANCE), dst)
+        r['checkpoint'] = str(cp)
+        r['checkpointed'] = {INSTANCE: {'file': str(dst), 'sha256': sha(dst)}}
+        self.save()
+
+    def guard_end(self):
+        r = self.r
+        r['stage'] = 'hash_after'
+        self.save()
+        after = tree_hashes()
+        before = self._before
+        changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
+        allowed = (INSTANCE[6:] + '.uasset', FOLDER[6:] + '/')
+        r['contentDiff'] = changed
+        r['illegalChanges'] = [k for k in changed if not any(k == a or k.startswith(a) for a in allowed)]
+        r['namedProtectedAfter'] = {a: sha(disk(a)) for a in NAMED_PROTECTED if disk(a).exists()}
+        r['mapsAfter'] = {k: sha(CONTENT / (v + '.umap')) for k, v in MAPS.items()}
+        if r['namedProtectedAfter'] != r['namedProtectedBefore']:
+            raise RuntimeError('A named protected asset changed')
+        if r['mapsAfter'] != r['mapsBefore']:
+            raise RuntimeError('A map changed; this pass must not mutate a map')
+        if r['illegalChanges']:
+            raise RuntimeError('Files outside the allow-list changed: %s' % r['illegalChanges'][:20])
+
+    def expect_readback(self, pre, want_scalars, want_textures, want_parent):
+        """Fresh load of the instance; every scalar/texture must equal pre except the named ones, which must equal want."""
+        u, r = self.u, self.r
+        post = self.instance_values(u.load_asset(INSTANCE))
+        r['instanceAfter'] = post
+        r['parity'] = {'before': self.parity_view(pre), 'after': self.parity_view(post)}
+        r['parity']['equal'] = r['parity']['before'] == r['parity']['after']
+        if not r['parity']['equal']:
+            raise RuntimeError('Close-range parameters changed: %s' % r['parity'])
+        if post['parent'] != want_parent or post['base'] != want_parent:
+            raise RuntimeError('Parent/base read back %s / %s, want %s' % (post['parent'], post['base'], want_parent))
+        bad = []
+        for k, v in post['scalars'].items():
+            want = want_scalars.get(k, pre['scalars'].get(k))
+            if k not in want_scalars and pre['scalars'].get(k) is None:
+                continue                      # parameter the previous master did not have
+            if v is None or want is None or abs(v - want) > 1e-4:
+                bad.append((k, v, want))
+        for k, v in post['textures'].items():
+            want = want_textures.get(k, pre['textures'].get(k))
+            if v != want:
+                bad.append((k, v, want))
+        if post['tint'] != pre['tint'] or post['closeAlbedoMean'] != pre['closeAlbedoMean']:
+            bad.append(('tint/closeAlbedoMean', post['tint'], post['closeAlbedoMean']))
+        for n in ('MATUSAGE_NANITE', 'MATUSAGE_INSTANCED_STATIC_MESHES'):
+            if not post[n]['has']:
+                bad.append(('usage', n, False))
+        r['readbackMismatch'] = bad
+        if bad:
+            raise RuntimeError('readback mismatch: %s' % bad)
+        r['instanceUassetSha256'] = sha(disk(INSTANCE))
+        return post
+
+    def do_apply_v4(self, variant, sets):
+        u, ml, r = self.u, self.ml, self.r
+        v3_path = FOLDER + '/' + MASTER_V3_NAME
+        v4_path = FOLDER + '/' + MASTER_V4_NAME
+        r['variant'] = variant
+        r['sets'] = sets
+        inst = u.load_asset(INSTANCE)
+        pre = self.instance_values(inst)
+        r['instanceBefore'] = pre
+        if pre['parent'] != v3_path:
+            raise RuntimeError('%s parent is %s, expected %s' % (INSTANCE, pre['parent'], v3_path))
+        if self.assets.does_asset_exist(v4_path):
+            raise RuntimeError('%s already exists; build to new names only' % v4_path)
+        self.guard_begin('applyv4')
+        r['stage'] = 'import'
+        self.save()
+        tone, rel = self.load_pair(variant)
+        weather = u.load_asset(pre['textures']['MacroWeather'])
+        r['stage'] = 'master'
+        self.save()
+        core = {k: u.load_asset(pre['textures'][k]) for k in ('Albedo', 'Normal', 'ARM')}
+        master = self.build_master({'MacroTone': tone, 'MacroWeather': weather, 'MacroRelief': rel}, core,
+                                   name=MASTER_V4_NAME, close_fade=True, close_fade_out=True, relief=True)
+        if not r['master'].get('reliefNodes'):
+            raise RuntimeError('relief nodes were not built')
+        self.save()
+        r['stage'] = 'reparent'
+        self.save()
+        ml.set_material_instance_parent(inst, master)
+        if P(inst.get_editor_property('parent')) != P(master):
+            inst.set_editor_property('parent', master)
+        if P(inst.get_editor_property('parent')) != P(master):
+            raise RuntimeError('Parent did not take')
+        for k in ('Albedo', 'Normal', 'ARM'):
+            ml.set_material_instance_texture_parameter_value(inst, k, core[k])
+        ml.set_material_instance_texture_parameter_value(inst, 'MacroWeather', weather)
+        ml.set_material_instance_texture_parameter_value(inst, 'MacroTone', tone)
+        ml.set_material_instance_texture_parameter_value(inst, 'MacroRelief', rel)
+        want = {}
+        for k in list(CORE_SCALARS) + list(MACRO_SCALARS) + list(CLOSE_FADE_SCALARS) + list(CLOSE_FADE_OUT_SCALARS):
+            want[k] = float(pre['scalars'][k])
+        want.update(RELIEF_SCALARS)
+        want.update(sets)
+        for k, v in want.items():
+            ml.set_material_instance_scalar_parameter_value(inst, k, float(v))
+        ml.set_material_instance_vector_parameter_value(inst, 'Tint', u.LinearColor(*pre['tint']))
+        ml.set_material_instance_vector_parameter_value(inst, 'CloseAlbedoMean', u.LinearColor(*(pre['closeAlbedoMean'] + [1.0])))
+        for n in ('MATUSAGE_NANITE', 'MATUSAGE_INSTANCED_STATIC_MESHES'):
+            ml.set_material_usage_override(inst, getattr(u.MaterialUsage, n), True, True)
+        ml.update_material_instance(inst)
+        if not self.assets.save_loaded_asset(inst, only_if_is_dirty=False):
+            raise RuntimeError('save failed for ' + INSTANCE)
+        r['stage'] = 'readback'
+        self.save()
+        self.expect_readback(pre, want, {'MacroTone': P(tone), 'MacroRelief': P(rel)}, v4_path)
+        self.guard_end()
+        r['status'] = 'applied_v4_visual_acceptance_pending'
+        r['limits'] = ('Offline readback only (-nullrhi draws nothing). Acceptance is packaged-build frames against the '
+                       'Western Wall photo (accept_precinct_cp25.py).')
+
+    def do_tune(self, variant, sets):
+        u, ml, r = self.u, self.ml, self.r
+        v4_path = FOLDER + '/' + MASTER_V4_NAME
+        r['variant'] = variant
+        r['sets'] = sets
+        inst = u.load_asset(INSTANCE)
+        pre = self.instance_values(inst)
+        r['instanceBefore'] = pre
+        if pre['parent'] != v4_path:
+            raise RuntimeError('%s parent is %s; -PMTune works on %s only' % (INSTANCE, pre['parent'], v4_path))
+        self.guard_begin('tune' + (variant or ''))
+        wt = {}
+        if variant:
+            tone, rel = self.load_pair(variant)
+            ml.set_material_instance_texture_parameter_value(inst, 'MacroTone', tone)
+            ml.set_material_instance_texture_parameter_value(inst, 'MacroRelief', rel)
+            wt = {'MacroTone': P(tone), 'MacroRelief': P(rel)}
+        for k, v in sets.items():
+            ml.set_material_instance_scalar_parameter_value(inst, k, float(v))
+        ml.update_material_instance(inst)
+        if not self.assets.save_loaded_asset(inst, only_if_is_dirty=False):
+            raise RuntimeError('save failed for ' + INSTANCE)
+        r['stage'] = 'readback'
+        self.save()
+        self.expect_readback(pre, dict(sets), wt, v4_path)
+        self.guard_end()
+        r['status'] = 'tuned_visual_acceptance_pending'
+
     # ------------------------------------------------------------------ verify / revert
     def do_verify(self, receipt, with_maps):
         u, r = self.u, self.r
@@ -719,6 +991,28 @@ class Run:
         v = self.instance_values(inst)
         r['instance'] = v
         r['uassetSha256'] = sha(disk(INSTANCE))
+        if prior.get('mode') in ('applyv4', 'tune'):
+            # cp25: fresh-process reopen - bytes, parent/base, every parameter, never_stream, the master's graph
+            want = prior['instanceAfter']
+            r['uassetMatchesApply'] = r['uassetSha256'] == prior.get('instanceUassetSha256')
+            r['parentUnchanged'] = v['parent'] == want['parent'] and v['base'] == want['base']
+            r['texturesEqual'] = v['textures'] == want['textures']
+            r['scalarsMismatch'] = [k for k in want['scalars'] if (want['scalars'][k] is None) != (v['scalars'].get(k) is None)
+                                    or (want['scalars'][k] is not None and abs(want['scalars'][k] - v['scalars'][k]) > 1e-5)]
+            r['neverStream'] = {}
+            for k in ('MacroTone', 'MacroWeather', 'MacroRelief'):
+                t = u.load_asset(v['textures'][k])
+                r['neverStream'][k] = bool(t.get_editor_property('never_stream'))
+            m = u.load_asset(FOLDER + '/' + MASTER_V4_NAME)
+            r['master'] = self.master_values(m)
+            built = prior.get('master', {}).get('nodes')
+            r['masterNodesMatch'] = built is None or r['master']['numExpressions'] == built
+            r['usage'] = {n: v[n] for n in ('MATUSAGE_NANITE', 'MATUSAGE_INSTANCED_STATIC_MESHES')}
+            ok = (r['uassetMatchesApply'] and r['parentUnchanged'] and r['texturesEqual'] and not r['scalarsMismatch']
+                  and all(r['neverStream'].values()) and r['masterNodesMatch'] and all(x.get('has') for x in r['usage'].values())
+                  and 'True' in r['master']['used_with_nanite'] and 'True' in r['master']['used_with_instanced_static_meshes'])
+            r['status'] = 'verified' if ok else 'verify_mismatch'
+            return
         if prior.get('mode') == 'retone':
             # cp20: fresh-process reopen of a retone - every parameter must equal what the retone read back
             want = prior['instanceAfter']
@@ -992,12 +1286,30 @@ def main():
     retone_m = re.search(r'-PMRetone=([A-Za-z0-9]+)', cmd)
     far_m = re.search(r'-PMFarStrength=([0-9]+(?:\.[0-9]+)?)', cmd)
     close_m = re.search(r'-PMCloseFadeFar=([0-9]+(?:\.[0-9]+)?)', cmd)   # cp20: optional, retone only
+    v4_m = re.search(r'-PMApplyV4=([A-Za-z0-9]+)', cmd)                       # cp25
+    tune_m = re.search(r'-PMTune(?=\s|$)', cmd)
+    tex_m = re.search(r'-PMTex=([A-Za-z0-9]+)', cmd)
+    set_m = re.search(r'-PMSet=(?:"([^"]+)"|([^\s]+))', cmd)
+    sets = {}
+    if set_m:
+        for part in (set_m.group(1) or set_m.group(2)).split(','):
+            k, v = part.split(':')
+            if k not in TUNABLE:
+                raise RuntimeError('-PMSet %s is not tunable (%s)' % (k, TUNABLE))
+            sets[k] = float(v)
+            if not 0.0 <= sets[k] <= 100000.0:
+                raise RuntimeError('-PMSet %s=%s out of range' % (k, v))
     modes = [n for n, h in (('apply', apply_m), ('applyv2', v2_m), ('applyv3', v3_m), ('verify', verify_m), ('revert', revert_m),
-                            ('decalhide', hide_m), ('decalrestore', restore_m), ('retone', retone_m)) if h]
+                            ('decalhide', hide_m), ('decalrestore', restore_m), ('retone', retone_m),
+                            ('applyv4', v4_m), ('tune', tune_m)) if h]
     if len(modes) != 1:
         raise RuntimeError('Pass exactly one mode. Command line: %s' % cmd)
     mode = modes[0]
     target = (hide_m or restore_m).group(1) if mode in ('decalhide', 'decalrestore') else None
+    if mode == 'applyv4':
+        target = v4_m.group(1)
+    if mode == 'tune' and not (sets or tex_m):
+        raise RuntimeError('-PMTune needs -PMSet and/or -PMTex')
     if mode == 'retone':
         target = retone_m.group(1)
         if not far_m:
@@ -1015,6 +1327,10 @@ def main():
             run.do_apply_v2()
         elif mode == 'applyv3':
             run.do_apply_v2(v3=True)
+        elif mode == 'applyv4':
+            run.do_apply_v4(target, sets)
+        elif mode == 'tune':
+            run.do_tune(tex_m.group(1) if tex_m else None, sets)
         elif mode == 'verify':
             m = verify_m
             run.do_verify(Path(m.group(1) or m.group(2)), '-PMVerifyMaps' in cmd)

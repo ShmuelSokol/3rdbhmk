@@ -8,6 +8,8 @@
       P3  east retaining face from ~60 m out
       02  the 4 m Herodian jamb (MI_HerodianV4_Ashlar - NOT touched by this pass; the no-regression control)
       S2  cp16shell-S2 camera: Heikhal ceiling over the golden altar (the soot decal)
+      P4  cp25: east face at 22 m (close/macro crossover, ghost of merged beds)
+      P5  cp25: east face at 35 m (end of the crossover)
       07  cp05b-07 north gate approach: plaza stone (MI_PrecinctPlaza_Ashlar) at walking range, macro faded out
 
       .\capture_frame_precinct_macro.ps1 -Archive C:\Mikdash\Builds\Checkpoint-cp17-<stamp> -Label cp17 -Views P1,P2,P3,02,S2,07
@@ -39,6 +41,10 @@ $all = [ordered]@{
               answers = 'south retaining face from ~70 m: courses, stone-to-stone tone, bed joints at mid range' }
     'P3' = @{ name = 'P3-retaining-east-face-60m'; go = '117900 60000 -1500 -15 180 0'
               answers = 'east retaining face from ~60 m' }
+    'P4' = @{ name = 'P4-retaining-east-face-22m-crossover'; go = '114424 60000 -2400 0 180 0'
+              answers = 'cp25: east face at 22 m, inside the close/macro crossover: do merged (tall) courses show the close tile ghost bed' }
+    'P5' = @{ name = 'P5-retaining-east-face-35m-crossover'; go = '115724 60000 -2400 0 180 0'
+              answers = 'cp25: east face at 35 m, end of the crossover' }
     '02' = @{ name = '02-herodian-ashlar-inner-east-gate-jamb-walkingheight'; go = '1752 1200 580 5 0 0'
               answers = '4 m Herodian jamb: close-up look must be unchanged (this pass never touches MI_HerodianV4_*)' }
     'S2' = @{ name = 'S2-heichal-ceiling-golden-altar'; go = '-4200 0 1300 48 180 0'

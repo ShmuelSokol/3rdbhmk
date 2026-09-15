@@ -725,3 +725,22 @@ Revert chain: V5 receipt -> V4 state; `precinct-macro-retone-V4-20260911T0618014
 
 Revert, newest first: `-PMRevert=precinct-macro-retone-V5-20260911T080610644699Z.json` (-> V4) ->
 `-PMRevert=precinct-macro-retone-V4-20260911T061801465714Z.json` (-> cp19b: V3 + ToneV2 @1.3, close fade 0.85).
+
+## Addendum 11 September 2026 (cp25, IN PROGRESS) - Herodian layout and far-field relief on the retaining faces
+
+Brief: judged beside the Western Wall at matched cm/px, cp20b still read as an even brick grid (every course ~1 m, bed-joint
+dip 0.081 vs 0.144, smooth faces). What this pass touches, so nobody overwrites it:
+
+* NEW `MacroV1/M_PrecinctMacroV4_Triplanar` = the V3 band-pass graph + a far-field RELIEF layer: `MacroRelief` texture
+  (R,G = -dH/du, -dH/dv encoded 0.5 + g/4; B = AO) drives the normal and AO on vertical faces with the macro fade weight;
+  the close normal is faded with the same weight as the close albedo (`1 - cw2`). Scalars `MacroNormalStrength`,
+  `MacroAOStrength`. Six macro samplers on the shared wrap sampler (15 samplers in all).
+* `MI_PrecinctPlaza_Ashlar` reparented V3 -> V4 (`-PMApplyV4=V6e`), tone `T_PrecinctMacro_ToneV6e`, relief
+  `T_PrecinctMacro_ReliefV6e`, crossover shortened: MacroFade 1200 + 2000 cm, CloseFade 1500 + 2000 cm (was 1500 + 4500 /
+  2000 + 4000). `M_PBR_Tiled`, `MI_HerodianV4_*`, every V5/V5b texture and both maps are NOT touched.
+* Generator `create_precinct_macro.py --variant V6*` (own layout on the close beds: tall courses are merges of 2 or 3 close
+  courses, never across a batter-ledge bed; stones re-cut near-square at random positions; per-stone height field).
+  Placer `release_precinct_macro.py -PMApplyV4 / -PMTune / -PMVerify`. Acceptance `Scripts/accept_precinct_cp25.py`
+  (new capture views P4 22 m and P5 35 m: the close/macro crossover). Chain `C:\Mikdash\Working-5.8\cp25-chain.ps1`.
+* Revert: `-PMRevert=<precinct-macro-applyv4-V6e-*.json>` restores the instance bytes (back to V3 + ToneV5). Scripts as
+  they were before this pass: `ReviewCheckpoints/PrecinctMacroV6-scripts-20260911T120008Z/`.

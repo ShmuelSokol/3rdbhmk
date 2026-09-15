@@ -1,0 +1,295 @@
+{
+ "status": "AUTHORED_OFFLINE_SOURCE_NATIVE_IMPORT_PENDING",
+ "stamp": "20260911T120724938084Z",
+ "generatorSha256": "cea554f44c1416efa4195ce6c42cad6ef9a6d381ee21259c631dcba382a03b51",
+ "facadesGeneratorSha256": "31d779582708348359e092cb5b0d9d7f217c7d366678595a3e1ad0bda2447dc6",
+ "frozenManifestSha256": "9f5c133d378f36e4c23216713dadfc2c963a8613e6bd1d02166ed3fa067e5456",
+ "proof": {
+  "interpreter": "3.11.8 (tags/v3.11.8:db85d51, Feb  6 2024, 22:03:32) [MSC v.1937 64 bit (AMD64)]",
+  "infillDoorsNotCountedByFrozenManifest": 1547,
+  "objectsCompared": 190,
+  "openingCounts": {
+   "windows": 60202,
+   "arched": 6858,
+   "doors": 2104
+  },
+  "frozenDetailCounts": {
+   "windows": 60202,
+   "arched": 6858,
+   "doors": 2104
+  },
+  "rule": "per-OBJ triangles, vertices and bounds equal; window/arched/door totals equal",
+  "skipped": {
+   "openingsOutsideABuilding": 1
+  }
+ },
+ "zones": {
+  "hiddenActors": {
+   "facades": 41,
+   "infill": 29
+  },
+  "expected": {
+   "facades": 41,
+   "infill": 29
+  },
+  "rule": "create_enclosure.hide_set(sq, hide_if_any_inside) labels - the function that wrote precinct-Candidate48.json"
+ },
+ "panel": {
+  "depthFromBoxWallCm": 2.0,
+  "revealFromFrameFaceCm": 24.0,
+  "marginBehindFrameCm": 4.0,
+  "archFallbacks": 0
+ },
+ "meshes": [
+  {
+   "key": "WinRect",
+   "file": "SM_ShellOpening_WinRect.obj",
+   "assetName": "SM_ShellOpening_WinRect",
+   "sha256": "e9e421ac1cd7d45daf42a5a24402b8f36e944bcba0af505b1d2a18b415543158",
+   "triangles": 2,
+   "loopCm": [
+    [
+     -40.0,
+     0.0
+    ],
+    [
+     40.0,
+     0.0
+    ],
+    [
+     40.0,
+     160.0
+    ],
+    [
+     -40.0,
+     160.0
+    ]
+   ],
+   "canonicalBoundsCm": {
+    "min": [
+     -40.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     40.0,
+     0.0,
+     160.0
+    ]
+   },
+   "materialKey": "window"
+  },
+  {
+   "key": "WinArch",
+   "file": "SM_ShellOpening_WinArch.obj",
+   "assetName": "SM_ShellOpening_WinArch",
+   "sha256": "bc48218188eccbf3630a896e249050ceb9848aa6313fbb0a67f326529ab76741",
+   "triangles": 4,
+   "loopCm": [
+    [
+     -40.0,
+     0.0
+    ],
+    [
+     40.0,
+     0.0
+    ],
+    [
+     40.0,
+     120.0
+    ],
+    [
+     20.0,
+     154.641
+    ],
+    [
+     -20.0,
+     154.641
+    ],
+    [
+     -40.0,
+     120.0
+    ]
+   ],
+   "canonicalBoundsCm": {
+    "min": [
+     -40.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     40.0,
+     0.0,
+     154.641
+    ]
+   },
+   "materialKey": "window"
+  },
+  {
+   "key": "DoorRect",
+   "file": "SM_ShellOpening_DoorRect.obj",
+   "assetName": "SM_ShellOpening_DoorRect",
+   "sha256": "05fad101fb8943f4f699a8d1daf577248a0a825c371d2065d63e07174f4a519c",
+   "triangles": 2,
+   "loopCm": [
+    [
+     -46.0,
+     0.0
+    ],
+    [
+     46.0,
+     0.0
+    ],
+    [
+     46.0,
+     202.0
+    ],
+    [
+     -46.0,
+     202.0
+    ]
+   ],
+   "canonicalBoundsCm": {
+    "min": [
+     -46.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     46.0,
+     0.0,
+     202.0
+    ]
+   },
+   "materialKey": "door"
+  },
+  {
+   "key": "DoorArch",
+   "file": "SM_ShellOpening_DoorArch.obj",
+   "assetName": "SM_ShellOpening_DoorArch",
+   "sha256": "2d6269edb4a5b25613c4af09de884661570fddfbc1fefb293ee941114b5a5d36",
+   "triangles": 4,
+   "loopCm": [
+    [
+     -46.0,
+     0.0
+    ],
+    [
+     46.0,
+     0.0
+    ],
+    [
+     46.0,
+     156.0
+    ],
+    [
+     23.0,
+     195.837
+    ],
+    [
+     -23.0,
+     195.837
+    ],
+    [
+     -46.0,
+     156.0
+    ]
+   ],
+   "canonicalBoundsCm": {
+    "min": [
+     -46.0,
+     0.0,
+     0.0
+    ],
+    "max": [
+     46.0,
+     0.0,
+     195.837
+    ]
+   },
+   "materialKey": "door"
+  }
+ ],
+ "groups": [
+  {
+   "label": "RELEASE_ShellOpenings_Kept_DoorArch",
+   "mesh": "DoorArch",
+   "zone": "kept",
+   "zoneTag": "CityDetailZone_Kept",
+   "instances": 1039,
+   "cullDistanceCm": 70000.0,
+   "castShadow": false
+  },
+  {
+   "label": "RELEASE_ShellOpenings_Precinct_DoorArch",
+   "mesh": "DoorArch",
+   "zone": "precinct",
+   "zoneTag": "CityDetailZone_Precinct",
+   "instances": 612,
+   "cullDistanceCm": 70000.0,
+   "castShadow": false
+  },
+  {
+   "label": "RELEASE_ShellOpenings_Kept_DoorRect",
+   "mesh": "DoorRect",
+   "zone": "kept",
+   "zoneTag": "CityDetailZone_Kept",
+   "instances": 1304,
+   "cullDistanceCm": 70000.0,
+   "castShadow": false
+  },
+  {
+   "label": "RELEASE_ShellOpenings_Precinct_DoorRect",
+   "mesh": "DoorRect",
+   "zone": "precinct",
+   "zoneTag": "CityDetailZone_Precinct",
+   "instances": 696,
+   "cullDistanceCm": 70000.0,
+   "castShadow": false
+  },
+  {
+   "label": "RELEASE_ShellOpenings_Kept_WinArch",
+   "mesh": "WinArch",
+   "zone": "kept",
+   "zoneTag": "CityDetailZone_Kept",
+   "instances": 4549,
+   "cullDistanceCm": 70000.0,
+   "castShadow": false
+  },
+  {
+   "label": "RELEASE_ShellOpenings_Precinct_WinArch",
+   "mesh": "WinArch",
+   "zone": "precinct",
+   "zoneTag": "CityDetailZone_Precinct",
+   "instances": 2309,
+   "cullDistanceCm": 70000.0,
+   "castShadow": false
+  },
+  {
+   "label": "RELEASE_ShellOpenings_Kept_WinRect",
+   "mesh": "WinRect",
+   "zone": "kept",
+   "zoneTag": "CityDetailZone_Kept",
+   "instances": 35172,
+   "cullDistanceCm": 70000.0,
+   "castShadow": false
+  },
+  {
+   "label": "RELEASE_ShellOpenings_Precinct_WinRect",
+   "mesh": "WinRect",
+   "zone": "precinct",
+   "zoneTag": "CityDetailZone_Precinct",
+   "instances": 18172,
+   "cullDistanceCm": 70000.0,
+   "castShadow": false
+  }
+ ],
+ "totals": {
+  "instances": 63853,
+  "triangles": 144724,
+  "actors": 8,
+  "uniqueMeshes": 4
+ },
+ "planSha256": "73feac03adf1eda55b77b1a893e8b55bc94a5147c473567704f5d1400e21d78d",
+ "seconds": 43.4
+}

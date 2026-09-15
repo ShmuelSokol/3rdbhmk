@@ -1,0 +1,274 @@
+{
+ "status": "city_facade_apply_saved_reopened_read_back_visual_acceptance_pending",
+ "stamp": "20260911T094504048555Z",
+ "target": "candidate",
+ "mode": {
+  "build": true,
+  "apply": true,
+  "revert": false
+ },
+ "scriptSha256": "09dce8d51782b20d65d70d08daf16c37b81523b128337a32bfc163e54dbe3978",
+ "offlineCheck": {
+  "ok": true,
+  "problems": [],
+  "surfaceSha256": "989a3191d7f6fac2fed44ed390eae463b25422bb739bb8c4ad1cbeb13188c5f9",
+  "normalSha256": "beece8873cabfc1926bf5462baae1e9feb147e29b1909c9d569b9efc1adf8753"
+ },
+ "engineVersion": "5.8.2-56702186+++UE5+Release-5.8",
+ "errors": [],
+ "mapSaved": true,
+ "protectedMapSha256Before": {
+  "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+  "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+  "/Game/MikdashV3/MaterialReview/SanctuaryFinishesV1/Maps/CourtyardGold": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+  "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "93e615fd358ccdc4128acfba703b927d67a1984efc954e48ac761c1a4a6e8a51"
+ },
+ "mapSha256Before": "f739876efbd1dfc4a0fc8f9b4b17caec89ba958c226aeb87aae400aa256f2415",
+ "material": {
+  "master": "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/M_CityFacadeV1",
+  "instance": "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/MI_CityFacade_CityStone",
+  "nodes": 47,
+  "connections": 64,
+  "customNodes": [
+   {
+    "description": "M_Context_Building triplanar surface, verbatim",
+    "inputs": [
+     "Albedo",
+     "Rough",
+     "P",
+     "N",
+     "ObjPos",
+     "VC",
+     "Tint0",
+     "Tint1",
+     "Tint2",
+     "Tint3",
+     "RoofTint",
+     "TileCm",
+     "RoofScale",
+     "RoofStart",
+     "RoofEnd",
+     "RoofFlatten",
+     "RoughScale",
+     "RoughBias",
+     "RoughVar",
+     "VCInfluence",
+     "VCMeanLum",
+     "HashObjectWeight",
+     "HashVertexColorWeight"
+    ],
+    "codeSha256": "7d84fb811bb9e164dfa9d0e2558b888af561c476df5e0b05485fe4ab21671bc0"
+   },
+   {
+    "description": "M_Context_Building triplanar normal, verbatim",
+    "inputs": [
+     "Nrm",
+     "P",
+     "N",
+     "TileCm",
+     "RoofScale",
+     "NormalStrength",
+     "NormalGreenSign"
+    ],
+    "codeSha256": "919c8547b60451171940bb572e4df36b133ee4b9841310adfcf780b59bd554ee"
+   },
+   {
+    "description": "CityFacadeV1 surface: coursing, recessed openings, shutters, grilles, roofs",
+    "inputs": [
+     "Base",
+     "P",
+     "N",
+     "VC",
+     "ObjPos",
+     "Cam",
+     "PD",
+     "FloorCm",
+     "PitchCm",
+     "DepthCm",
+     "FadeStartCm",
+     "FadeEndCm",
+     "FacadeStrength",
+     "CourseCm",
+     "JointDark",
+     "StoneVar",
+     "ShutterMix",
+     "FarDark",
+     "RoofVar"
+    ],
+    "codeSha256": "b9ff64db37a550b6ec4fbbb500389efb31c8f981ebe8b0651d8e2d9a4e8c4f6c"
+   },
+   {
+    "description": "CityFacadeV1 normal: reveal and soffit normals inside the recess",
+    "inputs": [
+     "BaseN",
+     "P",
+     "N",
+     "VC",
+     "ObjPos",
+     "Cam",
+     "PD",
+     "FloorCm",
+     "PitchCm",
+     "DepthCm",
+     "FadeStartCm",
+     "FadeEndCm",
+     "FacadeStrength"
+    ],
+    "codeSha256": "410e7481f30ff67e7f8f27ce8c2a6872f9b88372872216f4cab1daecba7676a8"
+   }
+  ],
+  "textures": {
+   "diffuse": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Textures/T_Ctx_facade_limestone_D",
+   "roughness": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Textures/T_Ctx_facade_limestone_R",
+   "normal": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Textures/T_Ctx_facade_limestone_N"
+  },
+  "copiedFromRetint": {
+   "scalar": {
+    "TileCm": 420.0,
+    "RoofScale": 0.5,
+    "RoofStart": 0.6000000238418579,
+    "RoofEnd": 0.8500000238418579,
+    "RoofFlatten": 0.7200000286102295,
+    "RoughScale": 1.0,
+    "RoughBias": 0.0,
+    "RoughVar": 0.14000000059604645,
+    "NormalStrength": 1.0,
+    "VCInfluence": 0.5,
+    "VCMeanLum": 0.3799999952316284,
+    "HashObjectWeight": 1.0,
+    "HashVertexColorWeight": 1.0
+   },
+   "vector": {
+    "Tint0": [
+     1.2,
+     1.16,
+     1.07
+    ],
+    "Tint1": [
+     1.12,
+     1.06,
+     0.96
+    ],
+    "Tint2": [
+     1.26,
+     1.21,
+     1.1
+    ],
+    "Tint3": [
+     1.16,
+     1.12,
+     1.02
+    ],
+    "RoofTint": [
+     0.94,
+     0.93,
+     0.89
+    ]
+   }
+  },
+  "componentMasks": {
+   "rgb": [
+    true,
+    true,
+    true,
+    false
+   ],
+   "alpha": [
+    false,
+    false,
+    false,
+    true
+   ]
+  },
+  "usageSet": {
+   "used_with_nanite": true,
+   "used_with_instanced_static_meshes": true
+  },
+  "status": "created"
+ },
+ "assetReadback": {
+  "masterSha256": "332c763f2f000fe6fc34a1192cdad4bd63089ed5260f0ade87b17b0c42a99060",
+  "instanceSha256": "c3422a54aa821900c3b6c1307be42a3ce465fce2ec2488044ac22695e39f2564",
+  "usage": {
+   "used_with_nanite": true,
+   "used_with_instanced_static_meshes": true
+  },
+  "instanceParent": "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/M_CityFacadeV1",
+  "wired": {
+   "MP_BASE_COLOR": "MaterialExpressionComponentMask",
+   "MP_ROUGHNESS": "MaterialExpressionComponentMask",
+   "MP_NORMAL": "MaterialExpressionCustom",
+   "MP_METALLIC": "MaterialExpressionConstant",
+   "MP_WORLD_POSITION_OFFSET": null
+  },
+  "instanceScalars": {
+   "TileCm": 420.0,
+   "RoofScale": 0.5,
+   "RoofStart": 0.6,
+   "RoofEnd": 0.85,
+   "RoofFlatten": 0.72,
+   "RoughScale": 1.0,
+   "RoughBias": 0.0,
+   "RoughVar": 0.14,
+   "NormalStrength": 1.0,
+   "VCInfluence": 0.5,
+   "VCMeanLum": 0.38,
+   "HashObjectWeight": 1.0,
+   "HashVertexColorWeight": 1.0,
+   "FloorCm": 330.0,
+   "PitchCm": 340.0,
+   "DepthCm": 34.0,
+   "FadeStartCm": 22000.0,
+   "FadeEndCm": 80000.0,
+   "FacadeStrength": 1.0,
+   "CourseCm": 34.0,
+   "JointDark": 0.35,
+   "StoneVar": 0.12,
+   "ShutterMix": 0.45,
+   "FarDark": 0.1,
+   "RoofVar": 1.0
+  },
+  "instanceVectors": {
+   "Tint0": [
+    1.2,
+    1.16,
+    1.07
+   ],
+   "Tint1": [
+    1.12,
+    1.06,
+    0.96
+   ],
+   "Tint2": [
+    1.26,
+    1.21,
+    1.1
+   ],
+   "Tint3": [
+    1.16,
+    1.12,
+    1.02
+   ],
+   "RoofTint": [
+    0.94,
+    0.93,
+    0.89
+   ]
+  },
+  "matchesRetintColour": true
+ },
+ "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\CityFacade-apply-candidate-20260911T094504048555Z",
+ "overrideCensusBefore": {
+  "/Game/MikdashV3/JerusalemContext/CityDetailV1/Materials/MI_CityDetail_CityStone": 1498
+ },
+ "componentsRetargeted": 1498,
+ "actorsRetargeted": 1498,
+ "mapSha256AfterSave": "c09d6a89f8f99635a406401df70819a43a3549da557df5076589b4894ad4912e",
+ "overrideCensusAfterReopen": {
+  "/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/MI_CityFacade_CityStone": 1498
+ },
+ "revertCommand": "-CityFacadeRevert -CityFacadeTarget=candidate",
+ "mapSha256After": "c09d6a89f8f99635a406401df70819a43a3549da557df5076589b4894ad4912e",
+ "mapBytesChanged": true,
+ "protectedMapsUnchanged": true
+}

@@ -1,0 +1,89 @@
+﻿{
+    "status":  "incomplete",
+    "label":  "cfbefore-cp21c",
+    "archive":  "C:\\Mikdash\\Builds\\Checkpoint-cp21c-20260911T085329Z",
+    "exe":  "C:\\Mikdash\\Builds\\Checkpoint-cp21c-20260911T085329Z\\Windows\\MikdashCourtyardV3\\Binaries\\Win64\\MikdashCourtyardV3.exe",
+    "recipe":  "capture_frame_defects.ps1 + CsvProfile frame time",
+    "startedUtc":  "2026-09-11T09:22:34.3934951Z",
+    "frames":  [
+                   {
+                       "view":  "K1-kotel-plaza-walking-facing-jewish-quarter",
+                       "why":  "lower Kotel deck (Z -1234.6 + 170 eye), MODERN state after one V (as cp05b-08), looking west across both decks at the Jewish Quarter escarpment",
+                       "bugItGo":  "-15500 19500 -1060 7 180 0",
+                       "pid":  22384,
+                       "error":  "exited early, code -1"
+                   },
+                   {
+                       "view":  "A1-west-gate-approach-into-old-city",
+                       "why":  "outside the at-grade West gate (threshold Z 223 + eye), YECHEZKEL default, looking west into the walled city",
+                       "bugItGo":  "-33500 0 420 3 180 0",
+                       "pid":  16452,
+                       "gpuColumn":  "GPUTime",
+                       "frameTimeMsMedian":  17.69,
+                       "frameTimeMsP90":  19.29,
+                       "frameSamples":  350,
+                       "gpuMsMedian":  17.37,
+                       "csv":  "C:\\Mikdash\\Builds\\Checkpoint-cp21c-20260911T085329Z\\Windows\\MikdashCourtyardV3\\Saved\\Profiling\\CSV\\Profile(20260911_052252).csv",
+                       "shotSource":  "C:\\Mikdash\\Builds\\Checkpoint-cp21c-20260911T085329Z\\Windows\\MikdashPhotos\\Mikdash_Walkthrough_20260911-052332_2x.png",
+                       "peakWorkingSetMB":  3844,
+                       "materialWarnings":  [
+
+                                            ],
+                       "file":  "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\city-facade\\cfbefore-cp21c-.png",
+                       "bytes":  11172558
+                   },
+                   {
+                       "view":  "A2-south-approach-flight-facing-silwan",
+                       "why":  "on the S1 approach flight below the south wall, YECHEZKEL, looking south over the plain-box city the viewshed ranked worst",
+                       "bugItGo":  "-5000 114600 -3100 -4 100 0",
+                       "pid":  32200,
+                       "gpuColumn":  "GPUTime",
+                       "frameTimeMsMedian":  17.21,
+                       "frameTimeMsP90":  18.4,
+                       "frameSamples":  350,
+                       "gpuMsMedian":  16.84,
+                       "csv":  "C:\\Mikdash\\Builds\\Checkpoint-cp21c-20260911T085329Z\\Windows\\MikdashCourtyardV3\\Saved\\Profiling\\CSV\\Profile(20260911_052356).csv",
+                       "shotSource":  "C:\\Mikdash\\Builds\\Checkpoint-cp21c-20260911T085329Z\\Windows\\MikdashPhotos\\Mikdash_Walkthrough_20260911-052436_2x.png",
+                       "peakWorkingSetMB":  3854,
+                       "materialWarnings":  [
+
+                                            ],
+                       "file":  "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\city-facade\\cfbefore-cp21c-.png",
+                       "bytes":  10838023
+                   },
+                   {
+                       "view":  "D1-dove-height-over-old-city",
+                       "why":  "about 100 m above the western Old City, looking east-north-east toward the precinct",
+                       "bugItGo":  "-75000 30000 12000 -20 15 0",
+                       "pid":  12976,
+                       "gpuColumn":  "GPUTime",
+                       "frameTimeMsMedian":  23.99,
+                       "frameTimeMsP90":  28.91,
+                       "frameSamples":  350,
+                       "gpuMsMedian":  23.13,
+                       "csv":  "C:\\Mikdash\\Builds\\Checkpoint-cp21c-20260911T085329Z\\Windows\\MikdashCourtyardV3\\Saved\\Profiling\\CSV\\Profile(20260911_052500).csv",
+                       "shotSource":  "C:\\Mikdash\\Builds\\Checkpoint-cp21c-20260911T085329Z\\Windows\\MikdashPhotos\\Mikdash_Walkthrough_20260911-052540_2x.png",
+                       "peakWorkingSetMB":  3860,
+                       "materialWarnings":  [
+
+                                            ]
+                   },
+                   {
+                       "view":  "P1-precinct-plaza-aerial-SW-corner",
+                       "why":  "cp05b-04 / cp17b-P1 camera verbatim",
+                       "bugItGo":  "-95000 175000 30000 -9 -45 0",
+                       "pid":  25804,
+                       "frameTimeNote":  "CSV parse failed: The process cannot access the file \u0027C:\\Mikdash\\Builds\\Checkpoint-cp21c-20260911T085329Z\\Windows\\MikdashCourtyardV3\\Saved\\Profiling\\CSV\\Profile(20260911_052743).csv\u0027 because it is being used by another process.",
+                       "shotSource":  "C:\\Mikdash\\Builds\\Checkpoint-cp21c-20260911T085329Z\\Windows\\MikdashPhotos\\Mikdash_Walkthrough_20260911-052816_2x.png",
+                       "peakWorkingSetMB":  4569,
+                       "materialWarnings":  [
+
+                                            ]
+                   }
+               ],
+    "errors":  [
+                   "K1-kotel-plaza-walking-facing-jewish-quarter: exited early, code -1"
+               ],
+    "capturedCount":  2,
+    "finishedUtc":  "2026-09-11T09:28:46.0949206Z"
+}

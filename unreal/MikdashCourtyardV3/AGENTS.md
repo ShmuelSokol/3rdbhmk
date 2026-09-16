@@ -1,3 +1,29 @@
+## Kotel restore acceptance — 2026-09-16
+
+Fresh filesystem cook kotel-restore02 succeeded; native Modern / Yechezkel / Overlay /
+Modern-again visibility and collision passed. K1 PNGs show paving instead of the S4c dirt
+slope and the retaining closure remains visible. Candidate48 is 2640afae...7448; all other
+maps and reused assets unchanged. M_StreetTrees_Bark still falls back in SM6 (also in S4c);
+this is not a whole-scene visual acceptance. See the acceptance receipt for exact hashes.
+
+Kotel restore cook01 completed cooking but staging failed with HTTP NotFound for Zen
+oplog attachments. Checkpoint-Build.ps1 now accepts opt-in -SkipZenStore, verified in
+UE5.8 CookCommandlet.cpp, to recook to filesystem output without changing global config.
+Use the bundled pwsh for checkpoint scripts: Windows PowerShell in the Codex environment
+failed before cook because Get-FileHash was unavailable. Raw failure logs remain local.
+## Kotel plaza after the plateau deck removal — 2026-09-16
+
+With bBuildPlaza=false, ApplyStateTaggedActors must keep KotelPlazaCutTwin actors
+visible and collidable in every precinct state. Apply this at runtime, not by removing
+the constructor tag: saved maps carry the tag lists and KotelClosureRuntime validates
+them. The retaining wall follows the cut terrain visibility. Preserve the old hide
+behavior when bBuildPlaza=true. Both native probe paths now expect this conditional
+policy. Both targets compile and 32/32 math suites pass. Packaged four-state native and visual acceptance passed: see SourceAssets/enclosure-review/HideSetV1/kotel-restore-acceptance.json.
+Native inspection confirmed S4 also deleted RELEASE_KotelPlazaCut_07_08 and stripped
+both phase tags from its original tile. The one-line runtime fix alone is insufficient.
+restore_kotel_cut_after_plateau.py restores the existing V3 asset at identity, checkpoints
+Candidate48, and hides the original in both phases. Never revert the Kotel cut with the
+obsolete square precinct cut; their placement receipt shares tile 07_08 twice.
 ## ASSET ACCESS AFTER A MAP LOAD FLUSHES THE WHOLE LEVEL — 2026-09-16 06:xx UTC
 
 **The rule: load the assets you need BEFORE you load the map, and cap static-mesh compile

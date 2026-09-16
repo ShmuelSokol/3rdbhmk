@@ -562,7 +562,7 @@ bool AMikdashEnclosure::TickKotelClosureProbe(float DeltaSeconds)
         Row->SetStringField(TEXT("state"), ProbeStateNames[KotelClosureProbeStateIndex]);
         Row->SetStringField(TEXT("photoPath"), TEXT(""));
         Row->SetBoolField(TEXT("headless"), true);
-        const bool ExpectedVisible = ProbeStates[KotelClosureProbeStateIndex] != EMikdashPrecinctState::Yechezkel;
+        const bool ExpectedVisible = !bBuildPlaza || ProbeStates[KotelClosureProbeStateIndex] != EMikdashPrecinctState::Yechezkel;
         const UStaticMeshComponent* Terrain = KotelClosureTerrain.Get();
         const UInstancedStaticMeshComponent* Deck = KotelClosureDeck.Get();
         const bool StatePassed = Terrain && Deck && ActualVisible(Terrain) == ExpectedVisible
@@ -658,7 +658,7 @@ bool AMikdashEnclosure::TickKotelClosureProbe(float DeltaSeconds)
     Row->SetStringField(TEXT("state"), ProbeStateNames[KotelClosureProbeStateIndex]);
     Row->SetStringField(TEXT("photoPath"), KotelClosureProbePhoto);
     Row->SetBoolField(TEXT("photoExists"), true);
-    const bool ExpectedSourceVisible = ProbeStates[KotelClosureProbeStateIndex] != EMikdashPrecinctState::Yechezkel;
+    const bool ExpectedSourceVisible = !bBuildPlaza || ProbeStates[KotelClosureProbeStateIndex] != EMikdashPrecinctState::Yechezkel;
     const UStaticMeshComponent* Terrain = KotelClosureTerrain.Get();
     const UInstancedStaticMeshComponent* Deck = KotelClosureDeck.Get();
     const bool StatePassed = Terrain && Deck && ActualVisible(Terrain) == ExpectedSourceVisible

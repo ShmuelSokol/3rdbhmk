@@ -1,0 +1,24 @@
+{
+  "status": "kotel-plaza-restored-native-and-visual-passed",
+  "reviewedUtc": "2026-09-16T13:50:53.872717+00:00",
+  "scope": "Restore pre-existing Kotel plaza after S4; not S5 ring redesign or whole-scene visual acceptance.",
+  "archive": "C:\\Mikdash\\Builds\\Checkpoint-kotel-restore02-20260916T132646Z",
+  "childSha256": "26b5f3ff7b7c9aa550ebd440d5fd423beacf76daab2b800f9498ffbe75db7b60",
+  "runtimeReceipt": "SourceAssets/context-review/KotelCutClosureV1/runtime-20260916T134742050Z.json",
+  "mapSha256": "2640afae6956b5ae712e09900ba8bad0ebd715158af7bdf126b072bce2307448",
+  "verification": {
+    "bothTargetsCompiled": true,
+    "mathSuitesPassed": 32,
+    "fullGate": "11/11",
+    "quickGateAfterMapRepair": "6/6",
+    "fourNativeStatesPassed": true,
+    "mapsUnchangedDuringProbe": true
+  },
+  "visualReview": "Inspected Modern, Yechezkel and Overlay PNGs. Paving replaces the S4c dirt slope at the K1 camera; retaining closure remains visible. Native roundtrip also passes Modern-again. Existing retaining-wall design is unchanged.",
+  "knownUnchangedIssues": [
+    "Square precinct wall still requires S5 ring redesign.",
+    "M_StreetTrees_Bark still falls back to default material in packaged SM6, also present in S4c.",
+    "Whole-perimeter traversal not retested."
+  ],
+  "cookFailure": "restore01 cooked but Zen staging failed with HTTP NotFound attachments; restore02 fresh filesystem cook passed with SkipZenStore."
+}

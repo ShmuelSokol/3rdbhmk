@@ -396,8 +396,9 @@ void AMikdashEnclosure::ApplyStateTaggedActors(bool bWallStands)
     {
         AActor* Actor = StateTaggedActors[Index].Get();
         if (Actor == nullptr) continue;
-        const bool bHide = bWallStands ? StateTaggedHideWithWall[Index]
-                                       : StateTaggedHideWithCity[Index];
+        // Without the covering precinct deck, the Kotel cut and prayer plaza stay in every state.
+        const bool bHide = (bBuildPlaza || !Actor->ActorHasTag(TEXT("KotelPlazaCutTwin")))
+            && (bWallStands ? StateTaggedHideWithWall[Index] : StateTaggedHideWithCity[Index]);
         Actor->SetActorHiddenInGame(bHide);
         if (bGameWorld) SetTaggedActorCollision(Actor, !bHide);
     }

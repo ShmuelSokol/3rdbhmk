@@ -1,3 +1,5 @@
+> **Codex update, 16 September:** Item 4.1 / defect 6.1 is repaired and packaged/native/visual verified. It required the runtime visibility condition AND restoring the Kotel V3 terrain actor deleted by the S4 terrain revert. See `SourceAssets/enclosure-review/HideSetV1/kotel-restore-acceptance.json`. New build: `C:\Mikdash\Builds\Checkpoint-kotel-restore02-20260916T132646Z`. Remaining items below stay open; the original handoff is preserved.
+
 # Handoff — 16 September 2026, 03:00 UTC (Claude session ends here)
 
 Written for whoever picks this up next (Codex/Astra expected). Everything below is either a

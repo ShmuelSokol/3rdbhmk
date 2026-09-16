@@ -25,7 +25,9 @@ param(
     [switch]$LowMemory,
     # Material-only checkpoint using the already verified binaries. Does NOT include
     # pending C++ changes; this distinction is recorded in the checkpoint receipt.
-    [switch]$UseExistingBinaries
+    [switch]$UseExistingBinaries,
+    # Use filesystem cooked output if Zen staging reports missing op attachments.
+    [switch]$SkipZenStore
 )
 $ErrorActionPreference = 'Stop'
 
@@ -87,6 +89,7 @@ $batchFiles = 'C:\Program Files\Epic Games\UE_5.8\Engine\Build\BatchFiles'
 # earlier and bound queued shader work, without changing project/user INI files.
 # This is a collection threshold, NOT a hard process memory cap.
 $cookerOptions = '-cookprocesscount=1'
+if ($SkipZenStore) { $cookerOptions += ' -SkipZenStore' }
 if ($LowMemory) {
     # The cooker's memory-triggered full GC has a hardcoded 60-second cooldown.
     # PackagesPerGC takes an earlier path, so a fast cook can still release completed
@@ -107,6 +110,7 @@ $r = [ordered]@{
     archive = $archive; freeGBAtStart = (Free-GB)
     lowMemory = [bool]$LowMemory; commitFreeGiBAtStart = (Commit-Free-GB)
     usesExistingBinaries = [bool]$UseExistingBinaries
+    skipZenStore = [bool]$SkipZenStore
     binaryScope = $(if ($UseExistingBinaries) { 'Existing binaries only; pending C++ changes are NOT included.' } else { 'BuildCookRun build step requested.' })
     scope = 'Cook + archive + bounded startup smoke. NOT route, audio or interaction acceptance.'
 }

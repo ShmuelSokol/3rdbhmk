@@ -62,7 +62,27 @@ VARIANT = dict(id='V3_KohenGadol_Gold', label='Kohen Gadol, eight golden garment
                dress='kohen', girth=1.00, shoulder=1.02, age=.62, beard='full', headwear='mitznefet',
                mantle=False, tunic_hem=6.0, barefoot=True, prop=None, skin_tone='olive-grey',
                actor_scale=1.00, fold_seed=131)
-TRIANGLE_BUDGET = 90000
+# Raised for FaceV5, DELIBERATELY and on the record, and raised TWICE - both stated rather than
+# quietly re-nudged. 90,000 was the V3-face figure. 140,000 was my estimate before the baked head
+# existed; the first real build measured 142,418 and tripped it. The arithmetic, now known rather
+# than guessed: ~78 k for the eight garments, body, arms and legs, plus 64,094 for the MetaHuman
+# face at LOD0, plus the two eyeballs. 160,000 leaves honest headroom for the beard cards still to
+# come. The Kohen Gadol is ONE actor seen at 1-2 m lighting the menorah - the scene already carries
+# 30.5 M triangles and the 24 residents carry 1.26 M between them - so this is negligible, and
+# LOD1 (~32 k) remains the lever if it ever stops being. The residents keep their own 60,000
+# ceiling. This is an authored guard, not a measured gate: the clearance gates are never retuned.
+TRIANGLE_BUDGET = 180000
+# THIRD and final raise, and the fact that it is the third is the point: a guard that keeps moving is
+# a weak guard, so here is the whole arithmetic and it should now be frozen.
+#   ~77,900  eight garments, body, arms, legs, sandals (KG_Linen/Meil/Ephod/Gold/Stones/Wool + KG_Skin)
+#    64,094  MetaHuman face at LOD0 - the reason this character exists at 1-2 m
+#    25,212  the grey beard shell, built on the head's own topology
+#     1,792  two eyeballs
+#   ------- ~168,998 measured, against 180,000.
+# 90,000 was the V3-face figure; 140,000 was my pre-bake estimate (measured 142,418); 160,000 did not
+# allow for the beard. LOD1 on the face (~32 k) is the lever if this ever needs to come down, at the
+# cost of the close-range detail that is the whole point. This is an authored guard, not a measured
+# gate - the garment clearance gates are never retuned.
 
 # ----------------------------------------------------------------------------- dimensions (cm)
 KETONET_HEM = 6.0          # Rambam 8:15 "until slightly above the heel"; book fig.: just above the feet
@@ -123,6 +143,10 @@ SLOTS = {
     'KG_Gold': (.30, 1.0, .50), 'KG_Stones': (.08, 0.0, .90), 'KG_Wool': (.90, 0.0, .40),
     'KG_Skin': (.70, 0.0, .45), 'KG_Hair': (.88, 0.0, .35), 'KG_Eyes': (.30, 0.0, .50),
     'KG_Iris': (.28, 0.0, .50),
+    # FaceV5: the baked MetaHuman head. Its own slot because it is the ONE part of this mesh that is
+    # textured (MetaHuman albedo / normal / cavity in the MetaHuman face UV layout) rather than
+    # vertex-coloured, so it needs a different master from KG_Skin.
+    'KG_MHHead': (.55, 0.0, .50),
 }
 RENAME = {'Skin': 'KG_Skin', 'Hair': 'KG_Hair', 'Eyes': 'KG_Eyes', 'Iris': 'KG_Iris',
           'Linen': 'KG_Linen', 'Trim': 'KG_Linen', 'Headcloth': 'KG_Linen'}
@@ -178,6 +202,13 @@ _FOLDS = fold_field(VARIANT['fold_seed'], 1.30)
 
 
 TOE_EASE_CM = 3.4
+
+# FaceV5 (route C). When MH_HEAD_OBJ names a baked MetaHuman head OBJ, assembly() uses it instead of
+# the Pilgrim V3 face. Set from --mh-head / --mh-chin-frac / --mh-head-height.
+MH_HEAD_OBJ = None
+MH_HEAD_CHIN_FRAC = 0.0
+MH_HEAD_HEIGHT_CM = None
+MH_HEAD_ALBEDO = None        # MetaHuman face albedo PNG, baked to per-vertex colour
 CENTRE_EASE_CM = 3.0     # lower front/back centre ease (authored)
 LEG_FRONT_T = (1.5 * math.pi - .35, 1.5 * math.pi + .35)   # loft angles in front of each foot
 
@@ -295,11 +326,15 @@ class Parts:
     def __init__(self):
         self.parts = []
 
-    def add(self, name, material, mesh, skin, colours=None, anchors=None):
-        v, f = mesh
-        volume = sum(dot(v[a], cross(v[b], v[c])) / 6 for a, b, c in f)
-        if volume < 0:
-            f = [(a, c, b) for a, b, c in f]
+    def add(self, name, material, mesh, skin, colours=None, anchors=None, uv=None, flip=True):
+        v, f = mesh[0], mesh[1]
+        # The signed-volume-about-the-origin test is only meaningful for a CLOSED mesh. The baked
+        # MetaHuman head is open at the neck, so the test can flip it inside out; that part passes
+        # flip=False and keeps the winding the DynamicMesh already had.
+        if flip:
+            volume = sum(dot(v[a], cross(v[b], v[c])) / 6 for a, b, c in f)
+            if volume < 0:
+                f = [(a, c, b) for a, b, c in f]
         if colours is None:
             colours = [SLOT_DEFAULT[material]] * len(v)
         elif callable(colours):
@@ -307,6 +342,9 @@ class Parts:
         assert len(colours) == len(v), name
         part = {'name': name, 'material': material, 'vertices': v, 'faces': f,
                 'skin': skin, 'colours': colours}
+        if uv is not None:
+            assert len(uv) == len(v), '%s: %d uvs for %d vertices' % (name, len(uv), len(v))
+            part['uv'] = [tuple(t) for t in uv]
         if anchors is not None:
             assert len(anchors) == len(v), name
             part['anchor_map'] = {tuple(a): tuple(b) for a, b in zip(v, anchors)}
@@ -613,12 +651,23 @@ def legs(P):
         P.add('Shin' + tag, 'KG_Skin', loft(rings, 20), C.leg_skin)
 
 
+# Parts whose vertices ARE the head surface that the mitznefet and tzitz are fitted to. 'MHHead' is
+# the baked MetaHuman head (FaceV5): the V3 face's Brow / Lid / Sideburn parts do not exist on it, and
+# a name list that silently matched nothing collapsed the mitre onto the 4.0 cm floor in radius().
+HEAD_SURFACE_NAMES = ('Head', 'MHHead')
+HEAD_SURFACE_PREFIXES = ('Brow', 'Ear', 'Sideburn', 'Lid', 'MHHead')
+
+
 def head_probe(parts):
     """Radius of the head surface in the horizontal direction phi (0 = straight ahead) at height z."""
     pts = []
     for p in parts:
-        if p['name'] in ('Head',) or p['name'].startswith(('Brow', 'Ear', 'Sideburn', 'Lid')):
+        if p['name'] in HEAD_SURFACE_NAMES or p['name'].startswith(HEAD_SURFACE_PREFIXES):
             pts += p['vertices']
+    if not pts:
+        raise RuntimeError('head_probe found no head-surface vertices (parts: %r). The mitznefet and '
+                           'tzitz would be fitted to the 4.0 cm floor instead of to the head.'
+                           % (sorted(p['name'] for p in parts)[:12],))
     cy = HEAD_C[1]
 
     def radius(phi, z, win=1.0, ang=math.radians(7)):
@@ -642,9 +691,13 @@ def mitznefet_and_tzitz(P):
     radius, cy = head_probe(P.parts)
     # tzitz: from ear to ear (Rambam 9:1), two fingerbreadths high, on the forehead
     z0 = HEAD_C[2] + 5.0
+    # The V3 face builds Brow tubes; the FaceV5 baked MetaHuman head carries its brows in the texture
+    # and has no Brow geometry, so max() over an empty sequence used to raise and take the mitre
+    # placement with it. With no brow geometry the default forehead height stands.
     brows = [p for p in P.parts if p['name'].startswith('Brow')]
-    brow_top = max(v[2] for p in brows for v in p['vertices'])
-    z0 = max(z0, brow_top + .7)
+    if brows:
+        brow_top = max(v[2] for p in brows for v in p['vertices'])
+        z0 = max(z0, brow_top + .7)
     z1 = z0 + TZITZ_H
     grid = []
     cols = 29
@@ -727,7 +780,24 @@ def assembly():
     for s in (-1, 1):
         C.arm_parts(P.adder(drop=('Sleeve', 'Cuff')), VARIANT, s)
     legs(P)
-    C.face_parts(P.adder(), VARIANT)
+    if MH_HEAD_OBJ:
+        # FaceV5 route C: the baked MetaHuman head replaces the V3 face wholesale. It carries its own
+        # neck, so the V3 Neck / SCM / Ear / Eye / Lip parts are not added at all - two overlapping
+        # necks would z-fight. Weighted entirely to `head` (C.head_skin), exactly as the V3 head was,
+        # so the rig, the three clips and every garment clearance gate are untouched.
+        import create_kohen_gadol_head_v5 as H5
+        hp = H5.head_parts(MH_HEAD_OBJ, chin_frac=MH_HEAD_CHIN_FRAC, head_height_cm=MH_HEAD_HEIGHT_CM,
+                           albedo_png=MH_HEAD_ALBEDO)
+        P.add(hp['name'], hp['material'], hp['mesh'], hp['skin'], hp['colours'], uv=hp['uv'], flip=False)
+        # the MetaHuman face mesh has open lids and NO eyeballs; without these the head has two holes
+        for e in hp['eyes']:
+            P.add(e['name'], 'KG_Eyes', e['mesh'], C.head_skin, e['colours'], flip=False)
+        if hp.get('beard'):
+            b = hp['beard']
+            P.add(b['name'], 'KG_Hair', b['mesh'], C.head_skin, b['colours'], flip=False)
+        P.mh_fit = hp['fit']
+    else:
+        C.face_parts(P.adder(), VARIANT)
     mitznefet_and_tzitz(P)
     return P.parts
 
@@ -758,6 +828,11 @@ def export_glb(path, parts, bones, index):
         doc['materials'].append({'name': mat, 'pbrMetallicRoughness': {
             'baseColorFactor': [1., 1., 1., 1.], 'metallicFactor': metal, 'roughnessFactor': rough}})
         positions, norms, joints, weights, vcol, indices = [], [], [], [], [], []
+        # FaceV5: the baked MetaHuman head is the one TEXTURED part, so this primitive needs UVs.
+        # Emit TEXCOORD_0 only when a member actually carries them; parts without UVs inside the
+        # same material get (0, 0) so the accessor length always matches POSITION.
+        textured = any(p.get('uv') for p in members)
+        uvs = []
         for p in members:
             offset = len(positions)
             positions.extend(C.gltf_vec(a) for a in p['vertices'])
@@ -767,12 +842,18 @@ def export_glb(path, parts, bones, index):
                 joints.append([j for j, _ in inf])
                 weights.append([w for _, w in inf])
             vcol.extend(list(c) + [1.0] for c in p['colours'])
+            if textured:
+                pu = p.get('uv')
+                uvs.extend([list(t) for t in pu] if pu else [[0.0, 0.0]] * len(p['vertices']))
             indices.extend(offset + i for face in p['faces'] for i in face)
         attrs = {'POSITION': asset.accessor(positions, 'VEC3', target=34962, bounds_=True),
                  'NORMAL': asset.accessor(norms, 'VEC3', target=34962),
                  'COLOR_0': asset.accessor(vcol, 'VEC4', target=34962),
                  'JOINTS_0': asset.accessor(joints, 'VEC4', 5123, target=34962),
                  'WEIGHTS_0': asset.accessor(weights, 'VEC4', target=34962)}
+        if textured:
+            assert len(uvs) == len(positions), (mat, len(uvs), len(positions))
+            attrs['TEXCOORD_0'] = asset.accessor(uvs, 'VEC2', target=34962)
         primitives.append({'attributes': attrs, 'indices': asset.accessor(indices, 'SCALAR', 5125, 34963),
                            'material': mi, 'mode': 4})
     doc['meshes'] = [{'name': MESH_ID, 'primitives': primitives}]
@@ -930,7 +1011,18 @@ if __name__ == '__main__':
     ap.add_argument('--build', action='store_true')
     ap.add_argument('--fast', action='store_true')
     ap.add_argument('--preview', default='', help='comma list clip:time:view, e.g. walk:0.52:side')
+    ap.add_argument('--mh-head', default='', help='FaceV5: baked MetaHuman head OBJ; replaces the V3 face')
+    ap.add_argument('--mh-chin-frac', type=float, default=0.0,
+                    help='fraction of the baked mesh bbox height at which the chin sits (it includes a neck)')
+    ap.add_argument('--mh-head-height', type=float, default=0.0,
+                    help='real crown-to-chin height in cm; 0 = match the V3 head (2 * HEAD_RZ)')
+    ap.add_argument('--mh-albedo', default='', help='MetaHuman face albedo PNG, baked to vertex colour')
     a = ap.parse_args()
+    if a.mh_head:
+        MH_HEAD_OBJ = a.mh_head
+        MH_HEAD_CHIN_FRAC = a.mh_chin_frac
+        MH_HEAD_HEIGHT_CM = a.mh_head_height or None
+        MH_HEAD_ALBEDO = a.mh_albedo or None
     if a.build:
         m, parts = build(a.fast)
         print(json.dumps(m['checks'], indent=1))

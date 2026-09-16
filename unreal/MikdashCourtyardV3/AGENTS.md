@@ -1,3 +1,79 @@
+## ASSET ACCESS AFTER A MAP LOAD FLUSHES THE WHOLE LEVEL — 2026-09-16 06:xx UTC
+
+**The rule: load the assets you need BEFORE you load the map, and cap static-mesh compile
+concurrency.** `load_asset` on a static mesh while a big map is resident does not fetch one
+mesh — it blocks on `FStaticMeshCompilingManager` and pulls the level's entire mesh set
+through compilation at once. On this 16 GB box that is an instant OOM kill.
+
+Measured on the precinct cell-split apply (Candidate48, 72 MB map, 8,606 actors, 7,860 meshes):
+
+| run | sequence | flush lines | outcome |
+|---|---|---:|---|
+| preflight | `load_level`, then actor LABELS only | 0 | lived |
+| probe | `load_asset`, **no map loaded** | 0 | lived |
+| apply | `load_level`, **then** `load_asset` | 74–110 | **killed ×5** |
+| apply (reordered) | preload assets, **then** `load_level` | 618 | lived, saved |
+| verify | `-asyncstaticmeshcompilationmaxconcurrency=1` | **0** | lived |
+
+Two independent levers, both confirmed:
+
+1. **Order.** Resolve every material and mesh BEFORE `load_level`. The apply went from dying
+   on entry to placing all 11 actors and saving. Do not enumerate level actors twice either —
+   build one label→actor map and derive from it.
+2. **Concurrency cap.** `-asyncstaticmeshcompilationmaxconcurrency=1` took the verify run from
+   618 flush lines to **zero**. The flag form is parsed in
+   `Engine/Source/Runtime/Engine/Private/AsyncCompilationHelpers.cpp:306` as
+   `-async<Name>compilationmaxconcurrency=`, and `StaticMeshCompiler.cpp` registers the name
+   as `staticmesh`. **Confirm the registered name in engine source before using it for another
+   asset type — do not guess the flag.** A serial flush is slow, not fatal.
+
+The flush itself is survivable: the terrain-cut revert ran 915 flush lines to completion. What
+kills is entering the flush already carrying something.
+
+**And the guard pattern earned its keep.** The script saves the map ONCE, at the end. Seven
+kills, every one of them after the work had succeeded and before the write — and the map stayed
+byte-identical at `8e8e1064…` throughout. Save once, at the end, always.
+
+---
+
+## A COUNT THAT MATCHES IS NOT A THING THAT MATCHES — 2026-09-16 04:xx UTC
+
+**Hard rule, paid for on the precinct cell-split.** When you slice a batch apart — triangles
+into buildings, instances into zones, rows into groups — **never accept a count as proof that
+you sliced it in the right place.** Verify by POSITION, or by identity, or by something the
+data itself can contradict. A matching count is the single most convincing wrong answer in
+this codebase.
+
+What happened. Each `SM_JerusalemBuildings_Grid_*` cell records `sourceComponentIds` and
+`sourceTriangleIndices` into `jerusalem-meshes.json`. The components' triangle counts sum
+**exactly** to the mesh's triangle count. The obvious split is therefore to walk
+`sourceTriangleIndices` and cut it at each component's triangle count, in order. It runs
+clean. It produces the right number of meshes, the right number of triangles in each, the
+right vertex counts, and cell bounds that still match the manifest.
+
+**It is wrong. The triangle list is not grouped by component.** A bounds check written to
+guard the assumption refused on the first cut cell: component 7218 of
+`SM_JerusalemBuildings_Grid_N001_N003` missed its own recorded `sourceBoundsAmos` by
+**160.4 amot — 80 metres**.
+
+Had the guard not been there, the pass would have shipped **buildings assembled out of other
+buildings' walls**, and every downstream number would have agreed with it. Nothing in a
+receipt, a triangle budget or a cook log would ever have caught it. Only a frame would have,
+and only if someone happened to look at the right rooftop.
+
+The fix, and the general shape of the fix: recover the grouping from the GEOMETRY rather than
+from the ordering. The source is unwelded (`sourceVertexIndexRule` = `3*sourceTriangleIndex+corner`),
+so triangles of one building share no vertex *index* — they share vertex *positions*. Union-find
+over quantised positions recovers the islands; each island is then matched **one-to-one** to a
+recorded component by bounds, with both the island count and the bijection asserted. Measured:
+every island matched to better than 1e-4 amot, files read back to 1.8e-05 cm.
+
+Generalise it: `Scripts/create_precinct_cell_split.py` is the worked example, but the rule is
+not about that file. **If a slice can be checked against something independent of the way you
+sliced it, check it, and make the check a refusal rather than a warning.**
+
+---
+
 ## CityFacadeV1: stone facades with recessed openings on the 11,405 city buildings (material, not geometry) — 2026-09-11 10:5x UTC
 
 **Measured first, then built.** `Scripts/measure_city_visibility.py` (offline 2.5D viewshed: exact
@@ -1419,6 +1495,25 @@ preparation lesson); 55 cm step height on BP_MikdashWalker. Actor count 7322 (73
     read past it. This is the same failure as rules 11–13 in a different costume: **a reading that was
     true once, carried forward as if still true.** State the timestamp beside the hash so staleness is
     visible rather than invisible.
+15. **Identical binaries do NOT mean identical content — compare the ARCHIVE, not the exe.** A cook
+    whose C++ did not change produces a byte-identical packaged exe, so the exe SHA-256 is silent
+    about whether the thing you actually changed reached the build. Quoting it as evidence that two
+    builds differ, or that a re-cook "took", is a category error.
+    *FaceV5/people01 vs people02:* both archives carry `MikdashCourtyardV3.exe` at
+    `c968b67b670e4f7d…` — the same bytes, because only a skeletal mesh changed. The honest evidence
+    that the re-cook landed is the **archive size delta**, 4,250,409,929 → 4,250,436,553 bytes, which
+    is the re-cooked Kohen Gadol mesh, plus the asset's own `.uasset` hash from the import receipt
+    (`b732bb6d06…` → `d61a191a49…`). Cite the changed asset and the archive, and say explicitly when
+    the exe is expected to be unchanged — otherwise an unchanged exe reads as a failed cook.
+16. **An offline previewer that does not back-face cull cannot find an inside-out mesh.**
+    *FaceV5:* the baked MetaHuman head was exported wound opposite to UE's convention. Every offline
+    render looked plausible — the renderer draws both faces — so the defect shipped. The packaged
+    frame showed it instantly: a see-through skull with both eyeballs visible through the back of the
+    head. It had also been quietly dimming every offline render, because the face was lit by normals
+    pointing away from the lights, and a brightness "correction" was added that was really
+    compensating for it. Assert orientation numerically on the mesh (a nose-tip normal must point out
+    of the face, a crown normal must point up) rather than trusting that a render looks right — and
+    remember that a previewer's disagreements with the engine are silent, not loud.
 
 ## Native pitfalls
 

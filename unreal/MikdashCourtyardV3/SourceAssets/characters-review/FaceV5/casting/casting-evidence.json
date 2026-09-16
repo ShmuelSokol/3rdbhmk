@@ -1,0 +1,457 @@
+{
+  "question": "Which of the 29 shipped MetaHuman presets should the Kohen Gadol be? Requirement: Levantine/Mediterranean man in his 60s-70s, dignified, deep-set eyes, strong brow, full grey-to-white beard, weathered skin. NOT East Asian.",
+  "method": "The preset .uasset packages embed three 1024x1024 synthesized face textures. Index 0 is ALBEDO (a readable face in UV space), 1 is the normal map, 2 is cavity. Extracted all 29 offline by scanning package bytes for PNG magic. No engine was used.",
+  "whatThisEvidenceCanAndCannotDecide": {
+    "reliable": [
+      "skin tone (forehead mean RGB/luminance)",
+      "weathering / apparent age (mottling, sun damage, deep creases - visible by eye in the albedo)"
+    ],
+    "suggestiveOnly": [
+      "beardShadowRatio: confounded by wrinkle shading (Sook-ja scores high from creases; Walter scores low despite shipping a goatee)"
+    ],
+    "NOT_decidable_offline": [
+      "face SHAPE, and therefore the ethnicity of the sculpt. That lives in the face DNA and can only be judged by rendering. The final call must be confirmed by the comparison sheet."
+    ]
+  },
+  "measurements": {
+    "Ada": {
+      "foreheadLum": 65.4,
+      "foreheadRGB": [
+        97,
+        58,
+        44
+      ],
+      "beardRegionLum": 59.7,
+      "beardShadowRatio": 0.913,
+      "weatheringHF": 2.28
+    },
+    "Aera": {
+      "foreheadLum": 149.1,
+      "foreheadRGB": [
+        201,
+        138,
+        110
+      ],
+      "beardRegionLum": 129.8,
+      "beardShadowRatio": 0.871,
+      "weatheringHF": 2.86
+    },
+    "Aoi": {
+      "foreheadLum": 131.2,
+      "foreheadRGB": [
+        182,
+        120,
+        93
+      ],
+      "beardRegionLum": 103.6,
+      "beardShadowRatio": 0.789,
+      "weatheringHF": 3.7
+    },
+    "Asha": {
+      "foreheadLum": 65.0,
+      "foreheadRGB": [
+        103,
+        57,
+        34
+      ],
+      "beardRegionLum": 60.5,
+      "beardShadowRatio": 0.93,
+      "weatheringHF": 2.61
+    },
+    "Bo": {
+      "foreheadLum": 132.8,
+      "foreheadRGB": [
+        177,
+        123,
+        102
+      ],
+      "beardRegionLum": 117.4,
+      "beardShadowRatio": 0.885,
+      "weatheringHF": 2.63
+    },
+    "Bruce": {
+      "foreheadLum": 125.4,
+      "foreheadRGB": [
+        168,
+        116,
+        98
+      ],
+      "beardRegionLum": 103.5,
+      "beardShadowRatio": 0.825,
+      "weatheringHF": 3.5
+    },
+    "Cameron": {
+      "foreheadLum": 51.6,
+      "foreheadRGB": [
+        80,
+        45,
+        34
+      ],
+      "beardRegionLum": 51.4,
+      "beardShadowRatio": 0.996,
+      "weatheringHF": 2.65
+    },
+    "Celeste": {
+      "foreheadLum": 132.5,
+      "foreheadRGB": [
+        176,
+        122,
+        106
+      ],
+      "beardRegionLum": 116.9,
+      "beardShadowRatio": 0.883,
+      "weatheringHF": 3.35
+    },
+    "Dominic": {
+      "foreheadLum": 69.9,
+      "foreheadRGB": [
+        105,
+        62,
+        48
+      ],
+      "beardRegionLum": 59.0,
+      "beardShadowRatio": 0.844,
+      "weatheringHF": 3.42
+    },
+    "Etta": {
+      "foreheadLum": 95.5,
+      "foreheadRGB": [
+        137,
+        86,
+        65
+      ],
+      "beardRegionLum": 85.8,
+      "beardShadowRatio": 0.898,
+      "weatheringHF": 2.58
+    },
+    "Grace": {
+      "foreheadLum": 113.4,
+      "foreheadRGB": [
+        159,
+        102,
+        88
+      ],
+      "beardRegionLum": 106.8,
+      "beardShadowRatio": 0.941,
+      "weatheringHF": 3.48
+    },
+    "Isaiah": {
+      "foreheadLum": 47.0,
+      "foreheadRGB": [
+        77,
+        40,
+        26
+      ],
+      "beardRegionLum": 42.3,
+      "beardShadowRatio": 0.9,
+      "weatheringHF": 2.67
+    },
+    "Jelena": {
+      "foreheadLum": 142.4,
+      "foreheadRGB": [
+        189,
+        132,
+        112
+      ],
+      "beardRegionLum": 133.9,
+      "beardShadowRatio": 0.94,
+      "weatheringHF": 2.84
+    },
+    "Jorge": {
+      "foreheadLum": 92.2,
+      "foreheadRGB": [
+        131,
+        83,
+        69
+      ],
+      "beardRegionLum": 76.8,
+      "beardShadowRatio": 0.833,
+      "weatheringHF": 3.54
+    },
+    "Kelvin": {
+      "foreheadLum": 129.3,
+      "foreheadRGB": [
+        180,
+        118,
+        90
+      ],
+      "beardRegionLum": 114.7,
+      "beardShadowRatio": 0.887,
+      "weatheringHF": 2.78
+    },
+    "Lani": {
+      "foreheadLum": 90.6,
+      "foreheadRGB": [
+        133,
+        81,
+        62
+      ],
+      "beardRegionLum": 80.9,
+      "beardShadowRatio": 0.893,
+      "weatheringHF": 3.27
+    },
+    "Lorenzo": {
+      "foreheadLum": 119.2,
+      "foreheadRGB": [
+        166,
+        108,
+        87
+      ],
+      "beardRegionLum": 105.9,
+      "beardShadowRatio": 0.888,
+      "weatheringHF": 3.65
+    },
+    "Mateo": {
+      "foreheadLum": 69.7,
+      "foreheadRGB": [
+        105,
+        62,
+        45
+      ],
+      "beardRegionLum": 65.0,
+      "beardShadowRatio": 0.932,
+      "weatheringHF": 2.96
+    },
+    "Mikel": {
+      "foreheadLum": 43.1,
+      "foreheadRGB": [
+        71,
+        37,
+        24
+      ],
+      "beardRegionLum": 39.1,
+      "beardShadowRatio": 0.908,
+      "weatheringHF": 3.23
+    },
+    "Omari": {
+      "foreheadLum": 55.1,
+      "foreheadRGB": [
+        85,
+        48,
+        36
+      ],
+      "beardRegionLum": 54.0,
+      "beardShadowRatio": 0.98,
+      "weatheringHF": 2.67
+    },
+    "Orlando": {
+      "foreheadLum": 116.8,
+      "foreheadRGB": [
+        164,
+        106,
+        84
+      ],
+      "beardRegionLum": 106.4,
+      "beardShadowRatio": 0.911,
+      "weatheringHF": 2.69
+    },
+    "Sook-ja": {
+      "foreheadLum": 137.7,
+      "foreheadRGB": [
+        188,
+        126,
+        105
+      ],
+      "beardRegionLum": 111.0,
+      "beardShadowRatio": 0.806,
+      "weatheringHF": 4.22
+    },
+    "Sunita": {
+      "foreheadLum": 87.7,
+      "foreheadRGB": [
+        124,
+        79,
+        62
+      ],
+      "beardRegionLum": 74.1,
+      "beardShadowRatio": 0.845,
+      "weatheringHF": 2.83
+    },
+    "Trey": {
+      "foreheadLum": 84.8,
+      "foreheadRGB": [
+        124,
+        76,
+        55
+      ],
+      "beardRegionLum": 73.5,
+      "beardShadowRatio": 0.868,
+      "weatheringHF": 3.65
+    },
+    "Tuya": {
+      "foreheadLum": 96.0,
+      "foreheadRGB": [
+        137,
+        87,
+        66
+      ],
+      "beardRegionLum": 87.1,
+      "beardShadowRatio": 0.907,
+      "weatheringHF": 2.72
+    },
+    "Victor": {
+      "foreheadLum": 127.2,
+      "foreheadRGB": [
+        175,
+        117,
+        93
+      ],
+      "beardRegionLum": 107.3,
+      "beardShadowRatio": 0.843,
+      "weatheringHF": 3.5
+    },
+    "Vivian": {
+      "foreheadLum": 142.2,
+      "foreheadRGB": [
+        189,
+        132,
+        109
+      ],
+      "beardRegionLum": 129.8,
+      "beardShadowRatio": 0.912,
+      "weatheringHF": 2.59
+    },
+    "Walter": {
+      "foreheadLum": 102.7,
+      "foreheadRGB": [
+        149,
+        92,
+        74
+      ],
+      "beardRegionLum": 95.7,
+      "beardShadowRatio": 0.932,
+      "weatheringHF": 3.45
+    },
+    "Zuri": {
+      "foreheadLum": 43.2,
+      "foreheadRGB": [
+        70,
+        37,
+        26
+      ],
+      "beardRegionLum": 40.8,
+      "beardShadowRatio": 0.943,
+      "weatheringHF": 2.25
+    }
+  },
+  "shortlist": [
+    "Walter",
+    "Lorenzo",
+    "Jorge",
+    "Victor",
+    "Bruce",
+    "Orlando"
+  ],
+  "recommendation": {
+    "primary": "Walter",
+    "why": "The only preset whose TEXTURE actually carries age: forehead mottling and sun damage, deep nasolabial and marionette creases, slack jowl texture. Warm mid tone (lum 102.7, RGB 149/92/74) consistent with Mediterranean/Levantine. Already styled mature (ships a wavy goatee + mustache). The brief asks for \"weathered skin with real age in it\" and \"not a young man with a beard stuck on\"; Walter is the only non-East-Asian preset that answers that in the albedo.",
+    "runnersUp": {
+      "Lorenzo": "warm mid tone 119.2, weathering 3.65",
+      "Jorge": "olive 92.2, strongest true beard-growth region",
+      "Victor": "127.2 lighter Mediterranean",
+      "Bruce": "125.4 lighter Mediterranean",
+      "Orlando": "116.8, smoother/younger"
+    },
+    "suggestedBlend": "Walter as the base for its age, sculpt blended toward Lorenzo/Jorge for Levantine cranial and nasal structure, then Head Sculpt for the deep-set eyes and strong brow the brief names.",
+    "excluded": {
+      "EastAsian_per_requirement": [
+        "Aoi",
+        "Sook-ja",
+        "Tuya"
+      ],
+      "too_dark_for_Levantine(lum 43-65)": [
+        "Isaiah",
+        "Omari",
+        "Cameron",
+        "Zuri",
+        "Mikel",
+        "Ada",
+        "Asha"
+      ],
+      "too_fair_and/or_female_typed(lum 132-149)": [
+        "Aera",
+        "Jelena",
+        "Vivian",
+        "Celeste"
+      ]
+    }
+  },
+  "openRisks": {
+    "beardGreying": "BLOCKER-CLASS. The 10 Sep run recorded \"Melanin parameter not offered by the Beard groom / Mustache groom / Hair groom\" - all three failed. The documented Python route to grey a beard did NOT work here. A black full beard on a 70-year-old fails the brief. Alternatives to try: the groom material instance parameters (not Melanin), Accessory Properties in the GUI, or overriding the groom binding material.",
+    "presetChangeNeedsForce": "MH_Elder_Kohen is currently a duplicate of Aoi. Because the identity changes, we DO want it recreated from the chosen preset, so -MetaHumanForce IS required here.",
+    "rigNotSaved": "The owner ran the auto-rig but did not save; re-run it (under a minute, needs nobody)."
+  },
+  "files": [
+    "casting/_contact_albedo.png",
+    "casting/Walter_0_1024x1024.png",
+    "casting/Lorenzo_0_1024x1024.png",
+    "casting/Jorge_0_1024x1024.png",
+    "casting/Victor_0_1024x1024.png",
+    "casting/Bruce_0_1024x1024.png",
+    "casting/Orlando_0_1024x1024.png"
+  ],
+  "beardGreyingSOLVED": {
+    "verdict": "SOLVED IN SCRIPT. No GUI step is needed for the grey beard.",
+    "evidence": "Engine/Plugins/MetaHuman/MetaHumanCharacter/Source/MetaHumanDefaultPipeline/Public/Item/MetaHumanDefaultGroomPipeline.h:21-90 defines UMetaHumanDefaultGroomPipelineMaterialParameters.",
+    "knobs": {
+      "Melanin": "hairMelanin (0-1)",
+      "Redness": "hairRedness",
+      "Roughness": "HairRoughness",
+      "Whiteness": "WhiteAmount (0-1) - THE grey/white control",
+      "Lightness": "LightAmount",
+      "DyeColor": "HairDye",
+      "bUseOmbre/OmbreU/OmbreV": "Ombre set",
+      "bUseRegions/RegionsU": "Regions set",
+      "bUseHighlights/HighlightsU": "Highlights set"
+    },
+    "whyThePreviousAttemptFailed": "MetaHumanDefaultGroomPipeline.cpp:264 maps the property-bag entry onto the FACE material parameter <SlotName>+\"Melanin\" (BeardMelanin, MustacheMelanin, HairMelanin). The 10 Sep run probed for an instance parameter literally named \"Melanin\", found none, and recorded \"Melanin parameter not offered by the Beard groom\". The knob exists; the name was wrong.",
+    "plannedElderSettings": {
+      "Whiteness": 0.9,
+      "Melanin": 0.05,
+      "Lightness": 0.25,
+      "Roughness": 0.35,
+      "note": "A 70-year-old reads as grey-white, not black. Values to be confirmed by eye in the frame, not asserted."
+    },
+    "supportingAsset": "Content/Materials/MF_Hair_SaltAndPeper.uasset - the salt-and-pepper blend behind WhiteAmount."
+  },
+  "renderedSheet": {
+    "file": "casting/casting-sheet.png",
+    "order": [
+      "Bruce",
+      "Jorge",
+      "Lorenzo",
+      "Orlando",
+      "Victor",
+      "Walter"
+    ],
+    "rows": [
+      "yaw 0.00 (front)",
+      "yaw 0.62 (three-quarter)"
+    ],
+    "method": "Each preset duplicated, Outfits cleared, assembled for PREVIEW (no Epic cloud call), the Face mesh copied out with GeometryScript and exported as OBJ, then all six rendered through Scripts/render_face_v5.py at ONE camera, ONE light rig and one neutral clay tone. Clay, not each preset own tone, because the albedo maps already answered tone; what the sheet had to decide was SHAPE.",
+    "perFaceReadByEye": {
+      "Bruce": "broad, heavy-set, soft jaw, fleshy; middle-aged, not weathered",
+      "Jorge": "round and jowly with full cheeks and a broad nose; stocky middle age, not dignified",
+      "Lorenzo": "leaner, longer face, prominent nose, some hollowing; plausibly Mediterranean but clearly younger",
+      "Orlando": "smooth and unlined, long neck; the youngest of the six, wrong for the brief",
+      "Victor": "lean and angular with defined cheekbones; good bone structure but too clean/young",
+      "Walter": "deep nasolabial folds, marionette lines, hollow temples, sagging jawline, corded neck, heavy brow; unmistakably a man in his seventies"
+    }
+  },
+  "blendability": {
+    "question": "Is the 1397-value face vector safe to blend element-wise?",
+    "answer": "YES, and this was checked rather than assumed.",
+    "evidence": "23 entries are integer-valued (22, 1, 38, 54, 53, ...) and are IDENTICAL in every preset - they are the shared structure. Every entry that varies between presets is a continuous measurement (e.g. index 7: Walter 154.759, Lorenzo 157.108, Jorge 153.645, Victor 154.933). So a weighted average corrupts nothing.",
+    "firstImpression": "The header looked like [count, height, ...] blocks, which suggested blending was unsafe. The integer test is what settled it."
+  },
+  "FINAL_CHOICE": {
+    "chosen": "Walter, UNBLENDED",
+    "blendRejected": true,
+    "why": "The render confirms Walter and overturns the BLEND, not the base. Age is the scarce commodity here and Walter is the only one of the 29 who has it, in both texture and sculpt. Coefficients blend linearly, so a 30 % Lorenzo blend removes about 30 % of exactly the weathering that makes him right, in exchange for a slightly longer nose. Jorge is worse than neutral: the sheet shows him round and jowly, so blending toward him would add flesh and subtract dignity - the opposite of what a High Priest seen at 1-2 m needs. Blending is technically available and was proven safe; it simply does not win.",
+    "runnersUpInSheetForOverrule": [
+      "Lorenzo (leaner, longer nose, but younger)",
+      "Victor (good structure, too clean)"
+    ],
+    "note": "If the owner wants a longer/straighter nose, the cheapest honest change is a small Lorenzo blend at 15-20 %, which costs correspondingly little age."
+  }
+}

@@ -1,0 +1,435 @@
+{
+  "pass": "FaceV5",
+  "status": "before_measurements_only_no_generator_change_no_engine_step",
+  "utc": "2026-09-15",
+  "instrument": "Scripts/render_face_v5.py (perspective, 3x supersampled, Blinn specular + wrap diffuse; per-material visible-pixel counts and a skin local-std-dev flatness metric)",
+  "instrumentCaveat": "A REVIEW instrument, not acceptance. It does not sample the pore/mottle textures. Only a real-RHI frame closes a face (AGENTS.md rule 11, nullrhi-cannot-verify-materials).",
+  "headlineFinding": "The Kohen Gadol does NOT use the ResidentV4 face. create_kohen_gadol_v1.py:730 calls C.face_parts(), the Pilgrim V3 head: a 40x26 ellipsoid with features stuck on as separate primitives (loft nose, ellipsoid eyes/lids/lips, tube brows). The focal character is two generations behind the six residents. His whole KG_Skin slot is 8,180 triangles for head, neck, arms, hands and shins.",
+  "materialFinding": "M_KohenGadol_Garment_V1 is vertex colour x tint plus three scalars: no normal map, no subsurface, no mottle. The residents at least get MSM_SUBSURFACE and a pore normal.",
+  "previewerBefore": {
+    "KohenGadol": {
+      "1.0m": {
+        "skinLocalStdDev": 3.734,
+        "eyePixels": 162
+      },
+      "2.0m": {
+        "bodyPixels": 194386,
+        "skinPixels": 12070,
+        "eyePixels": 35,
+        "skinLocalStdDev": 6.217,
+        "eyeFractionOfBody": 0.00018
+      }
+    },
+    "residents2m": {
+      "Man_Standard": {
+        "bodyPixels": 182878,
+        "skinLocalStdDev": 7.15,
+        "eyePixels": 82
+      },
+      "Man_Heavy": {
+        "bodyPixels": 200953,
+        "skinLocalStdDev": 6.79,
+        "eyePixels": 84
+      },
+      "Man_Elder": {
+        "bodyPixels": 171694,
+        "skinLocalStdDev": 7.7,
+        "eyePixels": 84
+      },
+      "Woman_Young": {
+        "bodyPixels": 173929,
+        "skinLocalStdDev": 7.62,
+        "eyePixels": 95
+      },
+      "Woman_Elder": {
+        "bodyPixels": 189050,
+        "skinLocalStdDev": 6.35,
+        "eyePixels": 79
+      },
+      "Youth": {
+        "bodyPixels": 137080,
+        "skinLocalStdDev": 7.15,
+        "eyePixels": 87
+      }
+    }
+  },
+  "shippedFrameFlatness": {
+    "note": "Measured on the cp23/rv4a packaged frames, 0-255 grey, local 5x5 std dev.",
+    "rv4a-people-elder-face-2m-4x.png cheek": {
+      "meanLocalSD": 0.992,
+      "maxSD": 40.09,
+      "uniqueRGB": 529,
+      "pixels": 62100
+    },
+    "rv4a-people-elder-face-2m-4x.png eyeRegion": {
+      "meanLocalSD": 1.458,
+      "maxSD": 22.27,
+      "uniqueRGB": 354,
+      "pixels": 18200
+    },
+    "rv4a-people-man-turban-face-3m5-6x.png cheek": {
+      "meanLocalSD": 1.074,
+      "maxSD": 15.68,
+      "uniqueRGB": 280,
+      "pixels": 39200
+    }
+  },
+  "rootCausesInCode": {
+    "sawToothBeardEdge": "create_resident_v4_face.py shell(): a quad is emitted only if ALL four corners pass mask > thr (0.12), so the shell boundary is a binary, grid-aligned silhouette.",
+    "wedgeNose": "face_shape(): dy -= h * exp(-(ax/wz)**2.2). The 2.2 super-gaussian is flat-topped with steep sides, which is a wedge rather than a rounded dorsum and tip.",
+    "headclothShards": "create_resident_v4.py head_covering(): the HeadCloth panel is 14 rows x 27 cols and intersects the beard shell; its coarse lower edge is the scallop seen at 2 m.",
+    "poreNormalInvisible": "UV = cm/10 with PoreTiling 25 repeats the pore map every 0.4 cm; that detail cannot survive mip-mapping at 2 m."
+  },
+  "baseline": {
+    "kohenGadolGlbSha256": "683354d4e8263fb9e10fa587564b841bebbf43417a230e99ac9083ac12e0ee38",
+    "reproducible": "rebuilt byte-identical from the unchanged generator"
+  },
+  "files": [
+    {
+      "file": "before/KohenGadol-before-1.0m-yaw0.00.png",
+      "sha256": "6669f605d2ff9d3874e95267314ae488d49461709aa713bd28dfbc1ad01e32f8"
+    },
+    {
+      "file": "before/KohenGadol-before-2.0m-yaw0.00.png",
+      "sha256": "95913d2f4a2d04e69246e6ea6fdfe4d5d4db573c72c5da04bbcd98bcd634eed6"
+    },
+    {
+      "file": "before/Man_Elder-before-2.0m.png",
+      "sha256": "03fa868e97a9749d9ae0517eedca020a7447bb3f46cd2d48be3f4bf9ed7de2e3"
+    },
+    {
+      "file": "before/Man_Heavy-before-2.0m.png",
+      "sha256": "caa8ee8fcb0b363e8900d091e4f3b5c2e269676e508c498b15a22efaa8643482"
+    },
+    {
+      "file": "before/Man_Standard-before-2.0m.png",
+      "sha256": "eeac31775073ede6a332cee6768f91cd97c8ef5fad81a8e911614ed38fc9e335"
+    },
+    {
+      "file": "before/Woman_Elder-before-2.0m.png",
+      "sha256": "5d5a1eecc004b9b8a12c61e8721c1367c218ab024789a9ba7ae71676a078431f"
+    },
+    {
+      "file": "before/Woman_Young-before-2.0m.png",
+      "sha256": "8b8cb4da186966074f93f5e57482220c0a0e6dbd4d08c2e854b81e2b79fad3a0"
+    },
+    {
+      "file": "before/Youth-before-2.0m.png",
+      "sha256": "09e3612851322d95d80713757567a803e2410514396abbc1efcdc72c800c8817"
+    }
+  ],
+  "decisions": {
+    "route": "C - bake a built MetaHuman head down onto the single 'head' bone and merge into the KG mesh",
+    "groom": "enable the Groom plugin and rebuild BOTH the Editor and Game targets",
+    "gatedOn": "coordinator's word that the Epic sign-in is done and the engine slot is free"
+  },
+  "binaryBaselineBeforeGroomRebuild": {
+    "note": "Recorded BEFORE enabling the Groom plugin. After the two-target rebuild the game exe must still be NEWER than UnrealEditor-MikdashRuntime.dll, or every packaged capture crashes (editor-plugin-vs-game-exe-sync).",
+    "Binaries/Win64/MikdashCourtyardV3.exe": "2026-09-15T20:31:20",
+    "Binaries/Win64/MikdashCourtyardV3Editor.target": "2026-09-15T20:30:41",
+    "Plugins/MikdashRuntime/Binaries/Win64/UnrealEditor-MikdashRuntime.dll": "2026-09-15T20:30:40",
+    "invariantHoldsNow": true,
+    "sideEffect": "Other passes cook with -UseExistingBinaries. Once the Groom rebuild lands, the binaries they stage change under them. Expected, but must be stated in receipts so no one describes a build wrongly."
+  },
+  "rebuildCommands": {
+    "editor": "call \"C:/Program Files/Epic Games/UE_5.8/Engine/Build/BatchFiles/Build.bat\" MikdashCourtyardV3Editor Win64 Development -Project=\"C:/Mikdash/Working-5.8/MikdashCourtyardV3/MikdashCourtyardV3.uproject\" -WaitMutex -NoHotReload",
+    "game": "call \"C:/Program Files/Epic Games/UE_5.8/Engine/Build/BatchFiles/Build.bat\" MikdashCourtyardV3 Win64 Development -Project=\"C:/Mikdash/Working-5.8/MikdashCourtyardV3/MikdashCourtyardV3.uproject\" -WaitMutex -NoHotReload",
+    "then": "python Scripts/verify.py --build   (--build runs UnrealBuildTool; Scripts/verify.py:385)",
+    "note": "Forward slashes used deliberately: the Bash tool collapses doubled backslashes in heredocs (bash-heredoc-backslash-trap). Build.bat accepts them."
+  },
+  "ownerEditorObserved": {
+    "pid": 31400,
+    "commandLine": "UnrealEditor.exe MikdashCourtyardV3.uproject (no switches)",
+    "reading": "the owner's GUI session for the Epic sign-in; the engine slot is NOT free",
+    "freePhysicalGBAtObservation": 0.9
+  },
+  "routeC_progress": {
+    "step1_groomAndRebuild": {
+      "status": "DONE",
+      "plugin": "HairStrands added to the uproject (FriendlyName Groom)",
+      "editorBuild": "Succeeded 24.76 s",
+      "gameBuild": "Succeeded 35.55 s",
+      "invariant": "game exe 2026-09-16T00:10:42 NEWER than UnrealEditor-MikdashRuntime.dll 00:10:07 - holds",
+      "verify": "python Scripts/verify.py --build -> 11/11 checks passed, verify: green, plugin C++ compiles (editor and game)",
+      "sideEffect": "passes cooking with -UseExistingBinaries now stage these newer binaries"
+    },
+    "step2_casting": {
+      "status": "DONE",
+      "chosen": "Walter, unblended",
+      "sheet": "casting/casting-sheet.png",
+      "cloudCalls": 0,
+      "note": "preview assembly needs no Epic cloud call; all six harvested free"
+    },
+    "step3_cloud": {
+      "status": "NOT NEEDED FOR ROUTE C",
+      "finding": "The Epic gate (rigging + high-res textures) blocks BuildMetaHuman only. Route C harvests the preview Face mesh via AssembleForPreview + SpawnMetaHumanActor + GeometryScript, and textures it from the preset synthesized albedo already extracted offline. The sign-in is still valuable (the rig is on disk) but was not on the critical path for the head itself."
+    },
+    "step4_bakeDown": {
+      "status": "DONE, imported into the engine",
+      "headTriangles": 64094,
+      "headVertices": 33845,
+      "fit": "identity scale; the MetaHuman head arrives with its crown at z 178.24 against the V3 crown 178.25",
+      "rotation": "half-turn about Z - the MetaHuman head faces +Y, create_pilgrim_v3 faces -Y",
+      "weights": "every head vertex to the head bone via C.head_skin, exactly as the V3 head was",
+      "eyes": "MetaHuman face mesh ships with lids open and NO eyeballs; two are generated and seated against the measured lid surface",
+      "totalTriangles": 142418,
+      "finalComposition": {
+        "KG_MHHead": 64094,
+        "KG_Hair_beard": 25212,
+        "KG_Eyes": 1792,
+        "KG_Skin_armsLegs": 3328,
+        "garments": "the remainder",
+        "total": 167630,
+        "budget": 180000
+      },
+      "glbSha256": "0ed266b091d42085c106bef870dab39518c078d9ef284d6e657e4061d6903227"
+    },
+    "step6_fixes": {
+      "browNameDependency": "FIXED - head_probe now accepts MHHead and raises loudly if it matches nothing; mitznefet brow_top falls back when no Brow geometry exists",
+      "triangleBudget": "RAISED EXPLICITLY 90,000 -> 140,000 -> 160,000, both raises recorded with the arithmetic in create_kohen_gadol_v1.py"
+    },
+    "measuredBeforeAfter": {
+      "note": "Scripts/render_face_v5.py, same camera and light, Kohen Gadol full figure, front.",
+      "eyePixels_2m": {
+        "before_V3head": 35,
+        "after_MHhead": 157
+      },
+      "eyePixels_1m": {
+        "before_V3head": 162,
+        "after_MHhead": 681
+      },
+      "closeupEyePixels_0p3m": {
+        "after": 3948
+      },
+      "interpretation": "The V3 Kohen Gadol had no readable eye at all at 2 m. He now has iris, pupil, limbal ring and a catchlight."
+    },
+    "knownLimits": [
+      "the sclera meets the lower lid with some raggedness where the ball intersects the lid skin",
+      "the head is flat-shaded until the albedo bake lands (UV export in progress)",
+      "no beard yet: the grey full beard needs the Beard_L_Full CARD meshes baked in, which ship as geometry"
+    ],
+    "step4b_engineImport": {
+      "switch": "-KohenGadolReimport (replaces SK_KohenGadol_V1 IN PLACE, so both maps keep their configured_mesh)",
+      "status": "reimported_saved_slots_reassigned_readback",
+      "meshSha": {
+        "before": "5103c8d1b4e9",
+        "after": "b732bb6d0668"
+      },
+      "protectedChanged": [],
+      "newSlotInstance": "MI_KG_MHHead_V1 created on the existing master",
+      "twoFixesThisNeeded": [
+        "run_reimport KeyErrored on the new KG_MHHead slot; it now creates any missing slot instance from the manifest and records it in the marker",
+        "_verify_body demanded exact slot/marker dict equality, which FaceV5 breaks by DROPPING KG_Iris (the V3 iris parts are gone). It now checks every slot the MESH carries and ignores leftover marker entries",
+        "the marker is now written BEFORE _verify_body, which re-reads it from disk"
+      ],
+      "noMapEditNeeded": "the maps reference the mesh by path and configured_mesh already points at it, so no map was opened or saved"
+    }
+  },
+  "gateBaselineToBeat": {
+    "source": "SourceAssets/characters-review/KohenGadolV1/clearance-AFTER-kohen-gadol-v1.json",
+    "walk": {
+      "maxLegOutsideRobeCm": 0.0,
+      "maxKetonetOutsideMeilCm": 0.369
+    },
+    "tend": {
+      "maxLegOutsideRobeCm": 0.0,
+      "maxKetonetOutsideMeilCm": 0.0
+    },
+    "idle": {
+      "maxLegOutsideRobeCm": 0.0,
+      "maxKetonetOutsideMeilCm": 0.0
+    },
+    "expectation": "IDENTICAL. The head is weighted to head only; every garment is weighted by the lower-body/torso field. The re-run proves that rather than asserting it."
+  },
+  "sawToothGate": {
+    "defect": "ResidentV4 shell() emitted a quad only when ALL FOUR corners passed mask>0.12, so the beard ended in a hard grid-aligned silhouette - the single most mannequin-like thing in the cp23 frames.",
+    "fix": "build the shell on the head own topology, then compute the rim from the FACES THAT EXIST and give every rim vertex a NEGATIVE offset so it dives under the skin.",
+    "measured": {
+      "boundaryVertices": 1540,
+      "firstAttempt_oneRingDilation": {
+        "exposed": 706,
+        "why": "a triangle holding one keep vertex and one excluded vertex leaves that keep vertex, at full thickness, on the rim"
+      },
+      "afterRimComputedFromFaces": {
+        "exposedAlongOwnNormal": 57,
+        "worstOutwardOffsetCm": 0.056
+      }
+    },
+    "verdict": "Sub-millimetre. 0.056 cm against a beard up to 1.4 cm thick, and most of the 57 is nearest-neighbour matching noise on a 33.8 k-vertex mesh. This is a soft boundary, not a saw-tooth.",
+    "honestNote": "The first exposure metric (distance from head centre) was WRONG - it cannot judge inside/outside on concave regions like the underside of the jaw. The normal-based test replaced it."
+  },
+  "cookContents": {
+    "label": "people01",
+    "jobDir": "C:/Mikdash/Working-5.8/Checkpoint-people01-20260916T050523Z",
+    "importedAt": "01:03 local - SK_KohenGadol_V1 with the baked Walter head, eyes and beard",
+    "HONEST_CAVEAT": "The beard RIM refinement (706 -> 57 exposed rim vertices) was made AFTER the re-import at 01:03 and after this cook started at 01:05, so it is NOT in this build. The difference is sub-millimetre at the beard edge; everything else in the frames is what the generator produces today. A re-import plus re-cook would be needed to land it, which is not worth a slot the plateau pass is waiting for.",
+    "result": "BUILD SUCCESSFUL",
+    "archive": "C:/Mikdash/Builds/Checkpoint-people01-20260916T050523Z",
+    "buildCookRunSeconds": 408.88,
+    "automationToolTime": "0h 6m 50s",
+    "exitCode": 0,
+    "VOID": "people01 (Checkpoint-people01-20260916T050523Z) shipped the INSIDE-OUT head and its frames are void. Superseded by people02."
+  },
+  "residentRegressionAfterSharedEdit": {
+    "why": "FaceV5 edited create_pilgrim_v3.py (added VEC2 to GLB.accessor), which EVERY character imports.",
+    "check": "rebuilt two residents from the unchanged generator and compared to their stored manifest hashes",
+    "Man_Standard": "db256f23edc531de3468d223476b3f6c52bdb2b2194b64a54ecb11fb38fdce92 - byte-identical",
+    "Woman_Elder": "a65ad077b80e1bd7b3517b08c8fca8bcedc7fcf63c32c3b40bf7c1e7773bb151 - byte-identical",
+    "verdict": "the shared edit is provably behaviour-neutral"
+  },
+  "sixResidents": {
+    "status": "NOT DONE this pass",
+    "why": "the Kohen Gadol consumed the session end to end - casting, bake-down, eyes, beard, gates, cook.",
+    "whatIsReadyForThem": "the saw-tooth fix is now a PROVEN recipe (build the shell on the head own topology, compute the rim from the faces that exist, give every rim vertex a negative offset). Applying it to create_resident_v4_face.shell() would fix the same named defect on all six, but needs six GLB rebuilds, an import, two map applies and a cook."
+  },
+  "clearanceToolCost": {
+    "observed": "the KG clearance run went from minutes to well over half an hour after FaceV5.",
+    "cause": "measure_kohen_garment_clearance skins EVERY part of the body on every sampled frame. FaceV5 adds ~48 k vertices (34,625 head + 13,354 beard) that the gate never measures - it only tests Shin/Foot against the ketonet and the ketonet against the meil.",
+    "recommendation": "filter the head parts (MHHead, MHBeard, MHEye_*) out of the skinning set for this gate. They are weighted 100 percent to the head bone and cannot touch a garment, so excluding them changes nothing measured and removes most of the cost.",
+    "notDoneNow": "deliberately NOT changed while a gate run was in flight - that would have made the result unreproducible."
+  },
+  "engineFrames": {
+    "archive": "C:/Mikdash/Builds/Checkpoint-people01-20260916T050523Z",
+    "view_kg-face-2m": {
+      "go": "-5493 177 1105 0 36 0",
+      "framesDumped": "~1000 at -fps=10",
+      "whatItShows": "He IS in the shipped build and he walks in and takes his position - proven in frame. But this camera ends up BEHIND him: at the last frame he is stationary about 2 m away with his back to camera, mitznefet and ephod straps visible, the grey beard just catching the jaw line.",
+      "whyTheCameraIsWrong": "It was derived from the cp18 FRONT camera by stepping along the same view vector. That derivation was self-consistent (two cp18 cameras triangulate his position to the centimetre) but his TEND FACING is not what the cp18 note implies - he finishes facing away from it."
+    },
+    "view_kg-face-front2m": {
+      "go": "-5169 413 1105 0 216 0",
+      "derivation": "his measured standing position (-5331, 295) plus 2 m along his facing, turned back 180 degrees to look at him",
+      "status": "capture launched"
+    },
+    "timingLesson": "At -fps=10 the engine advances 0.1 game-second per RENDERED frame and PNG encoding throttles to about 1.1 real frames per second, so 240 real seconds buys only ~26 game-seconds - not enough for him to walk in. 900 s is what the cp18 receipts used and it is what this needs.",
+    "faceForwardFrame_NOT_OBTAINED": {
+      "what": "I did NOT land a front-facing 1 m / 2 m / 3.5 m engine frame of his face.",
+      "whyNot": "Three cameras were tried, all DERIVED from the two cp18 KG cameras (which triangulate his standing position to the centimetre). In this scenario he walks the length of the Heikhal, passes the camera and leaves frame; at no point in ~2,000 captured frames does he present his face to any of them. The cp18 note calls -5530 150 1090 -8 36 0 the FRONT view showing choshen and tzitz, but his facing in the current build does not match that description.",
+      "whatTheFramesDOprove": [
+        "he is in the shipped build and walks in and takes position unaided",
+        "the skull is SOLID - the inside-out defect is fixed in the packaged build",
+        "mitznefet, grey beard, me'il and ephod all render; the beard reads as cloth-adjacent hair at the jaw"
+      ],
+      "correctNextStep": "stop deriving cameras from a stale note. Log the Kohen Gadol actor TRANSFORM at runtime (position and yaw at the tend moment) and place the camera from that. Guessing cost roughly an hour of capture for no face frame.",
+      "camerasTried": {
+        "kg-face-2m": "-5493 177 1105 0 36 0 (people01) - ends behind him",
+        "kg-face-1m": "-5412 236 1105 0 36 0 (people01) - he is far off, mid-walk",
+        "kg-front-2m": "-5169 413 1105 0 216 0 (people02) - he walks past and exits frame"
+      }
+    }
+  },
+  "remainingGap_theNextStep": {
+    "what": "M_KohenGadol_Garment_V1 is pow(VertexColor, 2.2) * Tint plus Metallic/Roughness/Specular. No normal map. No subsurface. MSM_DEFAULT_LIT.",
+    "consequence": "The baked head now has correct SHAPE and real scanned COLOUR, but no micro-relief and no light bleeding through the skin. At 1-2 m that is the difference between a convincing sculpture of a person and a person.",
+    "thefix": "author a second master for the head slot only - MSM_SUBSURFACE, sampling the MetaHuman NORMAL map (index 1 of the three embedded 1024s, already extracted) and the cavity map (index 2) through the TEXCOORD_0 that is ALREADY in the shipped GLB, and reparent MI_KG_MHHead_V1 to it. The UVs were exported and verified for exactly this; nothing in the mesh has to change.",
+    "whyNotDoneThisPass": "the mesh, the gates, the cook and the frames were the agreed sequence; this is one contained material job on top of them."
+  },
+  "WINDING_DEFECT_FOUND_IN_FRAME": {
+    "what": "The GeometryScript export of the MetaHuman face comes out wound OPPOSITE to UE convention.",
+    "howItWasFound": "the packaged people01 frame at ~2 m, from behind: the skull read SEE-THROUGH - dark, with BOTH eyeballs visible through the back of the head. Nothing offline had shown it, because render_face_v5 does not back-face cull.",
+    "measured": "un-transformed mesh: the nose-tip vertex normal points +Y (INTO the face) and the crown points -Z. Both wrong.",
+    "secondEffect": "it also quietly DIMMED every offline render - the face was being lit by normals pointing away from the lights. The albedo gain I added earlier was partly compensating for this, not for the scan being dark.",
+    "fix": "create_kohen_gadol_head_v5.head_parts now tests orientation at the nose tip and crown and flips the triangle winding once, before anything downstream. The beard inherits the corrected triangles; the eyeballs were already correct (front-most normal y = -1.00).",
+    "consequence": "the people01 cook shipped an inside-out head and its frames are void. Rebuilt (GLB sha 173a0971...), re-imported and re-cooked as people02.",
+    "lesson": "An offline previewer that does not cull cannot find an inside-out mesh. Only the engine frame could.",
+    "verifiedInGLB": {
+      "glbSha256": "173a0971089f20e9685a4c80b5c55c0ea214e2b55f4bf910b91e3a916685a09c",
+      "noseNormalGltf": [
+        0.06,
+        0.02,
+        1.0
+      ],
+      "crownNormalGltf": [
+        0.05,
+        1.0,
+        0.0
+      ],
+      "note": "glTF axes are X, Z, -Y from author cm, so author front -Y becomes glTF +Z. Nose +Z and crown +Y is outward. Checked on the bytes, not on the generator."
+    },
+    "verifiedInEngine": "people02 packaged frame, ~1 m from behind: the skull is SOLID. The people01 frame at the same kind of angle showed a see-through skull with both eyeballs visible through it. Fixed in the shipped build, not just in the GLB."
+  },
+  "cook_people02": {
+    "jobDir": "C:/Mikdash/Working-5.8/Checkpoint-people02-20260916T053459Z",
+    "contains": "SK_KohenGadol_V1 rebuilt with corrected winding, GLB sha 173a0971..., mesh uasset sha d61a191a...",
+    "reimport": "reimported_saved_slots_reassigned_readback, protectedChanged []",
+    "result": "BUILD SUCCESSFUL, smoke status playable",
+    "archive": "C:/Mikdash/Builds/Checkpoint-people02-20260916T053459Z",
+    "childSha256": "c968b67b670e4f7d... (identical to people01 - no C++ changed)",
+    "archiveBytes": 4250436553,
+    "archiveBytesPeople01": 4250409929,
+    "proofOfDifference": "the exe is byte-identical because no C++ changed; the ARCHIVE differs by 26,624 bytes, which is the re-cooked Kohen Gadol mesh. That is the honest evidence that people02 is a different content build, not a relabelled one."
+  },
+  "coordinatorFrameReview_nextOrder": {
+    "verdictAccepted": "no longer a mannequin, not yet a person; the limiting factor has MOVED off the skin.",
+    "newProblem": "a photoreal head now sits on a toy body, and that mismatch reads worse than the old head did.",
+    "orderedPlan": [
+      "1. head-skin master: normal + cavity through the TEXCOORD_0 already in the GLB",
+      "2. garment materials as ONE pass: weave/cloth grain, mitznefet as wound cloth not moulded plastic, choshen stones as real gems",
+      "3. the six residents, using the proven saw-tooth recipe"
+    ]
+  },
+  "neckToneBug_DIAGNOSED": {
+    "symptom": "the neck reads pale grey against the warm face, so the head looks pasted on (coordinator point 4).",
+    "cause": "MEASURED: the baked head neck vertices sample v 0.84-0.95, the BOTTOM STRIP of the MetaHuman FACE albedo, while the face samples v 0.42-0.46. That bottom strip is pale, so the neck comes out 20-40 percent BRIGHTER than the face.",
+    "numbers": {
+      "midface z163-170": {
+        "meanLum": 0.316,
+        "meanV": 0.424
+      },
+      "jaw z156-163": {
+        "meanLum": 0.27,
+        "meanV": 0.455
+      },
+      "upperNeck z150-156": {
+        "meanLum": 0.387,
+        "meanV": 0.842
+      },
+      "lowerNeck z<150": {
+        "meanLum": 0.365,
+        "meanV": 0.954
+      }
+    },
+    "notAShadingProblem": "it is a UV-region problem. The face atlas simply does not carry neck skin; the MetaHuman BODY texture does, and that was never extracted.",
+    "fix": "cheapest correct fix: below the jaw, blend the baked colour toward the measured JAW tone, weighted by depth, so the neck inherits the face level. Belongs with the head-skin master pass."
+  },
+  "eyeStare_note": {
+    "symptom": "lower lids sit low enough to show sclera under the iris (coordinator point 5)",
+    "fix": "raise the lower lid line or drop the eyeball a few mm / increase the downward gaze; currently a 3 degree down-gaze at radius 1.15 cm recessed 0.38 cm."
+  },
+  "NEXT_PASS_CARRY_FORWARD": {
+    "order": [
+      "1. head-skin master: MSM_SUBSURFACE + MetaHuman NORMAL (atlas index 1) and CAVITY (index 2) through the TEXCOORD_0 already in the shipped GLB; reparent MI_KG_MHHead_V1 to it.",
+      "2. the NECK FIX RIDES WITH IT - traced to the face atlas carrying no neck skin (neck UVs land at v 0.84-0.95, a pale strip). Blend toward the measured jaw tone below the jaw line.",
+      "3. garment materials as ONE pass: weave and cloth grain on the eight garments, choshen stones as real gems.",
+      "4. the six residents, using the proven saw-tooth recipe."
+    ],
+    "doNotDoYet": {
+      "mitznefet": "it reads BETTER in a real engine frame than in render_face_v5 - in the people02 frames it reads as wound cloth, not the moulded plastic the offline preview suggested. Do NOT re-author it before looking at a real frame; that would have been wasted work."
+    },
+    "faceFrameMethod": "LOG THE ACTOR TRANSFORM. Place the camera from the Kohen Gadol's runtime position and yaw at the tend moment, not from prose in a stale note. Three cameras derived from the cp18 note all failed - he passes them and exits frame. Fold this into the next pass, which needs a cook anyway; no separate cook just for a camera.",
+    "eyeStare": "lower lids show sclera under the iris; raise the lower lid line or drop the ball slightly.",
+    "handsStillTanSticks": "C.arm_parts palm is one 16-segment tube, fingers 8-segment 3-point tubes."
+  },
+  "CLEARANCE_GATES_RESULT": {
+    "status": "PARTIAL - walk verified and passing; idle and tend NOT verified.",
+    "filterConfirmed": "gate skinning 84 of 88 parts (dropped MHHead, MHBeard, MHEye: weighted 100 percent to the head bone, cannot touch a garment).",
+    "walk": {
+      "maxLegOutsideRobeCm": 0.0,
+      "maxKetonetOutsideMeilCm": 0.37,
+      "baseline": {
+        "maxLegOutsideRobeCm": 0.0,
+        "maxKetonetOutsideMeilCm": 0.369
+      },
+      "verdict": "PASS - reproduces the stored baseline exactly."
+    },
+    "idle": {
+      "verdict": "NOT MEASURED - the process ended before reaching it."
+    },
+    "tend": {
+      "verdict": "NOT MEASURED - the process ended before reaching it."
+    },
+    "whyItStopped": "the run died after the walk clip and never wrote its receipt. The box was down to 0.8 GB free physical memory at that point, with the plateau pass holding the machine after I handed the slot over. Most likely memory pressure; it was NOT killed by me - my last Stop-Process on python predates this run, and the slot handover targeted only MikdashCourtyardV3 / UnrealEditor / UnrealEditor-Cmd.",
+    "whatThisDoesAndDoesNotShow": "The walk clip is the one that historically moved: it is where the stand-in measured 23.85 cm and where the only non-zero figure in the baseline lives (0.369). It passing unchanged is real evidence that the baked head did not disturb the garments. It is NOT the full gate, and I am not calling the gate passed on one clip of three.",
+    "nextPass": "re-run idle and tend when the machine is free; also land the tool fix so the gate stops skinning parts it never measures."
+  }
+}

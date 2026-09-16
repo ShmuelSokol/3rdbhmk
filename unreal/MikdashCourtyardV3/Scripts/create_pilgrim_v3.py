@@ -1722,7 +1722,9 @@ class GLB:
                     'animations': [], 'scenes': [], 'scene': 0}
 
     def accessor(self, rows, typ, component=5126, target=None, bounds_=False, normalized=False):
-        sizes = {'SCALAR': 1, 'VEC3': 3, 'VEC4': 4, 'MAT4': 16}
+        # VEC2 added for FaceV5: the Kohen Gadol's baked MetaHuman head is the first part in this
+        # exporter to carry TEXCOORD_0. Purely additive - no existing caller asks for VEC2.
+        sizes = {'SCALAR': 1, 'VEC2': 2, 'VEC3': 3, 'VEC4': 4, 'MAT4': 16}
         n = sizes[typ]
         flat = [x for row in rows for x in row] if n > 1 else rows
         while len(self.buffer) % 4:

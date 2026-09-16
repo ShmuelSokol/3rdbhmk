@@ -1,0 +1,96 @@
+{
+ "status": "verified",
+ "mode": "verify",
+ "target": null,
+ "startedUtc": "2026-09-16T01:01:01.719684+00:00",
+ "script": "Scripts/release_precinct_macro.py",
+ "mapsSaved": [],
+ "commandLine": " C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject -run=pythonscript -script=C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/release_precinct_macro.py -PMVerify=C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\PrecinctMacroV1\\precinct-macro-applyv5-V7g-20260916T005740078169Z.json -unattended -nullrhi -NoSplash -abslog=C:\\Mikdash\\Working-5.8\\walls07-verify2-20260916T010036Z.log",
+ "verifying": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\PrecinctMacroV1\\precinct-macro-applyv5-V7g-20260916T005740078169Z.json",
+ "instance": {
+  "path": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar",
+  "parent": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/M_PrecinctMacroV5_Triplanar",
+  "base": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/M_PrecinctMacroV5_Triplanar",
+  "textures": {
+   "Albedo": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Albedo",
+   "Normal": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_Normal",
+   "ARM": "/Game/MikdashV3/MaterialReview/HerodianAshlarV4/Textures/T_HerodianV5b_Ashlar_ARM",
+   "MacroTone": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_ToneV7g",
+   "MacroWeather": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_Weather",
+   "MacroRelief": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/Textures/T_PrecinctMacro_ReliefV7g"
+  },
+  "scalars": {
+   "TilingCm": 300.0,
+   "NormalStrength": 1.0,
+   "RoughnessScale": 1.0,
+   "Metallic": 0.0,
+   "AlbedoFlatness": 0.0,
+   "MacroTileUCm": 14400.0,
+   "MacroTileVCm": 7200.0,
+   "WeatherTileCm": 12800.0,
+   "MacroFadeStartCm": 500.0,
+   "MacroFadeLengthCm": 700.0,
+   "MacroNearStrength": 0.0,
+   "MacroFarStrength": 1.0,
+   "WeatherStrength": 1.0,
+   "CloseFadeStartCm": 600.0,
+   "CloseFadeLengthCm": 800.0,
+   "CloseFadeFarStrength": 1.0,
+   "CloseFadeOutStartCm": 100000.0,
+   "CloseFadeOutLengthCm": 100000.0,
+   "MacroNormalStrength": 1.0,
+   "MacroAOStrength": 1.0,
+   "FarRoughness": 0.763
+  },
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "closeAlbedoMean": [
+   0.5302,
+   0.47318,
+   0.40348
+  ],
+  "MATUSAGE_NANITE": {
+   "has": true,
+   "override": true
+  },
+  "MATUSAGE_INSTANCED_STATIC_MESHES": {
+   "has": true,
+   "override": true
+  }
+ },
+ "uassetSha256": "0d9bbba56518034c5ef80a65ecb74f5db9d4c5256ef88526b062ea8d0aa451f8",
+ "uassetMatchesApply": true,
+ "parentUnchanged": true,
+ "texturesEqual": true,
+ "scalarsMismatch": [],
+ "neverStream": {
+  "MacroTone": true,
+  "MacroWeather": true,
+  "MacroRelief": true
+ },
+ "master": {
+  "path": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/MacroV1/M_PrecinctMacroV5_Triplanar",
+  "numExpressions": 175,
+  "blend_mode": "<BlendMode.BLEND_OPAQUE: 0>",
+  "shading_model": "<MaterialShadingModel.MSM_DEFAULT_LIT: 1>",
+  "two_sided": "False",
+  "tangent_space_normal": "False",
+  "used_with_nanite": "True",
+  "used_with_instanced_static_meshes": "True"
+ },
+ "masterNodesMatch": true,
+ "usage": {
+  "MATUSAGE_NANITE": {
+   "has": true,
+   "override": true
+  },
+  "MATUSAGE_INSTANCED_STATIC_MESHES": {
+   "has": true,
+   "override": true
+  }
+ }
+}

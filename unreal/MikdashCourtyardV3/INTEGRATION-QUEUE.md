@@ -623,3 +623,26 @@ likely to have the same base-height bug the OldCityFoundationV2 census found in 
 (CityDetailV1). Also unowned, from the foundation pass's own walking-height verdict: massing is one
 isolated box per plot - no party walls, no arches over the lane, no depth at openings - and the city
 stone reads as one wallpaper: one tile, one tint, one course height citywide.
+
+## Plaza retaining walls: V8 pass (queued 16 Sep, after walls07)
+
+walls07 fixed what made the wall read as brick: the crossover ghost (V4 faded the close tile's albedo and
+normal but never its ARM, so the close tile's 1 m beds survived in AO under any macro layout) - ghostRatio
+0.548 -> 0.156 at 22 m, 1.371 -> 0.116 at 60 m. Course-height CV now 0.201 against the Western Wall's
+0.192, colour and blotch repeat match the photo, and the aerial 3 m wallpaper band power fell 0.135 ->
+0.006. Three things are still wrong, measured in frames against the photo:
+
+1. **The faces read dirty.** Pitting is right in AMOUNT (intra-stone 0.100 against the photo's 0.123, 0.134
+   against 0.132 at 22 m) but wrong in CHARACTER: dark speckle instead of pale erosion. The agent's own
+   word for it was "coral".
+2. **Drafted margins do not measure as visible at 22 m** - step/interior 0.91 against the photo's 1.68.
+   A crisper bevel BACKFIRES: at 1.758 cm/texel the boss edge is about one texel, so V7M predicted a worse
+   margin ratio (0.56). This needs a finer texel or a close-range detail normal, not a sharper bevel.
+   V7L and V7M were generated, measured and rejected without cooking.
+3. **Bed joints too deep at 22 m**: 0.306 against the photo's 0.202 (at 60 m they are close: 0.181 vs 0.152).
+
+Regression note for whoever takes this: in the 07 north-gate view, 52.6% of the difference energy against
+cp26 is vegetation and sky, not stone - cp26 predates the residents, Old City and trees passes. Stone-only
+difference is 0.0253, of which the mid/upper terraces (0.0453) are the macro's own, reading darker and
+speckled; the foreground parapet is 0.0123. The 02 jamb control is unchanged at 0.00267, below its
+0.00281 noise floor.

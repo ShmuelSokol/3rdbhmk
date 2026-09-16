@@ -1075,6 +1075,258 @@ static void PlazaFieldChecks(const FSquare& Square, double CmPerAmah, double Cou
     }
 }
 
+// ---------------------------------------------------------------------------
+// 9. FPrecinctRing - today's Temple Mount outline (decision of 15 September 2026)
+// ---------------------------------------------------------------------------
+//
+// The square is NOT retired by any of this and every assertion above still runs. What is
+// tested here is the ring that the built precinct now follows, and the three contracts that
+// genuinely change shape when a boundary stops being a square - see EnclosureMath.h section 9.
+//
+// The paving inset is the one worth reading carefully. For the square the test asserts four
+// literal side offsets to 1e-9, which is exact and meaningful because a square has sides. A
+// 66-edge trapezoid has no such literal, so the contract is the DISTANCE invariant the deck
+// actually depends on: no point of the paved boundary is nearer the wall than the wall is
+// thick. Asserting that is stronger than asserting four numbers, not weaker.
+static FPrecinctRing MakeRectRing(double X0, double Y0, double X1, double Y1)
+{
+    FPrecinctRing R;
+    R.VerticesUnrealCm.push_back({X0, Y0});
+    R.VerticesUnrealCm.push_back({X1, Y0});
+    R.VerticesUnrealCm.push_back({X1, Y1});
+    R.VerticesUnrealCm.push_back({X0, Y1});
+    return R;
+}
+
+/** The four measured corners of the Haram, from haram-outline.json. The ring itself is 66
+ * points and lives in that receipt, not in a header; these four are carried here so the
+ * standalone test is tied to the real decision and not only to synthetic shapes. */
+static FPrecinctRing MakeHaramCornerQuad()
+{
+    FPrecinctRing R;
+    R.VerticesUnrealCm.push_back({ 10347.5, -25326.6});   // north-east
+    R.VerticesUnrealCm.push_back({-21434.0, -22371.6});   // north-west
+    R.VerticesUnrealCm.push_back({-12679.5,  26107.4});   // south-west
+    R.VerticesUnrealCm.push_back({ 15073.5,  21511.9});   // south-east
+    return R;
+}
+
+static void RingChecks()
+{
+    // ---- a rectangle whose every quantity is known by hand ---------------------------
+    {
+        FPrecinctRing R = MakeRectRing(-1000.0, -500.0, 1000.0, 500.0);
+        assert(RingVertexCount(R) == 4);
+        assert(RingEdgeCount(R) == 4);
+        assert(RingIsValid(R));
+        assert(Near(RingAreaUnrealCm2(R), 2000.0 * 1000.0, 1e-6));
+        assert(Near(RingPerimeterUnrealCm(R), 2.0 * (2000.0 + 1000.0), 1e-9));
+        const FVec2 C = RingCentroidUnrealCm(R);
+        assert(Near(C.X, 0.0, 1e-9) && Near(C.Y, 0.0, 1e-9));
+        const FAabb2 B = RingBounds(R);
+        assert(Near(B.Min.X, -1000.0) && Near(B.Max.Y, 500.0));
+        // Area in square metres agrees with the centimetre figure.
+        assert(Near(RingAreaSquareMetres(R), 2000.0 * 1000.0 / 10000.0, 1e-9));
+
+        // Orientation is normalised, and normalising twice is a no-op.
+        MakeRingPositivelyOriented(R);
+        const double Signed = RingSignedAreaUnrealCm2(R);
+        assert(Signed > 0.0);
+        MakeRingPositivelyOriented(R);
+        assert(Near(RingSignedAreaUnrealCm2(R), Signed, 1e-9));
+
+        // Containment ON the edge and ON the corner, not merely near them - the same
+        // standard the square's test holds itself to.
+        assert(ClassifyPointRing(R, {0.0, 0.0}) == EContainment::Inside);
+        assert(ClassifyPointRing(R, {5000.0, 0.0}) == EContainment::Outside);
+        assert(ClassifyPointRing(R, {1000.0, 0.0}, 1e-6) == EContainment::Boundary);
+        assert(ClassifyPointRing(R, {-1000.0, -500.0}, 1e-6) == EContainment::Boundary);
+        assert(PointInsideRing(R, {1000.0, 0.0}, 1e-6));
+        assert(Near(DistancePointToRingUnrealCm(R, {0.0, 0.0}), 500.0, 1e-9));
+        assert(Near(DistancePointToRingUnrealCm(R, {1000.0, 0.0}), 0.0, 1e-9));
+
+        // Box classification, all three answers.
+        assert(ClassifyBoxRing(R, FAabb2{{-10.0, -10.0}, {10.0, 10.0}}) == EOverlap::Inside);
+        assert(ClassifyBoxRing(R, FAabb2{{900.0, -10.0}, {1100.0, 10.0}}) == EOverlap::Straddling);
+        assert(ClassifyBoxRing(R, FAabb2{{5000.0, 5000.0}, {6000.0, 6000.0}}) == EOverlap::Outside);
+        // The ring entirely inside the box is still a straddle, not "outside".
+        assert(ClassifyBoxRing(R, FAabb2{{-9000.0, -9000.0}, {9000.0, 9000.0}}) == EOverlap::Straddling);
+
+        // Inset: on a rectangle the answer IS exact, so assert it exactly as well as by
+        // the invariant. 100 cm in on every side.
+        FPrecinctRing In;
+        assert(InsetRing(R, 100.0, In));
+        assert(RingVertexCount(In) == 4);
+        const FAabb2 IB = RingBounds(In);
+        assert(Near(IB.Min.X, -900.0, 1e-9));
+        assert(Near(IB.Max.X, 900.0, 1e-9));
+        assert(Near(IB.Min.Y, -400.0, 1e-9));
+        assert(Near(IB.Max.Y, 400.0, 1e-9));
+        assert(RingInsetIsSound(R, In, 100.0));
+        // A zero inset is the identity.
+        FPrecinctRing Zero;
+        assert(InsetRing(R, 0.0, Zero));
+        assert(Near(RingAreaUnrealCm2(Zero), RingAreaUnrealCm2(R), 1e-9));
+
+        // Arc length round-trips: a point placed at arc s projects back to arc s.
+        const double Per = RingPerimeterUnrealCm(R);
+        for (int K = 0; K < 12; ++K)
+        {
+            const double S = Per * (static_cast<double>(K) / 12.0);
+            const FVec2 P = RingPointAtArcLength(R, S);
+            const FRingProjection Proj = ProjectPointOntoRing(R, P);
+            assert(Proj.DistanceUnrealCm < 1e-6);
+            assert(Near(Proj.ArcLengthUnrealCm, S, 1e-6));
+        }
+        // Arc length wraps rather than running off the end.
+        const FVec2 Wrapped = RingPointAtArcLength(R, Per * 2.5);
+        const FVec2 Direct = RingPointAtArcLength(R, Per * 0.5);
+        assert(Near(Wrapped.X, Direct.X, 1e-6) && Near(Wrapped.Y, Direct.Y, 1e-6));
+    }
+
+    // ---- degenerate input is refused, never silently built ----------------------------
+    {
+        FPrecinctRing Empty;
+        assert(!RingIsValid(Empty));
+        FPrecinctRing Line;
+        Line.VerticesUnrealCm.push_back({0.0, 0.0});
+        Line.VerticesUnrealCm.push_back({100.0, 0.0});
+        assert(!RingIsValid(Line));
+        FPrecinctRing Collapsed = MakeRectRing(0.0, 0.0, 100.0, 100.0);
+        FPrecinctRing Out;
+        MakeRingPositivelyOriented(Collapsed);
+        // An inset deeper than the half-width cannot produce a sound deck, and the
+        // soundness check must say so rather than returning a crossed polygon.
+        InsetRing(Collapsed, 400.0, Out);
+        assert(!RingInsetIsSound(Collapsed, Out, 400.0));
+    }
+
+    // ---- the real Haram corners ------------------------------------------------------
+    {
+        FPrecinctRing H = MakeHaramCornerQuad();
+        // As traced the corners wind negatively; the normaliser is what makes the inset
+        // deterministic, so prove it actually had work to do.
+        assert(RingSignedAreaUnrealCm2(H) < 0.0);
+        MakeRingPositivelyOriented(H);
+        assert(RingSignedAreaUnrealCm2(H) > 0.0);
+
+        // 14.44 hectares for the corner quadrilateral. The full 66-point ring in
+        // haram-outline.json is 14.2387 ha - the difference is the wall's own jogs, which
+        // take area OUT. Both bracket the published ~14.4 ha.
+        const double Hectares = RingAreaUnrealCm2(H) / 1e8;
+        Record("haram_corner_quad_hectares", Hectares);
+        assert(Hectares > 14.0 && Hectares < 15.0);
+        assert(Near(Hectares, 14.4413, 1e-3));
+
+        // The Temple's courts stand inside it, on both maps, with the measured clearances.
+        const double Halves[2] = {8100.0, 7776.0};
+        for (int Which = 0; Which < 2; ++Which)
+        {
+            const double Half = Halves[Which];
+            const FVec2 Corners[4] = {{-Half, -Half}, {Half, -Half}, {Half, Half}, {-Half, Half}};
+            for (int Index = 0; Index < 4; ++Index)
+            {
+                assert(PointInRing(H, Corners[Index]));
+            }
+        }
+        // The rock is inside, and a long way from any wall.
+        const FVec2 Rock{-6300.0, 0.0};
+        assert(PointInRing(H, Rock));
+        const double RockClear = DistancePointToRingUnrealCm(H, Rock);
+        Record("haram_rock_clearance_cm", RockClear);
+        assert(RockClear > 9000.0);
+
+        // The Kotel prayer plaza centroid is OUTSIDE - the check an eyeballed outline fails.
+        assert(!PointInRing(H, FVec2{-19185.0, 16956.0}));
+
+        // A 3000-amah square cannot fit inside today's walls on the Temple's own axes, at
+        // either amah. This is the structural fact that forced the ring, and it is asserted
+        // rather than asserted-in-prose.
+        for (int Which = 0; Which < 2; ++Which)
+        {
+            const double Cm = (Which == 0) ? ProjectCmPerAmah : Candidate48CmPerAmah;
+            const double Half = PrecinctSideAmot * Cm * 0.5;
+            bool bAllIn = true;
+            const FVec2 Probe[4] = {{-Half, -Half}, {Half, -Half}, {Half, Half}, {-Half, Half}};
+            for (int Index = 0; Index < 4; ++Index)
+            {
+                if (!PointInRing(H, Probe[Index])) bAllIn = false;
+            }
+            assert(!bAllIn);
+        }
+
+        // The deck inset by one wall thickness (6 amot) is sound on the real corners.
+        FPrecinctRing Deck;
+        const double Inset = AmotToUnrealCm(6.0, ProjectCmPerAmah);
+        assert(InsetRing(H, Inset, Deck));
+        assert(RingInsetIsSound(H, Deck, Inset));
+        assert(RingAreaUnrealCm2(Deck) < RingAreaUnrealCm2(H));
+        Record("haram_deck_inset_cm", Inset);
+        Record("haram_deck_hectares", RingAreaUnrealCm2(Deck) / 1e8);
+
+        // Wall modules: none straddles a corner, every one is on its edge, and together
+        // they account for the whole perimeter.
+        std::vector<FRingWallModule> Modules;
+        PlanRingWall(H, AmotToUnrealCm(25.0, ProjectCmPerAmah), Modules);
+        assert(!Modules.empty());
+        double Covered = 0.0;
+        for (std::size_t Index = 0; Index < Modules.size(); ++Index)
+        {
+            const FRingWallModule& M = Modules[Index];
+            assert(M.LengthUnrealCm > 0.0);
+            assert(M.EdgeIndex >= 0 && M.EdgeIndex < RingEdgeCount(H));
+            // The module centre sits ON the boundary, which is what "never straddles a
+            // corner" means in practice: it is on one edge, not across two.
+            assert(DistancePointToRingUnrealCm(H, M.CentreUnrealCm) < 1e-6);
+            Covered += M.LengthUnrealCm;
+        }
+        assert(Near(Covered, RingPerimeterUnrealCm(H), 1e-6));
+        RecordInt("haram_corner_quad_wall_modules", static_cast<long long>(Modules.size()));
+        Record("haram_corner_quad_perimeter_m", RingPerimeterUnrealCm(H) / 100.0);
+
+        // Selection against the ring keeps the determinism contract: order in does not
+        // change the set out.
+        std::vector<FBuildingRef> Candidates;
+        for (int Index = 0; Index < 40; ++Index)
+        {
+            FBuildingRef Ref;
+            Ref.Id = 1000 + Index;
+            const double X = -20000.0 + Index * 1000.0;
+            Ref.CentroidUnrealCm = {X, 0.0};
+            Ref.BoundsUnrealCm = FAabb2{{X - 200.0, -200.0}, {X + 200.0, 200.0}};
+            Candidates.push_back(Ref);
+        }
+        std::vector<long long> A, B;
+        const FSelectionCounts CA = SelectBuildingsInRing(Candidates, H,
+                                                          ESelectionRule::CentroidInside, 0.0, A);
+        std::vector<FBuildingRef> Shuffled(Candidates.rbegin(), Candidates.rend());
+        const FSelectionCounts CB = SelectBuildingsInRing(Shuffled, H,
+                                                          ESelectionRule::CentroidInside, 0.0, B);
+        assert(A == B);
+        assert(CA.Selected == CB.Selected);
+        assert(CA.Considered == CB.Considered);
+        assert(SelectionFingerprint(A) == SelectionFingerprint(B));
+        assert(!A.empty());
+        RecordInt("haram_ring_selection_count", static_cast<long long>(A.size()));
+
+        // An excluded candidate is never selected - the terrain-tile trap, on the ring.
+        std::vector<FBuildingRef> WithExcluded = Candidates;
+        for (std::size_t Index = 0; Index < WithExcluded.size(); ++Index)
+        {
+            WithExcluded[Index].bExcluded = true;
+        }
+        std::vector<long long> None;
+        const FSelectionCounts CE = SelectBuildingsInRing(WithExcluded, H,
+                                                          ESelectionRule::CentroidInside, 0.0, None);
+        assert(None.empty());
+        assert(CE.Excluded == static_cast<int>(WithExcluded.size()));
+    }
+
+    std::printf("ring: Haram corner quad %.4f ha, courts inside on both maps, 3000-amah square "
+                "proved NOT to fit, deck inset sound\n",
+                RingAreaUnrealCm2(MakeHaramCornerQuad()) / 1e8);
+}
+
 static void PlazaChecks()
 {
     PlazaFieldChecks(BookSquare(), ProjectCmPerAmah, CourtPlatformHalfExtentUnrealCm, "main50");
@@ -1432,6 +1684,7 @@ int main(int Argc, char** Argv)
     PlazaChecks();
     PlazaCollisionChecks();
     DissolveChecks();
+    RingChecks();
 
     if (Argc > 1)
     {
@@ -1446,6 +1699,9 @@ int main(int Argc, char** Argv)
                  "edge and corner containment, deterministic and order-independent building selection "
                  "with the terrain-tile trap asserted, boundary sampling, the instanced wall budget "
                  "at 50 and 48 cm, the terrain-following ground profile, the plaza layout with its "
-                 "anti-repetition invariants, the walkable deck proxy and gate bridges, and the three-state dissolve" << std::endl;
+                 "anti-repetition invariants, the walkable deck proxy and gate bridges, the three-state dissolve, "
+                 "and the precinct RING - orientation, containment on edge and corner, the deck inset "
+                 "distance invariant, per-edge wall modules that never straddle a corner, order-independent "
+                 "selection, and the proof that a 3000-amah square does not fit inside today's walls" << std::endl;
     return 0;
 }

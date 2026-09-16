@@ -1,0 +1,613 @@
+{
+ "status": "AUTHORED_OFFLINE_SOURCE_FROZEN_OUTLINE",
+ "version": 1,
+ "stamp": "20260916T035757142637Z",
+ "generator": "Scripts/create_haram_outline.py",
+ "generatorSha256": "eda5b9e50c1c6e84bb131f4a6f234e4d30f8cadc788921b5fbc64e832e32eb48",
+ "decision": {
+  "date": "2026-09-15",
+  "who": "Shmuel",
+  "verbatim": "id like the current modern day temple mount outline be the third temple plateau - meaning the huge area we cleared away lets revert it back",
+  "resolved": "EXACTLY today's Temple Mount outline. Every building outside it stays standing in the Third Temple view. The Temple stays where it is, centred on the rock.",
+  "optionChosen": "A - the true Haram trapezoid on the four mapped walls, chosen over a cheaper axis-aligned box, knowing the box was cheaper and kept a sourced number under it.",
+  "sourcingNotDeleted": "Yechezkel 42:15-20 with 40:5 (500 reeds of six amot = 3000 amot) REMAINS the sourced precinct and remains implemented as EMikdashPrecinctReading::Yechezkel3000, as does Middot500. This outline is a deliberate, recorded departure for the BUILT view, not a correction of the sources. See sources.md and HARAM-OUTLINE-20260915.md."
+ },
+ "source": {
+  "jerusalemJson": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\public\\context\\jerusalem.json",
+  "jerusalemJsonSha256": "76a2b76c0d97f45db7e532b3adbe8b58c02956fa0d3de73db71e31e097ea6463",
+  "provenance": {
+   "osmDate": "2026-05-06T03:25:00Z",
+   "osm": "https://www.openstreetmap.org/copyright",
+   "terrain": "https://registry.opendata.aws/terrain-tiles/",
+   "latitude": 31.77802,
+   "longitude": 35.2354,
+   "metresPerAmah": 0.5,
+   "referenceElevationMetres": 748.0,
+   "note": "Hypothetical temple alignment; OSM footprints, DEM ground; untagged building heights estimated."
+  },
+  "units": "feature points are AMOT at 0.5 m",
+  "alignment": "UE_cm = ((x + 17.509700315687695) * 50.0, (y + -0.5513496449385334) * 50.0); applied exactly once",
+  "frame": "+X east, +Y SOUTH, +Z up; a more negative Y is further north"
+ },
+ "derivation": {
+  "method": "chain of four OSM kind==\"wall\" ways, end to end, closure proved",
+  "ways": [
+   {
+    "osmId": 26554724,
+    "reversed": false,
+    "role": "north wall, then the west wall down to the Kotel"
+   },
+   {
+    "osmId": 137726908,
+    "reversed": true,
+    "role": "west wall, south part, down to the south-west corner"
+   },
+   {
+    "osmId": 1080613976,
+    "reversed": false,
+    "role": "south wall, eastern part"
+   },
+   {
+    "osmId": 391433907,
+    "reversed": false,
+    "role": "east wall, back to the north-east corner"
+   }
+  ],
+  "southernWallChordNotUsed": {
+   "osmId": 1080613975,
+   "name": "Southern Wall",
+   "why": "a 2-point chord across the south wall, not the traced wall; recorded because it is the feature that NAMES the wall, but a chord cannot bound."
+  },
+  "rejectedWitnesses": [
+   {
+    "witness": "exporter Haram terrain edit (jerusalem-meshes.json Terrain 0)",
+    "use": "corroboration only",
+    "why": "a 25 m-grid surface flattening of the esplanade, not the wall line; only 76-82%% of raised cells fall inside the ring and the band is offset east of it"
+   },
+   {
+    "witness": "surrounding street and building rings",
+    "use": "not used",
+    "why": "they bound the Old City quarters around the Haram, not the Haram"
+   }
+  ]
+ },
+ "geometry": {
+  "pointsCm": [
+   [
+    10347.49,
+    -25326.57
+   ],
+   [
+    9510.99,
+    -25240.07
+   ],
+   [
+    9253.49,
+    -25220.07
+   ],
+   [
+    9010.49,
+    -25192.07
+   ],
+   [
+    2111.49,
+    -24472.07
+   ],
+   [
+    -1246.01,
+    -24090.07
+   ],
+   [
+    -2872.51,
+    -23944.07
+   ],
+   [
+    -3116.51,
+    -23926.57
+   ],
+   [
+    -3316.51,
+    -23912.07
+   ],
+   [
+    -7312.51,
+    -23453.07
+   ],
+   [
+    -7774.51,
+    -23398.57
+   ],
+   [
+    -8070.01,
+    -23364.07
+   ],
+   [
+    -10917.51,
+    -23054.07
+   ],
+   [
+    -12196.51,
+    -22918.57
+   ],
+   [
+    -13513.01,
+    -22797.57
+   ],
+   [
+    -19815.51,
+    -22159.57
+   ],
+   [
+    -20717.51,
+    -22071.57
+   ],
+   [
+    -20751.51,
+    -22435.07
+   ],
+   [
+    -21434.01,
+    -22371.57
+   ],
+   [
+    -21398.01,
+    -21992.57
+   ],
+   [
+    -21364.51,
+    -21637.07
+   ],
+   [
+    -21175.51,
+    -21455.07
+   ],
+   [
+    -20849.01,
+    -19625.57
+   ],
+   [
+    -20130.01,
+    -16241.57
+   ],
+   [
+    -19432.51,
+    -12590.07
+   ],
+   [
+    -19298.01,
+    -12003.07
+   ],
+   [
+    -18392.51,
+    -7049.07
+   ],
+   [
+    -18328.01,
+    -6699.07
+   ],
+   [
+    -18242.01,
+    -6233.07
+   ],
+   [
+    -18096.01,
+    -5437.57
+   ],
+   [
+    -17875.51,
+    -4251.57
+   ],
+   [
+    -17820.01,
+    -3986.07
+   ],
+   [
+    -17173.51,
+    -428.57
+   ],
+   [
+    -17029.51,
+    365.93
+   ],
+   [
+    -16889.51,
+    1136.93
+   ],
+   [
+    -16700.51,
+    2175.93
+   ],
+   [
+    -15898.51,
+    7403.93
+   ],
+   [
+    -15763.51,
+    8287.43
+   ],
+   [
+    -15678.01,
+    8845.43
+   ],
+   [
+    -15665.01,
+    9170.93
+   ],
+   [
+    -15127.51,
+    11907.93
+   ],
+   [
+    -14450.01,
+    15836.43
+   ],
+   [
+    -14107.51,
+    17750.43
+   ],
+   [
+    -14026.01,
+    18194.93
+   ],
+   [
+    -13928.51,
+    18756.93
+   ],
+   [
+    -13107.01,
+    23308.93
+   ],
+   [
+    -12679.51,
+    26107.43
+   ],
+   [
+    -9153.51,
+    25507.43
+   ],
+   [
+    -1568.51,
+    24162.43
+   ],
+   [
+    2622.49,
+    23409.93
+   ],
+   [
+    5364.99,
+    22932.43
+   ],
+   [
+    14866.99,
+    21541.93
+   ],
+   [
+    15073.49,
+    21511.93
+   ],
+   [
+    12638.49,
+    -1811.07
+   ],
+   [
+    12575.99,
+    -2329.07
+   ],
+   [
+    11789.99,
+    -9716.07
+   ],
+   [
+    12036.99,
+    -9740.57
+   ],
+   [
+    11874.99,
+    -11398.57
+   ],
+   [
+    11626.99,
+    -11374.07
+   ],
+   [
+    11609.99,
+    -11498.57
+   ],
+   [
+    11272.99,
+    -14733.57
+   ],
+   [
+    11140.49,
+    -16040.57
+   ],
+   [
+    10402.49,
+    -22813.07
+   ],
+   [
+    10648.49,
+    -22837.57
+   ],
+   [
+    10619.99,
+    -23070.57
+   ],
+   [
+    10347.49,
+    -25326.57
+   ]
+  ],
+  "pointCount": 66,
+  "closureGapCm": 0.0,
+  "joins": [
+   {
+    "wayId": 137726908,
+    "joinGapCm": 0.0
+   },
+   {
+    "wayId": 1080613976,
+    "joinGapCm": 0.0
+   },
+   {
+    "wayId": 391433907,
+    "joinGapCm": 0.0
+   }
+  ],
+  "areaCm2": 1423869216.3,
+  "areaM2": 142386.9,
+  "areaHectares": 14.2387,
+  "publishedAreaHectares": 14.4,
+  "areaErrorPercent": -1.1,
+  "centroidCm": [
+   -2272.6,
+   -422.6
+  ],
+  "extentsCm": {
+   "xWest": -21434.0,
+   "xEast": 15073.5,
+   "yNorth": -25326.6,
+   "ySouth": 26107.4
+  },
+  "cornersCm": {
+   "northEast": [
+    10347.5,
+    -25326.6
+   ],
+   "northWest": [
+    -21434.0,
+    -22371.6
+   ],
+   "southWest": [
+    -12679.5,
+    26107.4
+   ],
+   "southEast": [
+    15073.5,
+    21511.9
+   ]
+  },
+  "walls": {
+   "north": {
+    "fromCorner": "northEast",
+    "toCorner": "northWest",
+    "lengthM": 319.2,
+    "publishedM": 310.0,
+    "errorM": 9.2,
+    "errorPercent": 3.0
+   },
+   "west": {
+    "fromCorner": "northWest",
+    "toCorner": "southWest",
+    "lengthM": 492.6,
+    "publishedM": 491.0,
+    "errorM": 1.6,
+    "errorPercent": 0.3
+   },
+   "south": {
+    "fromCorner": "southWest",
+    "toCorner": "southEast",
+    "lengthM": 281.3,
+    "publishedM": 280.0,
+    "errorM": 1.3,
+    "errorPercent": 0.5
+   },
+   "east": {
+    "fromCorner": "southEast",
+    "toCorner": "northEast",
+    "lengthM": 470.8,
+    "publishedM": 466.0,
+    "errorM": 4.8,
+    "errorPercent": 1.0
+   }
+  },
+  "alignmentProof": {
+   "osmWay": 817206833,
+   "vertex": 0,
+   "ueCm": [
+    -15127.5,
+    11907.9
+   ],
+   "kotelStoneV2E0CornerCm": [
+    -15138.7,
+    11908.1
+   ],
+   "errorCm": [
+    11.2,
+    -0.2
+   ],
+   "leverM": 150.0,
+   "note": "11 cm over a 150 m lever proves the baked alignment is applied exactly once."
+  },
+  "containment": [
+   {
+    "osmId": 4709536,
+    "label": "Dome of the Rock",
+    "centroidCm": [
+     -6300.0,
+     0.0
+    ],
+    "inside": true,
+    "expectedInside": true,
+    "agrees": true
+   },
+   {
+    "osmId": 45099263,
+    "label": "Dome of the Chain",
+    "centroidCm": [
+     -2141.8,
+     -684.7
+    ],
+    "inside": true,
+    "expectedInside": true,
+    "agrees": true
+   },
+   {
+    "osmId": 280309331,
+    "label": "Al-Aqsa Mosque",
+    "centroidCm": [
+     -3571.1,
+     21027.1
+    ],
+    "inside": true,
+    "expectedInside": true,
+    "agrees": true
+   },
+   {
+    "osmId": 291836681,
+    "label": "Dome of the Tablets (Kaufman's candidate)",
+    "centroidCm": [
+     -10639.0,
+     -8265.9
+    ],
+    "inside": true,
+    "expectedInside": true,
+    "agrees": true
+   },
+   {
+    "osmId": 817206833,
+    "label": "Western Wall (the Kotel stones)",
+    "centroidCm": [
+     -14476.6,
+     13107.5
+    ],
+    "inside": true,
+    "expectedInside": true,
+    "agrees": true
+   },
+   {
+    "osmId": 26492734,
+    "label": "Western Wall Plaza (the modern prayer plaza)",
+    "centroidCm": [
+     -19184.9,
+     16956.1
+    ],
+    "inside": false,
+    "expectedInside": false,
+    "agrees": true
+   },
+   {
+    "osmId": 290726629,
+    "label": "Yeshivat HaKotel",
+    "centroidCm": [
+     -24824.7,
+     32343.9
+    ],
+    "inside": false,
+    "expectedInside": false,
+    "agrees": true
+   }
+  ],
+  "temple": {
+   "rockCm": [
+    -6300.0,
+    0.0
+   ],
+   "rockSource": "area centroid of OSM way 4709536, the Dome of the Rock octagon (9 pts, 8 unique)",
+   "uncertaintyRadiusCm": 424.0,
+   "uncertaintyBasis": "root-sum-square: OSM outline 200 cm, dome centre vs octagon centroid 50 cm, rock centre vs dome centre 370 cm (a 13 m rock axis inside a 20.4 m drum)",
+   "anchors": [
+    {
+     "name": "Kodesh HaKodashim / Aron centre, Main50",
+     "pointCm": [
+      -6200.0,
+      0.0
+     ],
+     "offsetCm": [
+      -100.0,
+      0.0
+     ],
+     "offsetM": 1.0,
+     "verdict": "within the 4.24 m uncertainty: ALREADY ON THE ROCK"
+    },
+    {
+     "name": "Kodesh HaKodashim / Aron centre, Candidate48",
+     "pointCm": [
+      -5952.0,
+      0.0
+     ],
+     "offsetCm": [
+      -348.0,
+      0.0
+     ],
+     "offsetM": 3.48,
+     "verdict": "within the 4.24 m uncertainty, but 2.48 m of it is the systematic .96 pivot drift ARON-ON-EVEN-HASHETIYAH-20260908.md recommends removing"
+    },
+    {
+     "name": "court supporting platform centre (world origin)",
+     "pointCm": [
+      0.0,
+      0.0
+     ],
+     "offsetCm": [
+      -6300.0,
+      0.0
+     ],
+     "offsetM": 63.0,
+     "verdict": "63 m east of the rock - the COURT is not centred on it, and was never meant to be; the HOLY OF HOLIES is"
+    }
+   ]
+  }
+ },
+ "limitations": [
+  "The ring is the OSM TRACE of the retaining walls, which is a wall outline of unstated thickness, not a surveyed inner or outer face. Treat it as +-2 m.",
+  "Published wall lengths and the 14.4 ha area are SECONDARY (the standard literature); they validate the derivation and are never built from.",
+  "This file fixes the outline in PLAN only. The deck datum, the retaining section and the gates are not decided here.",
+  "Nothing is mutated by this script. No map, no asset, no engine."
+ ],
+ "hideSet": {
+  "rule": "component / building area centroid inside the ring",
+  "buildingsGridActorsTotal": 1499,
+  "buildingsGridActorsHidden": 21,
+  "buildingsGridLabels": [
+   "SM_JerusalemBuildings_Grid_N001_N002",
+   "SM_JerusalemBuildings_Grid_N001_N003",
+   "SM_JerusalemBuildings_Grid_N001_P000",
+   "SM_JerusalemBuildings_Grid_N001_P001",
+   "SM_JerusalemBuildings_Grid_N002_N001",
+   "SM_JerusalemBuildings_Grid_N002_N002",
+   "SM_JerusalemBuildings_Grid_N002_N003",
+   "SM_JerusalemBuildings_Grid_N002_P000",
+   "SM_JerusalemBuildings_Grid_N002_P001",
+   "SM_JerusalemBuildings_Grid_N002_P002",
+   "SM_JerusalemBuildings_Grid_N003_N002",
+   "SM_JerusalemBuildings_Grid_N003_N003",
+   "SM_JerusalemBuildings_Grid_P000_N002",
+   "SM_JerusalemBuildings_Grid_P000_N003",
+   "SM_JerusalemBuildings_Grid_P000_P001",
+   "SM_JerusalemBuildings_Grid_P000_P002",
+   "SM_JerusalemBuildings_Grid_P001_N001",
+   "SM_JerusalemBuildings_Grid_P001_N002",
+   "SM_JerusalemBuildings_Grid_P001_N003",
+   "SM_JerusalemBuildings_Large_07279",
+   "SM_JerusalemBuildings_Large_07718"
+  ],
+  "componentsInsideRing": 59,
+  "componentsOutsideRingInAHiddenCell": 150,
+  "collateralVerdict": "UNUSABLE AS BATCHED: 21 cells would hide 59 wanted components and take 150 unwanted ones with them. At 14 ha that reads as holes punched in the Old City. The cut cells MUST be split at the wall line before this hide set is placed.",
+  "facadeBatchActorsTotal": 104,
+  "facadeBatchActorsHidden": 18,
+  "infillBatchActorsHidden": 10,
+  "totalActorsHidden": 49
+ }
+}

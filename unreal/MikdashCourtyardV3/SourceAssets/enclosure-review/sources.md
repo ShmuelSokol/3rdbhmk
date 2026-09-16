@@ -30,6 +30,35 @@ PLAZA across its whole footprint, not hidden buildings and not restored ones —
 `Scripts/release_precinct_plaza.py`, and every choice in it is recorded in
 `PLAZA-DESIGN-20260909.md`. The extent stays sourced; the plaza is authored.
 
+**Decision, 15 September 2026 (Shmuel) — THE BOUNDARY DEPARTS FROM THE SOURCE.** The built
+precinct is no longer the 3,000-amah square. It is the outline of **today's Temple Mount
+(Haram esh-Sharif) esplanade**, so the Temple stands inside the existing city and every
+building outside those walls stays standing in the Third Temple view. In his words: *"id like
+the current modern day temple mount outline be the third temple plateau — meaning the huge
+area we cleared away lets revert it back."* Shown a cheaper axis-aligned box that would have
+kept a sourced number under it, he chose the true Haram trapezoid anyway.
+
+**This is a deliberate departure from section 1.1, and section 1.1 stands.** Nothing below is
+withdrawn, softened or deleted. What changed is what the project BUILDS, not what the sources
+say. Specifically:
+
+* the 3,000-amah reading remains the **sourced** position and remains quoted in full in 1.1;
+* **`EMikdashPrecinctReading::Yechezkel3000` remains implemented and drawable**, as does
+  `Middot500`, so the sourced precinct can still be shown — and OVERLAY can draw it against
+  the built one, which is now a more interesting comparison than it was;
+* `FPrecinctRing` is added **alongside** `FSquare` in `EnclosureMath.h`, never in place of it;
+* today's Haram is about **1/14.6** of the 3,000-amah square's area at the book's own 48 cm
+  amah. The size of the departure is stated rather than glossed.
+
+The outline is frozen in `haram-outline.json` (66 points, closure gap 0.000 cm, 14.24 ha,
+derived from four mapped OSM retaining walls and validated against five independent published
+quantities). The decision, the derivation, the cost in sourcing and the vertical conflict it
+exposed are recorded in **`HARAM-OUTLINE-20260915.md`**.
+
+One thing is **gained**: the Haram's real gates are mapped features, so moving the precinct
+gates onto them upgrades them from **authored** to **sourced** — the opposite of what the
+boundary change does, and a partial offset.
+
 ---
 
 ## 1. The size of the precinct
@@ -49,8 +78,15 @@ and again on 42:16, with its own metric conversion:
 
 > החומה המזרחית מבחוץ ארכה חמש מאות קנים, שהם שלושת אלפים אמה, **שהם קילומטר וארבע מאות וארבעים מטר בערך**
 
-So the book holds the 3000-amah reading, and this project follows it. **This is the position
-the model is built on.**
+So the book holds the 3000-amah reading, and this project follows it. **This is the sourced
+position, and it is the position the model was built on until 15 September 2026.**
+
+> **Amended 15 September 2026 — read with the decision at the top of this file.** The 3,000
+> amot remain the **sourced** extent and this section is unchanged. But the precinct the
+> project now BUILDS is today's Temple Mount outline, by the owner's decision, and that is a
+> deliberate departure from this reading rather than a revision of it. The 3,000-amah ring
+> stays implemented as `EMikdashPrecinctReading::Yechezkel3000` and can still be drawn.
+> `HARAM-OUTLINE-20260915.md` records the decision and what it costs.
 
 ### 1.2 Middot 2:1 — five hundred **amot** — **certain as a text, disputed as a reconciliation**
 

@@ -1203,6 +1203,190 @@ def hide_set(sq, policy='hide_if_any_inside', buildings=None):
     return result
 
 
+# =====================================================================================
+# 9b. The Haram ring - today's Temple Mount outline (decision of 15 September 2026)
+# =====================================================================================
+# The square above is NOT retired by any of this. It is still computed, still exported, still
+# receipted and still asserted by the standalone test, because Yechezkel 42:15-20 is still the
+# SOURCED extent and EMikdashPrecinctReading::Yechezkel3000 still draws it. What follows is
+# the boundary the project now BUILDS, alongside it.
+#
+# ONE RING, BOTH MAPS. The square scales with the amah (1440 m at 48, 1500 m at 50) because it
+# is measured in amot. The Haram outline is measured in METRES off the real city, and the city
+# and terrain are metric and unmoved in both maps - so the ring, its hide set and its cut-cell
+# split are IDENTICAL on Main50 and Candidate48. That is not a simplification; it is what makes
+# the 221 restored buildings the same 221 on both.
+HARAM_OUTLINE = OUT / 'haram-outline.json'
+CELL_SPLIT_MANIFEST = OUT / 'CellSplitV1' / 'cell-split-manifest.json'
+
+_RING_HIDE_CACHE = {}
+
+
+def load_haram_ring():
+    """The frozen outline written by Scripts/create_haram_outline.py, or None if absent."""
+    if not HARAM_OUTLINE.exists():
+        return None
+    data = json.loads(HARAM_OUTLINE.read_text(encoding='utf-8'))
+    g = data['geometry']
+    return dict(points=[(p[0], p[1]) for p in g['pointsCm']],
+                sha256=hashlib.sha256(HARAM_OUTLINE.read_bytes()).hexdigest(),
+                pointCount=g['pointCount'], closureGapCm=g['closureGapCm'],
+                areaHectares=g['areaHectares'], areaM2=g['areaM2'],
+                extentsCm=g['extentsCm'], cornersCm=g['cornersCm'], walls=g['walls'],
+                source=str(HARAM_OUTLINE),
+                decision=data['decision'])
+
+
+def ring_inside(points, x, y):
+    """Even-odd crossing, matching PointInRing in EnclosureMath.h section 9."""
+    n = len(points)
+    inside = False
+    j = n - 1
+    for i in range(n):
+        xi, yi = points[i]
+        xj, yj = points[j]
+        if ((yi > y) != (yj > y)) and (x < (xj - xi) * (y - yi) / ((yj - yi) or 1e-12) + xi):
+            inside = not inside
+        j = i
+    return inside
+
+
+def ring_hide_set(ring, buildings=None):
+    """The exact set of ACTORS the YECHEZKEL state hides under today's Haram outline.
+
+    Same contract as hide_set() above - exact per actor, deterministic, fingerprinted, and
+    NOTHING IS EVER DELETED - but with one difference that matters at this scale.
+
+    On the 3000-amah square a cut 100 m cell was hidden whole and its outside buildings were
+    accepted as collateral: 573 of them, in a bare strip outside a 1.44 km wall where nobody
+    was looking. On a 14 ha ring that is not acceptable - 11 cut cells would destroy 150
+    buildings to hide 40, in the densest part of the Old City, right where the viewer stands.
+    So the cut cells are SPLIT at the wall line by Scripts/create_precinct_cell_split.py and
+    this function reports the split labels rather than the whole-cell ones. If that manifest
+    is absent the function still returns an answer, but marks `splitAvailable` false and
+    reports the collateral it would cost, so the caller can refuse.
+    """
+    key = ring['sha256']
+    if key in _RING_HIDE_CACHE:
+        return _RING_HIDE_CACHE[key]
+
+    pts = ring['points']
+    result = dict(
+        policy='ring_centroid_inside',
+        rule='component / building area centroid inside the frozen Haram ring',
+        boundary=dict(source=ring['source'], sha256=ring['sha256'],
+                      points=ring['pointCount'], areaHectares=ring['areaHectares']),
+        appliesToBothMaps=('the ring is metric and the city and terrain are unmoved in both '
+                           'maps, so this hide set is identical on Main50 and Candidate48'),
+        sets=[], labels=[], counts={}, cutCells=[], collateral={})
+
+    # -- the imported OSM extrusions, from the same frozen partition the square uses -------
+    cells = {}
+    if BUILDINGS_FROZEN_MANIFEST.exists():
+        frozen = json.loads(BUILDINGS_FROZEN_MANIFEST.read_text(encoding='utf-8-sig'))
+        if frozen.get('fbxSha256') != BUILDINGS_FROZEN_FBX_SHA256:
+            raise RuntimeError('buildings-manifest.json is not the reviewed FBX revision')
+        mesh_groups = {m['group'] for m in frozen['meshes']}
+        for component in frozen['components']:
+            group = component['assignedGroup']
+            if group not in mesh_groups:
+                continue
+            b = component['sourceBoundsAmos']
+            x0, y0 = source_to_ue(b['min'][0], b['min'][2])
+            x1, y1 = source_to_ue(b['max'][0], b['max'][2])
+            cell = cells.setdefault(group, dict(inside=[], outside=[]))
+            if ring_inside(pts, (x0 + x1) / 2.0, (y0 + y1) / 2.0):
+                cell['inside'].append(component['componentId'])
+            else:
+                cell['outside'].append(component['componentId'])
+        touched = {g: c for g, c in cells.items() if c['inside']}
+        cut = {g: c for g, c in touched.items() if c['outside']}
+        whole = {g: c for g, c in touched.items() if not c['outside']}
+
+        split = None
+        if CELL_SPLIT_MANIFEST.exists():
+            split = json.loads(CELL_SPLIT_MANIFEST.read_text(encoding='utf-8'))
+            if split.get('boundary', {}).get('sha256') != ring['sha256']:
+                raise RuntimeError('cell-split-manifest.json was built against a different '
+                                   'haram-outline.json; re-run create_precinct_cell_split.py')
+
+        # The hide list names the ORIGINAL cell actors, cut and whole alike. The split does not
+        # change WHAT is hidden - it changes what is left STANDING once the original is hidden:
+        # without it, hiding a cut cell takes its outside buildings with it.
+        result['labels'] += ['SM_JerusalemBuildings_' + g for g in sorted(touched)]
+        result['splitOutActors'] = (
+            sorted('RELEASE_PrecinctCellSplit_%s_Out' % g for g in cut) if split else [])
+        result['splitOutActorTag'] = 'PrecinctSplitOut'
+        for g in sorted(cut):
+            result['cutCells'].append(dict(label='SM_JerusalemBuildings_' + g,
+                                           componentsInside=len(cut[g]['inside']),
+                                           componentsOutside=len(cut[g]['outside']),
+                                           decision='split' if split else 'hide whole (COLLATERAL)'))
+        result['sets'].append(dict(
+            set='JerusalemContext/Buildings (imported OSM extrusions)',
+            actorLabelPrefix='SM_JerusalemBuildings_',
+            membership='buildings-manifest.json components -> assignedGroup (fbx %s)'
+                       % BUILDINGS_FROZEN_FBX_SHA256[:12],
+            cellActorsTotal=len(mesh_groups),
+            cellActorsTouched=len(touched),
+            cellActorsWhollyInside=len(whole),
+            cellActorsCutByTheWallLine=len(cut),
+            componentsInsideRing=sum(len(c['inside']) for c in touched.values()),
+            componentsOutsideInACutCell=sum(len(c['outside']) for c in cut.values()),
+            splitAvailable=bool(split),
+            splitManifest=str(CELL_SPLIT_MANIFEST) if split else None))
+        result['collateral']['osmComponentsOutsideTheRingButHidden'] = (
+            0 if split else sum(len(c['outside']) for c in cut.values()))
+
+    # -- the authored facade and infill batches -------------------------------------------
+    if FACADES_MANIFEST.exists() and buildings is not None:
+        data = json.loads(FACADES_MANIFEST.read_text(encoding='utf-8-sig'))
+        facade_labels, infill_labels = [], []
+        for batch in data.get('batches', []):
+            ids = [pb['osmId'] for pb in ((batch.get('facades') or {}).get('perBuilding') or [])
+                   if 'osmId' in pb]
+            hit = False
+            for osm_id in ids:
+                entry = buildings.get(osm_id)
+                if entry and ring_inside(pts, entry['centroid'][0], entry['centroid'][1]):
+                    hit = True
+                    break
+            if not hit:
+                continue
+            # `name` is the grid token (Grid_N010_N002). NOT `cell` (a coordinate pair) and
+            # NOT `group` (an integer index) - both of those produce labels that look
+            # plausible and resolve against nothing.
+            cell = batch['name']
+            facade_labels.append('RELEASE_OldCityFacades_%s' % cell)
+            if batch.get('infill'):
+                infill_labels.append('RELEASE_OldCityInfill_%s' % cell)
+        result['labels'] += sorted(facade_labels) + sorted(infill_labels)
+        result['sets'].append(dict(set='OldCityFacadesV1/facades',
+                                   actorLabelPrefix='RELEASE_OldCityFacades_',
+                                   cellActorsTotal=len(data.get('batches', [])),
+                                   cellActorsHidden=len(facade_labels)))
+        result['sets'].append(dict(set='OldCityFacadesV1/infill',
+                                   actorLabelPrefix='RELEASE_OldCityInfill_',
+                                   cellActorsHidden=len(infill_labels)))
+
+    result['labels'] = sorted(set(result['labels']))
+    counts = {}
+    for label in result['labels']:
+        for prefix in ('SM_JerusalemBuildings_', 'RELEASE_OldCityFacades_', 'RELEASE_OldCityInfill_'):
+            if label.startswith(prefix):
+                counts[prefix] = counts.get(prefix, 0) + 1
+    counts['totalActorsHidden'] = len(result['labels'])
+    result['counts'] = counts
+    fingerprint = 1469598103934665603
+    for label in result['labels']:
+        for byte in label.encode('utf-8'):
+            fingerprint ^= byte
+            fingerprint = (fingerprint * 1099511628211) & 0xFFFFFFFFFFFFFFFF
+    result['labelFingerprintFnv1a'] = '%016x' % fingerprint
+    _RING_HIDE_CACHE[key] = result
+    return result
+
+
 def modern_city_coverage(sq, buildings=None):
     """The exact per-building coverage plus the per-actor hide set under the three policies."""
     buildings = buildings if buildings is not None else osm_buildings()
@@ -1294,8 +1478,20 @@ def target_receipt(name, ground, buildings):
     groundings = instance_groundings(sq, profile) if profile else None
     coverage = modern_city_coverage(sq, buildings)
     plan = wall_plan(sq)
+    ring = load_haram_ring()
+    ring_hide = ring_hide_set(ring, buildings) if ring else None
     return dict(
         target=name, map=t['map'], note=t['note'],
+        builtBoundary=('haramRing' if ring else 'square'),
+        builtBoundaryNote=(
+            'DECISION, Shmuel, 15 September 2026: the BUILT precinct is today\'s Temple Mount '
+            'outline, not the 3000-amah square. The square below is NOT withdrawn - it is still '
+            'the SOURCED extent (Yechezkel 42:15-20 with 40:5), still computed here, still '
+            'drawable as EMikdashPrecinctReading::Yechezkel3000, and still asserted by the '
+            'standalone test. See SourceAssets/enclosure-review/HARAM-OUTLINE-20260915.md.'
+            if ring else
+            'haram-outline.json is absent, so this receipt describes the square only. Run '
+            'Scripts/create_haram_outline.py --export.'),
         cmPerAmah=t['cmPerAmah'], courtPlatformHalfExtentCm=t['courtHalfCm'],
         moduleScale=t['cmPerAmah'] / A,
         generatorSha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
@@ -1311,6 +1507,13 @@ def target_receipt(name, ground, buildings):
         groundProfile=profile,
         groundings=groundings,
         modernCity=coverage,
+        haramRing=(dict(source=ring['source'], sha256=ring['sha256'],
+                        pointCount=ring['pointCount'], closureGapCm=ring['closureGapCm'],
+                        areaM2=ring['areaM2'], areaHectares=ring['areaHectares'],
+                        extentsCm=ring['extentsCm'], cornersCm=ring['cornersCm'],
+                        walls=ring['walls'], decision=ring['decision'],
+                        sameOnBothMaps=True) if ring else None),
+        modernCityRing=ring_hide,
         defaultState='yechezkel',
         stateCycle='YECHEZKEL -> MODERN -> OVERLAY -> YECHEZKEL (CyclePrecinctState); OVERLAY and MODERN stay reachable',
         limitations=[
@@ -1319,6 +1522,13 @@ def target_receipt(name, ground, buildings):
             'The hide set is exact per ACTOR; a 100 m cell the wall line cuts is hidden whole under the recorded '
             'policy, so some buildings just outside the wall vanish with it (collateral listed). Split or mask to fix.',
             'Nothing is deleted. Hidden means SetActorHiddenInGame at run time; MODERN restores every actor.',
+            'TWO BOUNDARIES LIVE IN THIS RECEIPT. `square` and `modernCity` are the SOURCED 3000-amah precinct, '
+            'kept whole and unmodified. `haramRing` and `modernCityRing` are the boundary the project BUILDS since '
+            '15 September 2026. A consumer must read `builtBoundary` and use the matching pair; using the square hide '
+            'set with the ring wall, or the reverse, would hide the wrong 200-odd actors.',
+            'The ring and its hide set are METRIC and therefore IDENTICAL on Main50 and Candidate48; only the square '
+            'scales with the amah. The gates, the wall plan and the ground profile in this receipt are still the '
+            "SQUARE's and have not yet been re-planned on the ring.",
         ])
 
 

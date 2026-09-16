@@ -1,0 +1,852 @@
+{
+ "status": "AUTHORED_OFFLINE_SOURCE_NATIVE_IMPORT_PENDING",
+ "version": 1,
+ "stamp": "20260916T060102924554Z",
+ "generator": "Scripts/create_precinct_cell_split.py",
+ "generatorSha256": "21b5e01e7ff4eab91a309350dafe4447af3db4c357b51b68dd930eaba98b7402",
+ "why": "The Haram outline cuts 100 m context cells. Hidden whole, 11 cut cells would destroy 150 components outside the ring to hide 40 inside it. Split at the wall line instead.",
+ "boundary": {
+  "source": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\haram-outline.json",
+  "sha256": "09b3757eac026f1da727300989eeb013c47ac5f6f854b20e0dcd03c422cb1422",
+  "points": 66,
+  "areaHectares": 14.2387
+ },
+ "source": {
+  "buildingsManifest": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\output\\cloud-unreal-v3\\context-review\\buildings-manifest.json",
+  "sha256": "777598ca54e98c8be79a8a498fa4b3209d22a4525821087e58904e5bf13c5063",
+  "fbxSha256": "271bc9b4e1297421a33dde0b00172ad6111decabdb683e05267d4b972aca5408",
+  "levelMeshes": "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\output\\architecture-review\\jerusalem-meshes.json",
+  "levelMeshesSha256": "cec2748be02f7a52616407c6bee12618369b75cbf93c5c8dcd5d4135cdfd52fb",
+  "sourceMeshIndex": 1,
+  "sourceMeshCategory": "Mapped building extrusions",
+  "vertexIndexRule": "3*sourceTriangleIndex+corner; corner0,1,2"
+ },
+ "rule": {
+  "partition": "per COMPONENT (per building) by its own centroid against the ring",
+  "neverSplitsABuilding": "A building the wall line crosses goes WHOLE to the side its centroid is on. Half a building is an open shell.",
+  "groupingProved": "every component slice bounds re-derived from geometry and compared to its recorded sourceBoundsAmos within 0.0001 amot",
+  "nothingDeleted": "original cell meshes and actors are untouched and remain in the level; the split pair is additional"
+ },
+ "counts": {
+  "cellsWithAnyComponentInside": 21,
+  "cellsWhollyInside": 10,
+  "cellsCut": 11,
+  "componentsInsideRing": 59,
+  "collateralAvoided": 150,
+  "meshesEmitted": 22
+ },
+ "visibility": {
+  "modern": "show the ORIGINAL cell actor; hide the Out actor (tag PrecinctSplitOut, which AMikdashEnclosure::HideWhileModernCityStandsTags already drives)",
+  "yechezkel": "hide the ORIGINAL (it is in the precinct hide list); show the Out actor",
+  "theInHalfIsNeverPlaced": "The _PrecinctIn geometry is emitted as the RECORD of exactly which buildings the precinct removes, and is deliberately NOT placed. It would be hidden in MODERN (the original covers it) and hidden in YECHEZKEL (those buildings stand inside the ring), so it can never be visible in any state. Placing it would be dead geometry that can only ever z-fight.",
+  "hideListAdditions": [
+   "SM_JerusalemBuildings_Grid_N001_N002",
+   "SM_JerusalemBuildings_Grid_N001_N003",
+   "SM_JerusalemBuildings_Grid_N001_P000",
+   "SM_JerusalemBuildings_Grid_N001_P001",
+   "SM_JerusalemBuildings_Grid_N002_N001",
+   "SM_JerusalemBuildings_Grid_N002_N002",
+   "SM_JerusalemBuildings_Grid_N002_N003",
+   "SM_JerusalemBuildings_Grid_N002_P000",
+   "SM_JerusalemBuildings_Grid_N002_P001",
+   "SM_JerusalemBuildings_Grid_N002_P002",
+   "SM_JerusalemBuildings_Grid_N003_N002",
+   "SM_JerusalemBuildings_Grid_N003_N003",
+   "SM_JerusalemBuildings_Grid_P000_N002",
+   "SM_JerusalemBuildings_Grid_P000_N003",
+   "SM_JerusalemBuildings_Grid_P000_P001",
+   "SM_JerusalemBuildings_Grid_P000_P002",
+   "SM_JerusalemBuildings_Grid_P001_N001",
+   "SM_JerusalemBuildings_Grid_P001_N002",
+   "SM_JerusalemBuildings_Grid_P001_N003",
+   "SM_JerusalemBuildings_Large_07279",
+   "SM_JerusalemBuildings_Large_07718"
+  ],
+  "hideListNote": "the ORIGINAL cell labels, for cut and whole cells alike - the split does not change WHAT is hidden, it changes what is left standing",
+  "outActorsToPlace": [
+   "RELEASE_PrecinctCellSplit_Grid_N001_N003_Out",
+   "RELEASE_PrecinctCellSplit_Grid_N002_N001_Out",
+   "RELEASE_PrecinctCellSplit_Grid_N002_N003_Out",
+   "RELEASE_PrecinctCellSplit_Grid_N002_P000_Out",
+   "RELEASE_PrecinctCellSplit_Grid_N002_P001_Out",
+   "RELEASE_PrecinctCellSplit_Grid_N002_P002_Out",
+   "RELEASE_PrecinctCellSplit_Grid_N003_N002_Out",
+   "RELEASE_PrecinctCellSplit_Grid_N003_N003_Out",
+   "RELEASE_PrecinctCellSplit_Grid_P000_N003_Out",
+   "RELEASE_PrecinctCellSplit_Grid_P000_P002_Out",
+   "RELEASE_PrecinctCellSplit_Grid_P001_N003_Out"
+  ],
+  "outActorTag": "PrecinctSplitOut"
+ },
+ "meshes": [
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N001_N003_PrecinctIn",
+   "group": "Grid_N001_N003",
+   "half": "In",
+   "componentIds": [
+    7358,
+    7464,
+    7475,
+    7476
+   ],
+   "components": 4,
+   "triangles": 76,
+   "vertices": 228,
+   "file": "SM_JerusalemBuildings_Grid_N001_N003_PrecinctIn.obj",
+   "sha256": "63ab991b794d0d573623260db3ec77d24bb64950c00b37cc4c6f59e4d3f74ba4",
+   "bytes": 8986,
+   "canonicalBoundsCm": {
+    "min": [
+     -7312.514984215615,
+     -24472.067482246926,
+     -1006.0
+    ],
+    "max": [
+     2140.985015784385,
+     -20999.067482246926,
+     918.4
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307464413345e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N001_N003_PrecinctOut",
+   "group": "Grid_N001_N003",
+   "half": "Out",
+   "componentIds": [
+    7218,
+    7251,
+    7291,
+    7299,
+    7325,
+    7362,
+    7392,
+    7396,
+    7397,
+    7435,
+    7502
+   ],
+   "components": 11,
+   "triangles": 192,
+   "vertices": 576,
+   "file": "SM_JerusalemBuildings_Grid_N001_N003_PrecinctOut.obj",
+   "sha256": "755493b89ed86b1d0148950f1616dc3027c7bd1c8c527212f8ef356ef40d0cad",
+   "bytes": 22692,
+   "canonicalBoundsCm": {
+    "min": [
+     -10556.014984215615,
+     -29881.06748224693,
+     -640.58
+    ],
+    "max": [
+     -1374.5149842156152,
+     -25564.567482246926,
+     839.7600000000001
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307464413345e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N002_N001_PrecinctIn",
+   "group": "Grid_N002_N001",
+   "half": "In",
+   "componentIds": [
+    6928,
+    6976,
+    6980,
+    7100,
+    7119,
+    7149,
+    7151,
+    7167,
+    7174,
+    7221,
+    7224
+   ],
+   "components": 11,
+   "triangles": 228,
+   "vertices": 684,
+   "file": "SM_JerusalemBuildings_Grid_N002_N001_PrecinctIn.obj",
+   "sha256": "6f9c39f95c8cf44381e7bff0f15258a583dfce06a62d24e083d8d2f8d6a9685c",
+   "bytes": 26648,
+   "canonicalBoundsCm": {
+    "min": [
+     -19298.014984215617,
+     -12123.067482246926,
+     -356.365
+    ],
+    "max": [
+     -9946.514984215615,
+     -63.067482246926666,
+     1201.53
+    ]
+   },
+   "readbackBoundsErrorCm": 1.7753073336734815e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N002_N001_PrecinctOut",
+   "group": "Grid_N002_N001",
+   "half": "Out",
+   "componentIds": [
+    6851,
+    6859,
+    6860,
+    6893,
+    6899,
+    6912,
+    6931,
+    6941
+   ],
+   "components": 8,
+   "triangles": 204,
+   "vertices": 612,
+   "file": "SM_JerusalemBuildings_Grid_N002_N001_PrecinctOut.obj",
+   "sha256": "6d09e42a5b558a5890359fc6681c84d9b37f31fb4697052cceb213b4b7513179",
+   "bytes": 23990,
+   "canonicalBoundsCm": {
+    "min": [
+     -20592.514984215613,
+     -10265.067482246926,
+     -348.84
+    ],
+    "max": [
+     -17508.514984215617,
+     -66.56748224692667,
+     597.5
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307332252396e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N002_N003_PrecinctIn",
+   "group": "Grid_N002_N003",
+   "half": "In",
+   "componentIds": [
+    7107,
+    7346
+   ],
+   "components": 2,
+   "triangles": 56,
+   "vertices": 168,
+   "file": "SM_JerusalemBuildings_Grid_N002_N003_PrecinctIn.obj",
+   "sha256": "03fc29bbba0b4fe011f57fcb4af5343eda3cc0824db0810e478231d03092e5ef",
+   "bytes": 6800,
+   "canonicalBoundsCm": {
+    "min": [
+     -20717.514984215613,
+     -23453.067482246926,
+     -450.31999999999994
+    ],
+    "max": [
+     -7235.014984215615,
+     -21700.567482246923,
+     1345.54
+    ]
+   },
+   "readbackBoundsErrorCm": 1.7753078282112256e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N002_N003_PrecinctOut",
+   "group": "Grid_N002_N003",
+   "half": "Out",
+   "componentIds": [
+    6776,
+    6894,
+    6956,
+    6965,
+    7045,
+    7074,
+    7163,
+    7168,
+    7192,
+    7206
+   ],
+   "components": 10,
+   "triangles": 220,
+   "vertices": 660,
+   "file": "SM_JerusalemBuildings_Grid_N002_N003_PrecinctOut.obj",
+   "sha256": "3f5c54889a691d8eb0814f62bf03a3e033c97c5785b955848172b68e3e79a39b",
+   "bytes": 26444,
+   "canonicalBoundsCm": {
+    "min": [
+     -22221.014984215617,
+     -30419.06748224693,
+     -80.66
+    ],
+    "max": [
+     -9381.514984215615,
+     -22321.567482246926,
+     1762.94
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307464413345e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N002_P000_PrecinctIn",
+   "group": "Grid_N002_P000",
+   "half": "In",
+   "componentIds": [
+    6977,
+    6988,
+    7014,
+    7016,
+    7056,
+    7058,
+    7094,
+    7097,
+    7116,
+    7159,
+    7183
+   ],
+   "components": 11,
+   "triangles": 248,
+   "vertices": 744,
+   "file": "SM_JerusalemBuildings_Grid_N002_P000_PrecinctIn.obj",
+   "sha256": "a1a78ec21d9ee9af41d8744339b866381a85539cb9897ddfc2507e20e3fdea18",
+   "bytes": 30186,
+   "canonicalBoundsCm": {
+    "min": [
+     -17173.514984215613,
+     -551.0674822469267,
+     -392.65500000000003
+    ],
+    "max": [
+     -11417.014984215615,
+     8950.932517753072,
+     1149.21
+    ]
+   },
+   "readbackBoundsErrorCm": 1.7753073279891396e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N002_P000_PrecinctOut",
+   "group": "Grid_N002_P000",
+   "half": "Out",
+   "componentIds": [
+    6848,
+    6874,
+    6884,
+    6895,
+    6923,
+    6947,
+    6952,
+    6954,
+    6967,
+    6974,
+    6975,
+    6993
+   ],
+   "components": 12,
+   "triangles": 168,
+   "vertices": 504,
+   "file": "SM_JerusalemBuildings_Grid_N002_P000_PrecinctOut.obj",
+   "sha256": "c0f1e5703fb6640001bd76fd930a616353d4534130d0ab1a75f70d61f65a02b8",
+   "bytes": 20312,
+   "canonicalBoundsCm": {
+    "min": [
+     -20593.514984215613,
+     398.9325177530733,
+     -434.3
+    ],
+    "max": [
+     -15832.514984215617,
+     8842.932517753074,
+     552.24
+    ]
+   },
+   "readbackBoundsErrorCm": 1.7753073279891396e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N002_P001_PrecinctIn",
+   "group": "Grid_N002_P001",
+   "half": "In",
+   "componentIds": [
+    7085,
+    7115,
+    7169
+   ],
+   "components": 3,
+   "triangles": 136,
+   "vertices": 408,
+   "file": "SM_JerusalemBuildings_Grid_N002_P001_PrecinctIn.obj",
+   "sha256": "1c38b603350a762b0addda76c701f5fc44679f74a77a796e8436844eb82b731e",
+   "bytes": 17072,
+   "canonicalBoundsCm": {
+    "min": [
+     -15678.014984215617,
+     8682.932517753074,
+     -1522.34
+    ],
+    "max": [
+     -11466.014984215615,
+     18756.932517753074,
+     600.305
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307464413345e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N002_P001_PrecinctOut",
+   "group": "Grid_N002_P001",
+   "half": "Out",
+   "componentIds": [
+    6873,
+    6876,
+    6900,
+    6949,
+    6966,
+    7041
+   ],
+   "components": 6,
+   "triangles": 148,
+   "vertices": 444,
+   "file": "SM_JerusalemBuildings_Grid_N002_P001_PrecinctOut.obj",
+   "sha256": "36d4293d95c8b8ffc67c591395ed47560963d796649d5a00c9ade50dbaa05663",
+   "bytes": 18608,
+   "canonicalBoundsCm": {
+    "min": [
+     -19942.514984215613,
+     9170.932517753074,
+     -1578.625
+    ],
+    "max": [
+     -15091.514984215615,
+     19059.432517753074,
+     116.05000000000001
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307464413345e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N002_P002_PrecinctIn",
+   "group": "Grid_N002_P002",
+   "half": "In",
+   "componentIds": [
+    7121,
+    7141
+   ],
+   "components": 2,
+   "triangles": 64,
+   "vertices": 192,
+   "file": "SM_JerusalemBuildings_Grid_N002_P002_PrecinctIn.obj",
+   "sha256": "f7ae9edbd2c1704fe982d6caa13f33140dae996d34237812310cd2c4a147f76a",
+   "bytes": 8132,
+   "canonicalBoundsCm": {
+    "min": [
+     -13928.514984215615,
+     18363.432517753074,
+     -2414.98
+    ],
+    "max": [
+     -9153.514984215615,
+     26102.932517753074,
+     -414.98
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307464413345e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N002_P002_PrecinctOut",
+   "group": "Grid_N002_P002",
+   "half": "Out",
+   "componentIds": [
+    6944,
+    6945,
+    6962,
+    7030,
+    7079,
+    7096,
+    7177
+   ],
+   "components": 7,
+   "triangles": 488,
+   "vertices": 1464,
+   "file": "SM_JerusalemBuildings_Grid_N002_P002_PrecinctOut.obj",
+   "sha256": "a2ea325aec14c55e9a8f23ed61b45102a3101ad0970277773836d629daeec69a",
+   "bytes": 63203,
+   "canonicalBoundsCm": {
+    "min": [
+     -21324.014984215613,
+     20206.432517753074,
+     -2781.84
+    ],
+    "max": [
+     -7513.514984215615,
+     30119.432517753074,
+     -631.3
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307464413345e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N003_N002_PrecinctIn",
+   "group": "Grid_N003_N002",
+   "half": "In",
+   "componentIds": [
+    6869,
+    6897
+   ],
+   "components": 2,
+   "triangles": 28,
+   "vertices": 84,
+   "file": "SM_JerusalemBuildings_Grid_N003_N002_PrecinctIn.obj",
+   "sha256": "539c23981105c745f2188d9a3156487d3ce158b89d0b3d84777835ec5ee06a57",
+   "bytes": 3393,
+   "canonicalBoundsCm": {
+    "min": [
+     -20783.514984215617,
+     -19829.067482246923,
+     17.2
+    ],
+    "max": [
+     -19369.014984215613,
+     -16241.567482246925,
+     1703.1
+    ]
+   },
+   "readbackBoundsErrorCm": 1.7753078282112256e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N003_N002_PrecinctOut",
+   "group": "Grid_N003_N002",
+   "half": "Out",
+   "componentIds": [
+    6369,
+    6380,
+    6415,
+    6420,
+    6423,
+    6438,
+    6445,
+    6447,
+    6474,
+    6475,
+    6493,
+    6494,
+    6512,
+    6516,
+    6532,
+    6546,
+    6555,
+    6565,
+    6595,
+    6602,
+    6606,
+    6607,
+    6608,
+    6637,
+    6638,
+    6643,
+    6647,
+    6657,
+    6670,
+    6701,
+    6709,
+    6715,
+    6727,
+    6747,
+    6757,
+    6769,
+    6777,
+    6785,
+    6794,
+    6795,
+    6805,
+    6808,
+    6814,
+    6838,
+    6902
+   ],
+   "components": 45,
+   "triangles": 820,
+   "vertices": 2460,
+   "file": "SM_JerusalemBuildings_Grid_N003_N002_PrecinctOut.obj",
+   "sha256": "efdc005fe6d6e66d9ee8e503494e18f27515afa7b1303401914c136b16bd3548",
+   "bytes": 100553,
+   "canonicalBoundsCm": {
+    "min": [
+     -30333.014984215613,
+     -20274.567482246926,
+     -401.36
+    ],
+    "max": [
+     -19298.014984215617,
+     -9473.567482246926,
+     1151.68
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307464413345e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N003_N003_PrecinctIn",
+   "group": "Grid_N003_N003",
+   "half": "In",
+   "componentIds": [
+    6815
+   ],
+   "components": 1,
+   "triangles": 24,
+   "vertices": 72,
+   "file": "SM_JerusalemBuildings_Grid_N003_N003_PrecinctIn.obj",
+   "sha256": "7a3d6014f8ea95ddae3c4e2871bf3b2fc47f59b946174f6cca54d6fcd9d10fc4",
+   "bytes": 2937,
+   "canonicalBoundsCm": {
+    "min": [
+     -21434.014984215617,
+     -22435.067482246923,
+     489.9
+    ],
+    "max": [
+     -20683.514984215617,
+     -21455.067482246926,
+     1989.9
+    ]
+   },
+   "readbackBoundsErrorCm": 1.7753078282112256e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_N003_N003_PrecinctOut",
+   "group": "Grid_N003_N003",
+   "half": "Out",
+   "componentIds": [
+    6335,
+    6389,
+    6391,
+    6412,
+    6426,
+    6429,
+    6431,
+    6451,
+    6456,
+    6464,
+    6469,
+    6472,
+    6489,
+    6509,
+    6518,
+    6531,
+    6540,
+    6541,
+    6548,
+    6550,
+    6552,
+    6562,
+    6570,
+    6590,
+    6596,
+    6615,
+    6618,
+    6633,
+    6641,
+    6653,
+    6673,
+    6677,
+    6685,
+    6689,
+    6690,
+    6700,
+    6703,
+    6710,
+    6722,
+    6723,
+    6735,
+    6737,
+    6778,
+    6791,
+    6799,
+    6803
+   ],
+   "components": 46,
+   "triangles": 760,
+   "vertices": 2280,
+   "file": "SM_JerusalemBuildings_Grid_N003_N003_PrecinctOut.obj",
+   "sha256": "7760656f842ea734611e927d96f54301e71965feaa9d889a6a8209988318ffb9",
+   "bytes": 93935,
+   "canonicalBoundsCm": {
+    "min": [
+     -31133.51498421561,
+     -30526.56748224693,
+     225.2
+    ],
+    "max": [
+     -20324.014984215613,
+     -19572.567482246923,
+     2137.1400000000003
+    ]
+   },
+   "readbackBoundsErrorCm": 1.7753078282112256e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_P000_N003_PrecinctIn",
+   "group": "Grid_P000_N003",
+   "half": "In",
+   "componentIds": [
+    7830,
+    7846
+   ],
+   "components": 2,
+   "triangles": 32,
+   "vertices": 96,
+   "file": "SM_JerusalemBuildings_Grid_P000_N003_PrecinctIn.obj",
+   "sha256": "fe90ad705441e365f51ac055a080ded3554673589509f3802bd977c0ad1c82e8",
+   "bytes": 3711,
+   "canonicalBoundsCm": {
+    "min": [
+     2111.485015784385,
+     -25240.067482246926,
+     -1430.26
+    ],
+    "max": [
+     9577.985015784385,
+     -23736.567482246926,
+     127.88
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307464413345e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_P000_N003_PrecinctOut",
+   "group": "Grid_P000_N003",
+   "half": "Out",
+   "componentIds": [
+    7549,
+    7687
+   ],
+   "components": 2,
+   "triangles": 56,
+   "vertices": 168,
+   "file": "SM_JerusalemBuildings_Grid_P000_N003_PrecinctOut.obj",
+   "sha256": "eb6a92eb8e4dd58a63a941a20b27143843adf0e2c286e5189c684fe3eeb4ef02",
+   "bytes": 6464,
+   "canonicalBoundsCm": {
+    "min": [
+     -498.0149842156152,
+     -30466.567482246926,
+     -957.9599999999999
+    ],
+    "max": [
+     5425.985015784385,
+     -27957.06748224693,
+     -56.44
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307464413345e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_P000_P002_PrecinctIn",
+   "group": "Grid_P000_P002",
+   "half": "In",
+   "componentIds": [
+    7640
+   ],
+   "components": 1,
+   "triangles": 36,
+   "vertices": 108,
+   "file": "SM_JerusalemBuildings_Grid_P000_P002_PrecinctIn.obj",
+   "sha256": "0cfdd86f6793447138c3f9c888c4d063d0e11c43bd771c9e8afc05efdab74017",
+   "bytes": 4368,
+   "canonicalBoundsCm": {
+    "min": [
+     2417.485015784385,
+     21815.432517753074,
+     -2078.04
+    ],
+    "max": [
+     5364.985015784385,
+     23409.932517753074,
+     -578.04
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307464413345e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_P000_P002_PrecinctOut",
+   "group": "Grid_P000_P002",
+   "half": "Out",
+   "componentIds": [
+    7628
+   ],
+   "components": 1,
+   "triangles": 24,
+   "vertices": 72,
+   "file": "SM_JerusalemBuildings_Grid_P000_P002_PrecinctOut.obj",
+   "sha256": "c962aa6208f9b646caeeb0fe462af5794f9e857e2f58252c6392ebb2a6494c96",
+   "bytes": 2975,
+   "canonicalBoundsCm": {
+    "min": [
+     2258.485015784385,
+     29374.43251775307,
+     -3727.44
+    ],
+    "max": [
+     5776.985015784385,
+     30149.43251775307,
+     -2827.44
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307100615464e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_P001_N003_PrecinctIn",
+   "group": "Grid_P001_N003",
+   "half": "In",
+   "componentIds": [
+    7878
+   ],
+   "components": 1,
+   "triangles": 24,
+   "vertices": 72,
+   "file": "SM_JerusalemBuildings_Grid_P001_N003_PrecinctIn.obj",
+   "sha256": "24620c226f434ee46bd4e1abc2f62b0acb12c7dacf187a6a1d4dcfced028a6a1",
+   "bytes": 2907,
+   "canonicalBoundsCm": {
+    "min": [
+     9510.985015784385,
+     -25326.567482246926,
+     -1629.68
+    ],
+    "max": [
+     10619.985015784385,
+     -23026.567482246926,
+     -729.6800000000001
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307464413345e-05
+  },
+  {
+   "assetName": "SM_JerusalemBuildings_Grid_P001_N003_PrecinctOut",
+   "group": "Grid_P001_N003",
+   "half": "Out",
+   "componentIds": [
+    7877,
+    8103
+   ],
+   "components": 2,
+   "triangles": 32,
+   "vertices": 96,
+   "file": "SM_JerusalemBuildings_Grid_P001_N003_PrecinctOut.obj",
+   "sha256": "3409d8bb7b5b081fb79bcf848f78021872979a0ff11145fba71f72de89544598",
+   "bytes": 3905,
+   "canonicalBoundsCm": {
+    "min": [
+     10612.485015784385,
+     -29933.06748224693,
+     -3457.02
+    ],
+    "max": [
+     19044.485015784387,
+     -21932.567482246926,
+     -304.2
+    ]
+   },
+   "readbackBoundsErrorCm": 1.775307464413345e-05
+  }
+ ],
+ "worstReadbackBoundsErrorCm": 1.7753078282112256e-05,
+ "limitations": [
+  "GEOMETRY ONLY. Nothing here has been imported, placed, rendered or cooked.",
+  "The split is by component centroid, so a building the wall line crosses sits wholly on one side. Up to half a footprint may therefore lie on the wrong side of the boundary; that is deliberate and preferred to an open shell.",
+  "Materials, collision, Nanite and LODs are the importer's business, not this file's.",
+  "The original cell actors are not removed. A native pass must hide them in YECHEZKEL, or the split halves will z-fight their own originals."
+ ]
+}

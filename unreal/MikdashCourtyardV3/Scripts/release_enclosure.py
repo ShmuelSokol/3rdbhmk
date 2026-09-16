@@ -301,12 +301,48 @@ def validate_ground_profile(profile):
                 sides=profile['sides'], sourceUse=profile['sourceUse'])
 
 
-def validate_hide_set(spec, hide):
+def select_hide_set(receipt):
+    """Which of the receipt's TWO hide sets this map is actually built with.
+
+    Since 15 September 2026 a precinct receipt carries both: `modernCity.hideSet` for the
+    SOURCED 3000-amah square (kept whole, still drawable as Yechezkel3000) and
+    `modernCityRing.` for today's Haram outline, which is what the project builds.
+    `builtBoundary` says which. Picking the wrong one would hide the wrong ~200 actors, so
+    this is a single function rather than a field read at four call sites.
+    """
+    which = receipt.get('builtBoundary') or 'square'
+    if which == 'haramRing':
+        hide = receipt.get('modernCityRing')
+        if not hide:
+            raise RuntimeError('receipt says builtBoundary=haramRing but carries no modernCityRing; '
+                               're-run Scripts/create_haram_outline.py --export then '
+                               'Scripts/create_enclosure.py --export')
+        ring = receipt.get('haramRing') or {}
+        if not ring.get('sha256'):
+            raise RuntimeError('receipt carries modernCityRing but no haramRing provenance')
+        split = [c for c in hide.get('cutCells', []) if c.get('decision') != 'split']
+        if split:
+            raise RuntimeError(
+                '%d cells the Haram wall line cuts are still set to "hide whole". That would '
+                'destroy %d buildings outside the ring to hide %d inside it, in the densest part '
+                'of the Old City. Run Scripts/create_precinct_cell_split.py --export, then '
+                'Scripts/create_enclosure.py --export, before placing.'
+                % (len(split), sum(c['componentsOutside'] for c in split),
+                   sum(c['componentsInside'] for c in split)))
+        return hide, which, 'ring_centroid_inside'
+    hide = receipt.get('modernCity', {}).get('hideSet')
+    if not hide:
+        raise RuntimeError('receipt carries no square hide set')
+    return hide, which, None
+
+
+def validate_hide_set(spec, hide, expected_policy=None):
     labels = hide.get('labels') or []
     if not labels:
         raise RuntimeError('precinct receipt hide set is empty')
-    if hide.get('policy') != spec['straddlingCellPolicy']:
-        raise RuntimeError('receipt hide policy %r differs from spec %r' % (hide.get('policy'), spec['straddlingCellPolicy']))
+    want = expected_policy if expected_policy is not None else spec['straddlingCellPolicy']
+    if hide.get('policy') != want:
+        raise RuntimeError('receipt hide policy %r differs from expected %r' % (hide.get('policy'), want))
     if fnv1a_labels(labels) != hide.get('labelFingerprintFnv1a'):
         raise RuntimeError('hide set fingerprint does not reproduce from its own labels')
     bad = [l for l in labels if not any(l.startswith(p) for p in spec['modernBuildingLabelPrefixes'])]
@@ -384,7 +420,8 @@ def offline_check(spec=None, target_name=DEFAULT_TARGET):
             design_agreement = 'identical to EnclosureV1 on all four outer faces'
 
     ground = validate_ground_profile(receipt.get('groundProfile'))
-    labels, meshes = validate_hide_set(spec, receipt['modernCity']['hideSet'])
+    hide_source, built_boundary, ring_policy = select_hide_set(receipt)
+    labels, meshes = validate_hide_set(spec, hide_source, ring_policy)
 
     return dict(
         status='offline_checks_passed',
@@ -412,11 +449,22 @@ def offline_check(spec=None, target_name=DEFAULT_TARGET):
         groundProfile=ground,
         groundingsPerSide=(receipt.get('groundings') or {}).get('perSide'),
         gateThresholds=(receipt.get('groundings') or {}).get('gates'),
-        hideSet=dict(policy=receipt['modernCity']['hideSet']['policy'],
-                     counts=receipt['modernCity']['hideSet']['counts'],
-                     collateral=receipt['modernCity']['hideSet']['collateral'],
-                     labelFingerprintFnv1a=receipt['modernCity']['hideSet']['labelFingerprintFnv1a'],
+        builtBoundary=built_boundary,
+        builtBoundaryNote=receipt.get('builtBoundaryNote'),
+        haramRing=({k: v for k, v in (receipt.get('haramRing') or {}).items()
+                    if k in ('sha256', 'pointCount', 'closureGapCm', 'areaHectares', 'sameOnBothMaps')}
+                   if built_boundary == 'haramRing' else None),
+        hideSet=dict(policy=hide_source['policy'],
+                     counts=hide_source['counts'],
+                     collateral=hide_source.get('collateral'),
+                     labelFingerprintFnv1a=hide_source['labelFingerprintFnv1a'],
                      labels=labels, meshNames=meshes),
+        squareHideSetNotUsed=(dict(
+            counts=receipt['modernCity']['hideSet']['counts'],
+            labelFingerprintFnv1a=receipt['modernCity']['hideSet']['labelFingerprintFnv1a'],
+            why='the SOURCED 3000-amah hide set, kept in the receipt and NOT placed; '
+                'Yechezkel3000 still draws that square')
+            if built_boundary == 'haramRing' else None),
         osmBuildingsInsideByCentroid=(receipt['modernCity'].get('exact') or {}).get('buildingsInside'),
         agreementWithEnclosureV1=design_agreement,
         objFiles=[dict(file=r['file'], sha256=r['sha256'], triangles=r['triangles']) for r in geometry['meshes']])

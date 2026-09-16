@@ -2,11 +2,13 @@
  "target": "Main50",
  "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
  "note": "Main/default/startup map, baked at 50 Unreal cm per amah.",
+ "builtBoundary": "haramRing",
+ "builtBoundaryNote": "DECISION, Shmuel, 15 September 2026: the BUILT precinct is today's Temple Mount outline, not the 3000-amah square. The square below is NOT withdrawn - it is still the SOURCED extent (Yechezkel 42:15-20 with 40:5), still computed here, still drawable as EMikdashPrecinctReading::Yechezkel3000, and still asserted by the standalone test. See SourceAssets/enclosure-review/HARAM-OUTLINE-20260915.md.",
  "cmPerAmah": 50.0,
  "courtPlatformHalfExtentCm": 8100.0,
  "moduleScale": 1.0,
- "generatorSha256": "316a225b9e35d55b7f1e3cb899f28cfc685ba394fb627a0ee8208aae14b7f883",
- "enclosureMathSha256": "98eddd979d6a9c9a14bc33d922ab54c1c5e7f6972f37716db6124538397eaf26",
+ "generatorSha256": "14e931493e24d00dabb8eca2a2366a846342f1bf9e5fb8a71aed2bcbb9c66828",
+ "enclosureMathSha256": "7b7714fd7091d57a8693fb4b1f18ebc5a3ff85497b2d1924762481cc60626976",
  "square": {
   "sideAmot": 3000.0,
   "sideReeds": 500.0,
@@ -9379,11 +9381,268 @@
    "recommendation": "hide_if_any_inside for the default YECHEZKEL view (nothing modern stands inside the wall). The collateral - buildings just outside the wall hidden with their cell - is listed above per cell. To recover it, SPLIT the cut cells at the wall line (re-batch those cells as inside/outside meshes; a native re-import) or mask the context materials by world position. Never delete."
   }
  },
+ "haramRing": {
+  "source": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\haram-outline.json",
+  "sha256": "09b3757eac026f1da727300989eeb013c47ac5f6f854b20e0dcd03c422cb1422",
+  "pointCount": 66,
+  "closureGapCm": 0.0,
+  "areaM2": 142386.9,
+  "areaHectares": 14.2387,
+  "extentsCm": {
+   "xWest": -21434.0,
+   "xEast": 15073.5,
+   "yNorth": -25326.6,
+   "ySouth": 26107.4
+  },
+  "cornersCm": {
+   "northEast": [
+    10347.5,
+    -25326.6
+   ],
+   "northWest": [
+    -21434.0,
+    -22371.6
+   ],
+   "southWest": [
+    -12679.5,
+    26107.4
+   ],
+   "southEast": [
+    15073.5,
+    21511.9
+   ]
+  },
+  "walls": {
+   "north": {
+    "fromCorner": "northEast",
+    "toCorner": "northWest",
+    "lengthM": 319.2,
+    "publishedM": 310.0,
+    "errorM": 9.2,
+    "errorPercent": 3.0
+   },
+   "west": {
+    "fromCorner": "northWest",
+    "toCorner": "southWest",
+    "lengthM": 492.6,
+    "publishedM": 491.0,
+    "errorM": 1.6,
+    "errorPercent": 0.3
+   },
+   "south": {
+    "fromCorner": "southWest",
+    "toCorner": "southEast",
+    "lengthM": 281.3,
+    "publishedM": 280.0,
+    "errorM": 1.3,
+    "errorPercent": 0.5
+   },
+   "east": {
+    "fromCorner": "southEast",
+    "toCorner": "northEast",
+    "lengthM": 470.8,
+    "publishedM": 466.0,
+    "errorM": 4.8,
+    "errorPercent": 1.0
+   }
+  },
+  "decision": {
+   "date": "2026-09-15",
+   "who": "Shmuel",
+   "verbatim": "id like the current modern day temple mount outline be the third temple plateau - meaning the huge area we cleared away lets revert it back",
+   "resolved": "EXACTLY today's Temple Mount outline. Every building outside it stays standing in the Third Temple view. The Temple stays where it is, centred on the rock.",
+   "optionChosen": "A - the true Haram trapezoid on the four mapped walls, chosen over a cheaper axis-aligned box, knowing the box was cheaper and kept a sourced number under it.",
+   "sourcingNotDeleted": "Yechezkel 42:15-20 with 40:5 (500 reeds of six amot = 3000 amot) REMAINS the sourced precinct and remains implemented as EMikdashPrecinctReading::Yechezkel3000, as does Middot500. This outline is a deliberate, recorded departure for the BUILT view, not a correction of the sources. See sources.md and HARAM-OUTLINE-20260915.md."
+  },
+  "sameOnBothMaps": true
+ },
+ "modernCityRing": {
+  "policy": "ring_centroid_inside",
+  "rule": "component / building area centroid inside the frozen Haram ring",
+  "boundary": {
+   "source": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\haram-outline.json",
+   "sha256": "09b3757eac026f1da727300989eeb013c47ac5f6f854b20e0dcd03c422cb1422",
+   "points": 66,
+   "areaHectares": 14.2387
+  },
+  "appliesToBothMaps": "the ring is metric and the city and terrain are unmoved in both maps, so this hide set is identical on Main50 and Candidate48",
+  "sets": [
+   {
+    "set": "JerusalemContext/Buildings (imported OSM extrusions)",
+    "actorLabelPrefix": "SM_JerusalemBuildings_",
+    "membership": "buildings-manifest.json components -> assignedGroup (fbx 271bc9b4e129)",
+    "cellActorsTotal": 1499,
+    "cellActorsTouched": 21,
+    "cellActorsWhollyInside": 10,
+    "cellActorsCutByTheWallLine": 11,
+    "componentsInsideRing": 59,
+    "componentsOutsideInACutCell": 150,
+    "splitAvailable": true,
+    "splitManifest": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\CellSplitV1\\cell-split-manifest.json"
+   },
+   {
+    "set": "OldCityFacadesV1/facades",
+    "actorLabelPrefix": "RELEASE_OldCityFacades_",
+    "cellActorsTotal": 104,
+    "cellActorsHidden": 18
+   },
+   {
+    "set": "OldCityFacadesV1/infill",
+    "actorLabelPrefix": "RELEASE_OldCityInfill_",
+    "cellActorsHidden": 10
+   }
+  ],
+  "labels": [
+   "RELEASE_OldCityFacades_Grid_N001_N002",
+   "RELEASE_OldCityFacades_Grid_N001_N003",
+   "RELEASE_OldCityFacades_Grid_N001_P001",
+   "RELEASE_OldCityFacades_Grid_N001_P002",
+   "RELEASE_OldCityFacades_Grid_N002_N001",
+   "RELEASE_OldCityFacades_Grid_N002_N002",
+   "RELEASE_OldCityFacades_Grid_N002_N003",
+   "RELEASE_OldCityFacades_Grid_N002_P000",
+   "RELEASE_OldCityFacades_Grid_N002_P001",
+   "RELEASE_OldCityFacades_Grid_N002_P002",
+   "RELEASE_OldCityFacades_Grid_N003_N002",
+   "RELEASE_OldCityFacades_Grid_N003_N003",
+   "RELEASE_OldCityFacades_Grid_P000_N003",
+   "RELEASE_OldCityFacades_Grid_P000_P001",
+   "RELEASE_OldCityFacades_Grid_P000_P002",
+   "RELEASE_OldCityFacades_Grid_P001_N002",
+   "RELEASE_OldCityFacades_Grid_P001_N003",
+   "RELEASE_OldCityFacades_Grid_P001_P002",
+   "RELEASE_OldCityInfill_Grid_N001_N003",
+   "RELEASE_OldCityInfill_Grid_N001_P002",
+   "RELEASE_OldCityInfill_Grid_N002_N001",
+   "RELEASE_OldCityInfill_Grid_N002_N003",
+   "RELEASE_OldCityInfill_Grid_N002_P000",
+   "RELEASE_OldCityInfill_Grid_N002_P001",
+   "RELEASE_OldCityInfill_Grid_N002_P002",
+   "RELEASE_OldCityInfill_Grid_N003_N002",
+   "RELEASE_OldCityInfill_Grid_N003_N003",
+   "RELEASE_OldCityInfill_Grid_P000_N003",
+   "SM_JerusalemBuildings_Grid_N001_N002",
+   "SM_JerusalemBuildings_Grid_N001_N003",
+   "SM_JerusalemBuildings_Grid_N001_P000",
+   "SM_JerusalemBuildings_Grid_N001_P001",
+   "SM_JerusalemBuildings_Grid_N002_N001",
+   "SM_JerusalemBuildings_Grid_N002_N002",
+   "SM_JerusalemBuildings_Grid_N002_N003",
+   "SM_JerusalemBuildings_Grid_N002_P000",
+   "SM_JerusalemBuildings_Grid_N002_P001",
+   "SM_JerusalemBuildings_Grid_N002_P002",
+   "SM_JerusalemBuildings_Grid_N003_N002",
+   "SM_JerusalemBuildings_Grid_N003_N003",
+   "SM_JerusalemBuildings_Grid_P000_N002",
+   "SM_JerusalemBuildings_Grid_P000_N003",
+   "SM_JerusalemBuildings_Grid_P000_P001",
+   "SM_JerusalemBuildings_Grid_P000_P002",
+   "SM_JerusalemBuildings_Grid_P001_N001",
+   "SM_JerusalemBuildings_Grid_P001_N002",
+   "SM_JerusalemBuildings_Grid_P001_N003",
+   "SM_JerusalemBuildings_Large_07279",
+   "SM_JerusalemBuildings_Large_07718"
+  ],
+  "counts": {
+   "RELEASE_OldCityFacades_": 18,
+   "RELEASE_OldCityInfill_": 10,
+   "SM_JerusalemBuildings_": 21,
+   "totalActorsHidden": 49
+  },
+  "cutCells": [
+   {
+    "label": "SM_JerusalemBuildings_Grid_N001_N003",
+    "componentsInside": 4,
+    "componentsOutside": 11,
+    "decision": "split"
+   },
+   {
+    "label": "SM_JerusalemBuildings_Grid_N002_N001",
+    "componentsInside": 11,
+    "componentsOutside": 8,
+    "decision": "split"
+   },
+   {
+    "label": "SM_JerusalemBuildings_Grid_N002_N003",
+    "componentsInside": 2,
+    "componentsOutside": 10,
+    "decision": "split"
+   },
+   {
+    "label": "SM_JerusalemBuildings_Grid_N002_P000",
+    "componentsInside": 11,
+    "componentsOutside": 12,
+    "decision": "split"
+   },
+   {
+    "label": "SM_JerusalemBuildings_Grid_N002_P001",
+    "componentsInside": 3,
+    "componentsOutside": 6,
+    "decision": "split"
+   },
+   {
+    "label": "SM_JerusalemBuildings_Grid_N002_P002",
+    "componentsInside": 2,
+    "componentsOutside": 7,
+    "decision": "split"
+   },
+   {
+    "label": "SM_JerusalemBuildings_Grid_N003_N002",
+    "componentsInside": 2,
+    "componentsOutside": 45,
+    "decision": "split"
+   },
+   {
+    "label": "SM_JerusalemBuildings_Grid_N003_N003",
+    "componentsInside": 1,
+    "componentsOutside": 46,
+    "decision": "split"
+   },
+   {
+    "label": "SM_JerusalemBuildings_Grid_P000_N003",
+    "componentsInside": 2,
+    "componentsOutside": 2,
+    "decision": "split"
+   },
+   {
+    "label": "SM_JerusalemBuildings_Grid_P000_P002",
+    "componentsInside": 1,
+    "componentsOutside": 1,
+    "decision": "split"
+   },
+   {
+    "label": "SM_JerusalemBuildings_Grid_P001_N003",
+    "componentsInside": 1,
+    "componentsOutside": 2,
+    "decision": "split"
+   }
+  ],
+  "collateral": {
+   "osmComponentsOutsideTheRingButHidden": 0
+  },
+  "splitOutActors": [
+   "RELEASE_PrecinctCellSplit_Grid_N001_N003_Out",
+   "RELEASE_PrecinctCellSplit_Grid_N002_N001_Out",
+   "RELEASE_PrecinctCellSplit_Grid_N002_N003_Out",
+   "RELEASE_PrecinctCellSplit_Grid_N002_P000_Out",
+   "RELEASE_PrecinctCellSplit_Grid_N002_P001_Out",
+   "RELEASE_PrecinctCellSplit_Grid_N002_P002_Out",
+   "RELEASE_PrecinctCellSplit_Grid_N003_N002_Out",
+   "RELEASE_PrecinctCellSplit_Grid_N003_N003_Out",
+   "RELEASE_PrecinctCellSplit_Grid_P000_N003_Out",
+   "RELEASE_PrecinctCellSplit_Grid_P000_P002_Out",
+   "RELEASE_PrecinctCellSplit_Grid_P001_N003_Out"
+  ],
+  "splitOutActorTag": "PrecinctSplitOut",
+  "labelFingerprintFnv1a": "241d8b30aed2b4d7"
+ },
  "defaultState": "yechezkel",
  "stateCycle": "YECHEZKEL -> MODERN -> OVERLAY -> YECHEZKEL (CyclePrecinctState); OVERLAY and MODERN stay reachable",
  "limitations": [
   "The ground profile, the substructure and the gate positions along each wall are AUTHORED; only the square, the wall section, the gate count and the 10 x 50 opening are sourced.",
   "The hide set is exact per ACTOR; a 100 m cell the wall line cuts is hidden whole under the recorded policy, so some buildings just outside the wall vanish with it (collateral listed). Split or mask to fix.",
-  "Nothing is deleted. Hidden means SetActorHiddenInGame at run time; MODERN restores every actor."
+  "Nothing is deleted. Hidden means SetActorHiddenInGame at run time; MODERN restores every actor.",
+  "TWO BOUNDARIES LIVE IN THIS RECEIPT. `square` and `modernCity` are the SOURCED 3000-amah precinct, kept whole and unmodified. `haramRing` and `modernCityRing` are the boundary the project BUILDS since 15 September 2026. A consumer must read `builtBoundary` and use the matching pair; using the square hide set with the ring wall, or the reverse, would hide the wrong 200-odd actors.",
+  "The ring and its hide set are METRIC and therefore IDENTICAL on Main50 and Candidate48; only the square scales with the amah. The gates, the wall plan and the ground profile in this receipt are still the SQUARE's and have not yet been re-planned on the ring."
  ]
 }

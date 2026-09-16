@@ -1,0 +1,4 @@
+# The apply and verify receipts pin the manifest by raw SHA256.
+cell-split-manifest.json -text whitespace=cr-at-eol
+# The manifest pins every split OBJ by raw SHA256, and this generator writes CRLF.
+obj/*.obj -text whitespace=cr-at-eol

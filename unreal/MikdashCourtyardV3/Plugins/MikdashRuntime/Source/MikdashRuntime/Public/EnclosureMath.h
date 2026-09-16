@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <limits>
 #include <vector>
 
 // Engine-independent arithmetic for the Yechezkel 42:15-20 sacred precinct and for the
@@ -1977,6 +1978,514 @@ inline FPlazaCollisionBox PlazaGateBridgeBox(const FSquare& Square, const FGateO
     Box.HalfZ = 0.5 * SlabUnrealCm;
     Box.YawDegrees = OutYaw - 90.0;
     return Box;
+}
+
+// ---------------------------------------------------------------------------
+// 9. FPrecinctRing - today's Temple Mount outline (decision of 15 September 2026)
+// ---------------------------------------------------------------------------
+//
+// WHY THIS EXISTS, AND WHY IT DOES NOT REPLACE FSquare.
+//
+// Shmuel, 15 September 2026: the built precinct is no longer the Yechezkel 42:15-20 square
+// but the outline of today's Haram esh-Sharif esplanade, so the Temple stands inside the
+// existing city. He was shown a cheaper axis-aligned box that would have kept a sourced
+// number under it and chose the true trapezoid anyway.
+//
+// EVERYTHING ABOVE STAYS. FSquare is not edited, not deprecated and not wrapped. The
+// 3000-amah square remains the SOURCED extent (sources.md section 1.1), remains reachable
+// as EMikdashPrecinctReading::Yechezkel3000, and OVERLAY can still draw it - against the
+// built ring, which is a more interesting comparison than it was. Middot500 likewise.
+// See SourceAssets/enclosure-review/HARAM-OUTLINE-20260915.md for the decision and its cost.
+//
+// THE OUTLINE IS DATA, NOT A CONSTANT. Unlike the square, which this header DERIVES from
+// two stated clearances, the ring is measured from four mapped OSM retaining walls and is
+// frozen in SourceAssets/enclosure-review/haram-outline.json (66 points, closure gap
+// 0.000 cm, 14.24 ha). This header never hard-codes it; the generator, the release script
+// and the runtime actor all load the same receipt, exactly as they already share the square.
+//
+// A RING IS NOT A SQUARE, and three contracts change shape because of it:
+//   * there is no "side" - a gate is located by ARC LENGTH or by snapping to a world point,
+//     which is what lets the five gates move onto the real mapped Haram gates and so become
+//     SOURCED instead of authored;
+//   * the paving inset cannot be asserted as four literal side offsets. The contract that
+//     actually matters is a DISTANCE invariant: no point of the inset ring is nearer the
+//     boundary than the wall thickness. InsetRing reports failure rather than returning a
+//     self-intersecting spike, and the test asserts the invariant, not a literal;
+//   * wall modules are planned PER EDGE, so no module ever straddles a corner. Edge lengths
+//     vary, so module length varies within one edge and never across a corner.
+//
+// FRAME, as everywhere in this file: +X east, +Y SOUTH, +Z up.
+
+/** The precinct boundary as a closed polygon. Vertices are OPEN - the closing edge from the
+ * last vertex back to the first is implied and must NOT be repeated in the data. */
+struct FPrecinctRing
+{
+    std::vector<FVec2> VerticesUnrealCm;
+};
+
+inline int RingVertexCount(const FPrecinctRing& Ring)
+{
+    return static_cast<int>(Ring.VerticesUnrealCm.size());
+}
+
+/** Wrapping accessor, so edge walks never index out of range. */
+inline const FVec2& RingVertex(const FPrecinctRing& Ring, int Index)
+{
+    const int N = RingVertexCount(Ring);
+    const int I = ((Index % N) + N) % N;
+    return Ring.VerticesUnrealCm[static_cast<std::size_t>(I)];
+}
+
+/** Edge count equals vertex count: the closing edge is real. */
+inline int RingEdgeCount(const FPrecinctRing& Ring) { return RingVertexCount(Ring); }
+
+/** Standard shoelace. SIGN IS ORIENTATION, so it is exposed rather than hidden behind an
+ * absolute value: the inset needs to know which way is in. */
+inline double RingSignedAreaUnrealCm2(const FPrecinctRing& Ring)
+{
+    const int N = RingVertexCount(Ring);
+    if (N < 3) return 0.0;
+    double Twice = 0.0;
+    for (int Index = 0; Index < N; ++Index)
+    {
+        const FVec2& A = RingVertex(Ring, Index);
+        const FVec2& B = RingVertex(Ring, Index + 1);
+        Twice += A.X * B.Y - B.X * A.Y;
+    }
+    return Twice * 0.5;
+}
+
+inline double RingAreaUnrealCm2(const FPrecinctRing& Ring)
+{
+    return std::abs(RingSignedAreaUnrealCm2(Ring));
+}
+
+inline double RingAreaSquareMetres(const FPrecinctRing& Ring)
+{
+    return RingAreaUnrealCm2(Ring) / 10000.0;
+}
+
+inline double RingPerimeterUnrealCm(const FPrecinctRing& Ring)
+{
+    const int N = RingEdgeCount(Ring);
+    if (N < 3) return 0.0;
+    double Sum = 0.0;
+    for (int Index = 0; Index < N; ++Index)
+    {
+        Sum += Distance(RingVertex(Ring, Index), RingVertex(Ring, Index + 1));
+    }
+    return Sum;
+}
+
+/** Area centroid, not the vertex mean. The two differ by 10.7 cm on the Dome of the Rock
+ * octagon, which is the measurement that answered "is the Temple centred on the rock". */
+inline FVec2 RingCentroidUnrealCm(const FPrecinctRing& Ring)
+{
+    const int N = RingVertexCount(Ring);
+    if (N == 0) return {0.0, 0.0};
+    const double SignedArea = RingSignedAreaUnrealCm2(Ring);
+    if (N < 3 || std::abs(SignedArea) < 1e-9)
+    {
+        FVec2 Mean{0.0, 0.0};
+        for (int Index = 0; Index < N; ++Index) Mean = Mean + RingVertex(Ring, Index);
+        return Mean * (1.0 / static_cast<double>(N));
+    }
+    double CX = 0.0, CY = 0.0;
+    for (int Index = 0; Index < N; ++Index)
+    {
+        const FVec2& A = RingVertex(Ring, Index);
+        const FVec2& B = RingVertex(Ring, Index + 1);
+        const double Cross = A.X * B.Y - B.X * A.Y;
+        CX += (A.X + B.X) * Cross;
+        CY += (A.Y + B.Y) * Cross;
+    }
+    return {CX / (6.0 * SignedArea), CY / (6.0 * SignedArea)};
+}
+
+inline FAabb2 RingBounds(const FPrecinctRing& Ring)
+{
+    FAabb2 Box;
+    const int N = RingVertexCount(Ring);
+    if (N == 0) { Box.Min = {0.0, 0.0}; Box.Max = {0.0, 0.0}; return Box; }
+    Box.Min = Box.Max = RingVertex(Ring, 0);
+    for (int Index = 1; Index < N; ++Index)
+    {
+        const FVec2& P = RingVertex(Ring, Index);
+        Box.Min.X = std::min(Box.Min.X, P.X);
+        Box.Min.Y = std::min(Box.Min.Y, P.Y);
+        Box.Max.X = std::max(Box.Max.X, P.X);
+        Box.Max.Y = std::max(Box.Max.Y, P.Y);
+    }
+    return Box;
+}
+
+/** Enough vertices, all finite, no zero-length edge, and a real area. A ring that fails this
+ * is refused by every consumer rather than silently producing a degenerate wall. */
+inline bool RingIsValid(const FPrecinctRing& Ring, double MinEdgeUnrealCm = 1e-6)
+{
+    const int N = RingVertexCount(Ring);
+    if (N < 3) return false;
+    for (int Index = 0; Index < N; ++Index)
+    {
+        if (!Finite(RingVertex(Ring, Index))) return false;
+        if (Distance(RingVertex(Ring, Index), RingVertex(Ring, Index + 1)) < MinEdgeUnrealCm) return false;
+    }
+    return RingAreaUnrealCm2(Ring) > 1e-6;
+}
+
+/** Normalise to a POSITIVE signed area, so the inward normal of edge (A -> B) is always
+ * (-dy, dx) normalised. Every offset in this section depends on that being settled once. */
+inline void MakeRingPositivelyOriented(FPrecinctRing& Ring)
+{
+    if (RingSignedAreaUnrealCm2(Ring) < 0.0)
+    {
+        std::reverse(Ring.VerticesUnrealCm.begin(), Ring.VerticesUnrealCm.end());
+    }
+}
+
+/** Inward unit normal of edge Index, valid only on a positively oriented ring. */
+inline FVec2 RingEdgeInwardNormal(const FPrecinctRing& Ring, int Index)
+{
+    const FVec2 A = RingVertex(Ring, Index);
+    const FVec2 B = RingVertex(Ring, Index + 1);
+    const FVec2 D = B - A;
+    const double L = Length(D);
+    if (L < 1e-12) return {0.0, 0.0};
+    return {-D.Y / L, D.X / L};
+}
+
+/** Even-odd crossing test. Half-open in Y so a vertex is counted exactly once and a point
+ * level with a horizontal edge does not double-count. */
+inline bool PointInRing(const FPrecinctRing& Ring, const FVec2& P)
+{
+    const int N = RingVertexCount(Ring);
+    if (N < 3 || !Finite(P)) return false;
+    bool Inside = false;
+    for (int Index = 0; Index < N; ++Index)
+    {
+        const FVec2& A = RingVertex(Ring, Index);
+        const FVec2& B = RingVertex(Ring, Index + 1);
+        if ((A.Y > P.Y) != (B.Y > P.Y))
+        {
+            const double DY = B.Y - A.Y;
+            if (std::abs(DY) > 1e-12)
+            {
+                const double CrossX = (B.X - A.X) * (P.Y - A.Y) / DY + A.X;
+                if (P.X < CrossX) Inside = !Inside;
+            }
+        }
+    }
+    return Inside;
+}
+
+/** Shortest distance from P to the closed boundary. Always non-negative: it does not say
+ * which side P is on, which is PointInRing's job. */
+inline double DistancePointToRingUnrealCm(const FPrecinctRing& Ring, const FVec2& P)
+{
+    const int N = RingEdgeCount(Ring);
+    if (N < 3) return 0.0;
+    double Best = std::numeric_limits<double>::max();
+    for (int Index = 0; Index < N; ++Index)
+    {
+        const FVec2 A = RingVertex(Ring, Index);
+        const FVec2 B = RingVertex(Ring, Index + 1);
+        const FVec2 D = B - A;
+        const double LenSq = Dot(D, D);
+        double T = 0.0;
+        if (LenSq > 1e-12) T = std::max(0.0, std::min(1.0, Dot(P - A, D) / LenSq));
+        Best = std::min(Best, Distance(P, A + D * T));
+    }
+    return Best;
+}
+
+/** Same three-way answer ClassifyPoint gives for the square, so callers keep one shape. */
+inline EContainment ClassifyPointRing(const FPrecinctRing& Ring, const FVec2& P,
+                                      double EdgeToleranceUnrealCm = 0.0)
+{
+    if (!Finite(P) || RingVertexCount(Ring) < 3) return EContainment::Outside;
+    const double Tol = std::max(0.0, EdgeToleranceUnrealCm);
+    if (DistancePointToRingUnrealCm(Ring, P) <= Tol) return EContainment::Boundary;
+    return PointInRing(Ring, P) ? EContainment::Inside : EContainment::Outside;
+}
+
+inline bool PointInsideRing(const FPrecinctRing& Ring, const FVec2& P,
+                            double EdgeToleranceUnrealCm = 0.0)
+{
+    return ClassifyPointRing(Ring, P, EdgeToleranceUnrealCm) != EContainment::Outside;
+}
+
+/** Box classification against the ring. Straddling is the honest answer for a 100 m context
+ * cell the wall line cuts - and on a 14 ha ring that answer is no longer cheap to ignore:
+ * 21 cut cells would carry 150 unwanted components with them, which is why the cut cells are
+ * split at the wall line rather than hidden whole. */
+inline EOverlap ClassifyBoxRing(const FPrecinctRing& Ring, const FAabb2& Box,
+                                double EdgeToleranceUnrealCm = 0.0)
+{
+    const FVec2 Corners[4] = {Box.Min, {Box.Max.X, Box.Min.Y}, Box.Max, {Box.Min.X, Box.Max.Y}};
+    int InsideCount = 0;
+    for (int Index = 0; Index < 4; ++Index)
+    {
+        if (PointInsideRing(Ring, Corners[Index], EdgeToleranceUnrealCm)) ++InsideCount;
+    }
+    if (InsideCount == 4) return EOverlap::Inside;
+    if (InsideCount > 0) return EOverlap::Straddling;
+    // No corner inside still leaves the ring-inside-box and cross cases, caught by testing
+    // the ring's own vertices against the box.
+    const int N = RingVertexCount(Ring);
+    for (int Index = 0; Index < N; ++Index)
+    {
+        const FVec2& P = RingVertex(Ring, Index);
+        if (P.X >= Box.Min.X - EdgeToleranceUnrealCm && P.X <= Box.Max.X + EdgeToleranceUnrealCm &&
+            P.Y >= Box.Min.Y - EdgeToleranceUnrealCm && P.Y <= Box.Max.Y + EdgeToleranceUnrealCm)
+        {
+            return EOverlap::Straddling;
+        }
+    }
+    return EOverlap::Outside;
+}
+
+/** Mitre limit: how far an inset vertex may travel from its original, as a multiple of the
+ * inset. A sharp reflex corner would otherwise throw a spike across the polygon. */
+constexpr double RingInsetMitreLimit = 4.0;
+
+/** The paved deck's boundary: the ring moved INWARD by Inset on every edge.
+ *
+ * Returns false rather than a self-intersecting result. The square's version of this
+ * contract was four literal side offsets asserted to 1e-9; a ring cannot be checked that
+ * way, so the contract is the DISTANCE invariant instead - see RingInsetIsSound, which is
+ * what the test asserts.
+ *
+ * Mitred, not rounded: consecutive offset edge-lines are intersected, so a straight run of
+ * wall gives a straight run of paving with no faceting. Near-parallel edges fall back to the
+ * averaged normal, and any vertex that travels past the mitre limit is clamped. */
+inline bool InsetRing(const FPrecinctRing& Ring, double InsetUnrealCm, FPrecinctRing& Out)
+{
+    Out.VerticesUnrealCm.clear();
+    const int N = RingVertexCount(Ring);
+    if (N < 3 || !(InsetUnrealCm >= 0.0) || !std::isfinite(InsetUnrealCm)) return false;
+    if (InsetUnrealCm == 0.0) { Out = Ring; return true; }
+    if (RingSignedAreaUnrealCm2(Ring) <= 0.0) return false;   // caller must orient first
+
+    Out.VerticesUnrealCm.reserve(static_cast<std::size_t>(N));
+    for (int Index = 0; Index < N; ++Index)
+    {
+        // Vertex Index sits between edge (Index-1) and edge (Index).
+        const int Prev = ((Index - 1) % N + N) % N;
+        const FVec2 NPrev = RingEdgeInwardNormal(Ring, Prev);
+        const FVec2 NCurr = RingEdgeInwardNormal(Ring, Index);
+        const FVec2 V = RingVertex(Ring, Index);
+
+        const FVec2 APrev = RingVertex(Ring, Prev);
+        const FVec2 DPrev = RingVertex(Ring, Prev + 1) - APrev;
+        const FVec2 ACurr = V;
+        const FVec2 DCurr = RingVertex(Ring, Index + 1) - ACurr;
+
+        const FVec2 PPrev = APrev + NPrev * InsetUnrealCm;
+        const FVec2 PCurr = ACurr + NCurr * InsetUnrealCm;
+
+        const double Cross = DPrev.X * DCurr.Y - DPrev.Y * DCurr.X;
+        FVec2 Result;
+        if (std::abs(Cross) < 1e-9)
+        {
+            // Collinear or anti-parallel: average the two normals.
+            FVec2 Avg = NPrev + NCurr;
+            const double L = Length(Avg);
+            Avg = (L < 1e-12) ? NCurr : Avg * (1.0 / L);
+            Result = V + Avg * InsetUnrealCm;
+        }
+        else
+        {
+            const FVec2 Delta = PCurr - PPrev;
+            const double T = (Delta.X * DCurr.Y - Delta.Y * DCurr.X) / Cross;
+            Result = PPrev + DPrev * T;
+            if (Distance(Result, V) > InsetUnrealCm * RingInsetMitreLimit)
+            {
+                FVec2 Avg = NPrev + NCurr;
+                const double L = Length(Avg);
+                Avg = (L < 1e-12) ? NCurr : Avg * (1.0 / L);
+                Result = V + Avg * InsetUnrealCm;
+            }
+        }
+        if (!Finite(Result)) return false;
+        Out.VerticesUnrealCm.push_back(Result);
+    }
+    return RingIsValid(Out);
+}
+
+/** The contract InsetRing is judged by, and the one the test asserts: every vertex of the
+ * inset ring is inside the original and no nearer its boundary than Inset, less Tolerance.
+ * This is the ring's equivalent of "the deck stops exactly one wall thickness inside". */
+inline bool RingInsetIsSound(const FPrecinctRing& Ring, const FPrecinctRing& Inset,
+                             double InsetUnrealCm, double ToleranceUnrealCm = 1e-6)
+{
+    const int N = RingVertexCount(Inset);
+    if (N < 3) return false;
+    for (int Index = 0; Index < N; ++Index)
+    {
+        const FVec2& P = RingVertex(Inset, Index);
+        if (!PointInRing(Ring, P)) return false;
+        if (DistancePointToRingUnrealCm(Ring, P) < InsetUnrealCm - ToleranceUnrealCm) return false;
+    }
+    return true;
+}
+
+/** Where a point lands on the boundary: which edge, how far along it, and how far away.
+ * This is what snaps a gate onto a MAPPED Haram gate, which is what upgrades the five gates
+ * from authored to sourced. */
+struct FRingProjection
+{
+    int EdgeIndex = 0;
+    double TAlongEdge = 0.0;          // 0..1
+    double ArcLengthUnrealCm = 0.0;   // from vertex 0, walking edges in order
+    double DistanceUnrealCm = 0.0;
+    FVec2 PointUnrealCm;
+};
+
+inline FRingProjection ProjectPointOntoRing(const FPrecinctRing& Ring, const FVec2& P)
+{
+    FRingProjection Best;
+    Best.DistanceUnrealCm = std::numeric_limits<double>::max();
+    const int N = RingEdgeCount(Ring);
+    double Arc = 0.0;
+    for (int Index = 0; Index < N; ++Index)
+    {
+        const FVec2 A = RingVertex(Ring, Index);
+        const FVec2 B = RingVertex(Ring, Index + 1);
+        const FVec2 D = B - A;
+        const double LenSq = Dot(D, D);
+        const double EdgeLen = std::sqrt(LenSq);
+        double T = 0.0;
+        if (LenSq > 1e-12) T = std::max(0.0, std::min(1.0, Dot(P - A, D) / LenSq));
+        const FVec2 Q = A + D * T;
+        const double Dist = Distance(P, Q);
+        if (Dist < Best.DistanceUnrealCm)
+        {
+            Best.EdgeIndex = Index;
+            Best.TAlongEdge = T;
+            Best.ArcLengthUnrealCm = Arc + EdgeLen * T;
+            Best.DistanceUnrealCm = Dist;
+            Best.PointUnrealCm = Q;
+        }
+        Arc += EdgeLen;
+    }
+    return Best;
+}
+
+/** The inverse: a point at a given arc length around the ring. */
+inline FVec2 RingPointAtArcLength(const FPrecinctRing& Ring, double ArcUnrealCm)
+{
+    const int N = RingEdgeCount(Ring);
+    if (N < 3) return {0.0, 0.0};
+    const double Total = RingPerimeterUnrealCm(Ring);
+    if (Total < 1e-9) return RingVertex(Ring, 0);
+    double Arc = ArcUnrealCm;
+    Arc = Arc - Total * std::floor(Arc / Total);   // wrap into [0, Total)
+    for (int Index = 0; Index < N; ++Index)
+    {
+        const FVec2 A = RingVertex(Ring, Index);
+        const FVec2 B = RingVertex(Ring, Index + 1);
+        const double Len = Distance(A, B);
+        if (Arc <= Len || Index == N - 1)
+        {
+            const double T = (Len > 1e-12) ? std::max(0.0, std::min(1.0, Arc / Len)) : 0.0;
+            return A + (B - A) * T;
+        }
+        Arc -= Len;
+    }
+    return RingVertex(Ring, 0);
+}
+
+/** One wall module standing on the ring. Yaw is the run direction, degrees, Unreal's sign. */
+struct FRingWallModule
+{
+    FVec2 CentreUnrealCm;
+    double YawDegrees = 0.0;
+    double LengthUnrealCm = 0.0;
+    int EdgeIndex = 0;
+    double ArcLengthUnrealCm = 0.0;
+};
+
+/** Modules are planned PER EDGE and never straddle a corner.
+ *
+ * Each edge is cut into the nearest whole number of modules to the nominal length, so module
+ * length varies slightly from edge to edge and never within one. That is the opposite of the
+ * square's plan (120 identical segments a side) and it is deliberate: a 66-edge ring has
+ * edges from a few centimetres to 180 m, and a fixed module walked around the perimeter
+ * would sit half-in and half-out of every corner. */
+inline void PlanRingWall(const FPrecinctRing& Ring, double NominalModuleUnrealCm,
+                         std::vector<FRingWallModule>& Out)
+{
+    Out.clear();
+    const int N = RingEdgeCount(Ring);
+    if (N < 3 || !(NominalModuleUnrealCm > 0.0)) return;
+    double Arc = 0.0;
+    for (int Index = 0; Index < N; ++Index)
+    {
+        const FVec2 A = RingVertex(Ring, Index);
+        const FVec2 B = RingVertex(Ring, Index + 1);
+        const FVec2 D = B - A;
+        const double Len = Length(D);
+        if (Len < 1e-9) continue;
+        int Count = static_cast<int>(std::floor(Len / NominalModuleUnrealCm + 0.5));
+        if (Count < 1) Count = 1;
+        const double Step = Len / static_cast<double>(Count);
+        const double Yaw = RadToDeg(std::atan2(D.Y, D.X));
+        for (int K = 0; K < Count; ++K)
+        {
+            FRingWallModule M;
+            const double Mid = (static_cast<double>(K) + 0.5) * Step;
+            M.CentreUnrealCm = A + D * (Mid / Len);
+            M.YawDegrees = Yaw;
+            M.LengthUnrealCm = Step;
+            M.EdgeIndex = Index;
+            M.ArcLengthUnrealCm = Arc + Mid;
+            Out.push_back(M);
+        }
+        Arc += Len;
+    }
+}
+
+/** Selection against the ring, with the same determinism contract SelectBuildings carries:
+ * sorted ids in, same set out, order-independent, fingerprintable. */
+inline FSelectionCounts SelectBuildingsInRing(const std::vector<FBuildingRef>& Candidates,
+                                              const FPrecinctRing& Ring,
+                                              ESelectionRule Rule,
+                                              double EdgeToleranceUnrealCm,
+                                              std::vector<long long>& OutSortedIds)
+{
+    FSelectionCounts Counts;
+    OutSortedIds.clear();
+    for (std::size_t Index = 0; Index < Candidates.size(); ++Index)
+    {
+        const FBuildingRef& Ref = Candidates[Index];
+        ++Counts.Considered;
+        if (Ref.bExcluded)
+        {
+            ++Counts.Excluded;
+            continue;
+        }
+        const EOverlap Box = ClassifyBoxRing(Ring, Ref.BoundsUnrealCm, EdgeToleranceUnrealCm);
+        if (Box == EOverlap::Straddling) ++Counts.Straddling;
+        bool bTake = false;
+        switch (Rule)
+        {
+            case ESelectionRule::CentroidInside:
+                bTake = PointInsideRing(Ring, Ref.CentroidUnrealCm, EdgeToleranceUnrealCm);
+                break;
+            case ESelectionRule::FullyInside:
+                bTake = (Box == EOverlap::Inside);
+                break;
+            case ESelectionRule::AnyOverlap:
+                bTake = (Box != EOverlap::Outside);
+                break;
+        }
+        if (bTake) OutSortedIds.push_back(Ref.Id);
+        else ++Counts.Outside;
+    }
+    std::sort(OutSortedIds.begin(), OutSortedIds.end());
+    OutSortedIds.erase(std::unique(OutSortedIds.begin(), OutSortedIds.end()), OutSortedIds.end());
+    Counts.Selected = static_cast<int>(OutSortedIds.size());
+    return Counts;
 }
 
 } // namespace MikdashEnclosure

@@ -616,3 +616,10 @@ crowd is still V3 statues - the VAT needs re-baking from the V4 bodies.
 lanes are UNPAVED EARTH right up to the building walls. The owner's own photo reference
 (`SourceAssets/context-review/OldCityReferenceV2/reference-notes.md`) is worn rectangular paving, ramps
 and steps between the lanes. At eye level this reads worse than the floating fronts do from K2.
+
+**Added 15 Sep from the OldCityStreetsV1 survey, unowned:** 222 souq arches and 159 stalls sit on the
+terrain inside the wall ring. The streets pass measured them in passing and did NOT patch them; they are
+likely to have the same base-height bug the OldCityFoundationV2 census found in buildings. Owner needed
+(CityDetailV1). Also unowned, from the foundation pass's own walking-height verdict: massing is one
+isolated box per plot - no party walls, no arches over the lane, no depth at openings - and the city
+stone reads as one wallpaper: one tile, one tint, one course height citywide.

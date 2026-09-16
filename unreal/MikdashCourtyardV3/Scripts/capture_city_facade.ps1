@@ -21,6 +21,12 @@ param(
     [Parameter(Mandatory = $true)][ValidatePattern('^[A-Za-z0-9._-]{1,40}$')][string]$Label,
     [string[]]$Only = @(),
     [switch]$IncludeRoofStateViews,
+    # OldCityFoundationV2 acceptance views (K2Y, S1, S2); off by default so existing runs are unchanged.
+    [switch]$IncludeFoundationViews,
+    # OldCityStreetsV1 acceptance view: a walking camera that actually STANDS on the new paving.
+    [switch]$IncludeStreetViews,
+    # KotelViewsV1 acceptance views: the K1 and K2 cameras in the other two precinct states.
+    [switch]$IncludeKotelStateViews,
     # Diagnostic only: each view uses a new owned process; no user setting is saved.
     [ValidateSet('None','SkeletalMeshes','InstancedStaticMeshes')][string]$DiagnosticHide = 'None',
     [int]$SlotWaitMinutes = 120,
@@ -73,6 +79,42 @@ if ($IncludeRoofStateViews) {
            why = 'same elevated view in OVERLAY; inspect restored rooftop equipment' }
     )
 }
+# OldCityFoundationV2 (15 Sep): K2 in YECHEZKEL (the precinct-class foundations must vanish with their
+# buildings) and two street-level walking views in MODERN, each ~13 m from an infill front that floated
+# (census-before.json). Cameras: offline street point + exact terrain + 170 cm eye, yaw at the worst edge.
+if ($IncludeFoundationViews) { $views += @(
+    @{ name = 'K2Y-kotel-upper-deck-yechezkel-state'; go = '-20732 19230 -814 6 175 0';
+       why = 'same camera as K2 with NO V press (YECHEZKEL default): hidden-precinct buildings and their foundations must both be absent' },
+    @{ name = 'S1-jewish-quarter-lane-walking-infill1200'; go = '-22627 20613 -417 5 118 0'; preKeys = @(0x56);
+       why = 'street point 12.7 m from infill 1200 (floated 143 cm; one of the four K2 fronts), eye 170 cm over exact terrain, MODERN' },
+    @{ name = 'S2-jewish-quarter-lane-walking-infill949'; go = '-29154 30430 1187 5 136 0'; preKeys = @(0x56);
+       why = 'street point 13.8 m from infill 949 (floated 255 cm), eye 170 cm over exact terrain, MODERN' }
+) }
+# OldCityStreetsV1 (16 Sep). S1 was MEASURED against the emitted paving and its nearest stone is
+# 24.8 m away with nothing within 20 m, so an S1 "after" frame would be identical to its "before".
+# S2 stands on the paving (nearest vertex 0.4 cm, 5,388 within 20 m) and K1 is 5.4 m from it, so
+# both are kept; S3 replaces S1 as the second walking view. Its position is the densest Tier-A
+# paving neighbourhood clear of S2/K1, and its heading was chosen BY EYE from offline renders
+# (preview-C1..C4) rather than guessed - C4 shows the lane running away between building walls
+# with a kerb line, step risers and a drain channel, where C1 read as an open plaza.
+if ($IncludeStreetViews) { $views += @(
+    @{ name = 'S3-west-old-city-lane-paved'; go = '-41000 29000 1822 -6 180 0'; preKeys = @(0x56);
+       why = 'densest Tier-A paved lane in the western Old City, eye 138 cm over the mean paving surface, MODERN; the walking view that actually stands on OldCityStreetsV1 stone' }
+) }
+# KotelViewsV1 (16 Sep): the two cameras the cp26 review faulted, in the states the default
+# K1/K2 pair does not cover. K1 is where the illustrative MountAccessV2 stair used to hang over
+# the alley in EVERY state, so it must be checked with no V press and with two; K2 is where the
+# retaining wall must stand in MODERN and OVERLAY and must vanish in YECHEZKEL (K2Y, above).
+if ($IncludeKotelStateViews) { $views += @(
+    @{ name = 'K1Y-kotel-plaza-walking-yechezkel-state'; go = '-15500 19500 -1060 7 180 0';
+       why = 'K1 camera with NO V press (YECHEZKEL default): the removed access stair must be absent here too' },
+    @{ name = 'K1O-kotel-plaza-walking-overlay-state'; go = '-15500 19500 -1060 7 180 0'; preKeys = @(0x56, 0x56);
+       why = 'K1 camera in OVERLAY after two V presses' },
+    @{ name = 'K2O-kotel-upper-deck-overlay-state'; go = '-20732 19230 -814 6 175 0'; preKeys = @(0x56, 0x56);
+       why = 'K2 camera in OVERLAY after two V presses; the retaining wall must still stand' }
+) }
+# -File callers pass "-Only A,B" as ONE string; split it so the filter sees each prefix.
+$Only = @($Only | ForEach-Object { $_ -split ',' } | ForEach-Object { $_.Trim() } | Where-Object { $_ })
 if ($Only.Count) { $views = @($views | Where-Object { $n = $_.name; @($Only | Where-Object { $n -like "$_*" }).Count }) }
 if (-not $views.Count) { throw 'No capture views matched -Only; refusing an empty acceptance run' }
 

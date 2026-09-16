@@ -646,3 +646,23 @@ cp26 is vegetation and sky, not stone - cp26 predates the residents, Old City an
 difference is 0.0253, of which the mid/upper terraces (0.0453) are the macro's own, reading darker and
 speckled; the foreground parapet is 0.0123. The 02 jamb control is unchanged at 0.00267, below its
 0.00281 noise floor.
+
+## Old City ground: pave the negative space (queued 16 Sep, after streets01)
+
+The lane paving works where there is a lane: 708 lanes, 35,668 m, 152,568 m2, with 448 stepped flights
+carrying the slope (riser p50 14.9 cm, tread p50 80.3 cm). But lanes come from the OSM road network,
+and OSM does not map the Old City's courtyards or the gaps between buildings, so **58.7% of the
+walkable open space inside the walls is still bare earth** (214,132 m2 bare vs 150,624 m2 paved,
+raster agreeing with the manifest to 1.3%). That is why K1 shows no paving at all on the alley floor.
+
+Worse, the pass introduced a seam: in S2 the paved edge meets raw dirt along a straight diagonal with
+no transition, which reads worse than uniform bare ground did.
+
+**The fix is one job, not two:** pave the NEGATIVE SPACE between building footprints, using the lane
+network as its spine - courtyards, widenings, the gaps between plots - so there is no paved/unpaved
+boundary left to hide. Keep the Kotel plaza keep-out and the foundation outlines as the obstacle
+line, both pinned by hash.
+
+Also queued from this pass: **200 souq arches and 82 stalls now sit 10-45 cm BELOW the new paving**
+and need lifting onto it (CityDetailV1 owner). And `-Revert` for the streets pass is implemented but
+unexercised - do not describe it as proven.

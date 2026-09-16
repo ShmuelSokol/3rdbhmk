@@ -1,0 +1,135 @@
+{
+ "budget": {
+  "limit": 1600000,
+  "note": "PERFORMANCE-BUDGET.md: the city was a draw-call problem, not a triangle one. 16 meshes means 16 more draw calls.",
+  "triangles": 851868,
+  "withinBudget": true
+ },
+ "clearance": {
+  "method": "Distance from every outermost paving corner to the nearest obstacle line - the foundation outline where that footprint received one, the wall line otherwise.",
+  "minDistanceToObstacleCm": 0.003,
+  "probes": 48286,
+  "verticesInsideAnObstacle": 0
+ },
+ "coverage": {
+  "boundedEdgeSamples": 51159,
+  "boundedEdgeSamplesOverToleranceCm": 265,
+  "edgeToleranceNote": "One raster cell. The 1 cm reach to the wall is proved by `clearance`, not here.",
+  "method": "Global. Every lane station is sampled across its designed width against the set of 25 cm cells carrying an emitted top quad from ANY lane, so ground one lane yielded at a junction counts as paved when the other lane paves it.",
+  "resolutionCm": 25.0,
+  "stations": 72036,
+  "stationsWithNoPaving": 7,
+  "toleranceCm": 25.0,
+  "unpavedStationsByLane": {
+   "lane00160": 1,
+   "lane00334": 1,
+   "lane00343": 1,
+   "lane00391": 1,
+   "lane00647": 1,
+   "lane00649": 1,
+   "lane00699": 1
+  },
+  "worstBoundedEdgeAt": [
+   "lane00166",
+   8642.8,
+   "left"
+  ],
+  "worstBoundedEdgeGapCm": 225.0,
+  "worstInteriorGapAt": [
+   "lane00647",
+   2993.2,
+   250.0
+  ],
+  "worstInteriorGapCm": 512.5
+ },
+ "downwardFacingHorizontalTriangles": 0,
+ "droppedDegenerateTriangles": 0,
+ "foundationExcludedFootprint": {
+  "id": "osm06965",
+  "laneSurfaceAboveTerrainCm": {
+   "max": 33.19,
+   "min": 32.0
+  },
+  "lanesReaching": 1,
+  "nearestLane": "lane00410",
+  "nearestLaneStationCm": 270.0,
+  "note": "Positive residual means the wall still stands that far above the new paving. The lane surface is clamped to stay 2 cm below a bounding floor line, so the paving rises to just under this wall instead of through it.",
+  "residualGapUnderFloorLineCm": {
+   "max": -391.47,
+   "min": -402.32
+  },
+  "worstGapBeforeCm": 28.39
+ },
+ "grade": {
+  "freeSamples": 58520,
+  "freeSamplesOverSteepGrade": 48,
+  "steepGrade": 0.125,
+  "worstFreeGrade": 0.239,
+  "worstFreeGradeLane": "lane00162"
+ },
+ "ribbon": {
+  "buriedNote": "Sub-base below local ground where the lane cuts into a cross-slope. The ribbon there is buried in the same hillside and is unchanged by this pass.",
+  "method": "Measured with the ribbon's OWN terrain function (CitySource.height_at, always the anti-diagonal), which differs from the exact mesh terrain by up to 0.47 cm. Sampled ONLY at sub-base vertices lying within that lane class's ribbon half-width of its centre line (footway 100 cm ... trunk road 500 cm), because beyond the ribbon there is no ribbon to clear: comparing against one there reported a defect that does not exist.",
+  "minClearanceAt": [
+   -19107.7,
+   -56977.1
+  ],
+  "minClearanceCm": -15.315,
+  "ribbonOffsetCm": 20.0,
+  "subbaseVerticesWithinRibbon": 349916,
+  "toleranceCm": 1.0,
+  "underToleranceByEmitter": {
+   "free/slabCap": 1031
+  },
+  "verticesBuriedInCut": 10,
+  "verticesExposed": 349906,
+  "verticesUnderTolerance": 1031,
+  "worstClearanceByEmitter": {
+   "free/slabCap": -15.32
+  }
+ },
+ "schemaVersion": 1,
+ "souqCoordination": {
+  "instancesOnPavedLane": {
+   "arch": 200,
+   "stall": 82
+  },
+  "method": "A CityDetailV1 arch or stall whose XY falls inside a paved lane; the sink is the new lane surface minus the terrain it was placed on.",
+  "owner": "CityDetailV1 (create_city_detail.py souq fittings); reported, not patched here",
+  "sinkCm": {
+   "max": 45.3,
+   "min": 10.1,
+   "p50": 30.5
+  },
+  "total": 282
+ },
+ "status": "offline_check_streets",
+ "steps": {
+  "deepRisers": 231,
+  "flights": 448,
+  "infeasibleFlights": 0,
+  "rampedFlights": 203,
+  "riserBoundsCm": [
+   11.0,
+   40.0
+  ],
+  "riserCm": {
+   "max": 39.72,
+   "min": 0.82,
+   "p50": 14.92
+  },
+  "risers": 7030,
+  "risersOutOfBounds": 0,
+  "steepFlights": 15,
+  "treadCm": {
+   "max": 151.35,
+   "min": 26.19,
+   "p50": 80.33
+  },
+  "treadFloorCm": 26.0,
+  "treadsUnderFloor": 0,
+  "treadsUnderFloorOnFeasibleFlights": 0,
+  "worstFlightEndMismatchCm": 0.0,
+  "worstTreadToRiserGapCm": 0.0
+ }
+}

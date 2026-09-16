@@ -1,0 +1,627 @@
+{
+ "collision": "BlockAll, complex-as-simple (the lane is walked on)",
+ "design": {
+  "apronCm": [
+   40.0,
+   90.0
+  ],
+  "courseCm": [
+   38.0,
+   85.0
+  ],
+  "dishMaxCm": 4.0,
+  "edgeCourseCm": [
+   55.0,
+   90.0
+  ],
+  "embedCm": 10.0,
+  "jointCm": [
+   1.6,
+   3.2
+  ],
+  "kerbCm": [
+   12.0,
+   20.0
+  ],
+  "landingCm": [
+   120.0,
+   220.0
+  ],
+  "legacyRibbonCm": 20.0,
+  "maxLowerCm": 6.0,
+  "nominalHalfWidthCm": {
+   "cycleway": 150.0,
+   "footway": 190.0,
+   "living_street": 250.0,
+   "path": 160.0,
+   "pedestrian": 300.0,
+   "primary": 550.0,
+   "residential": 300.0,
+   "secondary": 500.0,
+   "secondary_link": 400.0,
+   "service": 250.0,
+   "steps": 190.0,
+   "tertiary": 400.0,
+   "tertiary_link": 350.0,
+   "track": 200.0,
+   "trunk": 550.0,
+   "trunk_link": 450.0,
+   "unclassified": 300.0
+  },
+  "obstacleClearCm": 1.0,
+  "riseCm": 32.0,
+  "riserCm": [
+   11.0,
+   18.0,
+   22.0
+  ],
+  "rutMaxCm": 2.0,
+  "settleMaxCm": 0.7,
+  "slabCm": [
+   30.0,
+   95.0
+  ],
+  "slabThickCm": 3.0,
+  "steepGrade": 0.125,
+  "subbaseTopCm": 23.0,
+  "treadMinCm": [
+   28.0,
+   26.0
+  ],
+  "why": "Worn rectangular limestone in irregular courses, an edge course against the wall, a dished and rutted centre, kerbs and aprons at open edges, and shallow stepped ramps with landings and a central ramped strip wherever the lane is steeper than 1 in 8 (OldCityReferenceV2/reference-notes.md). Every dimension is drawn from a hash of the lane and the station, so no two stretches repeat."
+ },
+ "downwardFacingHorizontalTriangles": 0,
+ "droppedDegenerateTriangles": 0,
+ "foundationsUsedAsObstacleLine": 1673,
+ "generatorSha256": "166688c5a96c73b81b135c475492511577fc501fa05a38bcb528fabca9b91ca3",
+ "keepOut": "Temple Mount (buildJerusalem templeMask), the mount-platform and protected design polygons with their own buffers, and the Kotel plaza deck, step, kerb and band rectangles plus 150 cm: those own their ground.",
+ "limitations": [
+  "Every stone, kerb, apron, step, landing, ramp and channel is authored detail in the style of the modern Old City. Nothing here is surveyed or photogrammetric.",
+  "Lane centre lines and highway classes are OSM; the widths are the measured space between the buildings, clamped to an authored nominal per class, not mapped widths (only 8 of 5,944 roads carry a width tag).",
+  "The legacy buildJerusalem road ribbons are enclosed, not deleted. Where a lane is clipped narrower than the ribbon, the ribbon can still show outside the new kerb.",
+  "The offline proof is geometric. It says nothing about shading, texture scale, lightmaps, collision for a walking pawn, or frame cost."
+ ],
+ "material": {
+  "duplicateOf": "/Game/MikdashV3/JerusalemContext/OldCityFacadesV1/Materials/MI_OldCityPlaster",
+  "parent": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building",
+  "path": "/Game/MikdashV3/JerusalemContext/OldCityStreetsV1/Materials/MI_OldCityLaneStone",
+  "scalarParameters": {
+   "HashObjectWeight": 1.0,
+   "HashVertexColorWeight": 0.0,
+   "RoofEnd": 0.8,
+   "RoofFlatten": 0.25,
+   "RoofScale": 0.42,
+   "RoofStart": 0.62,
+   "RoughBias": -0.05,
+   "RoughScale": 1.0,
+   "RoughVar": 0.14,
+   "TileCm": 520.0,
+   "VCInfluence": 0.0,
+   "VCMeanLum": 1.0
+  },
+  "vectorParameters": {
+   "RoofTint": [
+    0.8,
+    0.77,
+    0.71
+   ],
+   "Tint0": [
+    0.88,
+    0.85,
+    0.79
+   ],
+   "Tint1": [
+    0.82,
+    0.79,
+    0.73
+   ],
+   "Tint2": [
+    0.93,
+    0.9,
+    0.83
+   ],
+   "Tint3": [
+    0.79,
+    0.77,
+    0.72
+   ]
+  },
+  "why": "The lane is walked stone, not rendered plaster: greyer and less yellow than MI_OldCityPlaster, rougher, and with a 12 m top projection so the parent texture reads as a broad tonal field while the slab pattern the eye actually reads is geometry. The OBJ adapter writes no vertex colours, so the parent vertex-colour term is switched off rather than left reading white."
+ },
+ "meshes": [
+  {
+   "assetName": "SM_OldCityStreetsV1_Kept_N001_N001",
+   "bytes": 13611845,
+   "canonicalBoundsCm": {
+    "max": [
+     50.04,
+     48.16,
+     2759.12
+    ],
+    "min": [
+     -50102.51,
+     -50100.68,
+     -304.53
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Kept_N001_N001.obj",
+   "key": "Kept_N001_N001",
+   "label": "RELEASE_OldCityStreetsV1_Kept_N001_N001",
+   "normals": 49345,
+   "sha256": "5cfec2e6a4c7f03fb6d380eb075fd4df434ffbec4978c7d32506253343bd753b",
+   "tagCandidate": "CityDetailZone_Kept",
+   "tagMain": "CityDetailZone_Kept",
+   "tile": "N001_N001",
+   "triangles": 94334,
+   "vertices": 146737,
+   "zoneClass": "Kept"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_Kept_N001_N002",
+   "bytes": 7499330,
+   "canonicalBoundsCm": {
+    "max": [
+     97.82,
+     -49901.97,
+     2244.19
+    ],
+    "min": [
+     -47741.43,
+     -64598.04,
+     214.62
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Kept_N001_N002.obj",
+   "key": "Kept_N001_N002",
+   "label": "RELEASE_OldCityStreetsV1_Kept_N001_N002",
+   "normals": 30205,
+   "sha256": "4d1a0cd37f1a02f0c7a94d2491cca97138369deb509e79fa2bf5e7bf879c0d7d",
+   "tagCandidate": "CityDetailZone_Kept",
+   "tagMain": "CityDetailZone_Kept",
+   "tile": "N001_N002",
+   "triangles": 55110,
+   "vertices": 78770,
+   "zoneClass": "Kept"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_Kept_N001_P000",
+   "bytes": 19071132,
+   "canonicalBoundsCm": {
+    "max": [
+     -39938.72,
+     50030.63,
+     2405.78
+    ],
+    "min": [
+     -50090.6,
+     -58.89,
+     806.83
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Kept_N001_P000.obj",
+   "key": "Kept_N001_P000",
+   "label": "RELEASE_OldCityStreetsV1_Kept_N001_P000",
+   "normals": 71022,
+   "sha256": "108d37a4a19bcd211ef9f0eaed823a908894c955a5becf9660ef84db67f0bcad",
+   "tagCandidate": "CityDetailZone_Kept",
+   "tagMain": "CityDetailZone_Kept",
+   "tile": "N001_P000",
+   "triangles": 130708,
+   "vertices": 202258,
+   "zoneClass": "Kept"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_Kept_N001_P001",
+   "bytes": 808327,
+   "canonicalBoundsCm": {
+    "max": [
+     -30785.03,
+     57577.81,
+     1856.12
+    ],
+    "min": [
+     -50076.52,
+     49885.32,
+     -1738.99
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Kept_N001_P001.obj",
+   "key": "Kept_N001_P001",
+   "label": "RELEASE_OldCityStreetsV1_Kept_N001_P001",
+   "normals": 2946,
+   "sha256": "7227adb6e61f04a506adae49596f167eb26021950f84ae790c4bc34d14a81c02",
+   "tagCandidate": "CityDetailZone_Kept",
+   "tagMain": "CityDetailZone_Kept",
+   "tile": "N001_P001",
+   "triangles": 8035,
+   "vertices": 7769,
+   "zoneClass": "Kept"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_Kept_N002_N001",
+   "bytes": 8792458,
+   "canonicalBoundsCm": {
+    "max": [
+     -49899.73,
+     196.35,
+     4598.44
+    ],
+    "min": [
+     -100453.02,
+     -48706.52,
+     767.38
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Kept_N002_N001.obj",
+   "key": "Kept_N002_N001",
+   "label": "RELEASE_OldCityStreetsV1_Kept_N002_N001",
+   "normals": 31949,
+   "sha256": "1fef241c052c6f427597e12165109fae791482ded42eb557def6d2c4b1487932",
+   "tagCandidate": "CityDetailZone_Kept",
+   "tagMain": "CityDetailZone_Kept",
+   "tile": "N002_N001",
+   "triangles": 70340,
+   "vertices": 87022,
+   "zoneClass": "Kept"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_Kept_N002_P000",
+   "bytes": 12676189,
+   "canonicalBoundsCm": {
+    "max": [
+     -49903.47,
+     50107.82,
+     4134.82
+    ],
+    "min": [
+     -98786.45,
+     -257.07,
+     1037.23
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Kept_N002_P000.obj",
+   "key": "Kept_N002_P000",
+   "label": "RELEASE_OldCityStreetsV1_Kept_N002_P000",
+   "normals": 45493,
+   "sha256": "d9691d44bcb76f68f68f8078a629c6a402c7795dfb16a0b4772f6a47d5ff561d",
+   "tagCandidate": "CityDetailZone_Kept",
+   "tagMain": "CityDetailZone_Kept",
+   "tile": "N002_P000",
+   "triangles": 95983,
+   "vertices": 126182,
+   "zoneClass": "Kept"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_Kept_N002_P001",
+   "bytes": 2001469,
+   "canonicalBoundsCm": {
+    "max": [
+     -49919.19,
+     62102.3,
+     3095.91
+    ],
+    "min": [
+     -81197.25,
+     49898.74,
+     1352.77
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Kept_N002_P001.obj",
+   "key": "Kept_N002_P001",
+   "label": "RELEASE_OldCityStreetsV1_Kept_N002_P001",
+   "normals": 8002,
+   "sha256": "4d94a834f32201de0aba71400f81d951948aed8050df5a431f79238126173a24",
+   "tagCandidate": "CityDetailZone_Kept",
+   "tagMain": "CityDetailZone_Kept",
+   "tile": "N002_P001",
+   "triangles": 17482,
+   "vertices": 19499,
+   "zoneClass": "Kept"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_Kept_N003_N001",
+   "bytes": 13784,
+   "canonicalBoundsCm": {
+    "max": [
+     -99898.53,
+     -3771.43,
+     4008.06
+    ],
+    "min": [
+     -100528.74,
+     -6166.84,
+     3648.63
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Kept_N003_N001.obj",
+   "key": "Kept_N003_N001",
+   "label": "RELEASE_OldCityStreetsV1_Kept_N003_N001",
+   "normals": 49,
+   "sha256": "896ed2393a9341d64be3fdb38bbf9eb1daeccba4ca7817132f3da051c4a494a4",
+   "tagCandidate": "CityDetailZone_Kept",
+   "tagMain": "CityDetailZone_Kept",
+   "tile": "N003_N001",
+   "triangles": 146,
+   "vertices": 159,
+   "zoneClass": "Kept"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_Kept_P000_N001",
+   "bytes": 2886667,
+   "canonicalBoundsCm": {
+    "max": [
+     12872.57,
+     -29924.15,
+     627.7
+    ],
+    "min": [
+     -53.21,
+     -50031.14,
+     -1220.81
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Kept_P000_N001.obj",
+   "key": "Kept_P000_N001",
+   "label": "RELEASE_OldCityStreetsV1_Kept_P000_N001",
+   "normals": 11961,
+   "sha256": "c5cb20574231ac3dcbc2a84e1e420355052aa1535f4469bd5226824ed6ac31ed",
+   "tagCandidate": "CityDetailZone_Kept",
+   "tagMain": "CityDetailZone_Kept",
+   "tile": "P000_N001",
+   "triangles": 22154,
+   "vertices": 31676,
+   "zoneClass": "Kept"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_Kept_P000_N002",
+   "bytes": 3892826,
+   "canonicalBoundsCm": {
+    "max": [
+     11092.96,
+     -49964.94,
+     1408.53
+    ],
+    "min": [
+     -109.9,
+     -66567.89,
+     -257.46
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Kept_P000_N002.obj",
+   "key": "Kept_P000_N002",
+   "label": "RELEASE_OldCityStreetsV1_Kept_P000_N002",
+   "normals": 16130,
+   "sha256": "53b15a5fb9ce6e6d19ce77e69ffda82eb5c89cb8fb4899cd1ec7c62132b6b121",
+   "tagCandidate": "CityDetailZone_Kept",
+   "tagMain": "CityDetailZone_Kept",
+   "tile": "P000_N002",
+   "triangles": 30498,
+   "vertices": 41458,
+   "zoneClass": "Kept"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_Kept_P000_P000",
+   "bytes": 319176,
+   "canonicalBoundsCm": {
+    "max": [
+     16896.35,
+     20019.4,
+     -951.46
+    ],
+    "min": [
+     15694.94,
+     9954.41,
+     -3760.73
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Kept_P000_P000.obj",
+   "key": "Kept_P000_P000",
+   "label": "RELEASE_OldCityStreetsV1_Kept_P000_P000",
+   "normals": 964,
+   "sha256": "b0aed8b064054f00315fb60e0e96ffbecef12f4b66a6959867e585616ba355a0",
+   "tagCandidate": "CityDetailZone_Kept",
+   "tagMain": "CityDetailZone_Kept",
+   "tile": "P000_P000",
+   "triangles": 3494,
+   "vertices": 3076,
+   "zoneClass": "Kept"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_Precinct_N001_N001",
+   "bytes": 6740898,
+   "canonicalBoundsCm": {
+    "max": [
+     103.29,
+     42.11,
+     2564.96
+    ],
+    "min": [
+     -40073.99,
+     -40101.61,
+     -844.54
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Precinct_N001_N001.obj",
+   "key": "Precinct_N001_N001",
+   "label": "RELEASE_OldCityStreetsV1_Precinct_N001_N001",
+   "normals": 24631,
+   "sha256": "e9317c9695d0b9b7e3fe626437d72686908b85124066ad820fbbe2d069fb9a26",
+   "tagCandidate": "CityDetailZone_Precinct",
+   "tagMain": "CityDetailZone_Precinct",
+   "tile": "N001_N001",
+   "triangles": 51584,
+   "vertices": 70218,
+   "zoneClass": "Precinct"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_Precinct_N001_P000",
+   "bytes": 33320959,
+   "canonicalBoundsCm": {
+    "max": [
+     143.52,
+     50124.37,
+     1826.48
+    ],
+    "min": [
+     -40088.01,
+     -97.68,
+     -4184.06
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Precinct_N001_P000.obj",
+   "key": "Precinct_N001_P000",
+   "label": "RELEASE_OldCityStreetsV1_Precinct_N001_P000",
+   "normals": 121310,
+   "sha256": "b96af8042da8fcffeb59b4c6370b3d5147f3e8820ae7d780729c43ac3174743e",
+   "tagCandidate": "CityDetailZone_Precinct",
+   "tagMain": "CityDetailZone_Precinct",
+   "tile": "N001_P000",
+   "triangles": 232267,
+   "vertices": 336144,
+   "zoneClass": "Precinct"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_Precinct_P000_N001",
+   "bytes": 1844343,
+   "canonicalBoundsCm": {
+    "max": [
+     15256.65,
+     95.71,
+     3.53
+    ],
+    "min": [
+     -100.57,
+     -40101.43,
+     -1895.35
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Precinct_P000_N001.obj",
+   "key": "Precinct_P000_N001",
+   "label": "RELEASE_OldCityStreetsV1_Precinct_P000_N001",
+   "normals": 7334,
+   "sha256": "9f3f2975264ec4a29a46a6af0bea4b644a58a6e4c8b83be26c54a1d241f3f91f",
+   "tagCandidate": "CityDetailZone_Precinct",
+   "tagMain": "CityDetailZone_Precinct",
+   "tile": "P000_N001",
+   "triangles": 15862,
+   "vertices": 18703,
+   "zoneClass": "Precinct"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_Precinct_P000_P000",
+   "bytes": 1014613,
+   "canonicalBoundsCm": {
+    "max": [
+     18549.81,
+     35405.7,
+     -500.83
+    ],
+    "min": [
+     -101.0,
+     -101.02,
+     -4700.01
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_Precinct_P000_P000.obj",
+   "key": "Precinct_P000_P000",
+   "label": "RELEASE_OldCityStreetsV1_Precinct_P000_P000",
+   "normals": 3905,
+   "sha256": "03ccc29977f15f67b881bcbc88cb36d653875b5332f25a8193eb2a8c59174c29",
+   "tagCandidate": "CityDetailZone_Precinct",
+   "tagMain": "CityDetailZone_Precinct",
+   "tile": "P000_P000",
+   "triangles": 9577,
+   "vertices": 10154,
+   "zoneClass": "Precinct"
+  },
+  {
+   "assetName": "SM_OldCityStreetsV1_PrecinctMainOnly_N001_N001",
+   "bytes": 1934714,
+   "canonicalBoundsCm": {
+    "max": [
+     -29958.07,
+     -29942.59,
+     2720.2
+    ],
+    "min": [
+     -40145.95,
+     -40101.56,
+     743.1
+    ]
+   },
+   "file": "SM_OldCityStreetsV1_PrecinctMainOnly_N001_N001.obj",
+   "key": "PrecinctMainOnly_N001_N001",
+   "label": "RELEASE_OldCityStreetsV1_PrecinctMainOnly_N001_N001",
+   "normals": 7489,
+   "sha256": "e855483a0b577ac0a0febf85c3f27a488848e4faabf6d94a6060689a53ef417c",
+   "tagCandidate": "CityDetailZone_Kept",
+   "tagMain": "CityDetailZone_Precinct",
+   "tile": "N001_N001",
+   "triangles": 14294,
+   "vertices": 21213,
+   "zoneClass": "PrecinctMainOnly"
+  }
+ ],
+ "namespace": "/Game/MikdashV3/JerusalemContext/OldCityStreetsV1",
+ "objConvention": "Unreal legacy OBJ adapter: canonical vertices are UE cm; this file is written with Y reflected and triangle winding reversed. One object, no g groups, so the importer creates exactly one material slot.",
+ "oldCityRingAreaM2": 862629.1,
+ "placement": "identity transform; vertices are world cm",
+ "schemaVersion": 1,
+ "sourceSha256": {
+  "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\mikdash-walkthrough\\public\\context\\jerusalem.json": "76a2b76c0d97f45db7e532b3adbe8b58c02956fa0d3de73db71e31e097ea6463",
+  "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\output\\architecture-review\\jerusalem-meshes.json": "cec2748be02f7a52616407c6bee12618369b75cbf93c5c8dcd5d4135cdfd52fb",
+  "C:\\Mikdash\\Mikdash-Windows-Transfer\\Workspace\\output\\cloud-unreal-v3\\context-review\\buildings-manifest.json": "777598ca54e98c8be79a8a498fa4b3209d22a4525821087e58904e5bf13c5063",
+  "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\context-review\\CityFacadeV1\\visibility-latest.json": "f929547dbea476dc3b54bb3341895c1c35db4135a4a97651c13a10d767c37d6c",
+  "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\context-review\\KotelPlazaV1\\kotel-plaza-plan.json": "f3483bff589169159bc99200761d90230e4726ec248226c948f0ead6dedca69c",
+  "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\context-review\\OldCityFacadesV1\\facades-manifest.json": "9f5c133d378f36e4c23216713dadfc2c963a8613e6bd1d02166ed3fa067e5456",
+  "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\context-review\\OldCityFoundationV2\\check-after.json": "ba4245d6f6f104ea0c69da5cf68c64b626d0bbf934e823d1b832ad536296e1f7",
+  "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\context-review\\OldCityFoundationV2\\foundations-manifest.json": "82e51621dae8c258db2b734d17fd3346ed77e1a8767175333dfddc7ebb0d227f",
+  "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\precinct-Candidate48.json": "201e5b2d4b223690f7398f3d767e7877b1c89f1017f7e845d67e18e4296ed33e",
+  "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\enclosure-review\\precinct-Main50.json": "62ffc6f4892d3b97adc3126fdbe9d1a4f6c5883401c636c9833aafec907b0635"
+ },
+ "status": "AUTHORED_OFFLINE_SOURCE_NATIVE_IMPORT_PENDING",
+ "terrainProof": {
+  "cells": 65536,
+  "cellsWithFlippedDiagonal": 65536,
+  "citySourceHeightAtWorstErrorCm": 0.4666666666344099,
+  "samplesPerTriangle": 4,
+  "triangles": 131072,
+  "vertices": 66049,
+  "worstErrorCm": 1.2732925824820995e-10
+ },
+ "tiering": {
+  "nearCells": 124,
+  "rule": "Lanes whose mid-point 100 m cell is in CityFacadeV1 visibility-latest.json nearCells100m are laid as individual stones; the rest carry the same profile, kerbs, aprons and steps as a plain strip. Both tiers are continuous ground."
+ },
+ "totals": {
+  "centreLineMetres": 35668.2,
+  "flights": 448,
+  "lanes": 708,
+  "lanesWithDrainChannel": 84,
+  "meshes": 16,
+  "pavedAreaM2": 152568.0,
+  "pieces": {
+   "apron": 41680,
+   "kerb": 41680,
+   "left_riser": 12094,
+   "ramp": 3125,
+   "ramp_edge": 6250,
+   "right_riser": 12049,
+   "riser": 7243,
+   "slab": 117573,
+   "strip": 34172,
+   "subbase": 134132,
+   "tread": 19061
+  },
+  "rampedFlights": 203,
+  "steppedFraction": 0.1692,
+  "steppedMetres": 6033.5,
+  "steps": 7478,
+  "tierALanes": 267,
+  "tierAPavedAreaM2": 57810.9,
+  "tierBLanes": 441,
+  "triangles": 851868
+ },
+ "version": "oldcity-streets-v1",
+ "visibility": "One actor per mesh. Tag OldCityStreetsV1 plus CityDetailZone_Precinct when the piece's own 100 m cell is in that map's modern-city hide set, else CityDetailZone_Kept, so the paving appears and disappears with the modern buildings it belongs to. A mesh never mixes classes."
+}

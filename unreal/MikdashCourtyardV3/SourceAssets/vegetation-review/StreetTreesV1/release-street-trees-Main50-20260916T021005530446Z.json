@@ -1,0 +1,179 @@
+{
+ "status": "materials_rebuilt_maps_untouched_visual_acceptance_pending",
+ "script": "Scripts/release_street_trees.py",
+ "scriptSha256": "dc15db123253964cc5d4bf168ff6233d14f06ca7d12730baeb3cfc1061b8012d",
+ "target": "Main50",
+ "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "stamp": "20260916T021005530446Z",
+ "offlineCheck": {
+  "status": "offline_check",
+  "checked": "2026-09-16T02:10:05.540445+00:00",
+  "target": "Main50",
+  "manifestStatus": "offline_geometry_and_textures_generated_native_pending",
+  "planStatus": "offline_placement_plan_generated_native_pending",
+  "meshCount": 138,
+  "planInstances": 3638,
+  "planTarget": "Main50",
+  "missingOrChangedSourceFiles": [],
+  "residualIntersections": 0,
+  "speciesPlaced": [
+   "AleppoPine",
+   "Carob",
+   "Cypress",
+   "DatePalm",
+   "JudasTree",
+   "Olive"
+  ],
+  "planVariantsUsed": 22,
+  "planVariantsMissingMesh": [],
+  "ok": true
+ },
+ "mapHashesBefore": {
+  "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "9b70ac1f561d1d517512f60db939c2cfd9587a99c80ef89f449f4f222e5116f2",
+  "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "c516fd2679f88cf7f94acc8cbe019a3954b1d7fa6e6e3b8f135166844f7f802a",
+  "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+  "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c"
+ },
+ "mapSha256Before": "9b70ac1f561d1d517512f60db939c2cfd9587a99c80ef89f449f4f222e5116f2",
+ "materialsOnly": true,
+ "import": {
+  "meshes": 138,
+  "missing": []
+ },
+ "texturesClamped": 12,
+ "texturesSaved": 24,
+ "texturesMissing": [],
+ "masters": {
+  "bark": {
+   "path": "/Game/MikdashV3/Vegetation/StreetTreesV1/Materials/M_StreetTrees_Bark",
+   "role": "bark",
+   "why": "A trunk is a closed solid: the manifest proves signed volume > 0 on every bark part, so two-sided would only double the shading cost and leak light through the backfaces.",
+   "shadingModelApplied": "MSM_DEFAULT_LIT",
+   "usageFlags": {
+    "used_with_instanced_static_meshes": true,
+    "used_with_static_mesh": true,
+    "used_with_nanite": true
+   },
+   "nodes": [
+    "MaterialExpressionTextureSampleParameter2D",
+    "MaterialExpressionTextureSampleParameter2D",
+    "MaterialExpressionScalarParameter",
+    "MaterialExpressionScalarParameter",
+    "MaterialExpressionConstant"
+   ],
+   "connections": [
+    "MaterialExpressionTextureSampleParameter2D.RGB -> MP_BASE_COLOR",
+    "MaterialExpressionTextureSampleParameter2D.RGB -> MP_NORMAL",
+    "MaterialExpressionScalarParameter.out -> MP_ROUGHNESS",
+    "MaterialExpressionScalarParameter.out -> MP_SPECULAR",
+    "MaterialExpressionConstant.out -> MP_METALLIC"
+   ],
+   "expressionCount": 5,
+   "readback": {
+    "blendMode": "<BlendMode.BLEND_OPAQUE: 0>",
+    "twoSided": false,
+    "usageFlags": {
+     "used_with_instanced_static_meshes": true,
+     "used_with_static_mesh": true,
+     "used_with_nanite": true
+    }
+   }
+  },
+  "leaf": {
+   "path": "/Game/MikdashV3/Vegetation/StreetTreesV1/Materials/M_StreetTrees_Leaf",
+   "role": "leaf",
+   "why": "A leaf card rendered OPAQUE is a solid rectangle, and rendered ONE-SIDED it disappears from half the angles. Masked plus two-sided is the single thing that decides whether the mesh reads as a plant. TWO_SIDED_FOLIAGE lights the back face through the leaf, which is where the pale underside of an olive comes from; if the enum is absent the fallback is recorded, not implied.",
+   "shadingModelApplied": "MSM_TWO_SIDED_FOLIAGE",
+   "usageFlags": {
+    "used_with_instanced_static_meshes": true,
+    "used_with_static_mesh": true
+   },
+   "nodes": [
+    "MaterialExpressionTextureSampleParameter2D",
+    "MaterialExpressionPerInstanceRandom",
+    "MaterialExpressionVectorParameter",
+    "MaterialExpressionVectorParameter",
+    "MaterialExpressionLinearInterpolate",
+    "MaterialExpressionMultiply",
+    "MaterialExpressionScalarParameter",
+    "MaterialExpressionScalarParameter",
+    "MaterialExpressionConstant",
+    "MaterialExpressionVectorParameter"
+   ],
+   "connections": [
+    "MaterialExpressionTextureSampleParameter2D.A -> MP_OPACITY_MASK",
+    "MaterialExpressionVectorParameter.out -> MaterialExpressionLinearInterpolate.A",
+    "MaterialExpressionVectorParameter.out -> MaterialExpressionLinearInterpolate.B",
+    "MaterialExpressionPerInstanceRandom.out -> MaterialExpressionLinearInterpolate.Alpha",
+    "MaterialExpressionTextureSampleParameter2D.RGB -> MaterialExpressionMultiply.A",
+    "MaterialExpressionLinearInterpolate.out -> MaterialExpressionMultiply.B",
+    "MaterialExpressionMultiply.out -> MP_BASE_COLOR",
+    "MaterialExpressionScalarParameter.out -> MP_ROUGHNESS",
+    "MaterialExpressionScalarParameter.out -> MP_SPECULAR",
+    "MaterialExpressionConstant.out -> MP_METALLIC",
+    "MaterialExpressionVectorParameter.out -> MP_SUBSURFACE_COLOR"
+   ],
+   "expressionCount": 10,
+   "readback": {
+    "blendMode": "<BlendMode.BLEND_MASKED: 1>",
+    "twoSided": true,
+    "usageFlags": {
+     "used_with_instanced_static_meshes": true,
+     "used_with_static_mesh": true
+    }
+   }
+  },
+  "billboard": {
+   "path": "/Game/MikdashV3/Vegetation/StreetTreesV1/Materials/M_StreetTrees_Billboard",
+   "role": "billboard",
+   "why": "The impostor is one open quad, so it is invisible from behind unless two-sided and a solid rectangle unless masked. DEFAULT_LIT rather than foliage transmission, because running transmission over a picture of a trunk makes the far LOD glow.",
+   "shadingModelApplied": "MSM_DEFAULT_LIT",
+   "usageFlags": {
+    "used_with_instanced_static_meshes": true,
+    "used_with_static_mesh": true
+   },
+   "nodes": [
+    "MaterialExpressionTextureSampleParameter2D",
+    "MaterialExpressionPerInstanceRandom",
+    "MaterialExpressionVectorParameter",
+    "MaterialExpressionVectorParameter",
+    "MaterialExpressionLinearInterpolate",
+    "MaterialExpressionMultiply",
+    "MaterialExpressionScalarParameter",
+    "MaterialExpressionScalarParameter",
+    "MaterialExpressionConstant"
+   ],
+   "connections": [
+    "MaterialExpressionTextureSampleParameter2D.A -> MP_OPACITY_MASK",
+    "MaterialExpressionVectorParameter.out -> MaterialExpressionLinearInterpolate.A",
+    "MaterialExpressionVectorParameter.out -> MaterialExpressionLinearInterpolate.B",
+    "MaterialExpressionPerInstanceRandom.out -> MaterialExpressionLinearInterpolate.Alpha",
+    "MaterialExpressionTextureSampleParameter2D.RGB -> MaterialExpressionMultiply.A",
+    "MaterialExpressionLinearInterpolate.out -> MaterialExpressionMultiply.B",
+    "MaterialExpressionMultiply.out -> MP_BASE_COLOR",
+    "MaterialExpressionScalarParameter.out -> MP_ROUGHNESS",
+    "MaterialExpressionScalarParameter.out -> MP_SPECULAR",
+    "MaterialExpressionConstant.out -> MP_METALLIC"
+   ],
+   "expressionCount": 9,
+   "readback": {
+    "blendMode": "<BlendMode.BLEND_MASKED: 1>",
+    "twoSided": true,
+    "usageFlags": {
+     "used_with_instanced_static_meshes": true,
+     "used_with_static_mesh": true
+    }
+   }
+  }
+ },
+ "materialInstances": 18,
+ "meshSlotsAssigned": 138,
+ "meshSlotErrors": [],
+ "mapHashesAfter": {
+  "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "9b70ac1f561d1d517512f60db939c2cfd9587a99c80ef89f449f4f222e5116f2",
+  "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "c516fd2679f88cf7f94acc8cbe019a3954b1d7fa6e6e3b8f135166844f7f802a",
+  "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+  "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c"
+ },
+ "allMapsUnchanged": true
+}

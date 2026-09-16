@@ -1,0 +1,400 @@
+{
+ "status": "saved_reopened_readback_ok_visual_acceptance_pending",
+ "script": "Scripts/release_street_trees.py",
+ "scriptSha256": "edc44dc56104d7b98538f22479dc4439373a2fe2ed3da17cca4af6370a7da76d",
+ "target": "Main50",
+ "map": "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough",
+ "stamp": "20260916T005848673082Z",
+ "offlineCheck": {
+  "status": "offline_check",
+  "checked": "2026-09-16T00:58:48.687080+00:00",
+  "target": "Main50",
+  "manifestStatus": "offline_geometry_and_textures_generated_native_pending",
+  "planStatus": "offline_placement_plan_generated_native_pending",
+  "meshCount": 138,
+  "planInstances": 3638,
+  "planTarget": "Main50",
+  "missingOrChangedSourceFiles": [],
+  "residualIntersections": 0,
+  "speciesPlaced": [
+   "AleppoPine",
+   "Carob",
+   "Cypress",
+   "DatePalm",
+   "JudasTree",
+   "Olive"
+  ],
+  "planVariantsUsed": 22,
+  "planVariantsMissingMesh": [],
+  "ok": true
+ },
+ "mapHashesBefore": {
+  "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "f15e4c8bc569548530b7b4ede2042444be366622ffda9230dea6fae7367bf794",
+  "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "650c2b6c0ba451dd1f5d01eadfe66af0476ffc01d2f5233b25e12abef8ef96de",
+  "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+  "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c"
+ },
+ "mapSha256Before": "f15e4c8bc569548530b7b4ede2042444be366622ffda9230dea6fae7367bf794",
+ "checkpoint": "C:\\Mikdash\\Working-5.8\\ReviewCheckpoints\\StreetTrees-Main50-20260916T005848673082Z",
+ "import": {
+  "meshes": 138,
+  "missing": []
+ },
+ "texturesClamped": 12,
+ "masters": {
+  "bark": {
+   "path": "/Game/MikdashV3/Vegetation/StreetTreesV1/Materials/M_StreetTrees_Bark",
+   "role": "bark",
+   "why": "A trunk is a closed solid: the manifest proves signed volume > 0 on every bark part, so two-sided would only double the shading cost and leak light through the backfaces.",
+   "shadingModelApplied": "MSM_DEFAULT_LIT",
+   "usageFlags": {
+    "used_with_instanced_static_meshes": true,
+    "used_with_static_mesh": true,
+    "used_with_nanite": true
+   },
+   "readback": {
+    "blendMode": "<BlendMode.BLEND_OPAQUE: 0>",
+    "twoSided": false,
+    "usageFlags": {
+     "used_with_instanced_static_meshes": true,
+     "used_with_static_mesh": true,
+     "used_with_nanite": true
+    }
+   }
+  },
+  "leaf": {
+   "path": "/Game/MikdashV3/Vegetation/StreetTreesV1/Materials/M_StreetTrees_Leaf",
+   "role": "leaf",
+   "why": "A leaf card rendered OPAQUE is a solid rectangle, and rendered ONE-SIDED it disappears from half the angles. Masked plus two-sided is the single thing that decides whether the mesh reads as a plant. TWO_SIDED_FOLIAGE lights the back face through the leaf, which is where the pale underside of an olive comes from; if the enum is absent the fallback is recorded, not implied.",
+   "shadingModelApplied": "MSM_TWO_SIDED_FOLIAGE",
+   "usageFlags": {
+    "used_with_instanced_static_meshes": true,
+    "used_with_static_mesh": true
+   },
+   "readback": {
+    "blendMode": "<BlendMode.BLEND_MASKED: 1>",
+    "twoSided": true,
+    "usageFlags": {
+     "used_with_instanced_static_meshes": true,
+     "used_with_static_mesh": true
+    }
+   }
+  },
+  "billboard": {
+   "path": "/Game/MikdashV3/Vegetation/StreetTreesV1/Materials/M_StreetTrees_Billboard",
+   "role": "billboard",
+   "why": "The impostor is one open quad, so it is invisible from behind unless two-sided and a solid rectangle unless masked. DEFAULT_LIT rather than foliage transmission, because running transmission over a picture of a trunk makes the far LOD glow.",
+   "shadingModelApplied": "MSM_DEFAULT_LIT",
+   "usageFlags": {
+    "used_with_instanced_static_meshes": true,
+    "used_with_static_mesh": true
+   },
+   "readback": {
+    "blendMode": "<BlendMode.BLEND_MASKED: 1>",
+    "twoSided": true,
+    "usageFlags": {
+     "used_with_instanced_static_meshes": true,
+     "used_with_static_mesh": true
+    }
+   }
+  }
+ },
+ "materialInstances": 18,
+ "meshSlotsAssigned": 138,
+ "meshSlotErrors": [],
+ "blobInstancesCleared": [
+  {
+   "actor": "JCTX_ISM_SM_JerusalemInstance_Tree_crowns",
+   "mesh": "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Tree_crowns.SM_JerusalemInstance_Tree_crowns",
+   "instancesBefore": 12648,
+   "instancesAfter": 0
+  },
+  {
+   "actor": "JCTX_ISM_SM_JerusalemInstance_Tree_trunks",
+   "mesh": "/Game/MikdashV3/JerusalemContext/DecorativeInstancesV1/Meshes/SM_JerusalemInstance_Tree_trunks.SM_JerusalemInstance_Tree_trunks",
+   "instancesBefore": 4225,
+   "instancesAfter": 0
+  }
+ ],
+ "blobInstancesClearedTotal": 16873,
+ "placed": [
+  {
+   "label": "RELEASE_StreetTrees_AleppoPine_S0_Bark",
+   "mesh": "SM_StreetTreesV1_AleppoPine_S0_L0_Bark",
+   "added": 281,
+   "reopenedInstances": 281
+  },
+  {
+   "label": "RELEASE_StreetTrees_AleppoPine_S0_Leaf",
+   "mesh": "SM_StreetTreesV1_AleppoPine_S0_L0_Leaf",
+   "added": 281,
+   "reopenedInstances": 281
+  },
+  {
+   "label": "RELEASE_StreetTrees_AleppoPine_S1_Bark",
+   "mesh": "SM_StreetTreesV1_AleppoPine_S1_L0_Bark",
+   "added": 276,
+   "reopenedInstances": 276
+  },
+  {
+   "label": "RELEASE_StreetTrees_AleppoPine_S1_Leaf",
+   "mesh": "SM_StreetTreesV1_AleppoPine_S1_L0_Leaf",
+   "added": 276,
+   "reopenedInstances": 276
+  },
+  {
+   "label": "RELEASE_StreetTrees_AleppoPine_S2_Bark",
+   "mesh": "SM_StreetTreesV1_AleppoPine_S2_L0_Bark",
+   "added": 239,
+   "reopenedInstances": 239
+  },
+  {
+   "label": "RELEASE_StreetTrees_AleppoPine_S2_Leaf",
+   "mesh": "SM_StreetTreesV1_AleppoPine_S2_L0_Leaf",
+   "added": 239,
+   "reopenedInstances": 239
+  },
+  {
+   "label": "RELEASE_StreetTrees_AleppoPine_S3_Bark",
+   "mesh": "SM_StreetTreesV1_AleppoPine_S3_L0_Bark",
+   "added": 233,
+   "reopenedInstances": 233
+  },
+  {
+   "label": "RELEASE_StreetTrees_AleppoPine_S3_Leaf",
+   "mesh": "SM_StreetTreesV1_AleppoPine_S3_L0_Leaf",
+   "added": 233,
+   "reopenedInstances": 233
+  },
+  {
+   "label": "RELEASE_StreetTrees_Carob_S0_Bark",
+   "mesh": "SM_StreetTreesV1_Carob_S0_L0_Bark",
+   "added": 166,
+   "reopenedInstances": 166
+  },
+  {
+   "label": "RELEASE_StreetTrees_Carob_S0_Leaf",
+   "mesh": "SM_StreetTreesV1_Carob_S0_L0_Leaf",
+   "added": 166,
+   "reopenedInstances": 166
+  },
+  {
+   "label": "RELEASE_StreetTrees_Carob_S1_Bark",
+   "mesh": "SM_StreetTreesV1_Carob_S1_L0_Bark",
+   "added": 202,
+   "reopenedInstances": 202
+  },
+  {
+   "label": "RELEASE_StreetTrees_Carob_S1_Leaf",
+   "mesh": "SM_StreetTreesV1_Carob_S1_L0_Leaf",
+   "added": 202,
+   "reopenedInstances": 202
+  },
+  {
+   "label": "RELEASE_StreetTrees_Carob_S2_Bark",
+   "mesh": "SM_StreetTreesV1_Carob_S2_L0_Bark",
+   "added": 170,
+   "reopenedInstances": 170
+  },
+  {
+   "label": "RELEASE_StreetTrees_Carob_S2_Leaf",
+   "mesh": "SM_StreetTreesV1_Carob_S2_L0_Leaf",
+   "added": 170,
+   "reopenedInstances": 170
+  },
+  {
+   "label": "RELEASE_StreetTrees_Carob_S3_Bark",
+   "mesh": "SM_StreetTreesV1_Carob_S3_L0_Bark",
+   "added": 150,
+   "reopenedInstances": 150
+  },
+  {
+   "label": "RELEASE_StreetTrees_Carob_S3_Leaf",
+   "mesh": "SM_StreetTreesV1_Carob_S3_L0_Leaf",
+   "added": 150,
+   "reopenedInstances": 150
+  },
+  {
+   "label": "RELEASE_StreetTrees_Cypress_S0_Bark",
+   "mesh": "SM_StreetTreesV1_Cypress_S0_L0_Bark",
+   "added": 188,
+   "reopenedInstances": 188
+  },
+  {
+   "label": "RELEASE_StreetTrees_Cypress_S0_Leaf",
+   "mesh": "SM_StreetTreesV1_Cypress_S0_L0_Leaf",
+   "added": 188,
+   "reopenedInstances": 188
+  },
+  {
+   "label": "RELEASE_StreetTrees_Cypress_S1_Bark",
+   "mesh": "SM_StreetTreesV1_Cypress_S1_L0_Bark",
+   "added": 165,
+   "reopenedInstances": 165
+  },
+  {
+   "label": "RELEASE_StreetTrees_Cypress_S1_Leaf",
+   "mesh": "SM_StreetTreesV1_Cypress_S1_L0_Leaf",
+   "added": 165,
+   "reopenedInstances": 165
+  },
+  {
+   "label": "RELEASE_StreetTrees_Cypress_S2_Bark",
+   "mesh": "SM_StreetTreesV1_Cypress_S2_L0_Bark",
+   "added": 173,
+   "reopenedInstances": 173
+  },
+  {
+   "label": "RELEASE_StreetTrees_Cypress_S2_Leaf",
+   "mesh": "SM_StreetTreesV1_Cypress_S2_L0_Leaf",
+   "added": 173,
+   "reopenedInstances": 173
+  },
+  {
+   "label": "RELEASE_StreetTrees_Cypress_S3_Bark",
+   "mesh": "SM_StreetTreesV1_Cypress_S3_L0_Bark",
+   "added": 154,
+   "reopenedInstances": 154
+  },
+  {
+   "label": "RELEASE_StreetTrees_Cypress_S3_Leaf",
+   "mesh": "SM_StreetTreesV1_Cypress_S3_L0_Leaf",
+   "added": 154,
+   "reopenedInstances": 154
+  },
+  {
+   "label": "RELEASE_StreetTrees_DatePalm_S0_Bark",
+   "mesh": "SM_StreetTreesV1_DatePalm_S0_L0_Bark",
+   "added": 35,
+   "reopenedInstances": 35
+  },
+  {
+   "label": "RELEASE_StreetTrees_DatePalm_S0_Leaf",
+   "mesh": "SM_StreetTreesV1_DatePalm_S0_L0_Leaf",
+   "added": 35,
+   "reopenedInstances": 35
+  },
+  {
+   "label": "RELEASE_StreetTrees_DatePalm_S1_Bark",
+   "mesh": "SM_StreetTreesV1_DatePalm_S1_L0_Bark",
+   "added": 28,
+   "reopenedInstances": 28
+  },
+  {
+   "label": "RELEASE_StreetTrees_DatePalm_S1_Leaf",
+   "mesh": "SM_StreetTreesV1_DatePalm_S1_L0_Leaf",
+   "added": 28,
+   "reopenedInstances": 28
+  },
+  {
+   "label": "RELEASE_StreetTrees_DatePalm_S2_Bark",
+   "mesh": "SM_StreetTreesV1_DatePalm_S2_L0_Bark",
+   "added": 30,
+   "reopenedInstances": 30
+  },
+  {
+   "label": "RELEASE_StreetTrees_DatePalm_S2_Leaf",
+   "mesh": "SM_StreetTreesV1_DatePalm_S2_L0_Leaf",
+   "added": 30,
+   "reopenedInstances": 30
+  },
+  {
+   "label": "RELEASE_StreetTrees_JudasTree_S0_Bark",
+   "mesh": "SM_StreetTreesV1_JudasTree_S0_L0_Bark",
+   "added": 145,
+   "reopenedInstances": 145
+  },
+  {
+   "label": "RELEASE_StreetTrees_JudasTree_S0_Leaf",
+   "mesh": "SM_StreetTreesV1_JudasTree_S0_L0_Leaf",
+   "added": 145,
+   "reopenedInstances": 145
+  },
+  {
+   "label": "RELEASE_StreetTrees_JudasTree_S1_Bark",
+   "mesh": "SM_StreetTreesV1_JudasTree_S1_L0_Bark",
+   "added": 168,
+   "reopenedInstances": 168
+  },
+  {
+   "label": "RELEASE_StreetTrees_JudasTree_S1_Leaf",
+   "mesh": "SM_StreetTreesV1_JudasTree_S1_L0_Leaf",
+   "added": 168,
+   "reopenedInstances": 168
+  },
+  {
+   "label": "RELEASE_StreetTrees_JudasTree_S2_Bark",
+   "mesh": "SM_StreetTreesV1_JudasTree_S2_L0_Bark",
+   "added": 166,
+   "reopenedInstances": 166
+  },
+  {
+   "label": "RELEASE_StreetTrees_JudasTree_S2_Leaf",
+   "mesh": "SM_StreetTreesV1_JudasTree_S2_L0_Leaf",
+   "added": 166,
+   "reopenedInstances": 166
+  },
+  {
+   "label": "RELEASE_StreetTrees_Olive_S0_Bark",
+   "mesh": "SM_StreetTreesV1_Olive_S0_L0_Bark",
+   "added": 148,
+   "reopenedInstances": 148
+  },
+  {
+   "label": "RELEASE_StreetTrees_Olive_S0_Leaf",
+   "mesh": "SM_StreetTreesV1_Olive_S0_L0_Leaf",
+   "added": 148,
+   "reopenedInstances": 148
+  },
+  {
+   "label": "RELEASE_StreetTrees_Olive_S1_Bark",
+   "mesh": "SM_StreetTreesV1_Olive_S1_L0_Bark",
+   "added": 166,
+   "reopenedInstances": 166
+  },
+  {
+   "label": "RELEASE_StreetTrees_Olive_S1_Leaf",
+   "mesh": "SM_StreetTreesV1_Olive_S1_L0_Leaf",
+   "added": 166,
+   "reopenedInstances": 166
+  },
+  {
+   "label": "RELEASE_StreetTrees_Olive_S2_Bark",
+   "mesh": "SM_StreetTreesV1_Olive_S2_L0_Bark",
+   "added": 181,
+   "reopenedInstances": 181
+  },
+  {
+   "label": "RELEASE_StreetTrees_Olive_S2_Leaf",
+   "mesh": "SM_StreetTreesV1_Olive_S2_L0_Leaf",
+   "added": 181,
+   "reopenedInstances": 181
+  },
+  {
+   "label": "RELEASE_StreetTrees_Olive_S3_Bark",
+   "mesh": "SM_StreetTreesV1_Olive_S3_L0_Bark",
+   "added": 174,
+   "reopenedInstances": 174
+  },
+  {
+   "label": "RELEASE_StreetTrees_Olive_S3_Leaf",
+   "mesh": "SM_StreetTreesV1_Olive_S3_L0_Leaf",
+   "added": 174,
+   "reopenedInstances": 174
+  }
+ ],
+ "placedTotal": 7276,
+ "mapSha256AfterSave": "9b70ac1f561d1d517512f60db939c2cfd9587a99c80ef89f449f4f222e5116f2",
+ "readbackProblems": [],
+ "mapHashesAfter": {
+  "/Game/MikdashV3/IntegratedReviewV2/Maps/Walkthrough": "9b70ac1f561d1d517512f60db939c2cfd9587a99c80ef89f449f4f222e5116f2",
+  "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough": "650c2b6c0ba451dd1f5d01eadfe66af0476ffc01d2f5233b25e12abef8ef96de",
+  "/Game/MikdashV3/FutureMountV1/L_FutureMount": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+  "/Game/MikdashV3/Maps/Courtyard": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c"
+ },
+ "protectedMapsUnchanged": true,
+ "limitations": [
+  "A -nullrhi run cannot verify a material. Visual acceptance requires a frame from a packaged build; until one exists this receipt claims geometry and flags only.",
+  "Old City building shells were not blockers in the placement plan; see the plan."
+ ]
+}

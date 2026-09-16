@@ -1371,6 +1371,54 @@ preparation lesson); 55 cm step height on BP_MikdashWalker. Actor count 7322 (73
 9. Keep `Content/Distribution/CREDITS.txt` accurate (OSM/ODbL, Mapzen/SRTM, Fantozzi/qubodup CC0, Thimras CC0 if adopted).
 10. Every map or asset edit goes through a checkpoint copy under `ReviewCheckpoints` and a JSON receipt with before/after
     SHA-256 of the map and of every protected file.
+11. **A material is accepted on its GRAPH, never on its flags.** Any pass that authors a master must assert, in its
+    receipt: a non-zero expression count, and — for any `BLEND_MASKED` material — an actual connection into
+    `MP_OPACITY_MASK`. Re-author into a FRESH asset (delete and recreate); re-authoring in place superimposes the old
+    graph on the new one and yields duplicate samplers.
+    *This project has been bitten twice.* cp05b cooked a superimposed graph; trees01 cooked a master whose flags were all
+    correct and whose graph was **empty** (`create_material_expression` = 0), so every leaf card drew as a solid
+    near-black rectangle while the usage flags read back `True`, the cook log showed no substitution, and the instances
+    bound a `LeafAtlas` parameter the parent did not have. Property parity is not visual acceptance, and `-nullrhi`
+    cannot draw a pixel — see `nullrhi-cannot-verify-materials`. Only a frame closes it.
+12. **An asset that LOADS is not an asset that SAVED.** Any pass that imports or authors assets must save every one of
+    them and then assert the `.uasset` exists ON DISK — counted from a fresh process — not merely that `load_asset`
+    returns non-None. `AssetImportTask.save = False` leaves the imported asset live in the importing session only.
+    *trees01b, and it cost a second cook and a second set of frames.* The leaf and billboard atlases imported, took
+    their CLAMP address mode (`texturesClamped` = 12) and bound cleanly into the material instances — all inside one
+    session — and were never written to disk. Meshes, masters and instances were each saved explicitly; the textures
+    were not. The saved instances therefore referenced texture packages that did not exist, the cook resolved them to
+    nothing, and the re-cooked frame was **indistinguishable** from the empty-graph frame of rule 11: the same solid
+    near-black cards, from an unrelated cause. Two different bugs with one appearance is the reason the assertion has
+    to be on the bytes, not on the handle. The session that created an asset is the one witness that cannot confirm it
+    shipped.
+13. **Assert the BINDING, not the loop counter — and never mutate a UE array property in place.**
+    `get_editor_property('static_materials')` (and every other array property) returns a COPY, and
+    indexing it returns a COPY of the struct. `slots[i].set_editor_property('material_interface', m)`
+    therefore changes nothing that survives; writing the array back stores the ORIGINAL entries,
+    `save_asset` saves them faithfully, and a `assigned += 1` counter records a success that never
+    happened. Rebuild the array from fresh structs (`ue.StaticMaterial()`), then RELOAD the asset and
+    assert the slot resolves to the intended material.
+    *trees01/01b/01c — three cooks of cardboard.* The receipts said `meshSlotsAssigned: 138`,
+    `meshSlotErrors: []` every time, while all 138 meshes sat on
+    `/Engine/EngineMaterials/WorldGridMaterial`. The masters were right (10 expressions,
+    `BLEND_MASKED`, clip 0.5, `MSM_TWO_SIDED_FOLIAGE`), the instances were right (correct parent,
+    correct atlas bound), the atlases were right (binary alpha, 43% coverage) and the UVs were right
+    — and none of it reached a triangle. The visible tell was that **the leaf cards and the trunk
+    were the same flat dark tone**, because both were the same engine default. Rules 11 and 12 assert
+    the material and the texture; this rule exists because neither of them asks the MESH what it is
+    actually wearing.
+14. **A hash is current only if it was taken after every other writer finished.** On a shared map
+    with several passes in flight, a SHA-256 is a statement about a moment, not a property of the
+    file. Re-hash immediately before quoting one, and say *when* it was taken and *what produced it*
+    — never hand a hash to anyone as "safe to publish against" unless nothing has written since.
+    *trees01:* my applies produced `650c2b6c…`/`9b70ac1f…`, I verified them against the live files at
+    about 22:00, `OldCityStreetsV1` saved paving into both maps at 22:07:38 and 22:12:01, and I went
+    on reporting the old pair for 95 minutes — including in a hand-off file that called them "safe to
+    publish against". My own `trees01d` cook receipt had already recorded the real current values
+    (`candidateSha256 c516fd26…`, `mainSha256 2b82ae66…`); the refutation was in my own output and I
+    read past it. This is the same failure as rules 11–13 in a different costume: **a reading that was
+    true once, carried forward as if still true.** State the timestamp beside the hash so staleness is
+    visible rather than invisible.
 
 ## Native pitfalls
 

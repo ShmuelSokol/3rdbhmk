@@ -28,7 +28,11 @@ function Source-TerrainZ([double]$X,[double]$Y) {
     if($X -gt -21624.515625 -or $Y -gt 19972.431640625 -or ($X+$Y) -lt -4152.083984375){return $null}
     return -622.593235044541 - 0.4399999755859375*($X+22487.94)
 }
-function Read-EdgeObservation([string]$LogText,[string]$ClosureComponentName='', [string]$ClosureActorName='') {
+function Read-EdgeObservation([string]$LogText,[string]$ClosureComponentName='', [string]$ClosureActorName='', [double]$FaceX=-22487.94) {
+    # -22487.94 is the CUT boundary, where the V1 curtain stood and where the source-terrain
+    # plane above still starts. KotelRetainingWallV2 stands on the deck, up to MAX_DEVIATION_CM
+    # inside that line, so the blocking face is passed in from the generated geometry
+    # (retaining-wall-v2.json probeLane.footingFrontXcm) rather than assumed to be the boundary.
     $lines=@($LogText -split '\r?\n' | Where-Object {$_ -match 'MIKDASH_WALKPROBE \w+ label=KotelEdgeOut '})
     $starts=@($lines | Where-Object {$_ -match 'MIKDASH_WALKPROBE start '})
     $done=@($lines | Where-Object {$_ -match 'MIKDASH_WALKPROBE done '})
@@ -75,8 +79,9 @@ function Read-EdgeObservation([string]$LogText,[string]$ClosureComponentName='',
     # Done supplies actual final grounded state and position; samples can precede
     # it by 0.5s. A later landing invalidates stale falling-mode/velocity evidence.
     $unfinishedFall=$final.grounded -eq 0 -and $last.mode -eq 3 -and $last.grounded -eq 0 -and $last.velocityZ -lt -1 -and $landedAfterLastSample.Count -eq 0
-    $edgeBlocks=@($sweeps | Where-Object {$_.blocking -eq 1 -and [Math]::Abs($_.impactX+22487.94) -le 44 -and [Math]::Abs($_.impactY-19383.62484) -le 75 -and $_.normalX -gt 0.5 -and $_.hit.component -ne 'none' -and $_.hit.actor -ne 'none' -and ($_.hit.mesh -ne '-' -or ($ClosureComponentName -and $ClosureActorName -and $_.hit.component -eq $ClosureComponentName -and $_.hit.actor -eq $ClosureActorName -and $_.hit.tags -match '(?:^|\+)KotelClosureRuntimeV1(?:\+|$)'))})
-    $neverCrossed=$final.x -ge -22487.94 -and @($after | Where-Object {$_.x -lt -22487.94}).Count -eq 0
+    $edgeBlocks=@($sweeps | Where-Object {$_.blocking -eq 1 -and [Math]::Abs($_.impactX-$FaceX) -le 44 -and [Math]::Abs($_.impactY-19383.62484) -le 75 -and $_.normalX -gt 0.5 -and $_.hit.component -ne 'none' -and $_.hit.actor -ne 'none' -and ($_.hit.mesh -ne '-' -or ($ClosureComponentName -and $ClosureActorName -and $_.hit.component -eq $ClosureComponentName -and $_.hit.actor -eq $ClosureActorName -and $_.hit.tags -match '(?:^|\+)KotelClosureRuntimeV1(?:\+|$)'))})
+    # The pawn must never get past the blocking face, which now stands on the deck.
+    $neverCrossed=$final.x -ge $FaceX -and @($after | Where-Object {$_.x -lt $FaceX}).Count -eq 0
     $groundedOnDeck=$final.grounded -eq 1 -and [Math]::Abs($final.feetZ+984.594) -le 5 -and $after.Count -gt 0 -and @($after | Where-Object {$_.grounded -ne 1 -or [Math]::Abs($_.feetZ+984.594) -gt 5}).Count -eq 0
     $actualReach=@($reaches | Where-Object {$_.waypoint -eq 0}).Count -eq 1
     $finalOnHighFloor=$null -ne $final.sourceTerrainZ -and $final.grounded -eq 1 -and [Math]::Abs($final.feetZ-$final.sourceTerrainZ) -le 5 -and $final.floor.mesh -ne '-' -and $final.floor.actor -ne 'none'
@@ -90,7 +95,7 @@ function Read-EdgeObservation([string]$LogText,[string]$ClosureComponentName='',
     elseif($edgeBlocks.Count -ge 2 -and $neverCrossed -and $groundedOnDeck){$category='blocked-retaining-edge'}
     elseif($actualReach -and $nearTarget -and $finalOnHighFloor -and $sustainedHigh){$category='unexpected-climb'}
     elseif($sweeps.Count){$category='inconclusive-or-other-obstruction'}
-    return [ordered]@{category=$category;initialFloorValidated=[bool]$initialOK;traversalAccepted=$false;perimeterSafetyAccepted=$false;firstGrounded=$firstGround;initialLanding=$firstLanding;start=$starts[0];done=$done[0];actualWaypointReach=$actualReach;actualFinalSample=$last;nativeFinalState=$final;landingsAfterLastSample=$landedAfterLastSample;unfinishedFall=$unfinishedFall;penetrationSampleCount=$penetration.Count;blockingEdgeSweepCount=$edgeBlocks.Count;minimumObservedFeetZ=[Math]::Min([double]($samples.feetZ|Measure-Object -Minimum).Minimum,$final.feetZ);samples=$samples;landings=$landings;capsuleSweeps=$sweeps;reachedEvents=$reaches;rawEvents=$lines;limitations='Sampled trajectory and stuck-triggered 150cm capsule sweeps. Done reached counter can advance after four stuck events and is never used as reach proof. Initial guard is before steering; no rendered or perimeter-wide acceptance.'}
+    return [ordered]@{category=$category;blockingFaceXcm=$FaceX;initialFloorValidated=[bool]$initialOK;traversalAccepted=$false;perimeterSafetyAccepted=$false;firstGrounded=$firstGround;initialLanding=$firstLanding;start=$starts[0];done=$done[0];actualWaypointReach=$actualReach;actualFinalSample=$last;nativeFinalState=$final;landingsAfterLastSample=$landedAfterLastSample;unfinishedFall=$unfinishedFall;penetrationSampleCount=$penetration.Count;blockingEdgeSweepCount=$edgeBlocks.Count;minimumObservedFeetZ=[Math]::Min([double]($samples.feetZ|Measure-Object -Minimum).Minimum,$final.feetZ);samples=$samples;landings=$landings;capsuleSweeps=$sweeps;reachedEvents=$reaches;rawEvents=$lines;limitations='Sampled trajectory and stuck-triggered 150cm capsule sweeps. Done reached counter can advance after four stuck events and is never used as reach proof. Initial guard is before steering; no rendered or perimeter-wide acceptance.'}
 }
 if($SelfTest){
     $head="MIKDASH_WALKPROBE start label=KotelEdgeOut capsule=34.0/96.0 state=MODERN enclosure[test]`nMIKDASH_WALKPROBE landed label=KotelEdgeOut t=0.1 dropCm=7.8 feetZ=-982.4 comp=Deck owner=DeckActor mesh=SM_PlazaV1_DeckTile tags=-`nMIKDASH_WALKPROBE sample label=KotelEdgeOut t=0.5 pos=-22187.9,19383.6,-886.4 feetZ=-982.4 velZ=0 mode=1 grounded=1 comp=Deck owner=DeckActor mesh=SM_PlazaV1_DeckTile tags=-`n"
@@ -117,7 +122,16 @@ if($SelfTest){
     if($dynamicBlock.category -ne 'blocked-retaining-edge' -or $dynamicBlock.blockingEdgeSweepCount -ne 2){throw 'Known dynamic closure blocker must be identified without a StaticMesh name'}
     $unknownDynamic=Read-EdgeObservation ($head+$stationary+$dynamicSweep+$dynamicSweep+$done) 'DifferentComponent' 'MikdashEnclosure_0'
     if($unknownDynamic.category -eq 'blocked-retaining-edge' -or $unknownDynamic.blockingEdgeSweepCount -ne 0){throw 'Tagged but unmatched dynamic component must not count as known closure'}
-    'PASS: 10 offline edge outcome tests; no native launched.';return
+    # The V2 wall blocks on the deck, inside the cut boundary: the face position must come from
+    # the caller, and an impact on it must NOT be accepted against the old boundary constant.
+    $sweepV2=$sweep.Replace('X=-22487.940','X=-22439.850')
+    $stationaryV2=$stationary.Replace('pos=-22453.9,','pos=-22420.0,')
+    $doneV2=$done.Replace('X=-22453.900','X=-22420.000')
+    $v2=Read-EdgeObservation ($head+$stationaryV2+$sweepV2+$sweepV2+$doneV2) '' '' -22439.85
+    if($v2.category -ne 'blocked-retaining-edge' -or $v2.blockingFaceXcm -ne -22439.85){throw 'V2 face block test failed'}
+    if((Read-EdgeObservation ($head+$stationaryV2+$sweepV2+$sweepV2+$doneV2)).blockingEdgeSweepCount -ne 0){
+        throw 'A V2-face impact must not be accepted against the old cut-boundary constant'}
+    'PASS: 12 offline edge outcome tests; no native launched.';return
 }
 $project=Split-Path $PSScriptRoot -Parent
 $edgeSpec='label=KotelEdgeOut;state=MODERN;start=-22187.94:19383.62484:-878.594:180:0;wp=-22787.94:19383.62484;delay=10;timeout=12'
@@ -228,7 +242,14 @@ try {
             if(!$closureComponent -or !$closureActor){throw 'Missing exact dynamic blocker identity'}
         }
     }
-    $r.observation=Read-EdgeObservation $text $closureComponent $closureActor
+    # The blocking face position comes from the generated wall, never from an assumption.
+    $wallPath=Join-Path $project 'SourceAssets/context-review/KotelViewsV1/retaining-wall-v2.json'
+    if(!(Test-Path -LiteralPath $wallPath)){throw 'Missing retaining-wall-v2.json; cannot locate the blocking face'}
+    $lane=(Get-Content -LiteralPath $wallPath -Raw | ConvertFrom-Json).probeLane
+    if([Math]::Abs([double]$lane.yCm - 19383.62484) -gt 0.001){throw 'Generated probe lane Y differs from the reviewed edge-walk lane'}
+    $r.wallFaceXcm=[double]$lane.footingFrontXcm
+    $r.wallFaceSource='retaining-wall-v2.json probeLane.footingFrontXcm'
+    $r.observation=Read-EdgeObservation $text $closureComponent $closureActor ([double]$lane.footingFrontXcm)
     if($text -match 'Fatal error:|Ran out of memory|Assertion failed:'){throw 'Fatal native error in log'}
     $r.status=if($r.observation.initialFloorValidated){'observed-native-edge-outcome'}else{'inconclusive-initial-floor'}
 } catch {$r.status='failed';$r.error=$_.Exception.Message}

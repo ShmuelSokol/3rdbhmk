@@ -1,0 +1,24 @@
+﻿{
+    "status":  "failed",
+    "startedUtc":  "2026-09-16T00:19:52.8223901Z",
+    "stamp":  "20260916T001952Z",
+    "slotFile":  "C:\\Mikdash\\Working-5.8\\SLOT-oldcity-done.txt",
+    "steps":  [
+                  {
+                      "name":  "plaza-way-cut-candidate48",
+                      "stepNumber":  5,
+                      "startedUtc":  "2026-09-16T00:19:54.2034873Z",
+                      "arguments":  "\"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject\" /Engine/Maps/Entry -ExecutePythonScript=\"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3/Scripts/release_kotel_plaza_way_cut.py\" -unattended -nosplash -nullrhi -EnablePlugins=GeometryScripting -abslog=\"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\context-review\\KotelViewsV1\\engine-plaza-way-cut-candidate48-20260916T001952Z.log\" -Candidate48 -PlazaWayCutApply",
+                      "pid":  25892,
+                      "exitCode":  0,
+                      "receiptPath":  "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\context-review\\KotelViewsV1\\plaza-way-cut-apply-Candidate48-20260916T002011620563Z.json",
+                      "receiptStatus":  "failed",
+                      "error":  "Receipt status \u0027failed\u0027, expected \u0027applied_saved_reopened\u0027"
+                  }
+              ],
+    "errors":  [
+                   "plaza-way-cut-candidate48: Receipt status \u0027failed\u0027, expected \u0027applied_saved_reopened\u0027"
+               ],
+    "scope":  "Map-side repairs only: removes the MountAccessV2 placement and swaps the cut street duplicates. No cook, no C++ build, no frame capture.",
+    "initialCommitFreeGiB":  35.5
+}

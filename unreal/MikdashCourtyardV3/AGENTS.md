@@ -2185,3 +2185,64 @@ Physicsbody synchronous,TriMeshGeometries actualdata/readback; no reflectedfield
 Finalbuildretry10/10 bothtargets,no warnings;priorunchangedmath32/32.
 Read collision-acceptance.json and leadingTAKEOVER status. Localedge acceptance
 is not wholeperimeter/GPU/publicrelease. Oldplayablecopies andfailures preserved.
+
+## OldCityFoundationV2 — floating city bases (Claude, 15 Sep 2026)
+
+Flat building bases float wherever terrain drops below them along an edge. Two generators cause it:
+`create_oldcity_facades.generate_infill` (centre sample; INFILL_BASE_RULE now documents it and offers
+ground_min_v2 for any NEW generation) and buildJerusalem's OSM min-of-vertices rule (valley edges).
+Measure against the GAME terrain mesh (jerusalem-meshes.json mesh 0 heights + its per-cell diagonals),
+not a centre sample or AABB: `Scripts/oldcity_foundations_v2.py census|build|selftest`. Foundations are
+separate actors (one mesh per precinct class x 500 m tile) because BuildingIdentityLabel only resolves
+the two audited folders: swapping a V1 infill mesh to a new namespace would silently drop it from the
+269-owner hide list and the LegacyRoofRuntimeV1 owner guard. Use CityDetailZone_Precinct/Kept tags, and
+recompute the class per map (Main50 hides one more infill cell, N004_N004). Footprints touching Kotel deck
+rectangles are excluded (osm06965). Ring tracing must snap endpoints within 0.05 cm and merge sub-0.01 cm
+terrain breakpoints, or T-junctions and edge-end slivers open gaps.
+
+## KotelViewsV1 — the two cp26 Kotel frame defects (Claude, 16 Sep 2026)
+
+- **A GENERATED header breaks every agent's cook.** `KotelClosureRuntimeData.h` is written by
+  `Scripts/generate_kotel_closure_runtime.py`. C++ that references new fields compiles only after
+  the header is regenerated, and until then EVERY cook with `-build` fails (it cost the Old City
+  agent a cook: `Data::MaterialIds` undeclared). Regenerate the header in the same step as the
+  code change, rebuild BOTH targets, and only then say the tree is clean. Renaming a header
+  constant (`ClosureSha256` -> `WallSha256`) breaks call sites the compiler finds one at a time.
+- **K1's white stepped soffit was never a material bug.** It is `RELEASE_MountAccess_Deck/_Guards/_Portal`
+  (`create_kotel_opening.py`): 45 cm slab segments from X -18400 to -12500 at Y 19822..20122, so
+  from below they read as a stair underside. The material assigns fine and has `bUsedWithNanite`;
+  it is the unaccepted near-white `M_JerusalemStoneV2_*Review` pilot (no textures, no joints), and
+  the actors carry NO state tag, so they stood in all three states. The cooked default material
+  draws a grid, so flat white is never a cook fallback - check the pilot materials first.
+  Removed from both maps with `Scripts/release_remove_mount_access.py` (assets retained).
+- **An acceptance bar must be one the accepted answer can pass.** The V2 wall's coverage test first
+  demanded zero "void rays" (sightlines that leave the plaza UNDER the one-sided hillside surface).
+  The accepted V1 closure scores 268, because it excludes internal level edges and the platform
+  hole by design. The honest bar is no regression against V1; V2 now scores 229, i.e. it occludes
+  more. Comparing wall-to-wall DISTANCE was also the wrong test: V2 stands up to 60 cm inside the
+  sawtooth, so grazing rays legitimately run alongside it.
+- **A wall built inside the boundary needs the old curtain as a liner.** The dressed face is a
+  one-sided simplification of the 250 cm deck sawtooth, so a sightline nearly parallel to it can
+  slip through the wedge between chord and boundary. Keeping all 841 V1 triangles behind the face
+  makes occlusion >= V1 by construction; `validate()` and the unit tests now refuse data without it.
+- **GeometryScript from Python returns out-params as tuples.** `CopyMeshFromStaticMesh` (not
+  `copy_static_mesh_to_dynamic_mesh`) returns `(mesh, outcome)`; `ConvertIndexArrayToMeshSelection`
+  returns `(mesh, selection)` - passing that tuple on fails to nativize as
+  `FGeometryScriptMeshSelection`; `GetTrianglePositions` returns `(bIsValid, v1, v2, v3)` with the
+  FLAG FIRST, so slicing `[:3]` silently averages a bool with two vertices.
+- **The stray paving strip above the Kotel wall is OSM way 26492734** ("Western Wall Plaza",
+  highway=pedestrian) exported as a ~145 cm road-centreline ribbon draped on the DEM across four
+  `SM_Jerusalem_StonePaths_*` assets. PlazaV1 already paves that footprint, so the ribbon is a
+  duplicate that overhangs the cut and pokes through the deck; its Z-notch is the way's own vertex
+  jog. Street actors carry no state tag, so it survives every precinct state.
+- **Do not run a build while another agent's map job holds the editor**, and do not run the map
+  runner while UBT runs: `Run-KotelViewsEngine.ps1` treats a `dotnet` UBT/UAT process as a busy
+  slot and now WAITS instead of aborting, and it resumes with `-StartAtStep` so applied steps are
+  never repeated.
+
+Cook trap, same day: `Checkpoint-Build.ps1` passes `-build`, so a cook compiles the Game target and dies
+with UAT exit 6 on ANY agent's uncompiled C++ in the shared tree — here `KotelClosureRuntime.cpp`
+referencing `Data::MaterialIds`/`MaterialCount` that `KotelClosureRuntimeData.h` does not declare. Do not
+edit the other agent's source to get your cook through. If your own work is content-only, cook with
+`-UseExistingBinaries` (no build step) and state in the receipt and review that the archive carries the
+last verified runtime and none of the pending C++. Maps stay byte-identical through a failed cook.

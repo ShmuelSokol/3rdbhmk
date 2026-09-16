@@ -1,0 +1,23 @@
+﻿{
+    "status":  "failed",
+    "startedUtc":  "2026-09-15T23:56:50.2288010Z",
+    "stamp":  "20260915T235650Z",
+    "slotFile":  "C:\\Mikdash\\Working-5.8\\SLOT-oldcity-done.txt",
+    "steps":  [
+                  {
+                      "name":  "mount-access-remove-candidate48",
+                      "startedUtc":  "2026-09-15T23:56:51.6657301Z",
+                      "arguments":  "\"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\MikdashCourtyardV3.uproject\" /Engine/Maps/Entry -ExecutePythonScript=\"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3/Scripts/release_remove_mount_access.py\" -unattended -nosplash -nullrhi -EnablePlugins=GeometryScripting -abslog=\"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\context-review\\KotelViewsV1\\engine-mount-access-remove-candidate48-20260915T235650Z.log\" -Candidate48 -MountAccessRemoveApply",
+                      "pid":  30520,
+                      "exitCode":  0,
+                      "receiptPath":  "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\context-review\\KotelViewsV1\\mount-access-remove-apply-Candidate48-20260915T235722403448Z.json",
+                      "receiptStatus":  "applied_saved_reopened",
+                      "finishedUtc":  "2026-09-15T23:58:32.3519567Z"
+                  }
+              ],
+    "errors":  [
+                   "mount-access-verify-candidate48: Native slot taken by another process; stopping before launch"
+               ],
+    "scope":  "Map-side repairs only: removes the MountAccessV2 placement and swaps the cut street duplicates. No cook, no C++ build, no frame capture.",
+    "initialCommitFreeGiB":  34.3
+}

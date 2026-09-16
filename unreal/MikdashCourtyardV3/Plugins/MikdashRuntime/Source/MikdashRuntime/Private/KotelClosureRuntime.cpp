@@ -32,6 +32,12 @@ namespace Data = KotelClosureRuntimeData;
 using UE::Geometry::FDynamicMesh3;
 using UE::Geometry::FIndex3i;
 const TCHAR* AshlarPath = TEXT("/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/MI_PrecinctPlaza_Ashlar.MI_PrecinctPlaza_Ashlar");
+// Material slot 0 of the V2 retaining wall. M_Context_Building's VCMeanLum is 0.38, so a
+// constant 97/255 colour overlay leaves its vertex-colour modulation at exactly 1.0 and the
+// wall reads as the same limestone as the Jewish Quarter infill behind it.
+const FVector4f WallColour(KotelClosureRuntimeData::VertexColourByte / 255.0f,
+                           KotelClosureRuntimeData::VertexColourByte / 255.0f,
+                           KotelClosureRuntimeData::VertexColourByte / 255.0f, 1.0f);
 FVector Vector(const Data::FVec3& P) { return FVector(P.X, P.Y, P.Z); }
 FTransform Transform(const Data::FDeckTransform& T)
 {
@@ -199,6 +205,12 @@ void AMikdashEnclosure::PrepareKotelClosure()
     { Refuse(TEXT("terrain-state-policy-mismatch")); return; }
     if (!PlazaAshlarMaterial || PlazaAshlarMaterial->GetPathName() != AshlarPath)
     { Refuse(TEXT("loaded-plaza-ashlar-missing-or-unexpected")); return; }
+    // The retaining face itself is Old City limestone: the master the neighbouring Jewish
+    // Quarter infill already uses, so it is cooked with this map. The legacy pieces in front
+    // of the Western Wall keep the loaded plaza ashlar in slot 1.
+    UMaterialInterface* Limestone = LoadObject<UMaterialInterface>(nullptr, UTF8_TO_TCHAR(Data::LimestoneMaterialPath));
+    if (!Limestone) { Refuse(TEXT("old-city-limestone-material-missing")); return; }
+    KotelClosureLimestone = Limestone;
     KotelClosureTerrain = TerrainMatches[0];
     KotelClosureDeck = DeckMatches[0];
     UPrimitiveComponent* Sources[] = {TerrainMatches[0], DeckMatches[0]};
@@ -222,8 +234,13 @@ void AMikdashEnclosure::PrepareKotelClosure()
     Mesh.EnableAttributes();
     Mesh.Attributes()->SetNumNormalLayers(1);
     Mesh.Attributes()->SetNumUVLayers(1);
+    Mesh.Attributes()->EnablePrimaryColors();
+    Mesh.Attributes()->EnableMaterialID();
     auto* NormalOverlay = Mesh.Attributes()->PrimaryNormals();
     auto* UVOverlay = Mesh.Attributes()->PrimaryUV();
+    auto* ColorOverlay = Mesh.Attributes()->PrimaryColors();
+    auto* MaterialIDs = Mesh.Attributes()->GetMaterialID();
+    if (!ColorOverlay || !MaterialIDs) { Refuse(TEXT("compiled-attribute-set-unavailable")); return; }
     for (int32 Index = 0; Index < Data::VertexCount; ++Index)
     {
         const FVector Point = Vector(Data::Vertices[Index]);
@@ -232,17 +249,22 @@ void AMikdashEnclosure::PrepareKotelClosure()
         if (Point.ContainsNaN() || Normal.ContainsNaN() || !Normal.IsNormalized() || !FMath::IsFinite(UV.X) || !FMath::IsFinite(UV.Y)
             || Mesh.AppendVertex(Point) != Index
             || NormalOverlay->AppendElement(FVector3f(Normal)) != Index
-            || UVOverlay->AppendElement(FVector2f(UV.X, UV.Y)) != Index)
+            || UVOverlay->AppendElement(FVector2f(UV.X, UV.Y)) != Index
+            || ColorOverlay->AppendElement(WallColour) != Index)
         { Refuse(TEXT("compiled-vertex-or-overlay-invalid")); return; }
     }
     for (int32 Index = 0; Index < Data::TriangleCount; ++Index)
     {
         const auto T = Data::Triangles[Index];
         const FIndex3i Native(T.A, T.C, T.B); // same reversal as the proved native importer
-        if (Mesh.AppendTriangle(Native) != Index
+        const int32 Material = Data::MaterialIds[Index];
+        if (Material < 0 || Material >= Data::MaterialCount
+            || Mesh.AppendTriangle(Native) != Index
             || NormalOverlay->SetTriangle(Index, Native) != UE::Geometry::EMeshResult::Ok
-            || UVOverlay->SetTriangle(Index, Native) != UE::Geometry::EMeshResult::Ok)
+            || UVOverlay->SetTriangle(Index, Native) != UE::Geometry::EMeshResult::Ok
+            || ColorOverlay->SetTriangle(Index, Native) != UE::Geometry::EMeshResult::Ok)
         { Refuse(TEXT("compiled-triangle-or-overlay-invalid")); return; }
+        MaterialIDs->SetValue(Index, Material);
     }
     if (!Mesh.CheckValidity({}, UE::Geometry::EValidityCheckFailMode::ReturnOnly))
     { Refuse(TEXT("dynamic-mesh-invalid")); return; }
@@ -265,7 +287,7 @@ void AMikdashEnclosure::PrepareKotelClosure()
     KotelClosure->SetComplexAsSimpleCollisionEnabled(true, false);
     KotelClosure->GetBodySetup()->bDoubleSidedGeometry = true;
     KotelClosure->SetTangentsType(EDynamicMeshComponentTangentsMode::AutoCalculated);
-    KotelClosure->SetMaterial(0, PlazaAshlarMaterial);
+    KotelClosure->ConfigureMaterialSet({KotelClosureLimestone.Get(), PlazaAshlarMaterial});
     KotelClosure->SetMesh(MoveTemp(Mesh));
     KotelClosure->ComponentTags.Add(TEXT("KotelClosureRuntimeV1"));
     KotelClosure->RegisterComponent();
@@ -327,7 +349,10 @@ bool AMikdashEnclosure::ValidateKotelClosureMesh(double& OutPositionErrorCm, dou
     const bool CollisionActive = ActualVisible(KotelClosure.Get());
     const ECollisionEnabled::Type ExpectedCollision = CollisionActive ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision;
     if (!KotelClosure.IsValid() || !KotelClosure->IsRegistered() || !KotelClosure->HasAnyFlags(RF_Transient)
-        || !Identity(KotelClosure->GetComponentTransform()) || KotelClosure->GetMaterial(0) != PlazaAshlarMaterial
+        || !Identity(KotelClosure->GetComponentTransform())
+        || KotelClosure->GetNumMaterials() != Data::MaterialCount
+        || KotelClosure->GetMaterial(0) != KotelClosureLimestone.Get()
+        || KotelClosure->GetMaterial(1) != PlazaAshlarMaterial
         || KotelClosure->GetCollisionEnabled() != ExpectedCollision
         || KotelClosure->BodyInstance.GetCollisionEnabled(false) != ExpectedCollision
         || !ClosureResponsesMatch(KotelClosure.Get()) || !ClosurePhysicsDataReady(KotelClosure.Get())
@@ -341,7 +366,14 @@ bool AMikdashEnclosure::ValidateKotelClosureMesh(double& OutPositionErrorCm, dou
         if (Mesh.VertexCount() != Data::VertexCount || Mesh.TriangleCount() != Data::TriangleCount || !Mesh.HasAttributes()) { Passed = false; return; }
         const auto* Normals = Mesh.Attributes()->PrimaryNormals();
         const auto* UVs = Mesh.Attributes()->PrimaryUV();
-        if (!Normals || !UVs || !Normals->IsTriangleStorageValid() || !UVs->IsTriangleStorageValid()) { Passed = false; return; }
+        const auto* Colors = Mesh.Attributes()->PrimaryColors();
+        const auto* Materials = Mesh.Attributes()->HasMaterialID() ? Mesh.Attributes()->GetMaterialID() : nullptr;
+        if (!Normals || !UVs || !Colors || !Materials || !Normals->IsTriangleStorageValid() || !UVs->IsTriangleStorageValid()
+            || !Colors->IsTriangleStorageValid()) { Passed = false; return; }
+        for (int32 Index = 0; Index < Data::TriangleCount; ++Index)
+        {
+            if (Materials->GetValue(Index) != Data::MaterialIds[Index]) { Passed = false; return; }
+        }
         for (int32 Index = 0; Index < Data::VertexCount; ++Index)
         {
             if (!Mesh.IsVertex(Index)) { Passed = false; return; }
@@ -466,7 +498,9 @@ bool AMikdashEnclosure::FinishKotelClosureProbe(const TCHAR* Reason)
     Receipt->SetStringField(TEXT("reason"), Reason);
     Receipt->SetStringField(TEXT("map"), GetWorld() ? GetWorld()->GetOutermost()->GetName() : TEXT("None"));
     Receipt->SetStringField(TEXT("planSha256"), UTF8_TO_TCHAR(Data::PlanSha256));
-    Receipt->SetStringField(TEXT("closureSha256"), UTF8_TO_TCHAR(Data::ClosureSha256));
+    Receipt->SetStringField(TEXT("wallSha256"), UTF8_TO_TCHAR(Data::WallSha256));
+    Receipt->SetStringField(TEXT("legacyClosureSha256"), UTF8_TO_TCHAR(Data::LegacyClosureSha256));
+    Receipt->SetStringField(TEXT("wallGeneratorSha256"), UTF8_TO_TCHAR(Data::WallGeneratorSha256));
     Receipt->SetStringField(TEXT("generatorSha256"), UTF8_TO_TCHAR(Data::GeneratorSha256));
     Receipt->SetStringField(TEXT("expectedSourceTerrainAssetSha256"), UTF8_TO_TCHAR(Data::TerrainSha256));
     Receipt->SetStringField(TEXT("sourceHashScope"), TEXT("frozen provenance only; runtime guards compare identities, transforms and runtime closure mesh readback, not asset-file SHA"));

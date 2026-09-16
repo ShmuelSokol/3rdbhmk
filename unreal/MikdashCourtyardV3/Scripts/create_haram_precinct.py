@@ -1,0 +1,379 @@
+"""S5 offline geometry: frozen Haram ring, mapped gate locations, authored access.
+
+Run with Python 3.12 + shapely==2.1.2. Does not load Unreal or modify native assets.
+All geometry is in world centimetres; the Temple datum remains zero. Fresh native
+namespace only. Modern terrain and the Kotel cut are never overwritten.
+"""
+import hashlib
+import json
+import math
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'S5Deps'))
+from shapely import constrained_delaunay_triangles
+from shapely.geometry import Polygon, LineString, Point, box
+from shapely.geometry.polygon import orient
+from shapely.ops import unary_union
+import create_enclosure as E
+from create_precinct_cell_split import write_obj
+
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / 'SourceAssets/enclosure-review/HaramPrecinctV1'
+NAMESPACE = '/Game/MikdashV3/HaramPrecinctV3'
+PAVING_Z = 0.5  # half-centimetre finish avoids coplanar terrain; datum stays Z 0
+WALL_WIDTH = 288.0
+WALL_HEIGHT = 288.0
+GATE_WIDTH = 480.0
+TREAD = 45.0
+TILE = 5000.0
+
+
+def sha(p):
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def polygons(g):
+    if g.is_empty:
+        return []
+    if g.geom_type == 'Polygon':
+        return [orient(g, sign=1)] if g.area > .001 else []
+    return [p for child in getattr(g, 'geoms', []) for p in polygons(child)]
+
+
+def triangles(poly):
+    out = []
+    for p in polygons(poly):
+        ts = list(constrained_delaunay_triangles(p).geoms)
+        assert abs(sum(t.area for t in ts) - p.area) < max(.1, p.area * 1e-10)
+        assert all(p.covers(t) for t in ts)
+        out += [list(orient(t, sign=1).exterior.coords)[:3] for t in ts]
+    return out
+
+
+class Mesh:
+    def __init__(self):
+        self.vertices, self.faces = [], []
+
+    def face(self, a, b, c):
+        n = len(self.vertices)
+        self.vertices.extend([list(a), list(b), list(c)])
+        self.faces.append([n, n + 1, n + 2])
+
+    def prism(self, poly, low, high):
+        assert high > low
+        for p in polygons(poly):
+            for a, b, c in triangles(p):
+                self.face((*a, high), (*b, high), (*c, high))
+                self.face((*c, low), (*b, low), (*a, low))
+            for ring in [p.exterior] + list(p.interiors):
+                cs = list(ring.coords)
+                for a, b in zip(cs, cs[1:]):
+                    self.face((*a, low), (*b, low), (*b, high))
+                    self.face((*a, low), (*b, high), (*a, high))
+
+    def volume(self):
+        return sum(sum(a[i] * (b[(i+1)%3]*c[(i+2)%3]-b[(i+2)%3]*c[(i+1)%3])
+                       for i in range(3)) for a,b,c in
+                   ([self.vertices[j] for j in f] for f in self.faces)) / 6
+
+    def stair(self, q, tangent, inward, width, step, tops, bottom):
+        # One closed shell: adjacent tread boxes leave buried coincident faces
+        # which a character capsule can meet while sweeping up a riser.
+        profile = [(0, bottom), (len(tops)*step, bottom),
+                   (len(tops)*step, tops[-1])]
+        for k in range(len(tops)-1, -1, -1):
+            profile.append((k*step, tops[k]))
+            if k:
+                profile.append((k*step, tops[k-1]))
+        profile = [p for i,p in enumerate(profile) if i == 0 or p != profile[i-1]]
+        section = Polygon(profile)
+        def point(u, dz):
+            d,z=dz
+            return (q[0]+tangent[0]*u+inward[0]*d,
+                    q[1]+tangent[1]*u+inward[1]*d,z)
+        for a,b,c in triangles(section):
+            self.face(point(width/2,a),point(width/2,b),point(width/2,c))
+            self.face(point(-width/2,c),point(-width/2,b),point(-width/2,a))
+        for a,b in zip(profile, profile[1:]+profile[:1]):
+            self.face(point(-width/2,a),point(-width/2,b),point(width/2,b))
+            self.face(point(-width/2,a),point(width/2,b),point(width/2,a))
+
+
+def rect(q, tangent, inward, across0, across1, depth0, depth1):
+    return Polygon([(q[0]+tangent[0]*u+inward[0]*v,
+                     q[1]+tangent[1]*u+inward[1]*v)
+                    for u,v in [(across0,depth0),(across1,depth0),
+                                (across1,depth1),(across0,depth1)]])
+
+
+def main():
+    OUT.mkdir(parents=True, exist_ok=True)
+    obj = OUT / 'obj'
+    obj.mkdir(exist_ok=True)
+    outline = ROOT / 'SourceAssets/enclosure-review/haram-outline.json'
+    ring = orient(Polygon(json.loads(outline.read_text())['geometry']['pointsCm']), sign=1)
+    assert ring.is_valid and abs(ring.area/10000 - 142387) < 2
+    street_file=E.JERUSALEM_SOURCE.parents[3]/'output/cloud-unreal-v3/context-review/streets-manifest.json'
+    # Existing path ribbons sit 17.5 cm above the old level and otherwise poke
+    # through the new finish. Hide only meshes whose complete recorded bounds
+    # lie inside the chosen boundary; never erase any outside street geometry.
+    street_manifest=json.loads(street_file.read_text())
+    audit_files=sorted(OUT.glob('native-mapaudit-*.json'))
+    audit=json.loads(audit_files[-1].read_text())
+    assert audit['status']=='map-audited'
+    labels={a['label'] for a in audit['actors']}
+    interior_streets=[]
+    for spec in street_manifest['meshes']:
+        if not spec['assetName'].startswith('SM_Jerusalem_StonePaths_') or spec['assetName'] not in labels:
+            continue
+        b=spec['expectedBoundsUnrealCm'];lo,hi=b['min'],b['max']
+        if ring.covers(box(lo[0],lo[1],hi[0],hi[1])):
+            interior_streets.append(dict(label=spec['assetName'],boundsCm=b,
+                mesh='/Game/MikdashV3/JerusalemContext/Streets/'+spec['assetName']))
+    assert any(s['label']=='SM_Jerusalem_StonePaths_03_Grid_N001_N002' for s in interior_streets)
+    # Everything solid remains inside the mapped wall, including its coping.
+    outer = orient(ring.buffer(-50, join_style=2), sign=1)
+    inner = outer.buffer(-WALL_WIDTH, join_style=2)
+    assert len(polygons(outer)) == 1
+    inner_parts=sorted(polygons(inner),key=lambda p:p.area,reverse=True)
+    pocket_area=sum(p.area for p in inner_parts[1:])
+    assert pocket_area < 10000, 'Wall inset disconnects more than one square metre'
+    inner=inner_parts[0]  # sub-square-metre pockets become solid masonry, not inaccessible paving
+    wall = outer.difference(inner)
+    line = LineString(outer.exterior.coords)
+    source = json.loads(E.JERUSALEM_SOURCE.read_text(encoding='utf-8-sig'))
+    ground = E.Ground()
+    assert ground.available and ground.level is not None
+    def height(x, y):
+        v = ground.sample(x,y)
+        assert v is not None
+        return v['z']
+    gates = []
+    probes = []
+    holes = []
+    access = Mesh()
+    thresholds = Mesh()
+    gate_mesh = Mesh()
+    for f in source['features']:
+        name = f.get('tags',{}).get('name:en','')
+        if f['kind'] != 'building' or 'gate' not in name.lower():
+            continue
+        footprint = Polygon([E.source_to_ue(*v) for v in f['points']])
+        c = footprint.centroid
+        if c.distance(ring.exterior) > 2000:
+            continue
+        # A finite-width opening cannot occupy a centimetre-long OSM notch.
+        # Project onto the nearest wall run with room for the opening and both piers.
+        coords = list(outer.exterior.coords)
+        choices=[]
+        margin=GATE_WIDTH/2+100
+        for a,b in zip(coords,coords[1:]):
+            runline=LineString([a,b])
+            if runline.length < 2*margin:continue
+            along=max(margin,min(runline.length-margin,runline.project(c)))
+            at=runline.interpolate(along)
+            choices.append((at.distance(c),a,b,at))
+        distance,a,b,q=min(choices,key=lambda item:item[0])
+        assert distance<2000, name+' cannot fit near mapped footprint'
+        edge=(a,b)
+        dx,dy = edge[1][0]-edge[0][0],edge[1][1]-edge[0][1]
+        length = math.hypot(dx,dy)
+        tangent = (dx/length,dy/length)
+        inward = (-tangent[1],tangent[0])
+        xy = (q.x,q.y)
+        across = [-GATE_WIDTH/2, 0, GATE_WIDTH/2]
+        threshold = max(height(q.x+tangent[0]*u,q.y+tangent[1]*u) for u in across) + 2
+        if abs(threshold-PAVING_Z)<2:
+            threshold=PAVING_Z  # continuous finish at essentially level entries
+        # Bridge the 50 cm wall inset back to the mapped boundary. This matters
+        # at uphill entries where the new inside terrain has been lowered.
+        apron=rect(xy,tangent,inward,-GATE_WIDTH/2,GATE_WIDTH/2,-50,0).intersection(ring)
+        thresholds.prism(apron,min(threshold-40,-50),threshold)
+        probes.append([q.x-inward[0]*25,q.y-inward[1]*25,threshold])
+        run = max(600.0, abs(threshold)*3 + 600)
+        n = math.ceil(run/TREAD)
+        step = run/n
+        corridor = rect(xy,tangent,inward,-GATE_WIDTH/2,GATE_WIDTH/2,-100,run)
+        assert ring.buffer(100).covers(corridor), name+' access leaves ring'
+        assert not corridor.intersects(box(-8024,-7776,7528,7776)), name+' access hits court'
+        holes.append(corridor)
+        # Small treads follow the higher of the designed rise and actual terrain.
+        # Positive terrain is lowered separately inside the ring; no Kotel tile is changed.
+        tops=[]
+        bottoms=[]
+        for k in range(n):
+            d1=(k+1)*step
+            nominal=threshold+(PAVING_Z-threshold)*d1/run
+            sample=max(height(q.x+tangent[0]*u+inward[0]*d,
+                              q.y+tangent[1]*u+inward[1]*d)
+                       for u in across for d in (k*step,d1))
+            top=max(nominal,sample+2) if threshold < 0 else nominal
+            top=min(PAVING_Z,top) if threshold < 0 else top
+            tops.append(top)
+            # Embed below existing grade so no thin floating stair underside shows.
+            bottoms.append(min(top-40,sample-50))
+        access.stair(xy,tangent,inward,GATE_WIDTH,step,tops,min(bottoms))
+        deltas=[abs(a-b) for a,b in zip([threshold]+tops,tops)]
+        assert max(deltas) <= 18.0, (name,'riser',max(deltas))
+        assert abs(tops[-1]-PAVING_Z) < .01
+        for k in sorted({0,n//2,n-1}):
+            d=(k+.5)*step
+            probes.append([q.x+inward[0]*d,q.y+inward[1]*d,tops[k]])
+        # Piers and a lintel, deliberately authored; low thresholds remain real openings.
+        lintel=480+threshold
+        gate_top=max(lintel+100,WALL_HEIGHT)
+        for lo,hi in [(-GATE_WIDTH/2-100,-GATE_WIDTH/2),(GATE_WIDTH/2,GATE_WIDTH/2+100)]:
+            gate_mesh.prism(rect(xy,tangent,inward,lo,hi,0,WALL_WIDTH),
+                            min(threshold-50,-50),gate_top)
+        gate_mesh.prism(rect(xy,tangent,inward,-GATE_WIDTH/2,GATE_WIDTH/2,0,WALL_WIDTH),lintel,gate_top)
+        gates.append(dict(osmId=f['id'],name=name,sourceCentroidCm=[c.x,c.y],
+            positionCm=list(xy),projectionDistanceCm=c.distance(q),tangent=list(tangent),
+            inward=list(inward),thresholdZCm=threshold,runCm=run,treadCm=step,
+            stepCount=n,maxRiserCm=max(deltas),openingWidthCm=GATE_WIDTH,
+            lintelUndersideZCm=lintel,footprintSource=f['points'],
+            provenance='Mapped OSM footprint; projected position DERIVED. Width, height, steps AUTHORED.'))
+    assert len(gates)==13, len(gates)
+    access_union=unary_union(holes)
+    assert abs(sum(h.area for h in holes)-access_union.area) < 1, 'Access flights overlap'
+    wall=wall.difference(access_union)
+    platform=box(-8024,-7776,7528,7776)  # accepted 48 cm platform with -248 cm repivot
+    deck=inner.difference(platform).difference(access_union)
+    records=[]
+    def emit(name,mesh,material,solid=True):
+        if not mesh.faces:return
+        if solid:assert mesh.volume()>0,(name,mesh.volume())
+        assert all(ring.buffer(.01).covers(Point(v[0],v[1])) for v in mesh.vertices), name+' outside mapped ring'
+        file=obj/(name+'.obj')
+        # Explicit flat normals: importing an OBJ with neither vn records nor
+        # normal recomputation produced zero native normals in the first pilot.
+        lines=['# '+name,'o '+name]
+        lines += ['v %.4f %.4f %.4f'%(x,-y,z) for x,y,z in mesh.vertices]
+        for indices in mesh.faces:
+            a,b,c=[mesh.vertices[i] for i in indices]
+            u=[b[i]-a[i] for i in range(3)];v=[c[i]-a[i] for i in range(3)]
+            n=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]]
+            length=math.sqrt(sum(x*x for x in n))
+            assert length>0
+            lines.append('vn %.9f %.9f %.9f'%(n[0]/length,-n[1]/length,n[2]/length))
+        for normal,(a,b,c) in enumerate(mesh.faces,1):
+            lines.append('f %d//%d %d//%d %d//%d'%(c+1,normal,b+1,normal,a+1,normal))
+        file.write_text('\n'.join(lines)+'\n',encoding='ascii')
+        # Round-trip coordinates and winding through the same import adapter.
+        lines=file.read_text().splitlines()
+        verts=[(float(a[1]),-float(a[2]),float(a[3])) for s in lines
+               if (a:=s.split()) and a[0]=='v']
+        assert max(abs(a-b) for p,q in zip(verts,mesh.vertices) for a,b in zip(p,q))<.000051
+        records.append(dict(name=name,file='obj/'+file.name,sha256=sha(file),
+            material=material,triangles=len(mesh.faces),
+            canonicalBoundsCm={k:[fn(v[i] for v in mesh.vertices) for i in range(3)]
+                               for k,fn in [('min',min),('max',max)]}))
+    # Tile deck and wall meshes for culling; polygon clipping leaves no square spill.
+    minx,miny,maxx,maxy=outer.bounds
+    deck_area=0
+    for ix in range(math.floor(minx/TILE),math.ceil(maxx/TILE)):
+        for iy in range(math.floor(miny/TILE),math.ceil(maxy/TILE)):
+            cell=box(ix*TILE,iy*TILE,(ix+1)*TILE,(iy+1)*TILE)
+            piece=deck.intersection(cell)
+            if piece.area>1:
+                m=Mesh();m.prism(piece,PAVING_Z-20,PAVING_Z)
+                emit('SM_Haram_Deck_%d_%d'%(ix,iy),m,'paving');deck_area+=piece.area
+                pt=piece.representative_point()
+                if piece.boundary.distance(pt)>100:probes.append([pt.x,pt.y,PAVING_Z])
+            wp=wall.intersection(cell)
+            if wp.area>1:
+                m=Mesh();m.prism(wp,0,WALL_HEIGHT)
+                # Coping shares the footprint, keeping every vertex inside the outline.
+                emit('SM_Haram_Wall_%d_%d'%(ix,iy),m,'ashlar')
+    assert abs(deck_area-deck.area)<1,'Deck partition area mismatch'
+    emit('SM_Haram_GatesV2',gate_mesh,'ashlar')
+    # The floor-only XY paving shader stretches on vertical risers. Use the
+    # existing triplanar stone finish on a fresh mesh; geometry stays identical.
+    emit('SM_Haram_AccessV4',access,'ashlar')
+    emit('SM_Haram_ThresholdsV2',thresholds,'paving')
+    # Retaining faces under the ring, clipped at all gate passages.
+    retaining=Mesh();deepest=0
+    coords=list(outer.exterior.coords)
+    for a,b in zip(coords,coords[1:]):
+        dx,dy=b[0]-a[0],b[1]-a[1];length=math.hypot(dx,dy)
+        n=math.ceil(length/100);inward=(-dy/length,dx/length)
+        for k in range(n):
+            p=(a[0]+dx*k/n,a[1]+dy*k/n);q=(a[0]+dx*(k+1)/n,a[1]+dy*(k+1)/n)
+            strip=Polygon([p,q,(q[0]+inward[0]*WALL_WIDTH,q[1]+inward[1]*WALL_WIDTH),
+                           (p[0]+inward[0]*WALL_WIDTH,p[1]+inward[1]*WALL_WIDTH)])
+            strip=strip.intersection(outer).difference(access_union)
+            bottom=min(height(*p),height(*q))-50
+            if bottom<0:
+                retaining.prism(strip,bottom,0);deepest=max(deepest,-bottom)
+    emit('SM_Haram_Retaining',retaining,'limestone')
+    # Cut only the northwest FutureMount tile, preserving positions/colours outside
+    # the ring. Other three tiles are below the paving; Kotel V3 remains untouched.
+    # Use saved native attributes: the original OBJ import quantized colours and
+    # normals and shifted heights by up to .0066 cm. Never replace those outside
+    # the new cut with the higher-precision pre-import source values.
+    terrain_file=OUT/'native-terrain-source.json'
+    native_triangles=json.loads(terrain_file.read_text())
+    terrain=dict(vertices=[],normals=[],linearVertexColors=[],triangles=[])
+    for triangle in native_triangles:
+        n=len(terrain['vertices'])
+        terrain['vertices'].extend(triangle['positions'])
+        terrain['normals'].extend(triangle['normals'])
+        terrain['linearVertexColors'].extend(triangle['colors'])
+        terrain['triangles'].append([n,n+1,n+2])
+    buffers=dict(positions=[],normals=[],colors=[])
+    changed=0;outside_error=0;source_area=0;output_area=0
+    for ids in terrain['triangles']:
+        v=[terrain['vertices'][i] for i in ids]
+        ns=[terrain['normals'][i] for i in ids]
+        cs=[(terrain['linearVertexColors'][i]+[1.0])[:4] for i in ids]
+        p=Polygon([x[:2] for x in v]);source_area+=p.area
+        if max(x[2] for x in v)<=0:
+            for pos,normal,color in zip(v,ns,cs):
+                buffers['positions'].append(pos);buffers['normals'].append(normal);buffers['colors'].append(color)
+            output_area+=p.area;continue
+        pieces=[(p.difference(ring),False),(p.intersection(ring),True)]
+        for geom,cut in pieces:
+            for tri in triangles(geom):
+                if cut:changed+=1
+                # Match source front-face orientation, not a guessed convention.
+                sign=lambda a,b,c:(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
+                if sign(*tri)*sign(*v)<0:tri.reverse()
+                output_area+=Polygon(tri).area
+                a,b,c=v;den=sign(a,b,c)
+                for x,y in tri:
+                    w1=sign((x,y),b,c)/den;w2=sign(a,(x,y),c)/den;w3=1-w1-w2
+                    w=[w1,w2,w3];z=sum(w[i]*v[i][2] for i in range(3))
+                    buffers['positions'].append([x,y,min(z,-20) if cut else z])
+                    normal=[0,0,1] if cut else [sum(w[i]*ns[i][d] for i in range(3)) for d in range(3)]
+                    buffers['normals'].append(normal)
+                    buffers['colors'].append([sum(w[i]*cs[i][d] for i in range(3)) for d in range(4)])
+                    if not cut:outside_error=max(outside_error,abs(buffers['positions'][-1][2]-z))
+    assert abs(output_area-source_area)<1 and outside_error<.001 and changed>0
+    buffers['triangles']=len(buffers['positions'])//3
+    (OUT/'terrain-buffers.json').write_text(json.dumps(buffers,separators=(',',':')))
+    plan=dict(version=1,status='offline-geometry-verified-native-pending',namespace=NAMESPACE,
+        generatorSha256=sha(Path(__file__)),outlineSha256=sha(outline),
+        sourceSha256=sha(E.JERUSALEM_SOURCE),ringCm=list(ring.exterior.coords)[:-1],
+        plateauDatumZCm=0,pavingFinishZCm=PAVING_Z,wallInsetCm=50,
+        interiorStreetActors=interior_streets,streetsManifestSha256=sha(street_file),
+        wallWidthCm=WALL_WIDTH,wallHeightCm=WALL_HEIGHT,insetPocketFilledM2=pocket_area/10000,gateCount=len(gates),gates=gates,
+        deckAreaM2=deck.area/10000,deckPartitionErrorCm2=abs(deck_area-deck.area),
+        deepestRetainingCm=deepest,stepCount=sum(g['stepCount'] for g in gates),
+        obsoleteApproachActor='RELEASE_PrecinctApproachV1',meshes=records,walkProbesCm=probes,
+        terrain=dict(sourceFile=str(terrain_file.relative_to(ROOT)),sourceSha256=sha(terrain_file),
+                     nativeAssetSha256=sha(ROOT/'Content/MikdashV3/FutureMountV1/Terrain/SM_JerusalemTerrain_07_07_FutureMountCut.uasset'),
+                     buffersSha256=sha(OUT/'terrain-buffers.json'),changedTriangles=changed,
+                     areaErrorCm2=abs(output_area-source_area),outsideHeightErrorCm=outside_error),
+        preserved=['Temple transforms and Z datum','Kotel plaza, stairs and closure','city outside ring','both square readings'],
+        authored=['Gate openings and masonry profiles','Gate access flights','Paving and retaining design'],
+        limitations=['OSM boundary is not surveyed; approximate 2 m source uncertainty.',
+                     'Mapped gate footprints establish locations, not present-day access permission or historical gate dimensions.'])
+    wall_cuts=OUT/'wall-cuts.json'
+    plan['wallCuts']=json.loads(wall_cuts.read_text())['walls'] if wall_cuts.exists() else []
+    if wall_cuts.exists():plan['wallCutsSha256']=sha(wall_cuts)
+    (OUT/'plan.json').write_text(json.dumps(plan,indent=2)+'\n')
+    print(json.dumps({k:plan[k] for k in ['gateCount','deckAreaM2','deepestRetainingCm','stepCount','terrain']},indent=2))
+
+
+if __name__=='__main__':
+    main()

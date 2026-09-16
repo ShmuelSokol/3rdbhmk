@@ -451,7 +451,9 @@ TSharedRef<FJsonObject> AMikdashEnclosure::KotelClosureReadback() const
     const bool VisibilityPassed = bKotelClosureDisabled ? !KotelClosure.IsValid() : KotelClosure.IsValid() && ActualVisible(KotelClosure.Get()) == ActualVisible(KotelClosureTerrain.Get());
     Row->SetStringField(TEXT("status"), KotelClosureStatus);
     Row->SetBoolField(TEXT("disabled"), bKotelClosureDisabled);
-    Row->SetBoolField(TEXT("passed"), SourcesPassed && MeshPassed && VisibilityPassed);
+    const TSharedRef<FJsonObject> Haram = HaramReadback();
+    Row->SetObjectField(TEXT("haramPrecinct"), Haram);
+    Row->SetBoolField(TEXT("passed"), SourcesPassed && MeshPassed && VisibilityPassed && Haram->GetBoolField(TEXT("passed")));
     Row->SetBoolField(TEXT("sourceIdentitiesTransformsMaterialsPhysicsIntact"), SourcesPassed);
     Row->SetBoolField(TEXT("meshReadbackPassed"), MeshPassed);
     Row->SetBoolField(TEXT("visibilityMatchesActualTerrain"), VisibilityPassed);

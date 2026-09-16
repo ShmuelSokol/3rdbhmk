@@ -1,0 +1,1481 @@
+{
+	"passed": true,
+	"reason": "complete",
+	"map": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough",
+	"planSha256": "f3483bff589169159bc99200761d90230e4726ec248226c948f0ead6dedca69c",
+	"wallSha256": "6bee5323782fd7d9e9c36ef6979b664e3fd431495ca8dbe7fbdc92ce9085d8e9",
+	"legacyClosureSha256": "f35defeaaea9f53095bc2555250c34114c70f84e7249fae557de7cf31e8ea35f",
+	"wallGeneratorSha256": "4c0e07623a0a5d833a33a378a21fc08f5bcb2b76fcf52bcaf1d5fced3470e5ae",
+	"generatorSha256": "d8cf3939f72f53072ef88fb7a8f41cfe6279cab70b6b545fb453e37cc974619b",
+	"expectedSourceTerrainAssetSha256": "ed26cb8d2710b4a425985fed31c095fe59c13cc1f0068454bc7d53092aa78211",
+	"sourceHashScope": "frozen provenance only; runtime guards compare identities, transforms and runtime closure mesh readback, not asset-file SHA",
+	"headless": false,
+	"scope": "native identity/geometry/visibility/physics readback; PNG visual acceptance separate",
+	"disabled": false,
+	"states": [
+		{
+			"collisionPolicy": "pawn-only-query-v1",
+			"status": "active-visible",
+			"disabled": false,
+			"haramPrecinct":
+			{
+				"enabled": true,
+				"builtActors": 122,
+				"originalActors": 20,
+				"overlayModules": 175,
+				"builtState": false,
+				"floorAndStepProbes": [],
+				"passed": true
+			},
+			"passed": true,
+			"sourceIdentitiesTransformsMaterialsPhysicsIntact": true,
+			"meshReadbackPassed": true,
+			"visibilityMatchesActualTerrain": true,
+			"maxDeckTransformErrorCm": 0,
+			"maxPositionErrorCm": 0,
+			"maxNormalError": 3.7904482185229457e-08,
+			"maxUVError": 7.4153352025771839e-06,
+			"terrain":
+			{
+				"exists": true,
+				"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_24.StaticMeshComponent0",
+				"componentName": "StaticMeshComponent0",
+				"class": "/Script/Engine.StaticMeshComponent",
+				"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"visible": true,
+				"hiddenInGame": false,
+				"actualVisible": true,
+				"registered": true,
+				"transient": false,
+				"collisionMode": 3,
+				"configuredCollisionMode": 3,
+				"collisionProfile": "BlockAll",
+				"pawnResponse": 2,
+				"physicsStateCreated": true,
+				"bodyInstanceValid": true,
+				"affectsNavigation": true,
+				"generatesOverlap": false,
+				"material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain.M_Context_Terrain",
+				"materialTwoSided": false,
+				"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_24",
+				"actorName": "StaticMeshActor_24",
+				"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"actorHidden": false,
+				"actorCollisionEnabled": true,
+				"actorTags": [
+					"KotelPlazaCutTwin",
+					"SM_JerusalemTerrain_07_08"
+				],
+				"mesh": "/Game/MikdashV3/KotelPlazaCutV3/SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut.SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut",
+				"assetBoundsOriginCm": "X=-19124.515 Y=19972.433 Z=-1502.494",
+				"assetBoundsExtentCm": "X=20000.000 Y=20000.001 Z=3300.000",
+				"renderLod0Vertices": 2145,
+				"renderLod0Triangles": 2714,
+				"renderCountsScope": "cooked render/fallback LOD, not canonical source triangle count"
+			},
+			"deck":
+			{
+				"exists": true,
+				"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_66.HierarchicalInstancedStaticMesh",
+				"componentName": "HierarchicalInstancedStaticMesh",
+				"class": "/Script/Engine.HierarchicalInstancedStaticMeshComponent",
+				"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"visible": true,
+				"hiddenInGame": false,
+				"actualVisible": true,
+				"registered": true,
+				"transient": false,
+				"collisionMode": 3,
+				"configuredCollisionMode": 3,
+				"collisionProfile": "BlockAll",
+				"pawnResponse": 2,
+				"physicsStateCreated": true,
+				"bodyInstanceValid": false,
+				"affectsNavigation": false,
+				"generatesOverlap": true,
+				"material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving.M_PrecinctPlaza_Paving",
+				"materialTwoSided": false,
+				"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_66",
+				"actorName": "Actor_66",
+				"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"actorHidden": false,
+				"actorCollisionEnabled": true,
+				"actorTags": [
+					"KotelPlazaV1",
+					"KotelPlazaCutTwin"
+				],
+				"mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile.SM_PlazaV1_DeckTile",
+				"assetBoundsOriginCm": "X=0.000 Y=0.000 Z=-25.000",
+				"assetBoundsExtentCm": "X=625.000 Y=625.000 Z=25.000",
+				"renderLod0Vertices": 36,
+				"renderLod0Triangles": 12,
+				"renderCountsScope": "cooked render/fallback LOD, not canonical source triangle count",
+				"instanceCount": 959
+			},
+			"closure":
+			{
+				"exists": true,
+				"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0.DynamicMeshComponent_2147482362",
+				"componentName": "DynamicMeshComponent_2147482362",
+				"class": "/Script/GeometryFramework.DynamicMeshComponent",
+				"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"visible": true,
+				"hiddenInGame": false,
+				"actualVisible": true,
+				"registered": true,
+				"transient": true,
+				"collisionMode": 1,
+				"configuredCollisionMode": 1,
+				"collisionProfile": "Custom",
+				"pawnResponse": 2,
+				"physicsStateCreated": true,
+				"bodyInstanceValid": true,
+				"affectsNavigation": false,
+				"generatesOverlap": false,
+				"material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building.M_Context_Building",
+				"materialTwoSided": false,
+				"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0",
+				"actorName": "MikdashEnclosure_0",
+				"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"actorHidden": false,
+				"actorCollisionEnabled": true,
+				"actorTags": [
+					"ReleaseEnclosureV2"
+				],
+				"physicsDataReady": true,
+				"pawnOnlyResponses": true,
+				"asyncCooking": false,
+				"complexCollisionEnabled": true,
+				"physicsMeshesCreated": true,
+				"physicsMeshCreationFailed": false,
+				"doubleSidedPhysics": true,
+				"chaosTriangleMeshCount": 1,
+				"collisionTraceFlag": 3
+			},
+			"vertexCount": 8697,
+			"triangleCount": 2899,
+			"terrainComponentCollisionModeBefore": 3,
+			"deckComponentCollisionModeBefore": 3,
+			"terrainComponentCollisionProfileBefore": "BlockAll",
+			"deckComponentCollisionProfileBefore": "BlockAll",
+			"state": "Modern",
+			"photoPath": "C:/Mikdash/Builds/Checkpoint-haram-S5-02-20260916T171759Z/Windows/MikdashPhotos/Mikdash_Walkthrough_20260916-133642_2x.png",
+			"photoExists": true,
+			"sourceStateVisibilityAndActorCollisionPassed": true,
+			"cameraLocationCm": "X=-69985.373 Y=69985.373 Z=30067.566",
+			"cameraRotation": "P=-27.999998 Y=-44.999999 R=0.000000",
+			"cameraFov": 90,
+			"viewTarget": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashPhotoCamera_2147481986",
+			"pawn": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.BP_MikdashWalker_C_2147482371"
+		},
+		{
+			"collisionPolicy": "pawn-only-query-v1",
+			"status": "active-visible",
+			"disabled": false,
+			"haramPrecinct":
+			{
+				"enabled": true,
+				"builtActors": 122,
+				"originalActors": 20,
+				"overlayModules": 175,
+				"builtState": true,
+				"floorAndStepProbes": [
+					{
+						"expectedCm": "X=-17065.548 Y=26.914 Z=-365.751",
+						"hitCm": "X=-17065.548 Y=26.914 Z=-365.751",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_467",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-17018.974 Y=18.473 Z=-356.113",
+						"hitCm": "X=-17018.974 Y=18.473 Z=-356.113",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-16183.952 Y=-132.872 Z=-172.987",
+						"hitCm": "X=-16183.952 Y=-132.872 Z=-172.987",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-15392.878 Y=-276.251 Z=0.500",
+						"hitCm": "X=-15392.878 Y=-276.251 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-2532.083 Y=-23949.527 Z=-608.950",
+						"hitCm": "X=-2532.083 Y=-23949.527 Z=-608.950",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_467",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-2527.839 Y=-23902.247 Z=-597.664",
+						"hitCm": "X=-2527.839 Y=-23902.247 Z=-597.664",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-2419.354 Y=-22693.680 Z=-292.939",
+						"hitCm": "X=-2419.354 Y=-22693.680 Z=-292.939",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-2314.887 Y=-21529.876 Z=0.500",
+						"hitCm": "X=-2314.887 Y=-21529.876 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-16736.639 Y=1837.627 Z=-389.500",
+						"hitCm": "X=-16736.639 Y=1837.627 Z=-389.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_467",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-16690.293 Y=1829.196 Z=-379.750",
+						"hitCm": "X=-16690.293 Y=1829.196 Z=-379.750",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-15820.320 Y=1670.943 Z=-184.750",
+						"hitCm": "X=-15820.320 Y=1670.943 Z=-184.750",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-14993.846 Y=1520.603 Z=0.500",
+						"hitCm": "X=-14993.846 Y=1520.603 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-15790.155 Y=7947.545 Z=-316.777",
+						"hitCm": "X=-15790.155 Y=7947.545 Z=-316.777",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_467",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-15743.548 Y=7940.423 Z=-307.712",
+						"hitCm": "X=-15743.548 Y=7940.423 Z=-307.712",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-14999.169 Y=7826.681 Z=-153.606",
+						"hitCm": "X=-14999.169 Y=7826.681 Z=-153.606",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-14254.791 Y=7712.939 Z=0.500",
+						"hitCm": "X=-14254.791 Y=7712.939 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=8675.188 Y=-25131.941 Z=-1305.947",
+						"hitCm": "X=8675.188 Y=-25131.941 Z=-1305.948",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_467",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=8680.105 Y=-25084.831 Z=-1293.012",
+						"hitCm": "X=8680.105 Y=-25084.831 Z=-1293.012",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=8912.258 Y=-22860.357 Z=-646.256",
+						"hitCm": "X=8912.258 Y=-22860.357 Z=-646.256",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=9144.410 Y=-20635.883 Z=0.500",
+						"hitCm": "X=9144.410 Y=-20635.883 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-19212.484 Y=-11674.200 Z=-125.011",
+						"hitCm": "X=-19212.484 Y=-11674.200 Z=-125.011",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_467",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-19166.093 Y=-11682.679 Z=-119.306",
+						"hitCm": "X=-19166.093 Y=-11682.679 Z=-119.306",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-18686.521 Y=-11770.336 Z=-56.551",
+						"hitCm": "X=-18686.521 Y=-11770.336 Z=-56.551",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-18250.547 Y=-11850.024 Z=0.500",
+						"hitCm": "X=-18250.547 Y=-11850.024 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-17913.180 Y=-4590.958 Z=-296.200",
+						"hitCm": "X=-17913.180 Y=-4590.958 Z=-296.200",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_467",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-17867.079 Y=-4599.530 Z=-287.473",
+						"hitCm": "X=-17867.079 Y=-4599.530 Z=-287.474",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-17135.319 Y=-4735.578 Z=-139.123",
+						"hitCm": "X=-17135.319 Y=-4735.578 Z=-139.124",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-16446.603 Y=-4863.623 Z=0.500",
+						"hitCm": "X=-16446.603 Y=-4863.623 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-13843.493 Y=19087.251 Z=-1527.300",
+						"hitCm": "X=-13843.493 Y=19087.251 Z=-1527.300",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_467",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-13796.910 Y=19078.845 Z=-1514.129",
+						"hitCm": "X=-13796.910 Y=19078.845 Z=-1514.129",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-11247.149 Y=18618.689 Z=-750.229",
+						"hitCm": "X=-11247.149 Y=18618.689 Z=-750.229",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-8741.350 Y=18166.467 Z=0.500",
+						"hitCm": "X=-8741.350 Y=18166.467 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=11931.078 Y=-10567.456 Z=0.500",
+						"hitCm": "X=11931.078 Y=-10567.456 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_467",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=11884.816 Y=-10562.935 Z=0.500",
+						"hitCm": "X=11884.816 Y=-10562.935 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=11585.491 Y=-10533.689 Z=0.500",
+						"hitCm": "X=11585.491 Y=-10533.689 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=11328.927 Y=-10508.621 Z=0.500",
+						"hitCm": "X=11328.927 Y=-10508.621 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-6971.802 Y=-23467.041 Z=-367.059",
+						"hitCm": "X=-6971.802 Y=-23467.041 Z=-367.059",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_467",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-6966.395 Y=-23419.967 Z=-357.387",
+						"hitCm": "X=-6966.395 Y=-23419.967 Z=-357.387",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-6869.330 Y=-22574.934 Z=-173.607",
+						"hitCm": "X=-6869.330 Y=-22574.934 Z=-173.607",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-6777.375 Y=-21774.377 Z=0.500",
+						"hitCm": "X=-6777.375 Y=-21774.377 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-20426.652 Y=-22074.828 Z=542.438",
+						"hitCm": "X=-20426.652 Y=-22074.828 Z=542.438",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_467",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-20422.062 Y=-22027.778 Z=531.599",
+						"hitCm": "X=-20422.062 Y=-22027.778 Z=531.599",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-20313.926 Y=-20919.384 Z=260.630",
+						"hitCm": "X=-20313.926 Y=-20919.384 Z=260.630",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-20210.115 Y=-19855.325 Z=0.500",
+						"hitCm": "X=-20210.115 Y=-19855.325 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=12648.972 Y=-1469.913 Z=0.500",
+						"hitCm": "X=12648.972 Y=-1469.913 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_467",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=12602.741 Y=-1465.086 Z=0.500",
+						"hitCm": "X=12602.741 Y=-1465.086 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=12303.617 Y=-1433.857 Z=0.500",
+						"hitCm": "X=12303.617 Y=-1433.857 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=12047.225 Y=-1407.089 Z=0.500",
+						"hitCm": "X=12047.225 Y=-1407.089 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-20753.723 Y=-19297.389 Z=246.076",
+						"hitCm": "X=-20753.723 Y=-19297.389 Z=246.076",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_467",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-20707.452 Y=-19307.220 Z=237.890",
+						"hitCm": "X=-20707.452 Y=-19307.220 Z=237.891",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-20052.948 Y=-19446.283 Z=115.102",
+						"hitCm": "X=-20052.948 Y=-19446.283 Z=115.102",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-19442.077 Y=-19576.075 Z=0.500",
+						"hitCm": "X=-19442.077 Y=-19576.075 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_466",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-17500.000 Y=-20987.646 Z=0.500",
+						"hitCm": "X=-17500.000 Y=-20987.646 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_364",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-17500.000 Y=-18234.084 Z=0.500",
+						"hitCm": "X=-17500.000 Y=-18234.084 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_366",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-17018.215 Y=-12374.822 Z=0.500",
+						"hitCm": "X=-17018.215 Y=-12374.822 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_368",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-16662.087 Y=-8555.043 Z=0.500",
+						"hitCm": "X=-16662.087 Y=-8555.043 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_370",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-16083.546 Y=-2283.632 Z=0.500",
+						"hitCm": "X=-16083.546 Y=-2283.632 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_372",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-15813.474 Y=691.044 Z=0.500",
+						"hitCm": "X=-15813.474 Y=691.044 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_374",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-15372.430 Y=6176.438 Z=0.500",
+						"hitCm": "X=-15372.430 Y=6176.438 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_376",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-12500.000 Y=-21153.658 Z=0.500",
+						"hitCm": "X=-12500.000 Y=-21153.658 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_380",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-12500.000 Y=-17500.000 Z=0.500",
+						"hitCm": "X=-12500.000 Y=-17500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_382",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-12500.000 Y=-12500.000 Z=0.500",
+						"hitCm": "X=-12500.000 Y=-12500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_383",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-12500.000 Y=-7500.000 Z=0.500",
+						"hitCm": "X=-12500.000 Y=-7500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_384",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-12500.000 Y=-2500.000 Z=0.500",
+						"hitCm": "X=-12500.000 Y=-2500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_385",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-12500.000 Y=3382.830 Z=0.500",
+						"hitCm": "X=-12500.000 Y=3382.830 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_386",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-12130.308 Y=7528.185 Z=0.500",
+						"hitCm": "X=-12130.308 Y=7528.185 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_387",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-12261.590 Y=13423.317 Z=0.500",
+						"hitCm": "X=-12261.590 Y=13423.317 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_388",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-11973.007 Y=16734.061 Z=0.500",
+						"hitCm": "X=-11973.007 Y=16734.061 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_390",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-11533.572 Y=21626.692 Z=0.500",
+						"hitCm": "X=-11533.572 Y=21626.692 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_392",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-11813.554 Y=25512.582 Z=0.500",
+						"hitCm": "X=-11813.554 Y=25512.582 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_394",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-7500.000 Y=-20862.376 Z=0.500",
+						"hitCm": "X=-7500.000 Y=-20862.376 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_396",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-7500.000 Y=-17500.000 Z=0.500",
+						"hitCm": "X=-7500.000 Y=-17500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_398",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-7500.000 Y=-12500.000 Z=0.500",
+						"hitCm": "X=-7500.000 Y=-12500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_399",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-9012.000 Y=-6388.000 Z=0.500",
+						"hitCm": "X=-9012.000 Y=-6388.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_400",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-9012.000 Y=-2500.000 Z=0.500",
+						"hitCm": "X=-9012.000 Y=-2500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_401",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-9012.000 Y=2500.000 Z=0.500",
+						"hitCm": "X=-9012.000 Y=2500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_402",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-9012.000 Y=6388.000 Z=0.500",
+						"hitCm": "X=-9012.000 Y=6388.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_403",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-7500.000 Y=12500.000 Z=0.500",
+						"hitCm": "X=-7500.000 Y=12500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_404",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-7500.000 Y=16463.158 Z=0.500",
+						"hitCm": "X=-7500.000 Y=16463.158 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_405",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-7500.000 Y=22213.821 Z=0.500",
+						"hitCm": "X=-7500.000 Y=22213.821 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_406",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-3819.389 Y=-22453.713 Z=0.500",
+						"hitCm": "X=-3819.389 Y=-22453.713 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_410",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-2500.000 Y=-17500.000 Z=0.500",
+						"hitCm": "X=-2500.000 Y=-17500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_412",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-2500.000 Y=-12500.000 Z=0.500",
+						"hitCm": "X=-2500.000 Y=-12500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_413",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-2500.000 Y=-8888.000 Z=0.500",
+						"hitCm": "X=-2500.000 Y=-8888.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_414",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-2500.000 Y=8888.000 Z=0.500",
+						"hitCm": "X=-2500.000 Y=8888.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_415",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-2500.000 Y=12500.000 Z=0.500",
+						"hitCm": "X=-2500.000 Y=12500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_416",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-2500.000 Y=17500.000 Z=0.500",
+						"hitCm": "X=-2500.000 Y=17500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_417",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=-2500.000 Y=21768.698 Z=0.500",
+						"hitCm": "X=-2500.000 Y=21768.698 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_418",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=2500.000 Y=-21945.827 Z=0.500",
+						"hitCm": "X=2500.000 Y=-21945.827 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_420",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=2500.000 Y=-17500.000 Z=0.500",
+						"hitCm": "X=2500.000 Y=-17500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_422",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=2500.000 Y=-12500.000 Z=0.500",
+						"hitCm": "X=2500.000 Y=-12500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_423",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=2500.000 Y=-8888.000 Z=0.500",
+						"hitCm": "X=2500.000 Y=-8888.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_424",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=2500.000 Y=8888.000 Z=0.500",
+						"hitCm": "X=2500.000 Y=8888.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_425",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=2500.000 Y=12500.000 Z=0.500",
+						"hitCm": "X=2500.000 Y=12500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_426",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=2500.000 Y=17500.000 Z=0.500",
+						"hitCm": "X=2500.000 Y=17500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_427",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=2500.000 Y=21326.447 Z=0.500",
+						"hitCm": "X=2500.000 Y=21326.447 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_428",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=6852.396 Y=-22536.119 Z=0.500",
+						"hitCm": "X=6852.396 Y=-22536.119 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_431",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=7500.000 Y=-17500.000 Z=0.500",
+						"hitCm": "X=7500.000 Y=-17500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_433",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=7500.000 Y=-12500.000 Z=0.500",
+						"hitCm": "X=7500.000 Y=-12500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_434",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=8764.000 Y=-6388.000 Z=0.500",
+						"hitCm": "X=8764.000 Y=-6388.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_435",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=8764.000 Y=-2500.000 Z=0.500",
+						"hitCm": "X=8764.000 Y=-2500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_436",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=8764.000 Y=2500.000 Z=0.500",
+						"hitCm": "X=8764.000 Y=2500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_437",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=8764.000 Y=6388.000 Z=0.500",
+						"hitCm": "X=8764.000 Y=6388.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_438",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=7500.000 Y=12500.000 Z=0.500",
+						"hitCm": "X=7500.000 Y=12500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_439",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=7500.000 Y=17500.000 Z=0.500",
+						"hitCm": "X=7500.000 Y=17500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_440",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=7500.000 Y=20956.277 Z=0.500",
+						"hitCm": "X=7500.000 Y=20956.277 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_441",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=10293.343 Y=-18002.608 Z=0.500",
+						"hitCm": "X=10293.343 Y=-18002.608 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_446",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=10552.782 Y=-13078.600 Z=0.500",
+						"hitCm": "X=10552.782 Y=-13078.600 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_448",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=10842.939 Y=-7500.000 Z=0.500",
+						"hitCm": "X=10842.939 Y=-7500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_450",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=11048.006 Y=-3645.471 Z=0.500",
+						"hitCm": "X=11048.006 Y=-3645.471 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_452",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=11374.372 Y=2500.000 Z=0.500",
+						"hitCm": "X=11374.372 Y=2500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_454",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=11635.380 Y=7500.000 Z=0.500",
+						"hitCm": "X=11635.380 Y=7500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_456",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=11896.388 Y=12500.000 Z=0.500",
+						"hitCm": "X=11896.388 Y=12500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_458",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=12157.397 Y=17500.000 Z=0.500",
+						"hitCm": "X=12157.397 Y=17500.000 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_460",
+						"passed": true
+					},
+					{
+						"expectedCm": "X=12319.855 Y=20612.119 Z=0.500",
+						"hitCm": "X=12319.855 Y=20612.119 Z=0.500",
+						"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_462",
+						"passed": true
+					}
+				],
+				"passed": true
+			},
+			"passed": true,
+			"sourceIdentitiesTransformsMaterialsPhysicsIntact": true,
+			"meshReadbackPassed": true,
+			"visibilityMatchesActualTerrain": true,
+			"maxDeckTransformErrorCm": 0,
+			"maxPositionErrorCm": 0,
+			"maxNormalError": 3.7904482185229457e-08,
+			"maxUVError": 7.4153352025771839e-06,
+			"terrain":
+			{
+				"exists": true,
+				"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_24.StaticMeshComponent0",
+				"componentName": "StaticMeshComponent0",
+				"class": "/Script/Engine.StaticMeshComponent",
+				"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"visible": true,
+				"hiddenInGame": false,
+				"actualVisible": true,
+				"registered": true,
+				"transient": false,
+				"collisionMode": 3,
+				"configuredCollisionMode": 3,
+				"collisionProfile": "BlockAll",
+				"pawnResponse": 2,
+				"physicsStateCreated": true,
+				"bodyInstanceValid": true,
+				"affectsNavigation": true,
+				"generatesOverlap": false,
+				"material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain.M_Context_Terrain",
+				"materialTwoSided": false,
+				"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_24",
+				"actorName": "StaticMeshActor_24",
+				"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"actorHidden": false,
+				"actorCollisionEnabled": true,
+				"actorTags": [
+					"KotelPlazaCutTwin",
+					"SM_JerusalemTerrain_07_08"
+				],
+				"mesh": "/Game/MikdashV3/KotelPlazaCutV3/SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut.SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut",
+				"assetBoundsOriginCm": "X=-19124.515 Y=19972.433 Z=-1502.494",
+				"assetBoundsExtentCm": "X=20000.000 Y=20000.001 Z=3300.000",
+				"renderLod0Vertices": 2145,
+				"renderLod0Triangles": 2714,
+				"renderCountsScope": "cooked render/fallback LOD, not canonical source triangle count"
+			},
+			"deck":
+			{
+				"exists": true,
+				"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_66.HierarchicalInstancedStaticMesh",
+				"componentName": "HierarchicalInstancedStaticMesh",
+				"class": "/Script/Engine.HierarchicalInstancedStaticMeshComponent",
+				"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"visible": true,
+				"hiddenInGame": false,
+				"actualVisible": true,
+				"registered": true,
+				"transient": false,
+				"collisionMode": 3,
+				"configuredCollisionMode": 3,
+				"collisionProfile": "BlockAll",
+				"pawnResponse": 2,
+				"physicsStateCreated": true,
+				"bodyInstanceValid": false,
+				"affectsNavigation": false,
+				"generatesOverlap": true,
+				"material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving.M_PrecinctPlaza_Paving",
+				"materialTwoSided": false,
+				"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_66",
+				"actorName": "Actor_66",
+				"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"actorHidden": false,
+				"actorCollisionEnabled": true,
+				"actorTags": [
+					"KotelPlazaV1",
+					"KotelPlazaCutTwin"
+				],
+				"mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile.SM_PlazaV1_DeckTile",
+				"assetBoundsOriginCm": "X=0.000 Y=0.000 Z=-25.000",
+				"assetBoundsExtentCm": "X=625.000 Y=625.000 Z=25.000",
+				"renderLod0Vertices": 36,
+				"renderLod0Triangles": 12,
+				"renderCountsScope": "cooked render/fallback LOD, not canonical source triangle count",
+				"instanceCount": 959
+			},
+			"closure":
+			{
+				"exists": true,
+				"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0.DynamicMeshComponent_2147482362",
+				"componentName": "DynamicMeshComponent_2147482362",
+				"class": "/Script/GeometryFramework.DynamicMeshComponent",
+				"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"visible": true,
+				"hiddenInGame": false,
+				"actualVisible": true,
+				"registered": true,
+				"transient": true,
+				"collisionMode": 1,
+				"configuredCollisionMode": 1,
+				"collisionProfile": "Custom",
+				"pawnResponse": 2,
+				"physicsStateCreated": true,
+				"bodyInstanceValid": true,
+				"affectsNavigation": false,
+				"generatesOverlap": false,
+				"material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building.M_Context_Building",
+				"materialTwoSided": false,
+				"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0",
+				"actorName": "MikdashEnclosure_0",
+				"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"actorHidden": false,
+				"actorCollisionEnabled": true,
+				"actorTags": [
+					"ReleaseEnclosureV2"
+				],
+				"physicsDataReady": true,
+				"pawnOnlyResponses": true,
+				"asyncCooking": false,
+				"complexCollisionEnabled": true,
+				"physicsMeshesCreated": true,
+				"physicsMeshCreationFailed": false,
+				"doubleSidedPhysics": true,
+				"chaosTriangleMeshCount": 1,
+				"collisionTraceFlag": 3
+			},
+			"vertexCount": 8697,
+			"triangleCount": 2899,
+			"terrainComponentCollisionModeBefore": 3,
+			"deckComponentCollisionModeBefore": 3,
+			"terrainComponentCollisionProfileBefore": "BlockAll",
+			"deckComponentCollisionProfileBefore": "BlockAll",
+			"state": "Yechezkel",
+			"photoPath": "C:/Mikdash/Builds/Checkpoint-haram-S5-02-20260916T171759Z/Windows/MikdashPhotos/Mikdash_Walkthrough_20260916-133651_2x.png",
+			"photoExists": true,
+			"sourceStateVisibilityAndActorCollisionPassed": true,
+			"cameraLocationCm": "X=-69985.373 Y=69985.373 Z=30067.566",
+			"cameraRotation": "P=-27.999998 Y=-44.999999 R=0.000000",
+			"cameraFov": 90,
+			"viewTarget": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashPhotoCamera_2147481985",
+			"pawn": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.BP_MikdashWalker_C_2147482371"
+		},
+		{
+			"collisionPolicy": "pawn-only-query-v1",
+			"status": "active-visible",
+			"disabled": false,
+			"haramPrecinct":
+			{
+				"enabled": true,
+				"builtActors": 122,
+				"originalActors": 20,
+				"overlayModules": 175,
+				"builtState": false,
+				"floorAndStepProbes": [],
+				"passed": true
+			},
+			"passed": true,
+			"sourceIdentitiesTransformsMaterialsPhysicsIntact": true,
+			"meshReadbackPassed": true,
+			"visibilityMatchesActualTerrain": true,
+			"maxDeckTransformErrorCm": 0,
+			"maxPositionErrorCm": 0,
+			"maxNormalError": 3.7904482185229457e-08,
+			"maxUVError": 7.4153352025771839e-06,
+			"terrain":
+			{
+				"exists": true,
+				"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_24.StaticMeshComponent0",
+				"componentName": "StaticMeshComponent0",
+				"class": "/Script/Engine.StaticMeshComponent",
+				"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"visible": true,
+				"hiddenInGame": false,
+				"actualVisible": true,
+				"registered": true,
+				"transient": false,
+				"collisionMode": 3,
+				"configuredCollisionMode": 3,
+				"collisionProfile": "BlockAll",
+				"pawnResponse": 2,
+				"physicsStateCreated": true,
+				"bodyInstanceValid": true,
+				"affectsNavigation": true,
+				"generatesOverlap": false,
+				"material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain.M_Context_Terrain",
+				"materialTwoSided": false,
+				"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_24",
+				"actorName": "StaticMeshActor_24",
+				"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"actorHidden": false,
+				"actorCollisionEnabled": true,
+				"actorTags": [
+					"KotelPlazaCutTwin",
+					"SM_JerusalemTerrain_07_08"
+				],
+				"mesh": "/Game/MikdashV3/KotelPlazaCutV3/SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut.SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut",
+				"assetBoundsOriginCm": "X=-19124.515 Y=19972.433 Z=-1502.494",
+				"assetBoundsExtentCm": "X=20000.000 Y=20000.001 Z=3300.000",
+				"renderLod0Vertices": 2145,
+				"renderLod0Triangles": 2714,
+				"renderCountsScope": "cooked render/fallback LOD, not canonical source triangle count"
+			},
+			"deck":
+			{
+				"exists": true,
+				"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_66.HierarchicalInstancedStaticMesh",
+				"componentName": "HierarchicalInstancedStaticMesh",
+				"class": "/Script/Engine.HierarchicalInstancedStaticMeshComponent",
+				"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"visible": true,
+				"hiddenInGame": false,
+				"actualVisible": true,
+				"registered": true,
+				"transient": false,
+				"collisionMode": 3,
+				"configuredCollisionMode": 3,
+				"collisionProfile": "BlockAll",
+				"pawnResponse": 2,
+				"physicsStateCreated": true,
+				"bodyInstanceValid": false,
+				"affectsNavigation": false,
+				"generatesOverlap": true,
+				"material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving.M_PrecinctPlaza_Paving",
+				"materialTwoSided": false,
+				"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_66",
+				"actorName": "Actor_66",
+				"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"actorHidden": false,
+				"actorCollisionEnabled": true,
+				"actorTags": [
+					"KotelPlazaV1",
+					"KotelPlazaCutTwin"
+				],
+				"mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile.SM_PlazaV1_DeckTile",
+				"assetBoundsOriginCm": "X=0.000 Y=0.000 Z=-25.000",
+				"assetBoundsExtentCm": "X=625.000 Y=625.000 Z=25.000",
+				"renderLod0Vertices": 36,
+				"renderLod0Triangles": 12,
+				"renderCountsScope": "cooked render/fallback LOD, not canonical source triangle count",
+				"instanceCount": 959
+			},
+			"closure":
+			{
+				"exists": true,
+				"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0.DynamicMeshComponent_2147482362",
+				"componentName": "DynamicMeshComponent_2147482362",
+				"class": "/Script/GeometryFramework.DynamicMeshComponent",
+				"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"visible": true,
+				"hiddenInGame": false,
+				"actualVisible": true,
+				"registered": true,
+				"transient": true,
+				"collisionMode": 1,
+				"configuredCollisionMode": 1,
+				"collisionProfile": "Custom",
+				"pawnResponse": 2,
+				"physicsStateCreated": true,
+				"bodyInstanceValid": true,
+				"affectsNavigation": false,
+				"generatesOverlap": false,
+				"material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building.M_Context_Building",
+				"materialTwoSided": false,
+				"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0",
+				"actorName": "MikdashEnclosure_0",
+				"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"actorHidden": false,
+				"actorCollisionEnabled": true,
+				"actorTags": [
+					"ReleaseEnclosureV2"
+				],
+				"physicsDataReady": true,
+				"pawnOnlyResponses": true,
+				"asyncCooking": false,
+				"complexCollisionEnabled": true,
+				"physicsMeshesCreated": true,
+				"physicsMeshCreationFailed": false,
+				"doubleSidedPhysics": true,
+				"chaosTriangleMeshCount": 1,
+				"collisionTraceFlag": 3
+			},
+			"vertexCount": 8697,
+			"triangleCount": 2899,
+			"terrainComponentCollisionModeBefore": 3,
+			"deckComponentCollisionModeBefore": 3,
+			"terrainComponentCollisionProfileBefore": "BlockAll",
+			"deckComponentCollisionProfileBefore": "BlockAll",
+			"state": "Overlay",
+			"photoPath": "C:/Mikdash/Builds/Checkpoint-haram-S5-02-20260916T171759Z/Windows/MikdashPhotos/Mikdash_Walkthrough_20260916-133700_2x.png",
+			"photoExists": true,
+			"sourceStateVisibilityAndActorCollisionPassed": true,
+			"cameraLocationCm": "X=-69985.373 Y=69985.373 Z=30067.566",
+			"cameraRotation": "P=-27.999998 Y=-44.999999 R=0.000000",
+			"cameraFov": 90,
+			"viewTarget": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashPhotoCamera_2147481984",
+			"pawn": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.BP_MikdashWalker_C_2147482371"
+		},
+		{
+			"collisionPolicy": "pawn-only-query-v1",
+			"status": "active-visible",
+			"disabled": false,
+			"haramPrecinct":
+			{
+				"enabled": true,
+				"builtActors": 122,
+				"originalActors": 20,
+				"overlayModules": 175,
+				"builtState": false,
+				"floorAndStepProbes": [],
+				"passed": true
+			},
+			"passed": true,
+			"sourceIdentitiesTransformsMaterialsPhysicsIntact": true,
+			"meshReadbackPassed": true,
+			"visibilityMatchesActualTerrain": true,
+			"maxDeckTransformErrorCm": 0,
+			"maxPositionErrorCm": 0,
+			"maxNormalError": 3.7904482185229457e-08,
+			"maxUVError": 7.4153352025771839e-06,
+			"terrain":
+			{
+				"exists": true,
+				"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_24.StaticMeshComponent0",
+				"componentName": "StaticMeshComponent0",
+				"class": "/Script/Engine.StaticMeshComponent",
+				"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"visible": true,
+				"hiddenInGame": false,
+				"actualVisible": true,
+				"registered": true,
+				"transient": false,
+				"collisionMode": 3,
+				"configuredCollisionMode": 3,
+				"collisionProfile": "BlockAll",
+				"pawnResponse": 2,
+				"physicsStateCreated": true,
+				"bodyInstanceValid": true,
+				"affectsNavigation": true,
+				"generatesOverlap": false,
+				"material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain.M_Context_Terrain",
+				"materialTwoSided": false,
+				"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_24",
+				"actorName": "StaticMeshActor_24",
+				"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"actorHidden": false,
+				"actorCollisionEnabled": true,
+				"actorTags": [
+					"KotelPlazaCutTwin",
+					"SM_JerusalemTerrain_07_08"
+				],
+				"mesh": "/Game/MikdashV3/KotelPlazaCutV3/SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut.SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut",
+				"assetBoundsOriginCm": "X=-19124.515 Y=19972.433 Z=-1502.494",
+				"assetBoundsExtentCm": "X=20000.000 Y=20000.001 Z=3300.000",
+				"renderLod0Vertices": 2145,
+				"renderLod0Triangles": 2714,
+				"renderCountsScope": "cooked render/fallback LOD, not canonical source triangle count"
+			},
+			"deck":
+			{
+				"exists": true,
+				"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_66.HierarchicalInstancedStaticMesh",
+				"componentName": "HierarchicalInstancedStaticMesh",
+				"class": "/Script/Engine.HierarchicalInstancedStaticMeshComponent",
+				"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"visible": true,
+				"hiddenInGame": false,
+				"actualVisible": true,
+				"registered": true,
+				"transient": false,
+				"collisionMode": 3,
+				"configuredCollisionMode": 3,
+				"collisionProfile": "BlockAll",
+				"pawnResponse": 2,
+				"physicsStateCreated": true,
+				"bodyInstanceValid": false,
+				"affectsNavigation": false,
+				"generatesOverlap": true,
+				"material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving.M_PrecinctPlaza_Paving",
+				"materialTwoSided": false,
+				"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_66",
+				"actorName": "Actor_66",
+				"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"actorHidden": false,
+				"actorCollisionEnabled": true,
+				"actorTags": [
+					"KotelPlazaV1",
+					"KotelPlazaCutTwin"
+				],
+				"mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile.SM_PlazaV1_DeckTile",
+				"assetBoundsOriginCm": "X=0.000 Y=0.000 Z=-25.000",
+				"assetBoundsExtentCm": "X=625.000 Y=625.000 Z=25.000",
+				"renderLod0Vertices": 36,
+				"renderLod0Triangles": 12,
+				"renderCountsScope": "cooked render/fallback LOD, not canonical source triangle count",
+				"instanceCount": 959
+			},
+			"closure":
+			{
+				"exists": true,
+				"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0.DynamicMeshComponent_2147482362",
+				"componentName": "DynamicMeshComponent_2147482362",
+				"class": "/Script/GeometryFramework.DynamicMeshComponent",
+				"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"visible": true,
+				"hiddenInGame": false,
+				"actualVisible": true,
+				"registered": true,
+				"transient": true,
+				"collisionMode": 1,
+				"configuredCollisionMode": 1,
+				"collisionProfile": "Custom",
+				"pawnResponse": 2,
+				"physicsStateCreated": true,
+				"bodyInstanceValid": true,
+				"affectsNavigation": false,
+				"generatesOverlap": false,
+				"material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building.M_Context_Building",
+				"materialTwoSided": false,
+				"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0",
+				"actorName": "MikdashEnclosure_0",
+				"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+				"actorHidden": false,
+				"actorCollisionEnabled": true,
+				"actorTags": [
+					"ReleaseEnclosureV2"
+				],
+				"physicsDataReady": true,
+				"pawnOnlyResponses": true,
+				"asyncCooking": false,
+				"complexCollisionEnabled": true,
+				"physicsMeshesCreated": true,
+				"physicsMeshCreationFailed": false,
+				"doubleSidedPhysics": true,
+				"chaosTriangleMeshCount": 1,
+				"collisionTraceFlag": 3
+			},
+			"vertexCount": 8697,
+			"triangleCount": 2899,
+			"terrainComponentCollisionModeBefore": 3,
+			"deckComponentCollisionModeBefore": 3,
+			"terrainComponentCollisionProfileBefore": "BlockAll",
+			"deckComponentCollisionProfileBefore": "BlockAll",
+			"state": "Modern-again",
+			"photoPath": "C:/Mikdash/Builds/Checkpoint-haram-S5-02-20260916T171759Z/Windows/MikdashPhotos/Mikdash_Walkthrough_20260916-133710_2x.png",
+			"photoExists": true,
+			"sourceStateVisibilityAndActorCollisionPassed": true,
+			"cameraLocationCm": "X=-69985.373 Y=69985.373 Z=30067.566",
+			"cameraRotation": "P=-27.999998 Y=-44.999999 R=0.000000",
+			"cameraFov": 90,
+			"viewTarget": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashPhotoCamera_2147481983",
+			"pawn": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.BP_MikdashWalker_C_2147482371"
+		}
+	],
+	"photoPaths": [
+		"C:/Mikdash/Builds/Checkpoint-haram-S5-02-20260916T171759Z/Windows/MikdashPhotos/Mikdash_Walkthrough_20260916-133642_2x.png",
+		"C:/Mikdash/Builds/Checkpoint-haram-S5-02-20260916T171759Z/Windows/MikdashPhotos/Mikdash_Walkthrough_20260916-133651_2x.png",
+		"C:/Mikdash/Builds/Checkpoint-haram-S5-02-20260916T171759Z/Windows/MikdashPhotos/Mikdash_Walkthrough_20260916-133700_2x.png",
+		"C:/Mikdash/Builds/Checkpoint-haram-S5-02-20260916T171759Z/Windows/MikdashPhotos/Mikdash_Walkthrough_20260916-133710_2x.png"
+	],
+	"finalReadback":
+	{
+		"collisionPolicy": "pawn-only-query-v1",
+		"status": "active-visible",
+		"disabled": false,
+		"haramPrecinct":
+		{
+			"enabled": true,
+			"builtActors": 122,
+			"originalActors": 20,
+			"overlayModules": 175,
+			"builtState": false,
+			"floorAndStepProbes": [],
+			"passed": true
+		},
+		"passed": true,
+		"sourceIdentitiesTransformsMaterialsPhysicsIntact": true,
+		"meshReadbackPassed": true,
+		"visibilityMatchesActualTerrain": true,
+		"maxDeckTransformErrorCm": 0,
+		"maxPositionErrorCm": 0,
+		"maxNormalError": 3.7904482185229457e-08,
+		"maxUVError": 7.4153352025771839e-06,
+		"terrain":
+		{
+			"exists": true,
+			"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_24.StaticMeshComponent0",
+			"componentName": "StaticMeshComponent0",
+			"class": "/Script/Engine.StaticMeshComponent",
+			"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+			"visible": true,
+			"hiddenInGame": false,
+			"actualVisible": true,
+			"registered": true,
+			"transient": false,
+			"collisionMode": 3,
+			"configuredCollisionMode": 3,
+			"collisionProfile": "BlockAll",
+			"pawnResponse": 2,
+			"physicsStateCreated": true,
+			"bodyInstanceValid": true,
+			"affectsNavigation": true,
+			"generatesOverlap": false,
+			"material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Terrain.M_Context_Terrain",
+			"materialTwoSided": false,
+			"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_24",
+			"actorName": "StaticMeshActor_24",
+			"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+			"actorHidden": false,
+			"actorCollisionEnabled": true,
+			"actorTags": [
+				"KotelPlazaCutTwin",
+				"SM_JerusalemTerrain_07_08"
+			],
+			"mesh": "/Game/MikdashV3/KotelPlazaCutV3/SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut.SM_JerusalemTerrain_07_08_FutureMountCut_KotelPlazaCut",
+			"assetBoundsOriginCm": "X=-19124.515 Y=19972.433 Z=-1502.494",
+			"assetBoundsExtentCm": "X=20000.000 Y=20000.001 Z=3300.000",
+			"renderLod0Vertices": 2145,
+			"renderLod0Triangles": 2714,
+			"renderCountsScope": "cooked render/fallback LOD, not canonical source triangle count"
+		},
+		"deck":
+		{
+			"exists": true,
+			"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_66.HierarchicalInstancedStaticMesh",
+			"componentName": "HierarchicalInstancedStaticMesh",
+			"class": "/Script/Engine.HierarchicalInstancedStaticMeshComponent",
+			"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+			"visible": true,
+			"hiddenInGame": false,
+			"actualVisible": true,
+			"registered": true,
+			"transient": false,
+			"collisionMode": 3,
+			"configuredCollisionMode": 3,
+			"collisionProfile": "BlockAll",
+			"pawnResponse": 2,
+			"physicsStateCreated": true,
+			"bodyInstanceValid": false,
+			"affectsNavigation": false,
+			"generatesOverlap": true,
+			"material": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Materials/M_PrecinctPlaza_Paving.M_PrecinctPlaza_Paving",
+			"materialTwoSided": false,
+			"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.Actor_66",
+			"actorName": "Actor_66",
+			"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+			"actorHidden": false,
+			"actorCollisionEnabled": true,
+			"actorTags": [
+				"KotelPlazaV1",
+				"KotelPlazaCutTwin"
+			],
+			"mesh": "/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/Meshes/SM_PlazaV1_DeckTile.SM_PlazaV1_DeckTile",
+			"assetBoundsOriginCm": "X=0.000 Y=0.000 Z=-25.000",
+			"assetBoundsExtentCm": "X=625.000 Y=625.000 Z=25.000",
+			"renderLod0Vertices": 36,
+			"renderLod0Triangles": 12,
+			"renderCountsScope": "cooked render/fallback LOD, not canonical source triangle count",
+			"instanceCount": 959
+		},
+		"closure":
+		{
+			"exists": true,
+			"path": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0.DynamicMeshComponent_2147482362",
+			"componentName": "DynamicMeshComponent_2147482362",
+			"class": "/Script/GeometryFramework.DynamicMeshComponent",
+			"worldTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+			"visible": true,
+			"hiddenInGame": false,
+			"actualVisible": true,
+			"registered": true,
+			"transient": true,
+			"collisionMode": 1,
+			"configuredCollisionMode": 1,
+			"collisionProfile": "Custom",
+			"pawnResponse": 2,
+			"physicsStateCreated": true,
+			"bodyInstanceValid": true,
+			"affectsNavigation": false,
+			"generatesOverlap": false,
+			"material": "/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building.M_Context_Building",
+			"materialTwoSided": false,
+			"actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashEnclosure_0",
+			"actorName": "MikdashEnclosure_0",
+			"actorTransform": "0.000000,0.000000,0.000000|0.000000,0.000000,-0.000000|1.000000,1.000000,1.000000",
+			"actorHidden": false,
+			"actorCollisionEnabled": true,
+			"actorTags": [
+				"ReleaseEnclosureV2"
+			],
+			"physicsDataReady": true,
+			"pawnOnlyResponses": true,
+			"asyncCooking": false,
+			"complexCollisionEnabled": true,
+			"physicsMeshesCreated": true,
+			"physicsMeshCreationFailed": false,
+			"doubleSidedPhysics": true,
+			"chaosTriangleMeshCount": 1,
+			"collisionTraceFlag": 3
+		},
+		"vertexCount": 8697,
+		"triangleCount": 2899,
+		"terrainComponentCollisionModeBefore": 3,
+		"deckComponentCollisionModeBefore": 3,
+		"terrainComponentCollisionProfileBefore": "BlockAll",
+		"deckComponentCollisionProfileBefore": "BlockAll"
+	}
+}

@@ -6,6 +6,10 @@ param(
     [Parameter(Mandatory=$true)][ValidatePattern('^[a-fA-F0-9]{64}$')][string]$ExpectedChildSha256,
     [switch]$DisableClosure,
     [switch]$Constrained,
+    # Fast pre-cook review using the compiled editor runtime and current source map.
+    # This is explicitly not packaged-build acceptance.
+    [switch]$SourcePreview,
+    [switch]$Headless,
     [ValidatePattern('\A-?[0-9]+(?:\.[0-9]+)?(?: -?[0-9]+(?:\.[0-9]+)?){5}\z')]
     [string]$CameraBugItGo='-20732 19230 -814 6 175 0',
     [ValidateRange(120,360)][int]$TimeoutSeconds=240
@@ -14,11 +18,17 @@ $ErrorActionPreference='Stop'
 $minimumStart=if($Constrained){8.75GB}else{9GB}
 $maximumPrivate=if($Constrained){7GB}else{8GB}
 $reserve=if($Constrained){1.5GB}else{1.25GB}
+if($SourcePreview){$minimumStart=20GB;$maximumPrivate=16GB;$reserve=4GB}
 $width=if($Constrained){960}else{1280}
 $height=if($Constrained){540}else{720}
 $project=Split-Path $PSScriptRoot -Parent
 $root=Join-Path $Archive 'Windows'
 $exe=Join-Path $root 'MikdashCourtyardV3/Binaries/Win64/MikdashCourtyardV3.exe'
+if($SourcePreview){
+    $root=$project
+    $exe='C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor.exe'
+}
+$exe=(Resolve-Path -LiteralPath $exe).Path
 if (!(Test-Path -LiteralPath $exe)) { throw "Missing game child: $exe" }
 $hash=(Get-FileHash -LiteralPath $exe).Hash.ToLowerInvariant()
 if($hash -ne $ExpectedChildSha256.ToLowerInvariant()){throw 'Unexpected game child hash'}
@@ -31,6 +41,7 @@ if($headroom -lt $minimumStart){throw "Less than $($minimumStart/1GB) GiB free c
 $stamp=(Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssfffZ')
 $review=Join-Path $project 'SourceAssets/context-review/KotelCutClosureV1'
 $diag=Join-Path $root 'MikdashCourtyardV3/Saved/Diagnostics'
+if($SourcePreview){$diag=Join-Path $project 'Saved/Diagnostics'}
 $receipt=Join-Path $review "runtime-$stamp.json"
 $log=Join-Path $review "runtime-$stamp.log"
 New-Item -ItemType Directory -Path $review -Force | Out-Null
@@ -45,6 +56,8 @@ function Map-Hashes {
 $r=[ordered]@{
     status='starting';startedUtc=(Get-Date).ToUniversalTime().ToString('o')
     archive=$Archive;childSha256=$hash;closureDisabled=[bool]$DisableClosure;requestedCamera=$CameraBugItGo
+    sourcePreview=[bool]$SourcePreview
+    headless=[bool]$Headless
     scope='Tests the specified archive contents and runtime without cooking. High/77% capture at the recorded viewport; native state checks and visual acceptance separate. Caller must identify any mounted asset patches.'
     constrained=[bool]$Constrained;viewport=@($width,$height);initialRequiredFreeCommitBytes=$minimumStart
     mapHashesBefore=(Map-Hashes);initialFreeCommitBytes=$headroom
@@ -58,6 +71,12 @@ $launchArgs=@('-unattended','-nosound','-nosplash','-windowed',('-ResX='+$width)
     ('-ini:Game:[/Script/MikdashRuntime.MikdashFrontEnd]:bShowMainMenuOnBoot=False,[/Script/MikdashRuntime.MikdashPhotoMode]:LeashRadiusCm=900000,[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=KotelProbe_'+$stamp+',[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=KotelProbe_'+$stamp+',[/Script/MikdashRuntime.MikdashSettingsSubsystem]:bApplyGraphicsToEngine=False'))
 if($DisableClosure){$launchArgs+='-MikdashDisableKotelClosure'}
 if($Constrained){$launchArgs+='-NoAsyncLoadingThread'}
+if($Headless){$launchArgs+=@('-nullrhi','-MikdashKotelClosureHeadless')}
+if($SourcePreview){
+    $launchArgs=@(('"'+(Join-Path $project 'MikdashCourtyardV3.uproject')+'"'),'/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough','-game','-asyncstaticmeshcompilationmaxconcurrency=1')+$launchArgs
+    $r.scope='Compiled editor game runtime with current source map; pre-cook review only, NOT packaged acceptance.'
+    $r.runtimePluginSha256=(Get-FileHash -LiteralPath (Join-Path $project 'Plugins/MikdashRuntime/Binaries/Win64/UnrealEditor-MikdashRuntime.dll')).Hash.ToLowerInvariant()
+}
 $r.arguments=$launchArgs
 Save-Receipt
 $proc=$null
@@ -99,8 +118,9 @@ try {
     if($null -eq $native.disabled -or [bool]$native.disabled -ne [bool]$DisableClosure){throw 'Native control mode differs from requested closure mode'}
     if(($native.states.state -join ',') -ne 'Modern,Yechezkel,Overlay,Modern-again'){throw 'Native phase order differs from required round trip'}
     if(!$native.finalReadback.passed -or @($native.states | Where-Object {!$_.passed}).Count){throw 'Individual native phase or final readback failed'}
-    if($r.photos.Count -ne 4){throw 'A native phase photo is missing'}
-    $r.status='native-state-passed-visual-review-pending'
+    if(!$Headless -and $r.photos.Count -ne 4){throw 'A native phase photo is missing'}
+    if($Headless -and $r.photos.Count -ne 0){throw 'Unexpected photo in headless run'}
+    $r.status=if($Headless){'native-headless-state-passed-no-visual-claim'}else{'native-state-passed-visual-review-pending'}
 } catch {$r.status='failed';$r.error=$_.Exception.Message}
 finally {
     if($proc){

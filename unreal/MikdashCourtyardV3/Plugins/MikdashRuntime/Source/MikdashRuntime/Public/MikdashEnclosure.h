@@ -139,6 +139,26 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Shape")
     EMikdashPrecinctReading Reading = EMikdashPrecinctReading::Yechezkel3000;
 
+    /** Owner-selected modern Haram outline. Square readings remain available when off.
+     *  Solids are guarded static actors; this actor builds the corresponding overlay. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Shape")
+    bool bUseHaramOutline = false;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Shape")
+    TArray<FVector2D> HaramRingCm;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Shape")
+    int32 HaramExpectedBuiltActors = 0;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Precinct|Shape")
+    int32 HaramExpectedOriginalActors = 1;
+
+    /** Independently checked world-space floor/step stations, Z is the expected surface. */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|Shape")
+    TArray<FVector> HaramWalkProbes;
+
+    TSharedRef<FJsonObject> HaramReadback() const;
+
     /** The state the level opens in. YECHEZKEL by decision: the precinct exactly as 42:15-20
      *  states it is the default view; MODERN and OVERLAY remain one and two presses away. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Precinct|State")
@@ -527,6 +547,8 @@ private:
     TWeakObjectPtr<UDynamicMeshComponent> KotelClosure;
     TWeakObjectPtr<UStaticMeshComponent> KotelClosureTerrain;
     TWeakObjectPtr<UInstancedStaticMeshComponent> KotelClosureDeck;
+    // Not reflected: the cooked unversioned map's property schema must not move.
+    TWeakObjectPtr<UMaterialInterface> KotelClosureLimestone;
     TWeakObjectPtr<UMaterialInterface> KotelClosureTerrainMaterial;
     TWeakObjectPtr<UMaterialInterface> KotelClosureDeckMaterial;
     FName KotelClosureSourceCollisionProfiles[2];

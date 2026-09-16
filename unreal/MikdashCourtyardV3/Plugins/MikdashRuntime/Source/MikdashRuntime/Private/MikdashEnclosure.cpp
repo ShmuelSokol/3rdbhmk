@@ -677,6 +677,53 @@ std::vector<FGateOpening> AMikdashEnclosure::MakeGates(const FSquare& Square) co
 
 void AMikdashEnclosure::BuildRing()
 {
+    if (bUseHaramOutline)
+    {
+        // S5 solids are map-owned, polygon-clipped meshes tagged HaramRingBuilt.
+        // Never also generate the obsolete square underneath them.
+        for (UHierarchicalInstancedStaticMeshComponent* Component : {WallInstances, GateInstances, CornerInstances,
+                                FoundationInstances, OverlayInstances}) Component->ClearInstances();
+        for (UPointLightComponent* Light : MarkerLights) if (Light) Light->DestroyComponent();
+        MarkerLights.Reset();
+        {
+            TGuardValue<bool> DisableLegacyPlaza(bBuildPlaza, false);
+            BuildPlaza(GetSquare(), MakeGroundProfile()); // Clear square caches even on invalid configuration.
+        }
+        if (bBuildPlaza)
+        {
+            UE_LOG(LogTemp, Error, TEXT("Haram outline requires the obsolete square plaza disabled"));
+            return;
+        }
+        FPrecinctRing Ring;
+        for (const FVector2D& P : HaramRingCm) Ring.VerticesUnrealCm.push_back({P.X, P.Y});
+        if (!RingIsValid(Ring))
+        {
+            UE_LOG(LogTemp, Error, TEXT("Haram outline is invalid; refusing square fallback"));
+            return;
+        }
+        MakeRingPositivelyOriented(Ring);
+        std::vector<FRingWallModule> Modules;
+        PlanRingWall(Ring, 1000.0, Modules);
+        OverlayInstances->SetStaticMesh(OverlayQuadMesh);
+        for (const FRingWallModule& M : Modules)
+            OverlayInstances->AddInstance(FTransform(FRotator(0, M.YawDegrees, 0),
+                FVector(M.CentreUnrealCm.X, M.CentreUnrealCm.Y, 0),
+                FVector(M.LengthUnrealCm, 0.96, 288.0)), true);
+        if (OverlayMaterial)
+        {
+            OverlayDynamic = UMaterialInstanceDynamic::Create(OverlayMaterial, this);
+            OverlayInstances->SetMaterial(0, OverlayDynamic);
+        }
+        for (int Side=0; Side<4; ++Side)
+        {
+            WallBaseZMin[Side] = WallBaseZMax[Side] = 0;
+            DeepestFoundation[Side] = 0;
+        }
+        PlazaStatus = TEXT("haram-static-polygon-meshes");
+        bGroundFromProfile = true;
+        bRingBuilt = true;
+        return;
+    }
     const FSquare Square = GetSquare();
     const double SideLength = SquareSideUnrealCm(Square);
     const double CmPerAmah = static_cast<double>(WorldCmPerAmah);
@@ -912,6 +959,57 @@ void AMikdashEnclosure::BuildRing()
     BuildPlaza(Square, Profile);
 
     bRingBuilt = true;
+}
+
+TSharedRef<FJsonObject> AMikdashEnclosure::HaramReadback() const
+{
+    TSharedRef<FJsonObject> Row = MakeShared<FJsonObject>();
+    Row->SetBoolField(TEXT("enabled"), bUseHaramOutline);
+    if (!bUseHaramOutline) { Row->SetBoolField(TEXT("passed"), true); return Row; }
+    const bool Built = CurrentState == EMikdashPrecinctState::Yechezkel;
+    bool Passed = !bBuildPlaza && HaramRingCm.Num() >= 3
+        && WallInstances->GetInstanceCount() == 0 && GateInstances->GetInstanceCount() == 0
+        && FoundationInstances->GetInstanceCount() == 0 && PlazaDeckInstances->GetInstanceCount() == 0
+        && OverlayInstances->GetInstanceCount() > 0;
+    int32 Solids=0, Originals=0;
+    for (TActorIterator<AActor> It(GetWorld()); It; ++It)
+    {
+        const bool IsBuilt = It->ActorHasTag(TEXT("HaramRingBuilt"));
+        const bool IsOriginal = It->ActorHasTag(TEXT("HaramRingOriginal"));
+        if (!IsBuilt && !IsOriginal) continue;
+        if (IsBuilt) ++Solids; else ++Originals;
+        const bool Expected = IsBuilt ? Built : !Built;
+        Passed &= It->IsHidden() != Expected && It->GetActorEnableCollision() == Expected;
+    }
+    Passed &= Solids == HaramExpectedBuiltActors && Originals == HaramExpectedOriginalActors;
+    TArray<TSharedPtr<FJsonValue>> Probes;
+    if (Built)
+    {
+        Passed &= HaramWalkProbes.Num() >= 30;
+        for (const FVector& P : HaramWalkProbes)
+        {
+            FHitResult Hit;
+            FCollisionQueryParams Params(SCENE_QUERY_STAT(HaramFloorReadback), true);
+            const bool Found = GetWorld()->LineTraceSingleByChannel(Hit, P+FVector(0,0,40),
+                P-FVector(0,0,40), ECC_Pawn, Params);
+            const bool Ok = Found && Hit.GetActor() && Hit.GetActor()->ActorHasTag(TEXT("HaramRingBuilt"))
+                && FMath::Abs(Hit.ImpactPoint.Z-P.Z) < 1.0;
+            Passed &= Ok;
+            TSharedRef<FJsonObject> Probe=MakeShared<FJsonObject>();
+            Probe->SetStringField(TEXT("expectedCm"), P.ToString());
+            Probe->SetStringField(TEXT("hitCm"), Hit.ImpactPoint.ToString());
+            Probe->SetStringField(TEXT("actor"), GetPathNameSafe(Hit.GetActor()));
+            Probe->SetBoolField(TEXT("passed"), Ok);
+            Probes.Add(MakeShared<FJsonValueObject>(Probe));
+        }
+    }
+    Row->SetNumberField(TEXT("builtActors"), Solids);
+    Row->SetNumberField(TEXT("originalActors"), Originals);
+    Row->SetNumberField(TEXT("overlayModules"), OverlayInstances->GetInstanceCount());
+    Row->SetBoolField(TEXT("builtState"), Built);
+    Row->SetArrayField(TEXT("floorAndStepProbes"), Probes);
+    Row->SetBoolField(TEXT("passed"), Passed);
+    return Row;
 }
 
 // ---------------------------------------------------------------------------

@@ -892,6 +892,31 @@ void AMikdashPlayerController::TickWalkProbe(float DeltaTime)
         UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE stuck label=%s t=%.2f pos=%s blocking=%d at=%s normal=%s %s"),
             *WalkProbe.Label, Elapsed, *Position.ToString(), Block.bBlockingHit ? 1 : 0, *Block.ImpactPoint.ToString(),
             *Block.ImpactNormal.ToString(), *Describe(Block));
+        // Read-only capsule sweeps explain rejected step-ups without changing
+        // movement settings or moving the visitor to manufacture a pass.
+        if (WalkProbe.Label.StartsWith(TEXT("HaramAccess")))
+        {
+            const FCollisionShape Capsule = FCollisionShape::MakeCapsule(Walker->GetCapsuleComponent()->GetScaledCapsuleRadius(), HalfHeight);
+            const FVector Up = Position + FVector(0, 0, FMath::Max(0.f, Movement->MaxStepHeight - Movement->CurrentFloor.GetDistanceToFloor()));
+            const FVector Forward = Up + Walker->GetActorForwardVector() * 2.0;
+            auto Sweep = [&](const TCHAR* Phase, const FVector& From, const FVector& To)
+            {
+                FHitResult H;
+                World->SweepSingleByChannel(H, From, To, FQuat::Identity, ECC_Pawn, Capsule, Query);
+                const UPrimitiveComponent* C = H.GetComponent();
+                UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE stepcheck phase=%s blocking=%d penetrating=%d time=%.6f point=%s normal=%s walkable=%d stepPolicy=%d %s"),
+                    Phase, H.bBlockingHit ? 1 : 0, H.bStartPenetrating ? 1 : 0, H.Time, *H.ImpactPoint.ToString(),
+                    *H.ImpactNormal.ToString(), Movement->IsWalkable(H) ? 1 : 0, C ? static_cast<int32>(C->CanCharacterStepUpOn.GetValue()) : -1, *Describe(H));
+            };
+            Sweep(TEXT("up"), Position, Up);
+            Sweep(TEXT("forward"), Up, Forward);
+            Sweep(TEXT("down"), Forward, Forward-FVector(0,0,Movement->MaxStepHeight+5.f));
+            const UPrimitiveComponent* C = Block.GetComponent();
+            UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE floorcheck dist=%.6f line=%d normal=%s stepPolicy=%d canBase=%d"),
+                Movement->CurrentFloor.GetDistanceToFloor(), Movement->CurrentFloor.bLineTrace ? 1 : 0,
+                *Movement->CurrentFloor.HitResult.ImpactNormal.ToString(), C ? static_cast<int32>(C->CanCharacterStepUpOn.GetValue()) : -1,
+                Block.GetActor() && Block.GetActor()->CanBeBaseForCharacter(Walker) ? 1 : 0);
+        }
         if (WalkProbe.StuckEvents >= 4 && WalkProbe.Next < WalkProbe.Waypoints.Num()) ++WalkProbe.Next;
     }
     ++WalkProbe.Samples;

@@ -1,3 +1,169 @@
+## S5 Haram precinct accepted — 16 September 2026
+
+Verification runner: run active-tree and publication-tree verify.py sequentially.
+Its Python compile checks share temporary .pyc names; parallel gates can collide
+on Windows atomic rename even when both source trees are valid.
+
+
+Candidate48 now uses the mapped Haram perimeter, 13 derived gate positions,
+111,848.53 m2 of paving and 586 authored access treads. Temple transforms and Z0
+remain fixed; Kotel paving and retaining closure survive every precinct state.
+Both sourced square readings remain implemented for maps that do not opt in.
+
+Final map: 9daa88a181a44009467ab6a3f296dcff3ed9ff8b93500ddee593adc84ff0367e.
+Build: C:/Mikdash/Builds/Checkpoint-haram-S5-02-20260916T171759Z.
+Acceptance: SourceAssets/enclosure-review/HaramPrecinctV1/acceptance.json.
+All 13 packaged character routes pass with actual waypoint events, zero stalls and
+grounded paving endpoints. Three GPU views pass the Modern / Yechezkel / Overlay /
+Modern-again round trip, all 115 floor/step probes, and normal process exit.
+Fresh native verification: 122 built actors, 20 phase originals, 12 exterior-surface
+proofs. Quick gate 6/6, Haram tests 7/7 in active and publication trees, math suites
+32/32; both C++ targets compiled. Main50 and outside surfaces are preserved.
+
+AccessV4 uses triplanar stone; AccessV3's XY paving stretched on vertical risers.
+The Council route also needed a corridor-only street cut. S5-01 failed these two
+acceptance points; its evidence and all earlier checkpoints are retained.
+Raw diagnostic logs remain local. Gate dimensions/access are authored, mapped
+locations derived; no current access permissions or surveyed profiles are claimed.
+
+Next: Kohen Gadol skin/pale neck, then garments, then six residents; idle/tend
+clearance and its measurement tool; Old City negative-space paving. Rock elevation
+and archive pruning still need the owner's decisions. No lowering or deletion done.
+Visual polish: the thin exposed apron edge retains floor-only texture mapping;
+AccessV4 fixes the stair shell, not this separate threshold slab edge.
+
+The entries below are historical implementation notes, including superseded counts
+and pending-work statements. The acceptance receipt above is the current status.
+
+## S5 final source verification — 2026-09-16 17:16 UTC
+
+Candidate48 is now 9daa88a181a44009467ab6a3f296dcff3ed9ff8b93500ddee593adc84ff0367e.
+Fresh native verify 20260916T171415824824Z passed: 122 built / 20 original actors,
+12 full exterior-surface proofs, 8,596 other actors unchanged. Main50 remains unchanged.
+AccessV4 changes the stair finish only; all vertex/normal/face records equal AccessV3.
+Council source replay stair-20260916T171518660Z.json reached all three waypoints,
+zero stalls, grounded at feet Z 2.6 cm on the +0.5 cm paving. Source replay is not
+packaged acceptance. Replacement cook and final rendered/packaged replay remain owed.
+## S5 Council Gate obstruction — 2026-09-16
+
+The S5-01 packaged batch passed 12/13 routes. Council Gate failed with five stuck
+samples: SM_Jerusalem_StonePaths_03_Grid_N002_N002 crosses the descending flight.
+This street straddles the ring, so hiding its entire actor would remove outside road.
+Use a corridor-only TRIM_INSIDE twin with the same full-surface preservation proof
+as the open platform twins. Keep the failed route/batch receipts. The walk probe can
+advance its index after repeated stalls: a final reached=3/3 is not acceptance;
+require three actual reached events, zero stuck events and a grounded deck endpoint.
+## S5 stair finish correction — 2026-09-16
+
+Packaged S5-01 G1 view revealed stretched stripes on vertical stair risers: the
+M_PrecinctPlaza_Paving shader projects only world XY. Do not use that floor-only
+shader on closed stair shells. AccessV4 keeps AccessV3 geometry and collision but
+uses the existing triplanar MI_PrecinctPlaza_Ashlar stone finish. It is a fresh asset;
+S5-01 and AccessV3 remain preserved. New import/apply/cook and visual check are owed.
+S5-01 passed three four-state GPU probes (overview, Kotel plaza, Mughrabi), all 115
+floor probes and normal exits. Kotel paving survives in every state. These checks
+establish geometry/state behavior but do not accept the stretched stair finish.
+## S5 Haram precinct — packaged acceptance underway, 2026-09-16
+
+Fresh native verification passed for Candidate48 2331c2a4...a1df7: 121 built actors,
+19 phase originals, and all eleven wall/platform passage twins preserve exterior
+source surfaces/attributes. Main50 remains 2b82ae66...d4c6; Temple transforms and Z0
+remain unchanged. Mughrabi and Bani Ghanem source character routes reached all three
+waypoints with zero stuck events after local wall/platform corridor cuts.
+Fresh filesystem cook Checkpoint-haram-S5-01-20260916T162935Z succeeded (9,113 packages).
+Packaged GPU state/photo checks and all thirteen character routes are still required.
+The entries below record superseded failures and intermediate counts chronologically;
+they are not current acceptance claims.
+## S5 Haram precinct — implementation history, 2026-09-16
+
+Publication audit found HEAD's KotelClosureRuntime.cpp already references
+KotelClosureLimestone, while its header declaration existed only in the active tree.
+Include that non-reflected weak-pointer member with the S5 header; it is required
+for the published source to compile and is present in both verified build targets.
+
+Map bd598596 passed fresh native verification and all 115 downward surface probes
+in the four-state source replay. Actual Mughrabi character walking then stalled on
+the second riser (stair-20260916T154114841Z.json). A downward trace is NOT stair
+acceptance. AccessV3 replaces adjacent tread boxes with one closed shell per flight,
+removing buried shared faces; this hypothesis still requires a fresh character replay.
+The independent shell check requires one reversed partner per welded directed edge.
+AccessV3 shell still stalls at the same riser (stair-20260916T154947392Z.json), so
+shared faces were not the cause. The HaramAccess diagnostic now logs read-only
+up/forward/down capsule sweeps, floor distance and step policy to isolate rejection.
+The diagnostic replay 155702782Z identifies the actual blocker: the upward sweep
+starts penetrating CityWalls_04_Grid_N002_P002 while the forward trace hits the new
+stair. Step policy/base are allowed. Existing wall batches must receive local gate
+passages; hiding entire batches would damage surrounding city walls. Nine actual
+map wall actors overlap the corridors. Wall twins are being made in a fresh namespace,
+with originals retained for Modern/Overlay and preservation guards before any save.
+Wall twins passed fresh per-triangle surface verification: source UV sets, normals,
+colours, material IDs and winding retained; exterior fragment area equals original
+area minus the exact gate-box intersection. New caps are confined to cutter planes.
+Use keyword arguments for unreal.Rotator (pitch/yaw/roll), never positional ordering;
+measure the actual native cutter bounds before boolean work. The position guard
+rejected the earlier wrong orientation before any twin was saved.
+The next replay 161316271Z cleared the city wall but exposed the old Mount platform
+skirt. Its top also spans the access routes. Preserve these open source surfaces via
+TRIM_INSIDE corridor twins, not a whole-platform hide. Full eleven-mesh verification
+passes source attributes/winding, disjoint fragment coverage and exact cutter UNION
+area (expanded runouts can overlap). On thin fan triangles a fixed barycentric epsilon
+is not a fixed distance: use the declared 0.02 cm plane/edge tolerance via altitude.
+One rejected point was only about 0.001 cm outside an edge after float32 persistence.
+
+Runtime V2 probing found 35 stair surface failures from Nanite's AUTO fallback and
+one paving obstruction from StonePaths_03_Grid_N001_N002 (+17 cm). NaniteHelper.cpp
+CorrectFallbackSettings overrides numeric fallback values in Auto mode: use explicit
+NaniteFallbackTarget.PERCENT_TRIANGLES with 1.0, not just relative_error=0. V3 is the
+fresh corrected namespace. Seven existing path meshes whose complete bounds are
+inside the ring join HaramRingOriginal; their outside counterparts are untouched.
+Expected original count becomes eight (seven paths and the northwest terrain tile).
+
+Uncooked GPU preview exceeded its 16 GiB private cap. The wrapper's owned-child cleanup
+also compared slash variants; normalize exe paths with Resolve-Path before comparison.
+Root stopped that owned process after inspection. Preserve the failed receipt. Use
+headless source checks and packaged GPU acceptance rather than raising preview limits.
+
+The first pilot's OBJ normals were genuinely missing (source zero AND recompute off).
+HaramPrecinctV2 is the corrected native namespace: explicit per-face vn records,
+clockwise native winding and upward deck normals verified on import. V1 assets and
+map checkpoints remain preserved; do not reuse V1 or overwrite it. Review artifacts
+remain under enclosure-review/HaramPrecinctV1, with superseded-source-v1 retained.
+
+Native import guard found that FutureMount's frozen JSON is pre-import precision:
+native height differs by up to 0.0066 cm, normals 0.000573, colours 0.003912.
+Generate the new cut from an extracted, hash-pinned native source instead. Preserve
+the actually rendered attributes outside the ring; do not relax corner checks.
+Compare OBJ/native triangle positions after float32 conversion on both sides:
+rounding doubles against floats at decimal bucket boundaries falsely failed gates.
+Both runtime targets and all 32 math suites pass after the explicit TObjectPtr loop
+type fix. Native terrain import, placement and packaged acceptance remain pending.
+
+S5 native solids and terrain import passed; independent surface tests checked 320
+inside / 72,304 outside stations, outside height error below 1e-12 cm. For Pawn
+readback use CollisionResponseType.ECR_BLOCK: EngineTypes.h gives ECollisionResponse
+the ScriptName CollisionResponseType. CollisionResponse is a different exposed type.
+Two placement checks refused before save while resolving this; original map unchanged.
+
+Candidate48 S5 save completed at 030b7046...f15b: 109 new actors, 8,615 other
+actors compared unchanged, old approach actor retired. Fresh verify/visual acceptance
+still pending. OBJ-only source descriptions have zero normals; inspect saved LOD
+recompute_normals before treating this as a render defect. UE clockwise winding is
+the adapter's reversed face order, distinct from the generator's positive-volume order.
+
+create_haram_precinct.py plans inside the frozen 66-point ring: 13 named OSM gate
+footprints, 111,848.5 m2 of paving outside the accepted court, 586 local access treads,
+maximum retaining 39.26 m. Gate profiles/access are AUTHORED; footprint projections are
+DERIVED, and the plan records every offset. Modern access permissions are not inferred.
+Temple transforms and Z0 remain fixed (0.5 cm paving finish avoids coplanar ground).
+Only the northwest FutureMount terrain tile needs a new cut twin; Kotel V3 is untouched.
+HaramRingBuilt actors hide in Modern/Overlay; HaramRingOriginal hides in the built state.
+UseHaramOutline replaces the square renderer only on the opted-in Candidate48 map;
+FSquare/readings remain implemented. Old PrecinctApproachV1 is retired only in that map.
+
+Status: OFFLINE CHECKS, native import/placement and visual acceptance pending. Never claim
+this plan is shipped. Python generation needs shapely==2.1.2; local wheel is in ../S5Deps.
+A tiny disconnected inset pocket (0.247 m2) becomes masonry. Gates must fit a real wall
+span; snapping a 4.8 m opening onto a centimetre-long OSM notch fails containment.
 ## Kotel restore acceptance — 2026-09-16
 
 Fresh filesystem cook kotel-restore02 succeeded; native Modern / Yechezkel / Overlay /

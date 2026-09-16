@@ -1,0 +1,108 @@
+{
+  "status": "failed",
+  "scriptSha256": "294ec670492f21fea185c191dd6699d56dd4fe3e80df28d8cdc224e78aebaea6",
+  "walls": [
+    {
+      "label": "SM_Jerusalem_CityWalls_04_Grid_N001_N003",
+      "originalTriangles": 456,
+      "resultTriangles": 643,
+      "authoredCapTriangles": 94,
+      "maximumPerTriangleAreaErrorCm2": 0.22933975156047381,
+      "areaTolerance": "max(1 cm2, original perimeter * 0.01 cm)",
+      "positionToleranceCm": 0.02,
+      "attributeTolerance": 0.002,
+      "attributes": "All existing UV sets, normalized normals, vertex colors, material IDs and winding preserved on surviving source surfaces"
+    },
+    {
+      "label": "SM_Jerusalem_CityWalls_04_Grid_N002_N001",
+      "originalTriangles": 624,
+      "resultTriangles": 840,
+      "authoredCapTriangles": 102,
+      "maximumPerTriangleAreaErrorCm2": 0.39002269887714647,
+      "areaTolerance": "max(1 cm2, original perimeter * 0.01 cm)",
+      "positionToleranceCm": 0.02,
+      "attributeTolerance": 0.002,
+      "attributes": "All existing UV sets, normalized normals, vertex colors, material IDs and winding preserved on surviving source surfaces"
+    },
+    {
+      "label": "SM_Jerusalem_CityWalls_04_Grid_N002_P000",
+      "originalTriangles": 408,
+      "resultTriangles": 556,
+      "authoredCapTriangles": 70,
+      "maximumPerTriangleAreaErrorCm2": 0.3702073390741134,
+      "areaTolerance": "max(1 cm2, original perimeter * 0.01 cm)",
+      "positionToleranceCm": 0.02,
+      "attributeTolerance": 0.002,
+      "attributes": "All existing UV sets, normalized normals, vertex colors, material IDs and winding preserved on surviving source surfaces"
+    },
+    {
+      "label": "SM_Jerusalem_CityWalls_04_Grid_N002_P001",
+      "originalTriangles": 120,
+      "resultTriangles": 122,
+      "authoredCapTriangles": 9,
+      "maximumPerTriangleAreaErrorCm2": 0.08569708157301648,
+      "areaTolerance": "max(1 cm2, original perimeter * 0.01 cm)",
+      "positionToleranceCm": 0.02,
+      "attributeTolerance": 0.002,
+      "attributes": "All existing UV sets, normalized normals, vertex colors, material IDs and winding preserved on surviving source surfaces"
+    },
+    {
+      "label": "SM_Jerusalem_CityWalls_04_Grid_N002_P002",
+      "originalTriangles": 360,
+      "resultTriangles": 430,
+      "authoredCapTriangles": 33,
+      "maximumPerTriangleAreaErrorCm2": 1.5121254939585924,
+      "areaTolerance": "max(1 cm2, original perimeter * 0.01 cm)",
+      "positionToleranceCm": 0.02,
+      "attributeTolerance": 0.002,
+      "attributes": "All existing UV sets, normalized normals, vertex colors, material IDs and winding preserved on surviving source surfaces"
+    },
+    {
+      "label": "SM_Jerusalem_CityWalls_04_Grid_N003_N002",
+      "originalTriangles": 168,
+      "resultTriangles": 222,
+      "authoredCapTriangles": 25,
+      "maximumPerTriangleAreaErrorCm2": 1.3426278534752782,
+      "areaTolerance": "max(1 cm2, original perimeter * 0.01 cm)",
+      "positionToleranceCm": 0.02,
+      "attributeTolerance": 0.002,
+      "attributes": "All existing UV sets, normalized normals, vertex colors, material IDs and winding preserved on surviving source surfaces"
+    },
+    {
+      "label": "SM_Jerusalem_CityWalls_04_Grid_N003_N003",
+      "originalTriangles": 276,
+      "resultTriangles": 368,
+      "authoredCapTriangles": 50,
+      "maximumPerTriangleAreaErrorCm2": 0.6386655922106002,
+      "areaTolerance": "max(1 cm2, original perimeter * 0.01 cm)",
+      "positionToleranceCm": 0.02,
+      "attributeTolerance": 0.002,
+      "attributes": "All existing UV sets, normalized normals, vertex colors, material IDs and winding preserved on surviving source surfaces"
+    },
+    {
+      "label": "SM_Jerusalem_CityWalls_04_Grid_P000_N003",
+      "originalTriangles": 444,
+      "resultTriangles": 500,
+      "authoredCapTriangles": 32,
+      "maximumPerTriangleAreaErrorCm2": 2.695477753295563,
+      "areaTolerance": "max(1 cm2, original perimeter * 0.01 cm)",
+      "positionToleranceCm": 0.02,
+      "attributeTolerance": 0.002,
+      "attributes": "All existing UV sets, normalized normals, vertex colors, material IDs and winding preserved on surviving source surfaces"
+    },
+    {
+      "label": "SM_Jerusalem_CityWalls_04_Grid_P001_N002",
+      "originalTriangles": 456,
+      "resultTriangles": 516,
+      "authoredCapTriangles": 28,
+      "maximumPerTriangleAreaErrorCm2": 0.1702999563276535,
+      "areaTolerance": "max(1 cm2, original perimeter * 0.01 cm)",
+      "positionToleranceCm": 0.02,
+      "attributeTolerance": 0.002,
+      "attributes": "All existing UV sets, normalized normals, vertex colors, material IDs and winding preserved on surviving source surfaces"
+    }
+  ],
+  "error": "Traceback (most recent call last):\n  File \"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/verify_haram_wall_surfaces.py\", line 135, in main\n    result=verify(original,current,[g for g in gates if g['osmId'] in spec['gateIds']])\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/verify_haram_wall_surfaces.py\", line 99, in verify\n    assert candidates,('Source attributes/winding/position mismatch',row['tid'],points)\nAssertionError: ('Source attributes/winding/position mismatch', 31, [[-14726.1982421875, 8507.0625, 0.0], [-15122.06640625, 8090.2685546875, 0.0], [-14744.06640625, 8498.30078125, 0.0]])\n",
+  "mapUnchanged": true,
+  "assetsUnchanged": true
+}

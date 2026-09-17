@@ -2581,3 +2581,14 @@ referencing `Data::MaterialIds`/`MaterialCount` that `KotelClosureRuntimeData.h`
 edit the other agent's source to get your cook through. If your own work is content-only, cook with
 `-UseExistingBinaries` (no build step) and state in the receipt and review that the archive carries the
 last verified runtime and none of the pending C++. Maps stay byte-identical through a failed cook.
+
+## For a behaviour/AI pass on the people (16 Sep 2026)
+
+See section 8 of `HANDOFF-20260916-FOR-CODEX.md`. In short, and all receipt-backed: there is NO navmesh
+in either map and the plaza deck is built at BeginPlay (144 proxy boxes 1 cm under Z 0), so an editor-baked
+navmesh will not see it; the ~1,600 distant crowd are VAT statues with no skeleton to attach a controller
+to, while only the six ResidentV4 bodies and the Kohen Gadol are skeletal; the transit/crowd bridge has a
+documented gap (no stop inside a crowd zone, coordinator cannot render, `IMikdashCrowdPartyHost`); walk
+speed has six per-variant overrides stored in the MAP that beat the 120 cm/s C++ default; and
+`resident-routes-v2-verify` has only ever run on the legacy map. Use `-MikdashWalkProbe` for reachability
+and a rendered movie for whether they look alive - a receipt cannot show stilting.

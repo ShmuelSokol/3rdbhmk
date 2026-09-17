@@ -134,3 +134,53 @@ baseline the later archives build on.
   hash-stability check and only when a reviewed receipt describes those exact bytes.
 - **A material or a fix is not accepted until a frame shows it.** Receipts prove existence, never
   appearance. Three separate cooks shipped cardboard foliage while every property check passed.
+
+---
+
+## 8. For the pass giving every person a brain (added 16 Sep by Claude, at the owner's request)
+
+Five things this project has already measured that an AI/behaviour pass will hit in its first hours.
+Each is receipt-backed; none of it needs rediscovering.
+
+1. **There is no navmesh in either map.** Not stale - absent. Nothing in the project has ever pathfound.
+   Collision itself only arrived on 11 September: `PlazaV1` meshes shipped with NO simple collision, and
+   the runtime plaza deck is 144 proxy boxes placed 1 cm under Z 0 (`plaza-collision` receipts,
+   `SourceAssets/enclosure-review/`). Decide early whether the brains steer on a built navmesh, on the
+   existing route splines, or on raw collision - and note that the deck is built at BeginPlay, so a
+   navmesh baked in the editor will not see it.
+   Existing instrument: the `-MikdashWalkProbe` command-line switch drives a character along waypoints
+   and reports reached/stuck/grounded. It is how the stair and edge acceptance were proven and it is the
+   cheapest existing harness for "can this person actually get there".
+
+2. **The crowd is not made of characters.** The ~1,600 distant figures are `MikdashCrowdField` VAT
+   instances - vertex-animation-texture statues replaying a baked clip, no skeleton, nothing to attach a
+   controller to (`MikdashCrowdField`, `CrowdFieldMath`, `CrowdGroupMath`; Epic's AnimToTexture plugin).
+   Only the six ResidentV4 bodies and the Kohen Gadol are real skeletal characters. So "every person
+   walking around" spans two populations with different costs, and the boundary between them is a design
+   decision, not an implementation detail. The whole VAT crowd costs about +0.19 ms; individually brained
+   characters will not be anywhere near that. Read `PERFORMANCE-BUDGET.md` before choosing a count, and
+   remember the box is 16 GB with an RTX 2070.
+   VAT trap on record: the anchor contract is "no slide" - the baked clip's root must not translate, or
+   figures skate. And the converter fails SILENTLY under `-nullrhi`.
+
+3. **The transit/crowd handoff has a documented gap.** Nobody may stop inside a crowd zone, the
+   coordinator cannot render, and the bridge runs through the `IMikdashCrowdPartyHost` contract. That
+   seam is exactly where a behaviour system wants to hand a person between systems. See the
+   transit/crowd notes before designing the handover.
+
+4. **Walk speed lives in two places and the map wins.** The C++ default is 120 cm/s
+   (`MikdashResidentCharacter` / `MikdashResidentPopulation`), but six per-variant
+   `default_walk_clip_ground_speed_cm_per_sec` entries are stored IN the map and override it. A stale
+   53.33 hid there and silently defeated a header change for days; `Scripts/release_walk_v2.py
+   -WalkV2Apply` is the idempotent repair. If brains drive speed, drive it in one place and assert the
+   other is not fighting you.
+
+5. **Route verification has only ever run on the legacy map.** `resident-routes-v2-verify` is a standing
+   WARN in `scripts/verify.py` for exactly this reason - it has never been run on the shipping map. Any
+   claim about where people go should be re-established there rather than inherited.
+
+**And the project's acceptance standard applies to behaviour too:** a receipt proves a person exists and
+has a controller; only a rendered frame - or a movie, via `Scripts/capture_people_walk_movie.ps1` with
+`-dumpmovie -benchmark -fps=10` - shows whether they look alive or stilt along. The owner's words for the
+failure mode are "figures stilting along", and the last measured verdict is that the residents read as
+people walking at 3-5 m and as carved figures face-on at 2 m.

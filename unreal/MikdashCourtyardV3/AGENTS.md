@@ -3003,3 +3003,16 @@ verify --quick --build reports10/10. Both trees also pass generator --check,
 four roof tests and quick6/6. All6007 generated translation rows match priorHEAD
 exactly. Native package/state/image acceptance remains pending; do not equate
 source compilation with removal of the visible remnant.
+## Haram roof repair accepted in packaged runtime — 18 September 2026
+
+Source 03f2acd9 compiled both targets and passed checks. Fresh isolated archive
+Checkpoint-haram-roofs01-20260918T225143Z uses unchanged bark01 cooked assets plus
+new child 3fe6bcb177b88eaeaf0ef143cdd3d3c7f2cf7d3fe2d7fd68cd58939ff30e265c.
+This is a verified runtime update, not a recook. Ten native states pass, including
+transitions/restore/rebuild: 12,014 original instances, 11,778 kept, zero position error.
+Both native and four-state GPU probes exit 0; all 20 maps unchanged. All four same-camera
+Kotel images were viewed: the floating tank/panel by the right wall is gone in
+Yechezkel, paving and retaining closure remain, and Modern restores. See
+LegacyRoofZonesV1/haram-roof-acceptance-20260918.json for bounded acceptance.
+Other scene defects, exact crowd counts, placement and appearance, characters, final
+full release validation and independent online walkthrough remain on FINISH-LINE.

@@ -1,0 +1,27 @@
+{
+  "status": "haram-roof-visibility-repair-accepted",
+  "sourceCommit": "03f2acd9",
+  "archive": "C:/Mikdash/Builds/Checkpoint-haram-roofs01-20260918T225143Z",
+  "childSha256": "3fe6bcb177b88eaeaf0ef143cdd3d3c7f2cf7d3fe2d7fd68cd58939ff30e265c",
+  "packageScope": "Runtime executable update using byte-identical verified bark cooked assets; not a recook or final-release acceptance",
+  "packageReceipt": "SourceAssets/context-review/LegacyRoofZonesV1/runtime-update-20260918T225143Z.json",
+  "nativeReceipt": "SourceAssets/context-review/LegacyRoofRuntimeV1/packaged-20260918T225314Z.json",
+  "gpuReceipt": "SourceAssets/context-review/KotelCutClosureV1/runtime-20260918T225424923Z.json",
+  "beforeGpuReceipt": "SourceAssets/context-review/KotelCutClosureV1/runtime-20260918T220932917Z.json",
+  "checks": [
+    "Editor and Game compile; active build gate 10/10; both quick gates 6/6; four source regression tests.",
+    "All 6,007 original pair positions unchanged. Exact 48-building hide policy: 118 pairs hidden and 5,889 pairs kept.",
+    "Ten native phases pass with 12,014 original and 11,778 kept instances; zero position error; transforms, materials and settings intact.",
+    "Native and GPU probes exit normally with code 0; all 20 source maps unchanged.",
+    "All four GPU images viewed: detached tank/panel near the right wall absent in Yechezkel; Kotel paving and retaining closure preserved; Modern restoration visible."
+  ],
+  "logHashes": {
+    "gpu": "f44d549c981d73c0fe9857717a2cf4340ed7c8845ce859c6bad9e82dd0557f40",
+    "native": "6caa2e5903247737bdf3332028cb20c9b6bdafbe6223feebaa3851da615a2162"
+  },
+  "remaining": [
+    "Other environment defects, including apron edge UVs, foliage geometry and negative-space paving.",
+    "Crowd placement shortfall (2,376 of 2,500) and clothing artifacts.",
+    "Final full cook, route validation, online walkthrough and the complete finish-line scope."
+  ]
+}

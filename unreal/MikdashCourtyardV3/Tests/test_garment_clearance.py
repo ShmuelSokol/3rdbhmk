@@ -20,6 +20,15 @@ def original_skin(v, joints, weights, matrices, offsets):
 
 
 class ClearanceTests(unittest.TestCase):
+    def test_signed_distance_is_independent_of_face_winding(self):
+        triangle = np.array([[[0., 0., 0.], [10., 0., 0.], [0., 10., 0.]]])
+        points = np.array([[2., 2., 1.], [2., 2., -1.], [-2., 0., 1.]])
+        expected = np.array([1., -1., np.sqrt(5.)])
+        np.testing.assert_allclose(M.nearest_signed(points, triangle, np.array([1.])), expected)
+        np.testing.assert_allclose(M.nearest_signed(points, triangle, np.array([-1.])), -expected)
+        np.testing.assert_allclose(
+            M.nearest_signed(points, triangle[:, [0, 2, 1]], np.array([-1.])), expected)
+
     def test_skin_reference_on_actual_garments(self):
         bones, index, parts, influence, robe, _, outer, _ = M.body_parts('kohen')
         selected = [p for p in parts if p['name'] in (robe, outer)

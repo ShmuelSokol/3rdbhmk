@@ -1,0 +1,79 @@
+{
+  "body": "kohen",
+  "definition": "v3 closed-volume parity AND signed distance must both say outside, above the local hem",
+  "meilTestSampling": "ketonet ring vertices from 1.5 cm above the me'il hem to rest z 80, every 2nd segment",
+  "robe": "Ketonet",
+  "legVertices": 1176,
+  "legParts": [
+    "FootL",
+    "FootR",
+    "ShinL",
+    "ShinR"
+  ],
+  "robeTriangles": 18304,
+  "clips": {
+    "walk": {
+      "glb": "SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Pilgrim_Man_Standard.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "durationSeconds": 1.2,
+      "framesSampled": 14,
+      "sampleRateHz": 12.0,
+      "maxLegOutsideRobeCm": 3.243,
+      "worst": {
+        "cm": 3.243,
+        "t": 0.6857,
+        "part": "ShinR",
+        "restZ": 13.25,
+        "posed": [
+          -0.59,
+          36.23,
+          22.93
+        ]
+      },
+      "framesWithAnyClipping": 10,
+      "animationSourceSha256": "e362b72cc2c6f3e4b13930068426f560eef129b973fa796729738009ca2fffda",
+      "measurementSeconds": {
+        "pose": 0.011,
+        "skin": 0.07,
+        "legClearance": 21.9419,
+        "outerClearance": 22.5647
+      },
+      "perFrameMaxCm": [
+        2.453,
+        2.658,
+        1.834,
+        0.0,
+        0.0,
+        3.198,
+        2.126,
+        3.204,
+        3.243,
+        2.713,
+        0.0,
+        0.0,
+        1.744,
+        1.302
+      ],
+      "maxKetonetOutsideMeilCm": 0.293,
+      "worstKetonetOutsideMeil": {
+        "cm": 0.293,
+        "t": 0.3429,
+        "restZ": 36.0
+      }
+    }
+  },
+  "skinningScope": {
+    "parts": [
+      "Ketonet",
+      "FootR",
+      "ShinR",
+      "FootL",
+      "ShinL",
+      "Meil"
+    ],
+    "verticesPerFrame": 17016,
+    "scope": "Generator garment/leg geometry only; head, beard and eyes are not skinned. Not native-asset or rendered acceptance."
+  },
+  "seconds": 46.2,
+  "scope": "Sparse diagnostic only; bandHem20 ease1.2; not acceptance"
+}

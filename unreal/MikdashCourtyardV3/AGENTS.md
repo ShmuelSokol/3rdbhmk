@@ -2766,3 +2766,23 @@ receipts pin mesh, animation and image hashes. Rear views at 0.2958333 and
 layering before further widening; these images are not native visual acceptance.
 Production ease remains zero. Evidence: KohenMeilEaseV2/ease5-walk-full.json,
 ease5-late-worst-pose.json and silhouette-layered-candidate-walk-* files.
+
+## Signed-distance winding correction — 18 September 2026
+
+nearest_signed previously used the outward-corrected face normal for triangle
+containment. With sign -1 this rejects an interior projection and measures an
+edge instead: a point 1 cm above triangle (0,0,0)/(10,0,0)/(0,10,0) at XY(2,2)
+was reported sqrt(5) cm away. Containment now uses the vertex-winding normal;
+the returned distance still uses the outward sign. Analytical tests cover both
+normal signs, reversed winding, both sides and an exterior edge projection.
+All 12,672 Kohen outer-wall faces have sign +1, so this does not erase the
+reported robe defect. Existing long-running offline studies loaded the earlier
+measurement module; preserve that provenance when collecting their receipts.
+
+Full ease-1.2 measurement completed: walk 288 frames at240Hz fails with 0.411 cm
+inner/outer penetration at t0.2708, restZ36; leg/robe zero. Tend601 at60Hz and
+idle97 at30Hz both zero. This run used the pre-winding-fix measurement module.
+Broader hem bands14/20/30 each fail at least one of eight selected outer-garment
+poses. A sparse full-body walk with band20/ease1.2 fails by3.243 cm at the right
+shin, t0.6857; outer penetration0.29 cm. Do not trade body clearance for layer
+clearance. Receipts retained in KohenMeilEaseV2; production remains unchanged.

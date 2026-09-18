@@ -230,9 +230,12 @@ def nearest_signed(points, tri, sign):
         P = P3[:, None, :]
         dp = np.einsum('nmi,mi->nm', P - A[None], N)
         proj = P - dp[..., None] * N[None]
-        c1 = np.einsum('nmi,mi->nm', np.cross(B - A, proj - A[None]), N)
-        c2 = np.einsum('nmi,mi->nm', np.cross(Cc - B, proj - B[None]), N)
-        c3 = np.einsum('nmi,mi->nm', np.cross(A - Cc, proj - Cc[None]), N)
+        # Containment follows vertex winding, independently of the outward sign.
+        # A flipped outward normal must not turn a face-interior hit into an edge hit.
+        winding_normal = N * sign[sel, None]
+        c1 = np.einsum('nmi,mi->nm', np.cross(B - A, proj - A[None]), winding_normal)
+        c2 = np.einsum('nmi,mi->nm', np.cross(Cc - B, proj - B[None]), winding_normal)
+        c3 = np.einsum('nmi,mi->nm', np.cross(A - Cc, proj - Cc[None]), winding_normal)
         interior = good[sel][None] & (c1 >= 0) & (c2 >= 0) & (c3 >= 0)
         dist = np.where(interior, np.abs(dp), np.inf)
         dist = np.minimum(dist, np.minimum(_seg(P, A, B), np.minimum(_seg(P, B, Cc), _seg(P, Cc, A))))

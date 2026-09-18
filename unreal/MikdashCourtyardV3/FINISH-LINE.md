@@ -341,3 +341,16 @@ terrain as the crowd floor. DeferredSpawnAudit starts with zero people and calls
 BuildCrowd at frame 120 via the engine KE command, requiring one successful class
 instance call; this isolates post-initialization support using the same executable.
 The flag requires GroundAudit and explicit count and is not performance acceptance.
+
+## Crowd ground/startup cause proven — 18 September 2026
+
+Both native ground audits exit 0 and correctly fail exact crowd counts. Immediate
+seeding: 2376; deferred frame120: 2375 (68 plaza, 52 approach, 5 street refused).
+All32 plaza samples switch from cut terrain -1284.594 to Actor_66 paving
+-1234.552579 after initialization. The old expected slope still rejects them.
+Startup approach32samples match pinned FutureMountCut source terrain triangles
+within 0.003348 cm; use this precise surface, not another approximate plane.
+Next correction needs initialized collision plus sourced deck/terrain references;
+retain spacing/wall/ground guards and verify moving feet as well as spawn counts.
+Evidence: crowd-ground01-{startup,deferred,package}.json. Diagnostic flags and
+CSV game-thread mode mean these runs are not accepted performance baselines.

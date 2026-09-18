@@ -49,22 +49,41 @@ def measure(offset, time, lower_ease=0.0):
                                'posed': posed_inner[indices[i]].tolist()} for i in hits]}
 
 
+def measure_band(offset, time, lower_ease, band):
+    saved = K.BAND_HEM
+    try:
+        K.BAND_HEM = band
+        row = measure(offset, time, lower_ease)
+        row['bandHemCm'] = band
+        return row
+    finally:
+        K.BAND_HEM = saved
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--offsets', default='2.2,2.8,3.4')
     parser.add_argument('--time', type=float, default=71 / 240)
+    parser.add_argument('--times', default='', help='Comma-separated diagnostic walk poses')
+    parser.add_argument('--bands', default='6.0', help='Comma-separated hem skinning bands')
     parser.add_argument('--lower-ease', type=float, default=0.0)
     parser.add_argument('--full', action='store_true', help='Measure all clips with candidate lower ease')
+    parser.add_argument('--clips', default='', help='Full-mode clip subset: walk,tend,idle')
     parser.add_argument('--out', required=True)
     args = parser.parse_args()
     out = Path(args.out)
     if out.exists():
         raise RuntimeError('Fresh output required')
     if args.full:
+        if args.bands != '6.0' or args.times:
+            raise ValueError('Full mode uses the default skinning band and full clip times')
         saved_ease = K.MEIL_LOWER_EASE_CM
+        clips = args.clips.split(',') if args.clips else None
+        if clips and any(c not in ('walk', 'tend', 'idle') for c in clips):
+            raise ValueError('Unknown clip')
         try:
             K.MEIL_LOWER_EASE_CM = args.lower_ease
-            report = M.run('kohen')
+            report = M.run('kohen', clips=clips)
         finally:
             K.MEIL_LOWER_EASE_CM = saved_ease
         report['candidateLowerEaseCm'] = args.lower_ease
@@ -74,7 +93,9 @@ if __name__ == '__main__':
         report['acceptanceScope'] = 'Candidate generator only; not exported, native or rendered acceptance'
         out.write_text(json.dumps(report, indent=2) + '\n')
     else:
-        rows = [measure(float(offset), args.time, args.lower_ease) for offset in args.offsets.split(',')]
-        out.write_text(json.dumps({'scope': 'Single-pose diagnostic only; no source edits or acceptance',
+        times = [float(t) for t in args.times.split(',')] if args.times else [args.time]
+        rows = [measure_band(float(offset), time, args.lower_ease, float(band))
+                for band in args.bands.split(',') for offset in args.offsets.split(',') for time in times]
+        out.write_text(json.dumps({'scope': 'Selected-pose diagnostic only; no source edits or acceptance',
                                    'rows': rows}, indent=2) + '\n')
         print(json.dumps([{k: v for k, v in row.items() if k != 'intersections'} for row in rows]))

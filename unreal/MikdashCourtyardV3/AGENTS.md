@@ -2725,3 +2725,16 @@ unproven until sufficient headroom permits native frames. Full lower-robe candid
 measurement continues separately in the offline Python process.
 
 Candidate run update: walk portion reports zero leg/robe intersection but about 0.41 cm inner/outer intersection at another pose. Candidate fails full-walk clearance and will not be adopted. Tending and idle continue in the same run; exact worst-pose details await its final receipt.
+
+## Follow-up robe deformation diagnostics — 18 September 2026
+
+Ten walk poses compared hem skinning bands 6/8/10 cm; none cleared them all and
+larger bands worsened some poses. Keep production band 6. Lower ease 3 cm still
+clips in the seven stride poses; lower ease 5 cm clears all seven. This candidate
+has full ease below Z60, smooth taper to zero at Z85 and unchanged torso/weights.
+A separate full 240 Hz walk is now running for ease 5; no adoption or visual acceptance.
+The rejected ease 1.2 all-clip run continues for its final worst-pose receipt.
+The diagnostic helper supports pose/band lists and explicit full clip subsets;
+all globals restore in finally. Study files are under KohenMeilEaseV2. Seven
+zero poses do not establish full-cycle clearance or acceptable silhouette, and
+all production geometry remains at default ease 0.

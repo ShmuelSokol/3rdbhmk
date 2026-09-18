@@ -78,3 +78,5 @@ Rock/Temple elevation remains unchanged pending the owner's explicit choice. Pai
 Lower-robe candidate in progress: optional 1.2 cm ease below Z60, taper to 0 at Z85; worst walk pose clears, full walk/idle/tend run pending. Default remains 0. Candidate export, native binding and rendered garment review remain owed. See KohenMeilEaseV2 studies.
 
 Candidate run update: walk portion reports zero leg/robe intersection but about 0.41 cm inner/outer intersection at another pose. Candidate fails full-walk clearance and will not be adopted. Tending and idle continue in the same run; exact worst-pose details await its final receipt.
+
+Robe diagnostics: wider skinning bands did not clear the sampled walk poses. Ease 5 cm clears seven targeted poses; full 240 Hz walk is running separately. Full clips, silhouette, outer decorations and native/render review remain required. Default geometry unchanged.

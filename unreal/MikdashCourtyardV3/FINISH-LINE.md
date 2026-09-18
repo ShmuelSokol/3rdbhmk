@@ -333,3 +333,11 @@ existing ground trace results per zone per process, including XY, expected/hit Z
 normal and support actor/component. It adds no traces and changes no placement
 thresholds. The capture harness records GroundAudit explicitly; diagnostic runs
 are not clean performance baselines. Actual paving/contact diagnosis remains open.
+
+Ground audit finds all sampled Kotel-strip traces hit StaticMeshActor_24, the
+Kotel terrain cut, at -1284.594 cm: 50 cm below the authored lower paving top.
+Crowd seeding precedes enclosure preparation in the log. Do not adopt that buried
+terrain as the crowd floor. DeferredSpawnAudit starts with zero people and calls
+BuildCrowd at frame 120 via the engine KE command, requiring one successful class
+instance call; this isolates post-initialization support using the same executable.
+The flag requires GroundAudit and explicit count and is not performance acceptance.

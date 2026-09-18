@@ -27,9 +27,11 @@ param(
     [ValidateRange(640,1920)][int]$ResX = 1280,
     [ValidateRange(360,1080)][int]$ResY = 720,
     [switch]$CsvOnGameThread,
-    [switch]$GroundAudit
+    [switch]$GroundAudit,
+    [switch]$DeferredSpawnAudit
 )
 $ErrorActionPreference = 'Stop'
+if($DeferredSpawnAudit -and (-not $GroundAudit -or $CrowdCount -lt 0)){throw 'DeferredSpawnAudit requires GroundAudit and an explicit CrowdCount'}
 
 $exe = Join-Path $Archive 'Windows\MikdashCourtyardV3\Binaries\Win64\MikdashCourtyardV3.exe'
 if (-not (Test-Path -LiteralPath $exe)) { throw "Packaged exe not found: $exe" }
@@ -55,11 +57,13 @@ $iniArgs = '-ini:Game:[/Script/MikdashRuntime.MikdashFrontEnd]:bShowMainMenuOnBo
            '[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=FablePerfProbe_' + $Label + '_Settings,' +
            '[/Script/MikdashRuntime.MikdashSettingsSubsystem]:bApplyGraphicsToEngine=False'
 $crowdArg = if ($CrowdCount -ge 0) { "-CrowdCount=$CrowdCount " } else { '' }
+if($DeferredSpawnAudit){$crowdArg='-CrowdCount=0 '}
 $frames = [int](($SettleSeconds + $RecordSeconds) * 120)
 $inspectionFrame = $frames - 120
 $photo = (Join-Path $outDir 'crowd.png').Replace('\','/')
 $inspection = @('SeededAgents','RefusedSeeds','GroundTraceMisses','ActivePoseCount','bUseVertexAnimation') | ForEach-Object { "${inspectionFrame}:getall MikdashCrowdField $_" }
 $inspection += "${inspectionFrame}:Shot filename=$photo -nosuffix"
+if($DeferredSpawnAudit){$inspection = @("120:ke MikdashCrowdField BuildCrowd $CrowdCount") + $inspection}
 $inspectionArgs = '-csvExecCmds="' + ($inspection -join ',') + '"'
 $argline = "-windowed -ResX=$ResX -ResY=$ResY -nosplash -nosteam -notraceserver -notrace -noverifygc " +
            "-csvCaptureFrames=$frames -csvGpuStats -ExitAfterCsvProfiling $inspectionArgs $crowdArg$iniArgs " +
@@ -77,6 +81,8 @@ $report = [ordered]@{
     inspectionFrame = $inspectionFrame; inspectionScope = 'Late-frame reflected crowd counts and viewport image; analysis must exclude inspection frame and later'
     csvOnGameThread = [bool]$CsvOnGameThread
     groundAudit = [bool]$GroundAudit
+    deferredSpawnAudit = [bool]$DeferredSpawnAudit
+    spawnFrame = if($DeferredSpawnAudit){120}else{'BeginPlay'}
     resolution = "$ResX x $ResY"; settleSeconds = $SettleSeconds; recordSeconds = $RecordSeconds
     quality = 'High (all scalability groups 2), screen percentage 77; saved graphics overrides disabled'
     commandLine = $argline
@@ -106,6 +112,10 @@ try {
     $finalized = @(Select-String -LiteralPath $log -Pattern 'CSV finalize time :')
     if($finalized.Count -ne 1){throw 'Expected one engine CSV finalization before exit'}
     $report.csvFinalized=$true
+    if($DeferredSpawnAudit){
+        $called=@(Select-String -LiteralPath $log -SimpleMatch "Called 'BuildCrowd $CrowdCount' on 1 instance(s) of class '/Script/MikdashRuntime.MikdashCrowdField' (1 succeeded)")
+        if($called.Count -ne 1){throw 'Expected exactly one successful deferred BuildCrowd call'}
+    }
     $counts = @(Select-String -LiteralPath $log -Pattern '\d+\)\s+MikdashCrowdField\s+(.+?:PersistentLevel\.[^.]+)\.SeededAgents = (\d+)\s*$')
     if($counts.Count -ne 1){throw 'Expected exactly one live crowd field seeded-count readback'}
     $report.crowdActor=$counts[0].Matches[0].Groups[1].Value

@@ -316,3 +316,14 @@ Attempt counts must sum to accepted groups plus rejected attempts; they are not
 counts of refused people. Random samples, 48-attempt budget, group formation and
 all ground/wall/spacing thresholds remain unchanged. Native diagnosis is pending;
 do not treat this instrumentation as a capacity fix or accepted crowd matrix.
+
+## Crowd shortfall localized natively — 18 September 2026
+
+Diagnostic source 1e8fc09d compiles both targets (10/10 active, 6/6 clone).
+Fresh isolated audit package reproduces 2376/2500, exit 0. The failed capture is
+retained. KotelPlazaStrip refuses all 68; KotelApproachCorridor refuses 56 of 73;
+the other four zones fill completely. All plaza attempts reaching the ground gate
+fail it. Each zone conserves attempt and requested-person totals. Existing old
+terrain-plane assumptions require comparison against actual paving contacts;
+obtain contact coordinates, heights and support identity before changing policy.
+See crowd-vat/crowd-audit01-diagnosis.json. No count fix or benchmark acceptance yet.

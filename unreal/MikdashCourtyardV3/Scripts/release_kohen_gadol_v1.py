@@ -139,7 +139,9 @@ def _build_master(ue, tools, name):
     dec.set_editor_property('default_value', VC_DECODE)
     pw = node(ue.MaterialExpressionPower, -700, 0)
     mel.connect_material_expressions(mask, '', pw, 'Base')
-    mel.connect_material_expressions(dec, '', pw, 'Exponent')
+    # UE 5.8 exposes the shortened pin name; 'Exponent' silently failed before.
+    if not mel.connect_material_expressions(dec, '', pw, 'Exp'):
+        raise RuntimeError('Could not connect vertex-color decode exponent')
     tint = node(ue.MaterialExpressionVectorParameter, -900, 320)
     tint.set_editor_property('parameter_name', 'Tint')
     tint.set_editor_property('default_value', ue.LinearColor(1, 1, 1, 1))

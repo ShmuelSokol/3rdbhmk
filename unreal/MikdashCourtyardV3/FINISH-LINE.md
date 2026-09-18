@@ -103,3 +103,22 @@ Broader hem bands14/20/30 each fail at least one of eight selected outer-garment
 poses. A sparse full-body walk with band20/ease1.2 fails by3.243 cm at the right
 shin, t0.6857; outer penetration0.29 cm. Do not trade body clearance for layer
 clearance. Receipts retained in KohenMeilEaseV2; production remains unchanged.
+
+## First bounded native skin frames — 18 September 2026
+
+Render-target commandlet succeeded below the existing 4 GiB guard after shaders
+compiled. Use run_kohen_skin_study.ps1 -RenderTarget. SceneCapture2D's native getter
+is not exposed to Python; use get_component_by_class(SceneCaptureComponent2D).
+The final front three-quarter view is camera(70,150,162), yaw-115.0169; negative Y
+is the rear of this imported asset. Final images: render-target-20260918T210140Z.
+Baseline is dark/red; Study03 adds visible facial detail but is too orange in this
+isolated lighting. A transient Study03 instance with VCDecodeExponent1 looks more
+natural. Do NOT blindly repair the saved master to2.2: first calibrate actual
+imported vertex colors against known swatches. The pin-name correction only makes
+the future builder honor its parameter; it is not appearance acceptance.
+The pale lower-jaw/neck region remains with all head materials and matches the
+beard-shell coverage diagnosed offline. Review beard isolation next. Turban bands,
+dark background/shadows and still captures are not sufficient to approve garments
+or temporal rendering. No mesh/material/map was saved or rebound in production.
+The full-scene, motion and final lighting gates remain open. Protected bytes can
+be checked against the bound-material audit's33-file snapshot after native exit.

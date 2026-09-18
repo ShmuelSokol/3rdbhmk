@@ -2786,3 +2786,50 @@ Broader hem bands14/20/30 each fail at least one of eight selected outer-garment
 poses. A sparse full-body walk with band20/ease1.2 fails by3.243 cm at the right
 shin, t0.6857; outer penetration0.29 cm. Do not trade body clearance for layer
 clearance. Receipts retained in KohenMeilEaseV2; production remains unchanged.
+
+## Bound Kohen decode graph confirmed — 18 September 2026
+
+Read-only native audit bound-materials-20260918T204907Z verifies the approved
+KG_MHHead slot inherits M_KohenGadol_Garment_V1. Its VCDecodeExponent scalar is
+2.2 but Power Exp is disconnected, so const_exponent 2.0 is effective. All bound
+slots share that master. The audit preserves mesh/material and map hashes.
+release_kohen_gadol_v1.py now uses Exp and checks the connection result for future
+builds. This source correction does NOT repair the already-saved master or prove
+appearance; a native repair and rendered acceptance are still required.
+
+Isolated preview attempts omit MetaHumanCharacter/MetaHumanSDK authoring plugins
+only on the command line, preserve HairStrands and the project configuration, and
+limit static/skinned/texture compilation concurrency to one. The 6 GiB start,
+4 GiB private and 2 GiB reserve guards remain unchanged. Viewport attempts reached
+capture setup but exceeded private memory before images. Render-target commandlet
+mode avoids editor viewport overhead; treat its outputs as isolated material
+review, not full-scene acceptance. PowerShell dynamic argument concatenations must
+be parenthesized inside arrays: otherwise commas can become part of a concatenated
+array expression, breaking filtering and introducing spaces into the script path.
+
+## First bounded native skin frames — 18 September 2026
+
+Render-target commandlet succeeded below the existing 4 GiB guard after shaders
+compiled. Use run_kohen_skin_study.ps1 -RenderTarget. SceneCapture2D's native getter
+is not exposed to Python; use get_component_by_class(SceneCaptureComponent2D).
+The final front three-quarter view is camera(70,150,162), yaw-115.0169; negative Y
+is the rear of this imported asset. Final images: render-target-20260918T210140Z.
+Baseline is dark/red; Study03 adds visible facial detail but is too orange in this
+isolated lighting. A transient Study03 instance with VCDecodeExponent1 looks more
+natural. Do NOT blindly repair the saved master to2.2: first calibrate actual
+imported vertex colors against known swatches. The pin-name correction only makes
+the future builder honor its parameter; it is not appearance acceptance.
+The pale lower-jaw/neck region remains with all head materials and matches the
+beard-shell coverage diagnosed offline. Review beard isolation next. Turban bands,
+dark background/shadows and still captures are not sufficient to approve garments
+or temporal rendering. No mesh/material/map was saved or rebound in production.
+The full-scene, motion and final lighting gates remain open. Protected bytes can
+be checked against the bound-material audit's33-file snapshot after native exit.
+
+Color-path follow-up: installed UE5.8 GLTFMeshFactory.cpp lines720-723 and784-787
+explicitly apply SRGBToLinear to counter the engine's later conversion, with the
+stated goal that final vertex colors remain linear. InterchangeSkeletalMeshFactory.cpp
+lines672-687 applies ToFColor(true) to undo that extra linearization. This is
+consistent with the exponent1 native study and contradicts the old blanket claim
+that this import's shader must decode raw sRGB bytes. Verify with a known-color
+native swatch before repairing/adopting the saved master and all affected slots.

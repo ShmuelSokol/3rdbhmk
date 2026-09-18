@@ -1,3 +1,4 @@
+param([switch]$RenderTarget)
 $ErrorActionPreference = 'Stop'
 $root = (Split-Path -Parent $PSScriptRoot).Replace('\', '/')
 $busy = @(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3 -ErrorAction SilentlyContinue)
@@ -9,10 +10,18 @@ $stamp = (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ')
 $log = "$root/SourceAssets/characters-review/KohenSkinV2/gpu-head-$stamp.log"
 $record = [ordered]@{status='starting';startedUtc=$stamp;scope='isolated GPU head study in Engine Entry, transient actors, no saves';minimumStartCommitBytes=6GB;maximumPrivateBytes=4GB;reserveCommitBytes=2GB;peakPrivateBytes=0;log=$log}
 $receipt = "$root/SourceAssets/characters-review/KohenSkinV2/gpu-head-run-$stamp.json"
+$record.disabledAuthoringPlugins='MetaHumanCharacter,MetaHumanSDK'
 function Save-Receipt { $record | ConvertTo-Json | Set-Content -LiteralPath $receipt -Encoding utf8 }
 Save-Receipt
 $exe = 'C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor.exe'
-$arguments = @('"'+$root+'/MikdashCourtyardV3.uproject"','/Engine/Maps/Entry','-ExecCmds="py '+$root+'/Scripts/capture_kohen_skin_study.py"','-RenderOffscreen','-unattended','-nosplash','-nosound','-notraceserver','-NoMetaHumanAccountPortalLoginFallback','-NoAsyncLoadingThread','-ResX=960','-ResY=720','-asyncstaticmeshcompilationmaxconcurrency=1','-abslog="'+$log+'"')
+$arguments = @(('"'+$root+'/MikdashCourtyardV3.uproject"'),'/Engine/Maps/Entry',('-ExecCmds="py '+$root+'/Scripts/capture_kohen_skin_study.py"'),'-DisablePlugins=MetaHumanCharacter,MetaHumanSDK','-RenderOffscreen','-unattended','-nosplash','-nosound','-notraceserver','-NoMetaHumanAccountPortalLoginFallback','-NoAsyncLoadingThread','-ResX=960','-ResY=720','-asyncstaticmeshcompilationmaxconcurrency=1','-asyncskinnedassetcompilationmaxconcurrency=1','-asynctexturecompilationmaxconcurrency=1',('-abslog="'+$log+'"'))
+if ($RenderTarget) {
+    $exe = 'C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor-Cmd.exe'
+    $arguments = @($arguments | Where-Object {$_ -ne '/Engine/Maps/Entry' -and $_ -notlike '-ExecCmds=*'})
+    $arguments += @('-run=pythonscript',('-script="'+$root+'/Scripts/capture_kohen_skin_commandlet.py"'),'-AllowCommandletRendering')
+    $record.scope='isolated GPU render-target commandlet, transient actors, no saves'
+    Save-Receipt
+}
 $child = $null
 try {
     $child = Start-Process -FilePath $exe -ArgumentList $arguments -WorkingDirectory $root -WindowStyle Hidden -PassThru

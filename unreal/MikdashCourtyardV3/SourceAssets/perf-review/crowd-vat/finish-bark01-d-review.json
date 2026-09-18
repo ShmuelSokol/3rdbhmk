@@ -1,0 +1,40 @@
+{
+  "status": "pilot-evidence-placement-shortfall-blocks-requested-count-acceptance",
+  "csvMode": "Game-thread CSV processing; extra instrumentation overhead, not interchangeable with worker-thread timings",
+  "timingWindow": "30seconds settle +30seconds record; final45/60 matrix still owed",
+  "captures": [
+    {
+      "requestedCount": 0,
+      "seededCount": 0,
+      "captureStatus": "csv_captured_analysis_pending",
+      "exitCode": 0,
+      "csvFinalized": true,
+      "receipt": "SourceAssets/perf-review/crowd-vat/frametime-finish-bark01-d-court-crowd0/frametime-receipt.json",
+      "photo": "SourceAssets/perf-review/crowd-vat/frametime-finish-bark01-d-court-crowd0/crowd.png",
+      "photoSha256": "aba83a44a8ca416a1e9a165d9d610b93ad61ca53f037b00e70659fd29d2a6b39",
+      "logSha256": "f4a08b5467c9dfd15618ba557cf22e44c3ddf63330cbbbc060d1e5eaa120703c"
+    },
+    {
+      "requestedCount": 2500,
+      "seededCount": 2376,
+      "captureStatus": "failed_capture",
+      "exitCode": 0,
+      "csvFinalized": true,
+      "receipt": "SourceAssets/perf-review/crowd-vat/frametime-finish-bark01-d-court-crowd2500/frametime-receipt.json",
+      "photo": "SourceAssets/perf-review/crowd-vat/frametime-finish-bark01-d-court-crowd2500/crowd.png",
+      "photoSha256": "7a00d7d77c5fa2bed195be6cfe38c4e1c0e61447f7227e61d2dbd6334a76192b",
+      "logSha256": "0d38c02eac0c0625c71c9a89486926c46c524c0709fdff22abd8e1365213b3aa"
+    }
+  ],
+  "visualReview": [
+    "Both1280x720 viewport images inspected. Baseline has no crowd-field figures but separate resident actors remain.",
+    "2500request visibly renders a dense crowd; native readback proves2376seeded,124refused,0groundtrace misses,sixpose meshes,vertexanimation enabled.",
+    "Close figures show angular silhouettes and clothing artifacts; this is not final character visual acceptance."
+  ],
+  "shutdownConclusion": "Two worker-thread baselines b/c ended777003; both game-thread pilots d ended0. This isolates a profiler-mode-dependent shutdown failure under these conditions, not a general engine fix.",
+  "remaining": [
+    "Diagnose124placement refusals without relaxing ground/wall/spacing protections.",
+    "Retest exact2500/5000/10000 counts, placement, motion and comparable full performance windows.",
+    "Raw CSV/logs retained locally with hashes; rejected capture remains failed."
+  ]
+}

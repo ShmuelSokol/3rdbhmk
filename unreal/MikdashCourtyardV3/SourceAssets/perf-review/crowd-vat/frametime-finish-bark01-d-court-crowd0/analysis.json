@@ -1,0 +1,51 @@
+{
+  "settleSeconds": 30.0,
+  "requestedRecordSeconds": 30.0,
+  "captures": {
+    "SourceAssets/perf-review/crowd-vat/frametime-finish-bark01-d-court-crowd0/frametime-finish-bark01-d-court-crowd0.csv": {
+      "file": "SourceAssets\\perf-review\\crowd-vat\\frametime-finish-bark01-d-court-crowd0\\frametime-finish-bark01-d-court-crowd0.csv",
+      "columns": {
+        "frame": "FrameTime",
+        "game": "GameThreadTime",
+        "render": "RenderThreadTime",
+        "gpu": "GPUTime",
+        "rhi": "RHIThreadTime"
+      },
+      "framesKept": 1435,
+      "recordSeconds": 30.0,
+      "requestedRecordSeconds": 30.0,
+      "frame": {
+        "median": 16.395,
+        "mean": 20.903,
+        "p95": 44.254,
+        "p99": 89.593
+      },
+      "game": {
+        "median": 8.434,
+        "mean": 8.917,
+        "p95": 12.727,
+        "p99": 18.232
+      },
+      "render": {
+        "median": 16.26,
+        "mean": 20.882,
+        "p95": 43.781,
+        "p99": 89.189
+      },
+      "gpu": {
+        "median": 14.534,
+        "mean": 14.261,
+        "p95": 15.387,
+        "p99": 16.615
+      },
+      "rhi": {
+        "median": 2.817,
+        "mean": 2.847,
+        "p95": 3.343,
+        "p99": 3.938
+      },
+      "fpsFromMedian": 61.0
+    }
+  },
+  "crowdCostDeltas": []
+}

@@ -254,3 +254,23 @@ photo. These late inspections must lie beyond the analyzed timing window.
 The optional CsvOnGameThread switch uses the engine's csvNoProcessingThread flag
 for a controlled worker-thread shutdown experiment; timing overhead changes and
 must be declared if used. It does not disable crashes or relax nonzero-exit checks.
+## Native crowd pilot and floating-roof cause — 18 September 2026
+
+Two worker-thread CSV runs ended777003 after finalization; game-thread pilots for
+0 and2500 requested both exited0. The empty baseline passed native capture and
+30/30 analysis. The2500request seeded2376 and refused124, with zero ground misses,
+sixpose meshes and vertex animation enabled. Keep its receipt failed: this proves
+visible thousands but not exact2500 acceptance. PNGs show dense courtyard figures;
+angular silhouettes/clothing artifacts remain visible. Do not equate requested
+counts with actual placement or compare different profiler modes. Full45/60 matrix
+and placement-refusal diagnosis remain owed. See crowd-vat/finish-bark01-d-review.json.
+
+Kotel logline960 proves LegacyRoofRuntimeV1 refuses the current scene's hide policy:
+it still demands269 buildings/add1b55da3535d53, while the verified Haram map has
+48/ef8a333d75a7daad. Legacy pair2096 belongs to selected owner
+SM_JerusalemBuildings_Grid_N002_P001. Its tank/panel origins project within6pixels
+of the detached block in phase1. Current owner-based repartition is118 hidden pairs,
+5889kept and18hidden roof owners, preserving all6007 original pairs. Retarget the
+exact table/policy and prove modern restoration plus same-camera native removal;
+do not loosen the guard or hide all old-square roof decorations. Diagnosis:
+LegacyRoofZonesV1/haram-remnant-diagnosis-20260918.json. Native isolation still owed.

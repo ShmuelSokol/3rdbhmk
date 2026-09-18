@@ -1,3 +1,18 @@
+## Kohen neck color study — 18 September 2026
+
+build_kohen_neck_tone_study.py reads the hash-pinned approved Walter GLB and writes
+a FRESH color-only study (KohenSkinV2). The lower-neck/jaw RGB ratio is measured
+in linear space; smoothstep blends between author Z150 and Z156 cm. It preserves
+local variation rather than replacing the neck with a flat color. Exactly 2,139
+vertices are affected; tests read both GLBs and prove all non-color accessors and
+the face/alpha remain unchanged. This is NOT native import or visual acceptance;
+normal/cavity skin master and in-engine review remain required before adoption.
+Offline paired previews show the color-only change is visually subtle because the
+beard/collar cover most of this region. The exported KG_Hair reaches author Z142.165
+cm (head minimum Z142.182); beard_shell.mask has no lower-height cutoff. Investigate
+this neck-covering shell before attributing the whole pale area to the face atlas.
+This is source/offline evidence, not a new engine diagnosis or approved beard edit.
+
 ## Garment measurement profiling — 18 September 2026
 
 The current measure_kohen_garment_clearance.py skins only robe, leg and outer garment
@@ -7,7 +22,8 @@ Conservative triangle AABB pruning reduces the same three-frame run from 30.5 s 
 8.9 s with unchanged measurements. Sampled surface vertices bound distance above;
 triangle boxes bound it below, with retained order preserving nearest-face ties.
 Full optimized idle now passes 97 frames at 30 Hz, zero measured intersections in
-249.2 s. Full original comparison and 60 Hz tend remain running. Source checker
+249.2 s. Full original comparison finished at 673.0 s and every reported idle
+measurement matches exactly (2.70x faster). Full 60 Hz tend remains running. Source checker
 verify_kohen_clearance_source.py matches all 33,312 garment/leg triangles in the
 exported Kohen GLB by exact float32 position/weight, material and winding. Clone
 was missing this generated source mesh; copy the exact 7,939,512-byte GLB with SHA

@@ -61,6 +61,12 @@ def summarise(path, settle, record=None):
             raise RuntimeError('%s: invalid frame time %r' % (path, frame))
         start = elapsed
         elapsed += frame / 1000.0
+        if 'EVENTS' in header and record is not None:
+            events = row[header.index('EVENTS')]
+            inspection = ('CsvExecCommand : getall MikdashCrowdField' in events
+                          or 'CsvExecCommand : Shot filename=' in events)
+            if inspection and start < settle + record:
+                raise RuntimeError('%s: inspection overlaps performance window' % path)
         if start + 1e-9 < settle:
             continue
         if record is not None and start >= settle + record - 1e-9:

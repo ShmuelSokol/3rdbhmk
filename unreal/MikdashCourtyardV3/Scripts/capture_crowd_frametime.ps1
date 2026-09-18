@@ -25,7 +25,8 @@ param(
     [ValidateRange(30,120)][int]$SettleSeconds = 45,
     [ValidateRange(30,300)][int]$RecordSeconds = 60,
     [ValidateRange(640,1920)][int]$ResX = 1280,
-    [ValidateRange(360,1080)][int]$ResY = 720
+    [ValidateRange(360,1080)][int]$ResY = 720,
+    [switch]$CsvOnGameThread
 )
 $ErrorActionPreference = 'Stop'
 
@@ -54,17 +55,25 @@ $iniArgs = '-ini:Game:[/Script/MikdashRuntime.MikdashFrontEnd]:bShowMainMenuOnBo
            '[/Script/MikdashRuntime.MikdashSettingsSubsystem]:bApplyGraphicsToEngine=False'
 $crowdArg = if ($CrowdCount -ge 0) { "-CrowdCount=$CrowdCount " } else { '' }
 $frames = [int](($SettleSeconds + $RecordSeconds) * 120)
+$inspectionFrame = $frames - 120
+$photo = (Join-Path $outDir 'crowd.png').Replace('\','/')
+$inspection = @('SeededAgents','RefusedSeeds','GroundTraceMisses','ActivePoseCount','bUseVertexAnimation') | ForEach-Object { "${inspectionFrame}:getall MikdashCrowdField $_" }
+$inspection += "${inspectionFrame}:Shot filename=$photo -nosuffix"
+$inspectionArgs = '-csvExecCmds="' + ($inspection -join ',') + '"'
 $argline = "-windowed -ResX=$ResX -ResY=$ResY -nosplash -nosteam -notraceserver -notrace -noverifygc " +
-           "-csvCaptureFrames=$frames -csvGpuStats -ExitAfterCsvProfiling $crowdArg$iniArgs " +
+           "-csvCaptureFrames=$frames -csvGpuStats -ExitAfterCsvProfiling $inspectionArgs $crowdArg$iniArgs " +
            "-ExecCmds=`"sg.ViewDistanceQuality 2,sg.ShadowQuality 2,sg.GlobalIlluminationQuality 2,sg.ReflectionQuality 2,sg.PostProcessQuality 2,sg.TextureQuality 2,sg.EffectsQuality 2,sg.FoliageQuality 2,sg.ShadingQuality 2,r.ScreenPercentage 77,r.SetRes ${ResX}x${ResY}w,Ghost,BugItGo $Go,t.MaxFPS 0,r.VSync 0,csv.ForceExit 0`""
 $log = Join-Path $outDir 'runtime.log'
 $argline += (' -abslog="'+$log+'"')
+if($CsvOnGameThread){$argline += ' -csvNoProcessingThread'}
 
 $report = [ordered]@{
     status = 'starting'; label = $Label; view = $View; bugItGo = $Go; archive = $Archive
     crowdCount = if ($CrowdCount -ge 0) { $CrowdCount } else { 'map default' }
     method = 'CSV profiler boot capture, real-time pacing, vsync off, t.MaxFPS 0; engine exits after CSV finalization'
     captureFrames = $frames; timeoutSeconds = ($SettleSeconds+$RecordSeconds)*10
+    inspectionFrame = $inspectionFrame; inspectionScope = 'Late-frame reflected crowd counts and viewport image; analysis must exclude inspection frame and later'
+    csvOnGameThread = [bool]$CsvOnGameThread
     resolution = "$ResX x $ResY"; settleSeconds = $SettleSeconds; recordSeconds = $RecordSeconds
     quality = 'High (all scalability groups 2), screen percentage 77; saved graphics overrides disabled'
     commandLine = $argline
@@ -94,6 +103,13 @@ try {
     $finalized = @(Select-String -LiteralPath $log -Pattern 'CSV finalize time :')
     if($finalized.Count -ne 1){throw 'Expected one engine CSV finalization before exit'}
     $report.csvFinalized=$true
+    $counts = @(Select-String -LiteralPath $log -Pattern '\d+\)\s+MikdashCrowdField\s+(.+?:PersistentLevel\.[^.]+)\.SeededAgents = (\d+)\s*$')
+    if($counts.Count -ne 1){throw 'Expected exactly one live crowd field seeded-count readback'}
+    $report.crowdActor=$counts[0].Matches[0].Groups[1].Value
+    $report.seededAgents=[int]$counts[0].Matches[0].Groups[2].Value
+    if($CrowdCount -ge 0 -and $report.seededAgents -ne $CrowdCount){throw 'Seeded crowd differs from requested count'}
+    if(-not (Test-Path -LiteralPath $photo)){throw 'Missing late-frame viewport image'}
+    $report.photo=$photo; $report.photoSha256=(Get-FileHash -LiteralPath $photo).Hash.ToLowerInvariant()
 } catch {
     $report.errors += $_.Exception.Message
 } finally {

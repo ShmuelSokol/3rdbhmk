@@ -1,0 +1,32 @@
+{
+  "status": "failed_capture",
+  "label": "finish-bark01-c",
+  "view": "court",
+  "bugItGo": "3300 2434 380 -4 90 0",
+  "archive": "C:/Mikdash/Builds/Checkpoint-finish-bark01-20260918T215607Z",
+  "crowdCount": 0,
+  "method": "CSV profiler boot capture, real-time pacing, vsync off, t.MaxFPS 0; engine exits after CSV finalization",
+  "captureFrames": 12600,
+  "timeoutSeconds": 1050,
+  "resolution": "1280 x 720",
+  "settleSeconds": 45,
+  "recordSeconds": 60,
+  "quality": "High (all scalability groups 2), screen percentage 77; saved graphics overrides disabled",
+  "commandLine": "-windowed -ResX=1280 -ResY=720 -nosplash -nosteam -notraceserver -notrace -noverifygc -csvCaptureFrames=12600 -csvGpuStats -ExitAfterCsvProfiling -CrowdCount=0 -ini:Game:[/Script/MikdashRuntime.MikdashFrontEnd]:bShowMainMenuOnBoot=False,[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=FablePerfProbe_finish-bark01-c,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=FablePerfProbe_finish-bark01-c_Settings,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:bApplyGraphicsToEngine=False -ExecCmds=\"sg.ViewDistanceQuality 2,sg.ShadowQuality 2,sg.GlobalIlluminationQuality 2,sg.ReflectionQuality 2,sg.PostProcessQuality 2,sg.TextureQuality 2,sg.EffectsQuality 2,sg.FoliageQuality 2,sg.ShadingQuality 2,r.ScreenPercentage 77,r.SetRes 1280x720w,Ghost,BugItGo 3300 2434 380 -4 90 0,t.MaxFPS 0,r.VSync 0,csv.ForceExit 0\" -abslog=\"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\crowd-vat\\frametime-finish-bark01-c-court-crowd0\\runtime.log\"",
+  "startedUtc": "2026-09-18T22:27:48.2287737Z",
+  "errors": [
+    "Nonzero game exit"
+  ],
+  "childSha256": "6302cd695b474776c1107ac3f2942791983493f3b36679fc79208851f1e12909",
+  "initialRequiredFreeCommitBytes": 9663676416,
+  "maximumPrivateBytes": 8589934592,
+  "reserveCommitBytes": 1342177280.0,
+  "peakPrivateBytes": 7344046080,
+  "minimumFreeCommitBytes": 19130654720,
+  "pid": 33520,
+  "csvFinalized": true,
+  "exitCode": 777003,
+  "csv": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\crowd-vat\\frametime-finish-bark01-c-court-crowd0\\frametime-finish-bark01-c-court-crowd0.csv",
+  "csvSha256": "bd2efe362f3642ec79462f0c3f3a65204a050dbd19eba5e2fb665b9a64a7a63e",
+  "finishedUtc": "2026-09-18T22:31:04.1907963Z"
+}

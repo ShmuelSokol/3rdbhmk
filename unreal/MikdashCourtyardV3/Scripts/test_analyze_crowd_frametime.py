@@ -40,6 +40,12 @@ class FrameWindowTests(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             self.capture([['', 3000, 25]])
 
+    def test_inspection_cannot_contaminate_recording(self):
+        with self.assertRaises(RuntimeError):
+            self.capture([['', 100, 25]] * 15 +
+                         [['CsvExecCommand : Shot filename=crowd.png', 100, 25]] +
+                         [['', 100, 25]] * 30)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -2954,3 +2954,14 @@ receipts are published; large CSV/logs stay local. Exact shutdown cause remains
 unresolved. Latest source quick gates6/6 and analyzer regression tests5/5 pass in
 both trees. Next: resolve/reproduce shutdown, then complete the crowd matrix with
 actual count/placement proof; continue the identified Yechezkel floating-block audit.
+## Crowd shutdown reproduction and count proof — 18 September 2026
+
+Unchanged baseline c reproduces b: CSV finalizes and game logs full shutdown, but
+child returns777003. Both are failed, not accepted benchmarks. The harness now
+uses the engine's frame-scheduled csvExecCmds to read SeededAgents, RefusedSeeds,
+GroundTraceMisses, ActivePoseCount and bUseVertexAnimation, plus a viewport PNG.
+It requires exactly one live field with the requested seeded count and a saved
+photo. These late inspections must lie beyond the analyzed timing window.
+The optional CsvOnGameThread switch uses the engine's csvNoProcessingThread flag
+for a controlled worker-thread shutdown experiment; timing overhead changes and
+must be declared if used. It does not disable crashes or relax nonzero-exit checks.

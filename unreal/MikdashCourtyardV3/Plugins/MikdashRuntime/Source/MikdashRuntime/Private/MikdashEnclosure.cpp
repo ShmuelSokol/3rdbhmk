@@ -1862,7 +1862,7 @@ void AMikdashEnclosure::PrepareLegacyRoofs()
     };
     int32 Enclosures = 0;
     for (TActorIterator<AMikdashEnclosure> It(World); It; ++It) ++Enclosures;
-    if (IsHidden() || Enclosures != 1 || ExplicitFound != 269 || ExplicitMissing || ExplicitDuplicated
+    if (IsHidden() || Enclosures != 1 || ExplicitFound != ExpectedHideCount || ExplicitMissing || ExplicitDuplicated
         || GetHideSetFingerprint() != UTF8_TO_TCHAR(HideFingerprint))
     { Refuse(TEXT("hide-policy-or-controller-mismatch")); return; }
     if (!HideWhileWallStandsTags.Contains(FName(TEXT("CityDetailZone_Precinct")))
@@ -1983,8 +1983,8 @@ void AMikdashEnclosure::PrepareLegacyRoofs()
     bLegacyRoofPrepared = true;
     if (!ValidateLegacyRoofs()) { Refuse(TEXT("replacement-readback-failed")); return; }
     LegacyRoofStatus = TEXT("prepared-originals-visible");
-    UE_LOG(LogTemp, Display, TEXT("LegacyRoofRuntimeV1 prepared pairs=6007 precinct=1263 kept=4744 maxErrorCm=%.9f plan=%s"),
-        LegacyRoofMaxErrorCm, UTF8_TO_TCHAR(PlanSHA256));
+    UE_LOG(LogTemp, Display, TEXT("LegacyRoofRuntimeV1 prepared pairs=%d precinct=%d kept=%d maxErrorCm=%.9f plan=%s hideSource=%s"),
+        PairCount, PrecinctCount, KeptCount, LegacyRoofMaxErrorCm, UTF8_TO_TCHAR(PlanSHA256), UTF8_TO_TCHAR(HideSourceSHA256));
 }
 
 bool AMikdashEnclosure::ValidateLegacyRoofs() const
@@ -2132,8 +2132,10 @@ void AMikdashEnclosure::RunLegacyRoofDiagnosticStep()
     int32 OriginalCount, KeptCount, VisibleCount;
     double Error;
     GetLegacyRoofRuntimeCounts(OriginalCount, KeptCount, VisibleCount, Error);
-    const bool Passed = ValidateLegacyRoofs() && OriginalCount == 12014
-        && KeptCount == (ExpectPrepared ? 9488 : 0) && VisibleCount == (ExpectKept ? 9488 : 12014)
+    const int32 ExpectedOriginals = 2 * LegacyRoofRuntimeData::PairCount;
+    const int32 ExpectedKept = 2 * LegacyRoofRuntimeData::KeptCount;
+    const bool Passed = ValidateLegacyRoofs() && OriginalCount == ExpectedOriginals
+        && KeptCount == (ExpectPrepared ? ExpectedKept : 0) && VisibleCount == (ExpectKept ? ExpectedKept : ExpectedOriginals)
         && bLegacyRoofPrepared == ExpectPrepared && bLegacyRoofKeptVisible == ExpectKept;
     bLegacyRoofDiagnosticPassed = bLegacyRoofDiagnosticPassed && Passed;
     TSharedRef<FJsonObject> Row = MakeShared<FJsonObject>();
@@ -2171,6 +2173,7 @@ void AMikdashEnclosure::RunLegacyRoofDiagnosticStep()
         GetWorld()->GetTimerManager().ClearTimer(LegacyRoofDiagnosticTimer);
         TSharedRef<FJsonObject> Receipt = MakeShared<FJsonObject>();
         Receipt->SetStringField(TEXT("planSha256"), UTF8_TO_TCHAR(LegacyRoofRuntimeData::PlanSHA256));
+        Receipt->SetStringField(TEXT("hideSourceSha256"), UTF8_TO_TCHAR(LegacyRoofRuntimeData::HideSourceSHA256));
         Receipt->SetStringField(TEXT("map"), GetWorld()->GetOutermost()->GetName());
         Receipt->SetStringField(TEXT("hideFingerprint"), GetHideSetFingerprint());
         Receipt->SetBoolField(TEXT("passed"), bLegacyRoofDiagnosticPassed);

@@ -2985,3 +2985,21 @@ of the detached block in phase1. Current owner-based repartition is118 hidden pa
 exact table/policy and prove modern restoration plus same-camera native removal;
 do not loosen the guard or hide all old-square roof decorations. Diagnosis:
 LegacyRoofZonesV1/haram-remnant-diagnosis-20260918.json. Native isolation still owed.
+## Haram roof visibility repair in source — 18 September 2026
+
+The runtime table now derives membership from the hash-pinned Haram hide source,
+matching native48-label fingerprint ef8a333d75a7daad. The generator first validates
+the original pinned6007-pair ownership/transform plan, then repartitions118hidden
+pairs and5889kept pairs across18hidden owners. All6007 transform rows remain
+byte-identical;1145old-square pairs now remain visible with their buildings.
+Runtime guards retain exact identity/fingerprint, source transforms/materials and
+component settings; diagnostic counts derive from generated constants. Four tests
+cover full geometry/ownership preservation, membership, surrounding-city restoration
+and rejection of wrong policy. Compile, native10-state and same-camera packaged
+visual acceptance remain owed. The old roof probe wrapper now enforces9/8/1.25GiB
+start/private/reserve guards and describes the specified archive accurately.
+Fresh active-tree verification compiled bothEditor andGame targets successfully;
+verify --quick --build reports10/10. Both trees also pass generator --check,
+four roof tests and quick6/6. All6007 generated translation rows match priorHEAD
+exactly. Native package/state/image acceptance remains pending; do not equate
+source compilation with removal of the visible remnant.

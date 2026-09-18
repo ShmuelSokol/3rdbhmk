@@ -1,3 +1,22 @@
+## Finish-line continuation and online walkthrough — 18 September 2026
+
+The owner has explicitly resumed continuous work toward the finish line; historical
+stop/pause entries in INTEGRATION-QUEUE.md are superseded by this request. Track work
+and acceptance in FINISH-LINE.md. Online sharing means visitors independently WALK
+and NAVIGATE the actual scene from a browser, including phones. A gallery, video,
+download-only page or multiple spectators sharing one camera is not the deliverable.
+Pixel Streaming is an initial implementation direction, not a deployed service.
+No paid cloud spending or rock/Temple elevation change is authorized. The owner approved
+deleting only Checkpoint-cp01-20260909T221426Z, Checkpoint-cp02b-20260910T003728Z,
+and Checkpoint-cp03-20260910T025420Z. Automatic approval review blocked that deletion
+with "blocked by policy"; no files were deleted. Other archives remain protected.
+
+Initial runtime audit refused safely before launching: less than 9 GiB free commit.
+mc-fw-host measured 10.35 GiB private memory and C: approximately 9.1 GiB free disk.
+Do not bypass the established memory guard, stop security services, restart the user's
+remote machine or delete archives to force progress. Continue source/offline work;
+request a specific cleanup decision and arrange a user-controlled restart if needed.
+
 ## S5 Haram precinct accepted — 16 September 2026
 
 Verification runner: run active-tree and publication-tree verify.py sequentially.

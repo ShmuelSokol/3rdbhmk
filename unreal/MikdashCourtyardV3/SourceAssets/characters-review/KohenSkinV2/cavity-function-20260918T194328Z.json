@@ -1,0 +1,1508 @@
+{
+  "status": "read-only-audit-passed",
+  "target": "/MetaHumanCharacter/Lookdev_UHM/Skin/Material_Functions/MF_skin_cavity",
+  "scope": "Read-only material-function inspection; no map load, asset creation or save.",
+  "nodes": [
+    {
+      "name": "MaterialExpressionFunctionOutput_0",
+      "class": "MaterialExpressionFunctionOutput",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionStaticSwitchParameter_0"
+      ],
+      "source_outputs": [
+        ""
+      ],
+      "property_output_name": "Material Attributes",
+      "property_description": ""
+    },
+    {
+      "name": "MaterialExpressionFunctionInput_0",
+      "class": "MaterialExpressionFunctionInput",
+      "inputs": [
+        "Preview"
+      ],
+      "connections": [
+        null
+      ],
+      "source_outputs": [
+        null
+      ],
+      "property_input_name": "Material Attributes",
+      "property_description": ""
+    },
+    {
+      "name": "MaterialExpressionFunctionInput_1",
+      "class": "MaterialExpressionFunctionInput",
+      "inputs": [
+        "Preview"
+      ],
+      "connections": [
+        null
+      ],
+      "source_outputs": [
+        null
+      ],
+      "property_input_name": "UDIM",
+      "property_description": ""
+    },
+    {
+      "name": "MaterialExpressionGetMaterialAttributes_0",
+      "class": "MaterialExpressionGetMaterialAttributes",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionFunctionInput_0"
+      ],
+      "source_outputs": [
+        ""
+      ]
+    },
+    {
+      "name": "MaterialExpressionSetMaterialAttributes_0",
+      "class": "MaterialExpressionSetMaterialAttributes",
+      "inputs": [
+        "MaterialAttributes",
+        "BaseColor",
+        "Specular",
+        "Roughness"
+      ],
+      "connections": [
+        "MaterialExpressionNamedRerouteUsage_2",
+        "MaterialExpressionNamedRerouteUsage_9",
+        "MaterialExpressionNamedRerouteUsage_17",
+        "MaterialExpressionNamedRerouteUsage_24"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "name": "MaterialExpressionMaterialFunctionCall_0",
+      "class": "MaterialExpressionMaterialFunctionCall",
+      "inputs": [
+        "UDIM"
+      ],
+      "connections": [
+        "MaterialExpressionFunctionInput_1"
+      ],
+      "source_outputs": [
+        ""
+      ],
+      "property_material_function": "/MetaHumanCharacter/Lookdev_UHM/Common/Material_Functions/MF_UDIMs.MF_UDIMs"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_0",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionGetMaterialAttributes_0"
+      ],
+      "source_outputs": [
+        "MaterialAttributes"
+      ],
+      "property_name": "Material Attributes"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_1",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionGetMaterialAttributes_0"
+      ],
+      "source_outputs": [
+        "BaseColor"
+      ],
+      "property_name": "Basecolor"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_2",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionGetMaterialAttributes_0"
+      ],
+      "source_outputs": [
+        "Specular"
+      ],
+      "property_name": "Specular"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_3",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionGetMaterialAttributes_0"
+      ],
+      "source_outputs": [
+        "Roughness"
+      ],
+      "property_name": "Roughness"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_0",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionStaticSwitchParameter_0",
+      "class": "MaterialExpressionStaticSwitchParameter",
+      "inputs": [
+        "True",
+        "False"
+      ],
+      "connections": [
+        "MaterialExpressionSetMaterialAttributes_0",
+        "MaterialExpressionNamedRerouteUsage_0"
+      ],
+      "source_outputs": [
+        "",
+        ""
+      ],
+      "property_parameter_name": "Use Cavity",
+      "property_default_value": "True"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_5",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionStaticSwitch_2"
+      ],
+      "source_outputs": [
+        ""
+      ],
+      "property_name": "Concavity"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_6",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionMaterialFunctionCall_1"
+      ],
+      "source_outputs": [
+        "G"
+      ],
+      "property_name": "Convexity"
+    },
+    {
+      "name": "MaterialExpressionVectorParameter_0",
+      "class": "MaterialExpressionVectorParameter",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": [],
+      "property_parameter_name": "Basecolor Concavity Color Multiply",
+      "property_default_value": "<Struct 'LinearColor' (0x000002BE737DAA78) {r: 1.000000, g: 1.000000, b: 1.000000, a: 1.000000}>"
+    },
+    {
+      "name": "MaterialExpressionLinearInterpolate_0",
+      "class": "MaterialExpressionLinearInterpolate",
+      "inputs": [
+        "A",
+        "B",
+        "Alpha"
+      ],
+      "connections": [
+        "MaterialExpressionNamedRerouteUsage_6",
+        "MaterialExpressionMultiply_0",
+        "MaterialExpressionNamedRerouteUsage_7"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_6",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionMultiply_0",
+      "class": "MaterialExpressionMultiply",
+      "inputs": [
+        "A",
+        "B"
+      ],
+      "connections": [
+        "MaterialExpressionNamedRerouteUsage_6",
+        "MaterialExpressionVectorParameter_0"
+      ],
+      "source_outputs": [
+        "",
+        "RGB"
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_7",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionVectorParameter_1",
+      "class": "MaterialExpressionVectorParameter",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": [],
+      "property_parameter_name": "Basecolor Convexity Color Multiply",
+      "property_default_value": "<Struct 'LinearColor' (0x000002BE737DABF8) {r: 1.000000, g: 1.000000, b: 1.000000, a: 1.000000}>"
+    },
+    {
+      "name": "MaterialExpressionLinearInterpolate_1",
+      "class": "MaterialExpressionLinearInterpolate",
+      "inputs": [
+        "A",
+        "B",
+        "Alpha"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_0",
+        "MaterialExpressionMultiply_1",
+        "MaterialExpressionNamedRerouteUsage_10"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionMultiply_1",
+      "class": "MaterialExpressionMultiply",
+      "inputs": [
+        "A",
+        "B"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_0",
+        "MaterialExpressionVectorParameter_1"
+      ],
+      "source_outputs": [
+        "",
+        "RGB"
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_7",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionStaticSwitchParameter_1"
+      ],
+      "source_outputs": [
+        ""
+      ],
+      "property_name": "Basecolor Modified"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_9",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_10",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionStaticSwitchParameter_1",
+      "class": "MaterialExpressionStaticSwitchParameter",
+      "inputs": [
+        "True",
+        "False"
+      ],
+      "connections": [
+        "MaterialExpressionStaticSwitch_0",
+        "MaterialExpressionNamedRerouteUsage_11"
+      ],
+      "source_outputs": [
+        "",
+        ""
+      ],
+      "property_parameter_name": "Basecolor Cavity Adjustments",
+      "property_default_value": "False"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_11",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_12",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionLinearInterpolate_2",
+      "class": "MaterialExpressionLinearInterpolate",
+      "inputs": [
+        "A",
+        "B",
+        "Alpha"
+      ],
+      "connections": [
+        "MaterialExpressionNamedRerouteUsage_12",
+        "MaterialExpressionMultiply_2",
+        "MaterialExpressionNamedRerouteUsage_13"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionMultiply_2",
+      "class": "MaterialExpressionMultiply",
+      "inputs": [
+        "A",
+        "B"
+      ],
+      "connections": [
+        "MaterialExpressionNamedRerouteUsage_12",
+        "MaterialExpressionScalarParameter_5"
+      ],
+      "source_outputs": [
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_13",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionLinearInterpolate_3",
+      "class": "MaterialExpressionLinearInterpolate",
+      "inputs": [
+        "A",
+        "B",
+        "Alpha"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_2",
+        "MaterialExpressionMultiply_3",
+        "MaterialExpressionNamedRerouteUsage_14"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionMultiply_3",
+      "class": "MaterialExpressionMultiply",
+      "inputs": [
+        "A",
+        "B"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_2",
+        "MaterialExpressionScalarParameter_6"
+      ],
+      "source_outputs": [
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_14",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionStaticSwitchParameter_2",
+      "class": "MaterialExpressionStaticSwitchParameter",
+      "inputs": [
+        "True",
+        "False"
+      ],
+      "connections": [
+        "MaterialExpressionStaticSwitch_1",
+        "MaterialExpressionNamedRerouteUsage_16"
+      ],
+      "source_outputs": [
+        "",
+        ""
+      ],
+      "property_parameter_name": "Specular Cavity Adjustments",
+      "property_default_value": "False"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_16",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionScalarParameter_5",
+      "class": "MaterialExpressionScalarParameter",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": [],
+      "property_parameter_name": "Specular Concavity Multiply",
+      "property_default_value": "1.0"
+    },
+    {
+      "name": "MaterialExpressionScalarParameter_6",
+      "class": "MaterialExpressionScalarParameter",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": [],
+      "property_parameter_name": "Specular Convexity Multiply",
+      "property_default_value": "1.0"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_9",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionStaticSwitchParameter_2"
+      ],
+      "source_outputs": [
+        ""
+      ],
+      "property_name": "Specular Modified"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_17",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionLinearInterpolate_4",
+      "class": "MaterialExpressionLinearInterpolate",
+      "inputs": [
+        "A",
+        "B",
+        "Alpha"
+      ],
+      "connections": [
+        "MaterialExpressionNamedRerouteUsage_22",
+        "MaterialExpressionMultiply_4",
+        "MaterialExpressionNamedRerouteUsage_19"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionMultiply_4",
+      "class": "MaterialExpressionMultiply",
+      "inputs": [
+        "A",
+        "B"
+      ],
+      "connections": [
+        "MaterialExpressionNamedRerouteUsage_22",
+        "MaterialExpressionScalarParameter_7"
+      ],
+      "source_outputs": [
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_19",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionLinearInterpolate_5",
+      "class": "MaterialExpressionLinearInterpolate",
+      "inputs": [
+        "A",
+        "B",
+        "Alpha"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_4",
+        "MaterialExpressionMultiply_5",
+        "MaterialExpressionNamedRerouteUsage_20"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionMultiply_5",
+      "class": "MaterialExpressionMultiply",
+      "inputs": [
+        "A",
+        "B"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_4",
+        "MaterialExpressionScalarParameter_8"
+      ],
+      "source_outputs": [
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_20",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionStaticSwitchParameter_3",
+      "class": "MaterialExpressionStaticSwitchParameter",
+      "inputs": [
+        "True",
+        "False"
+      ],
+      "connections": [
+        "MaterialExpressionStaticSwitch_6",
+        "MaterialExpressionNamedRerouteUsage_23"
+      ],
+      "source_outputs": [
+        "",
+        ""
+      ],
+      "property_parameter_name": "Roughness Cavity Adjustments",
+      "property_default_value": "False"
+    },
+    {
+      "name": "MaterialExpressionScalarParameter_7",
+      "class": "MaterialExpressionScalarParameter",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": [],
+      "property_parameter_name": "Roughness Concavity Multiply",
+      "property_default_value": "1.0"
+    },
+    {
+      "name": "MaterialExpressionScalarParameter_8",
+      "class": "MaterialExpressionScalarParameter",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": [],
+      "property_parameter_name": "Roughness Convexity Multiply",
+      "property_default_value": "1.0"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_22",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_23",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_11",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionStaticSwitchParameter_3"
+      ],
+      "source_outputs": [
+        ""
+      ],
+      "property_name": "Roughness Modified"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_24",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_2",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_4",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionMaterialFunctionCall_1"
+      ],
+      "source_outputs": [
+        "B"
+      ],
+      "property_name": "Micro"
+    },
+    {
+      "name": "MaterialExpressionVectorParameter_2",
+      "class": "MaterialExpressionVectorParameter",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": [],
+      "property_parameter_name": "Basecolor Micro Cavity Color Multiply",
+      "property_default_value": "<Struct 'LinearColor' (0x000002BE737DAD78) {r: 1.000000, g: 1.000000, b: 1.000000, a: 1.000000}>"
+    },
+    {
+      "name": "MaterialExpressionLinearInterpolate_6",
+      "class": "MaterialExpressionLinearInterpolate",
+      "inputs": [
+        "A",
+        "B",
+        "Alpha"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_1",
+        "MaterialExpressionMultiply_6",
+        "MaterialExpressionNamedRerouteUsage_3"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionMultiply_6",
+      "class": "MaterialExpressionMultiply",
+      "inputs": [
+        "A",
+        "B"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_1",
+        "MaterialExpressionVectorParameter_2"
+      ],
+      "source_outputs": [
+        "",
+        "RGB"
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_3",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionLinearInterpolate_7",
+      "class": "MaterialExpressionLinearInterpolate",
+      "inputs": [
+        "A",
+        "B",
+        "Alpha"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_3",
+        "MaterialExpressionMultiply_7",
+        "MaterialExpressionNamedRerouteUsage_5"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionMultiply_7",
+      "class": "MaterialExpressionMultiply",
+      "inputs": [
+        "A",
+        "B"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_3",
+        "MaterialExpressionScalarParameter_0"
+      ],
+      "source_outputs": [
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionScalarParameter_0",
+      "class": "MaterialExpressionScalarParameter",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": [],
+      "property_parameter_name": "Specular Micro Cavity Multiply",
+      "property_default_value": "1.0"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_5",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionLinearInterpolate_8",
+      "class": "MaterialExpressionLinearInterpolate",
+      "inputs": [
+        "A",
+        "B",
+        "Alpha"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_5",
+        "MaterialExpressionMultiply_8",
+        "MaterialExpressionNamedRerouteUsage_15"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionMultiply_8",
+      "class": "MaterialExpressionMultiply",
+      "inputs": [
+        "A",
+        "B"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_5",
+        "MaterialExpressionScalarParameter_1"
+      ],
+      "source_outputs": [
+        "",
+        ""
+      ],
+      "property_const_a": "0.0",
+      "property_const_b": "1.0"
+    },
+    {
+      "name": "MaterialExpressionScalarParameter_1",
+      "class": "MaterialExpressionScalarParameter",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": [],
+      "property_parameter_name": "Roughness Micro Cavity Multiply",
+      "property_default_value": "1.0"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_15",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionFunctionInput_2",
+      "class": "MaterialExpressionFunctionInput",
+      "inputs": [
+        "Preview"
+      ],
+      "connections": [
+        null
+      ],
+      "source_outputs": [
+        null
+      ],
+      "property_input_name": "Mip Bias",
+      "property_description": ""
+    },
+    {
+      "name": "MaterialExpressionTextureObjectParameter_0",
+      "class": "MaterialExpressionTextureObjectParameter",
+      "inputs": [
+        "UVs",
+        "Apply View MipBias"
+      ],
+      "connections": [
+        null,
+        null
+      ],
+      "source_outputs": [
+        null,
+        null
+      ],
+      "property_parameter_name": "Cavity VT",
+      "property_texture": "/MetaHumanCharacter/Lookdev_UHM/Common/Textures/Placeholders/T_Flat_Black_M_VT.T_Flat_Black_M_VT"
+    },
+    {
+      "name": "MaterialExpressionTextureSample_1",
+      "class": "MaterialExpressionTextureSample",
+      "inputs": [
+        "UVs",
+        "Tex",
+        "Bias",
+        "Apply View MipBias"
+      ],
+      "connections": [
+        "MaterialExpressionNamedRerouteUsage_25",
+        "MaterialExpressionTextureObjectParameter_0",
+        "MaterialExpressionNamedRerouteUsage_8",
+        null
+      ],
+      "source_outputs": [
+        "",
+        "",
+        "",
+        null
+      ],
+      "property_texture": "/MetaHumanCharacter/Lookdev_UHM/Common/Textures/Placeholders/T_Flat_Black_M_VT.T_Flat_Black_M_VT"
+    },
+    {
+      "name": "MaterialExpressionTextureSample_2",
+      "class": "MaterialExpressionTextureSample",
+      "inputs": [
+        "UVs",
+        "Tex",
+        "Apply View MipBias"
+      ],
+      "connections": [
+        "MaterialExpressionNamedRerouteUsage_18",
+        "MaterialExpressionTextureObjectParameter_0",
+        null
+      ],
+      "source_outputs": [
+        "",
+        "",
+        null
+      ],
+      "property_texture": "/MetaHumanCharacter/Lookdev_UHM/Common/Textures/Placeholders/T_Flat_Black_M_VT.T_Flat_Black_M_VT"
+    },
+    {
+      "name": "MaterialExpressionFunctionInput_3",
+      "class": "MaterialExpressionFunctionInput",
+      "inputs": [
+        "Preview"
+      ],
+      "connections": [
+        null
+      ],
+      "source_outputs": [
+        null
+      ],
+      "property_input_name": "Bake ON",
+      "property_description": ""
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_8",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionFunctionInput_3"
+      ],
+      "source_outputs": [
+        ""
+      ],
+      "property_name": "Bake ON"
+    },
+    {
+      "name": "MaterialExpressionTextureObjectParameter_1",
+      "class": "MaterialExpressionTextureObjectParameter",
+      "inputs": [
+        "UVs",
+        "Apply View MipBias"
+      ],
+      "connections": [
+        null,
+        null
+      ],
+      "source_outputs": [
+        null,
+        null
+      ],
+      "property_parameter_name": "Cavity",
+      "property_texture": "/MetaHumanCharacter/Lookdev_UHM/Common/Textures/Placeholders/T_Flat_Black_M.T_Flat_Black_M"
+    },
+    {
+      "name": "MaterialExpressionFunctionInput_4",
+      "class": "MaterialExpressionFunctionInput",
+      "inputs": [
+        "Preview"
+      ],
+      "connections": [
+        null
+      ],
+      "source_outputs": [
+        null
+      ],
+      "property_input_name": "Use VT",
+      "property_description": ""
+    },
+    {
+      "name": "MaterialExpressionStaticSwitch_3",
+      "class": "MaterialExpressionStaticSwitch",
+      "inputs": [
+        "True",
+        "False",
+        "Value"
+      ],
+      "connections": [
+        "MaterialExpressionStaticSwitch_4",
+        "MaterialExpressionStaticSwitch_5",
+        "MaterialExpressionNamedRerouteUsage_4"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        ""
+      ],
+      "property_default_value": "False"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_10",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionMaterialFunctionCall_0"
+      ],
+      "source_outputs": [
+        "UVs"
+      ],
+      "property_name": "UVs"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_12",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionFunctionInput_2"
+      ],
+      "source_outputs": [
+        ""
+      ],
+      "property_name": "MipBias"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_13",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionFunctionInput_4"
+      ],
+      "source_outputs": [
+        ""
+      ],
+      "property_name": "UseVT"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_4",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_8",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_18",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_25",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionStaticSwitch_4",
+      "class": "MaterialExpressionStaticSwitch",
+      "inputs": [
+        "True",
+        "False",
+        "Value"
+      ],
+      "connections": [
+        "MaterialExpressionTextureSample_2",
+        "MaterialExpressionTextureSample_1",
+        "MaterialExpressionNamedRerouteUsage_26"
+      ],
+      "source_outputs": [
+        "RGB",
+        "RGB",
+        ""
+      ],
+      "property_default_value": "False"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_26",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionTextureSample_0",
+      "class": "MaterialExpressionTextureSample",
+      "inputs": [
+        "UVs",
+        "Tex",
+        "Apply View MipBias"
+      ],
+      "connections": [
+        null,
+        "MaterialExpressionTextureObjectParameter_1",
+        null
+      ],
+      "source_outputs": [
+        null,
+        "",
+        null
+      ],
+      "property_texture": "/MetaHumanCharacter/Lookdev_UHM/Common/Textures/Placeholders/T_Flat_Black_M.T_Flat_Black_M"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_27",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionTextureSample_3",
+      "class": "MaterialExpressionTextureSample",
+      "inputs": [
+        "UVs",
+        "Tex",
+        "Bias",
+        "Apply View MipBias"
+      ],
+      "connections": [
+        null,
+        "MaterialExpressionTextureObjectParameter_1",
+        "MaterialExpressionNamedRerouteUsage_27",
+        null
+      ],
+      "source_outputs": [
+        null,
+        "",
+        "",
+        null
+      ],
+      "property_texture": "/MetaHumanCharacter/Lookdev_UHM/Common/Textures/Placeholders/T_Flat_Black_M.T_Flat_Black_M"
+    },
+    {
+      "name": "MaterialExpressionStaticSwitch_5",
+      "class": "MaterialExpressionStaticSwitch",
+      "inputs": [
+        "True",
+        "False",
+        "Value"
+      ],
+      "connections": [
+        "MaterialExpressionTextureSample_0",
+        "MaterialExpressionTextureSample_3",
+        "MaterialExpressionNamedRerouteUsage_28"
+      ],
+      "source_outputs": [
+        "RGB",
+        "RGB",
+        ""
+      ],
+      "property_default_value": "False"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_28",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionMaterialFunctionCall_1",
+      "class": "MaterialExpressionMaterialFunctionCall",
+      "inputs": [
+        "Float3"
+      ],
+      "connections": [
+        "MaterialExpressionStaticSwitch_3"
+      ],
+      "source_outputs": [
+        ""
+      ],
+      "property_material_function": "/Engine/Functions/Engine_MaterialFunctions02/Utility/BreakOutFloat3Components.BreakOutFloat3Components"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_14",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionStaticSwitch_3"
+      ],
+      "source_outputs": [
+        ""
+      ],
+      "property_name": "Cavity"
+    },
+    {
+      "name": "MaterialExpressionFunctionOutput_1",
+      "class": "MaterialExpressionFunctionOutput",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionNamedRerouteUsage_29"
+      ],
+      "source_outputs": [
+        ""
+      ],
+      "property_output_name": "Cavity",
+      "property_description": ""
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_29",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteDeclaration_15",
+      "class": "MaterialExpressionNamedRerouteDeclaration",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionFunctionInput_5"
+      ],
+      "source_outputs": [
+        ""
+      ],
+      "property_name": "Use Single Channel"
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_1",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionStaticSwitch_0",
+      "class": "MaterialExpressionStaticSwitch",
+      "inputs": [
+        "True",
+        "False",
+        "Value"
+      ],
+      "connections": [
+        "MaterialExpressionReroute_1",
+        "MaterialExpressionLinearInterpolate_6",
+        "MaterialExpressionNamedRerouteUsage_1"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        ""
+      ],
+      "property_default_value": "False"
+    },
+    {
+      "name": "MaterialExpressionReroute_0",
+      "class": "MaterialExpressionReroute",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_0"
+      ],
+      "source_outputs": [
+        ""
+      ]
+    },
+    {
+      "name": "MaterialExpressionReroute_1",
+      "class": "MaterialExpressionReroute",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionReroute_0"
+      ],
+      "source_outputs": [
+        ""
+      ]
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_21",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionStaticSwitch_1",
+      "class": "MaterialExpressionStaticSwitch",
+      "inputs": [
+        "True",
+        "False",
+        "Value"
+      ],
+      "connections": [
+        "MaterialExpressionReroute_2",
+        "MaterialExpressionLinearInterpolate_7",
+        "MaterialExpressionNamedRerouteUsage_21"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        ""
+      ],
+      "property_default_value": "False"
+    },
+    {
+      "name": "MaterialExpressionReroute_2",
+      "class": "MaterialExpressionReroute",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionReroute_3"
+      ],
+      "source_outputs": [
+        ""
+      ]
+    },
+    {
+      "name": "MaterialExpressionReroute_3",
+      "class": "MaterialExpressionReroute",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_2"
+      ],
+      "source_outputs": [
+        ""
+      ]
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_30",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionStaticSwitch_2",
+      "class": "MaterialExpressionStaticSwitch",
+      "inputs": [
+        "True",
+        "False",
+        "Value"
+      ],
+      "connections": [
+        "MaterialExpressionOneMinus_0",
+        "MaterialExpressionReroute_5",
+        "MaterialExpressionNamedRerouteUsage_30"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        ""
+      ],
+      "property_default_value": "False"
+    },
+    {
+      "name": "MaterialExpressionOneMinus_0",
+      "class": "MaterialExpressionOneMinus",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionMaterialFunctionCall_1"
+      ],
+      "source_outputs": [
+        "R"
+      ]
+    },
+    {
+      "name": "MaterialExpressionReroute_5",
+      "class": "MaterialExpressionReroute",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionMaterialFunctionCall_1"
+      ],
+      "source_outputs": [
+        "R"
+      ]
+    },
+    {
+      "name": "MaterialExpressionReroute_6",
+      "class": "MaterialExpressionReroute",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionLinearInterpolate_4"
+      ],
+      "source_outputs": [
+        ""
+      ]
+    },
+    {
+      "name": "MaterialExpressionNamedRerouteUsage_31",
+      "class": "MaterialExpressionNamedRerouteUsage",
+      "inputs": [],
+      "connections": [],
+      "source_outputs": []
+    },
+    {
+      "name": "MaterialExpressionStaticSwitch_6",
+      "class": "MaterialExpressionStaticSwitch",
+      "inputs": [
+        "True",
+        "False",
+        "Value"
+      ],
+      "connections": [
+        "MaterialExpressionReroute_7",
+        "MaterialExpressionLinearInterpolate_8",
+        "MaterialExpressionNamedRerouteUsage_31"
+      ],
+      "source_outputs": [
+        "",
+        "",
+        ""
+      ],
+      "property_default_value": "False"
+    },
+    {
+      "name": "MaterialExpressionReroute_7",
+      "class": "MaterialExpressionReroute",
+      "inputs": [
+        "None"
+      ],
+      "connections": [
+        "MaterialExpressionReroute_6"
+      ],
+      "source_outputs": [
+        ""
+      ]
+    },
+    {
+      "name": "MaterialExpressionFunctionInput_5",
+      "class": "MaterialExpressionFunctionInput",
+      "inputs": [
+        "Preview"
+      ],
+      "connections": [
+        null
+      ],
+      "source_outputs": [
+        null
+      ],
+      "property_input_name": "Use Single Channel",
+      "property_description": ""
+    }
+  ]
+}

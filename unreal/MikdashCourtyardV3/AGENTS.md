@@ -1,3 +1,15 @@
+## Walter skin texture inputs — 18 September 2026
+
+extract_walter_skin_maps.py extracts three embedded PNGs from the installed Walter
+preset without loading Unreal, validates every chunk CRC and dimensions, and pins
+the reviewed albedo RGB-pixel hash. This avoids relying on an unpublished reference
+PNG in the clone. Fresh extraction matches all three saved maps. Destination must
+be fresh; no existing texture can be overwritten. KohenSkinV2/textures has albedo,
+normal and cavity plus hashes. The normal visibly carries wrinkles/pores; the cavity
+texture is RGB-packed, NOT a grayscale AO image. Determine Epic's channel semantics
+before wiring it into the new skin master. These inputs are not native-imported or
+render-accepted, and the old material/build remains unchanged.
+
 ## Kohen neck color study — 18 September 2026
 
 build_kohen_neck_tone_study.py reads the hash-pinned approved Walter GLB and writes
@@ -23,7 +35,7 @@ Conservative triangle AABB pruning reduces the same three-frame run from 30.5 s 
 triangle boxes bound it below, with retained order preserving nearest-face ties.
 Full optimized idle now passes 97 frames at 30 Hz, zero measured intersections in
 249.2 s. Full original comparison finished at 673.0 s and every reported idle
-measurement matches exactly (2.70x faster). Full 60 Hz tend remains running. Source checker
+measurement matches exactly (2.70x faster). Full 60 Hz tend completed: 601 samples over ten seconds, zero measured leg/robe and inner/outer garment intersections. Walk is now running at its full 240 Hz sampling. Source checker
 verify_kohen_clearance_source.py matches all 33,312 garment/leg triangles in the
 exported Kohen GLB by exact float32 position/weight, material and winding. Clone
 was missing this generated source mesh; copy the exact 7,939,512-byte GLB with SHA
@@ -2647,3 +2659,15 @@ documented gap (no stop inside a crowd zone, coordinator cannot render, `IMikdas
 speed has six per-variant overrides stored in the MAP that beat the 120 cm/s C++ default; and
 `resident-routes-v2-verify` has only ever run on the legacy map. Use `-MikdashWalkProbe` for reachability
 and a rendered movie for whether they look alive - a receipt cannot show stilting.
+
+## Read-only skin function evidence — 18 September 2026
+
+Three asset-only commandlets exited zero, peaking below 1.6 GB private memory.
+Epic MF_skin_cavity separates Concavity, Convexity and Micro paths modifying base
+color, specular and roughness. The final audit uses the installed engine API
+get_input_node_output_name_for_material_expression: G feeds Convexity, B feeds
+Micro, and R feeds the concavity switch (R on false/default; 1-R on true).
+Named-reroute declaration references are not exposed by get_editor_property, so
+retain the graph receipt rather than inventing missing links. This is not AO.
+No scene load, native asset mutation or visual acceptance occurred. Evidence is
+KohenSkinV2/cavity-function-20260918T194328Z.json and audit-run receipts.

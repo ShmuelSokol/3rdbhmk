@@ -3065,3 +3065,20 @@ Next correction needs initialized collision plus sourced deck/terrain references
 retain spacing/wall/ground guards and verify moving feet as well as spawn counts.
 Evidence: crowd-ground01-{startup,deferred,package}.json. Diagnostic flags and
 CSV game-thread mode mean these runs are not accepted performance baselines.
+
+## Crowd ground correction in source — 18 September 2026
+
+BeginPlay schedules crowd creation for the next world tick, after enclosure actors
+install their state's collision. Manual BuildCrowd cancels pending startup; EndPlay
+clears it. This is initialization ordering, not a timed spawn-count workaround.
+The Candidate48 shipping map (including its PIE prefix) now uses generated pinned
+Kotel surfaces: actual overlapping deck rectangles and 16 approach terrain triangles.
+No fitted slopes, buried terrain floor, increased attempts, or relaxed thresholds.
+Missing surface coverage returns non-finite and refuses the seed/move; invalid
+hidden instance transforms remain finite. Movement uses the same surface difference
+as seeding. Native population, feet-in-motion and state-transition acceptance remain
+pending. Other maps retain their existing ground models.
+Review correction: ClearCrowd itself cancels deferred startup, so a caller can
+clear before the next tick without later repopulation. Non-social movement also
+restores its previous finite position/height when surface coverage is missing;
+NaN refusal must never reach a rendered instance, including when VAT/groups are off.

@@ -3,6 +3,7 @@
 #include "CrowdFieldMath.h"
 #include "CrowdGroupMath.h"
 #include "GameFramework/Actor.h"
+#include "TimerManager.h"
 #include "MikdashCrowdField.generated.h"
 
 class UStaticMesh;
@@ -503,6 +504,9 @@ private:
     int32 GroupSweepsLastFrame=0,GroupRejectedMovesLastFrame=0,GroupWaitVisitsLastFrame=0;
     int32 ResumedVisitorGroups=0;
     bool bSocialRuntime=false;
+    bool bUseKotelGroundModel=false;
+    FTimerHandle CrowdStartTimer;
+    void StartCrowdAfterWorldInitialization();
     void SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& GlobalIndex);
     void StepSocialAgent(int32 Index,double Dt,const MikdashCrowd::FlowZone& Flow);
     /** Vertex-animation visit: commit the anchor along the segment validated last time, then plan

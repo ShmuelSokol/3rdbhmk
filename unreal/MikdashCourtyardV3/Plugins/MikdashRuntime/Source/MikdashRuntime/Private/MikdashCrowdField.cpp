@@ -3,6 +3,8 @@
 #include "CrowdFieldMath.h"
 #include "MikdashSceneUnits.h"
 #include "PopulationSceneMath.h"
+#include "CrowdKotelGroundData.h"
+#include "TimerManager.h"
 
 #include "Components/HierarchicalInstancedStaticMeshComponent.h"
 #include "Components/SceneComponent.h"
@@ -175,6 +177,7 @@ bool AMikdashCrowdField::GetRuntimeKeepOut(const FString& Name, FMikdashCrowdKee
 
 bool AMikdashCrowdField::PrepareRuntimeGeometry()
 {
+    bUseKotelGroundModel=false;
     RuntimeZones.Reset(); RuntimeProtectedPolygons.Reset();
     MikdashSceneUnits::Frame Frame;
     if (!AMikdashSceneUnits::Resolve(GetWorld(),Frame,CoordinateStatus)) return false;
@@ -229,6 +232,16 @@ bool AMikdashCrowdField::PrepareRuntimeGeometry()
         }
     }
     RuntimeZones=MoveTemp(CandidateZones);RuntimeProtectedPolygons=MoveTemp(CandidateProtected);
+    const FString GroundMapPrefix=TEXT("/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/");
+    const FString GroundMap=GetWorld()->GetOutermost()->GetName();
+    FString GroundLeaf=GroundMap.RightChop(GroundMapPrefix.Len());
+    if(GetWorld()->WorldType==EWorldType::PIE && GroundLeaf.StartsWith(TEXT("UEDPIE_")))
+    {
+        const int32 Separator=GroundLeaf.Find(TEXT("_"),ESearchCase::CaseSensitive,ESearchDir::FromStart,7);
+        if(Separator!=INDEX_NONE) GroundLeaf=GroundLeaf.RightChop(Separator+1);
+    }
+    bUseKotelGroundModel=Frame.CoordinateRevision==MikdashSceneUnits::Revision::Selected48V1
+        && GroundMap.StartsWith(GroundMapPrefix,ESearchCase::CaseSensitive) && GroundLeaf==TEXT("Walkthrough");
     CoordinateStatus=Frame.CoordinateRevision==MikdashSceneUnits::Revision::Selected48V1
         ? TEXT("Selected48 runtime geometry from immutable legacy50 properties; geographic context and physical padding retained")
         : TEXT("Legacy50 runtime geometry unchanged");
@@ -319,6 +332,13 @@ void AMikdashCrowdField::ConfigureComponents()
 
 float AMikdashCrowdField::ZoneGroundZ(const FMikdashCrowdZone& Zone, const FVector2D& P) const
 {
+    if(bUseKotelGroundModel)
+    {
+        if(Zone.Name==TEXT("KotelPlazaStrip"))
+            return static_cast<float>(MikdashCrowdGround::DeckHeight(CrowdKotelGroundData::Plaza,P.X,P.Y));
+        if(Zone.Name==TEXT("KotelApproachCorridor"))
+            return static_cast<float>(MikdashCrowdGround::TerrainHeight(CrowdKotelGroundData::Approach,P.X,P.Y));
+    }
     if (Zone.GroundMode == EMikdashCrowdGround::Plane)
     {
         return Zone.GroundZBase + Zone.GroundSlopeX * static_cast<float>(P.X) + Zone.GroundSlopeY * static_cast<float>(P.Y);
@@ -329,6 +349,7 @@ float AMikdashCrowdField::ZoneGroundZ(const FMikdashCrowdZone& Zone, const FVect
 float AMikdashCrowdField::ResolveGroundZ(const FMikdashCrowdZone& Zone, const FVector2D& P)
 {
     const float Fallback = ZoneGroundZ(Zone, P);
+    if(!FMath::IsFinite(Fallback)) { ++GroundTraceMisses;return Fallback; }
     if (!bTraceGroundOnSeed)
     {
         return Fallback;
@@ -598,6 +619,7 @@ void AMikdashCrowdField::PushTransforms(int32 GlobalStart, int32 GlobalCount)
 
 void AMikdashCrowdField::ClearCrowd()
 {
+    if(GetWorld()) GetWorld()->GetTimerManager().ClearTimer(CrowdStartTimer);
     for (const TObjectPtr<UHierarchicalInstancedStaticMeshComponent>& Component : PoseComponents)
     {
         if (Component)
@@ -703,7 +725,7 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
                 Grounds[Member]=ResolveGroundZ(Zone,P);
                 const double Residual=Grounds[Member]-ZoneGroundZ(Zone,P);
                 if(Member==0) LeaderResidual=Residual;
-                if(FMath::Abs(Residual)>55.0 || FMath::Abs(Residual-LeaderResidual)>20.0) { ++GroundReject;Okay=false;break; }
+                if(!FMath::IsFinite(Residual) || FMath::Abs(Residual)>55.0 || FMath::Abs(Residual-LeaderResidual)>20.0) { ++GroundReject;Okay=false;break; }
                 if(bSweepGroupObstacles && GetWorld())
                 {
                     FCollisionQueryParams Query(SCENE_QUERY_STAT(CrowdGroupSeed),false,this);
@@ -746,7 +768,9 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
             Agent.ScaleFactor=static_cast<float>(HeightScaleFor(Seed,static_cast<uint32>(GlobalIndex),FigureScaleMin,FigureScaleMax));
             if(!Placed)
             { Agent.bValid=0;Agent.Position=Zone.PolygonCm.Num()?Zone.PolygonCm[0]:FVector2D::ZeroVector;
-              Agent.GroundZCm=ZoneGroundZ(Zone,Agent.Position);++RefusedSeeds;continue; }
+              Agent.GroundZCm=ZoneGroundZ(Zone,Agent.Position);
+              if(!FMath::IsFinite(Agent.GroundZCm)) Agent.GroundZCm=0;
+              ++RefusedSeeds;continue; }
             Agent.bValid=1;Agent.bStanding=Standing?1:0;Agent.Position=ToFVector2D(Points[Member]);
             Agent.ReseedPoint=Agent.Position;Agent.GroundZCm=Grounds[Member];Agent.HeadingDegrees=static_cast<float>(Heading);
             Agent.SpeedCmPerSecond=Speed;Agent.Phase=static_cast<float>(HashUnit(Seed,static_cast<uint32>(GlobalIndex),5u));
@@ -1037,12 +1061,15 @@ void AMikdashCrowdField::BuildCrowd(int32 OverrideCount)
                 Agent.bValid = 0;
                 Agent.Position = Zone.PolygonCm.Num() > 0 ? Zone.PolygonCm[0] : FVector2D::ZeroVector;
                 Agent.GroundZCm = ZoneGroundZ(Zone, Agent.Position);
+                if(!FMath::IsFinite(Agent.GroundZCm)) Agent.GroundZCm=0;
                 ++RefusedSeeds;
                 continue;
             }
             Agent.bValid = 1;
             Agent.Position = ToFVector2D(Point);
             Agent.GroundZCm = ResolveGroundZ(Zone, Agent.Position);
+            if(!FMath::IsFinite(Agent.GroundZCm))
+            { Agent.bValid=0;Agent.GroundZCm=0; ++RefusedSeeds;continue; }
             Agent.bStanding = IsStanding(Seed, static_cast<uint32>(GlobalIndex), Zone.StandingRatio) ? 1 : 0;
             Agent.SpeedCmPerSecond = Agent.bStanding ? 0.f : static_cast<float>(WalkSpeedFor(Seed, static_cast<uint32>(GlobalIndex), MinSpeed, MaxSpeed));
             Agent.Phase = static_cast<float>(HashUnit(Seed, static_cast<uint32>(GlobalIndex), 5u));
@@ -1159,12 +1186,22 @@ void AMikdashCrowdField::BeginPlay()
         // until a release script or a reviewer turns it on.
         return;
     }
+    // Enclosure BeginPlay installs the visible state's paving collision. Actor BeginPlay
+    // order is unspecified: immediate traces can see terrain buried beneath those slabs.
+    CrowdStartTimer=GetWorld()->GetTimerManager().SetTimerForNextTick(this,
+        &AMikdashCrowdField::StartCrowdAfterWorldInitialization);
+}
+
+void AMikdashCrowdField::StartCrowdAfterWorldInitialization()
+{
+    if(!HasActorBegunPlay() || !bActivateOnBeginPlay) return;
     BuildCrowd(-1);
     SetActorTickEnabled(bCrowdRunning);
 }
 
 void AMikdashCrowdField::EndPlay(const EEndPlayReason::Type Reason)
 {
+    if(GetWorld()) GetWorld()->GetTimerManager().ClearTimer(CrowdStartTimer);
     bCrowdRunning = false;
     SetActorTickEnabled(false);
     Super::EndPlay(Reason);
@@ -1272,6 +1309,8 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
                 continue;
             }
 
+            const FVector2D PreviousPosition=Agent.Position;
+            const float PreviousGround=Agent.GroundZCm;
             AgentState State;
             State.Position = ToVec2(Agent.Position);
             State.HeadingDegrees = Agent.HeadingDegrees;
@@ -1295,9 +1334,13 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
             }
             else if (Zone.GroundMode == EMikdashCrowdGround::Plane)
             {
-                // On a fitted slope the height has to follow the figure across the ground, or
-                // it walks into the hill. This is the plane, not a trace: it costs two multiplies.
+                // Follow the authored plane or exact sourced Kotel surface without a new trace.
                 Agent.GroundZCm = ZoneGroundZ(Zone, Agent.Position);
+            }
+            if(!FMath::IsFinite(Agent.GroundZCm))
+            {
+                Agent.Position=PreviousPosition;
+                Agent.GroundZCm=PreviousGround;
             }
         }
     }

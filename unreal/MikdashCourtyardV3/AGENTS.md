@@ -2753,3 +2753,16 @@ vertices include 12,903 changed vertices. Head, rig, weights, colors, UVs, indic
 and all unrelated geometry are preserved. Full-motion ephod/robe clearance still
 owed; the ongoing core robe walk test does not cover it. Native adoption/rendering
 remain pending. See KohenMeilEaseV2/layered-study-offline-review.json and paired PNGs.
+
+## Full-walk rejection of wider robe — 18 September 2026
+
+Ease 5 fails the full 288-sample, 240 Hz walk: zero leg/robe intersection, but
+0.4022897 cm inner/outer intersection at t=1.1666667 s, rest Z36. A separate
+single-pose replay reproduces it at vertices 4258/4260/4262. Seven previously
+clear poses were insufficient. Do not adopt either ease-5 source variant.
+Posed offline previews now use the shipped animation and verify joint order;
+receipts pin mesh, animation and image hashes. Rear views at 0.2958333 and
+1.1666667 s show a pronounced slanted/bent lower hem. Inspect deformation and
+layering before further widening; these images are not native visual acceptance.
+Production ease remains zero. Evidence: KohenMeilEaseV2/ease5-walk-full.json,
+ease5-late-worst-pose.json and silhouette-layered-candidate-walk-* files.

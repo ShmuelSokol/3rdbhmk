@@ -82,3 +82,16 @@ Candidate run update: walk portion reports zero leg/robe intersection but about 
 Robe diagnostics: wider skinning bands did not clear the sampled walk poses. Ease 5 cm clears seven targeted poses; full 240 Hz walk is running separately. Full clips, silhouette, outer decorations and native/render review remain required. Default geometry unchanged.
 
 Layered candidate exported with approved face/rig preserved. Offline rest preview rejected the unlayered wider robe for hiding the ephod; revised study carries the ephod/edges with the taper and restores layering in that view. Full motion of all garment layers and native/render acceptance remain owed.
+
+## Full-walk rejection of wider robe — 18 September 2026
+
+Ease 5 fails the full 288-sample, 240 Hz walk: zero leg/robe intersection, but
+0.4022897 cm inner/outer intersection at t=1.1666667 s, rest Z36. A separate
+single-pose replay reproduces it at vertices 4258/4260/4262. Seven previously
+clear poses were insufficient. Do not adopt either ease-5 source variant.
+Posed offline previews now use the shipped animation and verify joint order;
+receipts pin mesh, animation and image hashes. Rear views at 0.2958333 and
+1.1666667 s show a pronounced slanted/bent lower hem. Inspect deformation and
+layering before further widening; these images are not native visual acceptance.
+Production ease remains zero. Evidence: KohenMeilEaseV2/ease5-walk-full.json,
+ease5-late-worst-pose.json and silhouette-layered-candidate-walk-* files.

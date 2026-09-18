@@ -342,7 +342,21 @@ float AMikdashCrowdField::ResolveGroundZ(const FMikdashCrowdZone& Zone, const FV
     const FVector End(P.X, P.Y, Fallback - GroundTraceDepthCm);
     FHitResult Hit;
     FCollisionQueryParams Params(TEXT("MikdashCrowdGround"), false, this);
-    if (World->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params))
+    const bool bHit = World->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params);
+    // Opt-in diagnosis only: bounded per process, no extra traces or placement changes.
+    if (FParse::Param(FCommandLine::Get(), TEXT("MikdashCrowdGroundAudit")))
+    {
+        static TMap<FString, int32> Samples;
+        int32& Count = Samples.FindOrAdd(Zone.Name);
+        if (Count < 32)
+        {
+            ++Count;
+            UE_LOG(LogTemp, Display, TEXT("CrowdGroundAuditV1 zone=\"%s\" sample=%d x=%.6f y=%.6f expected=%.6f hit=%d actual=%.6f normalZ=%.6f actor=\"%s\" component=\"%s\""),
+                *Zone.Name, Count, P.X, P.Y, Fallback, bHit ? 1 : 0, Hit.ImpactPoint.Z, Hit.ImpactNormal.Z,
+                *GetPathNameSafe(Hit.GetActor()), *GetPathNameSafe(Hit.GetComponent()));
+        }
+    }
+    if (bHit)
     {
         const float HitZ = static_cast<float>(Hit.ImpactPoint.Z);
         // A hit far from the authored ground is a roof, a passing actor or a stray prop, not

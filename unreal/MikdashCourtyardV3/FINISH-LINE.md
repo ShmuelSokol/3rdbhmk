@@ -327,3 +327,9 @@ fail it. Each zone conserves attempt and requested-person totals. Existing old
 terrain-plane assumptions require comparison against actual paving contacts;
 obtain contact coordinates, heights and support identity before changing policy.
 See crowd-vat/crowd-audit01-diagnosis.json. No count fix or benchmark acceptance yet.
+
+CrowdGroundAudit is an opt-in diagnostic launch flag. It records the first 32
+existing ground trace results per zone per process, including XY, expected/hit Z,
+normal and support actor/component. It adds no traces and changes no placement
+thresholds. The capture harness records GroundAudit explicitly; diagnostic runs
+are not clean performance baselines. Actual paving/contact diagnosis remains open.

@@ -26,7 +26,8 @@ param(
     [ValidateRange(30,300)][int]$RecordSeconds = 60,
     [ValidateRange(640,1920)][int]$ResX = 1280,
     [ValidateRange(360,1080)][int]$ResY = 720,
-    [switch]$CsvOnGameThread
+    [switch]$CsvOnGameThread,
+    [switch]$GroundAudit
 )
 $ErrorActionPreference = 'Stop'
 
@@ -66,6 +67,7 @@ $argline = "-windowed -ResX=$ResX -ResY=$ResY -nosplash -nosteam -notraceserver 
 $log = Join-Path $outDir 'runtime.log'
 $argline += (' -abslog="'+$log+'"')
 if($CsvOnGameThread){$argline += ' -csvNoProcessingThread'}
+if($GroundAudit){$argline += ' -MikdashCrowdGroundAudit'}
 
 $report = [ordered]@{
     status = 'starting'; label = $Label; view = $View; bugItGo = $Go; archive = $Archive
@@ -74,6 +76,7 @@ $report = [ordered]@{
     captureFrames = $frames; timeoutSeconds = ($SettleSeconds+$RecordSeconds)*10
     inspectionFrame = $inspectionFrame; inspectionScope = 'Late-frame reflected crowd counts and viewport image; analysis must exclude inspection frame and later'
     csvOnGameThread = [bool]$CsvOnGameThread
+    groundAudit = [bool]$GroundAudit
     resolution = "$ResX x $ResY"; settleSeconds = $SettleSeconds; recordSeconds = $RecordSeconds
     quality = 'High (all scalability groups 2), screen percentage 77; saved graphics overrides disabled'
     commandLine = $argline

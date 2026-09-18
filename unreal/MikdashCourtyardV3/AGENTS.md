@@ -2833,3 +2833,24 @@ lines672-687 applies ToFColor(true) to undo that extra linearization. This is
 consistent with the exponent1 native study and contradicts the old blanket claim
 that this import's shader must decode raw sRGB bytes. Verify with a known-color
 native swatch before repairing/adopting the saved master and all affected slots.
+
+## Calibrated and repaired Kohen linear colors — 18 September 2026
+
+Native skeletal GLB swatch calibration color-calibration-20260918T210959Z returns
+RGB(0.25,0.49609375,0.74609375) for source(0.25,0.5,0.75): maximum error0.00390625,
+versus0.28710 against sRGB encoding. No native calibration assets were saved.
+Imported vertex colors are already linear; exponent1 is required, not2.2.
+repair_kohen_linear_colors.py backed up twelve assets, connected Exp and set the
+Kohen garment master, Study03 master and ten BOUND instances to1. Native apply
+211431Z and fresh-process verify211538Z passed. Only those twelve material files
+changed; mesh, bindings, maps and other protected assets remain unchanged. The
+unused iris instance was preserved. Future builders now use1.0. The historical
+head-bake comment claiming shader sRGB decode is superseded by this calibration.
+
+Native render-target-20260918T211648Z confirms improved blue cloth and skin color.
+Study03 still is NOT bound to the production head; normal/cavity adoption and
+full-scene/motion review remain open. Isolating KG_Hair section7 in native frame
+render-target-20260918T210747Z-skin-linear-no-beard.png removes the pale jaw/neck
+strip, confirming beard-shell coverage as its cause. Keep the grey beard; correct
+its lower coverage rather than changing the skin underneath. No beard edit yet.
+The Windows packaged build is unchanged until a verified recook.

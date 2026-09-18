@@ -95,7 +95,7 @@ def create(rows):
     decode = node(ue.MaterialExpressionPower, -800, -500)
     connect(rgb, '', decode, 'Base')
     # MaterialGraphNode::GetShortenPinName maps Exponent to Exp in UE 5.8.
-    connect(scalar('VCDecodeExponent', 2.2, -350), '', decode, 'Exp')
+    connect(scalar('VCDecodeExponent', 1.0, -350), '', decode, 'Exp')
     prop(decode, '', ue.MaterialProperty.MP_BASE_COLOR)
     normal = sample('Normal', 0)
     prop(normal, 'RGB', ue.MaterialProperty.MP_NORMAL)
@@ -193,7 +193,7 @@ def verify(rows):
     require(len(decode_inputs) == 2 and isinstance(decode_inputs[1], ue.MaterialExpressionScalarParameter)
             and str(decode_inputs[1].get_editor_property('parameter_name')) == 'VCDecodeExponent',
             'Decode exponent parameter is disconnected')
-    require(abs(parameters.get('VCDecodeExponent', 0) - 2.2) < .0001, 'Wrong decode exponent')
+    require(abs(parameters.get('VCDecodeExponent', 0) - 1.0) < .0001, 'Wrong decode exponent')
     result.update(parameters=parameters, cavityBlendChannels=cavity_mix_channels, samplers=samplers)
     return result
 

@@ -64,8 +64,19 @@ def run():
         if linear_study is None:
             raise RuntimeError('Transient linear-color study failed')
         linear_study.set_scalar_parameter_value('VCDecodeExponent', 1.0)
-        for label, material in (('baseline', baseline), ('skin-study', skin), ('skin-linear', linear_study)):
+        for label, material in (('baseline', baseline), ('skin-study', skin), ('skin-linear', linear_study),
+                                ('skin-linear-no-beard', linear_study)):
             body.set_material(slot, material)
+            hidden = []
+            if label == 'skin-linear-no-beard':
+                hair_slot = next(i for i, name in enumerate(body.get_material_slot_names()) if str(name) == 'KG_Hair')
+                subsystem = ue.get_editor_subsystem(ue.SkeletalMeshEditorSubsystem)
+                for section in range(subsystem.get_num_sections(mesh, 0)):
+                    if subsystem.get_lod_material_slot(mesh, 0, section) == hair_slot:
+                        body.show_material_section(hair_slot, section, False, 0)
+                        hidden.append(section)
+                if not hidden:
+                    raise RuntimeError('No hair sections found for isolation')
             ue.AutomationLibrary.finish_loading_before_screenshot()
             path = OUT / ('render-target-' + stamp + '-' + label + '.png')
             if path.exists():
@@ -78,6 +89,7 @@ def run():
             if data[:8] != b'\x89PNG\r\n\x1a\n' or struct.unpack('>II', data[16:24]) != (960, 720):
                 raise RuntimeError('Invalid render target export')
             report['captures'].append({'file': path.name, 'material': material.get_path_name(),
+                                       'hiddenHairSectionsLod0': hidden,
                                        'sha256': hashlib.sha256(data).hexdigest()})
         report['status'] = 'captured_visual_review_pending'
     except Exception as error:

@@ -34,7 +34,7 @@ FOLDER = '/Game/MikdashV3/Characters/KohenGadolV1'
 MESH_FOLDER = FOLDER + '/Mesh'
 MAT_FOLDER = FOLDER + '/Materials'
 MASTER = 'M_KohenGadol_Garment_V1'
-VC_DECODE = 2.2      # the skeletal build stores COLOR_0 as sRGB bytes; the shader reads them raw
+VC_DECODE = 1.0      # native swatch calibration proves imported COLOR_0 is already linear
 PROTECT_TREE = ROOT / 'Content/MikdashV3/Characters/PilgrimRigV3'
 
 

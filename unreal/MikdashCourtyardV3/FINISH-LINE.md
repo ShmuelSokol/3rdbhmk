@@ -74,3 +74,5 @@ Technical references checked 18 September 2026: Epic's [Pixel Streaming overview
 ## Owner decisions carried forward
 
 Rock/Temple elevation remains unchanged pending the owner's explicit choice. Paid cloud hosting and archive deletion beyond the three explicitly approved snapshots remain unauthorized. Continue independent work while these decisions are pending; do not silently replace the requested outcome with a smaller one.
+
+Lower-robe candidate in progress: optional 1.2 cm ease below Z60, taper to 0 at Z85; worst walk pose clears, full walk/idle/tend run pending. Default remains 0. Candidate export, native binding and rendered garment review remain owed. See KohenMeilEaseV2 studies.

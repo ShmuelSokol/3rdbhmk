@@ -95,6 +95,8 @@ CHOSHEN_C = (0.0, 122.0)   # book fig. 2: directly above the belt; Rambam 9:10 "
 CHOSHEN_SIDE = 23.0        # Rambam 9:6 a zeret square; zeret = half an amah = 24 cm at 48 cm (drawn 23)
 TZITZ_H = 3.8              # Rambam 9:1 two fingerbreadths (2 x ~2 cm)
 OFF_MEIL, OFF_EPHOD, OFF_BELT = 2.2, 3.5, 4.7   # outward from the ketonet surface (authored)
+MEIL_LOWER_EASE_CM = 0.0   # candidate study override only until full clearance + rendered review
+MEIL_EASE_FULL_Z, MEIL_EASE_ZERO_Z = 60.0, 85.0
 
 KETONET_SEGMENTS = 176     # 0.85 cm at the hem: fine enough for a 3.2 cm vertex-colour checker
 MEIL_SEGMENTS = 176        # SAME angles as the ketonet: the me'il is then an exact radial offset of
@@ -381,6 +383,12 @@ def ketonet(P):
           C.torso_skin)
 
 
+def meil_offset(z):
+    """Optional lower-robe ease, full below Z60 and smoothly zero at Z85 cm."""
+    return OFF_MEIL + MEIL_LOWER_EASE_CM * (1.0 - smooth(clamp(
+        (z - MEIL_EASE_FULL_Z) / (MEIL_EASE_ZERO_Z - MEIL_EASE_FULL_Z))))
+
+
 def meil(P):
     """Solid techelet, sleeveless, woven neck (Rambam 9:3); hem at the lower shin (book)."""
     # EXACTLY the ketonet's ring heights above the me'il hem: the folds drift in phase with height,
@@ -388,7 +396,7 @@ def meil(P):
     zs = [z for z in ring_zs(KETONET_HEM) if MEIL_HEM - 1e-6 <= z <= 150.5]
     assert abs(zs[0] - MEIL_HEM) < 1e-6, zs[:3]
     rings = [(z,) + section(z) + (0.0, 0.0) for z in zs]
-    v, f = loft(rings, MEIL_SEGMENTS, radial=lambda t, z, l: ketonet_radial(t, z) + OFF_MEIL,
+    v, f = loft(rings, MEIL_SEGMENTS, radial=lambda t, z, l: ketonet_radial(t, z) + meil_offset(z),
                 exponent=ketonet_exponent, cap=False)   # hem level: an exact offset of the ketonet ring
     v0, _ = loft(rings, MEIL_SEGMENTS, radial=lambda t, z, l: ketonet_radial(t, z),
                  exponent=ketonet_exponent, cap=False)   # hem level: an exact offset of the ketonet ring

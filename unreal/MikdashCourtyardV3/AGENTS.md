@@ -2695,3 +2695,17 @@ material properties, exponent wiring and cavity blend channels. Values remain
 study defaults requiring rendered tuning; no native head binding or scene edit.
 NullRHI checks do not prove GPU shader compilation or visual quality. Next: isolate
 head/beard, review native rendered A/B closeups and motion before adopting it.
+
+## Kohen lower-robe clearance study — 18 September 2026
+
+Full baseline walk exposed 0.388 cm inner/outer intersection near rest Z36 at
+71/240 seconds, toward the rear. Single-pose diagnostic reproduces 0.3878326 cm.
+Global outer offset 2.2/2.8/3.4 cm yields 0.38783/0.16574/0 cm. To avoid expanding
+the upper garment, a candidate adds 1.2 cm only below Z60 and tapers smoothly to
+zero at Z85. Worst-pose result is zero. Earlier tapers from Z40 to65 still intersect
+and are retained as failed studies. MEIL_LOWER_EASE_CM defaults to 0: production
+geometry is unchanged. study_kohen_meil_clearance.py --full --lower-ease 1.2 runs
+all three clips with the same unchanged measurement rules; full result pending.
+No candidate export/native adoption/render acceptance yet. Evidence folder:
+SourceAssets/characters-review/KohenMeilEaseV2. Keep torso/ephod/bells visual review
+in the adoption gate, not just the two measured garment surfaces.

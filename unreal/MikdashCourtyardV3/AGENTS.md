@@ -6,9 +6,9 @@ the reviewed albedo RGB-pixel hash. This avoids relying on an unpublished refere
 PNG in the clone. Fresh extraction matches all three saved maps. Destination must
 be fresh; no existing texture can be overwritten. KohenSkinV2/textures has albedo,
 normal and cavity plus hashes. The normal visibly carries wrinkles/pores; the cavity
-texture is RGB-packed, NOT a grayscale AO image. Determine Epic's channel semantics
-before wiring it into the new skin master. These inputs are not native-imported or
-render-accepted, and the old material/build remains unchanged.
+texture is RGB-packed, NOT a grayscale AO image. Native audit resolved the packed
+paths; Study03 now imports these maps and builds a skin material with fresh-process
+readback. No head binding or rendered acceptance yet; the released build is unchanged.
 
 ## Kohen neck color study — 18 September 2026
 
@@ -35,7 +35,7 @@ Conservative triangle AABB pruning reduces the same three-frame run from 30.5 s 
 triangle boxes bound it below, with retained order preserving nearest-face ties.
 Full optimized idle now passes 97 frames at 30 Hz, zero measured intersections in
 249.2 s. Full original comparison finished at 673.0 s and every reported idle
-measurement matches exactly (2.70x faster). Full 60 Hz tend completed: 601 samples over ten seconds, zero measured leg/robe and inner/outer garment intersections. Walk is now running at its full 240 Hz sampling. Source checker
+measurement matches exactly (2.70x faster). Full 60 Hz tend completed: 601 samples over ten seconds, zero measured leg/robe and inner/outer garment intersections. Full walk measured 288 samples at 240 Hz: zero leg/robe intersection, but inner/outer garments intersect by up to 0.388 cm at t=0.2958 s, rest Z36 cm. This remains an open defect requiring correction and native visual review. Source checker
 verify_kohen_clearance_source.py matches all 33,312 garment/leg triangles in the
 exported Kohen GLB by exact float32 position/weight, material and winding. Clone
 was missing this generated source mesh; copy the exact 7,939,512-byte GLB with SHA
@@ -2671,3 +2671,27 @@ Named-reroute declaration references are not exposed by get_editor_property, so
 retain the graph receipt rather than inventing missing links. This is not AO.
 No scene load, native asset mutation or visual acceptance occurred. Evidence is
 KohenSkinV2/cavity-function-20260918T194328Z.json and audit-run receipts.
+
+## UE 5.8 material pin names — 18 September 2026
+
+Native skin-study creation caught two failed connections because it checks every
+MaterialEditingLibrary return value. VertexColor's first output is unnamed (use
+an explicit RGB mask); Power's Exponent input is shortened to Exp by
+MaterialGraphNode::GetShortenPinName. Existing builders using Exponent without
+checking success need native audits before attributing color to texture content.
+Do not assume their published 2.2 parameter is connected. Initial two skin attempts
+saved only fresh textures; no approved mesh/material binding changed. Retain their
+failure receipts. The third study uses /Game/Characters/KohenSkinV2Study03.
+
+## Kohen skin native study — 18 September 2026
+
+release_kohen_skin_v2.py creates only a fresh asset namespace and refuses overwrite.
+Study03 contains original Walter albedo/normal/cavity textures and a skin master:
+existing vertex-color base decode, original normal, R/G/B roughness detail,
+R specular attenuation and subsurface shading. Albedo is retained as a reference;
+base color stays vertex-driven so a reviewed neck color edit can ride along.
+All connections are checked. Fresh-process readback verifies texture settings,
+material properties, exponent wiring and cavity blend channels. Values remain
+study defaults requiring rendered tuning; no native head binding or scene edit.
+NullRHI checks do not prove GPU shader compilation or visual quality. Next: isolate
+head/beard, review native rendered A/B closeups and motion before adopting it.

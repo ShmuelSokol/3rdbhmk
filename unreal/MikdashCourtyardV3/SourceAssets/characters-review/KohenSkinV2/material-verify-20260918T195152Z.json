@@ -1,0 +1,54 @@
+{
+  "status": "native-readback-passed",
+  "mode": "verify",
+  "scope": "Asset-only skin study; no mesh binding, map edit or rendered acceptance.",
+  "textures": [
+    {
+      "path": "/Game/Characters/KohenSkinV2Study03/T_KohenWalter_Albedo_V2",
+      "sourceSha256": "abee9366e793e01bb057134cb6022561246067de275371169322f4e675dfd054",
+      "sRGB": true,
+      "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>"
+    },
+    {
+      "path": "/Game/Characters/KohenSkinV2Study03/T_KohenWalter_Normal_V2",
+      "sourceSha256": "6b8499126679c6437bae56041c84626a8caf42ab8e33b45577ca660582e15559",
+      "sRGB": false,
+      "compression": "<TextureCompressionSettings.TC_NORMALMAP: 1>"
+    },
+    {
+      "path": "/Game/Characters/KohenSkinV2Study03/T_KohenWalter_Cavity_V2",
+      "sourceSha256": "8b8298f849f030c7247fa16e33253d9a3fc6b8375420f65bb7f478ba53db2b98",
+      "sRGB": false,
+      "compression": "<TextureCompressionSettings.TC_DEFAULT: 0>"
+    }
+  ],
+  "material": "/Game/Characters/KohenSkinV2Study03/M_KohenWalter_Skin_V2",
+  "propertyInputs": {
+    "BASE_COLOR": "MaterialExpressionPower",
+    "NORMAL": "MaterialExpressionTextureSampleParameter2D",
+    "ROUGHNESS": "MaterialExpressionSaturate",
+    "SPECULAR": "MaterialExpressionLinearInterpolate",
+    "SUBSURFACE_COLOR": "MaterialExpressionVectorParameter",
+    "OPACITY": "MaterialExpressionScalarParameter"
+  },
+  "parameters": {
+    "VCDecodeExponent": 2.200000047683716,
+    "Roughness": 0.550000011920929,
+    "ConcavityRoughnessMultiply": 1.100000023841858,
+    "ConvexityRoughnessMultiply": 0.949999988079071,
+    "MicroRoughnessMultiply": 1.0800000429153442,
+    "Specular": 0.3499999940395355,
+    "ConcavitySpecularMultiply": 0.800000011920929,
+    "SubsurfaceOpacity": 0.8500000238418579
+  },
+  "cavityBlendChannels": [
+    "R",
+    "G",
+    "B",
+    "R"
+  ],
+  "samplers": {
+    "Normal": "/Game/Characters/KohenSkinV2Study03/T_KohenWalter_Normal_V2.T_KohenWalter_Normal_V2",
+    "Cavity": "/Game/Characters/KohenSkinV2Study03/T_KohenWalter_Cavity_V2.T_KohenWalter_Cavity_V2"
+  }
+}

@@ -202,3 +202,26 @@ materials with zero errors, one shader worker, no map requests/outputs, and unch
 Content metadata/maps/material hashes. Packaged rendering remains owed; see
 StreetTreesV1/bark-cook-20260918T215159Z.json. All memory guards remain unchanged.
 
+## Crowd benchmark capture safeguards — 18 September 2026
+
+The packaged CSV harness now preserves existing captures, requires a fresh output
+label, tracks its owned child only, launches hidden, checks9GiB free commit and
+enforces8GiB private/1.25GiB reserve during recording. It records executable/CSV
+hashes and fails on forced termination, premature exit or ambiguous/missing CSV.
+Source preparation only; actual0/2500/5000/10000 performance is still owed.
+## Packaged bark repair and Kotel preservation — 18 September 2026
+
+Checkpoint-finish-bark01-20260918T215607Z cooked successfully (9,120 packages).
+Two packaged GPU probes exit normally and preserve all source maps. All eight
+images were reviewed: bark now renders textured wood; Kotel paving/retaining
+closure remain across Modern, Yechezkel, Overlay and Modern-again. Evidence:
+StreetTreesV1/finish-bark01-review.json and finish-bark01-archive.json.
+This accepts the bark shader repair and plaza preservation only. Tree branch
+junctions/unsupported-looking foliage still need inspection. Kotel phase1 image
+runtime-20260918T220932917Z-phase1.png exposes an apparently detached small block
+above the right wall (approximately x2054,y398 in the 2560x1440 image), visible in
+Yechezkel and absent in the other reviewed states. Identify its owner and phase
+handling before removal. This is a concrete floating-remnant lead, not a diagnosis.
+New build includes the linear material fix; beard Study02 remains unadopted.
+Crowd harness pins High scalability2, screen percentage77 and resolution while
+turning saved graphics overrides off; actual crowd matrix remains owed.

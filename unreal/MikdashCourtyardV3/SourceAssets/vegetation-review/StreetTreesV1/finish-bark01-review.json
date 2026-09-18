@@ -1,0 +1,46 @@
+{
+  "status": "bark-shader-repair-and-kotel-paving-preservation-accepted",
+  "archive": "C:/Mikdash/Builds/Checkpoint-finish-bark01-20260918T215607Z",
+  "sourceCommit": "793d27bc",
+  "probes": [
+    {
+      "receipt": "SourceAssets/context-review/KotelCutClosureV1/runtime-20260918T220743845Z.json",
+      "nativeReceipt": "KotelClosureRuntimeV1-639253661414760000.json",
+      "exitCode": 0,
+      "mapsUnchanged": true,
+      "logSha256": "0edab594fab4a2169b2a5f56275cd860fa6d31ca380fb20d93d14d01ded873d9",
+      "shaderErrorMatches": 0,
+      "photosViewed": [
+        "runtime-20260918T220743845Z-phase0.png",
+        "runtime-20260918T220743845Z-phase1.png",
+        "runtime-20260918T220743845Z-phase2.png",
+        "runtime-20260918T220743845Z-phase3.png"
+      ]
+    },
+    {
+      "receipt": "SourceAssets/context-review/KotelCutClosureV1/runtime-20260918T220932917Z.json",
+      "nativeReceipt": "KotelClosureRuntimeV1-639253662336550000.json",
+      "exitCode": 0,
+      "mapsUnchanged": true,
+      "logSha256": "9c08c7da35c5177922a629ed2ff9089d66c17c5e582935ab3b5c734f72105cbc",
+      "shaderErrorMatches": 0,
+      "photosViewed": [
+        "runtime-20260918T220932917Z-phase0.png",
+        "runtime-20260918T220932917Z-phase1.png",
+        "runtime-20260918T220932917Z-phase2.png",
+        "runtime-20260918T220932917Z-phase3.png"
+      ]
+    }
+  ],
+  "observations": [
+    "Bark close-up renders textured wood on trunk and branches in all four states; no material compilation or invalid-shader errors in either log.",
+    "Kotel paving and retaining closure remain visible across Modern, Yechezkel, Overlay and Modern-again.",
+    "Both probes exited normally with source maps unchanged."
+  ],
+  "remaining": [
+    "Tree branch junctions appear abrupt/conical; some foliage cards have no visible support from this camera. Isolate before changing geometry.",
+    "Kotel phase1 Yechezkel image contains an apparently detached small block above the right-hand wall near image x2054 y398 at original 2560x1440 resolution. Identify owning actor/component and correct phase handling; plaza preservation does not accept this remnant.",
+    "No claim that all environmental geometry, character appearance, crowd performance or online walkthrough is finished."
+  ],
+  "logNote": "WorldGridMaterial appears in an engine streaming dependency message, not a bark shader failure."
+}

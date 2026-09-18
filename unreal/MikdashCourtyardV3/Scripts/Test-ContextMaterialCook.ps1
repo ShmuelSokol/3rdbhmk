@@ -2,7 +2,7 @@
    Run -SelfTest for offline checks; -PlanOnly prints the recipe without launching.
 #>
 param(
-    [ValidateSet('M_Context_CityWall','M_Context_Building','M_CityFacadeV1')]
+    [ValidateSet('M_Context_CityWall','M_Context_Building','M_CityFacadeV1','M_StreetTrees_Bark')]
     [string]$Material='M_Context_CityWall',
     [ValidateRange(1,600)][int]$TimeoutSeconds=600,
     [switch]$AllCoursingFamilies,
@@ -26,6 +26,7 @@ $masters=[ordered]@{
     M_Context_CityWall='/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_CityWall'
     M_Context_Building='/Game/MikdashV3/JerusalemContext/ContextMaterialsV1/Materials/M_Context_Building'
     M_CityFacadeV1='/Game/MikdashV3/JerusalemContext/CityFacadeV1/Materials/M_CityFacadeV1'
+    M_StreetTrees_Bark='/Game/MikdashV3/Vegetation/StreetTreesV1/Materials/M_StreetTrees_Bark'
 }
 # Create suspended, assign to a kill-on-close job, then resume: no descendant can
 # escape in the Start-Process/AssignProcessToJobObject race. No breakaway allowed.
@@ -136,6 +137,11 @@ function Read-PinnedDependencyAudit {
 }
 $dependencyAudit=$null
 $requestedPackages=@($masters[$Material])
+if($Material -eq 'M_StreetTrees_Bark'){
+    foreach($species in @('Olive','Cypress','AleppoPine','Carob','JudasTree','DatePalm')){
+        $requestedPackages+=('/Game/MikdashV3/Vegetation/StreetTreesV1/Materials/MI_StreetTreesV1_'+$species+'_Bark')
+    }
+}
 $studyLabel=$Material
 if($AllCoursingFamilies){
     if(!$Constrained){throw '-AllCoursingFamilies requires the explicit -Constrained memory profile'}
@@ -252,7 +258,7 @@ finally {
             $r.status='cook-passed-package-review-pending'
         }
     } catch {$r.status='failed'; $r.error=(@($r.error,$_.Exception.Message) | Where-Object {$_}) -join '; '}
-    $r.scope='Isolated filesystem cook only. Receipt records cooker/load map evidence, map outputs, all 20 map hashes, three source-master hashes and all Content metadata. Passed means zero observed map requests/outputs; dependency census still requires review. No packaged shader/visual acceptance.'
+    $r.scope='Isolated filesystem cook only. Receipt records cooker/load map evidence, map outputs, all 20 map hashes, four source-master hashes and all Content metadata. Passed means zero observed map requests/outputs; dependency census still requires review. No packaged shader/visual acceptance.'
     $r.finishedUtc=(Get-Date).ToUniversalTime().ToString('o'); Save-Receipt
 }
 [ordered]@{status=$r.status;receipt=$receipt;log=$log;error=$r.error}|ConvertTo-Json

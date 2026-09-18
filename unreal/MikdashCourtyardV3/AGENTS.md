@@ -2890,3 +2890,26 @@ changes. C: now has approximately86GiB free; no archive deletion was performed h
 The same C1 runtime log confirms M_StreetTrees_Bark has an invalid cooked shader
 map on PCD3D_SM6 and uses the default material. This remains an actual packaged
 defect, not just an old warning. Exact lines/log hash are in finish-c1-review.
+
+## Street-tree bark sampler repair — 18 September 2026
+
+Native audit reproduces the packaged defect: M_StreetTrees_Bark's normal sampler
+uses EngineResources/DefaultTexture (a COLOR texture), inherited by all six bark
+instances. The compiler explicitly reports Normal should be Color for that texture.
+The source importer never assigned BarkNormal despite importing/compressing each
+species normal map. Fix both master defaults and six instance normal overrides.
+Backed-up apply215051Z changed exactly seven material assets; all tree geometry,
+textures and20maps unchanged. Fresh-process/GPU cook/package checks follow; this
+source repair does not yet update the playable archive.
+
+UE5.8 MaterialEditingLibrary.cpp:1507 SetMaterialInstanceTextureParameterValue
+always returns its initial false even after applying. Do not treat that return as
+a failure: verify with GetMaterialInstanceTextureParameterValue. The first repair
+attempt stopped on that false with no saved changes; its failure receipt remains.
+
+Fresh-process verify215134Z passes all six species bindings with no asset changes
+and no shader errors. Isolated Windows cook215159Z passes all seven requested
+materials with zero errors, one shader worker, no map requests/outputs, and unchanged
+Content metadata/maps/material hashes. Packaged rendering remains owed; see
+StreetTreesV1/bark-cook-20260918T215159Z.json. All memory guards remain unchanged.
+

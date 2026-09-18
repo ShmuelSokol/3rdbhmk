@@ -544,11 +544,22 @@ class Release(object):
             normal_sampler = ue.MaterialSamplerType.SAMPLERTYPE_NORMAL
 
             if role == 'bark':
+                exemplar = next(e for e in self.manifest['textures'] if e.get('barkNormal'))
+                defaults = {key: ue.load_asset('%s/%s' % (TEXTURE_FOLDER, Path(exemplar[key]).stem))
+                            for key in ('barkBaseColour', 'barkNormal')}
+                if any(value is None for value in defaults.values()):
+                    raise RuntimeError('Bark master requires valid default color and normal textures')
+                if (defaults['barkNormal'].get_editor_property('srgb') or
+                        defaults['barkNormal'].get_editor_property('compression_settings') !=
+                        ue.TextureCompressionSettings.TC_NORMALMAP):
+                    raise RuntimeError('Bark default normal texture has incorrect compression or sRGB')
                 base = g.node(ue.MaterialExpressionTextureSampleParameter2D, -1600, -300,
-                              parameter_name='BarkBaseColour', sampler_type=colour_sampler)
+                              parameter_name='BarkBaseColour', sampler_type=colour_sampler,
+                              texture=defaults['barkBaseColour'])
                 g.to_property(base, 'RGB', 'MP_BASE_COLOR')
                 normal = g.node(ue.MaterialExpressionTextureSampleParameter2D, -1600, 120,
-                                parameter_name='BarkNormal', sampler_type=normal_sampler)
+                                parameter_name='BarkNormal', sampler_type=normal_sampler,
+                                texture=defaults['barkNormal'])
                 g.to_property(normal, 'RGB', 'MP_NORMAL')
                 g.to_property(g.scalar('Roughness', -900, 420, 0.85), '', 'MP_ROUGHNESS')
                 g.to_property(g.scalar('Specular', -900, 520, 0.25), '', 'MP_SPECULAR')
@@ -634,6 +645,15 @@ class Release(object):
                     if texture is not None:
                         ue.MaterialEditingLibrary.set_material_instance_texture_parameter_value(
                             instance, parameter, texture)
+                if role == 'bark':
+                    normal = ue.load_asset('%s/%s' % (TEXTURE_FOLDER, Path(entry['barkNormal']).stem))
+                    if normal is None:
+                        raise RuntimeError('Missing bark normal for ' + key)
+                    ue.MaterialEditingLibrary.set_material_instance_texture_parameter_value(
+                        instance, 'BarkNormal', normal)
+                    if ue.MaterialEditingLibrary.get_material_instance_texture_parameter_value(
+                            instance, 'BarkNormal') != normal:
+                        raise RuntimeError('Bark normal parameter assignment failed for ' + key)
                 ue.EditorAssetLibrary.save_asset(path, only_if_is_dirty=False)
                 instances['%s/%s' % (key, role)] = path
 

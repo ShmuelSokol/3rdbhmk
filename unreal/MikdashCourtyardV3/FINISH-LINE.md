@@ -27,6 +27,7 @@ The persistent Codex goal is active. This file tracks implementation and accepta
 - [ ] Kohen Gadol skin normal/cavity, pale neck, then cloth weave/mitznefet/gems. Review actual engine close-ups and motion; preserve the approved Walter head.
 - [ ] Improve all six resident body variants and varied dress; review faces at 2 m and walking at 3-5 m.
 - [ ] Optimize clearance measurement to relevant vertices; measure walk, idle and tend without concealing intersections.
+  - Current script already limits skinning to garments/legs. Conservative distance pruning cut a three-frame idle profile from 30.5 s to 8.9 s without changing its results; five regression tests pass. Full optimized idle passed 97 frames at 30 Hz in 249.2 s, zero measured leg/robe and inner/outer garment intersections. The original full idle comparison and full 60 Hz tend measurement are still running. Evidence: SourceAssets/characters-review/ClearancePerformanceV1. All 33,312 measured garment/leg triangles match the exported source GLB exactly by float32 position, skin weights, material and winding. Generator geometry/animation-source measurements do not alone certify the shipped native mesh.
 - [ ] Audit existing resident behavior work before changing it. Establish movement on the shipping map, identity/state persistence, schedules, interactions, access rules and the transit/crowd handoff.
 - [ ] Eliminate doorway blocking, foot sliding, synchronized loops and visibly broken turns; prove with recorded engine motion and runtime routes.
 

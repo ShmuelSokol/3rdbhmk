@@ -1,3 +1,23 @@
+## Garment measurement profiling — 18 September 2026
+
+The current measure_kohen_garment_clearance.py skins only robe, leg and outer garment
+parts (17,016 Kohen vertices), not the head/beard described in the older handoff.
+Short idle profiling measured 28.07 s in distance/parity tests versus 0.0183 s skinning.
+Conservative triangle AABB pruning reduces the same three-frame run from 30.5 s to
+8.9 s with unchanged measurements. Sampled surface vertices bound distance above;
+triangle boxes bound it below, with retained order preserving nearest-face ties.
+Full optimized idle now passes 97 frames at 30 Hz, zero measured intersections in
+249.2 s. Full original comparison and 60 Hz tend remain running. Source checker
+verify_kohen_clearance_source.py matches all 33,312 garment/leg triangles in the
+exported Kohen GLB by exact float32 position/weight, material and winding. Clone
+was missing this generated source mesh; copy the exact 7,939,512-byte GLB with SHA
+173a0971089f20e9685a4c80b5c55c0ea214e2b55f4bf910b91e3a916685a09c.
+Five differential/regression tests cover actual posed garments, random geometry,
+degenerate faces, skinning parity and per-body policy reset. Full clips and native
+visual clearance remain separate acceptance work; short profiles are not clip gates.
+Reset LEG_PREFIXES/outer garment policy on every body_parts call: resident settings
+previously leaked into subsequent Kohen/stand-in runs in the same process.
+
 ## Finish-line continuation and online walkthrough — 18 September 2026
 
 The owner has explicitly resumed continuous work toward the finish line; historical

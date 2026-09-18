@@ -29,6 +29,7 @@ above the nearest posed me'il hem vertex (below that the ketonet is simply showi
 as it is meant to).
 """
 import argparse
+import hashlib
 import json
 import math
 import sys
@@ -63,6 +64,12 @@ CHUNK = 48
 
 
 def body_parts(which):
+    # A resident measurement must not leak its leg names/mantle policy into a
+    # subsequent Kohen or stand-in measurement in the same Python process.
+    global LEG_PREFIXES, OUTER_TOP_CAP_CM, OUTER_ANGLE
+    LEG_PREFIXES = ('Shin', 'Foot')
+    OUTER_TOP_CAP_CM = 80.0
+    OUTER_ANGLE = None
     bones = C.skeleton()
     index = {b['name']: i for i, b in enumerate(bones)}
     if which.startswith('v4:'):
@@ -218,6 +225,7 @@ def nearest_signed(points, tri, sign):
         P3 = pts[s0:s0 + CHUNK]
         band = 20.0
         sel = np.where((tz0 <= P3[:, 2].max() + band) & (tz1 >= P3[:, 2].min() - band))[0]
+        sel = distance_candidates(P3, tri, sel)
         A, B, Cc, N = a[sel], b[sel], c[sel], n[sel]
         P = P3[:, None, :]
         dp = np.einsum('nmi,mi->nm', P - A[None], N)
@@ -235,6 +243,28 @@ def nearest_signed(points, tri, sign):
     res = np.zeros(len(points))
     res[order] = out
     return res
+
+
+def distance_candidates(points, tri, selected):
+    """Conservative broad phase; retain every possible nearest triangle and tie.
+
+    A triangle vertex gives an upper bound on nearest surface distance. A triangle's
+    bounding box gives a lower bound. Sample vertices only to bound the search;
+    the exact distance calculation still chooses the result from retained faces.
+    Preserve the original ordering so equal-distance signs keep the same tie rule.
+    """
+    if len(selected) < 64:
+        return selected
+    subset = tri[selected]
+    anchors = subset[::max(1, len(subset) // 64), 0]
+    upper = ((points[:, None] - anchors[None]) ** 2).sum(axis=2).min(axis=1)
+    lo, hi = subset.min(axis=1), subset.max(axis=1)
+    gap = np.maximum(np.maximum(lo[None] - points[:, None],
+                                points[:, None] - hi[None]), 0)
+    lower = (gap * gap).sum(axis=2)
+    # Expand, never shrink, the bound for floating-point rounding at contact.
+    keep = (lower <= upper[:, None] + 1e-9 * np.maximum(1.0, upper[:, None])).any(axis=0)
+    return selected[keep]
 
 
 def tube_signs(rest_pts, faces):
@@ -362,10 +392,16 @@ def run(which, rate_scale=1.0, clips=None, quiet=False, keep_frames=True):
               'robe': robe_name, 'legVertices': int(len(lv)),
               'legParts': sorted({p['name'] for p in legs}),
               'robeTriangles': int(len(faces)), 'clips': {}}
+    report['skinningScope'] = {
+        'parts': [robe_name] + [p['name'] for p in legs] + ([outer_name] if outer is not None else []),
+        'verticesPerFrame': int(len(rv) + len(lv) + (len(ov) if outer is not None else 0)),
+        'scope': 'Generator garment/leg geometry only; head, beard and eyes are not skinned. Not native-asset or rendered acceptance.',
+    }
     for name, glb, clip, rate in CLIPS:
         if clips and name not in clips:
             continue
         rig = Rig(glb, clip)
+        timing = dict(pose=0.0, skin=0.0, legClearance=0.0, outerClearance=0.0)
         n = max(2, int(round(rig.duration * rate * rate_scale)))
         worst = dict(cm=0.0, t=None, part=None, restZ=None)
         worst_k = dict(cm=0.0, t=None, restZ=None)
@@ -373,10 +409,16 @@ def run(which, rate_scale=1.0, clips=None, quiet=False, keep_frames=True):
         per_frame = []
         for i in range(n + (0 if name == 'walk' else 1)):
             t = i * rig.duration / n
+            tick = time.perf_counter()
             A, b = joint_affines(rig, rig.pose(t), bones)
+            timing['pose'] += time.perf_counter() - tick
+            tick = time.perf_counter()
             R = skin(rv, rJ, rW, A, b)
             L = skin(lv, lJ, lW, A, b)
+            timing['skin'] += time.perf_counter() - tick
+            tick = time.perf_counter()
             dist = conjunction(L, R, faces, wall, hem_idx, lower, low_wall, rsign)
+            timing['legClearance'] += time.perf_counter() - tick
             m = float(dist.max()) if len(dist) else 0.0
             per_frame.append(round(m, 3))
             if m > 0:
@@ -386,8 +428,12 @@ def run(which, rate_scale=1.0, clips=None, quiet=False, keep_frames=True):
                 worst = dict(cm=round(m, 3), t=round(t, 4), part=lname[k], restZ=round(float(lv[k, 2]), 2),
                              posed=[round(float(x), 2) for x in L[k]])
             if outer is not None:
+                tick = time.perf_counter()
                 O = skin(ov, oJ, oW, A, b)
+                timing['skin'] += time.perf_counter() - tick
+                tick = time.perf_counter()
                 dk = conjunction(R[kmask], O, ofaces, owall, ohem, oall, owall, osign, MEIL_HEM_MARGIN_CM)
+                timing['outerClearance'] += time.perf_counter() - tick
                 mk = float(dk.max()) if len(dk) else 0.0
                 if mk > worst_k['cm']:
                     kk = int(dk.argmax())
@@ -397,6 +443,8 @@ def run(which, rate_scale=1.0, clips=None, quiet=False, keep_frames=True):
                'sampleRateHz': rate * rate_scale,
                'maxLegOutsideRobeCm': worst['cm'], 'worst': worst,
                'framesWithAnyClipping': frames_clipping}
+        row['animationSourceSha256'] = hashlib.sha256(glb.read_bytes()).hexdigest()
+        row['measurementSeconds'] = {key: round(value, 4) for key, value in timing.items()}
         if keep_frames:
             row['perFrameMaxCm'] = per_frame
         if outer is not None:

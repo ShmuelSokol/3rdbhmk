@@ -1,0 +1,35 @@
+{
+  "status": "c1-packaged-four-state-review-complete-other-views-pending",
+  "runtimeReceipt": "runtime-20260918T214141915Z.json",
+  "nativeReceipt": "KotelClosureRuntimeV1-639253645669500000.json",
+  "archive": "C:/Mikdash/Builds/Checkpoint-haram-S5-02-20260916T171759Z",
+  "childSha256": "6302cd695b474776c1107ac3f2942791983493f3b36679fc79208851f1e12909",
+  "camera": "-50000 -45000 6000 -15 45 0",
+  "reviewedPhases": [
+    "Modern",
+    "Yechezkel",
+    "Overlay",
+    "Modern-again"
+  ],
+  "observations": [
+    "Northwest Old City buildings and roofs remain visible through all four states; no large cut-cell void apparent from this camera.",
+    "This aerial view does not identify the reported floating remnants; closer street/cut-boundary cameras and reversible actor isolation are still required.",
+    "Distant hillside buildings are coarse and sparse; this view does not prove ground contact."
+  ],
+  "peakPrivateGiB": 7.181,
+  "minimumFreeCommitGiB": 17.297,
+  "mapsUnchanged": true,
+  "limits": "Existing September16 packaged build, no new character assets; no global environment acceptance.",
+  "materialDefect": {
+    "material": "M_StreetTrees_Bark",
+    "platform": "PCD3D_SM6",
+    "result": "Invalid cooked shader map; default material used in packaged game.",
+    "logFile": "runtime-20260918T214141915Z.log",
+    "logSha256": "75a7d77bee5107335c3d7aeb9dd7bfc5b13a867bc3946b53a3637bc3195f61a9",
+    "matchingLines": [
+      "[2026.09.18-21.41.49:298][  0]LogMaterial: Warning: Invalid shader map ID caching shaders for 'M_StreetTrees_Bark', will use default material.",
+      "[2026.09.18-21.41.49:298][  0]LogMaterial: Can't compile M_StreetTrees_Bark with cooked content, will use default material instead",
+      "[2026.09.18-21.41.49:298][  0]LogMaterial: Warning: [AssetLog] C:\\Mikdash\\Builds\\Checkpoint-haram-S5-02-20260916T171759Z\\Windows\\MikdashCourtyardV3\\Content\\MikdashV3\\Vegetation\\StreetTreesV1\\Materials\\M_StreetTrees_Bark: Failed to compile Material for platform PCD3D_SM6, Default Material will be used in game."
+    ]
+  }
+}

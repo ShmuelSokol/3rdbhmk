@@ -2874,3 +2874,19 @@ Evidence and rejection details: KohenSkinV2/beard-neck-review-20260918.json.
 
 Restart on18September cleared the memory blocker: approximately25GiB free virtual
 memory measured afterward. Full-scene9GiB and isolated6/4/2GiB guards are unchanged.
+
+## Post-restart packaged environment inspection — 18 September 2026
+
+C1 northwest cut-cell camera (-50000,-45000,6000; pitch-15,yaw45) now runs on the
+accepted S5-02 package with unchanged9GiB start/8GiB child guards. Four states and
+normal exit pass; peak private7.18GiB, minimum free commit17.30GiB, maps unchanged.
+All four images were viewed: city roofs/buildings remain present, no large cut-cell
+void apparent. This distant view does NOT identify the reported floating remnants
+or prove ground contact. Continue street/boundary cameras and actor isolation.
+Evidence: KotelCutClosureV1/runtime-20260918T214141915Z.json and
+finish-c1-review-20260918.json. This existing package excludes recent character
+changes. C: now has approximately86GiB free; no archive deletion was performed here.
+
+The same C1 runtime log confirms M_StreetTrees_Bark has an invalid cooked shader
+map on PCD3D_SM6 and uses the default material. This remains an actual packaged
+defect, not just an old warning. Exact lines/log hash are in finish-c1-review.

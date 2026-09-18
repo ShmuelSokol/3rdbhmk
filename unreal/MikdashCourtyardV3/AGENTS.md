@@ -2469,7 +2469,7 @@ Camera attribution resolved at16:07Z: probe-20260915T160700832Z hides ONLY the p
 
 Final photo policy accepted at16:15Z: Editor/Game compile+link and18 native probe phases passed, including re-entry, active Enter and both exit restorations. R1 PNG inspected without rods; onlyCharacterMesh0 selected, unselected primitives unchanged, all20maps unchanged. Receipt CameraObstructionV1/probe-20260915T161445204Z.json, childc1f56f30... . Normal photos use this narrow policy without diagnostic flags; JSON/probe/optional explicit component override remain opt-in. The isolated test archive now contains this child, rooftop repair and cp24 cooked assets, not the newer saved coursing shader.
 
-Kotel study launcher lessons: PowerShell Math.Max/Min need explicit [long] operands for process counters above2GiB; the first launch was stopped by an Int32 conversion failure, not OOM. GPU Entry startup exceeded the initial4GiB watchdog with5.13GiB still free; adjusted bounded study requires9GiB headroom and preserves2GiB free, max6.5GiB private. First completed unsaved A/B/A at162119Z preserved all production assets/maps but showed only thin closure strips and a culled backdrop, so native visual acceptance failed despite passing buffer mathematics. Canonical cross-product normals do not establish Unreal front-face winding; verify the native import convention with one-sided pixels. Do not enable two-sided materials to conceal this error.
+Kotel study launcher lessons: PowerShell Math.Max/Min need explicit [long] operands for process counters above 2 GiB; the first launch was stopped by an Int32 conversion failure, not OOM. GPU Entry startup exceeded the initial4GiB watchdog with5.13GiB still free; adjusted bounded study requires9GiB headroom and preserves2GiB free, max6.5GiB private. First completed unsaved A/B/A at162119Z preserved all production assets/maps but showed only thin closure strips and a culled backdrop, so native visual acceptance failed despite passing buffer mathematics. Canonical cross-product normals do not establish Unreal front-face winding; verify the native import convention with one-sided pixels. Do not enable two-sided materials to conceal this error.
 
 Corrected Kotel study at162720Z passed cavity-facing A/B/A: native import reverses canonical indices (a,c,b) for both closure and backdrop, preserving positions/normals/UVs. One-sided magenta surface now fills the blue opening and hiding it restores that opening. All20maps/allproductionassets unchanged and no dirty /Game packages. Visual-acceptance.json records175723magenta pixels,174147previouslyblue; A0/A1 mean channel difference0.194/255, only38pixels above8. This proves the isolated seam, not main-map integration/collision/material quality. Opposite-side culling test remains pending. Keep canonical generator/JSON bytes unchanged, and preserve its eol=lf gitattributes because geometry pins generatorSHA.
 
@@ -2709,3 +2709,19 @@ all three clips with the same unchanged measurement rules; full result pending.
 No candidate export/native adoption/render acceptance yet. Evidence folder:
 SourceAssets/characters-review/KohenMeilEaseV2. Keep torso/ephod/bells visual review
 in the adoption gate, not just the two measured garment surfaces.
+
+## Isolated head GPU attempt — 18 September 2026
+
+capture_kohen_skin_study.py prepares transient before/after head material captures
+in /Engine/Maps/Entry; no world/material save is requested. Attempts produced NO
+images. First launcher stopped at a PowerShell Math.Max Int32 overflow above 2 GiB;
+fix both arguments to Int64. Second reached 5,025,628,160 bytes private memory in
+editor startup and the existing 4 GiB study cap stopped its owned process before
+capture setup completed. Do not raise guards/relabel this as visual acceptance.
+Receipts gpu-head-run-20260918T200308Z and 200419Z retained in KohenSkinV2.
+run_kohen_skin_study.ps1 preserves 6 GiB start/4 GiB private/2 GiB reserve/300 s deadline
+and checks the native slot; full-scene 9 GiB guard unchanged. Capture helper remains
+unproven until sufficient headroom permits native frames. Full lower-robe candidate
+measurement continues separately in the offline Python process.
+
+Candidate run update: walk portion reports zero leg/robe intersection but about 0.41 cm inner/outer intersection at another pose. Candidate fails full-walk clearance and will not be adopted. Tending and idle continue in the same run; exact worst-pose details await its final receipt.

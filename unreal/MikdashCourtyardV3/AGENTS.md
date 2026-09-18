@@ -3082,3 +3082,17 @@ Review correction: ClearCrowd itself cancels deferred startup, so a caller can
 clear before the next tick without later repopulation. Non-social movement also
 restores its previous finite position/height when surface coverage is missing;
 NaN refusal must never reach a rendered instance, including when VAT/groups are off.
+
+## Kotel crowd floor correction proven in package — 18 September 2026
+
+Source 6d2c3698 passes full active11/11 including33/33math and both targets;
+clone quick6/6 and both generated-header checks pass. Isolated floor01 package
+uses unchanged cooked files and new child. Native capture exits0, seeds2485/2500:
+plaza68/68, approach63/73, street47/52; other zones complete. Both Kotel zones now
+have zero ground rejections. The same-camera PNG shows visitors on plaza paving;
+root viewed it. Keep capture failed for missing15. See crowd-floor01-review.json.
+This proves the ground/startup correction, not exact population, all-frame moving
+feet, transition stability, appearance or benchmark acceptance. Approach bounding-box
+sampling wastes many attempts outside its narrow rotated zone; investigate candidate
+sampling while retaining48attempts and all spacing/obstacle protections. Street ground
+reference/spacing still needs separate review. Full finish-line scope stays open.

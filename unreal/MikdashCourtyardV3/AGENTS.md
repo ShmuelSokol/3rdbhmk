@@ -3016,3 +3016,14 @@ Yechezkel, paving and retaining closure remain, and Modern restores. See
 LegacyRoofZonesV1/haram-roof-acceptance-20260918.json for bounded acceptance.
 Other scene defects, exact crowd counts, placement and appearance, characters, final
 full release validation and independent online walkthrough remain on FINISH-LINE.
+
+## Crowd placement diagnosis — 18 September 2026
+
+The 2500-person pilot rendered 2376, with 124 refused and zero ground trace misses.
+SeedSocialZone now logs per-zone requested/seeded/refused totals and the first
+failing gate of every placement attempt (point, segment, neighbor spacing,
+formation, protected link, ground residual, static obstacle, or insertion).
+Attempt counts must sum to accepted groups plus rejected attempts; they are not
+counts of refused people. Random samples, 48-attempt budget, group formation and
+all ground/wall/spacing thresholds remain unchanged. Native diagnosis is pending;
+do not treat this instrumentation as a capacity fix or accepted crowd matrix.

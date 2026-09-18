@@ -640,6 +640,11 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
     int32 Singles=MikdashCrowdGroups::SingleBudget(ZoneTotal,IndividualVisitorRatio);
     const double MinSpeed=FMath::Max(0.f,MinWalkSpeedCmPerSecond);
     const double MaxSpeed=FMath::Max(MinSpeed,static_cast<double>(MaxWalkSpeedCmPerSecond));
+    // Count the first failing gate per attempt; these are attempts, not refused people.
+    // Keep placement decisions and random samples unchanged while diagnosing capacity.
+    const int32 SeededBefore=SeededAgents, RefusedBefore=RefusedSeeds;
+    int32 Trials=0, Accepted=0, PointReject=0, SegmentReject=0, SpacingReject=0;
+    int32 FormationReject=0, LinkReject=0, GroundReject=0, ObstacleReject=0, InsertReject=0;
     for(int32 Local=0;Local<ZoneTotal;)
     {
         const int32 First=GlobalIndex;
@@ -649,27 +654,31 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
         double Heading=0;bool Placed=false;
         for(int32 Attempt=0;Attempt<SeedAttempts&&!Placed;++Attempt)
         {
+            ++Trials;
             const uint32 Trial=static_cast<uint32>(First)+static_cast<uint32>(Attempt)*65537u;
             if(!SeedPointInZone(Polygon,Vertices,KeepOutPointCache.GetData(),KeepOutStartCache.GetData(),
                 KeepOutCountCache.GetData(),KeepOutCountCache.Num(),FMath::Max(ProtectedMarginCm,44.f),
-                FMath::Max(Zone.EdgeMarginCm,34.f),Seed,Trial,1,Points[0])) continue;
+                FMath::Max(Zone.EdgeMarginCm,34.f),Seed,Trial,1,Points[0])) { ++PointReject;continue; }
             Heading=YawDegrees(SampleFlow(ZoneFlowCache[ZoneIndex],Points[0],0,Seed,static_cast<uint32>(First)));
             bool Okay=true;
             for(int32 Member=0;Member<Size&&Okay;++Member)
             {
                 if(Member>0) Points[Member]=Points[0]+MikdashCrowdGroups::WorldOffset(
                     MikdashCrowdGroups::Offset(Member,Seed,static_cast<uint32>(First),GroupSpacingCm),Heading);
-                if(!SocialSegmentAllowed(ZoneIndex,Points[Member],Points[Member])
-                    ||!VisitorSpacing.SegmentClear(Points[Member],Points[Member],-1)) { Okay=false;break; }
+                if(!SocialSegmentAllowed(ZoneIndex,Points[Member],Points[Member]))
+                    { ++SegmentReject;Okay=false;break; }
+                if(!VisitorSpacing.SegmentClear(Points[Member],Points[Member],-1))
+                    { ++SpacingReject;Okay=false;break; }
                 for(int32 Other=0;Other<Member;++Other)
                     if(Length(Points[Other]-Points[Member])<MikdashCrowdGroups::MinSeparationCm) Okay=false;
+                if(!Okay) ++FormationReject;
                 // Do not seed companions on opposite sides of a protected wall.
                 const int32 Pieces=FMath::Max(1,FMath::CeilToInt(Length(Points[Member]-Points[0])/80.0));
                 for(int32 Piece=0;Piece<Pieces&&Okay;++Piece)
                 {
                     const Vec2 A=Points[0]+(Points[Member]-Points[0])*(static_cast<double>(Piece)/Pieces);
                     const Vec2 B=Points[0]+(Points[Member]-Points[0])*(static_cast<double>(Piece+1)/Pieces);
-                    if(!SocialSegmentAllowed(ZoneIndex,A,B)) Okay=false;
+                    if(!SocialSegmentAllowed(ZoneIndex,A,B)) { ++LinkReject;Okay=false; }
                 }
             }
             if(!Okay) continue;
@@ -680,7 +689,7 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
                 Grounds[Member]=ResolveGroundZ(Zone,P);
                 const double Residual=Grounds[Member]-ZoneGroundZ(Zone,P);
                 if(Member==0) LeaderResidual=Residual;
-                if(FMath::Abs(Residual)>55.0 || FMath::Abs(Residual-LeaderResidual)>20.0) { Okay=false;break; }
+                if(FMath::Abs(Residual)>55.0 || FMath::Abs(Residual-LeaderResidual)>20.0) { ++GroundReject;Okay=false;break; }
                 if(bSweepGroupObstacles && GetWorld())
                 {
                     FCollisionQueryParams Query(SCENE_QUERY_STAT(CrowdGroupSeed),false,this);
@@ -690,15 +699,15 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
                         ?GetWorld()->OverlapAnyTestByObjectType(End,FQuat::Identity,Objects,FCollisionShape::MakeCapsule(34.f,96.f),Query)
                         :GetWorld()->SweepTestByObjectType(FVector(Points[0].X,Points[0].Y,Grounds[0]+99.f),End,
                             FQuat::Identity,Objects,FCollisionShape::MakeCapsule(34.f,96.f),Query);
-                    if(Blocked) Okay=false;
+                    if(Blocked) { ++ObstacleReject;Okay=false; }
                 }
             }
             if(!Okay) continue;
             int32 Inserted=0;
             for(;Inserted<Size;++Inserted) if(!VisitorSpacing.Insert(First+Inserted,Points[Inserted])) break;
             if(Inserted!=Size)
-            { for(int32 I=0;I<Inserted;++I) VisitorSpacing.Remove(First+I,Points[I]);continue; }
-            Placed=true;
+            { ++InsertReject;for(int32 I=0;I<Inserted;++I) VisitorSpacing.Remove(First+I,Points[I]);continue; }
+            Placed=true;++Accepted;
         }
         int32 GroupIndex=INDEX_NONE;
         // Vertex-animated: the natural pace IS the clip's ground speed for this body and cadence,
@@ -730,6 +739,9 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
             Agent.GroupIndex=GroupIndex;Agent.GroupMember=Member;++SeededAgents;
         }
     }
+    UE_LOG(LogTemp,Display,TEXT("CrowdSeedAuditV1 zone=%d name=\"%s\" requested=%d seeded=%d refused=%d trials=%d accepted=%d point=%d segment=%d spacing=%d formation=%d link=%d ground=%d obstacle=%d insert=%d"),
+        ZoneIndex,*Zone.Name,ZoneTotal,SeededAgents-SeededBefore,RefusedSeeds-RefusedBefore,
+        Trials,Accepted,PointReject,SegmentReject,SpacingReject,FormationReject,LinkReject,GroundReject,ObstacleReject,InsertReject);
 }
 
 void AMikdashCrowdField::StepSocialAgent(int32 Index,double Dt,const MikdashCrowd::FlowZone& Flow)

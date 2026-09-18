@@ -2854,3 +2854,23 @@ render-target-20260918T210747Z-skin-linear-no-beard.png removes the pale jaw/nec
 strip, confirming beard-shell coverage as its cause. Keep the grey beard; correct
 its lower coverage rather than changing the skin underneath. No beard edit yet.
 The Windows packaged build is unchanged until a verified recook.
+
+## Beard neck coverage study — 18 September 2026
+
+Study01 cut below Z152 cm but nearest-head-vertex snapping collapsed three normals
+and left visible neck coverage. It is rejected; retain its source/native evidence.
+Study02 cuts below Z154 and blends to the unchanged beard at Z156, projecting onto
+local skin tangent planes to preserve rim spacing and submerge it by0.06 cm. The
+read-back verifier proves original binary/non-beard primitives/rig unchanged,
+retained beard colors/UVs/weights identical and all normals nondegenerate.
+Native render-target-20260918T213810Z front and three-quarter images show a clear
+skin-colored lower neck while preserving the grey chin/cheek beard. Both bounded
+native jobs exited0, maps unchanged, no imported study assets saved.
+This is an isolated visual improvement, NOT production adoption: a thick side-jaw
+patch and the silhouette need scene lighting/motion review. Fresh import also shows
+other shading differences despite preserved source geometry; control the importer
+and shared production skeleton before adoption. Study03 skin remains unbound.
+Evidence and rejection details: KohenSkinV2/beard-neck-review-20260918.json.
+
+Restart on18September cleared the memory blocker: approximately25GiB free virtual
+memory measured afterward. Full-scene9GiB and isolated6/4/2GiB guards are unchanged.

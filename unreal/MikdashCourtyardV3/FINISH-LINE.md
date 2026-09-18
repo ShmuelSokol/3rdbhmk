@@ -26,8 +26,8 @@ The persistent Codex goal is active. This file tracks implementation and accepta
 
 - [ ] Kohen Gadol skin normal/cavity, pale neck, then cloth weave/mitznefet/gems. Review actual engine close-ups and motion; preserve the approved Walter head.
   - KohenSkinV2 neck-color source study adjusts 2,139 vertices to the measured jaw tone with a smooth 150-156 cm transition. All non-color accessors and the face are preserved; three tests pass. Not imported, packaged or visually accepted. Normal/cavity skin master remains owed.
-  - Extracted Walter's three original 1024x1024 skin maps with PNG CRC checks and reviewed albedo-pixel identity. Normal and RGB-packed cavity inputs are ready under KohenSkinV2/textures; read-only native function inspection identifies G convexity, B micro detail and R concavity (default switch path). Native Study03 material now exists with fresh-process structural readback. Head binding, GPU compilation and rendered review remain owed. Isolated Engine Entry A/B capture attempted; startup exceeded the 4 GiB study cap and was stopped before images. Full-scene memory guard remains unchanged.
-  - Paired offline previews show little visible change under the beard/collar. KG_Hair extends to Z142.165 cm, almost the head's minimum Z142.182 cm; beard_shell.mask lacks a lower-height cutoff. Isolate that shell in engine before treating the full pale neck appearance as an albedo-only defect. Preview camera: target (0,0,155), distance 0.65 m, yaw 0.8, 700x700, ss=1, existing render_face_v5; not engine acceptance.
+  - Extracted Walter's three original 1024x1024 skin maps with PNG CRC checks and reviewed albedo-pixel identity. Normal and RGB-packed cavity inputs are ready under KohenSkinV2/textures; read-only native function inspection identifies G convexity, B micro detail and R concavity (default switch path). Native Study03 material now exists with fresh-process structural readback. Native GPU A/B now succeeds within the same 4 GiB study cap. Swatch calibration proved imported vertex colors already linear; twelve material assets were repaired and freshly verified. Study03 head binding and full-scene/motion acceptance remain owed.
+  - Paired offline previews show little visible change under the beard/collar. KG_Hair extends to Z142.165 cm, almost the head's minimum Z142.182 cm; beard_shell.mask lacks a lower-height cutoff. Native beard isolation confirmed the shell causes the strip. Study02 removes the lower coverage and passes source preservation; native front/three-quarter frames improve the neck, with scene/motion review still owed. Preview camera: target (0,0,155), distance 0.65 m, yaw 0.8, 700x700, ss=1, existing render_face_v5; not engine acceptance.
 - [ ] Improve all six resident body variants and varied dress; review faces at 2 m and walking at 3-5 m.
 - [ ] Optimize clearance measurement to relevant vertices; measure walk, idle and tend without concealing intersections.
   - Current script already limits skinning to garments/legs. Conservative distance pruning cut a three-frame idle profile from 30.5 s to 8.9 s without changing its results; five regression tests pass. Full 97-frame idle results match exactly: original 673.0 s, optimized 249.2 s (2.70x faster), zero measured leg/robe and inner/outer garment intersections. Full 60 Hz tend completed: 601 samples over ten seconds, zero measured leg/robe and inner/outer garment intersections. Full walk measured 288 samples at 240 Hz: zero leg/robe intersection, but inner/outer garments intersect by up to 0.388 cm at t=0.2958 s, rest Z36 cm. This remains an open defect requiring correction and native visual review. Evidence: SourceAssets/characters-review/ClearancePerformanceV1. All 33,312 measured garment/leg triangles match the exported source GLB exactly by float32 position, skin weights, material and winding. Generator geometry/animation-source measurements do not alone certify the shipped native mesh.
@@ -143,3 +143,23 @@ render-target-20260918T210747Z-skin-linear-no-beard.png removes the pale jaw/nec
 strip, confirming beard-shell coverage as its cause. Keep the grey beard; correct
 its lower coverage rather than changing the skin underneath. No beard edit yet.
 The Windows packaged build is unchanged until a verified recook.
+
+## Beard neck coverage study — 18 September 2026
+
+Study01 cut below Z152 cm but nearest-head-vertex snapping collapsed three normals
+and left visible neck coverage. It is rejected; retain its source/native evidence.
+Study02 cuts below Z154 and blends to the unchanged beard at Z156, projecting onto
+local skin tangent planes to preserve rim spacing and submerge it by0.06 cm. The
+read-back verifier proves original binary/non-beard primitives/rig unchanged,
+retained beard colors/UVs/weights identical and all normals nondegenerate.
+Native render-target-20260918T213810Z front and three-quarter images show a clear
+skin-colored lower neck while preserving the grey chin/cheek beard. Both bounded
+native jobs exited0, maps unchanged, no imported study assets saved.
+This is an isolated visual improvement, NOT production adoption: a thick side-jaw
+patch and the silhouette need scene lighting/motion review. Fresh import also shows
+other shading differences despite preserved source geometry; control the importer
+and shared production skeleton before adoption. Study03 skin remains unbound.
+Evidence and rejection details: KohenSkinV2/beard-neck-review-20260918.json.
+
+Restart on18September cleared the memory blocker: approximately25GiB free virtual
+memory measured afterward. Full-scene9GiB and isolated6/4/2GiB guards are unchanged.

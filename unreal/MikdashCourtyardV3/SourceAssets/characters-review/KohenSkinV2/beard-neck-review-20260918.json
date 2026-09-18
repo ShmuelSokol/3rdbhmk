@@ -1,0 +1,22 @@
+{
+  "status": "study02-source-pass-isolated-visual-improvement",
+  "rejectedStudy01": {
+    "source": "SK_KohenGadol_BeardNeckStudy01.glb",
+    "reason": "Nearest-vertex snapping collapsed three normals; native image still showed lower-neck coverage. Do not adopt.",
+    "nativeReceipt": "render-target-20260918T213612Z.json"
+  },
+  "candidateStudy02": {
+    "source": "SK_KohenGadol_BeardNeckStudy02.glb",
+    "sourceSha256": "4a7623c3f78b95bfcf6b0378564b7ada385e0e1fed16e99491486cad1e2c67dd",
+    "nativeReceipt": "render-target-20260918T213810Z.json",
+    "review": "Viewed front and three-quarter native PNGs. Lower neck is now skin-colored and grey chin/cheek beard remains. Side jaw still has a thick grey patch; harsh isolated lighting is insufficient for final silhouette acceptance.",
+    "sourceReadback": "verify_kohen_beard_study.py passed; retained colors/UVs/weights and upper positions match; all non-beard document and binary data preserved."
+  },
+  "productionAdopted": false,
+  "remaining": [
+    "Review with scene lighting and motion.",
+    "Use controlled importer settings/shared production skeleton before adoption; freshly imported candidate shows other shading differences despite preserved source geometry.",
+    "Verify all protected native assets and binding readback before production adoption."
+  ],
+  "packageUpdated": false
+}

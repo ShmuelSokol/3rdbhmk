@@ -2738,3 +2738,18 @@ The diagnostic helper supports pose/band lists and explicit full clip subsets;
 all globals restore in finally. Study files are under KohenMeilEaseV2. Seven
 zero poses do not establish full-cycle clearance or acceptable silhouette, and
 all production geometry remains at default ease 0.
+
+## Layered robe source studies — 18 September 2026
+
+build_kohen_meil_study.py writes a FRESH GLB from the hash-pinned approved Walter
+source. It matches generated robe/hem vertices by material, float32 position,
+normal, joints and weights; only position/normal bytes and their bounds change.
+Two cap-normal components around 1e-17 differ in the source; matching canonicalizes
+only components below 1e-12 to zero, preserving exact nonzero float32 components.
+Without --follow-ephod, ease 5 hides the lower ephod in an offline rest preview:
+REJECT that unlayered study. --follow-ephod carries the ephod and gold edges with
+the robe taper; layered preview restores the visible outer layer. Its 18,074 matched
+vertices include 12,903 changed vertices. Head, rig, weights, colors, UVs, indices
+and all unrelated geometry are preserved. Full-motion ephod/robe clearance still
+owed; the ongoing core robe walk test does not cover it. Native adoption/rendering
+remain pending. See KohenMeilEaseV2/layered-study-offline-review.json and paired PNGs.

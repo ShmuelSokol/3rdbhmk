@@ -13,8 +13,9 @@ import measure_kohen_garment_clearance as M
 from measure_pilgrim_walk import read_glb, read_accessor
 
 
-def verify():
-    path = M.ROOT / 'SourceAssets/characters-review/KohenGadolV1/meshes/SK_KohenGadol_V1.glb'
+def verify(path=None):
+    path = Path(path) if path else M.ROOT / 'SourceAssets/characters-review/KohenGadolV1/meshes/SK_KohenGadol_V1.glb'
+    path = path.resolve()
     doc, binary = read_glb(path)
     bones, index, parts, influence, robe, _, outer, _ = M.body_parts('kohen')
     selected = [p for p in parts if p['name'] in (robe, outer)
@@ -64,8 +65,17 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path)
+    parser.add_argument('--glb', type=Path)
+    parser.add_argument('--meil-ease', type=float, default=0.0)
     args = parser.parse_args()
-    result = verify()
+    import create_kohen_gadol_v1 as K
+    saved = K.MEIL_LOWER_EASE_CM
+    try:
+        K.MEIL_LOWER_EASE_CM = args.meil_ease
+        result = verify(args.glb)
+    finally:
+        K.MEIL_LOWER_EASE_CM = saved
+    result['candidateLowerEaseCm'] = args.meil_ease
     payload = json.dumps(result, indent=2) + '\n'
     if args.out:
         args.out.write_text(payload, encoding='utf-8')

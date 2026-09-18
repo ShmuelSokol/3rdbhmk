@@ -9,6 +9,7 @@ record window, per capture, and the crowd-on minus crowd-off deltas when both ar
 import argparse
 import csv
 import json
+import math
 import statistics
 from pathlib import Path
 
@@ -33,7 +34,7 @@ def _pct(values, p):
     return round(ordered[k], 3)
 
 
-def summarise(path, settle):
+def summarise(path, settle, record=None):
     with open(path, newline='', encoding='utf-8', errors='replace') as f:
         rows = list(csv.reader(f))
     header = rows[0]
@@ -48,24 +49,38 @@ def summarise(path, settle):
     data = {k: [] for k in index}
     elapsed = 0.0
     kept = 0
+    window_seconds = 0.0
     for row in rows[1:]:
-        if len(row) <= index['frame'] or row[0].startswith('['):
+        if not row or row == header or row[0].startswith('['):
             continue
         try:
             frame = float(row[index['frame']])
-        except ValueError:
-            continue
+        except (ValueError, IndexError) as exc:
+            raise RuntimeError('%s: malformed frame row' % path) from exc
+        if not math.isfinite(frame) or frame <= 0:
+            raise RuntimeError('%s: invalid frame time %r' % (path, frame))
+        start = elapsed
         elapsed += frame / 1000.0
-        if elapsed < settle:
+        if start + 1e-9 < settle:
             continue
+        if record is not None and start >= settle + record - 1e-9:
+            break
         kept += 1
+        window_seconds += frame / 1000.0
         for key, col in index.items():
             try:
-                data[key].append(float(row[col]))
-            except (ValueError, IndexError):
-                pass
+                value = float(row[col])
+                if not math.isfinite(value) or value < 0:
+                    raise ValueError('invalid metric')
+                data[key].append(value)
+            except (ValueError, IndexError) as exc:
+                raise RuntimeError('%s: invalid %s metric' % (path, key)) from exc
+    if record is not None and elapsed + 1e-9 < settle + record:
+        raise RuntimeError('%s: capture ends at %.3fs; need %.3fs' % (path, elapsed, settle + record))
+    if not kept or (record is not None and window_seconds < record * 0.99):
+        raise RuntimeError('%s: insufficient complete-frame coverage of analysis window' % path)
     out = dict(file=str(path), columns={k: header[c] for k, c in index.items()}, framesKept=kept,
-               recordSeconds=round(elapsed - settle, 2) if elapsed > settle else 0.0)
+               recordSeconds=round(window_seconds, 2), requestedRecordSeconds=record)
     for key, values in data.items():
         if values:
             out[key] = dict(median=round(statistics.median(values), 3), mean=round(statistics.mean(values), 3),
@@ -79,11 +94,14 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('csvs', nargs='*')
     parser.add_argument('--settle', type=float, default=45.0)
+    parser.add_argument('--record', type=float, help='Fixed analysis window; fail if capture is too short')
     parser.add_argument('--pair', nargs=2, action='append', default=[], metavar=('ON', 'OFF'))
     parser.add_argument('--out')
     args = parser.parse_args()
+    if args.settle < 0 or not math.isfinite(args.settle) or (args.record is not None and (args.record <= 0 or not math.isfinite(args.record))):
+        parser.error('settle must be finite and nonnegative; record must be finite and positive')
     files = list(dict.fromkeys(list(args.csvs) + [p for pair in args.pair for p in pair]))
-    results = {f: summarise(Path(f), args.settle) for f in files}
+    results = {f: summarise(Path(f), args.settle, args.record) for f in files}
     deltas = []
     for on, off in args.pair:
         a, b = results[on], results[off]
@@ -93,7 +111,7 @@ def main():
                 row[key + 'MedianDeltaMs'] = round(a[key]['median'] - b[key]['median'], 3)
                 row[key + 'P95DeltaMs'] = round(a[key]['p95'] - b[key]['p95'], 3)
         deltas.append(row)
-    report = dict(settleSeconds=args.settle, captures=results, crowdCostDeltas=deltas)
+    report = dict(settleSeconds=args.settle, requestedRecordSeconds=args.record, captures=results, crowdCostDeltas=deltas)
     text = json.dumps(report, indent=2)
     if args.out:
         Path(args.out).write_text(text + '\n', encoding='utf-8')

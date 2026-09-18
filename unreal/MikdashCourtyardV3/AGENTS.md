@@ -2936,3 +2936,21 @@ handling before removal. This is a concrete floating-remnant lead, not a diagnos
 New build includes the linear material fix; beard Study02 remains unadopted.
 Crowd harness pins High scalability2, screen percentage77 and resolution while
 turning saved graphics overrides off; actual crowd matrix remains owed.
+## Crowd capture finalization — 18 September 2026
+
+The first guarded packaged baseline (finish-bark01-a, crowd0) required forced
+owned-process termination because CloseMainWindow did not close the hidden game.
+Its receipt remains failed_capture; its partial CSV must not support performance
+claims. Use Unreal's source-confirmed -ExitAfterCsvProfiling with csv.ForceExit0;
+require one CSV finalization and normal exit, retaining the existing memory guards.
+Capture a bounded frame count then analyze a fixed45-second settle/60-second window.
+The analyzer now rejects short/malformed/nonfinite recordings and insufficient
+complete-frame coverage. Tests cover boundary-crossing stalls and later slow frames.
+Finalization success and actual crowd counts/visible placement are separate gates.
+Crowd baseline b finalized its CSV through the engine and logged normal teardown,
+but the child returned777003 (ECrashExitCodes::CrashReporterCrashed). Keep this run
+failed; do not use its analyzed frame rates as accepted evidence. Both failed
+receipts are published; large CSV/logs stay local. Exact shutdown cause remains
+unresolved. Latest source quick gates6/6 and analyzer regression tests5/5 pass in
+both trees. Next: resolve/reproduce shutdown, then complete the crowd matrix with
+actual count/placement proof; continue the identified Yechezkel floating-block audit.

@@ -53,17 +53,18 @@ $iniArgs = '-ini:Game:[/Script/MikdashRuntime.MikdashFrontEnd]:bShowMainMenuOnBo
            '[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=FablePerfProbe_' + $Label + '_Settings,' +
            '[/Script/MikdashRuntime.MikdashSettingsSubsystem]:bApplyGraphicsToEngine=False'
 $crowdArg = if ($CrowdCount -ge 0) { "-CrowdCount=$CrowdCount " } else { '' }
-$frames = [int](($SettleSeconds + $RecordSeconds) * 240)
+$frames = [int](($SettleSeconds + $RecordSeconds) * 120)
 $argline = "-windowed -ResX=$ResX -ResY=$ResY -nosplash -nosteam -notraceserver -notrace -noverifygc " +
-           "-csvCaptureFrames=$frames -csvGpuStats $crowdArg$iniArgs " +
-           "-ExecCmds=`"sg.ViewDistanceQuality 2,sg.ShadowQuality 2,sg.GlobalIlluminationQuality 2,sg.ReflectionQuality 2,sg.PostProcessQuality 2,sg.TextureQuality 2,sg.EffectsQuality 2,sg.FoliageQuality 2,sg.ShadingQuality 2,r.ScreenPercentage 77,r.SetRes ${ResX}x${ResY}w,Ghost,BugItGo $Go,t.MaxFPS 0,r.VSync 0`""
+           "-csvCaptureFrames=$frames -csvGpuStats -ExitAfterCsvProfiling $crowdArg$iniArgs " +
+           "-ExecCmds=`"sg.ViewDistanceQuality 2,sg.ShadowQuality 2,sg.GlobalIlluminationQuality 2,sg.ReflectionQuality 2,sg.PostProcessQuality 2,sg.TextureQuality 2,sg.EffectsQuality 2,sg.FoliageQuality 2,sg.ShadingQuality 2,r.ScreenPercentage 77,r.SetRes ${ResX}x${ResY}w,Ghost,BugItGo $Go,t.MaxFPS 0,r.VSync 0,csv.ForceExit 0`""
 $log = Join-Path $outDir 'runtime.log'
 $argline += (' -abslog="'+$log+'"')
 
 $report = [ordered]@{
     status = 'starting'; label = $Label; view = $View; bugItGo = $Go; archive = $Archive
     crowdCount = if ($CrowdCount -ge 0) { $CrowdCount } else { 'map default' }
-    method = 'CSV profiler boot capture, real-time pacing, vsync off, t.MaxFPS 0'
+    method = 'CSV profiler boot capture, real-time pacing, vsync off, t.MaxFPS 0; engine exits after CSV finalization'
+    captureFrames = $frames; timeoutSeconds = ($SettleSeconds+$RecordSeconds)*10
     resolution = "$ResX x $ResY"; settleSeconds = $SettleSeconds; recordSeconds = $RecordSeconds
     quality = 'High (all scalability groups 2), screen percentage 77; saved graphics overrides disabled'
     commandLine = $argline
@@ -79,18 +80,20 @@ $proc = $null
 try {
     $proc = Start-Process -FilePath $exe -ArgumentList $argline -PassThru -WorkingDirectory $stageRoot -WindowStyle Hidden
     $report.pid=$proc.Id; $report.status='running'; Save-Receipt
-    $deadline=(Get-Date).AddSeconds($SettleSeconds+$RecordSeconds)
+    $deadline=(Get-Date).AddSeconds(($SettleSeconds+$RecordSeconds)*10)
     while((Get-Date) -lt $deadline){
         Start-Sleep -Seconds 2
         $proc.Refresh()
-        if($proc.HasExited){throw 'Owned game exited before the record window completed'}
+        if($proc.HasExited){break}
         $free=[long](Get-CimInstance Win32_OperatingSystem).FreeVirtualMemory*1KB
         $report.peakPrivateBytes=[Math]::Max([long]$report.peakPrivateBytes,[long]$proc.PrivateMemorySize64)
         $report.minimumFreeCommitBytes=[Math]::Min([long]$report.minimumFreeCommitBytes,$free)
         if($proc.PrivateMemorySize64 -gt 8GB -or $free -lt 1.25GB){throw 'Owned crowd capture hit memory reserve'}
     }
-    $report.peakWorkingSetMB = [int]($proc.PeakWorkingSet64 / 1MB)
-    $report.recordWindowCompleted=$true
+    if(-not $proc.HasExited){throw 'CSV completion watchdog expired'}
+    $finalized = @(Select-String -LiteralPath $log -Pattern 'CSV finalize time :')
+    if($finalized.Count -ne 1){throw 'Expected one engine CSV finalization before exit'}
+    $report.csvFinalized=$true
 } catch {
     $report.errors += $_.Exception.Message
 } finally {
@@ -121,7 +124,7 @@ try {
     }
 } catch { $report.errors += ('CSV collection failed: '+$_.Exception.Message) }
 finally {
-    $report.status = if ($report.csv -and $report.errors.Count -eq 0 -and $report.recordWindowCompleted) { 'csv_captured_analysis_pending' } else { 'failed_capture' }
+    $report.status = if ($report.csv -and $report.errors.Count -eq 0 -and $report.csvFinalized) { 'csv_captured_analysis_pending' } else { 'failed_capture' }
     $report.finishedUtc = (Get-Date).ToUniversalTime().ToString('o')
     Save-Receipt
 }

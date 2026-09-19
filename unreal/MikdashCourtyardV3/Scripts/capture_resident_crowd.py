@@ -26,9 +26,10 @@ SWEEP=bool(re.search(r'-ResidentCrowdSweep\b',ue.SystemLibrary.get_command_line(
 SHADOW_PARITY=bool(re.search(r'-ResidentCrowdShadowParity\b',ue.SystemLibrary.get_command_line()))
 NO_NORMAL_DETAIL=bool(re.search(r'-ResidentCrowdNoNormalDetail\b',ue.SystemLibrary.get_command_line()))
 NORMAL_CORRECTION=bool(re.search(r'-ResidentCrowdNormalCorrection\b',ue.SystemLibrary.get_command_line()))
-mode_match=re.search(r'-ResidentCrowdMode=(Walk|Idle|Transition)\b',ue.SystemLibrary.get_command_line())
+mode_match=re.search(r'-ResidentCrowdMode=(Walk|Idle|Transition|Motion)\b',ue.SystemLibrary.get_command_line())
 MODE=mode_match.group(1) if mode_match else 'Walk'
 assert MODE=='Walk' or (STUDY in ('11','13') and not NORMAL_CORRECTION and not NO_NORMAL_DETAIL and not SWEEP)
+assert MODE!='Motion' or (STUDY=='13' and VARIANT in ('Man_Elder','Woman_Young'))
 FRAMES=tuple(range(0,72,6)) if SWEEP else (0,18,36,54)
 assert not NORMAL_CORRECTION or (STUDY=='10' and not SWEEP and VARIANT in ('Man_Elder','Woman_Young'))
 
@@ -41,6 +42,8 @@ def run():
     report['mode']=MODE
     if MODE!='Walk':
         report['scope']='Frozen idle source/VAT poses or fixed-pose shader blend states in both directions. No intermediate skeletal blend reference, continuous motion, clearance or runtime acceptance.'
+    if MODE=='Motion':
+        report['scope']='Consecutive30Hz shader captures over8 seconds in an advancing unsaved editor world: walk loops, idle loop and both transition directions. Not game-world, movement/clearance, temporal-AA or performance acceptance.'
     protected = list((ROOT/'Content').rglob('*.umap'))
     for name in ('CrowdVATV1', 'CrowdNearV1', 'CrowdResidentStudy'+STUDY):
         protected += list((ROOT/'Content/MikdashV3/Runtime'/name).rglob('*.uasset'))
@@ -193,6 +196,14 @@ def run():
             idle_frames=(0,16,32,48,64,80,96,112,128,144,176,191)
             report['frames']=list(idle_frames)
             samples=[dict(frame=f,label='idle%03d-'%f+label,path=path,clip='idle',idleWeight=1.) for f in idle_frames for label,path in meshes]
+        elif MODE=='Motion':
+            report['frames']=list(range(241))
+            report['motionSchedule']=dict(fps=30,durationSeconds=8,toIdleFrame=72,toWalkFrame=192,anchorEveryFrames=6,horizonSeconds=.4)
+            assert ue.GameplayStatics.get_time_seconds(world)==0.
+            for invalid in (0.,-1.,.1,float('nan')):
+                assert not ue.MikdashAnimationReviewLibrary.advance_review_world(world,invalid)
+                assert ue.GameplayStatics.get_time_seconds(world)==0.
+            samples=[dict(frame=f,label='motion%03d'%f,path=built['variants'][0]['mesh'],clip='motion') for f in range(241)]
         else:
             report['frames']=[]
             samples=[dict(frame=18,label='reference-walk18',path=built['sourceMesh'],clip='walk'),dict(frame=48,label='reference-idle48',path=built['sourceMesh'],clip='idle')]
@@ -203,7 +214,21 @@ def run():
         for sample in samples:
             frame,label,path=sample['frame'],sample['label'],sample['path']
             is_source=path==built['sourceMesh']
-            if MODE!='Walk':assert ue.GameplayStatics.get_time_seconds(world)==0.,'Review shader requires frozen world time'
+            if MODE not in ('Walk','Motion'):assert ue.GameplayStatics.get_time_seconds(world)==0.,'Review shader requires frozen world time'
+            if MODE=='Motion':
+                if frame:assert ue.MikdashAnimationReviewLibrary.advance_review_world(world,1./30.)
+                now=float(ue.GameplayStatics.get_time_seconds(world))
+                assert abs(now-frame/30.)<.0001
+                sample['timeSeconds']=now
+                if frame in (72,192):custom[8]=now
+                custom[2]=1. if 72<=frame<192 else 0.
+                custom[4]=0. if custom[2] else 1./1.2
+                custom[10]=.4
+                if frame%6==0:
+                    custom[3]=now
+                    custom[0]=0. if custom[2] else ((now-(6.4 if frame>=192 else 0.))/1.2)%1.
+                sample['targetIdle']=bool(custom[2])
+                sample['walkPhase']=custom[0]+(now-custom[3])*custom[4]
             body.set_visibility(not is_source)
             source.set_visibility(is_source)
             readback=[]
@@ -218,8 +243,8 @@ def run():
                 if not instance_created:
                     assert body.add_instance(ue.Transform())==0
                     instance_created=True
-                custom[0]=frame/72.
-                if MODE!='Walk':
+                if MODE!='Motion':custom[0]=frame/72.
+                if MODE not in ('Walk','Motion'):
                     custom[9]=(frame if MODE=='Idle' else sample['idleFrame'])/192.
                     custom[2]=1. if MODE=='Idle' or sample.get('direction')=='toIdle' else 0.
                     blend=ue.MaterialEditingLibrary.get_material_instance_scalar_parameter_value(mesh.get_material(0),'BlendSeconds')
@@ -244,13 +269,14 @@ def run():
             ue.AutomationLibrary.finish_loading_before_screenshot()
             image = OUT/('render-'+stamp+'-'+label+'.png')
             assert not image.exists()
-            for _ in range(8):
+            for _ in range(1 if MODE=='Motion' and frame else 8):
                 component.capture_scene()
                 ue.RenderingLibrary.read_render_target_pixel(world,target,480,480)
+            if MODE=='Motion':assert abs(ue.GameplayStatics.get_time_seconds(world)-sample['timeSeconds'])<1e-7
             ue.RenderingLibrary.export_render_target(world,target,str(OUT),image.name)
             data=image.read_bytes()
             assert data[:8] == b'\x89PNG\r\n\x1a\n' and struct.unpack('>II',data[16:24]) == (960,960)
-            if MODE!='Walk':assert ue.GameplayStatics.get_time_seconds(world)==0.
+            if MODE not in ('Walk','Motion'):assert ue.GameplayStatics.get_time_seconds(world)==0.
             report['captures'].append(dict(label=label,mesh=path,triangles=None if is_source else mesh.get_num_triangles(0),frame=frame,customData=readback,file=image.name,sha256=sha(image),sample=sample))
         report['status']='captured-review-pending'
     except Exception as error:

@@ -16,4 +16,8 @@ class MIKDASHRUNTIME_API UMikdashAnimationReviewLibrary : public UBlueprintFunct
 public:
     UFUNCTION(BlueprintCallable, Category="Mikdash|Review")
     static bool EvaluateReviewPose(USkeletalMeshComponent* Component, UAnimSequence* Animation, float TimeSeconds);
+
+    /** Advance an unsaved commandlet review world for consecutive shader frames. */
+    UFUNCTION(BlueprintCallable, Category="Mikdash|Review")
+    static bool AdvanceReviewWorld(UObject* WorldContextObject, float DeltaSeconds);
 };

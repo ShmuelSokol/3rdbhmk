@@ -4431,3 +4431,19 @@ all-cast or performance acceptance. No runtime adoption; defaultStudy03 unchange
 Source audit paths derive from the hash-pinned build receipt, not hard-coded Study10.
 Visual observations and evidence: SourceAssets/perf-review/crowd-vat/ResidentStudy13/review.json.
 Next continuous transitions/loops, all-cast reduction and runtime crowd performance.
+
+## Consecutive resident shader motion — 19 September 2026
+Study13 Motion mode advances an unsaved editor-commandlet world at30Hz for8s;
+241 captures each Elder/Woman,482 total,16 root-reviewed filmstrip sheets. Walk
+loops, idle loop, to-idle at2.4s and to-walk at6.4s remain visually coherent in
+front10m views, without obvious new skin patches, limb collapse or pose reset.
+First six frames have identical custom data but distinct pixels, proving shader
+time advances between anchor renewals. Largest adjacent changes repeat at walking
+phase frames26/62/218; metrics have no acceptance cutoff. Actor positions stay
+fixed: NOT game-world navigation/foot sliding/collision/temporal-AA/performance.
+AdvanceReviewWorld refuses non-commandlet, game or non-/Temp/ worlds and nonfinite,
+nonpositive or >1/15s deltas; successful ticks verify the actual clock increment.
+Both Editor and Game compile; Game implementation returns false. Production maps
+and character assets unchanged. No archive refresh or runtime adoption. Evidence:
+SourceAssets/perf-review/crowd-vat/ResidentStudy13/motion-review.json. Next live
+controller/movement/performance, remaining views and all-six-variant reduction.

@@ -14,7 +14,10 @@ def run(folder):
     output=folder/'complete-normal-textures.json';assert not output.exists()
     root=Path(__file__).resolve().parents[1]
     for name,h in build['assets'].items():assert sha(root/name)==h
-    old_folder=folder.parents[2]/'ResidentStudy10'/'Cast'/folder.name
+    source_receipt=root/build['sourceStudy']
+    assert sha(source_receipt)==build['sourceStudySha256']
+    old_folder=source_receipt.parent
+    assert old_folder.name==folder.name
     audit=next(r for p in old_folder.glob('normals-*.json') if (r:=json.loads(p.read_text())).get('status')=='audited-reference-normals')
     static_file=next(old_folder/n for n in audit['files'] if n.endswith('-static.json.gz'))
     assert sha(static_file)==audit['files'][static_file.name]

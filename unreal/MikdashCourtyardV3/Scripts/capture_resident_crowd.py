@@ -9,7 +9,7 @@ import math
 import unreal as ue
 
 ROOT = Path(__file__).resolve().parents[1]
-match = re.search(r'-ResidentCrowdStudy=(01|02|03|04|05|06|07|08|09|10|11)\b', ue.SystemLibrary.get_command_line())
+match = re.search(r'-ResidentCrowdStudy=(01|02|03|04|05|06|07|08|09|10|11|13)\b', ue.SystemLibrary.get_command_line())
 STUDY = match.group(1) if match else '03'
 OUT = ROOT / ('SourceAssets/perf-review/crowd-vat/ResidentStudy'+STUDY)
 variant_match=re.search(r'-ResidentCrowdVariant=(\w+)',ue.SystemLibrary.get_command_line())
@@ -28,7 +28,7 @@ NO_NORMAL_DETAIL=bool(re.search(r'-ResidentCrowdNoNormalDetail\b',ue.SystemLibra
 NORMAL_CORRECTION=bool(re.search(r'-ResidentCrowdNormalCorrection\b',ue.SystemLibrary.get_command_line()))
 mode_match=re.search(r'-ResidentCrowdMode=(Walk|Idle|Transition)\b',ue.SystemLibrary.get_command_line())
 MODE=mode_match.group(1) if mode_match else 'Walk'
-assert MODE=='Walk' or (STUDY=='11' and not NORMAL_CORRECTION and not NO_NORMAL_DETAIL and not SWEEP)
+assert MODE=='Walk' or (STUDY in ('11','13') and not NORMAL_CORRECTION and not NO_NORMAL_DETAIL and not SWEEP)
 FRAMES=tuple(range(0,72,6)) if SWEEP else (0,18,36,54)
 assert not NORMAL_CORRECTION or (STUDY=='10' and not SWEEP and VARIANT in ('Man_Elder','Woman_Young'))
 

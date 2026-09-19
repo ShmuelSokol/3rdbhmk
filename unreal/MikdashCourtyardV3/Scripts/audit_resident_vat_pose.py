@@ -10,7 +10,7 @@ import create_crowd_vat_v2 as vat
 
 def run():
     command=ue.SystemLibrary.get_command_line()
-    study=re.search(r'-ResidentCrowdStudy=(09|10)\b',command).group(1)
+    study=re.search(r'-ResidentCrowdStudy=(09|10|12)\b',command).group(1)
     variant=re.search(r'-ResidentCrowdVariant=(Man_Elder|Woman_Young)\b',command).group(1)
     folder=ROOT/('SourceAssets/perf-review/crowd-vat/ResidentStudy'+study)/'Cast'/variant
     stamp=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')

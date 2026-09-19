@@ -1,4 +1,4 @@
-"""Study11: complete direct skeletal normal clips on a copy of Study10 geometry."""
+"""Complete direct skeletal normal clips on an isolated geometry copy (11 from10;13 from12)."""
 from datetime import datetime,timezone
 from pathlib import Path
 import hashlib,json,math,re,struct,sys,time,zlib
@@ -11,12 +11,14 @@ from build_crowd_near_v2 import mesh_stats
 
 def run():
     command=ue.SystemLibrary.get_command_line()
+    study=re.search(r'-ResidentCrowdStudy=(11|13)\b',command).group(1)
+    source_study={'11':'10','13':'12'}[study]
     variant=re.search(r'-ResidentCrowdVariant=(Man_Elder|Woman_Young)\b',command).group(1)
     build=bool(re.search(r'-ResidentCrowdBuild\b',command))
-    old_folder=ROOT/'SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast'/variant
-    folder=ROOT/'SourceAssets/perf-review/crowd-vat/ResidentStudy11/Cast'/variant
+    old_folder=ROOT/('SourceAssets/perf-review/crowd-vat/ResidentStudy'+source_study)/'Cast'/variant
+    folder=ROOT/('SourceAssets/perf-review/crowd-vat/ResidentStudy'+study)/'Cast'/variant
     folder.mkdir(parents=True,exist_ok=True)
-    ns='/Game/MikdashV3/Runtime/CrowdResidentStudy11/Cast/'+variant
+    ns='/Game/MikdashV3/Runtime/CrowdResidentStudy'+study+'/Cast/'+variant
     stamp=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     output=folder/('native-'+stamp+'.json')
     sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
@@ -24,10 +26,10 @@ def run():
     old_path=next(p for p in old_folder.glob('native-*.json') if json.loads(p.read_text()).get('status')=='built-needs-fresh-readback-and-render')
     old=json.loads(old_path.read_text())
     protected={**old['protectedBefore'],**old['assets']}
-    protected.update({str(p.relative_to(ROOT)):sha(p) for p in (ROOT/'Content/MikdashV3/Runtime/CrowdResidentStudy10').rglob('*.uasset')})
+    protected.update({str(p.relative_to(ROOT)):sha(p) for p in (ROOT/('Content/MikdashV3/Runtime/CrowdResidentStudy'+source_study)).rglob('*.uasset')})
     protected.update({str(disk(p).relative_to(ROOT)):sha(disk(p)) for p in old['clips'].values()})
     assert all(sha(ROOT/p)==h for p,h in protected.items())
-    report=dict(status='running',scope='Study10 geometry/material copy with complete direct skeletal walk/idle normals; no runtime adoption.',castVariant=variant,sourceStudy=old_path.relative_to(ROOT).as_posix(),sourceStudySha256=sha(old_path),sourceMesh=old['sourceMesh'],structuredSource=old['structuredSource'],clips=old['clips'],protectedBefore=protected,variants=[],assets={},files={})
+    report=dict(status='running',scope='Study'+source_study+' geometry/material copy with complete direct skeletal walk/idle normals; no runtime adoption.',castVariant=variant,sourceStudy=old_path.relative_to(ROOT).as_posix(),sourceStudySha256=sha(old_path),sourceMesh=old['sourceMesh'],structuredSource=old['structuredSource'],clips=old['clips'],protectedBefore=protected,variants=[],assets={},files={})
     write=lambda:output.write_text(json.dumps(report,indent=2)+'\n')
     actors=ue.get_editor_subsystem(ue.EditorActorSubsystem);actor=None
     assets=ue.EditorAssetLibrary;ml=ue.MaterialEditingLibrary
@@ -138,7 +140,7 @@ def run():
                 row['slots'].append([i,name,mi.get_path_name()]);row['materialInstances'][mi.get_name()]=expected
             assert assets.save_loaded_asset(mesh,False)
             row['mesh']=mesh.get_path_name();assert mesh_stats(mesh)==old_row['stats'];report['variants']=[row]
-            report['assets']={str(p.relative_to(ROOT)):sha(p) for p in (ROOT/'Content/MikdashV3/Runtime/CrowdResidentStudy11/Cast'/variant).rglob('*.uasset')}
+            report['assets']={str(p.relative_to(ROOT)):sha(p) for p in (ROOT/('Content/MikdashV3/Runtime/CrowdResidentStudy'+study)/'Cast'/variant).rglob('*.uasset')}
             assert len(report['assets'])==9
             report['status']='built-needs-fresh-readback-and-render'
         else:

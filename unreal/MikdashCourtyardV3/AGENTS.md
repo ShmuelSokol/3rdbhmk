@@ -4416,3 +4416,18 @@ NOT visual/performance acceptance: stock normal baking has the diagnosed mapping
 defect. Next duplicate with full direct skeletal normal clips before GPU review,
 then all-cast/continuous/distance/runtime tests. Evidence: ResidentStudy12/review.json
 under SourceAssets/perf-review/crowd-vat. No adoption into the playable release.
+
+## Reduced-head direct normal crowd candidate — 19 September 2026
+Study13 copies Study12 Elder/Woman geometry and materials with complete direct
+skeletal walk/idle normals:72+192 frames each. Eighteen new assets; four native
+build/readback jobs, four independent reference/pose audits and eight GPU captures
+jobs. Saved normal PNG pixels, all frame hashes and unit normals verified; four
+independent skeletal walk poses satisfy the existing <0.02 degree direction gate.
+Fresh native geometry digests preserve all ordered positions/reference normals,
+UV0/1/2, material IDs and vertex colors; bounds/material parents/parameters match.
+64 source/candidate images, eight root-reviewed contact sheets retain native pixels
+at10/20m front/rear. No continuous motion, facial morph, idle GPU, transition,
+all-cast or performance acceptance. No runtime adoption; defaultStudy03 unchanged.
+Source audit paths derive from the hash-pinned build receipt, not hard-coded Study10.
+Visual observations and evidence: SourceAssets/perf-review/crowd-vat/ResidentStudy13/review.json.
+Next continuous transitions/loops, all-cast reduction and runtime crowd performance.

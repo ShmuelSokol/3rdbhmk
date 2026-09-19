@@ -1,9 +1,9 @@
-param([ValidateSet('01','02','03','04','05','06','07','08','09','10','11','12')][string]$Study='03',[switch]$Build,[ValidateSet('Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder','Youth')][string]$Variant='Man_Standard',[switch]$NormalsAudit,[switch]$Posed)
+param([ValidateSet('01','02','03','04','05','06','07','08','09','10','11','12','13')][string]$Study='03',[switch]$Build,[ValidateSet('Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder','Youth')][string]$Variant='Man_Standard',[switch]$NormalsAudit,[switch]$Posed)
 $ErrorActionPreference = 'Stop'
-if($Study -eq '11' -and ($NormalsAudit -or $Posed -or $Variant -notin @('Man_Elder','Woman_Young'))){throw 'Study11 supports direct-normal Elder/Woman build or fresh readback only'}
-if($Study -eq '12' -and ($NormalsAudit -or $Posed -or $Variant -notin @('Man_Elder','Woman_Young'))){throw 'Study12 supports reduced-head Elder/Woman base build or fresh readback only'}
+if($Study -in @('11','13') -and ($NormalsAudit -or $Posed -or $Variant -notin @('Man_Elder','Woman_Young'))){throw 'Study11/13 supports direct-normal Elder/Woman build or fresh readback only'}
+if($Study -eq '12' -and ($Variant -notin @('Man_Elder','Woman_Young'))){throw 'Study12 supports reduced-head Elder/Woman base build, fresh readback or normal audit only'}
 if($Posed -and -not $NormalsAudit){throw 'Posed requires NormalsAudit'}
-if($NormalsAudit -and ($Build -or $Study -notin @('09','10') -or $Variant -notin @('Man_Elder','Woman_Young'))){throw 'NormalsAudit requires existing Study09/10 Elder or Woman_Young and no Build'}
+if($NormalsAudit -and ($Build -or $Study -notin @('09','10','12') -or $Variant -notin @('Man_Elder','Woman_Young'))){throw 'NormalsAudit requires existing Study09/10/12 Elder or Woman_Young and no Build'}
 $root = (Split-Path -Parent $PSScriptRoot).Replace('\','/')
 $busy = @(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3,AutomationTool -ErrorAction SilentlyContinue)
 $busy += @(Get-CimInstance Win32_Process -Filter "Name='dotnet.exe'" | Where-Object {$_.CommandLine -match 'AutomationTool|UnrealBuildTool'})
@@ -23,7 +23,7 @@ function Save-Receipt {$record | ConvertTo-Json -Depth 5 | Set-Content -LiteralP
 Save-Receipt
 $exe='C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor-Cmd.exe'
 $arguments=@(('"'+$root+'/MikdashCourtyardV3.uproject"'),'-run=pythonscript',('-script="'+$root+'/Scripts/build_resident_crowd.py"'),'-nullrhi','-EnablePlugins=AnimToTexture,GeometryScripting','-DisablePlugins=MetaHumanCharacter,MetaHumanSDK','-unattended','-nosplash','-nosound','-notraceserver','-NoMetaHumanAccountPortalLoginFallback','-NoAsyncLoadingThread','-asyncstaticmeshcompilationmaxconcurrency=1',('-abslog="'+$log+'"'))
-if($Study -eq '11'){$arguments[2]='-script="'+$root+'/Scripts/build_resident_direct_normals.py"';$record.scope='Complete direct skeletal normal candidate build or fresh readback'}
+if($Study -in @('11','13')){$arguments[2]='-script="'+$root+'/Scripts/build_resident_direct_normals.py"';$record.scope='Complete direct skeletal normal candidate build or fresh readback'}
 if($NormalsAudit){$arguments[2]='-script="'+$root+'/Scripts/audit_resident_vat_normals.py"';$record.scope='Read-only resident source/static normal audit and texture export';$record.normalsAudit=$true}
 if($Posed){$arguments[2]='-script="'+$root+'/Scripts/audit_resident_vat_pose.py"';$record.scope='Read-only resident evaluated skeletal normal export';$record.posed=$true}
 if($Build){$arguments += '-ResidentCrowdBuild'}

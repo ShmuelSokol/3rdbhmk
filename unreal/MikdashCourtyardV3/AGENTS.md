@@ -4283,3 +4283,21 @@ Crash partial data remains local; successful retries prove protected assets inta
 Next compare posed skeletal normals with decoded VAT normals using proven vertex
 correspondence. No runtime material/mesh changes or visual/performance acceptance.
 Evidence: ResidentStudy10/normal-conversion-review.json.
+
+## Resident animated-normal transfer — 19 September 2026
+New audit_resident_vat_pose.py evaluates source-model poses with the native review
+helper, copies posed components, validates triangle material/UV and repeated-corner
+correspondence, and maps all45111 reference rows to VAT UVs. Four phases each,
+180444 posed rows total. PNG16 decoder compares stored VAT positions/normals.
+Maximum normal differences146.87 degrees Elder and176.74 Woman; maximum position
+differences0.262/0.281cm. Lower-cloth normal p95 reaches46.05/65.34 degrees.
+Transient four-frame correction replaces normals with normalized evaluated source
+normals; all other texels and alpha unchanged. Two side-view GPU comparisons (16
+PNGs) substantially resolve the bright inner/lower robe mismatch. Coarse folds,
+hem/trim and Elder mantle shading differences remain. Normal transfer is a real
+contributor; no full shader/geometry parity claim. Four native runs exit0; protected
+assets unchanged. The diagnostic textures are unsaved imports and transient MID
+overrides; wrapper refuses other studies/cast or sweep. NEVER use the four-frame
+PNGs for runtime: other68 walk frames still carry old normals. Next bake full walk
+and idle direct skeletal normals into a fresh candidate, review views/transitions,
+then further reduction/all-cast/performance work. Evidence: posed-normal-review.json.

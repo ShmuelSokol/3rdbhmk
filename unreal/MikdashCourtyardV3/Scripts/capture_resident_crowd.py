@@ -25,7 +25,9 @@ assert VIEW in ('Front','Right','Rear','Left')
 SWEEP=bool(re.search(r'-ResidentCrowdSweep\b',ue.SystemLibrary.get_command_line()))
 SHADOW_PARITY=bool(re.search(r'-ResidentCrowdShadowParity\b',ue.SystemLibrary.get_command_line()))
 NO_NORMAL_DETAIL=bool(re.search(r'-ResidentCrowdNoNormalDetail\b',ue.SystemLibrary.get_command_line()))
+NORMAL_CORRECTION=bool(re.search(r'-ResidentCrowdNormalCorrection\b',ue.SystemLibrary.get_command_line()))
 FRAMES=tuple(range(0,72,6)) if SWEEP else (0,18,36,54)
+assert not NORMAL_CORRECTION or (STUDY=='10' and not SWEEP and VARIANT in ('Man_Elder','Woman_Young'))
 
 
 
@@ -85,6 +87,29 @@ def run():
         report['camera'] = dict(position=camera_position,distanceCm=DISTANCE,pitchYawRoll=[0,camera_yaw,0],fov=45,resolution=[960,960])
         builds=[json.loads(p.read_text()) for p in OUT.glob('native-*.json')]
         built=next(r for r in builds if r.get('status')=='built-needs-fresh-readback-and-render')
+        correction_texture=None
+        if NORMAL_CORRECTION:
+            correction_path=next(OUT.glob('posed-correction-*.json'))
+            correction=json.loads(correction_path.read_text())['correction']
+            assert correction['frames']==list(FRAMES)
+            png=OUT/correction['file'];assert sha(png)==correction['sha256']
+            destination='/Game/MikdashV3/Runtime/ResidentNormalTransient_'+stamp
+            assert not ue.EditorAssetLibrary.does_directory_exist(destination)
+            task=ue.AssetImportTask()
+            for key,value in dict(filename=str(png),destination_path=destination,destination_name='T_NormalDiagnostic',automated=True,replace_existing=False,save=False).items():task.set_editor_property(key,value)
+            ue.AssetToolsHelpers.get_asset_tools().import_asset_tasks([task])
+            imported=[o for o in task.get_objects() if isinstance(o,ue.Texture2D)]
+            assert len(imported)==1
+            correction_texture=imported[0]
+            for key,value in dict(srgb=False,compression_settings=ue.TextureCompressionSettings.TC_HDR,
+                                  filter=ue.TextureFilter.TF_NEAREST,mip_gen_settings=ue.TextureMipGenSettings.TMGS_NO_MIPMAPS,
+                                  never_stream=True,address_x=ue.TextureAddress.TA_WRAP,address_y=ue.TextureAddress.TA_WRAP,
+                                  flip_green_channel=False).items():
+                correction_texture.set_editor_property(key,value)
+                assert correction_texture.get_editor_property(key)==value
+            assert correction_texture.blueprint_get_size_x()==built['variants'][0]['walkBake']['width']
+            assert correction_texture.blueprint_get_size_y()==built['variants'][0]['walkBake']['height']
+            report['normalCorrection']=dict(**correction,asset=correction_texture.get_path_name(),saved=False)
         skel=ue.load_asset(built['sourceMesh'])
         clip=ue.load_asset(built['clips']['walk'])
         source=spawn(ue.SkeletalMeshActor,ue.Vector()).skeletal_mesh_component
@@ -125,22 +150,27 @@ def run():
                              tangentSpaceNormal=bool(parent.get_editor_property('tangent_space_normal')),disabledParameters={})
                     row['effectiveTwoSided']=next((entry['twoSided'] for entry in chain if entry['overrideTwoSided']),row['twoSided'])
                     binding=original
+                    if NO_NORMAL_DETAIL or (NORMAL_CORRECTION and not is_source):
+                        binding=mesh_component.create_dynamic_material_instance(index,original)
+                        assert binding
                     if NO_NORMAL_DETAIL:
                         names={str(n) for n in ue.MaterialEditingLibrary.get_scalar_parameter_names(original)}
                         parameters=names.intersection(('PoreStrength','WeaveStrength') if is_source else ('DetailStrength',))
                         assert parameters, 'Missing normal-detail controls: '+original.get_path_name()
-                        binding=mesh_component.create_dynamic_material_instance(index,original)
-                        assert binding
                         for parameter in sorted(parameters):
                             binding.set_scalar_parameter_value(parameter,0.)
                             value=float(binding.get_scalar_parameter_value(parameter))
                             assert value==0.
                             row['disabledParameters'][parameter]=value
+                    if NORMAL_CORRECTION and not is_source:
+                        binding.set_texture_parameter_value('WalkNormalTexture',correction_texture)
+                        assert binding.get_texture_parameter_value('WalkNormalTexture')==correction_texture
+                        row['walkNormalOverride']=correction_texture.get_path_name()
                     bindings.append(binding)
                     rows.append(row)
                 material_cache[path]=bindings
                 report['materials'][path]=rows
-            if NO_NORMAL_DETAIL:
+            if NO_NORMAL_DETAIL or NORMAL_CORRECTION:
                 for index,binding in enumerate(material_cache[path]):
                     mesh_component.set_material(index,binding)
                     assert mesh_component.get_material(index)==binding
@@ -183,6 +213,9 @@ def run():
         raise
     finally:
         for actor in reversed(spawned): actors.destroy_actor(actor)
+        if NORMAL_CORRECTION and 'normalCorrection' in report:
+            package=report['normalCorrection']['asset'].split('.')[0].removeprefix('/Game/')
+            assert not (ROOT/'Content'/(package+'.uasset')).exists(), 'Diagnostic texture unexpectedly saved'
         report['protectedUnchanged'] = before == {str(p.relative_to(ROOT)):sha(p) for p in protected}
         if not report['protectedUnchanged']: report['status']='failed-protected-changed'
         output.write_text(json.dumps(report,indent=2)+'\n')

@@ -1,5 +1,6 @@
-param([ValidateSet('01','02','03','04','05','06','07','08','09','10')][string]$Study='03',[ValidateRange(100,10000)][int]$DistanceCm=253,[ValidateSet('Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder','Youth')][string]$Variant='Man_Standard',[ValidateSet('Front','Right','Rear','Left')][string]$View='Front',[switch]$Sweep,[switch]$ShadowParity,[switch]$NoNormalDetail)
+param([ValidateSet('01','02','03','04','05','06','07','08','09','10')][string]$Study='03',[ValidateRange(100,10000)][int]$DistanceCm=253,[ValidateSet('Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder','Youth')][string]$Variant='Man_Standard',[ValidateSet('Front','Right','Rear','Left')][string]$View='Front',[switch]$Sweep,[switch]$ShadowParity,[switch]$NoNormalDetail,[switch]$NormalCorrection)
 $ErrorActionPreference = 'Stop'
+if($NormalCorrection -and ($Study -ne '10' -or $Sweep -or $Variant -notin @('Man_Elder','Woman_Young'))){throw 'NormalCorrection is a Study10 four-phase diagnostic only'}
 $root = (Split-Path -Parent $PSScriptRoot).Replace('\','/')
 $busy = @(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3,AutomationTool -ErrorAction SilentlyContinue)
 $busy += @(Get-CimInstance Win32_Process -Filter "Name='dotnet.exe'" | Where-Object {$_.CommandLine -match 'AutomationTool|UnrealBuildTool'})
@@ -25,6 +26,7 @@ $arguments += ('-ResidentCrowdView='+$View)
 if($Sweep){$arguments += '-ResidentCrowdSweep'}
 if($ShadowParity){$arguments += '-ResidentCrowdShadowParity'}
 if($NoNormalDetail){$arguments += '-ResidentCrowdNoNormalDetail'}
+if($NormalCorrection){$arguments += '-ResidentCrowdNormalCorrection'}
 if($PSBoundParameters.ContainsKey('DistanceCm')){$arguments += ('-ResidentCrowdDistanceCm='+$DistanceCm)}
 $child=$null
 try {

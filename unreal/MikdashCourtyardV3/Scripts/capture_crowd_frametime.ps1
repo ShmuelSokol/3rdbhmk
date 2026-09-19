@@ -28,7 +28,8 @@ param(
     [ValidateRange(360,1080)][int]$ResY = 720,
     [switch]$CsvOnGameThread,
     [switch]$GroundAudit,
-    [switch]$DeferredSpawnAudit
+    [switch]$DeferredSpawnAudit,
+    [ValidateRange(0,1024)][int]$GroupSeedAttempts = 0
 )
 $ErrorActionPreference = 'Stop'
 if($DeferredSpawnAudit -and (-not $GroundAudit -or $CrowdCount -lt 0)){throw 'DeferredSpawnAudit requires GroundAudit and an explicit CrowdCount'}
@@ -72,6 +73,7 @@ $log = Join-Path $outDir 'runtime.log'
 $argline += (' -abslog="'+$log+'"')
 if($CsvOnGameThread){$argline += ' -csvNoProcessingThread'}
 if($GroundAudit){$argline += ' -MikdashCrowdGroundAudit'}
+if($GroupSeedAttempts -gt 0){$argline += (' -CrowdSeedAttempts='+$GroupSeedAttempts)}
 
 $report = [ordered]@{
     status = 'starting'; label = $Label; view = $View; bugItGo = $Go; archive = $Archive
@@ -82,6 +84,7 @@ $report = [ordered]@{
     csvOnGameThread = [bool]$CsvOnGameThread
     groundAudit = [bool]$GroundAudit
     deferredSpawnAudit = [bool]$DeferredSpawnAudit
+    groupSeedAttemptOverride = if($GroupSeedAttempts -gt 0){$GroupSeedAttempts}else{$null}
     spawnFrame = if($DeferredSpawnAudit){120}else{'BeginPlay'}
     resolution = "$ResX x $ResY"; settleSeconds = $SettleSeconds; recordSeconds = $RecordSeconds
     quality = 'High (all scalability groups 2), screen percentage 77; saved graphics overrides disabled'
@@ -115,6 +118,14 @@ try {
     if($DeferredSpawnAudit){
         $called=@(Select-String -LiteralPath $log -SimpleMatch "Called 'BuildCrowd $CrowdCount' on 1 instance(s) of class '/Script/MikdashRuntime.MikdashCrowdField' (1 succeeded)")
         if($called.Count -ne 1){throw 'Expected exactly one successful deferred BuildCrowd call'}
+    }
+    if($GroupSeedAttempts -gt 0){
+        $budgets=@(Select-String -LiteralPath $log -Pattern 'CrowdSeedAuditV1 .* maxAttempts=(\d+)\s*$')
+        if($budgets.Count -ne 6){throw 'Expected six native zone search-budget readbacks'}
+        foreach($budget in $budgets){
+            if([int]$budget.Matches[0].Groups[1].Value -ne $GroupSeedAttempts){throw 'Native search budget differs from diagnostic request'}
+        }
+        $report.nativeSearchBudgetVerified=$true
     }
     $counts = @(Select-String -LiteralPath $log -Pattern '\d+\)\s+MikdashCrowdField\s+(.+?:PersistentLevel\.[^.]+)\.SeededAgents = (\d+)\s*$')
     if($counts.Count -ne 1){throw 'Expected exactly one live crowd field seeded-count readback'}

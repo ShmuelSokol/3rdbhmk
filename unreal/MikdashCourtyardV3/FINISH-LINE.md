@@ -448,3 +448,29 @@ late-frame PNG. The45/60 sample has2939frames,median19.052ms,p9530.4ms for4970ac
 people; cross-run timing is not an isolated optimization claim. See
 crowd-packing01-5000-review.json. Same-binary10000 capture is next; movement,
 state transitions, fullcount benchmark matrix and final appearance remain open.
+
+## Bounded crowd search-budget diagnostic — 18 September 2026
+
+Packing01 initial10000 counters show9320seeded and680refused. Next source adds
+optional -CrowdSeedAttempts=N for social placement, clamped1..1024, logged perzone
+as maxAttempts. Default remains48. The capture wrapper accepts GroupSeedAttempts
+0..1024, where0 omits the override, and records it in the receipt. This permits
+measuring finite-search exhaustion versus physical zone capacity on one binary.
+No spacing, support, protected-area, group-membership or obstacle check is relaxed.
+Pending verification; no larger-budget result or production-default adoption yet.
+
+Packing01 10000-request capture is terminal:9320placed,680refused,childexit0,
+wrapper correctlyfails population. Refusals east26/west418/deck3/plaza56/street85/
+approach92. Root viewed final PNG. Clean45/60 analysis retains2534frames covering
+59.94s,median21.797ms,p9537.303ms for9320actual people only. See
+crowd-packing01-10000-review.json. This does not close the10000target or movement/
+state/appearance acceptance. Source diagnostic budget experiment is still pending.
+Future runtime-only test archives may NTFS-hardlink the six unchanged immutable
+Paks files to their base to conserve disk; child binaries remain separate copies.
+Never recook into or modify any checkpoint's linked Paks files; verify their hashes.
+
+Performance scope reminder: PERFORMANCE-BUDGET.md targets RTX2070/16GB RAM/8GB
+VRAM at1080p,16.7ms courts/sanctuary and22ms city-facing plaza. Current crowd
+capacity captures use1280x720 at77percent internal scale and game-thread CSV mode.
+They cannot establish that1080p release budget. Final benchmark matrix must also
+use the intended release resolution and representative courts/city views.

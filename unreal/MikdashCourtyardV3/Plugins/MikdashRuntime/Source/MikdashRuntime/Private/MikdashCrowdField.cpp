@@ -673,6 +673,11 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
     const Vec2* Polygon=ZonePointCache.GetData()+ZoneStartCache[ZoneIndex];
     const int32 Vertices=ZoneVertexCountCache[ZoneIndex];
     const uint32 Seed=static_cast<uint32>(RandomSeed);
+    // Bounded diagnostic override: measure search exhaustion separately from physical
+    // capacity without relaxing any placement constraint or changing the default.
+    int32 AttemptBudget=SeedAttempts;
+    if(FParse::Value(FCommandLine::Get(),TEXT("CrowdSeedAttempts="),AttemptBudget))
+        AttemptBudget=FMath::Clamp(AttemptBudget,1,1024);
     const auto Batches=MikdashCrowdGroups::PlanSeedBatches(ZoneTotal,GlobalIndex,IndividualVisitorRatio,Seed);
     const double MinSpeed=FMath::Max(0.f,MinWalkSpeedCmPerSecond);
     const double MaxSpeed=FMath::Max(MinSpeed,static_cast<double>(MaxWalkSpeedCmPerSecond));
@@ -688,7 +693,7 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
         const bool Standing=IsStanding(Seed,static_cast<uint32>(First),Zone.StandingRatio);
         Vec2 Points[MikdashCrowdGroups::MaxMembers];float Grounds[MikdashCrowdGroups::MaxMembers]{};
         double Heading=0;bool Placed=false;
-        for(int32 Attempt=0;Attempt<SeedAttempts&&!Placed;++Attempt)
+        for(int32 Attempt=0;Attempt<AttemptBudget&&!Placed;++Attempt)
         {
             ++Trials;
             const uint32 Trial=static_cast<uint32>(First)+static_cast<uint32>(Attempt)*65537u;
@@ -779,9 +784,9 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
         }
     }
     GlobalIndex+=ZoneTotal;
-    UE_LOG(LogTemp,Display,TEXT("CrowdSeedAuditV1 zone=%d name=\"%s\" requested=%d seeded=%d refused=%d trials=%d accepted=%d point=%d segment=%d spacing=%d formation=%d link=%d ground=%d obstacle=%d insert=%d"),
+    UE_LOG(LogTemp,Display,TEXT("CrowdSeedAuditV1 zone=%d name=\"%s\" requested=%d seeded=%d refused=%d trials=%d accepted=%d point=%d segment=%d spacing=%d formation=%d link=%d ground=%d obstacle=%d insert=%d maxAttempts=%d"),
         ZoneIndex,*Zone.Name,ZoneTotal,SeededAgents-SeededBefore,RefusedSeeds-RefusedBefore,
-        Trials,Accepted,PointReject,SegmentReject,SpacingReject,FormationReject,LinkReject,GroundReject,ObstacleReject,InsertReject);
+        Trials,Accepted,PointReject,SegmentReject,SpacingReject,FormationReject,LinkReject,GroundReject,ObstacleReject,InsertReject,AttemptBudget);
 }
 
 void AMikdashCrowdField::StepSocialAgent(int32 Index,double Dt,const MikdashCrowd::FlowZone& Flow)

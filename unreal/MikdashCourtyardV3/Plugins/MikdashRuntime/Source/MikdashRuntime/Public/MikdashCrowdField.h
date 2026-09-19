@@ -523,6 +523,13 @@ private:
     void AppendVatCustomData(int32 Index, TArray<float>& Out) const;
     void PushVat(int32 GlobalStart, int32 GlobalCount);
     double VatNow() const;
+    // Opt-in bounded diagnostic; never changes simulation or instance data.
+    bool bMotionAudit = false;
+    int32 MotionAuditSamples = 0, MotionAuditLogged = 0;
+    int32 MotionAuditRootErrors = 0, MotionAuditHeadingChanges = 0;
+    double MotionAuditMaxRootError = 0.0;
+    void AuditVatTransition(int32 Index, const FMikdashCrowdAgent& Before,
+                            const FMikdashCrowdAgent& After, double Now, float FrameSeconds);
     TArray<float> CustomScratch;
     bool SocialSegmentAllowed(int32 ZoneIndex,const MikdashCrowd::Vec2& From,const MikdashCrowd::Vec2& To) const;
 

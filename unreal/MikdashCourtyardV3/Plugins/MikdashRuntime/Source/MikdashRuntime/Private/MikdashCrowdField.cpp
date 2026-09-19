@@ -1255,6 +1255,7 @@ void AMikdashCrowdField::BuildCrowd(int32 OverrideCount)
 void AMikdashCrowdField::BeginPlay()
 {
     Super::BeginPlay();
+    bMotionAudit = FParse::Param(FCommandLine::Get(), TEXT("MikdashCrowdMotionAudit"));
     if (!bActivateOnBeginPlay)
     {
         // Adopted opt-in, matching the rest of this plugin: placing the actor changes nothing
@@ -1379,7 +1380,16 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
 
             if(bSocialRuntime)
             {
-                if (bUseVertexAnimation) StepSocialAgentVat(Index, VatTime, VatHorizon, Flow);
+                if (bUseVertexAnimation)
+                {
+                    if (bMotionAudit && ElapsedSeconds >= 2.f && MotionAuditSamples < 4096)
+                    {
+                        const FMikdashCrowdAgent Before = Agent;
+                        StepSocialAgentVat(Index, VatTime, VatHorizon, Flow);
+                        AuditVatTransition(Index, Before, Agent, VatTime, DeltaSeconds);
+                    }
+                    else StepSocialAgentVat(Index, VatTime, VatHorizon, Flow);
+                }
                 else StepSocialAgent(Index,Step_,Flow);
                 continue;
             }
@@ -1422,6 +1432,43 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
 
     PushTransforms(Window.FirstStart, Window.FirstCount);
     PushTransforms(Window.SecondStart, Window.SecondCount);
+}
+
+void AMikdashCrowdField::AuditVatTransition(int32 Index, const FMikdashCrowdAgent& Before,
+                                         const FMikdashCrowdAgent& After, double Now, float FrameSeconds)
+{
+    // Current material uses a -0.25 second lower clamp. Root reconstruction only:
+    // this does not measure VAT deformation, final velocity pixels, or visibility.
+    const double PreviousTime = Now - static_cast<double>(FrameSeconds);
+    if (FrameSeconds <= 0.f || Before.AnchorTime > PreviousTime + 0.00001) return;
+    const auto RootAt = [PreviousTime](const FMikdashCrowdAgent& State)
+    {
+        const double Dt = FMath::Clamp(PreviousTime - State.AnchorTime, -0.25,
+                                      static_cast<double>(State.HorizonSeconds));
+        return FVector(State.Position.X, State.Position.Y, State.GroundZCm)
+            + FVector(State.Velocity.X, State.Velocity.Y, State.VelocityZ) * Dt;
+    };
+    const double Error = FVector::Distance(RootAt(Before), RootAt(After));
+    const double HeadingChange = FMath::Abs(FMath::FindDeltaAngleDegrees(Before.HeadingDegrees, After.HeadingDegrees));
+    ++MotionAuditSamples;
+    MotionAuditRootErrors += Error > 0.1 ? 1 : 0;
+    MotionAuditHeadingChanges += HeadingChange > 0.1 ? 1 : 0;
+    MotionAuditMaxRootError = FMath::Max(MotionAuditMaxRootError, Error);
+    if (MotionAuditLogged < 64 && (Error > 0.1 || HeadingChange > 0.1))
+    {
+        ++MotionAuditLogged;
+        UE_LOG(LogTemp, Display, TEXT("CrowdMotionAuditV1 sample=%d agent=%d zone=%d now=%.9f frame=%.9f oldTime=%.9f newTime=%.9f oldPos=(%.6f,%.6f,%.6f) newPos=(%.6f,%.6f,%.6f) oldVel=(%.6f,%.6f,%.6f) newVel=(%.6f,%.6f,%.6f) oldHorizon=%.6f newHorizon=%.6f oldYaw=%.6f newYaw=%.6f oldIdle=%d newIdle=%d rootErrorCm=%.6f headingDelta=%.6f"),
+            MotionAuditSamples, Index, Before.ZoneIndex, Now, FrameSeconds, Before.AnchorTime, After.AnchorTime,
+            Before.Position.X, Before.Position.Y, Before.GroundZCm, After.Position.X, After.Position.Y, After.GroundZCm,
+            Before.Velocity.X, Before.Velocity.Y, Before.VelocityZ, After.Velocity.X, After.Velocity.Y, After.VelocityZ,
+            Before.HorizonSeconds, After.HorizonSeconds, Before.HeadingDegrees, After.HeadingDegrees,
+            Before.bIdleAnim, After.bIdleAnim, Error, HeadingChange);
+    }
+    if (MotionAuditSamples == 4096)
+    {
+        UE_LOG(LogTemp, Display, TEXT("CrowdMotionAuditV1 complete samples=%d rootErrorsOverPointOneCm=%d headingChangesOverPointOneDegree=%d maxRootErrorCm=%.6f logged=%d scope=social-simulated-updates-root-model-not-pixel-velocity"),
+            MotionAuditSamples, MotionAuditRootErrors, MotionAuditHeadingChanges, MotionAuditMaxRootError, MotionAuditLogged);
+    }
 }
 
 

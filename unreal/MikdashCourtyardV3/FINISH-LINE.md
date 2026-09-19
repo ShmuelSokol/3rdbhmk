@@ -884,3 +884,15 @@ Frame89 reviewed:near proxies still coarse. Need bounded live old/new anchor sam
 before changing the versioned CPU/material custom-data contract; keep normal AA.
 Evidence: SourceAssets/perf-review/crowd-vat/MotionHistoryV1. Source-map integration
 still awaiting20GiB free commit; latest observation belowthreshold, no map changes.
+
+## Bounded live crowd transition audit prepared — 19 September 2026
+Opt-in -MikdashCrowdMotionAudit records4096 social VAT simulation updates after
+2s warmup, with at most64 detailed changed rows and one summary. It snapshots each
+agent before/after the normal StepSocialAgentVat call, reconstructs the root at
+Now-DeltaSeconds with old/current anchor state, and counts heading changes. No
+movement, placement, collision, material or instance-data mutation is introduced.
+Ordinary runs skip all copies/calculations/logs. Scope excludes distance-frozen/
+culled transitions and VAT vertex deformation; root error is a shader-model estimate,
+NOT measured velocity-buffer pixels or visible-smear attribution. Lower dt clamp
+assumes the authored NegativeDtSeconds0.25 contract. Capture AuditMotionTransitions
+requires exactly one4096-update completion marker. Compile and native evidence pending.

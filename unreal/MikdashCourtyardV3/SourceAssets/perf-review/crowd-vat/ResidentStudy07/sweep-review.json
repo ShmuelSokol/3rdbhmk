@@ -1,0 +1,315 @@
+{
+  "status": "rejected-for-adoption-after-expanded-review",
+  "scope": "12 frozen walk phases at stride6/60Hz, four views, two variants, source/8000/2400. Plus four-phase right-view Study03 baseline. Not a continuous clearance or real-time test.",
+  "findings": {
+    "Man_Elder": "Study07 frontal2400 still exposes orange skin, clear atframe60 (small patch also54). Right view reveals severely thinned/open-looking2400 legs and skin through robe at8000 across sampled phases. Rear and side show jagged/layered garment intersections. Frontal improvements do not establish clearance.",
+    "Woman_Young": "Study07 retains trim better, but2400 right-view legs are severely thinned/open-looking, and skirt shading and layered intersections remain.8000 closer to source but skirt and layer changes still visible. Rear source already has a dark neckline/head-covering edge; do not label that whole feature a new candidate defect.",
+    "baselineComparison": "Study03 right views already show robe skin exposure, folds/shading and jagged hems. Its2400 legs keep much more silhouette than Study07. Thus07 color preservation trades away geometry quality, particularly legs. Neither is adopted.",
+    "nextAction": "Measure triangle distribution and protect limb volume plus layered garment clearance. Investigate per-part/material budgets or source topology reduction rather than escalating global color weighting."
+  },
+  "runs": [
+    {
+      "study": "03",
+      "variant": "Man_Elder",
+      "view": "Right",
+      "frames": [
+        0,
+        18,
+        36,
+        54
+      ],
+      "wrapper": "SourceAssets/perf-review/crowd-vat/ResidentStudy03/Cast/Man_Elder/resident-crowd-render-run-20260919T102922Z.json",
+      "wrapperSha256": "683e0bba034dc95c74be36824e13535cc47f3023ec017d20f0cd5b3ca74d4812",
+      "output": "SourceAssets/perf-review/crowd-vat/ResidentStudy03/Cast/Man_Elder/render-20260919T102936588212Z.json",
+      "outputSha256": "38a530856f75602211996304531d6957633649a8eef16c212b381a2bdf9543cd",
+      "exitCode": 0
+    },
+    {
+      "study": "03",
+      "variant": "Woman_Young",
+      "view": "Right",
+      "frames": [
+        0,
+        18,
+        36,
+        54
+      ],
+      "wrapper": "SourceAssets/perf-review/crowd-vat/ResidentStudy03/Cast/Woman_Young/resident-crowd-render-run-20260919T102944Z.json",
+      "wrapperSha256": "a5d5fa5f0f52e2af082bd5a71881d39df7c51c178e8e4326b590ee1f89df4f80",
+      "output": "SourceAssets/perf-review/crowd-vat/ResidentStudy03/Cast/Woman_Young/render-20260919T102958140736Z.json",
+      "outputSha256": "ead14570e6267b6607463793095cee4a603a2f8e43a599516802b3af1fa515b0",
+      "exitCode": 0
+    },
+    {
+      "study": "07",
+      "variant": "Man_Elder",
+      "view": "Front",
+      "frames": [
+        0,
+        6,
+        12,
+        18,
+        24,
+        30,
+        36,
+        42,
+        48,
+        54,
+        60,
+        66
+      ],
+      "wrapper": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/resident-crowd-render-run-20260919T102530Z.json",
+      "wrapperSha256": "b28c0d2dbf2c6c57017eb237d431d37f744c83faa886ff87efb5653e690058f8",
+      "output": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/render-20260919T102554529445Z.json",
+      "outputSha256": "f10efaf8076eeb35f8a0fe4c24972261fafc81f7b772d57169cd0942bcb93a5d",
+      "exitCode": 0
+    },
+    {
+      "study": "07",
+      "variant": "Man_Elder",
+      "view": "Right",
+      "frames": [
+        0,
+        6,
+        12,
+        18,
+        24,
+        30,
+        36,
+        42,
+        48,
+        54,
+        60,
+        66
+      ],
+      "wrapper": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/resident-crowd-render-run-20260919T102607Z.json",
+      "wrapperSha256": "76b8fe4f4cd42dd4692067f2688b7045aef55b299e7644b22053a9834b1c6e5a",
+      "output": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/render-20260919T102620800335Z.json",
+      "outputSha256": "c12059a66631db33437970add0b0cb9df99cdab7e145d611371f631be14931c2",
+      "exitCode": 0
+    },
+    {
+      "study": "07",
+      "variant": "Man_Elder",
+      "view": "Rear",
+      "frames": [
+        0,
+        6,
+        12,
+        18,
+        24,
+        30,
+        36,
+        42,
+        48,
+        54,
+        60,
+        66
+      ],
+      "wrapper": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/resident-crowd-render-run-20260919T102631Z.json",
+      "wrapperSha256": "d1bac42e7a648b3507c91494927aa7a46cd84862131907e9116cca378ffb2454",
+      "output": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/render-20260919T102644594438Z.json",
+      "outputSha256": "db74af660254dc1cd4c16af49dd0b008c5933a256e3e8e24b24fefe05a86b3c3",
+      "exitCode": 0
+    },
+    {
+      "study": "07",
+      "variant": "Man_Elder",
+      "view": "Left",
+      "frames": [
+        0,
+        6,
+        12,
+        18,
+        24,
+        30,
+        36,
+        42,
+        48,
+        54,
+        60,
+        66
+      ],
+      "wrapper": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/resident-crowd-render-run-20260919T102655Z.json",
+      "wrapperSha256": "fbefa219f4f8f8be8108ccbe32322a56737a5523f61986b8df3a37e228cd5e7a",
+      "output": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/render-20260919T102708723079Z.json",
+      "outputSha256": "ee945cfe9cd578bb4d549b1c142777a746c5ee922cb00f172c26d76a6189a0a3",
+      "exitCode": 0
+    },
+    {
+      "study": "07",
+      "variant": "Woman_Young",
+      "view": "Front",
+      "frames": [
+        0,
+        6,
+        12,
+        18,
+        24,
+        30,
+        36,
+        42,
+        48,
+        54,
+        60,
+        66
+      ],
+      "wrapper": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/resident-crowd-render-run-20260919T102719Z.json",
+      "wrapperSha256": "bc5fe1fddcf1065dc45b537d8aafd01ee4f454c7ca48e96ae99002bde066d2ae",
+      "output": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/render-20260919T102732805344Z.json",
+      "outputSha256": "2563efac9988276296505ff9e94d749369e9db67eacaa7026afeadf7bfd553bd",
+      "exitCode": 0
+    },
+    {
+      "study": "07",
+      "variant": "Woman_Young",
+      "view": "Right",
+      "frames": [
+        0,
+        6,
+        12,
+        18,
+        24,
+        30,
+        36,
+        42,
+        48,
+        54,
+        60,
+        66
+      ],
+      "wrapper": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/resident-crowd-render-run-20260919T102743Z.json",
+      "wrapperSha256": "cfd400efaf5c3e3fd659a3bd03cbb1a9ed589184342312af45fd44db778888f6",
+      "output": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/render-20260919T102757000453Z.json",
+      "outputSha256": "50d01bc2984cbf67abadeffef7a3932a960af92f33ea23dac30d75e4d7ab75c1",
+      "exitCode": 0
+    },
+    {
+      "study": "07",
+      "variant": "Woman_Young",
+      "view": "Rear",
+      "frames": [
+        0,
+        6,
+        12,
+        18,
+        24,
+        30,
+        36,
+        42,
+        48,
+        54,
+        60,
+        66
+      ],
+      "wrapper": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/resident-crowd-render-run-20260919T102807Z.json",
+      "wrapperSha256": "0405c056b35bce213b8a1487eb8484b9d92770c9e70d20c1ae537ec4b7c08a54",
+      "output": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/render-20260919T102820884081Z.json",
+      "outputSha256": "38661197296dff7e7e9c3e0c40eb2ad65baf874f2000fb1443a487d5e611b4a0",
+      "exitCode": 0
+    },
+    {
+      "study": "07",
+      "variant": "Woman_Young",
+      "view": "Left",
+      "frames": [
+        0,
+        6,
+        12,
+        18,
+        24,
+        30,
+        36,
+        42,
+        48,
+        54,
+        60,
+        66
+      ],
+      "wrapper": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/resident-crowd-render-run-20260919T102831Z.json",
+      "wrapperSha256": "321b92f065c6a9e6116cfc3d62e4295d012be4dc621af4e4f81b5fd7013a6dbe",
+      "output": "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/render-20260919T102845061559Z.json",
+      "outputSha256": "90c91c5a3d6231410da82e177c89c93a198e264aff1dc938efb79705f3266ed7",
+      "exitCode": 0
+    }
+  ],
+  "sourcePixelComparison": [
+    {
+      "variant": "Man_Elder",
+      "frame": 0,
+      "rgbExact": true,
+      "meanAbsoluteRGB": 0.0
+    },
+    {
+      "variant": "Man_Elder",
+      "frame": 18,
+      "rgbExact": true,
+      "meanAbsoluteRGB": 0.0
+    },
+    {
+      "variant": "Man_Elder",
+      "frame": 36,
+      "rgbExact": false,
+      "meanAbsoluteRGB": 0.4158517795138889
+    },
+    {
+      "variant": "Man_Elder",
+      "frame": 54,
+      "rgbExact": true,
+      "meanAbsoluteRGB": 0.0
+    },
+    {
+      "variant": "Woman_Young",
+      "frame": 0,
+      "rgbExact": true,
+      "meanAbsoluteRGB": 0.0
+    },
+    {
+      "variant": "Woman_Young",
+      "frame": 18,
+      "rgbExact": true,
+      "meanAbsoluteRGB": 0.0
+    },
+    {
+      "variant": "Woman_Young",
+      "frame": 36,
+      "rgbExact": false,
+      "meanAbsoluteRGB": 0.35313621238425924
+    },
+    {
+      "variant": "Woman_Young",
+      "frame": 54,
+      "rgbExact": true,
+      "meanAbsoluteRGB": 0.0
+    }
+  ],
+  "protectedFilesCheckedNow": 450,
+  "contacts": {
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/sweep-Rear-3.png": "e46a1d43b7900a26224ab569f886abb19effc935cd0ef0e5e142500bd350657b",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/sweep-Front-1.png": "1d5d515b90ae04258a3cff88439fbe1cfebe7aa32b38993371087952e0b88a67",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/sweep-Front-3.png": "263d3a32d15cbe1797fcd03fe48ec07e4f6b9641a1cbced260435d3d2f23bc91",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/sweep-Right-1.png": "fbbad9873eddb78ae97574d9d09901ea4145803a87a2aa7317a5747cc539dc01",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/sweep-Rear-1.png": "c0463a52d428d4dd93f254a2c552fed5e8754350cb9c39378d49c5f75e929e9a",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/sweep-Rear-3.png": "9a87eca42cee4b0f78fc51b915dc0615e45588ace2929c23a9853a82ebcdf387",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/sweep-Right-1.png": "3cbeee77d6b5ac4fa03aede4137a2f0e6dab27bf88b0e8c46005e7bb6357c7d2",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy03/Cast/Woman_Young/baseline-right-contact.png": "3557e974f3bdd3e28cb7628ff7ba3f143e324462218931c4e3071759b2062fef",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/sweep-Right-2.png": "0f1f30cba32c49abd9ba1e92bc0b2b46670cbc03df5308b9b5b09e2f4c8b5879",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/sweep-Rear-2.png": "9961a5afd153c6fee87159e9866ac0b60f35b8a54c7ea6bfb478368360534e2a",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/sweep-Front-2.png": "53a3c4d9e35a5b9273b30052017b190bcc9e986344c3d67ac8ef65dc389627b8",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/sweep-Left-1.png": "2373d8c45b4904a7359763e9296cfbfeb26a99fe79aa93103c950cf529b191ad",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/sweep-Rear-2.png": "cea0322a176443d230b0aacb76a25ede8eac83e17614661300fed66a165611c1",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/sweep-Front-3.png": "997360055410b93e7da6af0d521bc6eaa0375ba997de5cb1f0b237bf2dfedbbd",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/sweep-Left-3.png": "0f8f673b6902386fd068565054260c1be8e6522a7a47f5f5533be3d5b96ca250",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/sweep-Left-3.png": "b940476787a15bb1ac9a57ff249f758fb1427d1c674e85b648adc13c2654f3fc",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/sweep-Right-3.png": "ff2235a92e20d67c45623448401a53ceda1963d59a9f301a42949b3b493c3284",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/sweep-Left-1.png": "4b2fb0fa24757e2ef3c5439eeb7a0535c9d13668eee430e4dd0ab97d5dc4b923",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy03/Cast/Man_Elder/baseline-right-contact.png": "2a410a6537723c44ac4624aa48686603aee940b4128d220b8e2515f9846ddad0",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/sweep-Front-2.png": "e7da26bd637b1024c5bf2c27b2efc880e49254347e7c507d8f4e8ab86c0da2ca",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/sweep-Front-1.png": "94c0b3766c42adb2df410204c436edef06e4d7f274a8e5a2e967bca5079f9c8c",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/sweep-Left-2.png": "0a3a88d295b313a5fb72216d4d4f03a76a8f1e078b850540e99d36fea9d6d2a6",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/sweep-Rear-1.png": "a6abb02b7c8b5330594f6cd2d2620adcf5880ebccc43155061a13a5f4b6751f6",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/sweep-Right-2.png": "99443a54b48337231b4a31bdb173b070f06b7cae39d1bc76951e377e785040f4",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Man_Elder/sweep-Right-3.png": "383dc7b137a06df3115667bc6def2aba15480f38115fba3b4cf58f49a1bf52a0",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy07/Cast/Woman_Young/sweep-Left-2.png": "8fbd2f9d84f96cbf2ca5cb6bcd2b86efdac4cef99ebf4b1329a0c10f40a4133a"
+  }
+}

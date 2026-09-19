@@ -1419,3 +1419,24 @@ and skirt-shading defects remain.07 is a promising candidate, NOT a close-view
 or runtime adoption. Next: broader phase/side/rear validation, investigate
 remaining skirt shading, improve detail allocation, then other cast and measured
 runtime integration. Per-study review.json records hashes and limited findings.
+
+## Resident crowd multi-view phase review — 19 September 2026
+Capture wrapper adds explicit Front/Right/Rear/Left and opt-in Sweep (12 frozen
+walk phases, stride6 at60Hz). Original default camera, light yaws and four phases
+are preserved. Key/fill lighting rotates with selected view for readable sides.
+Study07 Elder/Woman_Young eight guarded native captures underway. This expands
+visual sampling; it is not a continuous clearance or real-time performance test.
+
+Expanded Study07 review correction: eight native12-phase/four-view captures
+exited0 (288 PNGs); two Study03 right-view baselines exited0 (24 PNGs). Root
+inspected24 sweep contacts plus2 baseline contacts.07 is rejected for adoption:
+Elder2400 frontframe60 exposes orange skin (small54patch also visible on closer
+review); Right view reveals strongly thinned/open-looking2400legs in both cast
+variants and new Elder8000 robe skin exposure. Rear/side layered intersections
+and jagged hems persist. Earlier four-front-pose observations were insufficient
+and must not be promoted into a clearance claim.03 also has robe intersections
+but its2400leg silhouette is much less degraded than07. Color/trim improvement
+therefore trades away geometry quality. Next: measure geometry allocation and
+protect limb volume/layered garment clearance via per-part budgets or source
+topology reduction; do not keep escalating global color weighting. No adoption.
+Evidence: ResidentStudy07/sweep-review.json; defaults still four front phases.

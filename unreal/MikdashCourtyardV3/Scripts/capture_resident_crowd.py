@@ -1,4 +1,4 @@
-"""Resident crowd candidates versus saved skeletal source at four phases; no saves."""
+"""Resident crowd candidates versus saved skeletal source at selectable frozen walk phases; no saves."""
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -19,12 +19,18 @@ if VARIANT!='Man_Standard':OUT=OUT/'Cast'/VARIANT
 distance_match=re.search(r'-ResidentCrowdDistanceCm=(\d+(?:\.\d+)?)\b',ue.SystemLibrary.get_command_line())
 DISTANCE=float(distance_match.group(1)) if distance_match else math.hypot(80,240)
 assert math.isfinite(DISTANCE) and 100<=DISTANCE<=10000
+view_match=re.search(r'-ResidentCrowdView=(\w+)',ue.SystemLibrary.get_command_line())
+VIEW=view_match.group(1) if view_match else 'Front'
+assert VIEW in ('Front','Right','Rear','Left')
+SWEEP=bool(re.search(r'-ResidentCrowdSweep\b',ue.SystemLibrary.get_command_line()))
+FRAMES=tuple(range(0,72,6)) if SWEEP else (0,18,36,54)
+
 
 
 def run():
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     output = OUT / ('render-' + stamp + '.json')
-    report = dict(status='running', scope='Four frozen instanced VAT walk phases against the saved skeletal source. Not real-time movie or in-scene acceptance.', captures=[])
+    report = dict(status='running', scope='Frozen instanced VAT walk phases against the saved skeletal source. Not continuous clearance, real-time movie or in-scene acceptance.', view=VIEW, frames=list(FRAMES), captures=[])
     protected = list((ROOT/'Content').rglob('*.umap'))
     for name in ('CrowdVATV1', 'CrowdNearV1', 'CrowdResidentStudy'+STUDY):
         protected += list((ROOT/'Content/MikdashV3/Runtime'/name).rglob('*.uasset'))
@@ -48,13 +54,19 @@ def run():
         body = next(c for c in components if c.get_name()=='CrowdPose0')
         body.set_num_custom_data_floats(11)
         body.set_mobility(ue.ComponentMobility.MOVABLE)
-        for intensity, yaw in ((3., -115.), (1., -45.)):
+        scale=DISTANCE/math.hypot(80,240)
+        camera_position,camera_yaw={
+            'Front':([80*scale,240*scale,105],-108.435),
+            'Right':([DISTANCE,0,105],180.),
+            'Rear':([0,-DISTANCE,105],90.),
+            'Left':([-DISTANCE,0,105],0.)}[VIEW]
+        light_rotation=camera_yaw+108.435
+        report['lightYawOffset']=light_rotation
+        for intensity, yaw in ((3., -115.+light_rotation), (1., -45.+light_rotation)):
             light = spawn(ue.DirectionalLight, ue.Vector(0,0,1000), ue.Rotator(pitch=-25,yaw=yaw))
             light.light_component.set_mobility(ue.ComponentMobility.MOVABLE)
             light.light_component.set_editor_property('intensity', intensity)
-        scale=DISTANCE/math.hypot(80,240)
-        camera_position=[80*scale,240*scale,105]
-        camera = spawn(ue.SceneCapture2D, ue.Vector(*camera_position), ue.Rotator(yaw=-108.435))
+        camera = spawn(ue.SceneCapture2D, ue.Vector(*camera_position), ue.Rotator(yaw=camera_yaw))
         component = camera.get_component_by_class(ue.SceneCaptureComponent2D)
         for key,value in dict(capture_every_frame=False,capture_on_movement=False,fov_angle=45.,
                               capture_source=ue.SceneCaptureSource.SCS_FINAL_COLOR_LDR).items():
@@ -68,7 +80,7 @@ def run():
                               override_bloom_intensity=True,bloom_intensity=0.).items():
             settings.set_editor_property(key,value)
         component.set_editor_property('post_process_settings',settings)
-        report['camera'] = dict(position=camera_position,distanceCm=DISTANCE,pitchYawRoll=[0,-108.435,0],fov=45,resolution=[960,960])
+        report['camera'] = dict(position=camera_position,distanceCm=DISTANCE,pitchYawRoll=[0,camera_yaw,0],fov=45,resolution=[960,960])
         builds=[json.loads(p.read_text()) for p in OUT.glob('native-*.json')]
         built=next(r for r in builds if r.get('status')=='built-needs-fresh-readback-and-render')
         skel=ue.load_asset(built['sourceMesh'])
@@ -79,7 +91,7 @@ def run():
         meshes=[('source',built['sourceMesh'])]+[(str(row['target']),row['mesh']) for row in built['variants']]
         custom=[0.,.5,0.,0.,0.,0.,0.,0.,-1000.,.5/13.7,0.]
         instance_created=False
-        for frame,label,path in [(frame,label,path) for frame in (0,18,36,54) for label,path in meshes]:
+        for frame,label,path in [(frame,label,path) for frame in FRAMES for label,path in meshes]:
             label='frame%02d-'%frame+label
             is_source=path==built['sourceMesh']
             body.set_visibility(not is_source)

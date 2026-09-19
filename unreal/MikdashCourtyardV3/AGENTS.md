@@ -3476,3 +3476,12 @@ not fixed. Close view reveals crude proxies; motion visible, footcontact unprove
 UE Time node supplies PrevFrameGameTime automatically; absence of PreviousFrameSwitch
 alone is not a bug. HISM bTeleport changes physics, not a justified render fix.
 Investigate per-instance anchor history and near detail. See crowd-temporal01-review.
+
+Crowd proxy-lifetime candidate: PushVat and nonVAT transform batches now pass
+bMarkRenderStateDirty=false. UE5.8 TransformChanged/CustomDataChanged mark instance
+data dirty; inherited SendRenderInstanceData_Concurrent flushes changes and updates
+bounds without explicitly destroying the scene proxy. Initial synchronous HISM tree
+seed and initial MarkRenderStateDirty remain. This is a source candidate, NOT a
+native smearing fix claim: compile, visible moving instances, count/tree integrity,
+performance and culling after movement must pass before acceptance. bTeleport remains
+unchanged (physics flag); no asset/material/placement changes.

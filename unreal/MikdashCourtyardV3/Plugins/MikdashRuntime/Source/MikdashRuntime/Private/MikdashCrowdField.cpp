@@ -528,8 +528,11 @@ void AMikdashCrowdField::PushVat(int32 GlobalStart, int32 GlobalCount)
         }
         // Transform and custom data land in the same frame: the re-anchored figure is drawn exactly
         // where the old anchor's extrapolation put it, so the re-anchor is invisible.
+        // UE 5.8 tracks transform/custom-data changes and flushes them through
+        // SendRenderInstanceData_Concurrent. Keep the scene proxy alive between
+        // updates instead of requesting its destruction on every crowd tick.
         Component->BatchUpdateInstancesTransforms(First, TransformScratch, /*bWorldSpace*/ true,
-                                                 /*bMarkRenderStateDirty*/ true, /*bTeleport*/ true);
+                                                 /*bMarkRenderStateDirty*/ false, /*bTeleport*/ true);
     }
 }
 
@@ -617,7 +620,7 @@ void AMikdashCrowdField::PushTransforms(int32 GlobalStart, int32 GlobalCount)
                 TransformScratch.Add(TransformFor(Agents[Index]));
             }
             Component->BatchUpdateInstancesTransforms(Cursor - BlockStart, TransformScratch, /*bWorldSpace*/ true,
-                                                     /*bMarkRenderStateDirty*/ true, /*bTeleport*/ true);
+                                                     /*bMarkRenderStateDirty*/ false, /*bTeleport*/ true);
         }
         Cursor = RunEnd;
     }

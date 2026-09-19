@@ -1,0 +1,37 @@
+{
+  "status": "incremental-instance-update-native-proof-performance-target-open",
+  "sourceCommit": "2d5e0c24",
+  "childSha256": "69b200f479581165efba57a01d1cf9c0822514134a652c56c3a61978f77053f2",
+  "movie": {
+    "exitCode": 0,
+    "seeded": 10000,
+    "framesKept": 30,
+    "peakPrivateBytes": 7857565696,
+    "receiptSha256": "b532c14d16ecb797926860158f3f93ff49b012f22088957acfa254b2169b1baf",
+    "logSha256": "8267ebf991cda6ffc26c65aa565df83f149a8cc5dba7664331840c1cab6572f1",
+    "treeRows": [
+      "[2026.09.19-04.28.07:563][ 90]0) MikdashCrowdField /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.RefusedSeeds = 0",
+      "[2026.09.19-04.28.07:567][ 90]123) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose0.NumBuiltInstances = 1667",
+      "[2026.09.19-04.28.07:567][ 90]124) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose1.NumBuiltInstances = 1667",
+      "[2026.09.19-04.28.07:567][ 90]125) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose2.NumBuiltInstances = 1667",
+      "[2026.09.19-04.28.07:567][ 90]126) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose3.NumBuiltInstances = 1667",
+      "[2026.09.19-04.28.07:567][ 90]127) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose4.NumBuiltInstances = 1666",
+      "[2026.09.19-04.28.07:567][ 90]128) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose5.NumBuiltInstances = 1666"
+    ]
+  },
+  "performance": {
+    "exitCode": 0,
+    "seeded": 10000,
+    "receiptSha256": "6fe200853b1f55c7d5dcc865ccb823cb28b157cff4542fe65ed78917e9d09459",
+    "logSha256": "0f68015db794199a789c7e1b5de885000837b2a5e6c36c2065af4a7e76c84d0f",
+    "csvSha256": "622405872dd089d7a6d2b04922b706e805b597f6398fcb9ce8a521815e121997",
+    "pngSha256": "4e9b7e2082e2b14283eb92e05a987665cb128f3ff7000594c140e58f6f12fa91",
+    "frameMedianMs": 17.856,
+    "frameP95Ms": 21.208,
+    "frameP99Ms": 40.374,
+    "gpuMedianMs": 17.551,
+    "framesKept": 1640,
+    "comparison": "Prior renderperf01 median19.150; current17.856. Single serial runs, not repeated causal proof. Same1080pHigh77percent,45settle30record,no cloud override. Still misses16.7ms."
+  },
+  "visualReview": "Close frames60/89 preserve visible moving people and all6 built trees total10000. No clear smearing improvement. Court PNG retains people and open stairs lane; pale slab remains unidentified. Native update path works in these cameras; longer motion/culling,footcontact,appearance,state/routes and full goal remain."
+}

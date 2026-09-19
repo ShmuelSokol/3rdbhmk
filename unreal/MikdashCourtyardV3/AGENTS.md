@@ -3485,3 +3485,13 @@ seed and initial MarkRenderStateDirty remain. This is a source candidate, NOT a
 native smearing fix claim: compile, visible moving instances, count/tree integrity,
 performance and culling after movement must pass before acceptance. bTeleport remains
 unchanged (physics flag); no asset/material/placement changes.
+
+Incremental instance candidate2d5e0c24 passed active12/12 math33/33 Editor/Game,
+clone7/7. Archive incremental01-20260919T042349Z child69b200f479581165efba57a01d1cf9c0822514134a652c56c3a61978f77053f2.
+Six immutable cooked hashes verified. Close640x360 fixed2+1s:10000/0refused,
+exit0,30retained,all6 latebuilt total10000. Rootframes60/89 showmovement, no clear
+smearing improvement. 1080pHigh77percent court45/30 exit0 full10000:
+1640frames median17.856 p9521.208 p9940.374 GPU17.551ms; old19.150median.
+Single-run improvement, not repeated causal proof; still misses16.7ms and tails.
+RootcourtPNG reviewed, centerstairs open, pale slab unresolved. No visualfinish
+claim. See incremental01 package/review, incrementalperf01 timing and receipts.

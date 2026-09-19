@@ -3962,3 +3962,20 @@ graph study, linking six reviewed faces and six reviewed post-save bodies. Nativ
 material repair accepted; close character art and packaged/in-scene review remain
 open. Two masters+14instances changed with verified checkpoints; all protected
 meshes/maps/crowd assets unchanged. linear-repair-review01.json pins evidence.
+
+## Resident youth shoulder candidate — 19 September 2026
+ResidentShoulderStudy05 closes detached youth sleeves by tucking proximal rings
+10.75/10.5cm inward and smoothing displacement/torso-weight influence over18cm.
+Source-only candidate; no live meshes/maps/materials replaced. Native transient
+front/side/back reference capture085451259597 exited0, protected files unchanged.
+Root inspected all after views: gaps closed; Study04 abrupt angular root rejected.
+Independent binary audit permits only sleeve position/normal/joint/weight bytes
+(5129 changed); all original morph data, topology, UVs, colours and non-sleeve bytes
+preserved. Build from finalize(assembly(...)), not raw assembly. Rest attributes,
+indices and inverse binds match source; regenerated morph normals differ, so retain
+original binary outside allowed ranges rather than silently re-exporting the mesh.
+Motion root check:384poses (walk288at240Hz,idle96at30Hz,endpoints excluded).
+Worst nearest outward upper-tunic signed root distance drops9.2626cm to-0.6273cm.
+This verifies sampled proximal attachment only, not whole-sleeve collision or
+continuous/native animation. Candidate SHA60f43e3995850bcb9bf84595ce231408d513b1210f55b057d45857274180d4e6.
+Native animated review and other five variants remain required before adoption.

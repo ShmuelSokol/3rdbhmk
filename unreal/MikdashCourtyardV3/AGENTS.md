@@ -3924,3 +3924,19 @@ was intended as a distant proxy; further close-art work should reuse the newer
 resident source where valid. NearV2/review01.json records the narrowed candidate
 result, normal-exit readback/render, abnormal builder shutdown and lower-leg
 blocker. Frozen HISM pose capture is reusable for the newer source.
+
+## ResidentV4 close review — 19 September 2026
+Read-only native review captured six existing ResidentV4 meshes, body and face.
+First attempt083008 had ShaderCompileWorker access violation -1073741819, exit1;
+this is NOT a confirmed skin shader source error. Unchanged rerun083434 exited0.
+All12 baseline images reviewed: orange skin, crushed black beards, layered elder
+beard, collar slits and shoulder gaps (especially youth) block close-art acceptance.
+Some feet are cropped by the fixed body camera; do not claim complete silhouettes.
+Transient VCDecodeExponent=1 study083602 exited0 but faces remain visually very similar;
+2/12 image hashes are identical. No color-space diagnosis follows until effective
+material values/updates and pixel differences are measured.
+Follow-up083706 confirms all six native source material slots expose this parameter.
+Protected maps/crowd/ResidentV4 assets unchanged in every run. No source edits,
+new assets, bindings or adoption. NearResidentV4/review01.json pins the evidence.
+Older September15 clearance receipts were inspected, not rerun here. Next: audit
+native parameter values/update and source shoulder joins before near-crowd baking.

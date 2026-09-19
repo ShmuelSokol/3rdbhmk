@@ -1,0 +1,56 @@
+{
+  "status": "reviewed-not-accepted-for-close-crowd",
+  "baseline": "render-20260919T083446960668Z.json",
+  "baselineExitCode": 0,
+  "reviewedImages": [
+    "render-20260919T083446960668Z-Man_Standard-body.png",
+    "render-20260919T083446960668Z-Man_Standard-face.png",
+    "render-20260919T083446960668Z-Man_Heavy-body.png",
+    "render-20260919T083446960668Z-Man_Heavy-face.png",
+    "render-20260919T083446960668Z-Man_Elder-body.png",
+    "render-20260919T083446960668Z-Man_Elder-face.png",
+    "render-20260919T083446960668Z-Woman_Young-body.png",
+    "render-20260919T083446960668Z-Woman_Young-face.png",
+    "render-20260919T083446960668Z-Woman_Elder-body.png",
+    "render-20260919T083446960668Z-Woman_Elder-face.png",
+    "render-20260919T083446960668Z-Youth-body.png",
+    "render-20260919T083446960668Z-Youth-face.png"
+  ],
+  "findings": [
+    "Strong orange skin under fixed neutral directional review lighting.",
+    "Black beard loses surface detail; elder beard has conspicuous layered shape.",
+    "Shoulder gaps especially youth; collar slits and garment-edge irregularities visible.",
+    "Fixed full-body framing clips some feet; not a complete silhouette acceptance."
+  ],
+  "limitations": [
+    "Reference pose only, no walking or real-time quality/performance acceptance.",
+    "Existing September 15 source clearance receipts were not rerun in this increment.",
+    "No live materials, meshes, maps or crowd bindings changed."
+  ],
+  "linearStudy": {
+    "receipt": "render-20260919T083615231844Z.json",
+    "exitCode": 0,
+    "sameImageHashes": [
+      "Man_Standard-body",
+      "Man_Standard-face"
+    ],
+    "conclusion": "Faces remain visually very similar; 2/12 exact image hashes match. Measure native effective values and pixel differences before a color-space conclusion."
+  },
+  "firstAttempt": "ShaderCompileWorker access violation -1073741819; engine exit1. Not a proven material HLSL defect. Clean unchanged rerun exit0.",
+  "evidence": {
+    "render-20260919T083021729010Z.json": "ca890f9b90010b3731bc13859b198a17b82fb1a0deda547dbc31673a8104c3d9",
+    "render-20260919T083446960668Z.json": "8baa72abbfcb1f269baee71a8596bb8dd001c94978bab38eaeecf354b922ab12",
+    "render-20260919T083615231844Z.json": "55f964b8b07a7305a066703c282abe32526cefdc5285a53231998f80ae93346b",
+    "render-20260919T083719857683Z.json": "d65154d94e26017aefc819007cc3a3deae0bfb64b34da05d3030de80102121ce",
+    "resident-render-run-20260919T083008Z.json": "a42900fbd1d4dd1cd414562bfcc1b2bccef3288acf002f4f10648048bfdc46a7",
+    "resident-render-run-20260919T083434Z.json": "2829ecea02dc48afb954c211afc478d339ebb604bfe0130816d189c0f7fbb1d4",
+    "resident-render-run-20260919T083602Z.json": "d7734e7a388a962edea7954064d34c2345c5d7d76b0b4ccb2886bb27e91105fb",
+    "resident-render-run-20260919T083706Z.json": "515535878b586ca642396fd5b6411d57d98a208f9c47f7475813761b0ae1e2fa"
+  },
+  "localLogs": {
+    "resident-render-run-20260919T083008Z.log": "55fe7f2ba4c67fcf8fc7cbc375bcc98d30982f6d453afb9b1f98df8de0fcadf7",
+    "resident-render-run-20260919T083434Z.log": "1ac87ef8ab060dcc0f444369932d5cfdc24da6db73f36add238aac2f69966851",
+    "resident-render-run-20260919T083602Z.log": "ea98f677e6097d3a615c7856cee68c29f77ca60ffbacca9b6930d6b14a8a8393",
+    "resident-render-run-20260919T083706Z.log": "cae4f7bb1ca1a913ab45ced8188c3fb1d7811c1c7547bdd4d06082fa4c3929b1"
+  }
+}

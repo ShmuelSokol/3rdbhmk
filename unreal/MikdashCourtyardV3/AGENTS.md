@@ -3185,3 +3185,21 @@ VRAM at1080p,16.7ms courts/sanctuary and22ms city-facing plaza. Current crowd
 capacity captures use1280x720 at77percent internal scale and game-thread CSV mode.
 They cannot establish that1080p release budget. Final benchmark matrix must also
 use the intended release resolution and representative courts/city views.
+
+## Bounded search diagnostic native result — 18 September 2026
+
+Source52a0c9da passes active11/11,math33/33,Editor/Game,clonequick6/6. Search01
+package retains all six cooked hashes through immutable NTFS hardlinks; its child
+is a separate verified copy. Native10000 request with1024attempts seeds9817,
+refuses183; six engine budget readbacks match, childexit0, wrapper correctlyfails.
+East/deck complete; west41/plaza32/street59/approach51remain refused. Root viewed
+finalPNG. The45/60 sample retains3487frames,59.99s,median16.928ms,p9521.331ms at
+720p/77percent for9817actual people. No1080p or causal timing claim. Default48
+remains unchanged. See crowd-search1024-10000-review.json;5000same-budget test next.
+Read-only street source/renderLOD0 audit scripts are prepared to compare the two
+reviewed identity-transform assets with32hash-pinned packaged contacts. Their
+syntax and input parse pass; native extraction is still pending. No asset saves.
+
+Audit-runner review correction: guard owned-child Refresh/Stop-Process in a nested
+try/catch inside finally, and save the receipt afterward even when cleanup throws.
+Do not let a cleanup exception erase the original diagnostic/failure record.

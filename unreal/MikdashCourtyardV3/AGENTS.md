@@ -3546,3 +3546,23 @@ Final receipt: SourceAssets/water-review/CourtOutletV2/native-20260919T050825803
 Next: guarded Candidate48 map integration with verified backup, exact actor/material/
 transform/profile preservation, fresh map readback, fresh cook, same-camera image
 and actual character walking tests. No public walkthrough or scene-fix acceptance yet.
+
+## Court outlet map integration prepared — 19 September 2026
+integrate_court_outlet_v2.py prepares an exact two-binding Candidate48 update.
+It pins the accepted map and verified V2 assets, backs up the map, preserves actor
+and static-mesh component transforms/material overrides/visibility/collision/tags,
+and requires a matching fresh-process snapshot before acceptance. Existing maps
+and V1 meshes are protected. Water retains NoCollision; masonry retains BlockAll.
+The source-map wrapper enforces 20/16/4 GiB commit/private/reserve limits.
+Its first apply attempt refused BEFORE launching because free commit was below
+20 GiB (approximately 19 GiB observed). No map was loaded or saved. Native testing
+of this new integration script remains pending; do not claim map adoption from
+source review. Continuing packaged performance work within its 9/8/1.25 GiB guard.
+
+Current binary1332e820 court2500 capture currentmatrix01 exited0 with all2500,
+zero refused seeds, six rendered seed groups, and no guard errors.1080pHigh77%,
+45s settle/30s record:1604frames median17.925ms,p95 27.651,p99 39.312,GPU17.462.
+Still misses16.7ms court target. Root inspected late PNG:people visible, center
+stairs clear; old slab remains because map adoption is pending. Single-run evidence,
+not motion/footcontact acceptance. Current-binary0/5000/10000 still owed. See
+SourceAssets/perf-review/crowd-vat/currentmatrix01-court2500-review.json.

@@ -1,0 +1,26 @@
+{
+  "status": "single-run-performance-evidence-not-finish-acceptance",
+  "archive": "C:/Mikdash/Builds/Checkpoint-scenepixel01-20260919T044056Z",
+  "binarySource": "1332e820",
+  "childSha256": "dcf4935fe504b31c5774b3f1d001938cfd45d9ed8f67d146b64287c2a7ce2df4",
+  "count": 2500,
+  "camera": "4974 0 468 0 180 0",
+  "settings": "1080p High, 77 percent internal, no cloud cap",
+  "settleSeconds": 45,
+  "recordSeconds": 30,
+  "frames": 1604,
+  "frameMedianMs": 17.925,
+  "frameP95Ms": 27.651,
+  "frameP99Ms": 39.312,
+  "gpuMedianMs": 17.462,
+  "courtTargetMs": 16.7,
+  "targetMet": false,
+  "receipt": "frametime-currentmatrix01-outercourt-crowd2500/frametime-receipt.json",
+  "timing": "currentmatrix01-court2500-timing.json",
+  "visualReview": "Root inspected late crowd.png: people visible beside court, center stairs clear; pale V1 channel remains because map integration has not occurred. Still image does not verify movement or feet.",
+  "limitations": [
+    "Single run, not a causal comparison",
+    "Current-binary 0/5000/10000 captures still required",
+    "Map integration safely refused below 20 GiB commit"
+  ]
+}

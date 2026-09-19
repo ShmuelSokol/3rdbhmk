@@ -3373,3 +3373,13 @@ Kotel PNG visibly sparser, paving intact.30/30 diagnostic2039frames median14.648
 p9516.818ms at720p77percent. Keep1600 fact distinct from proven10000 capacity.
 See crowd-default-map01-review/timing and capture receipt/PNG. Release default
 still needs selection against1080p performance and actual behavior acceptance.
+
+1080p outercourt performance pair (bd075bd3/default01) misses16.7ms target.
+High77percent internal, camera4974 0 468 0 180 0,45settle30record, normalexits.
+10000/0refused:1516frames median19.315 p9522.847 GPUmedian19.013ms.
+No crowd:1768frames median17.055 p9518.805 GPUmedian16.803ms. Paired median
+delta2.260ms is a single-run comparison, not repeated causal proof. Base scene
+already exceeds target; optimize scene GPU work as well as crowd.2500/5000,city
+and other views remain. BothPNGs reviewed; pale leaning slab left of stairs
+persists without crowd, actor/intent not identified, add to geometry investigation.
+See crowd-1080court01 review/comparison and both capture receipts/PNGs.

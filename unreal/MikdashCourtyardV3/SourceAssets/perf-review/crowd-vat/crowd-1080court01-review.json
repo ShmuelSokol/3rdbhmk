@@ -1,0 +1,57 @@
+{
+  "status": "court-performance-target-missed",
+  "sourceCommit": "bd075bd3",
+  "archive": "C:\\Mikdash\\Builds\\Checkpoint-crowd-default01-20260919T023531Z",
+  "camera": "4974 0 468 0 180 0",
+  "outputResolution": "1920x1080",
+  "internalScreenPercentage": 77,
+  "scalability": "High",
+  "targetFrameMs": 16.7,
+  "settleSeconds": 45,
+  "recordSeconds": 30,
+  "runs": [
+    {
+      "requested": 0,
+      "seeded": 0,
+      "exitCode": 0,
+      "childSha256": "0086af4dca0d888bc8abeddd1191859e91a547fbbd45ce386c0dee6a5e388c26",
+      "receiptSha256": "8d9da114c3127607dee70a88d8f4b8da9707580fd43fd7b4258fdc8b55444f3f",
+      "rawLogSha256": "e6ce64a17cc324571cf141baf38b9c03e18b95307cb89da128f177aa193f9721",
+      "csvSha256": "a12090238673d83c5653afed2ddd2136281329f367b5cd82387d9c4566ae4e49",
+      "photoSha256": "623a1900a9b954769c01fbad588bd96a99d043e3e9f5d28327e9bf25a55d8107",
+      "nativeCountRows": [
+        "[2026.09.19-02.56.56:791][879]0) MikdashCrowdField /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.SeededAgents = 0",
+        "[2026.09.19-02.56.56:795][879]0) MikdashCrowdField /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.RefusedSeeds = 0"
+      ]
+    },
+    {
+      "requested": 10000,
+      "seeded": 10000,
+      "exitCode": 0,
+      "childSha256": "0086af4dca0d888bc8abeddd1191859e91a547fbbd45ce386c0dee6a5e388c26",
+      "receiptSha256": "64276d3bcc655375d02fa7675c00672d55e7314506b1f72d9f5b1dded048827f",
+      "rawLogSha256": "34f3954c0cd5a0aa2333c6ded2508f903a1efea3461711af232bc9fd28db8d07",
+      "csvSha256": "4f2ef5b271dc0e82fae8978f554f1b9b86427695a0aa69544e946e1a2b3c77cf",
+      "photoSha256": "b2ae4404a3009e9fb538ab158c9167c32449a0a9dace3022989ca487458e4680",
+      "nativeCountRows": [
+        "[2026.09.19-02.50.43:082][  0]LogTemp: Display: CrowdFinalZoneV1 zone=0 name=\"OuterCourtEast\" preferredRequested=2782 initialSeeded=2782 actualSeeded=2921 relocatedIn=139",
+        "[2026.09.19-02.50.43:082][  0]LogTemp: Display: CrowdFinalZoneV1 zone=1 name=\"OuterCourtWestTerrace\" preferredRequested=2059 initialSeeded=2018 actualSeeded=2018 relocatedIn=0",
+        "[2026.09.19-02.50.43:082][  0]LogTemp: Display: CrowdFinalZoneV1 zone=2 name=\"MountPlatformDeck\" preferredRequested=4388 initialSeeded=4388 actualSeeded=4402 relocatedIn=14",
+        "[2026.09.19-02.50.43:082][  0]LogTemp: Display: CrowdFinalZoneV1 zone=3 name=\"KotelPlazaStrip\" preferredRequested=271 initialSeeded=239 actualSeeded=239 relocatedIn=0",
+        "[2026.09.19-02.50.43:082][  0]LogTemp: Display: CrowdFinalZoneV1 zone=4 name=\"StreetBateiMahase\" preferredRequested=208 initialSeeded=179 actualSeeded=179 relocatedIn=0",
+        "[2026.09.19-02.50.43:082][  0]LogTemp: Display: CrowdFinalZoneV1 zone=5 name=\"KotelApproachCorridor\" preferredRequested=292 initialSeeded=241 actualSeeded=241 relocatedIn=0",
+        "[2026.09.19-02.50.43:082][  0]LogTemp: Display: CrowdOverflowAuditV1 initialRefused=153 recovered=153 remainingRefused=0 finalSeeded=10000",
+        "[2026.09.19-02.53.39:814][879]0) MikdashCrowdField /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.SeededAgents = 10000",
+        "[2026.09.19-02.53.39:818][879]0) MikdashCrowdField /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.RefusedSeeds = 0"
+      ]
+    }
+  ],
+  "interpretation": "Zero crowd median17.055ms and10000 median19.315ms both exceed16.7ms. Single paired run suggests scene GPU cost already exceeds target; not a repeated causal benchmark.",
+  "visualReview": "Root viewed both PNGs. Court stairs and center lane visible. Loose-looking pale slab left of stair persists without crowd: investigate actor and intended role; not confirmed orphan.",
+  "remaining": [
+    "2500 and5000 same-view comparison",
+    "city-facing and sanctuary performance",
+    "movement appearance state transitions",
+    "source-level GPU pass diagnosis and optimization"
+  ]
+}

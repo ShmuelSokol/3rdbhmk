@@ -1,0 +1,83 @@
+{
+  "status": "analytical-counterexamples-not-native-fix",
+  "updateTime": 0.1,
+  "previousFrameTime": 0.08333333333333334,
+  "frameSeconds": 0.016666666666666666,
+  "walkSpeedCmPerSecond": 100,
+  "cases": [
+    {
+      "case": "constant-motion-reanchor-control",
+      "localVertexCm": [
+        20.0,
+        0.0
+      ],
+      "previousWorldCm": [
+        28.333333333333336,
+        0.0
+      ],
+      "currentStateReconstructionCm": [
+        28.333333333333336,
+        0.0
+      ],
+      "reconstructionErrorCm": 0.0,
+      "fullPreviousStateModelErrorCm": 0.0
+    },
+    {
+      "case": "right-angle-turn-root",
+      "localVertexCm": [
+        0.0,
+        0.0
+      ],
+      "previousWorldCm": [
+        8.333333333333334,
+        0.0
+      ],
+      "currentStateReconstructionCm": [
+        10.0,
+        -1.6666666666666663
+      ],
+      "reconstructionErrorCm": 2.3570226039551576,
+      "fullPreviousStateModelErrorCm": 0.0
+    },
+    {
+      "case": "right-angle-turn-offset-vertex",
+      "localVertexCm": [
+        20.0,
+        0.0
+      ],
+      "previousWorldCm": [
+        28.333333333333336,
+        0.0
+      ],
+      "currentStateReconstructionCm": [
+        10.000000000000002,
+        18.333333333333332
+      ],
+      "reconstructionErrorCm": 25.927248643506744,
+      "fullPreviousStateModelErrorCm": 0.0
+    },
+    {
+      "case": "stop-root",
+      "localVertexCm": [
+        0.0,
+        0.0
+      ],
+      "previousWorldCm": [
+        8.333333333333334,
+        0.0
+      ],
+      "currentStateReconstructionCm": [
+        10.0,
+        0.0
+      ],
+      "reconstructionErrorCm": 1.666666666666666,
+      "fullPreviousStateModelErrorCm": 0.0
+    }
+  ],
+  "limitations": [
+    "Synthetic transitions, not measured live agent history",
+    "No VAT deformation, blend transitions, shader implementation or rendered comparison",
+    "Full history model is a requirement illustration, not an adopted fix",
+    "Actual turn sizes/frequency must be measured before attributing visible smearing"
+  ]
+}

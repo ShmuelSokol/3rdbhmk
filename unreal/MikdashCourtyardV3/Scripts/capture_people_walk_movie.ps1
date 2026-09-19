@@ -19,6 +19,7 @@ param(
     [switch]$UnfilteredMotionDiagnostic,
     [switch]$DisableMotionBlurDiagnostic,
     [switch]$DisableTemporalAADiagnostic,
+    [switch]$InspectMotionState,
     [ValidatePattern('\A(?:(?:0(?:\.[0-9]{1,6})?|1(?:\.0{1,6})?) (?:0(?:\.[0-9]{1,6})?|1(?:\.0{1,6})?))?\z')][string]$InspectPixel='',
     [ValidatePattern('\A(?:/Game/[A-Za-z0-9_/]+\.[A-Za-z0-9_]+:PersistentLevel\.[A-Za-z][A-Za-z0-9_]{0,80})?\z')][string]$InspectActorPath=''
 )
@@ -64,6 +65,11 @@ if($DisableMotionBlurDiagnostic -and -not $UnfilteredMotionDiagnostic){
     $launchArgs=$launchArgs.Replace('r.ScreenPercentage 77,','r.ScreenPercentage 77,r.MotionBlurQuality 0,')
 }
 $inspectionCommands=@("${inspectionFrame}:getall MikdashCrowdField SeededAgents","${inspectionFrame}:getall MikdashCrowdField RefusedSeeds")
+if($InspectMotionState){
+    foreach($command in @('LIST ISM','r.Velocity.EnableVertexDeformation','r.VelocityOutputPass','r.AntiAliasingMethod')){
+        $inspectionCommands+="${inspectionFrame}:$command"
+    }
+}
 if($InspectPixel){$inspectionCommands+="${inspectionFrame}:InspectScenePixel $InspectPixel"}
 if($InspectActorPath){
     foreach($property in @('StaticMesh','OverrideMaterials','RelativeLocation','RelativeRotation','RelativeScale3D')){
@@ -100,6 +106,7 @@ $report.disableMotionBlurDiagnostic=[bool]$DisableMotionBlurDiagnostic
 $report.disableTemporalAADiagnostic=[bool]$DisableTemporalAADiagnostic
 $report.inspectPixel=$InspectPixel
 $report.inspectActorPath=$InspectActorPath
+$report.inspectMotionState=[bool]$InspectMotionState
 if($ScheduledShots){$report.method='Fixed-step scheduled ordinary screenshots; NOT a performance measurement'}
 if($RealTimeDiagnostic){$report.method='Real-time visibility diagnostic; requested frame counts only, NO fixed simulated-time claim'}
 Save-Receipt
@@ -122,6 +129,12 @@ try{
     $report.csvFinalized=$true
     if($InspectPixel -and @(Select-String -LiteralPath $log -SimpleMatch 'ScenePixelV1 complete candidates=').Count -ne 1){throw 'Expected one completed scene pixel inspection'}
     if($InspectActorPath -and -not @(Select-String -LiteralPath $log -SimpleMatch ($InspectActorPath+'.') | Where-Object {$_.Line.Contains('.StaticMesh = ')}).Count){throw 'Expected inspected actor mesh readback'}
+    if($InspectMotionState){
+        if(@(Select-String -LiteralPath $log -SimpleMatch 'Name, Num Instances, Has Previous Transform, Num Custom Floats').Count -ne 1){throw 'Expected one native ISM motion-state listing'}
+        foreach($variable in @('r.Velocity.EnableVertexDeformation','r.VelocityOutputPass','r.AntiAliasingMethod')){
+            if(-not @(Select-String -LiteralPath $log -Pattern ([regex]::Escape($variable)+'\s*=\s*"?-?\d+')).Count){throw "Missing motion-state readback: $variable"}
+        }
+    }
     $counts=@(Select-String -LiteralPath $log -Pattern '\.SeededAgents = (\d+)\s*$')
     if($counts.Count -ne 1){throw 'Expected one late crowd population readback'}
     $report.seededAgents=[int]$counts[0].Matches[0].Groups[1].Value

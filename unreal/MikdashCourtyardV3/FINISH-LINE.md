@@ -868,3 +868,19 @@ No motion/footcontact/appearance acceptance. This closes the current-binary coun
 measurement task only; performance, scene finish and public walkthrough are open.
 See SourceAssets/perf-review/crowd-vat/currentmatrix01-review.json and count timings.
 Raw CSVs/logs retained locally and hash-pinned; receipts and PNGs published.
+
+## Crowd motion history diagnosis — 19 September 2026
+Read-only InspectMotionState capture option requests LIST ISM and velocity/AA cvars,
+requires native readbacks, and changes no rendering settings. motion-state01 close
+capture finished10000/0refused,exit0,30retainedframes. All six11-floatVATgroups have
+previousTransform=0,dynamicData=0. Velocity.EnableVertexDeformation=2 Auto with
+VelocityOutputPass=0 means vertex-deformation velocity IS enabled; AA=4 TSR.
+Do not attribute smearing to a globally disabled velocity switch.
+UE HISM explicitly clears dynamic data; SceneData falls back to current instance
+transform, MaterialTemplate reads current custom data. A synthetic analytical model
+shows constant-motion reanchors remain correct, while turns/stops reconstruct wrong
+previous positions. This is NOT measured live-transition frequency or a visualfix.
+Frame89 reviewed:near proxies still coarse. Need bounded live old/new anchor samples
+before changing the versioned CPU/material custom-data contract; keep normal AA.
+Evidence: SourceAssets/perf-review/crowd-vat/MotionHistoryV1. Source-map integration
+still awaiting20GiB free commit; latest observation belowthreshold, no map changes.

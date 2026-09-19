@@ -1,0 +1,67 @@
+{
+  "status": "native-state-and-analytical-evidence-not-smearing-fix",
+  "nativeReceipt": "SourceAssets/visual-review/movie-motion-state01-corridor/movie-receipt.json",
+  "nativeLogSha256": "20dcb771878567afff325b553a85298920c180fd86172b0add5b4b6194c64a3a",
+  "groups": [
+    {
+      "mesh": "/Game/MikdashV3/Runtime/CrowdVATV1/Meshes/SM_CrowdVAT_Man_Standard.SM_CrowdVAT_Man_Standard",
+      "instances": 1667,
+      "hasPreviousTransform": 0,
+      "customFloats": 11,
+      "hasDynamicData": 0
+    },
+    {
+      "mesh": "/Game/MikdashV3/Runtime/CrowdVATV1/Meshes/SM_CrowdVAT_Man_Elder.SM_CrowdVAT_Man_Elder",
+      "instances": 1667,
+      "hasPreviousTransform": 0,
+      "customFloats": 11,
+      "hasDynamicData": 0
+    },
+    {
+      "mesh": "/Game/MikdashV3/Runtime/CrowdVATV1/Meshes/SM_CrowdVAT_Man_Heavy.SM_CrowdVAT_Man_Heavy",
+      "instances": 1667,
+      "hasPreviousTransform": 0,
+      "customFloats": 11,
+      "hasDynamicData": 0
+    },
+    {
+      "mesh": "/Game/MikdashV3/Runtime/CrowdVATV1/Meshes/SM_CrowdVAT_Woman_Elder.SM_CrowdVAT_Woman_Elder",
+      "instances": 1667,
+      "hasPreviousTransform": 0,
+      "customFloats": 11,
+      "hasDynamicData": 0
+    },
+    {
+      "mesh": "/Game/MikdashV3/Runtime/CrowdVATV1/Meshes/SM_CrowdVAT_Woman_Young.SM_CrowdVAT_Woman_Young",
+      "instances": 1666,
+      "hasPreviousTransform": 0,
+      "customFloats": 11,
+      "hasDynamicData": 0
+    },
+    {
+      "mesh": "/Game/MikdashV3/Runtime/CrowdVATV1/Meshes/SM_CrowdVAT_Youth.SM_CrowdVAT_Youth",
+      "instances": 1666,
+      "hasPreviousTransform": 0,
+      "customFloats": 11,
+      "hasDynamicData": 0
+    }
+  ],
+  "velocityEnableVertexDeformation": 2,
+  "velocityOutputPass": 0,
+  "antiAliasingMethod": 4,
+  "interpretation": "Auto deformation velocity is enabled with velocity pass 0. All six 11-float VAT groups have no previous transforms/dynamic data. This rules out a globally disabled vertex-deformation velocity setting; it does not prove the visible-smearing cause.",
+  "engineSource": [
+    "Engine/Source/Runtime/Engine/Private/HierarchicalInstancedStaticMesh.cpp:2637 forces dynamic data false",
+    "Engine/Shaders/Private/SceneData.ush:1236 uses current instance transform when no dynamic payload exists",
+    "Engine/Shaders/Private/MaterialTemplate.ush:1532 reads current custom data payload",
+    "Engine/Source/Runtime/Engine/Private/PrimitiveSceneProxy.cpp:63 defines velocity Auto semantics"
+  ],
+  "projectSource": [
+    "Scripts/create_crowd_vat_v2.py:1071 current anchor dt and walk phase",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashCrowdField.cpp:479 eleven current-state floats"
+  ],
+  "analyticalModel": "counterexamples.json",
+  "modelInterpretation": "Constant-speed reanchor reconstructs correctly. Synthetic turn/stop transitions do not; prior heading and velocity are needed for those cases. Model excludes actual VAT deformation and does not measure real update frequency.",
+  "rootVisualReview": "Frame89 inspected: crowd visible and near figures remain coarse. No claimed improvement; capture uses unchanged production rendering settings.",
+  "next": "Measure bounded live old/new anchor transitions before implementing a versioned previous-state shader contract. Preserve ordinary temporal AA; do not globally disable it."
+}

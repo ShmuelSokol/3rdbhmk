@@ -673,7 +673,7 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
     const Vec2* Polygon=ZonePointCache.GetData()+ZoneStartCache[ZoneIndex];
     const int32 Vertices=ZoneVertexCountCache[ZoneIndex];
     const uint32 Seed=static_cast<uint32>(RandomSeed);
-    int32 Singles=MikdashCrowdGroups::SingleBudget(ZoneTotal,IndividualVisitorRatio);
+    const auto Batches=MikdashCrowdGroups::PlanSeedBatches(ZoneTotal,GlobalIndex,IndividualVisitorRatio,Seed);
     const double MinSpeed=FMath::Max(0.f,MinWalkSpeedCmPerSecond);
     const double MaxSpeed=FMath::Max(MinSpeed,static_cast<double>(MaxWalkSpeedCmPerSecond));
     // Count the first failing gate per attempt; these are attempts, not refused people.
@@ -681,10 +681,10 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
     const int32 SeededBefore=SeededAgents, RefusedBefore=RefusedSeeds;
     int32 Trials=0, Accepted=0, PointReject=0, SegmentReject=0, SpacingReject=0;
     int32 FormationReject=0, LinkReject=0, GroundReject=0, ObstacleReject=0, InsertReject=0;
-    for(int32 Local=0;Local<ZoneTotal;)
+    for(const auto& Batch:Batches)
     {
-        const int32 First=GlobalIndex;
-        const int32 Size=MikdashCrowdGroups::NextSize(ZoneTotal-Local,Singles,Seed,static_cast<uint32>(First));
+        const int32 First=Batch.First;
+        const int32 Size=Batch.Count;
         const bool Standing=IsStanding(Seed,static_cast<uint32>(First),Zone.StandingRatio);
         Vec2 Points[MikdashCrowdGroups::MaxMembers];float Grounds[MikdashCrowdGroups::MaxMembers]{};
         double Heading=0;bool Placed=false;
@@ -762,10 +762,11 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
         }
         else if(Placed) ++IndividualVisitors;
         else if(Size>1) ++RefusedGroups;
-        for(int32 Member=0;Member<Size;++Member,++GlobalIndex,++Local)
+        for(int32 Member=0;Member<Size;++Member)
         {
-            auto& Agent=Agents[GlobalIndex];Agent.ZoneIndex=ZoneIndex;
-            Agent.ScaleFactor=static_cast<float>(HeightScaleFor(Seed,static_cast<uint32>(GlobalIndex),FigureScaleMin,FigureScaleMax));
+            const int32 AgentIndex=First+Member;
+            auto& Agent=Agents[AgentIndex];Agent.ZoneIndex=ZoneIndex;
+            Agent.ScaleFactor=static_cast<float>(HeightScaleFor(Seed,static_cast<uint32>(AgentIndex),FigureScaleMin,FigureScaleMax));
             if(!Placed)
             { Agent.bValid=0;Agent.Position=Zone.PolygonCm.Num()?Zone.PolygonCm[0]:FVector2D::ZeroVector;
               Agent.GroundZCm=ZoneGroundZ(Zone,Agent.Position);
@@ -773,10 +774,11 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
               ++RefusedSeeds;continue; }
             Agent.bValid=1;Agent.bStanding=Standing?1:0;Agent.Position=ToFVector2D(Points[Member]);
             Agent.ReseedPoint=Agent.Position;Agent.GroundZCm=Grounds[Member];Agent.HeadingDegrees=static_cast<float>(Heading);
-            Agent.SpeedCmPerSecond=Speed;Agent.Phase=static_cast<float>(HashUnit(Seed,static_cast<uint32>(GlobalIndex),5u));
+            Agent.SpeedCmPerSecond=Speed;Agent.Phase=static_cast<float>(HashUnit(Seed,static_cast<uint32>(AgentIndex),5u));
             Agent.GroupIndex=GroupIndex;Agent.GroupMember=Member;++SeededAgents;
         }
     }
+    GlobalIndex+=ZoneTotal;
     UE_LOG(LogTemp,Display,TEXT("CrowdSeedAuditV1 zone=%d name=\"%s\" requested=%d seeded=%d refused=%d trials=%d accepted=%d point=%d segment=%d spacing=%d formation=%d link=%d ground=%d obstacle=%d insert=%d"),
         ZoneIndex,*Zone.Name,ZoneTotal,SeededAgents-SeededBefore,RefusedSeeds-RefusedBefore,
         Trials,Accepted,PointReject,SegmentReject,SpacingReject,FormationReject,LinkReject,GroundReject,ObstacleReject,InsertReject);

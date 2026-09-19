@@ -410,3 +410,30 @@ SourceAssets/perf-review/crowd-vat/crowd-sampler01-review.json for raw-log-deriv
 counts and192ground contacts. Diagnostic30/30 CSV validates capture integrity,
 not the final performance matrix. Larger populations, clean45/60 benchmarks,
 all-frame feet/movement and state-transition acceptance remain pending.
+
+## Crowd formation placement order — 18 September 2026
+
+The sampler01 native5000 run initially seeds4818: west terrace911/1030,
+plaza114/135, street78/104, approach130/146; east1391 and deck2194 complete.
+Spacing dominates the small-zone failures; west also has protected-area and ground
+refusals. New source plans the exact same cohorts and global person identities
+first, then seeds larger formations before smaller groups and individuals. Stable
+ties preserve reproducibility. Agents still occupy their original index ranges;
+appearance, hash identity, requested zone allocations and group membership are
+unchanged. All48attempts,80cm minimum separation, ground and obstacle gates remain.
+Tests compare reordered membership against the original planner through60000people.
+This is pending verification/native evidence, not claimed5000/10000 acceptance.
+
+Sampler01 clean5000 capture is now terminal: childexit0, wrapper correctlyfails
+for4818/5000. Raw six-zone counts and182refusals match late-frame readback.
+45/60 analysis covers2576frames (median21.494ms,p9537.504ms), but is evidence for
+4818actual people only. Root viewed final PNG. See crowd-sampler01-5000-review.json
+and matching receipt/timing; larger-first source remains unaccepted until native.
+
+West-terrace diagnostic follow-up: sampler01 ground sample1 hits
+StaticMeshActor_9208 at792.000610cm against expected408cm. Existing Candidate48
+birds receipt candidate-metric-birds-20260909T075232116207Z.json identifies that
+actor as Priestly room floor, architecture_SM_1450_floor_Priestly_room_floor,
+bounds[-7400,2736,772.8]..[-6536,4944,792.0]. This is elevated interior geometry,
+not evidence to raise the ordinary visitor ground plane or relax its55cm check.
+Other west samples return the ordinary paving at408cm. Keep height refusal.

@@ -23,6 +23,25 @@ int main()
         }
         Expect(ActualSingles==ExpectedSingles&&Identity==Population,"15percent refers to people; no lost zone tail");
     }
+    // Reordering must retain every original cohort and every global person identity.
+    for(int Population:{0,1,2,17,2500,5000,10000,60000}) for(double Ratio:{0.0,.15,1.0})
+    {
+        const int First=123;
+        const auto Plan=PlanSeedBatches(Population,First,Ratio,20260908u);
+        auto OriginalOrder=Plan;
+        std::sort(OriginalOrder.begin(),OriginalOrder.end(),[](const SeedBatch& A,const SeedBatch& B){return A.First<B.First;});
+        int Local=0,Singles=SingleBudget(Population,Ratio);
+        for(const auto& Batch:OriginalOrder)
+        {
+            const int Size=NextSize(Population-Local,Singles,20260908u,static_cast<uint32_t>(First+Local));
+            Expect(Batch.First==First+Local&&Batch.Count==Size,"packing preserves original contiguous cohort identities and membership");
+            Local+=Batch.Count;
+        }
+        Expect(Local==Population,"packing plan neither drops nor duplicates a person");
+        for(size_t I=1;I<Plan.size();++I)
+            Expect(Plan[I-1].Count>Plan[I].Count || (Plan[I-1].Count==Plan[I].Count&&Plan[I-1].First<Plan[I].First),
+                "largest formations first with stable ties");
+    }
     Expect(SingleBudget(10000,.15)==1500,"large population exactly15percent individuals before geometry refusals");
     for(uint32_t Id=0;Id<100;++Id)
     {

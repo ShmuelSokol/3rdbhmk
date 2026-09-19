@@ -63,6 +63,23 @@ inline int NextSize(int Remaining,int& Singles,uint32_t Seed,uint32_t Identity)
     if(Grouped-Size==1) { if(Size<MaxMembers) ++Size;else --Size; }
     return Size;
 }
+struct SeedBatch { int First=0, Count=0; };
+inline std::vector<SeedBatch> PlanSeedBatches(int Population,int First,double IndividualRatio,uint32_t Seed)
+{
+    std::vector<SeedBatch> Batches;
+    int Singles=SingleBudget(Population,IndividualRatio);
+    for(int Local=0;Local<Population;)
+    {
+        const int Size=NextSize(Population-Local,Singles,Seed,static_cast<uint32_t>(First+Local));
+        Batches.push_back({First+Local,Size});
+        Local+=Size;
+    }
+    // Preserve the authored people/cohorts and their hash identities. Reserve room
+    // for the largest formations first; individuals can then occupy smaller gaps.
+    std::stable_sort(Batches.begin(),Batches.end(),[](const SeedBatch& A,const SeedBatch& B)
+        { return A.Count>B.Count; });
+    return Batches;
+}
 inline Vec2 Offset(int Member,uint32_t Seed,uint32_t Identity,double Spacing)
 {
     if(Member<=0 || Member>=MaxMembers) return {};

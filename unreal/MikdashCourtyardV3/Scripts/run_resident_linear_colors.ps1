@@ -1,4 +1,4 @@
-param([switch]$LinearColor,[switch]$RepairDecode)
+param([switch]$Apply)
 $ErrorActionPreference = 'Stop'
 $root = (Split-Path -Parent $PSScriptRoot).Replace('\','/')
 $busy = @(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3,AutomationTool -ErrorAction SilentlyContinue)
@@ -8,19 +8,18 @@ if(([long](Get-CimInstance Win32_OperatingSystem).FreeVirtualMemory*1KB) -lt 6GB
 $stamp=(Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ')
 $folder="$root/SourceAssets/perf-review/crowd-vat/NearResidentV4"
 New-Item -ItemType Directory -Path $folder -Force | Out-Null
-$log="$folder/resident-render-run-$stamp.log"
-$receipt="$folder/resident-render-run-$stamp.json"
+$log="$folder/resident-linear-run-$stamp.log"
+$receipt="$folder/resident-linear-run-$stamp.json"
 if(Test-Path -LiteralPath $receipt){throw 'Fresh audit receipt required'}
-$before=@(Get-ChildItem -LiteralPath $folder -Filter 'render-*.json' -File | Where-Object {$_.Name -notlike 'resident-render-run-*'} | Select-Object -ExpandProperty FullName)
-$record=[ordered]@{status='starting';scope='Isolated native GPU static pose A/B; no saves';startedUtc=$stamp;log=$log;minimumStartCommitBytes=6GB;maximumPrivateBytes=4GB;reserveCommitBytes=2GB;peakPrivateBytes=0}
+$before=@(Get-ChildItem -LiteralPath $folder -Filter 'linear-color-*.json' -File | Where-Object {$_.Name -notlike 'resident-linear-run-*'} | Select-Object -ExpandProperty FullName)
+$record=[ordered]@{status='starting';scope='Backed-up resident material repair or fresh readback; no map/mesh edits';startedUtc=$stamp;log=$log;minimumStartCommitBytes=6GB;maximumPrivateBytes=4GB;reserveCommitBytes=2GB;peakPrivateBytes=0}
 function Save-Receipt {$record | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $receipt -Encoding utf8}
 Save-Receipt
 $exe='C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor-Cmd.exe'
-$arguments=@(('"'+$root+'/MikdashCourtyardV3.uproject"'),'-run=pythonscript',('-script="'+$root+'/Scripts/capture_crowd_resident_v4.py"'),'-AllowCommandletRendering','-RenderOffscreen','-EnablePlugins=AnimToTexture,GeometryScripting','-DisablePlugins=MetaHumanCharacter,MetaHumanSDK','-unattended','-nosplash','-nosound','-notraceserver','-NoMetaHumanAccountPortalLoginFallback','-NoAsyncLoadingThread','-asyncstaticmeshcompilationmaxconcurrency=1',('-abslog="'+$log+'"'))
+$arguments=@(('"'+$root+'/MikdashCourtyardV3.uproject"'),'-run=pythonscript',('-script="'+$root+'/Scripts/repair_resident_linear_colors.py"'),'-nullrhi','-EnablePlugins=AnimToTexture,GeometryScripting','-DisablePlugins=MetaHumanCharacter,MetaHumanSDK','-unattended','-nosplash','-nosound','-notraceserver','-NoMetaHumanAccountPortalLoginFallback','-NoAsyncLoadingThread','-asyncstaticmeshcompilationmaxconcurrency=1',('-abslog="'+$log+'"'))
 
 $child=$null
-if($LinearColor){$arguments += '-RV4LinearColor'}
-if($RepairDecode){$arguments += '-RV4RepairDecode'}
+if($Apply){$arguments += '-ResidentLinearApply'}else{$arguments += '-ResidentLinearVerify'}
 try {
     $child=Start-Process -FilePath $exe -ArgumentList $arguments -WorkingDirectory $root -WindowStyle Hidden -PassThru
     $record.pid=$child.Id;$record.status='running';Save-Receipt
@@ -36,10 +35,10 @@ try {
     } while($true)
     $child.WaitForExit();$record.exitCode=$child.ExitCode
     if($child.ExitCode -ne 0){throw "Audit exited $($child.ExitCode)"}
-    $outputs=@(Get-ChildItem -LiteralPath $folder -Filter 'render-*.json' -File | Where-Object {$_.Name -notlike 'resident-render-run-*'} | Where-Object {$_.FullName -notin $before})
+    $outputs=@(Get-ChildItem -LiteralPath $folder -Filter 'linear-color-*.json' -File | Where-Object {$_.Name -notlike 'resident-linear-run-*'} | Where-Object {$_.FullName -notin $before})
     if($outputs.Count -ne 1){throw 'Expected one fresh resident review receipt'}
     $result=Get-Content -LiteralPath $outputs[0].FullName -Raw | ConvertFrom-Json
-    $expectedStatus='captured-review-pending'
+    $expectedStatus=if($Apply){'applied-readback-passed'}else{'fresh-process-readback-passed'}
     if($result.status -ne $expectedStatus){throw 'Resident review operation did not complete'}
     $record.output=$outputs[0].FullName;$record.outputSha256=(Get-FileHash -LiteralPath $record.output).Hash.ToLower()
     $record.status=$result.status

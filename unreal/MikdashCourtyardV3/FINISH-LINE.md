@@ -1220,3 +1220,25 @@ Protected maps/crowd/ResidentV4 assets unchanged in every run. No source edits,
 new assets, bindings or adoption. NearResidentV4/review01.json pins the evidence.
 Older September15 clearance receipts were inspected, not rerun here. Next: audit
 native parameter values/update and source shoulder joins before near-crowd baking.
+
+## Resident vertex-colour repair — 19 September 2026
+Native graph audit084121 found BOTH ResidentV4 masters' Power.Exp unconnected:
+release_resident_v4 used invalid pin name Exponent and ignored connection return.
+Actual const exponent2 squared the already-linear COLOR_0. This also explains why
+transient parameter1 read back correctly yet all six face RGB images were unchanged.
+Use Exp, check connection return AND native graph readback. Builder now defaults1.
+Source create_resident_v4 declares linear vertex colours; native skeletal import
+calibration color-calibration-20260918T210959Z preserves linear RGB within2/255.
+Transient corrected graph+exponent1 capture084216 visibly reduces orange skin.
+Backed-up repair084445 saved two masters and14 instances (six slots/eight garment
+variants); no meshes/maps/bindings changed. First apply084355 stopped before any
+mutation on a wrong expected count13; retained failure receipt. Native fresh
+readback and post-save GPU acceptance must complete before shipping this repair.
+Beard darkness/shape, shoulder gaps and collar slits remain separate open defects.
+
+Resident linear repair acceptance: fresh readback084511 and post-save GPU084546
+both exited0. All12 post-save RGB images EXACTLY match the transient corrected
+graph study, linking six reviewed faces and six reviewed post-save bodies. Native
+material repair accepted; close character art and packaged/in-scene review remain
+open. Two masters+14instances changed with verified checkpoints; all protected
+meshes/maps/crowd assets unchanged. linear-repair-review01.json pins evidence.

@@ -9,6 +9,7 @@ import unreal as ue
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'SourceAssets/perf-review/crowd-vat/NearResidentV4'
 LINEAR = '-RV4LinearColor' in ue.SystemLibrary.get_command_line()
+REPAIR = '-RV4RepairDecode' in ue.SystemLibrary.get_command_line()
 
 
 def run():
@@ -58,6 +59,30 @@ def run():
         report['camera'] = dict(position=[80,240,105],pitchYawRoll=[0,-108.435,0],fov=45,resolution=[960,960])
         marker=json.loads((ROOT/'SourceAssets/characters-review/ResidentV4/resident-v4-import-marker.json').read_text())
         report['meshes']=marker['meshes']
+        report['masters']={}
+        mel=ue.MaterialEditingLibrary
+        for name,path in marker['masters'].items():
+            material=ue.load_asset(path)
+            if REPAIR:
+                expressions=list(mel.get_material_expressions(material))
+                powers=[n for n in expressions if isinstance(n,ue.MaterialExpressionPower)]
+                params=[n for n in expressions if isinstance(n,ue.MaterialExpressionScalarParameter)
+                        and str(n.get_editor_property('parameter_name'))=='VCDecodeExponent']
+                assert len(powers)==len(params)==1
+                assert mel.connect_material_expressions(params[0],'',powers[0],'Exp')
+                assert list(mel.get_inputs_for_material_expression(material,powers[0]))[1]==params[0]
+                mel.recompile_material(material)
+            nodes=[]
+            for node in mel.get_material_expressions(material):
+                row=dict(name=node.get_name(),type=node.get_class().get_name(),
+                         inputNames=[str(n) for n in mel.get_material_expression_input_names(node)],
+                         connections=[n.get_name() if n else None for n in mel.get_inputs_for_material_expression(material,node)])
+                for prop in ('parameter_name','default_value','const_exponent'):
+                    try: row[prop]=str(node.get_editor_property(prop))
+                    except Exception: pass
+                nodes.append(row)
+            report['masters'][name]=nodes
+        report['repairDecodeStudy']=REPAIR
         for variant,path,view in [(variant,path,view) for variant,path in marker['meshes'].items() for view in ('body','face')]:
             label=variant.removeprefix('V3_Pilgrim_')+'-'+view
             mesh=ue.load_asset(path)
@@ -69,11 +94,15 @@ def run():
                 body.set_material(i,slot.get_editor_property('material_interface'))
                 source=slot.get_editor_property('material_interface')
                 bindings.append(dict(slot=i,material=source.get_path_name(),
+                                     sourceExponent=float(mel.get_material_instance_scalar_parameter_value(source,'VCDecodeExponent')),
                                      parameterNames=[str(n) for n in ue.MaterialEditingLibrary.get_scalar_parameter_names(source)]))
                 if LINEAR:
                     dynamic = body.create_dynamic_material_instance(i, slot.get_editor_property('material_interface'))
                     assert dynamic
                     dynamic.set_scalar_parameter_value('VCDecodeExponent', 1.0)
+                    bindings[-1]['effectiveExponent']=float(dynamic.get_scalar_parameter_value('VCDecodeExponent'))
+                    assert bindings[-1]['effectiveExponent']==1.0
+                    assert body.get_material(i)==dynamic
             position=ue.Vector(80,240,105) if view=='body' else ue.Vector(24,72,165)
             yaw=-108.435
             camera.set_actor_location(position,False,False)

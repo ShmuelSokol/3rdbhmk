@@ -35,7 +35,7 @@ FOLDER = '/Game/MikdashV3/Characters/ResidentV4'
 MAT_FOLDER = FOLDER + '/Materials'
 TEX_FOLDER = FOLDER + '/Textures'
 POP_LABEL = 'RELEASE_PeopleV3Population'
-VC_DECODE = 2.2
+VC_DECODE = 1.0  # Source COLOR_0 is linear; native import calibration preserves it.
 WALK_MARKER = ROOT / 'SourceAssets/characters-review/PilgrimRigV3/walk-v2/walkv2-import-progress.json'
 PEOPLE_SPEC = ROOT / 'Scripts/release_people_v3.spec.json'
 MORPHS = ('Face0', 'Face1', 'Face2', 'Face3')
@@ -136,7 +136,7 @@ def _build_master(ue, tools, name, skin):
         return m
     texs = {n: ue.load_asset(TEX_FOLDER + '/' + n) for n in ('T_RV4_WeaveN', 'T_RV4_SlubMottle', 'T_RV4_PoresN')}
     uv = node(ue.MaterialExpressionTextureCoordinate, -1700, 400)
-    # base colour: pow(VC, 2.2) * Tint * (1 + (mottle - .5) * 2 * MottleStrength)
+    # base colour: pow(VC, 1.0) * Tint * (1 + (mottle - .5) * 2 * MottleStrength)
     vc = node(ue.MaterialExpressionVertexColor, -1500, -200)
     mask = node(ue.MaterialExpressionComponentMask, -1300, -200)
     for k, v in (('r', True), ('g', True), ('b', True), ('a', False)):
@@ -144,7 +144,11 @@ def _build_master(ue, tools, name, skin):
     mel.connect_material_expressions(vc, '', mask, '')
     pw = node(ue.MaterialExpressionPower, -1100, -200)
     mel.connect_material_expressions(mask, '', pw, 'Base')
-    mel.connect_material_expressions(scalar('VCDecodeExponent', VC_DECODE, -1300, -60), '', pw, 'Exponent')
+    decode = scalar('VCDecodeExponent', VC_DECODE, -1300, -60)
+    if not mel.connect_material_expressions(decode, '', pw, 'Exp'):
+        raise RuntimeError('Vertex-colour exponent connection failed')
+    if list(mel.get_inputs_for_material_expression(mat, pw))[1] != decode:
+        raise RuntimeError('Vertex-colour exponent connection readback failed')
     tint = node(ue.MaterialExpressionVectorParameter, -1300, 40)
     tint.set_editor_property('parameter_name', 'Tint')
     tint.set_editor_property('default_value', ue.LinearColor(1, 1, 1, 1))

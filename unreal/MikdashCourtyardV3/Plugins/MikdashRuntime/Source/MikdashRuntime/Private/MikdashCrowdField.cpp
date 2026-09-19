@@ -1046,7 +1046,8 @@ void AMikdashCrowdField::StepSocialAgentVat(int32 Index, double Now, float Horiz
         if (Command.Waiting) ++GroupWaitVisitsLastFrame;
     }
     const double SafeHorizon = FMath::Max(0.02, static_cast<double>(Horizon));
-    const double Heading = SteerHeading(Agent.HeadingDegrees, YawDegrees(Direction), Clamp(FMath::Max(Elapsed, 1.0 / 120.0), 0.0, 0.5),
+    const double TurnSeconds = Clamp(FMath::Max(Elapsed, 1.0 / 120.0), 0.0, 0.5);
+    const double Heading = SteerHeading(Agent.HeadingDegrees, YawDegrees(Direction), TurnSeconds,
                                         MaxTurnDegreesPerSecond);
     // Only speeds the clip can play at are walked; the look-ahead stays inside the group step limit.
     double Playable = VatPlayableSpeed(Speed, VatWalkGroundSpeedCmPerSecond, Agent.ScaleFactor, VatMinPlayRate, VatMaxPlayRate);
@@ -1088,7 +1089,10 @@ void AMikdashCrowdField::StepSocialAgentVat(int32 Index, double Now, float Horiz
         }
         else if (!Group)
         {
-            Agent.HeadingDegrees = static_cast<float>(WrapDegrees(Heading + 90));
+            // A rejected solo move chooses a sideways escape direction, but the
+            // rendered figure must obey the same turn limit as a successful move.
+            Agent.HeadingDegrees = static_cast<float>(SteerHeading(
+                Agent.HeadingDegrees, Heading + 90, TurnSeconds, MaxTurnDegreesPerSecond));
         }
         return;
     }
@@ -1521,6 +1525,7 @@ void AMikdashCrowdField::AuditVatTransition(int32 Index, const FMikdashCrowdAgen
     MotionAuditRootErrors += Error > 0.1 ? 1 : 0;
     MotionAuditHeadingChanges += HeadingChange > 0.1 ? 1 : 0;
     MotionAuditMaxRootError = FMath::Max(MotionAuditMaxRootError, Error);
+    MotionAuditMaxHeadingChange = FMath::Max(MotionAuditMaxHeadingChange, HeadingChange);
     if (MotionAuditLogged < 64 && (Error > 0.1 || HeadingChange > 0.1))
     {
         ++MotionAuditLogged;
@@ -1533,8 +1538,8 @@ void AMikdashCrowdField::AuditVatTransition(int32 Index, const FMikdashCrowdAgen
     }
     if (MotionAuditSamples == 4096)
     {
-        UE_LOG(LogTemp, Display, TEXT("CrowdMotionAuditV1 complete samples=%d rootErrorsOverPointOneCm=%d headingChangesOverPointOneDegree=%d maxRootErrorCm=%.6f logged=%d scope=social-simulated-updates-root-model-not-pixel-velocity"),
-            MotionAuditSamples, MotionAuditRootErrors, MotionAuditHeadingChanges, MotionAuditMaxRootError, MotionAuditLogged);
+        UE_LOG(LogTemp, Display, TEXT("CrowdMotionAuditV1 complete samples=%d rootErrorsOverPointOneCm=%d headingChangesOverPointOneDegree=%d maxRootErrorCm=%.6f logged=%d maxHeadingChangeDegrees=%.6f scope=social-simulated-updates-root-model-not-pixel-velocity"),
+            MotionAuditSamples, MotionAuditRootErrors, MotionAuditHeadingChanges, MotionAuditMaxRootError, MotionAuditLogged, MotionAuditMaxHeadingChange);
     }
 }
 

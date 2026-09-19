@@ -534,6 +534,7 @@ private:
     int32 MotionAuditSamples = 0, MotionAuditLogged = 0;
     int32 MotionAuditRootErrors = 0, MotionAuditHeadingChanges = 0;
     double MotionAuditMaxRootError = 0.0;
+    double MotionAuditMaxHeadingChange = 0.0;
     void AuditVatTransition(int32 Index, const FMikdashCrowdAgent& Before,
                             const FMikdashCrowdAgent& After, double Now, float FrameSeconds);
     TArray<float> CustomScratch;

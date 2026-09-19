@@ -4447,3 +4447,45 @@ Both Editor and Game compile; Game implementation returns false. Production maps
 and character assets unchanged. No archive refresh or runtime adoption. Evidence:
 SourceAssets/perf-review/crowd-vat/ResidentStudy13/motion-review.json. Next live
 controller/movement/performance, remaining views and all-six-variant reduction.
+
+## Live resident review map and audit scope — 19 September 2026
+ResidentRuntime02 is an isolated 48-person GameModeBase review map, with Study13
+Elder/Woman and the production crowd controller. CameraComponent is obtained through
+get_component_by_class; CameraActor.get_camera_component does not exist in this
+Python API. Failed Runtime01 evidence and its initial empty saved map are retained
+locally; do not overwrite that namespace. Runtime02 build and fresh readback pass.
+First live capture seeded48/refused0/ground misses0, but startup pixels are not ready:
+a ShaderCompileWorker crashed at frame104 and Unreal fell back to direct compilation.
+Keep the raw log and startup images; process exit0 is not visual acceptance.
+CrowdMotionAuditV1 rootErrorCm compares PREVIOUS-frame root reconstructions after
+anchor/velocity changes, not jumps at the current frame. First run maximum4.561284cm
+is motion-history evidence. Independently reconstructed CURRENT roots differ by
+at most0.000001005cm in64 retained samples. Do not report that as visible position
+jumps or patch current-time integration on that premise. A longer warm-up capture
+and actual movement/ground/heading review remain required before live acceptance.
+
+## Blocked solo VAT turn — correction underway, 19 September 2026
+Warmed Runtime02 baseline has no shader errors, all50 captures show loaded textured
+people, but logs retain solo heading changes up to93 degrees in one30Hz update.
+StepSocialAgentVat's rejected-move branch set Heading+90 directly, bypassing the
+90deg/s turn limit. It now uses SteerHeading from the original heading and the same
+elapsed-time allowance as successful movement. Native audit additionally records
+the maximum heading change over all4096 sampled updates, beyond its64 retained rows.
+This addresses abrupt VAT solo turns only; spacing, group pauses, non-VAT motion,
+previous-frame root reconstruction and full traversal acceptance are separate work.
+
+## Blocked solo turn verified in live game — 19 September 2026
+Both native targets compile (11/11 gate). Runtime02 warmed baseline and fixed runs
+use identical map/48-person configuration,50 screenshots each at frames300..447.
+Root reviewed all50 fixed captures: loaded textured people, gradual turning and
+visible walking; many groups remain stationary, so behavior/traversal is not accepted.
+Fixed audit maximum heading change3.000002 degrees over4096updates at30Hz, within
+floating-point tolerance of90deg/s. Baseline retained samples reached93 degrees.
+All three game runs seeded48/refused0/ground misses0/two poses and exited0. Fixed
+run has no logged errors. Current root continuity remains within0.000001005cm in
+64retained samples. Previous-frame reconstruction maximum remains4.561284cm; no
+motion-history/velocity-buffer fix is claimed. New analyzer pins screenshots and
+separates these quantities. Source fix is verified; packaged build remains unchanged.
+Evidence: SourceAssets/perf-review/crowd-vat/ResidentRuntime02/review.json.
+Next diagnose stationary groups/recovery, broaden live routes/foot-contact and
+all-six-variant reduction/performance before adopting residents into the release.

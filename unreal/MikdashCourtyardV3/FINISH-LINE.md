@@ -1659,3 +1659,25 @@ Both Editor and Game compile; Game implementation returns false. Production maps
 and character assets unchanged. No archive refresh or runtime adoption. Evidence:
 SourceAssets/perf-review/crowd-vat/ResidentStudy13/motion-review.json. Next live
 controller/movement/performance, remaining views and all-six-variant reduction.
+
+## Production-controller resident review — in progress, 19 September 2026
+Built/fresh-read ResidentRuntime02, isolated48-person Study13 Elder/Woman map.
+First uncooked game capture has50 screenshots, seeded48/refused0/ground misses0.
+Startup showed incomplete dark reference poses; log records shader-worker crash
+and direct-compilation fallback. Retain this diagnostic run; it is not acceptance.
+Motion audit4.561284cm maximum is previous-frame reconstruction disagreement,
+not a physical root jump. Logged64 current-root reconstructions remain continuous
+within0.000001005cm. Warm-up capture and movement/ground/heading review underway.
+No main-map adoption, packaged release update or performance acceptance.
+
+## Blocked solo crowd turn — live fix verified, 19 September 2026
+Production VAT obstacle rejection bypassed the turn limit by assigning Heading+90.
+It now steers from the original heading with the existing elapsed-time/rate bound.
+Editor+Game compile11/11. In identical Runtime02 tests the baseline retained93deg
+changes; fixed maximum3.000002deg over4096updates at30Hz. Fixed50captures reviewed,
+48seeded/zero refusals/zero ground misses/two poses, exit0 and no logged errors.
+150screens across startup/baseline/fixed runs are retained. Startup worker crash
+and failed Runtime01 setup remain documented; no old evidence or archive deleted.
+Many groups are stationary in longer views; investigate recovery/pauses next.
+No packaged release refresh, all-cast adoption, navigation or performance acceptance.
+Evidence: SourceAssets/perf-review/crowd-vat/ResidentRuntime02/review.json.

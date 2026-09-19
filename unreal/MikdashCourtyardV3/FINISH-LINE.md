@@ -1121,3 +1121,39 @@ uses +/-110cm XY to cover motion/extrapolation), same-pose animation validation,
 source garment repair as indicated, six-variant near/far transitions and performance.
 Do not replace all10000 figures with full-detail meshes. Render-target images use
 transient actors and native materials at static walkframe0, not HISM movement.
+
+## Crowd mantle source repair — 19 September 2026
+Native NearV1 reference rendering showed actual garment overlap, not merely a
+low-poly VAT problem. Exact source-GLB positions/weights/indices match the procedural
+Man_Standard generator. Original reference mantle penetrates tunic by3.824cm and
+sash by4.985cm at sampled vertices/triangle centres. Simple reference-only outward
+projection failed walk poses; projecting front/back separately also collapsed
+cloth thickness. Never use independent envelope projection on both cloth sides.
+New build_crowd_mantle_study.py fits coherent paired cloth vertices across reference
+and eight walk/eight idle poses from the shipped animation GLB. Edge trim takes the
+adjacent cloth displacement AND weights: original entire hem used mantle_back
+weights even at front. Body/cloth weights and all animation bytes stay unchanged.
+Only mantle/trim positions/normals and trim joints/weights may change; verifier
+compares GLB JSON, exact permitted binary-byte ranges, bounds and normalized weights.
+Study03 still had0.183cm sampled overlap; Study04 fit poses passed but independent
+halfway walk0.825s found0.034cm overlap. Both rejected for clearance. Study04 native
+reference A/B clearly removes jagged cloth breaks; candidate is broader, with lower
+mantle displacement up to11.918cm, so side/back silhouette review remains necessary.
+Study05 raises target clearance from2 to2.5cm; full walk240Hz/idle30Hz verification
+and new native comparison are collecting. No released mesh/material/map bindings
+changed. Tests cover mantle vs tunic/sash, NOT sleeve/collar/skin/SashTail clearance,
+continuous collision, cloth self-intersection, animated native VAT or all variants.
+
+Study05 full source clearance passed384poses (walk288at240Hz, idle96at30Hz,
+endpoints excluded): zero sampled mantle/tunic or mantle/sash intersections.
+Candidate GLB c25c435c64cd30bf8e80c96bfe7689a36ebea3ec007c349bc1bdcda702f0527b;
+exact31153changed binary bytes stay within permitted attributes. Original source
+positions, weights, indices, joint translations and inverse-bind matrices match.
+Native three-view before/after reference capture20260919T080803175867Z passed,
+exit0,peak3.21GiB,protected maps/crowd assets unchanged. Root inspected all6images:
+jagged tunic/sash breaks disappear front/side/back. Lower mantle is broader by
+up to12.420cm; stylized shoulder/garment shape still needs final art judgment.
+Rotate review lights with camera: previous rear views were too dark to evaluate.
+Acceptance record CrowdMantleStudy05/acceptance01.json pins source,384pose audit,
+native receipts/images/logs. Only source candidate, NOT production adoption.
+Next import/bake fresh native crowd candidate and verify actual animated poses.

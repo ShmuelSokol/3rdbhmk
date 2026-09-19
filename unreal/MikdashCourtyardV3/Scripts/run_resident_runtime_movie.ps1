@@ -1,4 +1,4 @@
-param([ValidateRange(30,1800)][int]$FirstFrame=300)
+param([ValidateRange(30,1800)][int]$FirstFrame=300,[ValidateRange(1,30)][int]$FrameStep=3,[ValidateSet('02','03')][string]$Study='02')
 $ErrorActionPreference='Stop'
 $root=(Split-Path -Parent $PSScriptRoot).Replace('\','/')
 $busy=@(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3,AutomationTool -ErrorAction SilentlyContinue)
@@ -6,23 +6,23 @@ $busy+=@(Get-CimInstance Win32_Process -Filter "Name='dotnet.exe'" | Where-Objec
 if($busy.Count){throw 'Native slot occupied'}
 if(([long](Get-CimInstance Win32_OperatingSystem).FreeVirtualMemory*1KB) -lt 9GB){throw 'Requires9GiB free commit'}
 $stamp=[DateTime]::UtcNow.ToString('yyyyMMddTHHmmssZ')
-$folder="$root/SourceAssets/perf-review/crowd-vat/ResidentRuntime02/game-$stamp"
+$folder="$root/SourceAssets/perf-review/crowd-vat/ResidentRuntime$Study/game-$stamp"
 if(Test-Path -LiteralPath $folder){throw 'Fresh game evidence folder required'}
 New-Item -ItemType Directory -Path $folder | Out-Null
-$mapFile="$root/Content/MikdashV3/Review/ResidentRuntime02/RuntimeReview.umap"
+$mapFile="$root/Content/MikdashV3/Review/ResidentRuntime$Study/RuntimeReview.umap"
 $mapHash=(Get-FileHash -LiteralPath $mapFile).Hash.ToLower()
 $log="$folder/runtime.log";$receipt="$folder/run.json"
 $exe='C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor-Cmd.exe'
-$frames=@(0..49 | ForEach-Object {$FirstFrame+3*$_})
+$frames=@(0..49 | ForEach-Object {$FirstFrame+$FrameStep*$_})
 $readbackFrame=$frames[-1]+2
 $captureFrames=$readbackFrame+3
 $commands=@($frames | ForEach-Object {"${_}:Shot filename=$folder/frame-$_.png -nosuffix"})
 foreach($property in @('SeededAgents','RefusedSeeds','GroundTraceMisses','ActivePoseCount','FrozenLastSweep','CulledLastSweep')){$commands+="${readbackFrame}:getall MikdashCrowdField $property"}
 $commands+="${readbackFrame}:LIST ISM"
 $ini='-ini:Game:[/Script/MikdashRuntime.MikdashFrontEnd]:bShowMainMenuOnBoot=False,[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=ResidentRuntimeReview,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=ResidentRuntimeReview_Settings,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:bApplyGraphicsToEngine=False'
-$arguments=@(('"'+$root+'/MikdashCourtyardV3.uproject"'),'/Game/MikdashV3/Review/ResidentRuntime02/RuntimeReview','-game','-RenderOffscreen','-windowed','-ResX=1280','-ResY=720','-unattended','-nosplash','-nosound','-notraceserver','-notrace','-NoAsyncLoadingThread','-asyncstaticmeshcompilationmaxconcurrency=1','-DisablePlugins=MetaHumanCharacter,MetaHumanSDK','-NoMetaHumanAccountPortalLoginFallback','-benchmark','-fps=30',("-csvCaptureFrames=$captureFrames"),'-ExitAfterCsvProfiling','-csvNoProcessingThread','-MikdashCrowdMotionAudit',$ini,('-abslog="'+$log+'"'),'-ExecCmds="r.ScreenPercentage 100,r.AntiAliasingMethod 0,r.MotionBlurQuality 0,csv.ForceExit 0"',('-csvExecCmds="'+($commands -join ',')+'"'))
+$arguments=@(('"'+$root+'/MikdashCourtyardV3.uproject"'),"/Game/MikdashV3/Review/ResidentRuntime$Study/RuntimeReview",'-game','-RenderOffscreen','-windowed','-ResX=1280','-ResY=720','-unattended','-nosplash','-nosound','-notraceserver','-notrace','-NoAsyncLoadingThread','-asyncstaticmeshcompilationmaxconcurrency=1','-DisablePlugins=MetaHumanCharacter,MetaHumanSDK','-NoMetaHumanAccountPortalLoginFallback','-benchmark','-fps=30',("-csvCaptureFrames=$captureFrames"),'-ExitAfterCsvProfiling','-csvNoProcessingThread','-MikdashCrowdMotionAudit','-MikdashCrowdReviewAudit',$ini,('-abslog="'+$log+'"'),'-ExecCmds="r.ScreenPercentage 100,r.AntiAliasingMethod 0,r.MotionBlurQuality 0,csv.ForceExit 0"',('-csvExecCmds="'+($commands -join ',')+'"'))
 if(($arguments -join ' ').Length -gt 14500){throw 'Unreal command-line length exceeded'}
-$record=[ordered]@{status='starting';scope='Fixed-step uncooked game-world movement review, not packaged release or performance';map=$mapFile;mapSha256=$mapHash;startedUtc=$stamp;log=$log;resolution=@(1280,720);fixedFps=30;captureFrames=$captureFrames;warmupFrames=$FirstFrame;requestedScreenshots=$frames;minimumStartCommitBytes=9GB;maximumPrivateBytes=8GB;reserveCommitBytes=1.25GB;peakPrivateBytes=0;commandLine=($arguments -join ' ')}
+$record=[ordered]@{status='starting';scope='Fixed-step uncooked game-world movement review, not packaged release or performance';map=$mapFile;mapSha256=$mapHash;startedUtc=$stamp;log=$log;resolution=@(1280,720);fixedFps=30;captureFrames=$captureFrames;warmupFrames=$FirstFrame;frameStep=$FrameStep;requestedScreenshots=$frames;minimumStartCommitBytes=9GB;maximumPrivateBytes=8GB;reserveCommitBytes=1.25GB;peakPrivateBytes=0;commandLine=($arguments -join ' ')}
 function Save-Receipt {$record | ConvertTo-Json -Depth 7 | Set-Content -LiteralPath $receipt -Encoding utf8}
 Save-Receipt;$child=$null
 try{

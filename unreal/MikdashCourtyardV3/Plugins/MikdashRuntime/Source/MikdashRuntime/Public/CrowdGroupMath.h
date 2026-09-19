@@ -41,6 +41,14 @@ inline void SuccessfulLeaderMove(Travel& State,double DistanceToAnchor,double He
     State.FormationHeading=Heading;
     if(State.Mode==TravelMode::Returning&&DistanceToAnchor<120) State.Mode=TravelMode::Forward;
 }
+inline void RejectedTurningLeaderMove(Travel& State,double DistanceToAnchor,double Heading,double DesiredHeading)
+{
+    // A returning leader may need to face the clear route behind it. A blocked
+    // forward-facing probe is not yet evidence that the return route is blocked.
+    if(State.Mode==TravelMode::Returning && std::isfinite(Heading) && std::isfinite(DesiredHeading)
+        && std::abs(MikdashCrowd::WrapDegrees(DesiredHeading-Heading))>1.0) return;
+    RejectedLeaderMove(State,DistanceToAnchor);
+}
 inline bool FollowPlane(double CurrentTracedZ,double PlaneFromZ,double PlaneToZ,double& OutZ)
 {
     if(!std::isfinite(CurrentTracedZ)||!std::isfinite(PlaneFromZ)||!std::isfinite(PlaneToZ)) return false;

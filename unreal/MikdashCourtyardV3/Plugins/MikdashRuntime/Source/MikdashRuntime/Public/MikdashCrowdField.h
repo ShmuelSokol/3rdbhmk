@@ -531,6 +531,9 @@ private:
     TArray<float> VatHistoryUpdatedAt;
     // Opt-in bounded diagnostic; never changes simulation or instance data.
     bool bMotionAudit = false;
+    bool bReviewAudit = false;
+    int32 ReviewAuditSnapshot = 0;
+    void AuditReviewState(double Now);
     int32 MotionAuditSamples = 0, MotionAuditLogged = 0;
     int32 MotionAuditRootErrors = 0, MotionAuditHeadingChanges = 0;
     double MotionAuditMaxRootError = 0.0;

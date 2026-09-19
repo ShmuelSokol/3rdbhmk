@@ -1681,3 +1681,24 @@ and failed Runtime01 setup remain documented; no old evidence or archive deleted
 Many groups are stationary in longer views; investigate recovery/pauses next.
 No packaged release refresh, all-cast adoption, navigation or performance acceptance.
 Evidence: SourceAssets/perf-review/crowd-vat/ResidentRuntime02/review.json.
+
+## Resident recovery review — settings correction, 19 September 2026
+Runtime02's groups inherited recovery0 and body yaw0; release_crowd_vat.spec.json
+uses recovery12s/yaw-90. Stationary groups in that isolated map do not establish a
+release recovery defect. Runtime03 reads all release wanted values and pins their
+source hash, overrides only crowd_count48, and uses fresh native readback. Longer
+0..60s group/agent snapshots will measure actual movement instead of relying only
+on the number of resume attempts. Runtime02's before/after turn-cap evidence remains
+valid; no production map or resident assets are changed by this review setup.
+
+## Group return turns and unresolved recovery — 19 September 2026
+Runtime03 uses verified release settings and retains baseline/corrected60s runs.
+Blocked group members can now turn in place; a returning leader finishes facing
+its intended route before an aligned blocked attempt pauses it. Full gate12/12,
+33math suites and both native builds pass; heading changes staywithin3.000008deg
+at30Hz. All48seeded, zero ground misses.100screens/26snapshots retained and reviewed.
+Full recovery still FAILS: five of seven moving group leaders travel0cm in the
+last30s; the other two only7.77/4.69cm. Baseline was0cm for allseven. A separate
+79.86437cm spacing pair persists versus80cm target. Continue group return/follower
+routing and prospective-motion spacing; do not count resumed counters as success.
+Evidence: SourceAssets/perf-review/crowd-vat/ResidentRuntime03/review.json.

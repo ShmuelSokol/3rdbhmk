@@ -91,6 +91,24 @@ int main()
     Expect(Journey.Mode==TravelMode::Forward&&Journey.FormationHeading==30,"successful anchor arrival clears returning");
     RejectedLeaderMove(Journey,100);
     Expect(Journey.Mode==TravelMode::Paused,"renewed obstruction near anchor pauses instead of cycling");
+    Journey=Travel{};Journey.Mode=TravelMode::Returning;
+    double ReturnHeading=0;
+    for(int I=0;I<59;++I)
+    {
+        ReturnHeading=MikdashCrowd::SteerHeading(ReturnHeading,180,1.0/30.0,90);
+        RejectedTurningLeaderMove(Journey,400,ReturnHeading,180);
+        Expect(Journey.Mode==TravelMode::Returning,"blocked return retains its goal while turning in place");
+    }
+    ReturnHeading=MikdashCrowd::SteerHeading(ReturnHeading,180,1.0/30.0,90);
+    RejectedTurningLeaderMove(Journey,400,ReturnHeading,180);
+    Expect(Journey.Mode==TravelMode::Paused,"aligned blocked return still pauses without bypassing collision");
+    Journey=Travel{};RejectedTurningLeaderMove(Journey,400,0,180);
+    Expect(Journey.Mode==TravelMode::Returning,"first blocked forward move still initiates return");
+    Journey=Travel{};Journey.Mode=TravelMode::Returning;
+    RejectedTurningLeaderMove(Journey,400,179,-179);
+    Expect(Journey.Mode==TravelMode::Returning,"return turn uses wrapped heading difference");
+    RejectedTurningLeaderMove(Journey,400,-179.5,-179);
+    Expect(Journey.Mode==TravelMode::Paused,"near-aligned blocked return does not wait forever");
     for(int I=0;I<6;++I) Positions[I]=Offset(I,13,Group.Identity,120);
     const auto PausedLeader=Steering(Group,0,Positions,0,{1,0},Config,13,true);
     const auto SettledMember=Steering(Group,3,Positions,0,{1,0},Config,13,true);

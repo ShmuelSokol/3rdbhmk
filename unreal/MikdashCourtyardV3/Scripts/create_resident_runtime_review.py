@@ -1,13 +1,15 @@
 """Isolated live crowd review map; no main-map edits or runtime adoption."""
 from datetime import datetime,timezone
 from pathlib import Path
-import hashlib,json
+import hashlib,json,re,math
 import unreal as ue
 
 ROOT=Path(__file__).resolve().parents[1]
-NS='/Game/MikdashV3/Review/ResidentRuntime02'
+match=re.search(r'-ResidentRuntimeStudy=(02|03)\b',ue.SystemLibrary.get_command_line())
+STUDY=match.group(1) if match else '02'
+NS='/Game/MikdashV3/Review/ResidentRuntime'+STUDY
 MAP=NS+'/RuntimeReview'
-OUT=ROOT/'SourceAssets/perf-review/crowd-vat/ResidentRuntime02'
+OUT=ROOT/('SourceAssets/perf-review/crowd-vat/ResidentRuntime'+STUDY)
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 disk=lambda p:ROOT/('Content/'+p.split('.')[0].removeprefix('/Game/')+'.uasset')
 
@@ -16,7 +18,7 @@ def run():
     OUT.mkdir(parents=True,exist_ok=True)
     output=OUT/('native-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')+'.json')
     protected=list((ROOT/'Content').rglob('*.umap'))
-    protected=[p for p in protected if p!=ROOT/'Content/MikdashV3/Review/ResidentRuntime02/RuntimeReview.umap']
+    protected=[p for p in protected if p!=ROOT/('Content/MikdashV3/Review/ResidentRuntime'+STUDY+'/RuntimeReview.umap')]
     for folder in ('Characters/ResidentV4','Runtime/CrowdResidentStudy12','Runtime/CrowdResidentStudy13'):
         protected+=list((ROOT/'Content/MikdashV3'/folder).rglob('*.uasset'))
     before={p.relative_to(ROOT).as_posix():sha(p) for p in protected}
@@ -36,6 +38,10 @@ def run():
         plane=ue.load_asset('/Engine/BasicShapes/Plane');material=ue.load_asset('/Engine/BasicShapes/BasicShapeMaterial')
         assert plane and material
         report['sources']=sources
+        settings_path=ROOT/'Scripts/release_crowd_vat.spec.json'
+        runtime_settings=json.loads(settings_path.read_text())['wanted'] if STUDY=='03' else {}
+        runtime_settings={**runtime_settings,'crowd_count':48}
+        report['releaseSettings']=dict(file=settings_path.relative_to(ROOT).as_posix(),sha256=sha(settings_path),applied=runtime_settings)
         actors=ue.get_editor_subsystem(ue.EditorActorSubsystem)
         if build:
             assert not ue.EditorAssetLibrary.does_directory_exist(NS),'Fresh namespace required'
@@ -61,6 +67,7 @@ def run():
             camera.get_component_by_class(ue.CameraComponent).set_editor_property('post_process_settings',settings)
             crowd=spawn(ue.MikdashCrowdField,'ResidentReviewCrowd',(0,0,0))
             values=dict(crowd_count=48,pose_meshes=meshes,use_vertex_animation=True,activate_on_begin_play=True,enable_visitor_groups=True,trace_ground_on_seed=True,sweep_group_obstacles=True,figure_scale_min=1.,figure_scale_max=1.,update_budget_per_frame=48)
+            values.update(runtime_settings)
             for name,value in values.items():crowd.set_editor_property(name,value)
             zone=ue.MikdashCrowdZone()
             for name,value in dict(name='ResidentReview',polygon_cm=[ue.Vector2D(-1000,-1000),ue.Vector2D(1000,-1000),ue.Vector2D(1000,1000),ue.Vector2D(-1000,1000)],standing_ratio=.15,ground_z_base=0.,goal_cm=ue.Vector2D(800,0),goal_weight=.3,flow_direction_degrees=0.,reseed_edge_a=ue.Vector2D(-850,-700),reseed_edge_b=ue.Vector2D(-850,700),edge_margin_cm=100.).items():zone.set_editor_property(name,value)
@@ -77,13 +84,16 @@ def run():
         assert world.get_outermost().get_name()==MAP
         crowd=next(a for a in actors.get_all_level_actors() if isinstance(a,ue.MikdashCrowdField))
         assert crowd.get_editor_property('crowd_count')==48
+        for name,value in runtime_settings.items():
+            actual=crowd.get_editor_property(name)
+            assert math.isclose(actual,value,rel_tol=1e-6,abs_tol=1e-6),(name,actual,value)
         assert list(crowd.get_editor_property('pose_meshes'))==meshes
         for name in ('use_vertex_animation','activate_on_begin_play','enable_visitor_groups','trace_ground_on_seed','sweep_group_obstacles'):assert crowd.get_editor_property(name)
         zones=list(crowd.get_editor_property('zones'));assert len(zones)==1 and zones[0].get_editor_property('ground_z_base')==0.
         assert world.get_world_settings().get_editor_property('default_game_mode')==ue.GameModeBase.static_class()
         cameras=[a for a in actors.get_all_level_actors() if isinstance(a,ue.CameraActor)];assert len(cameras)==1
         assert cameras[0].get_editor_property('auto_activate_for_player')==ue.AutoReceiveInput.PLAYER0
-        map_file=ROOT/'Content/MikdashV3/Review/ResidentRuntime02/RuntimeReview.umap';assert map_file.is_file()
+        map_file=ROOT/('Content/MikdashV3/Review/ResidentRuntime'+STUDY+'/RuntimeReview.umap');assert map_file.is_file()
         report.update(mapFile=map_file.relative_to(ROOT).as_posix(),mapSha256=sha(map_file),crowd=crowd.get_path_name(),camera=cameras[0].get_path_name(),actorCount=len(actors.get_all_level_actors()))
     except Exception as error:
         report.update(status='failed',error=repr(error));raise

@@ -1077,10 +1077,14 @@ void AMikdashCrowdField::StepSocialAgentVat(int32 Index, double Now, float Horiz
     {
         ++GroupRejectedMovesLastFrame;
         SetVatIdle(Agent, Now);
+        // Turn in place even when translation is blocked. Otherwise a returning
+        // party repeatedly retries its old forward heading after every pause.
+        if (Group) Agent.HeadingDegrees = static_cast<float>(Heading);
         if (Group && Agent.GroupMember == 0)
         {
             const bool WasPaused = Group->Travel.Mode == MikdashCrowdGroups::TravelMode::Paused;
-            MikdashCrowdGroups::RejectedLeaderMove(Group->Travel, Length(From - ToVec2(Group->SeedAnchor)));
+            MikdashCrowdGroups::RejectedTurningLeaderMove(Group->Travel,
+                Length(From - ToVec2(Group->SeedAnchor)), Heading, YawDegrees(Direction));
             if (!WasPaused && Group->Travel.Mode == MikdashCrowdGroups::TravelMode::Paused)
             {
                 ++PausedVisitorGroups;
@@ -1320,6 +1324,7 @@ void AMikdashCrowdField::BeginPlay()
 {
     Super::BeginPlay();
     bMotionAudit = FParse::Param(FCommandLine::Get(), TEXT("MikdashCrowdMotionAudit"));
+    bReviewAudit = FParse::Param(FCommandLine::Get(), TEXT("MikdashCrowdReviewAudit"));
     if (!bActivateOnBeginPlay)
     {
         // Adopted opt-in, matching the rest of this plugin: placing the actor changes nothing
@@ -1503,6 +1508,37 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
 
     PushTransforms(Window.FirstStart, Window.FirstCount);
     PushTransforms(Window.SecondStart, Window.SecondCount);
+    if (bReviewAudit && bUseVertexAnimation && Agents.Num() <= 64
+        && ReviewAuditSnapshot <= 12 && ElapsedSeconds >= ReviewAuditSnapshot * 5.0)
+    {
+        AuditReviewState(VatTime);
+        ++ReviewAuditSnapshot;
+    }
+}
+
+void AMikdashCrowdField::AuditReviewState(double Now)
+{
+    int32 Forward = 0, Returning = 0, Paused = 0;
+    for (const auto& Group : VisitorGroups)
+    {
+        Forward += Group.Travel.Mode == MikdashCrowdGroups::TravelMode::Forward;
+        Returning += Group.Travel.Mode == MikdashCrowdGroups::TravelMode::Returning;
+        Paused += Group.Travel.Mode == MikdashCrowdGroups::TravelMode::Paused;
+    }
+    UE_LOG(LogTemp, Display, TEXT("CrowdReviewV1 snapshot=%d time=%.6f seeded=%d walking=%d forward=%d returning=%d paused=%d resumes=%d rejected=%d waits=%d resumeSeconds=%.3f yawOffset=%.3f"),
+        ReviewAuditSnapshot, Now, SeededAgents, GetVatWalkingCount(), Forward, Returning, Paused,
+        ResumedVisitorGroups, GroupRejectedMovesLastFrame, GroupWaitVisitsLastFrame,
+        PausedGroupResumeSeconds, MeshYawOffsetDegrees);
+    for (int32 Index = 0; Index < Agents.Num(); ++Index)
+    {
+        const auto& Agent = Agents[Index];
+        if (!Agent.bValid) continue;
+        const double Dt = FMath::Clamp(Now - Agent.AnchorTime, 0.0, static_cast<double>(Agent.HorizonSeconds));
+        UE_LOG(LogTemp, Display, TEXT("CrowdReviewAgentV1 snapshot=%d agent=%d group=%d member=%d standing=%d idle=%d x=%.6f y=%.6f z=%.6f yaw=%.6f"),
+            ReviewAuditSnapshot, Index, Agent.GroupIndex, Agent.GroupMember, Agent.bStanding, Agent.bIdleAnim,
+            Agent.Position.X + Agent.Velocity.X * Dt, Agent.Position.Y + Agent.Velocity.Y * Dt,
+            Agent.GroundZCm + Agent.VelocityZ * Dt, Agent.HeadingDegrees);
+    }
 }
 
 void AMikdashCrowdField::AuditVatTransition(int32 Index, const FMikdashCrowdAgent& Before,

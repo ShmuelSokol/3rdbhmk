@@ -4489,3 +4489,41 @@ separates these quantities. Source fix is verified; packaged build remains uncha
 Evidence: SourceAssets/perf-review/crowd-vat/ResidentRuntime02/review.json.
 Next diagnose stationary groups/recovery, broaden live routes/foot-contact and
 all-six-variant reduction/performance before adopting residents into the release.
+
+## Live rig settings must match release — 19 September 2026
+Runtime02 inherited class defaults: paused_group_resume_seconds=0 and mesh yaw0.
+The adopted release spec explicitly uses12s recovery and yaw-90 for +Y-facing
+imported bodies. Its stationary groups therefore do not prove release recovery is
+broken, and its walking direction is not adoption evidence. Preserve Runtime02 and
+its valid turn-limit result. Fresh Runtime03 reads/hash-pins the release VAT wanted
+settings (population overridden to48 for isolation), with exact fresh readback.
+Review probes must verify behavioral settings and body orientation, not just mesh
+and population. Opt-in CrowdReviewV1 samples<=64agents every5s through60s without
+changing simulation; snapshots report live travel modes/recovery and rendered roots.
+
+## Native group recovery baseline — 19 September 2026
+Runtime03 build/fresh readback pass with release settings. Sixty-second live audit
+has18resume attempts but all7nonstanding group leaders travel0cm in the final30s.
+Five paused groups retry without changing blocked heading; two forward groups also
+remain stuck. Rejected VAT movement did not apply its computed limited heading for
+group members. Candidate correction rotates blocked members in place and preserves
+Returning while a leader is still turning toward its return direction; an aligned
+blocked return still uses the original pause rule. No spacing or collision bypass.
+Native validation pending. Baseline minimum sampled root separation79.86437cm is
+slightly below the80cm target; retain as an open motion-reservation issue, not a
+clearance pass. Five-second samples cannot establish between-frame separation.
+
+## Returning group turn test — partial correction, 19 September 2026
+Full gate12/12 including33math suites and Editor/Game build. Two identical60s
+Runtime03 runs preserve48seeded/zero refusals/zero ground misses;100screens reviewed.
+Blocked grouped visitors now apply their bounded heading in place; Returning stays
+active while its leader faces the desired return direction, before the existing
+aligned-blocked pause rule. Native maximum heading change3.000008deg at30Hz.
+This is NOT recovery acceptance. Baseline all7moving-group leaders traveled0cm
+in final30s; correction leaves5at0cm and2at7.77/4.69cm. Group9 total sampled travel
+increased268.37->515.94cm, but sustained movement remains inadequate. Root-reviewed
+views show turning/limited walking and persistent clusters. Minimum sampled spacing
+remains79.86437cm foragents10/47, below80cm; no threshold relaxed or collision
+bypassed. Next inspect formation/follower return routing and prospective VAT spacing.
+Evidence: SourceAssets/perf-review/crowd-vat/ResidentRuntime03/review.json. No packaged
+refresh, resident adoption, complete navigation or performance acceptance.

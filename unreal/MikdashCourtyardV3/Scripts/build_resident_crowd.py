@@ -13,8 +13,8 @@ import create_crowd_vat_v2 as vat
 import release_resident_v4 as resident
 from build_crowd_near_v2 import mesh_stats
 
-match = re.search(r'-ResidentCrowdStudy=(01|02)\b', ue.SystemLibrary.get_command_line())
-STUDY = match.group(1) if match else '02'
+match = re.search(r'-ResidentCrowdStudy=(01|02|03)\b', ue.SystemLibrary.get_command_line())
+STUDY = match.group(1) if match else '03'
 NS = '/Game/MikdashV3/Runtime/CrowdResidentStudy'+STUDY
 OUT = ROOT/('SourceAssets/perf-review/crowd-vat/ResidentStudy'+STUDY)
 sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
@@ -44,12 +44,43 @@ def surface(master, report):
     final = g.op(ue.MaterialExpressionMultiply, g.op(ue.MaterialExpressionMultiply, base, vc), mottle)
     g.prop(final, mp.MP_BASE_COLOR)
     g.prop(g.op(ue.MaterialExpressionAdd, rough, g.op(ue.MaterialExpressionMultiply, centered, g.const(.15))), mp.MP_ROUGHNESS)
+    if STUDY=='03':
+        # Reconstruct the tangent frame from the deformed position and UV0 in
+        # the pixel shader; a rest-pose tangent would not follow VAT animation.
+        M,A=ue.MaterialExpressionMultiply,ue.MaterialExpressionAdd
+        cross=ue.MaterialExpressionCrossProduct
+        dot=ue.MaterialExpressionDotProduct
+        normal=g.unary(ue.MaterialExpressionNormalize,ml.get_material_property_input_node(master,mp.MP_NORMAL))
+        position=g.make(ue.MaterialExpressionWorldPosition)
+        uv0=g.make(ue.MaterialExpressionTextureCoordinate,coordinate_index=0)
+        dp1=g.unary(ue.MaterialExpressionDDX,position)
+        dp2=g.unary(ue.MaterialExpressionDDY,position)
+        duv1=g.unary(ue.MaterialExpressionDDX,uv0)
+        duv2=g.unary(ue.MaterialExpressionDDY,uv0)
+        p2=g.op(cross,dp2,normal);p1=g.op(cross,normal,dp1)
+        tangent=g.op(A,g.op(M,p2,g.mask(duv1,'r')),g.op(M,p1,g.mask(duv2,'r')))
+        bitangent=g.op(A,g.op(M,p2,g.mask(duv1,'g')),g.op(M,p1,g.mask(duv2,'g')))
+        length2=g.op(ue.MaterialExpressionMax,g.op(dot,tangent,tangent),g.op(dot,bitangent,bitangent))
+        scale=g.op(ue.MaterialExpressionDivide,g.const(1.),g.unary(ue.MaterialExpressionSquareRoot,
+                   g.op(ue.MaterialExpressionMax,length2,g.const(1e-12))))
+        detail=g.make(ue.MaterialExpressionTextureSampleParameter2D)
+        detail.set_editor_property('parameter_name','DetailNormal')
+        detail.set_editor_property('texture',ue.load_asset(resident.TEX_FOLDER+'/T_RV4_WeaveN'))
+        detail.set_editor_property('sampler_type',ue.MaterialSamplerType.SAMPLERTYPE_NORMAL)
+        g.link(g.op(M,uv0,g.scalar('DetailTiling',10.,0,0)),detail,['UVs'])
+        n=g.lerp(g.const3([0,0,1]),(detail,'RGB'),g.scalar('DetailStrength',.6,0,0))
+        world=g.op(A,g.op(M,g.op(A,g.op(M,tangent,g.mask(n,'r')),g.op(M,bitangent,g.mask(n,'g'))),scale),
+                   g.op(M,normal,g.mask(n,'b')))
+        g.prop(g.unary(ue.MaterialExpressionNormalize,world),mp.MP_NORMAL)
+        g.prop(g.mask(g.vector('SubsurfaceColor',[.62,.20,.11],0,0),'rgb'),mp.MP_SUBSURFACE_COLOR)
+        g.prop(g.scalar('SubsurfaceAmount',.38,0,0),mp.MP_OPACITY)
     assert ml.get_material_property_input_node(master, mp.MP_BASE_COLOR) == final
     assert not any(isinstance(n, ue.MaterialExpressionCustom) for n in ml.get_material_expressions(master))
     ml.recompile_material(master)
     assert ue.EditorAssetLibrary.save_loaded_asset(master, False)
-    report['residentSurface'] = dict(linearVertexColor=True, uvChannel=0, mottle=True,
-                                    limitations=['No pore/weave normal detail or skin subsurface yet; visual pilot only'])
+    report['residentSurface'] = dict(linearVertexColor=STUDY!='01', uvChannel=0, mottle=True,
+                                    derivativeNormalDetail=STUDY=='03',skinSubsurface=STUDY=='03',
+                                    limitations=['Visual pilot, not runtime acceptance'])
 
 
 def color_readback(mesh):
@@ -68,6 +99,49 @@ def color_readback(mesh):
     assert len(colors)>20, 'Resident color variation lost'
     return dict(uniqueRGB=len(colors), minimum=[min(c[i] for c in colors) for i in range(3)],
                 maximum=[max(c[i] for c in colors) for i in range(3)], triangles=dynamic.get_triangle_count())
+
+
+def surface_readback(material):
+    ml=ue.MaterialEditingLibrary
+    mp=ue.MaterialProperty
+    def upstream(prop):
+        root=ml.get_material_property_input_node(material,prop)
+        assert root
+        pending=[root];nodes={}
+        while pending:
+            node=pending.pop()
+            if node.get_path_name() in nodes:continue
+            nodes[node.get_path_name()]=node
+            pending.extend(n for n in ml.get_inputs_for_material_expression(material,node) if n)
+        return root,list(nodes.values())
+    root,nodes=upstream(mp.MP_NORMAL)
+    assert isinstance(root,ue.MaterialExpressionNormalize)
+    counts={}
+    for node in nodes:
+        key=node.get_class().get_name();counts[key]=counts.get(key,0)+1
+    assert counts.get('MaterialExpressionDDX')==2 and counts.get('MaterialExpressionDDY')==2
+    world=[n for n in nodes if isinstance(n,ue.MaterialExpressionWorldPosition)]
+    assert len(world)==1
+    assert world[0].get_editor_property('world_position_shader_offset')==ue.WorldPositionIncludedOffsets.WPT_DEFAULT
+    detail=[n for n in nodes if isinstance(n,ue.MaterialExpressionTextureSampleParameter2D)
+            and str(n.get_editor_property('parameter_name'))=='DetailNormal']
+    assert len(detail)==1 and detail[0].get_editor_property('sampler_type')==ue.MaterialSamplerType.SAMPLERTYPE_NORMAL
+    assert counts.get('MaterialExpressionVertexInterpolator',0)>=1
+    _,base=upstream(mp.MP_BASE_COLOR)
+    assert any(isinstance(n,ue.MaterialExpressionVertexColor) for n in base)
+    opacity,_=upstream(mp.MP_OPACITY)
+    assert isinstance(opacity,ue.MaterialExpressionScalarParameter)
+    assert str(opacity.get_editor_property('parameter_name'))=='SubsurfaceAmount'
+    assert abs(opacity.get_editor_property('default_value')-.38)<1e-6
+    _,subsurface=upstream(mp.MP_SUBSURFACE_COLOR)
+    tint=[n for n in subsurface if isinstance(n,ue.MaterialExpressionVectorParameter)]
+    assert len(tint)==1 and str(tint[0].get_editor_property('parameter_name'))=='SubsurfaceColor'
+    value=tint[0].get_editor_property('default_value')
+    assert all(abs(a-b)<1e-6 for a,b in zip((value.r,value.g,value.b),(.62,.20,.11)))
+    assert not material.get_editor_property('tangent_space_normal')
+    assert material.get_editor_property('used_with_instanced_static_meshes')
+    return dict(normalConnectedNodes=counts, worldPositionIncludesWPO=True,
+                detailNormalConnected=True, vertexColorConnected=True, subsurfaceConnected=True)
 
 
 def run():
@@ -103,7 +177,7 @@ def run():
                 report['variants'].append(row)
                 label = 'Resident'+str(target)
                 ns = NS+'/'+label
-                mesh = vat._convert(ue, skel, ns+'/SM_'+label, target, row, linear_source_colors=STUDY=='02')
+                mesh = vat._convert(ue, skel, ns+'/SM_'+label, target, row, linear_source_colors=STUDY!='01')
                 assert ue.AnimToTextureBPLibrary.set_light_map_index(mesh,0,0,False)
                 textures = {key+kind:vat._texture(ue,tools,assets,ns+'/Textures','T_'+key+kind)
                             for key in ('Walk','Idle') for kind in ('Position','Normal')}
@@ -120,6 +194,14 @@ def run():
                     defaults[key.title()+'SizeBBox']=row[key+'Bake']['sizeBBox']
                 master = vat.build_master_v2(ue,spec,ns,'M_ResidentVAT',defaults,row)
                 surface(master,row)
+                skin_master=master
+                if STUDY=='03':
+                    skin_master=assets.duplicate_asset(master.get_path_name(),ns+'/Materials/M_ResidentVAT_Skin')
+                    assert isinstance(skin_master,ue.Material)
+                    skin_master.set_editor_property('shading_model',ue.MaterialShadingModel.MSM_SUBSURFACE)
+                    ue.MaterialEditingLibrary.recompile_material(skin_master)
+                    assert assets.save_loaded_asset(skin_master,False)
+                    row['skinMaster']=skin_master.get_path_name()
                 bindings=[]
                 row['materialInstances']={}
                 for i,slot in enumerate(mesh.static_materials):
@@ -127,10 +209,15 @@ def run():
                     kind,rough,specular,params=resident.SLOT_MI[name]
                     vectors={k:v for k,v in defaults.items() if k.endswith(('MinBBox','SizeBBox'))}
                     vectors['BaseColor']=resident.DEFAULT_GARMENT_TINT if name=='RV4_Garment' else [1,1,1]
-                    mi=vat._mi(ue,tools,assets,ns+'/Materials','MI_'+name,master,
-                               {k:v for k,v in defaults.items() if k.endswith('Texture')},vectors,
-                               dict(Roughness=rough,Specular=specular,PaletteMix=0.,SkinVariation=0.,
-                                    MottleTiling=params['MottleTiling'],MottleStrength=params['MottleStrength']),row['materialInstances'])
+                    tex_params={k:v for k,v in defaults.items() if k.endswith('Texture')}
+                    scalars=dict(Roughness=rough,Specular=specular,PaletteMix=0.,SkinVariation=0.,
+                                 MottleTiling=params['MottleTiling'],MottleStrength=params['MottleStrength'])
+                    if STUDY=='03':
+                        prefix='Pore' if kind=='skin' else 'Weave'
+                        tex_params['DetailNormal']=ue.load_asset(resident.TEX_FOLDER+'/'+params['Pores' if kind=='skin' else 'WeaveNormal'])
+                        scalars.update(DetailTiling=params[prefix+'Tiling'],DetailStrength=params[prefix+'Strength'])
+                    mi=vat._mi(ue,tools,assets,ns+'/Materials','MI_'+name,skin_master if kind=='skin' else master,
+                               tex_params,vectors,scalars,row['materialInstances'])
                     mesh.set_material(i,mi)
                     bindings.append([i,name,mi.get_path_name()])
                 assert len(bindings)==6
@@ -151,6 +238,7 @@ def run():
                 assert sha(ROOT/p)==digest
                 assert ue.load_asset('/Game/'+str(Path(p).relative_to('Content').with_suffix('')).replace('\\','/'))
             report['colorReadback']={}
+            report['surfaceReadback']={}
             for row in source['variants']:
                 mesh=ue.load_asset(row['mesh'])
                 assert mesh_stats(mesh)==row['stats']
@@ -159,6 +247,26 @@ def run():
                     assert vat._v3(mesh.get_editor_property(key+'_bounds_extension'))==list(vat.BOUNDS_EXTENSION_CM[key])
                 for i,_,path in row['slots']:
                     assert mesh.get_material(i).get_path_name()==path
+                if STUDY=='03':
+                    skin=ue.load_asset(row['skinMaster'])
+                    assert skin.get_editor_property('shading_model')==ue.MaterialShadingModel.MSM_SUBSURFACE
+                    ml=ue.MaterialEditingLibrary
+                    for i,name,path in row['slots']:
+                        mi=mesh.get_material(i)
+                        parent=mi.get_editor_property('parent')
+                        if parent.get_path_name() not in report['surfaceReadback']:
+                            report['surfaceReadback'][parent.get_path_name()]=surface_readback(parent)
+                        if name=='RV4_Skin':assert mi.get_editor_property('parent')==skin
+                        expected=row['materialInstances'][mi.get_name()]
+                        for key,value in expected.items():
+                            if isinstance(value,str):
+                                actual=ml.get_material_instance_texture_parameter_value(mi,key)
+                                assert actual and actual.get_path_name()==value
+                            elif isinstance(value,list):
+                                actual=ml.get_material_instance_vector_parameter_value(mi,key)
+                                assert all(abs(a-b)<1e-5 for a,b in zip((actual.r,actual.g,actual.b),value))
+                            else:
+                                assert abs(ml.get_material_instance_scalar_parameter_value(mi,key)-value)<1e-5
                 for key,path in row['textures'].items():
                     texture=ue.load_asset(path)
                     layout=row['walkBake' if key.startswith('Walk') else 'idleBake']

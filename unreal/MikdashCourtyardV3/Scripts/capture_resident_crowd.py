@@ -8,8 +8,8 @@ import re
 import unreal as ue
 
 ROOT = Path(__file__).resolve().parents[1]
-match = re.search(r'-ResidentCrowdStudy=(01|02)\b', ue.SystemLibrary.get_command_line())
-STUDY = match.group(1) if match else '02'
+match = re.search(r'-ResidentCrowdStudy=(01|02|03)\b', ue.SystemLibrary.get_command_line())
+STUDY = match.group(1) if match else '03'
 OUT = ROOT / ('SourceAssets/perf-review/crowd-vat/ResidentStudy'+STUDY)
 
 

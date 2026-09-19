@@ -1338,3 +1338,24 @@ frames in480px tiles. Warm colors restored and four sampled poses follow source.
 Skin remains darker (surface mismatch unresolved); collar/face/narrow trim lose
 detail under decimation, especially2400. Neither candidate adopted. Next: complete
 material match and detail policy, remaining variants, real-time/distance/perf.
+
+## Resident crowd surface parity pilot — 19 September 2026
+Study03 adds source pore/weave/strand detail texture/tiling/strength per slot and
+MSM_SUBSURFACE skin (.62,.20,.11 color, .38 amount). Stock-node cotangent frame
+uses pixel DDX/DDY of WPO-including world position and UV0, so detail follows VAT
+deformation instead of the static rest tangent. VAT world-space normal remains
+the base; max tangent-length normalization has a1e-12 degeneracy guard.
+Native build094544, fresh parameter readback094712, GPU094727 all normal exit0.
+Root inspected both frame0 levels full-resolution plus all12 source/candidate
+images as480px tiles. Skin shading now visibly closer to source and cloth detail
+present across four poses. Face/eye/collar/trim decimation defects persist; neither
+mesh is accepted for close viewing/default adoption. No scene/crowd changes.
+Saved graph connectivity verification added after bounded verifier review:
+checks Normal upstream derivative/detail/world-position chain, linear vertex
+color and source subsurface pins plus source parameters. Fresh check underway.
+
+Study03 saved graph readback094928 normalexit0: all four masters preserve connected
+VAT normal interpolation, exactly twoDDX/twoDDY nodes, WPO-including worldposition,
+normal sampler, vertexcolor and subsurface values. All12 MIs match recorded
+texture/vector/scalar values; skin parents/models match; protected files unchanged.
+This closes the pilot surface-wiring gap, not remaining crowd acceptance.

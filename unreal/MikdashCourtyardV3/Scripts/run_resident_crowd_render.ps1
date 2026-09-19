@@ -1,4 +1,4 @@
-param([ValidateSet('01','02')][string]$Study='02')
+param([ValidateSet('01','02','03')][string]$Study='03')
 $ErrorActionPreference = 'Stop'
 $root = (Split-Path -Parent $PSScriptRoot).Replace('\','/')
 $busy = @(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3,AutomationTool -ErrorAction SilentlyContinue)

@@ -1283,3 +1283,25 @@ walk phases,three views,before/after), five tracked bone positions equal across
 source/candidate, moving hand confirmed, protected assets unchanged. Cast02
 review01.json lists root visual inspection scope exactly; some adult side/rear
 and intermediate views remain to inspect. No live adoption or real-time claim.
+
+## Resident shoulder integration — 19 September 2026
+All adult after views reviewed as 480px contact tiles (four walk phases, three
+views), supplementing prior full-resolution images. Five candidates accepted for
+shoulder attachment; Man_Heavy original retained because it was already attached.
+Backed-up native adoption091820 exited0, changing ONLY five existing ResidentV4
+mesh files. Six material slots, each matching skeleton, and Face0..3 preserved.
+Fresh-process091942 readback exited0 and verified saved file hashes and bindings.
+SourceAssets/characters-review/ResidentShoulderAdopt01 contains the selected GLBs
+and adoption receipts; use these sleeve sources after any ResidentV4 regeneration.
+Original generator/manifest remain historical inputs; do not regenerate over the
+accepted repair without reapplying this source patch and its checks. No maps or
+crowd VAT assets changed. Fresh GPU comparisons underway. Collar gaps, beard art,
+garment silhouettes, whole-body collision and in-scene/package review remain open.
+
+Saved-mesh GPU acceptance: all five fresh commandlets exited0 (092002 through
+092157), protected files unchanged, five tracked bones match candidate at each
+phase. Of60 saved-mesh views,55 are RGB-exact to previously reviewed candidates.
+Only first front/t0 frames differ; root inspected five side-by-side contact pairs
+and Standard at full resolution. Shoulder shape/attachment match; small shading
+and edge differences remain, cause unproven. This accepts saved shoulder repairs
+for discrete native poses, not complete character art or a packaged release.

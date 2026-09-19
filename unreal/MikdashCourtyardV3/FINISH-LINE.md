@@ -437,3 +437,14 @@ actor as Priestly room floor, architecture_SM_1450_floor_Priestly_room_floor,
 bounds[-7400,2736,772.8]..[-6536,4944,792.0]. This is elevated interior geometry,
 not evidence to raise the ordinary visitor ground plane or relax its55cm check.
 Other west samples return the ordinary paving at408cm. Keep height refusal.
+
+## Largest-first crowd placement native result — 18 September 2026
+
+Source8ec430e0 passes active11/11,33/33math,Editor/Game and clonequick6/6.
+Fresh packing01 child with unchanged cooked hashes improves5000-request placement
+from4818 to4970; child exits0, wrapper correctlyfails for30missing. Plaza135/135
+complete; west1024/1030,street86/104,approach140/146 remain incomplete. Root viewed
+late-frame PNG. The45/60 sample has2939frames,median19.052ms,p9530.4ms for4970actual
+people; cross-run timing is not an isolated optimization claim. See
+crowd-packing01-5000-review.json. Same-binary10000 capture is next; movement,
+state transitions, fullcount benchmark matrix and final appearance remain open.

@@ -168,11 +168,41 @@ inline bool SegmentAllowed(const Geometry& World,const Vec2& From,const Vec2& To
     return true;
 }
 
+// A committed straight movement, followed by an indefinite hold at its endpoint.
+// Do not replace a live reservation: another visitor may rely on it continuing.
+struct MotionReservation
+{
+    Vec2 From{},To{};
+    double Start=0,End=0;
+    Vec2 At(double Time) const
+    {
+        return From+(To-From)*(End>Start?MikdashCrowd::Clamp((Time-Start)/(End-Start),0.0,1.0):1.0);
+    }
+};
+inline double ReservationDistance(const MotionReservation& A,const MotionReservation& B,double Now)
+{
+    // Relative motion is linear between starts/stops. Minimize its squared
+    // distance on every interval, including the last stationary endpoints.
+    std::array<double,5> Times{{Now,std::max(Now,A.Start),std::max(Now,A.End),
+        std::max(Now,B.Start),std::max(Now,B.End)}};
+    std::sort(Times.begin(),Times.end());
+    double Best=MikdashCrowd::Length(A.At(Now)-B.At(Now));
+    for(std::size_t I=1;I<Times.size();++I)
+    {
+        const Vec2 R=A.At(Times[I-1])-B.At(Times[I-1]);
+        const Vec2 D=(A.At(Times[I])-B.At(Times[I]))-R;
+        const double D2=MikdashCrowd::Dot(D,D);
+        const double T=D2>0?MikdashCrowd::Clamp(-MikdashCrowd::Dot(R,D)/D2,0.0,1.0):0;
+        Best=std::min(Best,MikdashCrowd::Length(R+D*T));
+    }
+    return Best;
+}
+
 // Bounded spatial hash. No all-agent scan: at most sixteen cells, sixty-four
 // occupants each. Full cells refuse insertion/movement rather than lose coverage.
 class SpatialIndex
 {
-    struct Entry { int Id;Vec2 Position; };
+    struct Entry { int Id;Vec2 Position;MotionReservation Motion{};bool Reserved=false; };
     std::unordered_map<uint64_t,std::vector<Entry>> Cells;
     static constexpr double CellCm=200.0;
     static constexpr std::size_t MaxCell=64;
@@ -183,6 +213,47 @@ class SpatialIndex
     { return MikdashCrowd::Finite(P)&&std::abs(P.X)<1e10&&std::abs(P.Y)<1e10; }
 public:
     void Clear() { Cells.clear(); }
+    bool CanReserve(int Id,const Vec2& From,const Vec2& To,double Now,double Duration) const
+    {
+        using namespace MikdashCrowd;
+        if(!Safe(From)||!Safe(To)||!std::isfinite(Now)||!std::isfinite(Duration)||Duration<=0
+            ||!std::isfinite(Now+Duration)||Length(To-From)>MaxStepCm) return false;
+        const auto Own=Cells.find(Key(Coord(From.X),Coord(From.Y)));
+        if(Own==Cells.end()) return false;
+        bool Found=false;
+        for(const auto& E:Own->second) if(E.Id==Id)
+        {
+            if(Length(E.Position-From)>1e-6 || E.Reserved) return false;
+            Found=true;break;
+        }
+        if(!Found) return false;
+        // Each stored anchor can project at most100cm into a neighboring cell.
+        // Inflate the candidate bounds by that amount as well as separation.
+        const double Reach=MinSeparationCm+MaxStepCm;
+        const int32_t MinX=Coord(std::min(From.X,To.X)-Reach),MaxX=Coord(std::max(From.X,To.X)+Reach);
+        const int32_t MinY=Coord(std::min(From.Y,To.Y)-Reach),MaxY=Coord(std::max(From.Y,To.Y)+Reach);
+        if((MaxX-MinX+1)*(MaxY-MinY+1)>16) return false;
+        const MotionReservation Candidate{From,To,Now,Now+Duration};
+        for(int32_t X=MinX;X<=MaxX;++X) for(int32_t Y=MinY;Y<=MaxY;++Y)
+        {
+            const auto It=Cells.find(Key(X,Y));if(It==Cells.end()) continue;
+            for(const auto& E:It->second)
+            {
+                if(E.Id==Id) continue;
+                const MotionReservation Other=E.Reserved?E.Motion:MotionReservation{E.Position,E.Position,Now,Now};
+                if(ReservationDistance(Candidate,Other,Now)<MinSeparationCm) return false;
+            }
+        }
+        return true;
+    }
+    bool Reserve(int Id,const Vec2& From,const Vec2& To,double Now,double Duration)
+    {
+        if(!CanReserve(Id,From,To,Now,Duration)) return false;
+        auto& Bucket=Cells.find(Key(Coord(From.X),Coord(From.Y)))->second;
+        for(auto& E:Bucket) if(E.Id==Id)
+        { E.Motion={From,To,Now,Now+Duration};E.Reserved=true;return true; }
+        return false;
+    }
     bool SegmentClear(const Vec2& From,const Vec2& To,int IgnoreId,double Separation=MinSeparationCm) const
     {
         if(!Safe(From)||!Safe(To)||!std::isfinite(Separation)||Separation<MinSeparationCm||Separation>100
@@ -224,13 +295,15 @@ public:
     /** Move an occupant to a point already validated by the caller (a committed vertex-animation
      * segment: SegmentClear was asked when the segment was planned). No clearance test here --
      * refusing would leave the index holding a position the figure is no longer at. */
-    bool Relocate(int Id,const Vec2& From,const Vec2& To)
+    bool Relocate(int Id,const Vec2& From,const Vec2& To,double Now=-1e30)
     {
         if(!Safe(From)||!Safe(To)) return false;
         const uint64_t Old=Key(Coord(From.X),Coord(From.Y)),New=Key(Coord(To.X),Coord(To.Y));
         auto It=Cells.find(Old);if(It==Cells.end()) return false;
+        for(const auto& E:It->second) if(E.Id==Id && E.Reserved
+            && (!std::isfinite(Now)||Now<E.Motion.End||MikdashCrowd::Length(To-E.Motion.To)>1e-4)) return false;
         if(Old==New)
-        { for(auto& E:It->second) if(E.Id==Id){E.Position=To;return true;}return false; }
+        { for(auto& E:It->second) if(E.Id==Id){E.Position=To;E.Reserved=false;return true;}return false; }
         bool Found=false;for(const auto& E:It->second) if(E.Id==Id) Found=true;
         if(!Found) return false;
         auto& Destination=Cells[New];if(Destination.size()>=MaxCell) return false;

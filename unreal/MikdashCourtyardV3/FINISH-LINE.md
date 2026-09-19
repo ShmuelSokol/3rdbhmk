@@ -1715,3 +1715,35 @@ and early replan/idle/freeze/cull invalidation. Do not add a commit-time refusal
 Relocate: that would leave the index behind the rendered person. Do not relax80cm
 or teleport. Formation return routing remains independently open. Evidence:
 SourceAssets/perf-review/crowd-vat/ResidentMotionReservation01/README.md.
+
+## Timed VAT reservations candidate — 19 September 2026
+CrowdGroupMath now checks piecewise-linear relative motion, including both stopped
+endpoints, inside the existing bounded spatial hash (16cells x64occupants). A VAT
+segment reserves its full lifetime and cannot be replaced or committed early.
+The runtime finishes it before replanning or distance freeze/cull; this can defer
+a distance stop by the remaining short horizon, at most the100cm segment bound.
+Followers read rendered cohort roots at a common time instead of stale anchors.
+Immediate yaw updates retain the current-frame turn cap rather than accumulating
+a multi-frame turn into one jump. Review-only <=64-agent spacing audit measures
+every game frame through65s. Standalone tests cover crossing/head-on/following,
+staggered plans, endpoint holds, early-stop/replan refusal, cell boundaries and
+an independent dense-time oracle. Native build/live review pending; no acceptance
+or packaged refresh yet. Recovery/routing and large-population performance remain
+open even if the reservation clearance tests pass.
+
+## Timed reservations live review — 19 September 2026
+Full gate12/12,34math suites,528reservation checks, Editor/Game compile. Ordinary
+Runtime03 game-20260919T151135Z keeps minimum frame-sampled spacing80.005032cm
+across1924frames (previous five-second minimum79.86437cm). Five-second minimum is
+80.036763cm. Root reviewed50captures: more visible walking, persistent clusters.
+Group9 leader final30s travel improves4.69->287.54cm; group8 reaches20.68cm, but
+five other moving-group leaders remain0cm. This does NOT accept group recovery.
+Corrected stop run game-20260919T151613Z enters48Frozen/48Culled then returns both0;
+minimum across1924frames80.003678cm. Movement resumes after both resets; another
+50captures reviewed. This tests CPU distance-state stopping, not HISM visibility:
+instance render-cull distances were deliberately unchanged and people remain drawn.
+Both runs48seeded/zero refusals/zero ground misses/two poses, exit0/no logged errors,
+heading maximum3.000008deg; current-root continuity max0.000001394cm in64samples.
+Frame samples supplement mathematical continuous-distance tests, not independent
+between-frame native proof. No full navigation,10k performance,packaged refresh or
+resident adoption claim. Evidence: ResidentRuntime03/reservation-review.json.

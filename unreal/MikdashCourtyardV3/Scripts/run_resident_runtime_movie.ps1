@@ -1,4 +1,4 @@
-param([ValidateRange(30,1800)][int]$FirstFrame=300,[ValidateRange(1,30)][int]$FrameStep=3,[ValidateSet('02','03')][string]$Study='02')
+param([ValidateRange(30,1800)][int]$FirstFrame=300,[ValidateRange(1,30)][int]$FrameStep=3,[ValidateSet('02','03')][string]$Study='02',[switch]$ExerciseDistanceStops)
 $ErrorActionPreference='Stop'
 $root=(Split-Path -Parent $PSScriptRoot).Replace('\','/')
 $busy=@(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3,AutomationTool -ErrorAction SilentlyContinue)
@@ -19,10 +19,18 @@ $captureFrames=$readbackFrame+3
 $commands=@($frames | ForEach-Object {"${_}:Shot filename=$folder/frame-$_.png -nosuffix"})
 foreach($property in @('SeededAgents','RefusedSeeds','GroundTraceMisses','ActivePoseCount','FrozenLastSweep','CulledLastSweep')){$commands+="${readbackFrame}:getall MikdashCrowdField $property"}
 $commands+="${readbackFrame}:LIST ISM"
+if($ExerciseDistanceStops){
+    if($Study -ne '03' -or $readbackFrame -lt 900){throw 'Distance-stop review requires Study03 and at least900frames'}
+    $commands+=@('151:set MikdashCrowdField FreezeDistanceCm 1','181:getall MikdashCrowdField FrozenLastSweep',
+        '241:set MikdashCrowdField FreezeDistanceCm 30000','751:set MikdashCrowdField FreezeDistanceCm 1',
+        '751:set MikdashCrowdField CullDistanceCm 2','781:getall MikdashCrowdField CulledLastSweep',
+        '841:set MikdashCrowdField CullDistanceCm 30000','841:set MikdashCrowdField FreezeDistanceCm 30000')
+}
 $ini='-ini:Game:[/Script/MikdashRuntime.MikdashFrontEnd]:bShowMainMenuOnBoot=False,[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=ResidentRuntimeReview,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=ResidentRuntimeReview_Settings,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:bApplyGraphicsToEngine=False'
 $arguments=@(('"'+$root+'/MikdashCourtyardV3.uproject"'),"/Game/MikdashV3/Review/ResidentRuntime$Study/RuntimeReview",'-game','-RenderOffscreen','-windowed','-ResX=1280','-ResY=720','-unattended','-nosplash','-nosound','-notraceserver','-notrace','-NoAsyncLoadingThread','-asyncstaticmeshcompilationmaxconcurrency=1','-DisablePlugins=MetaHumanCharacter,MetaHumanSDK','-NoMetaHumanAccountPortalLoginFallback','-benchmark','-fps=30',("-csvCaptureFrames=$captureFrames"),'-ExitAfterCsvProfiling','-csvNoProcessingThread','-MikdashCrowdMotionAudit','-MikdashCrowdReviewAudit',$ini,('-abslog="'+$log+'"'),'-ExecCmds="r.ScreenPercentage 100,r.AntiAliasingMethod 0,r.MotionBlurQuality 0,csv.ForceExit 0"',('-csvExecCmds="'+($commands -join ',')+'"'))
 if(($arguments -join ' ').Length -gt 14500){throw 'Unreal command-line length exceeded'}
 $record=[ordered]@{status='starting';scope='Fixed-step uncooked game-world movement review, not packaged release or performance';map=$mapFile;mapSha256=$mapHash;startedUtc=$stamp;log=$log;resolution=@(1280,720);fixedFps=30;captureFrames=$captureFrames;warmupFrames=$FirstFrame;frameStep=$FrameStep;requestedScreenshots=$frames;minimumStartCommitBytes=9GB;maximumPrivateBytes=8GB;reserveCommitBytes=1.25GB;peakPrivateBytes=0;commandLine=($arguments -join ' ')}
+$record.exerciseDistanceStops=[bool]$ExerciseDistanceStops
 function Save-Receipt {$record | ConvertTo-Json -Depth 7 | Set-Content -LiteralPath $receipt -Encoding utf8}
 Save-Receipt;$child=$null
 try{
@@ -40,8 +48,15 @@ try{
     $record.readbacks=@{}
     foreach($property in @('SeededAgents','RefusedSeeds','GroundTraceMisses','ActivePoseCount','FrozenLastSweep','CulledLastSweep')){
         $matchesFound=@(Select-String -LiteralPath $log -Pattern ('\.'+$property+' = (\d+)\s*$'))
-        if($matchesFound.Count -ne 1){throw "Missing unique $property readback"}
-        $record.readbacks[$property]=[int]$matchesFound[0].Matches[0].Groups[1].Value
+        $expected=1
+        if($ExerciseDistanceStops -and $property -in @('FrozenLastSweep','CulledLastSweep')){$expected=2}
+        if($matchesFound.Count -ne $expected){throw "Missing expected $property readbacks"}
+        $record.readbacks[$property]=[int]$matchesFound[-1].Matches[0].Groups[1].Value
+        if($expected -eq 2){
+            $duringStop=[int]$matchesFound[0].Matches[0].Groups[1].Value
+            $record["during$property"]=$duringStop
+            if($duringStop -ne 48 -or $record.readbacks[$property] -ne 0){throw "$property did not enter48 and return0"}
+        }
     }
     if($record.readbacks.SeededAgents -ne 48 -or $record.readbacks.RefusedSeeds -ne 0 -or $record.readbacks.GroundTraceMisses -ne 0 -or $record.readbacks.ActivePoseCount -ne 2){throw 'Live population/ground/pose readback mismatch'}
     $record.images=@($frames | ForEach-Object {$p="$folder/frame-$_.png";if(-not(Test-Path -LiteralPath $p)){throw "Missing screenshot $_"};@{frame=$_;file=$p;sha256=(Get-FileHash -LiteralPath $p).Hash.ToLower()}})

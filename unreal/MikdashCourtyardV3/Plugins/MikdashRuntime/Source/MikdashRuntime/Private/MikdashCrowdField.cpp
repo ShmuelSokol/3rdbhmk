@@ -977,6 +977,9 @@ void AMikdashCrowdField::StepSocialAgentVat(int32 Index, double Now, float Horiz
 {
     using namespace MikdashCrowd;
     auto& Agent = Agents[Index];
+    // Neighbor reservations rely on this entire segment. Finish it before
+    // replanning or stopping; the material clamps at its reserved endpoint.
+    if (!Agent.bIdleAnim && Now < Agent.AnchorTime + Agent.HorizonSeconds) return;
     // 1. Commit: the material has been drawing this figure along the segment validated at the
     //    previous visit; bring the anchor to the same point by the same expression.
     const double Elapsed = FMath::Clamp(Now - Agent.AnchorTime, 0.0, static_cast<double>(FMath::Max(0.f, Agent.HorizonSeconds)));
@@ -985,7 +988,7 @@ void AMikdashCrowdField::StepSocialAgentVat(int32 Index, double Now, float Horiz
     const Vec2 From = ToVec2(Agent.Position);
     if (Length(From - Before) > 1e-6)
     {
-        VisitorSpacing.Relocate(Index, Before, From);
+        ensureMsgf(VisitorSpacing.Relocate(Index, Before, From, Now), TEXT("Completed crowd reservation could not relocate"));
     }
     if (Agent.bStanding)
     {
@@ -1024,7 +1027,9 @@ void AMikdashCrowdField::StepSocialAgentVat(int32 Index, double Now, float Horiz
                 SetVatIdle(Agent, Now);
                 return;
             }
-            Positions[Member] = ToVec2(Agents[Id].Position);
+            const auto& Other = Agents[Id];
+            const double OtherDt = FMath::Clamp(Now - Other.AnchorTime, 0.0, static_cast<double>(Other.HorizonSeconds));
+            Positions[Member] = ToVec2(Other.Position + Other.Velocity * OtherDt);
         }
         FlowZone SharedFlow = Flow;
         if (Group->Travel.Mode == MikdashCrowdGroups::TravelMode::Returning)
@@ -1045,8 +1050,11 @@ void AMikdashCrowdField::StepSocialAgentVat(int32 Index, double Now, float Horiz
         Direction = Command.Direction; Speed = Command.Speed;
         if (Command.Waiting) ++GroupWaitVisitsLastFrame;
     }
-    const double SafeHorizon = FMath::Max(0.02, static_cast<double>(Horizon));
-    const double TurnSeconds = Clamp(FMath::Max(Elapsed, 1.0 / 120.0), 0.0, 0.5);
+    const double SafeHorizon = static_cast<double>(FMath::Max(0.02f, Horizon));
+    // Heading is an immediate instance update, not shader-interpolated. Even
+    // when a reserved segment spans several frames, keep this frame's yaw bound.
+    const double TurnSeconds = Clamp(FMath::Max(FMath::Min(Elapsed,
+        static_cast<double>(GetWorld()->GetDeltaSeconds())), 1.0 / 120.0), 0.0, 0.5);
     const double Heading = SteerHeading(Agent.HeadingDegrees, YawDegrees(Direction), TurnSeconds,
                                         MaxTurnDegreesPerSecond);
     // Only speeds the clip can play at are walked; the look-ahead stays inside the group step limit.
@@ -1058,7 +1066,7 @@ void AMikdashCrowdField::StepSocialAgentVat(int32 Index, double Now, float Horiz
         return;
     }
     const Vec2 To = From + FromDegrees(Heading) * (Playable * SafeHorizon);
-    bool Allowed = SocialSegmentAllowed(Agent.ZoneIndex, From, To) && VisitorSpacing.SegmentClear(From, To, Index);
+    bool Allowed = SocialSegmentAllowed(Agent.ZoneIndex, From, To) && VisitorSpacing.CanReserve(Index, From, To, Now, SafeHorizon);
     const auto& Zone = RuntimeZones[Agent.ZoneIndex];
     double NextGround = Agent.GroundZCm;
     if (!FMath::IsFinite(NextGround) || (Zone.GroundMode == EMikdashCrowdGround::Plane
@@ -1107,6 +1115,11 @@ void AMikdashCrowdField::StepSocialAgentVat(int32 Index, double Now, float Horiz
     if (!SetVatWalk(Agent, Now, Velocity2D, VelocityZ, static_cast<float>(SafeHorizon), Playable))
     {
         return;   // still inside the idle hold: stays put, not a rejected move
+    }
+    if (!VisitorSpacing.Reserve(Index, From, To, Now, SafeHorizon))
+    {
+        SetVatIdle(Agent, Now);
+        return;
     }
     if (Group && Agent.GroupMember == 0)
     {
@@ -1431,11 +1444,14 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
             const InstanceWork Work = ClassifyByDistance(Distance, FreezeDistanceCm, CullDistanceCm);
             if (Work != InstanceWork::Simulate && bUseVertexAnimation && (!Agent.bIdleAnim || Agent.WalkRate != 0.f))
             {
+                // Honor the short reserved movement before distance-based stop.
+                // Stopping early could invalidate a following visitor's plan.
+                if (VatTime < Agent.AnchorTime + Agent.HorizonSeconds) continue;
                 // Leaving the simulated range: stop where the material has it and idle, rather than
                 // freeze mid-stride when the anchor goes stale.
                 const Vec2 Before = ToVec2(Agent.Position);
                 CommitVat(Agent, VatTime);
-                if (bSocialRuntime) VisitorSpacing.Relocate(Index, Before, ToVec2(Agent.Position));
+                if (bSocialRuntime) ensureMsgf(VisitorSpacing.Relocate(Index, Before, ToVec2(Agent.Position), VatTime), TEXT("Frozen crowd reservation could not relocate"));
                 SetVatIdle(Agent, VatTime);
             }
             if (Work == InstanceWork::Cull)
@@ -1508,6 +1524,25 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
 
     PushTransforms(Window.FirstStart, Window.FirstCount);
     PushTransforms(Window.SecondStart, Window.SecondCount);
+    if (bReviewAudit && bUseVertexAnimation && Agents.Num() >= 2 && Agents.Num() <= 64 && ElapsedSeconds <= 65.0)
+    {
+        double Minimum = 1e30;
+        int32 ClosestA = -1, ClosestB = -1;
+        FVector2D Roots[64];
+        for (int32 I = 0; I < Agents.Num(); ++I)
+        {
+            const auto& A = Agents[I];
+            const double Dt = FMath::Clamp(VatTime - A.AnchorTime, 0.0, static_cast<double>(A.HorizonSeconds));
+            Roots[I] = A.Position + A.Velocity * Dt;
+        }
+        for (int32 A = 0; A < Agents.Num(); ++A) for (int32 B = A + 1; B < Agents.Num(); ++B)
+        {
+            if (!Agents[A].bValid || !Agents[B].bValid) continue;
+            const double Distance = (Roots[A] - Roots[B]).Size();
+            if (Distance < Minimum) { Minimum = Distance; ClosestA = A; ClosestB = B; }
+        }
+        UE_LOG(LogTemp, Display, TEXT("CrowdSpacingV1 time=%.6f minimum=%.9f a=%d b=%d"), VatTime, Minimum, ClosestA, ClosestB);
+    }
     if (bReviewAudit && bUseVertexAnimation && Agents.Num() <= 64
         && ReviewAuditSnapshot <= 12 && ElapsedSeconds >= ReviewAuditSnapshot * 5.0)
     {

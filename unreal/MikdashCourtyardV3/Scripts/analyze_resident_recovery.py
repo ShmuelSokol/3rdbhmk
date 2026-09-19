@@ -9,8 +9,14 @@ from analyze_crowd_motion_audit import fields
 
 def analyze(path):
     raw = path.read_bytes()
-    snapshots, agents = {}, {}
+    snapshots, agents, spacing = {}, {}, []
     for line in raw.decode('utf-8-sig').splitlines():
+        if 'CrowdSpacingV1 time=' in line:
+            row = {k: float(v) for k, v in fields(line).items()}
+            assert all(math.isfinite(v) for v in row.values()) and row['minimum'] >= 0
+            assert 0 <= row['a'] < row['b'] < 48
+            assert not spacing or row['time'] > spacing[-1]['time']
+            spacing.append(row)
         if 'CrowdReviewV1 snapshot=' in line:
             row = {k: float(v) for k, v in fields(line).items()}
             index = int(row['snapshot'])
@@ -57,6 +63,8 @@ def analyze(path):
                            leaderSampledTravelCm=leader['sampledTravelCm'],
                            leaderFinalThirtySecondsTravelCm=leader['finalThirtySecondsSampledTravelCm']))
     return dict(status='live-recovery-measured-not-navigation-acceptance',
+                frameSpacing=dict(samples=len(spacing), minimum=min(spacing, key=lambda r: r['minimum']) if spacing else None,
+                                  limitation='Frame samples do not independently prove between-frame clearance'),
                 logSha256=hashlib.sha256(raw).hexdigest(), snapshots=list(snapshots.values()),
                 agents=motion, groups=groups, minimumSampledSeparationCm=minimum_separation,
                 limitations=['Five-second displacement undercounts curved travel and misses between-sample collisions.',

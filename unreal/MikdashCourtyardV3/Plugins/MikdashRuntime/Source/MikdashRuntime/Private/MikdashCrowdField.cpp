@@ -1055,8 +1055,6 @@ void AMikdashCrowdField::StepSocialAgentVat(int32 Index, double Now, float Horiz
     // when a reserved segment spans several frames, keep this frame's yaw bound.
     const double TurnSeconds = Clamp(FMath::Max(FMath::Min(Elapsed,
         static_cast<double>(GetWorld()->GetDeltaSeconds())), 1.0 / 120.0), 0.0, 0.5);
-    const double Heading = SteerHeading(Agent.HeadingDegrees, YawDegrees(Direction), TurnSeconds,
-                                        MaxTurnDegreesPerSecond);
     // Only speeds the clip can play at are walked; the look-ahead stays inside the group step limit.
     double Playable = VatPlayableSpeed(Speed, VatWalkGroundSpeedCmPerSecond, Agent.ScaleFactor, VatMinPlayRate, VatMaxPlayRate);
     Playable = FMath::Min(Playable, (MikdashCrowdGroups::MaxStepCm - 1.0) / SafeHorizon);
@@ -1065,30 +1063,49 @@ void AMikdashCrowdField::StepSocialAgentVat(int32 Index, double Now, float Horiz
         SetVatIdle(Agent, Now);
         return;
     }
-    const Vec2 To = From + FromDegrees(Heading) * (Playable * SafeHorizon);
-    bool Allowed = SocialSegmentAllowed(Agent.ZoneIndex, From, To) && VisitorSpacing.CanReserve(Index, From, To, Now, SafeHorizon);
     const auto& Zone = RuntimeZones[Agent.ZoneIndex];
-    double NextGround = Agent.GroundZCm;
-    if (!FMath::IsFinite(NextGround) || (Zone.GroundMode == EMikdashCrowdGround::Plane
-        && !MikdashCrowdGroups::FollowPlane(Agent.GroundZCm, ZoneGroundZ(Zone, Agent.Position),
-            ZoneGroundZ(Zone, ToFVector2D(To)), NextGround))) Allowed = false;
-    if (!FMath::IsFinite(static_cast<float>(NextGround))) Allowed = false;
-    if (Allowed && bSweepGroupObstacles && GetWorld())
+    const auto Endpoint = [&](double Yaw) { return From + FromDegrees(Yaw) * (Playable * SafeHorizon); };
+    const auto SafeStep = [&](double Yaw, double& Ground)
     {
-        ++GroupSweepsLastFrame;
-        FCollisionQueryParams Query(SCENE_QUERY_STAT(CrowdGroupMove), false, this);
-        const FCollisionObjectQueryParams Objects(ECC_WorldStatic);
-        Allowed = !GetWorld()->SweepTestByObjectType(FVector(From.X, From.Y, Agent.GroundZCm + 99.f),
-            FVector(To.X, To.Y, NextGround + 99.f), FQuat::Identity, Objects, FCollisionShape::MakeCapsule(34.f, 96.f), Query);
-    }
+        const Vec2 Target = Endpoint(Yaw);
+        if (!SocialSegmentAllowed(Agent.ZoneIndex, From, Target)
+            || !VisitorSpacing.CanReserve(Index, From, Target, Now, SafeHorizon)) return false;
+        Ground = Agent.GroundZCm;
+        if (!FMath::IsFinite(Ground) || (Zone.GroundMode == EMikdashCrowdGround::Plane
+            && !MikdashCrowdGroups::FollowPlane(Agent.GroundZCm, ZoneGroundZ(Zone, Agent.Position),
+                ZoneGroundZ(Zone, ToFVector2D(Target)), Ground))) return false;
+        if (!FMath::IsFinite(static_cast<float>(Ground))) return false;
+        if (bSweepGroupObstacles && GetWorld())
+        {
+            ++GroupSweepsLastFrame;
+            FCollisionQueryParams Query(SCENE_QUERY_STAT(CrowdGroupMove), false, this);
+            const FCollisionObjectQueryParams Objects(ECC_WorldStatic);
+            if (GetWorld()->SweepTestByObjectType(FVector(From.X, From.Y, Agent.GroundZCm + 99.f),
+                FVector(Target.X, Target.Y, Ground + 99.f), FQuat::Identity, Objects, FCollisionShape::MakeCapsule(34.f, 96.f), Query)) return false;
+        }
+        return true;
+    };
+    const double DesiredHeading = YawDegrees(Direction);
+    MikdashCrowdGroups::LocalRouteChoice Route;
+    double RouteGround = Agent.GroundZCm;
+    if (bLocalDetours) Route = MikdashCrowdGroups::FindLocalRoute(DesiredHeading,
+        [&](double Yaw) { return SafeStep(Yaw, RouteGround); });
+    const double Heading = SteerHeading(Agent.HeadingDegrees, Route.Clear ? Route.Heading : DesiredHeading,
+        TurnSeconds, MaxTurnDegreesPerSecond);
+    const Vec2 To = Endpoint(Heading);
+    double NextGround = Agent.GroundZCm;
+    bool Allowed;
+    if (Route.Clear && Heading == Route.Heading)
+    { Allowed = true; NextGround = RouteGround; }
+    else Allowed = SafeStep(Heading, NextGround);
     if (!Allowed)
     {
         ++GroupRejectedMovesLastFrame;
         SetVatIdle(Agent, Now);
         // Turn in place even when translation is blocked. Otherwise a returning
         // party repeatedly retries its old forward heading after every pause.
-        if (Group) Agent.HeadingDegrees = static_cast<float>(Heading);
-        if (Group && Agent.GroupMember == 0)
+        if (Group || Route.Clear) Agent.HeadingDegrees = static_cast<float>(Heading);
+        if (Group && Agent.GroupMember == 0 && !Route.Clear)
         {
             const bool WasPaused = Group->Travel.Mode == MikdashCrowdGroups::TravelMode::Paused;
             MikdashCrowdGroups::RejectedTurningLeaderMove(Group->Travel,
@@ -1099,7 +1116,7 @@ void AMikdashCrowdField::StepSocialAgentVat(int32 Index, double Now, float Horiz
                 Group->PausedSince = Now;
             }
         }
-        else if (!Group)
+        else if (!Group && !Route.Clear)
         {
             // A rejected solo move chooses a sideways escape direction, but the
             // rendered figure must obey the same turn limit as a successful move.
@@ -1338,6 +1355,7 @@ void AMikdashCrowdField::BeginPlay()
     Super::BeginPlay();
     bMotionAudit = FParse::Param(FCommandLine::Get(), TEXT("MikdashCrowdMotionAudit"));
     bReviewAudit = FParse::Param(FCommandLine::Get(), TEXT("MikdashCrowdReviewAudit"));
+    bLocalDetours = !FParse::Param(FCommandLine::Get(), TEXT("MikdashCrowdNoLocalDetours"));
     if (!bActivateOnBeginPlay)
     {
         // Adopted opt-in, matching the rest of this plugin: placing the actor changes nothing
@@ -1553,6 +1571,7 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
 
 void AMikdashCrowdField::AuditReviewState(double Now)
 {
+    using namespace MikdashCrowd;
     int32 Forward = 0, Returning = 0, Paused = 0;
     for (const auto& Group : VisitorGroups)
     {
@@ -1564,6 +1583,27 @@ void AMikdashCrowdField::AuditReviewState(double Now)
         ReviewAuditSnapshot, Now, SeededAgents, GetVatWalkingCount(), Forward, Returning, Paused,
         ResumedVisitorGroups, GroupRejectedMovesLastFrame, GroupWaitVisitsLastFrame,
         PausedGroupResumeSeconds, MeshYawOffsetDegrees);
+    for (int32 GroupIndex = 0; GroupIndex < VisitorGroups.Num(); ++GroupIndex)
+    {
+        const auto& Group = VisitorGroups[GroupIndex];
+        Vec2 Positions[MikdashCrowdGroups::MaxMembers];
+        for (int32 M = 0; M < Group.Cohort.Count; ++M)
+        {
+            const auto& A = Agents[Group.Cohort.Members[M]];
+            const double Dt = FMath::Clamp(Now - A.AnchorTime, 0.0, static_cast<double>(A.HorizonSeconds));
+            Positions[M] = ToVec2(A.Position + A.Velocity * Dt);
+        }
+        FlowZone SharedFlow = ZoneFlowCache[Group.ZoneIndex];
+        if (Group.Travel.Mode == MikdashCrowdGroups::TravelMode::Returning)
+        { SharedFlow.Goal = ToVec2(Group.SeedAnchor); SharedFlow.GoalWeight = 1; SharedFlow.SwirlDegrees = 0; }
+        const Vec2 Direction = SampleFlow(SharedFlow, Positions[0], ElapsedSeconds, static_cast<uint32>(RandomSeed), Group.Cohort.Identity);
+        MikdashCrowdGroups::Settings Config; Config.SpacingCm = GroupSpacingCm; Config.SlowLagCm = GroupSlowLagCm; Config.WaitLagCm = GroupWaitLagCm;
+        const auto Command = MikdashCrowdGroups::Steering(Group.Cohort, 0, Positions, Group.Travel.FormationHeading,
+            Direction, Config, static_cast<uint32>(RandomSeed), Group.Travel.Mode == MikdashCrowdGroups::TravelMode::Paused);
+        UE_LOG(LogTemp, Display, TEXT("CrowdReviewGroupV1 snapshot=%d group=%d mode=%d identity=%u speed=%.6f heading=%.6f anchorX=%.6f anchorY=%.6f maxLag=%.6f commandSpeed=%.6f waiting=%d waitLag=%.3f slowLag=%.3f detours=%d lagMetric=1 formationError=%.6f"),
+            ReviewAuditSnapshot, GroupIndex, static_cast<int32>(Group.Travel.Mode), Group.Cohort.Identity, Group.Cohort.Speed,
+            Group.Travel.FormationHeading, Group.SeedAnchor.X, Group.SeedAnchor.Y, Command.MaxLag, Command.Speed, Command.Waiting, GroupWaitLagCm, GroupSlowLagCm, bLocalDetours, Command.MaxFormationError);
+    }
     for (int32 Index = 0; Index < Agents.Num(); ++Index)
     {
         const auto& Agent = Agents[Index];

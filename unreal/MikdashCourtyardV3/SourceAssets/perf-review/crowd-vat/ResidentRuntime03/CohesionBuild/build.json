@@ -1,0 +1,32 @@
+{
+  "status": "verified-source-build-native-proof-pending",
+  "checksPassed": 12,
+  "mathSuitesPassed": 35,
+  "groupTest": "CrowdGroupMath: 294967 checks, 0 failures",
+  "command": "python -u Scripts/verify.py --build",
+  "gateTerminalEvidence": "PID 17404 exited; full.log ends 12/12 checks passed and verify: green; both UBT logs Result: Succeeded",
+  "sourceHashes": {
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdGroupMath.h": "6b02ea1581e69bf061f08a99d4d68308f46ab17a446f9b639f6fc6c9344e4ac0",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashCrowdField.cpp": "2637f980976f5e0f5c41806dd1ab75fa0ff0fa8074187c0c3ff366003f81364b",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashCrowdField.h": "7a11119428a6628c2722a355de201cc379ca36953ac95a6584a39321b434610a",
+    "Plugins/MikdashRuntime/Tests/CrowdLocalRouteMathTest.cpp": "9956a03b20ab6e778cec0abb3aab619df74ed9d2e192f436bf71876864c5ab44",
+    "Plugins/MikdashRuntime/Tests/CrowdGroupMathTest.cpp": "bfffb665ba867d284a32e5db2f33f45b3b7235cb5460f35014475eff1a5f1f40",
+    "Scripts/analyze_resident_recovery.py": "1d581a34dd789909eedbad4fbbf5eb12c71a91255a587fed1150a3fe6a710090",
+    "Scripts/run_resident_runtime_movie.ps1": "3a90b7acfe238c70b338aed3ae82129af1f69f8d7f20c5879011c3ece6de040b"
+  },
+  "binaryHashes": {
+    "Plugins/MikdashRuntime/Binaries/Win64/UnrealEditor-MikdashRuntime.dll": "535f51e91e9562668e8aa5b2658d4c80b1f24f33c6b9f459425b3de72ceae693",
+    "Binaries/Win64/MikdashCourtyardV3.exe": "86b59ca3e7dc10ebee7bd5bb606d0a63fd3c811cd3759a736d0a34fb76e47afa"
+  },
+  "logs": {
+    "full.log": "2a00fe3b5e0739d3558c629d42557ce890b345fcb301bafb9a9af0dd441e0961",
+    "stderr.log": "0ee9110dc5fad4cb3d29b1843b1a1846f3d113a3b940448f6fb5f96778c54f90",
+    "compiler.stdout.log": "78a9070f4eb39d96341a3092ffaa6781f28c206c653fcb9a1b4fa75aab19bbdb",
+    "compiler.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "group-test.stdout.log": "fd8dde35c4a35a1c55c03091f01904ac2219b911e1e0333e9c9c4c754d0727e9",
+    "group-test.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "verify-ubt-MikdashCourtyardV3Editor-04839apk.log": "8987608e8b2a98b5752ca0559ad84ec6c5b5f996781eab56052ab37268977b16",
+    "verify-ubt-MikdashCourtyardV3-y58afh89.log": "37b31334d9a64f7294475628f675bdc8650ea5389782b45cb6b0aecfa8d0004f"
+  },
+  "limitations": "Reversal integration is unobstructed pure steering; native group recovery, navigation and performance remain unproven."
+}

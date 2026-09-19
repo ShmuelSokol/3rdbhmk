@@ -13,6 +13,24 @@ constexpr int MaxMembers=6;
 constexpr double MinSeparationCm=80.0;
 constexpr double MaxStepCm=100.0;
 struct Settings { double SpacingCm=120.0, SlowLagCm=100.0, WaitLagCm=250.0; };
+struct LocalRouteChoice { double Heading=0;bool Clear=false;int Probes=0; };
+template<class Gate> inline LocalRouteChoice FindLocalRoute(double DesiredHeading,Gate&& Allowed)
+{
+    LocalRouteChoice Out;
+    if(!std::isfinite(DesiredHeading)) return Out;
+    // Prefer the closest clear direction; use the same right-hand preference
+    // for opposing walkers. Every probe is a suggestion, never a movement.
+    // The caller must turn at its normal rate and validate the actual step.
+    const double Offsets[]={0,45,-45,90,-90,135,-135,180};
+    Out.Heading=MikdashCrowd::WrapDegrees(DesiredHeading);
+    for(double Offset:Offsets)
+    {
+        ++Out.Probes;
+        const double Heading=MikdashCrowd::WrapDegrees(DesiredHeading+Offset);
+        if(Allowed(Heading)) { Out.Heading=Heading;Out.Clear=true;break; }
+    }
+    return Out;
+}
 // Prefer other enabled zones whose initial placement succeeded most often.
 // This orders attempts only; it does not grant space or bypass any native gate.
 inline std::vector<int> FallbackZoneOrder(int Preferred,const std::vector<int>& Requested,const std::vector<int>& Placed)
@@ -114,7 +132,7 @@ inline Vec2 WorldOffset(const Vec2& Local,double Heading)
     const Vec2 Forward=MikdashCrowd::FromDegrees(Heading);
     return {Forward.X*Local.X-Forward.Y*Local.Y,Forward.Y*Local.X+Forward.X*Local.Y};
 }
-struct Command { Vec2 Direction{};double Speed=0,MaxLag=0;bool Waiting=false,Valid=false; };
+struct Command { Vec2 Direction{};double Speed=0,MaxLag=0,MaxFormationError=0;bool Waiting=false,Valid=false; };
 inline Command Steering(const Cohort& Group,int Member,const Vec2* Positions,double LeaderHeading,
     const Vec2& LeaderDirection,const Settings& Config,uint32_t Seed,bool PartyPaused=false)
 {
@@ -126,8 +144,13 @@ inline Command Steering(const Cohort& Group,int Member,const Vec2* Positions,dou
     for(int I=0;I<Group.Count;++I) if(!MikdashCrowd::Finite(Positions[I])) return Out;
     for(int I=1;I<Group.Count;++I)
     {
-        const Vec2 Target=Positions[0]+WorldOffset(Offset(I,Seed,Group.Identity,Config.SpacingCm),LeaderHeading);
-        Out.MaxLag=std::max(Out.MaxLag,MikdashCrowd::Length(Target-Positions[I]));
+        const Vec2 Local=Offset(I,Seed,Group.Identity,Config.SpacingCm);
+        const Vec2 Target=Positions[0]+WorldOffset(Local,LeaderHeading);
+        Out.MaxFormationError=std::max(Out.MaxFormationError,MikdashCrowd::Length(Target-Positions[I]));
+        // Wait for companions who have actually spread away from the group.
+        // Rotating desired slots must not stop an already compact party and
+        // require its members to exchange places before its leader can move.
+        Out.MaxLag=std::max(Out.MaxLag,MikdashCrowd::Length(Positions[I]-Positions[0])-MikdashCrowd::Length(Local));
     }
     const double Soft=std::max(25.0,Config.SlowLagCm),Hard=std::max(Soft+25.0,Config.WaitLagCm);
     const double Pace=PartyPaused||Out.MaxLag>=Hard?0.0:(Out.MaxLag<=Soft?1.0:1.0-.65*(Out.MaxLag-Soft)/(Hard-Soft));

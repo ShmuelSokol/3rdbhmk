@@ -9,7 +9,7 @@ from analyze_crowd_motion_audit import fields
 
 def analyze(path):
     raw = path.read_bytes()
-    snapshots, agents, spacing = {}, {}, []
+    snapshots, agents, spacing, group_states = {}, {}, [], {}
     for line in raw.decode('utf-8-sig').splitlines():
         if 'CrowdSpacingV1 time=' in line:
             row = {k: float(v) for k, v in fields(line).items()}
@@ -29,6 +29,13 @@ def analyze(path):
             assert agent not in agents.setdefault(index, {})
             assert all(math.isfinite(v) for v in row.values())
             agents[index][agent] = row
+        elif 'CrowdReviewGroupV1 snapshot=' in line:
+            row = {k: float(v) for k, v in fields(line).items()}
+            index, group = int(row['snapshot']), int(row['group'])
+            assert all(math.isfinite(v) for v in row.values())
+            assert group not in group_states.setdefault(index, {})
+            assert row['mode'] in (0, 1, 2) and row['detours'] in (0, 1)
+            group_states[index][group] = row
     assert sorted(snapshots) == sorted(agents) == list(range(13)), 'Expected0..60s snapshots'
     minimum_separation = float('inf')
     for index, summary in snapshots.items():
@@ -62,7 +69,15 @@ def analyze(path):
         groups.append(dict(group=group, members=len(members), standing=leader['standing'],
                            leaderSampledTravelCm=leader['sampledTravelCm'],
                            leaderFinalThirtySecondsTravelCm=leader['finalThirtySecondsSampledTravelCm']))
+    if group_states:
+        assert sorted(group_states) == list(range(13))
+        for index, rows in group_states.items():
+            assert sorted(rows) == [g['group'] for g in groups]
+            for group, row in rows.items():
+                leader = next(a for a in agents[index].values() if a['group'] == group and a['member'] == 0)
+                assert row['identity'] == leader['agent']
     return dict(status='live-recovery-measured-not-navigation-acceptance',
+                groupSteeringSnapshots=[row for index in sorted(group_states) for _, row in sorted(group_states[index].items())],
                 frameSpacing=dict(samples=len(spacing), minimum=min(spacing, key=lambda r: r['minimum']) if spacing else None,
                                   limitation='Frame samples do not independently prove between-frame clearance'),
                 logSha256=hashlib.sha256(raw).hexdigest(), snapshots=list(snapshots.values()),

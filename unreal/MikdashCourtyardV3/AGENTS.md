@@ -4581,3 +4581,66 @@ heading maximum3.000008deg; current-root continuity max0.000001394cm in64samples
 Frame samples supplement mathematical continuous-distance tests, not independent
 between-frame native proof. No full navigation,10k performance,packaged refresh or
 resident adoption claim. Evidence: ResidentRuntime03/reservation-review.json.
+
+## Bounded local-route candidate — 19 September 2026
+After timed reservations, followers/leaders still retry a single direction. The
+candidate searches at most8 headings (desired, +/-45, +/-90, +/-135,180), each
+through the unchanged polygon, timed reservation, ground and static capsule gates.
+A suggestion only chooses the yaw target: the normal limited heading is separately
+validated before any actual movement. Leaders do not pause/return just because
+their current heading is blocked while a tested alternative remains clear. No
+teleport, spacing relaxation, unreserved movement or world sweep bypass. Ordinary
+clear paths use1probe; a blocked search plus actual validation can cost9probes.
+This is bounded but NOT yet a10k performance acceptance. The native comparison
+flag -MikdashCrowdNoLocalDetours restores the old single-direction behavior; wrapper
+-NoLocalDetours records it. Group review rows expose formation heading, max follower
+lag, wait/slow thresholds, travel mode and recomputed leader speed per snapshot.
+Standalone traveler-around-stationary-person test passes315checks with80cm spacing
+and90deg/s turn cap. Native group routing/A-B and full build remain pending.
+
+## False formation waits diagnosed — 19 September 2026
+Same-binary Runtime03 baseline with NoLocalDetours exactly reproduces prior travel
+and spacing. At60s, groups2/3/10 wait on slot errors352/305/262cm; groups0/1 pause.
+Local detours reduce zero-late-travel leaders5->2 and group1 gains709cm, while all
+frame-sampled spacing remains>=80cm. They expose a separate cohesion defect:
+rotating fixed target slots creates a large error even for a physically compact
+group. Candidate group0 has434.86cm slot error although every companion remains
+within262.14cm of its leader (normal six-person formation reaches about272cm).
+Groups8/10 similarly wait at257/260cm slot errors despite actual radii<=183/150cm.
+Replace waiting/slowing lag with physical radius excess over each member's authored
+radius; retain slot targets for follower steering and log formation error separately.
+The100/250cm slow/wait excess limits, group identities,80cm spacing and native gates
+remain unchanged. Audit lagMetric=1 distinguishes new physical-spread lag from old
+slot-error logs. New reversal tests require a compact party to remain mobile while
+keeping its large slot error visible. This correction needs new build/live review.
+First local-route binary/source evidence is retained in ResidentRuntime03/LocalRouteBuild.
+
+## Reversal test correction — 19 September 2026
+The first cohesion gate correctly rejected a new test's assumption that every follower
+moves immediately after a180-degree reversal. A former rear member is now ahead of
+the leader and the unchanged speed law holds it while the leader passes. Test that
+brief hold and subsequent sustained travel/formation recovery using common-time
+positions instead. This pure steering integration is not collision or native evidence.
+Failed gate verify-cohesion-20260919T154205Z is retained; no native build ran.
+
+## Local routing and physical cohesion live review — 19 September 2026
+Full gate12/12 and35math suites pass; both Unreal targets compile. The initial
+cohesion gate failed an incorrect immediate follower-motion test and never built.
+Corrected common-time reversal integration allows an ahead member to hold, then
+requires resumed travel and re-formed slots;294967group checks pass.
+Runtime03 game-20260919T155219Z:48seeded/0refused/0groundmiss/2poses, normal exit,
+no logged errors, unchanged map. Minimum across1924game frames80.007168211cm;
+five-second minimum80.012809955cm; heading max3.000008deg; retained current-root
+continuity max0.000001394cm. All50captures reviewed in5overview sheets: increased
+walking, persistent clusters, deliberately standing groups stay still.
+Final30s leader travel(cm) for groups0/1/2/3/8/9/10 is respectively
+41.86/1139.32/421.84/221.50/0.152/586.21/70.69. Group8 is effectively stalled;
+positive sub-centimetre motion is NOT recovery. At60s groups0/1/8/10 are Paused,
+group2 waits for actual spread, groups3/9 have positive steering commands.
+The same-binary old-cohesion baseline/detour A-B and this subsequent cohesion run
+retain150screenshots,15reviewed sheets, receipts, compressed logs and exact source/
+build hashes in ResidentRuntime03/local-route-review.json. LocalRouteBuild pins
+old slot-error waiting; CohesionBuild pins radial-excess waiting(lagMetric1).
+No full navigation,10k performance,main-map adoption or refreshed packaged release
+acceptance. Next: diagnose paused recovery and effectively stalled group8, then
+multiple zones/longer runs and large-population cost of up to9movement probes.

@@ -243,11 +243,13 @@ public:
     float IndividualVisitorRatio = 0.15f;
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Crowd|Groups", meta=(ClampMin="110.0",ClampMax="180.0"))
     float GroupSpacingCm = 120.f;
+    /** Extra physical distance from the leader beyond a member's nominal radius. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Crowd|Groups", meta=(ClampMin="25.0"))
     float GroupSlowLagCm = 100.f;
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Crowd|Groups", meta=(ClampMin="50.0"))
     float GroupWaitLagCm = 250.f;
-    /** One physical capsule sweep per proposed budgeted move; never all agents per frame.
+    /** At most eight route probes plus the actual rate-limited move per budgeted plan.
+     * Each probe that passes geometry/spacing uses a physical capsule sweep.
      * Disabling is a diagnostic mode and cannot establish obstacle acceptance. */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Crowd|Groups")
     bool bSweepGroupObstacles = true;
@@ -532,6 +534,7 @@ private:
     // Opt-in bounded diagnostic; never changes simulation or instance data.
     bool bMotionAudit = false;
     bool bReviewAudit = false;
+    bool bLocalDetours = true;
     int32 ReviewAuditSnapshot = 0;
     void AuditReviewState(double Now);
     int32 MotionAuditSamples = 0, MotionAuditLogged = 0;

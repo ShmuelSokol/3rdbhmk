@@ -53,6 +53,28 @@ int main()
     Settings Config;
     auto Leader=Steering(Group,0,Positions,0,{1,0},Config,13);
     Expect(Leader.Valid&&Leader.Speed==90&&!Leader.Waiting,"coherent group walks common90cm pace");
+    const auto Reversed=Steering(Group,0,Positions,180,{-1,0},Config,13);
+    Expect(Reversed.Valid&&Reversed.Speed==90&&!Reversed.Waiting&&Reversed.MaxLag<1e-9,
+        "compact party can reverse without falsely waiting for rotated slots");
+    Expect(Reversed.MaxFormationError>500,"large slot error remains observable separately from physical spread");
+    const auto ReversedFollower=Steering(Group,5,Positions,180,{-1,0},Config,13);
+    Expect(ReversedFollower.Valid&&ReversedFollower.Speed==0,"member ahead of reversed leader waits for the leader to pass");
+    Vec2 TurningPositions[6];for(int I=0;I<6;++I) TurningPositions[I]=Positions[I];
+    bool FollowerResumed=false;
+    for(int Tick=0;Tick<2000;++Tick)
+    {
+        Vec2 Next[6];
+        for(int I=0;I<6;++I)
+        {
+            const auto Cmd=Steering(Group,I,TurningPositions,180,{-1,0},Config,13);
+            if(I==5&&Cmd.Speed>0) FollowerResumed=true;
+            Next[I]=TurningPositions[I]+Cmd.Direction*(Cmd.Speed*.01);
+        }
+        for(int I=0;I<6;++I) TurningPositions[I]=Next[I];
+    }
+    Expect(FollowerResumed&&TurningPositions[0].X<-1000,"reversed party resumes sustained travel after temporary follower hold");
+    Expect(Steering(Group,0,TurningPositions,180,{-1,0},Config,13).MaxFormationError<25,
+        "reversed party regains its authored formation in unobstructed steering integration");
     Positions[5].X-=150;
     Leader=Steering(Group,0,Positions,0,{1,0},Config,13);
     Expect(Leader.Speed>0&&Leader.Speed<90&&!Leader.Waiting,"leader slows for moderately lagging member");

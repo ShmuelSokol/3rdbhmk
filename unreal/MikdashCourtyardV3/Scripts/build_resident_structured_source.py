@@ -1,8 +1,8 @@
 """Export isolated grid-reduced residents from accepted shoulder-repaired GLBs.
 
 Every retained attribute/morph row is copied as raw bytes from the accepted
-source. Only Tunic/Mantle face indices change; all other parts keep their faces
-and vertices. Original buffers remain as provenance; imported mesh vertices are
+source. Tunic/Mantle face indices change; optional head-stride2 also reduces the
+head grid. Other parts keep their faces and vertices. Original buffers remain as provenance; imported mesh vertices are
 compacted through new accessors. This is not native or visual acceptance.
 """
 import argparse
@@ -45,12 +45,17 @@ def write_glb(path, doc, binary):
         handle.write(struct.pack('<II', len(binary), 0x004e4942)+binary)
 
 
-def build(short, folder):
+def build(short, folder, head_stride=1):
     folder.mkdir(parents=True, exist_ok=True)
     assert not any(folder.iterdir()), 'Fresh empty output directory required'
     variant = R.variant('V3_Pilgrim_'+short)
     raw = R.assembly(variant)
     reduced, _, counts = reduce_parts(raw, variant, 2, 2)
+    if head_stride!=1:
+        from reduce_resident_head_grid import reduce_head
+        replacement,head_counts=reduce_head(next(p for p in raw if p['name']=='Head'),variant,head_stride)
+        reduced=[replacement if p['name']=='Head' else p for p in reduced]
+        counts['Head']=head_counts
     parts = R.finalize(raw, variant)
     source = ROOT/'SourceAssets/characters-review/ResidentShoulderAdopt01'/('SK_RV4_'+short+'.glb')
     original = ROOT/'SourceAssets/characters-review/ResidentV4/meshes'/source.name
@@ -92,7 +97,7 @@ def build(short, folder):
         offset, original_indices, candidate_indices = 0, [], []
         for p in members:
             original_indices.extend(offset+i for face in p['faces'] for i in face)
-            if p['name'] in ('Tunic', 'Mantle'):
+            if p['name'] in counts:
                 candidate = R.split_seams2(next(q for q in reduced if q['name'] == p['name']))
                 lookup = {(tuple(v), tuple(uv)): i for i, (v, uv) in enumerate(zip(p['vertices'], p['uv']))}
                 assert len(lookup) == len(p['vertices']), 'Ambiguous garment vertex mapping'
@@ -127,7 +132,7 @@ def build(short, folder):
                            sourceVertexIndices=used))
         totals['sourceTriangles'] += len(original_indices)//3
         totals['candidateTriangles'] += len(indices)//3
-    target = folder/('SK_RV4_'+short+'_Structured.glb')
+    target = folder/('SK_RV4_'+short+('_HeadGrid' if head_stride!=1 else '_Structured')+'.glb')
     write_glb(target, outdoc, output)
     loaded, loaded_bin = read_glb(target)
     assert loaded == outdoc and loaded_bin[:len(output)] == output
@@ -136,9 +141,10 @@ def build(short, folder):
     report = dict(status='source-export-needs-native-review', variant=short,
                   source=source.relative_to(ROOT).as_posix(), sourceSha256=sha(source),
                   candidate=target.name, candidateSha256=sha(target), totals=totals,
-                  garmentCounts=counts, primitives=checks,
-                  preserved='Every retained attribute/morph row byte-for-byte from accepted shoulder source; all non-garment faces, skin, UVs, morphs, skeleton and material slots.',
-                  scope='Index-only garment reduction; compact referenced vertex accessors. Original binary payload retained. No native, animation or visual acceptance.')
+                  garmentCounts={k:v for k,v in counts.items() if k!='Head'}, primitives=checks,
+                  preserved='Every retained attribute/morph row byte-for-byte from accepted shoulder source; all faces outside the explicitly reduced parts, skeleton and material slots.',
+                  scope='Index-only source-grid reduction; compact referenced vertex accessors. Original binary payload retained. No native, animation or visual acceptance.')
+    if head_stride!=1:report['headReduction']=counts['Head']
     (folder/'review.json').write_text(json.dumps(report, indent=2)+'\n')
     print(short, totals, target, flush=True)
 
@@ -147,5 +153,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--variant', choices=['Man_Elder', 'Woman_Young'], required=True)
     parser.add_argument('--folder', type=Path, required=True)
+    parser.add_argument('--head-stride',type=int,choices=(1,2),default=1)
     args = parser.parse_args()
-    build(args.variant, args.folder)
+    build(args.variant, args.folder,args.head_stride)

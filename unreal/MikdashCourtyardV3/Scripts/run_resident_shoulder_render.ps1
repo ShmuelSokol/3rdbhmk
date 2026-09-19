@@ -1,5 +1,6 @@
-param([ValidateSet('Youth','Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder')][string]$Variant='Youth',[switch]$Animated)
+param([ValidateSet('Youth','Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder')][string]$Variant='Youth',[switch]$Animated,[switch]$HeadGrid)
 $ErrorActionPreference = 'Stop'
+if($HeadGrid -and ($Animated -or $Variant -notin @('Man_Elder','Woman_Young'))){throw 'HeadGrid requires Elder/Woman neutral review'}
 $root = (Split-Path -Parent $PSScriptRoot).Replace('\','/')
 $busy = @(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3,AutomationTool -ErrorAction SilentlyContinue)
 $busy += @(Get-CimInstance Win32_Process -Filter "Name='dotnet.exe'" | Where-Object {$_.CommandLine -match 'AutomationTool|UnrealBuildTool'})
@@ -7,6 +8,7 @@ if($busy.Count){throw 'Native slot occupied'}
 if(([long](Get-CimInstance Win32_OperatingSystem).FreeVirtualMemory*1KB) -lt 6GB){throw 'Isolated audit needs 6 GiB free commit'}
 $stamp=(Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ')
 $folder=if($Variant -eq 'Youth'){"$root/SourceAssets/characters-review/ResidentShoulderStudy05"}else{"$root/SourceAssets/characters-review/ResidentShoulderCast02/$Variant"}
+if($HeadGrid){$folder="$root/SourceAssets/characters-review/ResidentHeadGrid01/$Variant"}
 New-Item -ItemType Directory -Path $folder -Force | Out-Null
 $log="$folder/shoulder-render-run-$stamp.log"
 $receipt="$folder/shoulder-render-run-$stamp.json"
@@ -20,6 +22,7 @@ $arguments=@(('"'+$root+'/MikdashCourtyardV3.uproject"'),'-run=pythonscript',('-
 
 $arguments += ('-RV4ShoulderVariant='+$Variant)
 if($Animated){$arguments += '-RV4ShoulderAnimated'}
+if($HeadGrid){$arguments += '-RV4HeadGrid'}
 $child=$null
 try {
     $child=Start-Process -FilePath $exe -ArgumentList $arguments -WorkingDirectory $root -WindowStyle Hidden -PassThru

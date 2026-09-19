@@ -1584,3 +1584,21 @@ strict timestamp matching fixes wrapper discovery. Preserve and reconcile origin
 failed wrapper; do not rerender terminal successful native work for a green receipt.
 Evidence: ResidentStudy11/state-review.json. Next body reduction, all-cast/distance
 and continuously advancing in-scene blend/loop/performance review before adoption.
+
+## Resident head-grid reduction — 19 September 2026
+HeadGrid01 extends the source-grid exporter with opt-in head-stride2. Head faces
+16800->4300, saving12500 per variant: Study10 Elder45744->33244 and Woman40164->27664.
+Retained attribute/morph rows come byte-for-byte from accepted shoulder GLBs; every
+non-head face matches Study10, including garment reduction. Raw head is closed,
+consistently wound, Euler2. Independent saved-GLB comparison checks all attributes,
+morph rows, skeleton/material metadata and non-head faces. Source-vertex distances
+to reduced triangles across rest/four separate morphs peak0.620cm Elder/0.288cm Woman.
+GLTF is meters; corrected verified-head-source.json is authoritative. This is not
+a surface Hausdorff bound, combined-morph/animation clearance or acceptance.
+Two transient native imports exit0,12 close-up GPU captures, two root-reviewed
+contact sheets. Head silhouette similar but brow/eyelid/lip detail visibly softer.
+Keep as distance-level candidate only; no near replacement or runtime adoption.
+Native skeleton/morph names and material bindings match; protected assets unchanged.
+Next distance/morph review, feature-preserving refinement if needed, remaining body
+reduction and direct-normal VAT/all-cast/performance tests. Evidence:
+SourceAssets/characters-review/ResidentHeadGrid01/review.json.

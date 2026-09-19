@@ -17,7 +17,10 @@ match=re.search(r'-RV4ShoulderVariant=(\w+)',command)
 VARIANT=match.group(1) if match else 'Youth'
 assert VARIANT in ('Youth','Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder')
 ANIMATED='-RV4ShoulderAnimated' in command
+HEAD_GRID='-RV4HeadGrid' in command
+assert not HEAD_GRID or (VARIANT in ('Man_Elder','Woman_Young') and not ANIMATED)
 OUT=ROOT/'SourceAssets/characters-review'/('ResidentShoulderStudy05' if VARIANT=='Youth' else 'ResidentShoulderCast02/'+VARIANT)
+if HEAD_GRID:OUT=ROOT/'SourceAssets/characters-review/ResidentHeadGrid01'/VARIANT
 
 
 def run():
@@ -64,12 +67,12 @@ def run():
             settings.set_editor_property(key,value)
         component.set_editor_property('post_process_settings',settings)
         report['camera'] = dict(position=[80,240,105],pitchYawRoll=[0,-108.435,0],fov=45,resolution=[960,960])
-        source = OUT / ('SK_RV4_'+VARIANT+'_ShoulderStudy.glb')
+        source = OUT / ('SK_RV4_'+VARIANT+('_HeadGrid' if HEAD_GRID else '_ShoulderStudy')+'.glb')
         review = json.loads((OUT/'review.json').read_text())
         assert sha(source) == review['candidateSha256']
         baseline = ue.load_asset('/Game/MikdashV3/Characters/ResidentV4/'+VARIANT+'/SK_RV4_'+VARIANT)
         assert baseline
-        folder = '/Game/Characters/ResidentShoulderStudy_' + stamp
+        folder = '/Game/Characters/'+('ResidentHeadGrid_' if HEAD_GRID else 'ResidentShoulderStudy_') + stamp
         assert not ue.EditorAssetLibrary.does_directory_exist(folder)
         override,readback=release._mesh_pipeline(ue,baseline.get_editor_property('skeleton'))
         task = ue.AssetImportTask()
@@ -81,6 +84,8 @@ def run():
         assert len(meshes) == 1
         candidate = meshes[0]
         assert candidate.get_editor_property('skeleton')==baseline.get_editor_property('skeleton')
+        assert sorted(map(str,candidate.get_all_morph_target_names()))==sorted(map(str,baseline.get_all_morph_target_names()))
+        report['headGrid']=HEAD_GRID
         report['animated']=ANIMATED
         clip=None
         if ANIMATED:
@@ -95,6 +100,9 @@ def run():
         views = [('front', ue.Vector(80,240,105), -108.435),
                  ('side', ue.Vector(260,0,105), 180.),
                  ('back', ue.Vector(-80,-240,105), 71.565)]
+        if HEAD_GRID:
+            views=[('face',ue.Vector(0,80,166),-90.),('threequarter',ue.Vector(56.57,56.57,166),-135.),('profile',ue.Vector(80,0,166),180.)]
+            report['scope']='Transient reduced head-grid import versus accepted skeletal source; neutral close-up views, no asset saves, morph/animation or runtime acceptance.'
         times=(0.,.3,.6,.9) if ANIMATED else (None,)
         for label,mesh,position,yaw,time in [(name+'-'+side+('' if t is None else '-t'+str(t)),mesh,position,yaw,t)
                                            for t in times for name,position,yaw in views
@@ -130,6 +138,8 @@ def run():
             for a,b in zip(report['captures'][::2],report['captures'][1::2]):
                 assert a['pose']==b['pose'], 'Source/candidate pose mismatch'
             assert len({tuple(c['pose']['hand_l']) for c in report['captures']})>1, 'Animation did not move the hand'
+        if HEAD_GRID:
+            assert not (ROOT/'Content'/folder.removeprefix('/Game/')).exists(),'Transient review package unexpectedly saved'
         report['status']='captured-review-pending'
     except Exception as error:
         report.update(status='failed',error=repr(error))

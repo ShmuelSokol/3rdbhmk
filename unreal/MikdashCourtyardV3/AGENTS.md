@@ -3365,3 +3365,11 @@ diagnostic exactly. PNG reviewed: Kotel crowd and paving visible.30/30diagnostic
 1870frames median15.960ms p9518.137ms at720p77percent, not final1080p acceptance.
 Normal map-default population, crowd appearance/movement and state checks remain.
 See crowd-default01 package/review/timing and capture receipt/PNG. Native slot free.
+
+Packaged map-default audit now confirms1600/0refused, no CrowdCount or
+CrowdSeedAttempts override, childexit0. Header10000 is overridden by savedmap1600.
+This uses isolated saves/menu bypass; it is not full ordinary-menu/save acceptance.
+Kotel PNG visibly sparser, paving intact.30/30 diagnostic2039frames median14.648ms
+p9516.818ms at720p77percent. Keep1600 fact distinct from proven10000 capacity.
+See crowd-default-map01-review/timing and capture receipt/PNG. Release default
+still needs selection against1080p performance and actual behavior acceptance.

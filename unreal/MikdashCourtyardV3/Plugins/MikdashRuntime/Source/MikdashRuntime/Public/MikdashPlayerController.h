@@ -22,6 +22,7 @@ class MIKDASHRUNTIME_API AMikdashPlayerController : public APlayerController
 public:
     AMikdashPlayerController();
     virtual void BeginPlay() override;
+    virtual void OnPossess(APawn* InPawn) override;
     virtual void EndPlay(const EEndPlayReason::Type Reason) override;
     virtual void SetupInputComponent() override;
     virtual void PlayerTick(float DeltaTime) override;
@@ -79,6 +80,7 @@ public:
     void HandleEscapeKey();
 
 private:
+    void HideVisitorTemplateHands();
     UPROPERTY() TObjectPtr<AMikdashDovePawn> DovePawn;
     UPROPERTY() TObjectPtr<ACharacter> ParkedWalker;
     FVector ParkedWalkLocation = FVector::ZeroVector;

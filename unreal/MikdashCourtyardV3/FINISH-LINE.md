@@ -1057,3 +1057,35 @@ inherits /Game/FirstPerson/Blueprints/BP_FirstPersonCharacter. That parent refer
 FirstPersonMesh, SKM_Manny_Simple, ABP_Unarmed and ABP_FP_Copy. This is a source
 ownership lead, not a native component/material binding audit. Inspect the live
 pawn or isolated blueprint before changing visibility or replacing the hand.
+
+## Visitor template hand correction — 19 September 2026
+Walking movie evidence exposes the modern mannequin glove in ordinary visitor view.
+Earlier native CameraObstructionV1/PhotoPawn-639250857235150000-000.json confirms
+BP_MikdashWalker owns FirstPersonMesh/type1 and CharacterMesh0/type2, both bound
+to SKM_Manny_Simple. HideVisitorTemplateHands now selects ONLY the exact local
+BP_MikdashWalker class, owned FirstPersonMesh, FirstPerson primitive type and
+exact Manny asset. SetHiddenInGame(true,false) runs after possession and BeginPlay;
+world-space body, child visibility, collision and animation remain unchanged.
+Future authored hand assets do not match this template-specific policy. PhotoMode
+only restores its world-space representation selection, so it should not restore
+the hidden hands. Build and fresh packaged walking acceptance are pending; do not
+claim a finished visitor avatar or hide unrelated skeletal components.
+
+Visitor-hand build gate passed12/12,33/33math, Editor and Game compiled. Fresh
+runtime-only archive Checkpoint-visitor-hands01-20260919T072356Z uses identical
+history01 cooked scene (six immutable linked Paks, never cook/write here) and
+new child6a26468a4294de812cf37440f7cbe75abd1376ff4badabf43337a2bd8cad53dd.
+Build receipt SourceAssets/build-review/visitor-hands-runtime01.json pins source
+and package hashes. New capture RequireTemplateHandsHidden queries late owned
+FirstPersonMesh/CharacterMesh0 hidden flags and requires true/false respectively.
+Native walking/render/readback acceptance is currently collecting.
+
+Visitor-hand walking acceptance passed: movie-visitor-hands01-corridor,90retained
+720pframes,10000people,nativeexit0. Root reviewed before/after105/120/150; modern
+glove in control105/120 is absent. Late native FirstPersonMesh.hidden=True and
+CharacterMesh0.hidden=False. All15walking events exactly match old01 control;
+five grounded600cm/s samples span1200cm with no stalls. Both source map hashes
+unchanged. Acceptance SourceAssets/visual-review/VisitorHandsV1/acceptance01.json.
+This accepts narrow glove removal in walking, not a finished visitor avatar/crowd.
+Photo/dove return regression stays on broader release acceptance; source lifecycle
+review preserves existing photo world-space-only visibility restoration.

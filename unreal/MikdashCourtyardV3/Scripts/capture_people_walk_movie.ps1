@@ -22,6 +22,7 @@ param(
     [switch]$InspectMotionState,
     [switch]$AuditMotionTransitions,
     [switch]$UseMotionHistoryCandidate,
+    [switch]$RequireTemplateHandsHidden,
     # When set, Go XYZ is the character capsule center; the existing native probe
     # restores collision and walks toward this XY with ordinary movement input.
     [ValidatePattern('\A(?:-?[0-9]+(?:\.[0-9]+)? -?[0-9]+(?:\.[0-9]+)?)?\z')][string]$WalkTo='',
@@ -90,6 +91,7 @@ if($DisableMotionBlurDiagnostic -and -not $UnfilteredMotionDiagnostic){
     $launchArgs=$launchArgs.Replace('r.ScreenPercentage 77,','r.ScreenPercentage 77,r.MotionBlurQuality 0,')
 }
 $inspectionCommands=@("${inspectionFrame}:getall MikdashCrowdField SeededAgents","${inspectionFrame}:getall MikdashCrowdField RefusedSeeds")
+if($RequireTemplateHandsHidden){$inspectionCommands+="${inspectionFrame}:getall SkeletalMeshComponent bHiddenInGame"}
 foreach($command in $motionViewCommands){$inspectionCommands+="${inspectionFrame}:$command"}
 if($InspectMotionState){
     foreach($command in @('LIST ISM','r.Velocity.EnableVertexDeformation','r.VelocityOutputPass','r.AntiAliasingMethod')){
@@ -135,6 +137,7 @@ $report.inspectActorPath=$InspectActorPath
 $report.inspectMotionState=[bool]$InspectMotionState
 $report.auditMotionTransitions=[bool]$AuditMotionTransitions
 $report.motionHistoryCandidate=[bool]$UseMotionHistoryCandidate
+$report.requireTemplateHandsHidden=[bool]$RequireTemplateHandsHidden
 $report.walkTo=$WalkTo
 $report.motionVisualization=$MotionVisualization
 $report.motionVisualizationReadbacks=@()
@@ -170,6 +173,13 @@ try{
     if($UseMotionHistoryCandidate){
         if(@(Select-String -LiteralPath $log -SimpleMatch 'CrowdMotionHistoryV3 enabled customFloats=26 poses=6').Count -ne 1){throw 'Expected one complete history candidate activation'}
         if(@(Select-String -LiteralPath $log -SimpleMatch 'CrowdMotionHistoryV3 refused').Count){throw 'History candidate activation refused'}
+    }
+    if($RequireTemplateHandsHidden){
+        $hand=@(Select-String -LiteralPath $log -Pattern '\.BP_MikdashWalker_C_[^.\s]+\.FirstPersonMesh\.bHiddenInGame = (True|False|1|0)\s*$')
+        $body=@(Select-String -LiteralPath $log -Pattern '\.BP_MikdashWalker_C_[^.\s]+\.CharacterMesh0\.bHiddenInGame = (True|False|1|0)\s*$')
+        if($hand.Count -ne 1 -or $body.Count -ne 1){throw 'Expected unique late visitor hand and body visibility readbacks'}
+        if($hand[0].Matches[0].Groups[1].Value -notin @('True','1') -or $body[0].Matches[0].Groups[1].Value -notin @('False','0')){throw 'Visitor hands must be hidden and world-space body remain unhidden'}
+        $report.visitorHandsReadback=@{hand=$hand[0].Line;body=$body[0].Line}
     }
     if($WalkTo){
         $starts=@(Select-String -LiteralPath $log -Pattern 'MIKDASH_WALKPROBE start label=MovieWalk t=([0-9.]+) ')

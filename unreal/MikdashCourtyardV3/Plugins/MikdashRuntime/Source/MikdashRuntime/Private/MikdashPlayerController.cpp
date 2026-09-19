@@ -11,6 +11,8 @@
 #include "AudioDeviceHandle.h"
 #include "Components/InputComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Engine/SkeletalMesh.h"
 #include "Engine/StaticMesh.h"
 #include "Engine/GameViewportClient.h"
 #include "Engine/World.h"
@@ -234,6 +236,7 @@ void AMikdashPlayerController::BeginPlay()
 {
     Super::BeginPlay();
     if (!IsLocalController()) return;
+    HideVisitorTemplateHands();
     ApplySoundVolume();
     if (FSlateApplication::IsInitialized())
         ActivationHandle = FSlateApplication::Get().OnApplicationActivationStateChanged()
@@ -251,6 +254,36 @@ void AMikdashPlayerController::BeginPlay()
     FString ProbeSpec;
     if (FParse::Value(FCommandLine::Get(), TEXT("MikdashWalkProbe="), ProbeSpec, false)) ParseWalkProbe(ProbeSpec);
 #endif
+}
+
+void AMikdashPlayerController::OnPossess(APawn* InPawn)
+{
+    Super::OnPossess(InPawn);
+    HideVisitorTemplateHands();
+}
+
+void AMikdashPlayerController::HideVisitorTemplateHands()
+{
+    APawn* Visitor = GetPawn();
+    if (!IsLocalController() || !IsValid(Visitor)
+        || Visitor->GetClass()->GetPathName() != TEXT("/Game/MikdashV3/Gameplay/BP_MikdashWalker.BP_MikdashWalker_C")) return;
+
+    // The inherited UE template renders modern Manny gloves in the historical
+    // visitor's view. Select that exact owned representation; leave collision,
+    // animation, the world-space body, and any future authored hands alone.
+    TInlineComponentArray<USkeletalMeshComponent*> Meshes(Visitor);
+    for (USkeletalMeshComponent* Mesh : Meshes)
+    {
+        if (Mesh->GetOwner() != Visitor || Mesh->GetFName() != FName(TEXT("FirstPersonMesh"))
+            || Mesh->FirstPersonPrimitiveType != EFirstPersonPrimitiveType::FirstPerson
+            || GetPathNameSafe(Mesh->GetSkeletalMeshAsset()) != TEXT("/Game/Characters/Mannequins/Meshes/SKM_Manny_Simple.SKM_Manny_Simple")) continue;
+        if (!Mesh->bHiddenInGame)
+        {
+            Mesh->SetHiddenInGame(true, false);
+            UE_LOG(LogTemp, Display, TEXT("VisitorTemplateHands hidden component=%s mesh=%s hidden=%d"),
+                *Mesh->GetPathName(), *GetPathNameSafe(Mesh->GetSkeletalMeshAsset()), Mesh->bHiddenInGame ? 1 : 0);
+        }
+    }
 }
 
 void AMikdashPlayerController::SetupInputComponent()

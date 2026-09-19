@@ -1,0 +1,53 @@
+{
+  "status": "runtime_archive_walking_visual_verified",
+  "archive": "C:\\Mikdash\\Builds\\Checkpoint-visitor-hands01-20260919T072356Z",
+  "baseArchive": "C:\\Mikdash\\Builds\\Checkpoint-crowd-history01-20260919T061743Z",
+  "freshCook": false,
+  "warning": "Runtime-only archive; six linked Pak files are immutable. Never cook or stage into this archive.",
+  "paks": [
+    {
+      "immutableHardLink": true,
+      "length": 3511680,
+      "sha256": "42c800d4e7331f2781ab5a7b74a39a8eaa137a1fedfe92af74cfba6875069c1d",
+      "path": "Windows\\MikdashCourtyardV3\\Content\\Paks\\global.ucas"
+    },
+    {
+      "immutableHardLink": true,
+      "length": 842,
+      "sha256": "2eee82a3af3a24404d2ce8bb58a5131441a66d8f1941f06db1a37d7084f946da",
+      "path": "Windows\\MikdashCourtyardV3\\Content\\Paks\\global.utoc"
+    },
+    {
+      "immutableHardLink": true,
+      "length": 1594890304,
+      "sha256": "bbd6ca9f5f2b3d7d0f0f70b3a1686b07cfc3e5568481a05a2945bcd35ff33e9a",
+      "path": "Windows\\MikdashCourtyardV3\\Content\\Paks\\MikdashCourtyardV3-Windows_s1.ucas"
+    },
+    {
+      "immutableHardLink": true,
+      "length": 11717682,
+      "sha256": "820421d6ba5c6f5316f45b7783fd14c6cfcd128fa65aa64d9a5f17b54bc8be67",
+      "path": "Windows\\MikdashCourtyardV3\\Content\\Paks\\MikdashCourtyardV3-Windows.pak"
+    },
+    {
+      "immutableHardLink": true,
+      "length": 1799943072,
+      "sha256": "311513b4e8f010036d19c220bb6d2be8d5896a5276c5c08b6d9a923e6e0f803a",
+      "path": "Windows\\MikdashCourtyardV3\\Content\\Paks\\MikdashCourtyardV3-Windows.ucas"
+    },
+    {
+      "immutableHardLink": true,
+      "length": 3960519,
+      "sha256": "96738fe078b4fc376c2a8eaa0b40ea089e21d1b07e6a4e622eae7b0b8a81c239",
+      "path": "Windows\\MikdashCourtyardV3\\Content\\Paks\\MikdashCourtyardV3-Windows.utoc"
+    }
+  ],
+  "startedUtc": "20260919T072356Z",
+  "childSha256": "6a26468a4294de812cf37440f7cbe75abd1376ff4badabf43337a2bd8cad53dd",
+  "sourceHashes": {
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashPlayerController.h": "21bbd08b21bad4193646cea63ceeff61905b1ad015b92b7654949ebfd6030a80",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashPlayerController.cpp": "ab85e385d709f30d00e428dd36b05f06c856a507f408cb841d02675cc0ead312"
+  },
+  "verification": "Active Scripts/verify.py --build:12/12,33 math,Editor+Game compile passed",
+  "walkingAcceptance": "SourceAssets/visual-review/VisitorHandsV1/acceptance01.json"
+}

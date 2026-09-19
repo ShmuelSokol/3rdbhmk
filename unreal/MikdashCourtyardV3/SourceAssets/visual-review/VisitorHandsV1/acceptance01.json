@@ -1,0 +1,36 @@
+{
+  "status": "template-glove-removal-accepted-for-walking",
+  "scope": "Exact Manny first-person hand representation only; not completed visitor avatar or crowd",
+  "captureReceipt": "SourceAssets/visual-review/movie-visitor-hands01-corridor/movie-receipt.json",
+  "captureReceiptSha256": "e1a845e73be61c2f76d14d04ee49b35acbdce1838f3e16f6db4f0c8ec59da59d",
+  "rawLogSha256": "499b91ef4f25f711ccb763b5c7f4653b8ddd3b69a0a6248a381e35ba22138a15",
+  "baseline": "SourceAssets/visual-review/movie-historyv3-walk-old01-corridor/movie-receipt.json",
+  "walkPayloadsEqual": true,
+  "walkPayloadCount": 15,
+  "handBodyReadbacks": {
+    "hand": "[2026.09.19-07.27.43:500][180]7) SkeletalMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.BP_MikdashWalker_C_2147482371.FirstPersonMesh.bHiddenInGame = True",
+    "body": "[2026.09.19-07.27.43:500][180]6) SkeletalMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.BP_MikdashWalker_C_2147482371.CharacterMesh0.bHiddenInGame = False"
+  },
+  "childSha256": "6a26468a4294de812cf37440f7cbe75abd1376ff4badabf43337a2bd8cad53dd",
+  "unchangedSourceMaps": {
+    "Content/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.umap": "9daa88a181a44009467ab6a3f296dcff3ed9ff8b93500ddee593adc84ff0367e",
+    "Content/MikdashV3/IntegratedReviewV2/Maps/Walkthrough.umap": "2b82ae66d7059244d1f4d5f7d39dbe39979794221b46a239a9a6e9c6b598d4c6"
+  },
+  "reviewedFrames": [
+    105,
+    120,
+    150
+  ],
+  "observations": [
+    "Root reviewed native before/after frames105/120/150 at1280x720.",
+    "Modern gloved hand visible in control105/120 is absent after fix.",
+    "Late owned component readback:FirstPersonMesh hidden=True,CharacterMesh0 hidden=False.",
+    "All15 walking events match the control; five grounded600cm/s samples span1200cm.",
+    "Crowd count10000, zero acquisition errors, native exit0.",
+    "Close crowd model quality and temporal-motion acceptance remain open."
+  ],
+  "remaining": [
+    "End-to-end photo/dove return regression after broader release integration.",
+    "Authored visitor body remains a separate visual requirement."
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "status": "court-channel-outlet-identified-offline-correction-pending-native",
+  "nativeSourceCommit": "1332e820",
+  "actor": "/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_0",
+  "mesh": "/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_CourtChannel",
+  "rayRows": [
+    "[2026.09.19-04.46.15:208][ 90]LogTemp: Display: ScenePixelV1 ray u=0.210000 v=0.580000 viewport=640x360 start=X=4977.456 Y=5.813 Z=536.494 direction=X=-0.862 Y=0.501 Z=-0.075 rangeCm=10000",
+    "[2026.09.19-04.46.15:208][ 90]LogTemp: Display: ScenePixelV1 collision complex=0 hit=1 actor=/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_0 component=/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_0.StaticMeshComponent0 point=X=4767.957 Y=127.584 Z=518.163 face=-1 item=-1",
+    "[2026.09.19-04.46.15:208][ 90]LogTemp: Display: ScenePixelV1 collision complex=1 hit=1 actor=/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_0 component=/Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_0.StaticMeshComponent0 point=X=3233.104 Y=1019.717 Z=383.863 face=169 item=-1",
+    "[2026.09.19-04.46.15:212][ 90]LogTemp: Display: ScenePixelV1 complete candidates=127 reported=24 boundsAreNotTriangleHits=1"
+  ],
+  "actorRows": [
+    "[2026.09.19-04.51.40:765][ 90]0) StaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_0.StaticMeshComponent0.StaticMesh = /Script/Engine.StaticMesh'/Game/MikdashV3/MaterialReview/MikdashWaterV1/Meshes/SM_MikdashWaterV1_CourtChannel.SM_MikdashWaterV1_CourtChannel'",
+    "[2026.09.19-04.51.40:768][ 90]0) StaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_0.StaticMeshComponent0.OverrideMaterials =",
+    "[2026.09.19-04.51.40:772][ 90]0) StaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_0.StaticMeshComponent0.RelativeLocation = (X=-248.000000,Y=0.000000,Z=0.000000)",
+    "[2026.09.19-04.51.40:775][ 90]0) StaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_0.StaticMeshComponent0.RelativeRotation = (Pitch=0.000000,Yaw=0.000000,Roll=0.000000)",
+    "[2026.09.19-04.51.40:778][ 90]0) StaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.StaticMeshActor_0.StaticMeshComponent0.RelativeScale3D = (X=0.960000,Y=0.960000,Z=0.960000)"
+  ],
+  "finding": "The point hits the court-channel covered descent at canonical X~3626,Y~1062,Z~400. Route cover=True at X3600 extends the solid conduit to X3660 and excludes its water surface. Preserve the authored route; open only this exposed descent.",
+  "candidate": "SourceAssets/water-review/CourtOutletV2/candidate.json",
+  "scope": "Root viewed actual slab01 frame89 and native actor/mesh readback. Offline V2 candidate only; no native asset/map changes and no rendered fix acceptance.",
+  "limitations": [
+    "Simple collision hit differs from complex; separate collision audit remains",
+    "Nearest24 aggregate bounds crowded by vegetation; bounds alone did not identify the object",
+    "NE-horizon slab is a separate open defect"
+  ],
+  "captures": [
+    {
+      "directory": "SourceAssets\\visual-review\\movie-scene-slab01-court",
+      "exitCode": 0,
+      "seeded": 0,
+      "framesKept": 30,
+      "commandLineLength": 15734,
+      "receiptSha256": "b0d250158fb4c80dee1dde4bf88c5ef306da23302dba49a41f9cedbdd3a97eaf",
+      "logSha256": "7768e01685c5fb9690bb0501effcb057b1f72bb26161c1e6f94e9cf1ed9007a5"
+    },
+    {
+      "directory": "SourceAssets\\visual-review\\movie-scene-slab03-court",
+      "exitCode": 0,
+      "seeded": 0,
+      "framesKept": 30,
+      "commandLineLength": 6360,
+      "receiptSha256": "a793780da23d6805e75f6b00548e9021bb8123ec95c97d51479fea7e93b98ed3",
+      "logSha256": "6598583daf7c11bf041fde5c6ea3aad211b3bf59ce2603e1711f27ed3ba456d3"
+    }
+  ],
+  "failedCapture": {
+    "receiptSha256": "a670d14ee44c8cae40c9835205b7c31ba4b9ab568c9754367112694ae06c7ab2",
+    "commandLineLength": 16552,
+    "engineLimit": 16384,
+    "status": "failed_capture",
+    "reason": "PreInit failed before normal log; command exceeds UE FCommandLine16384 buffer. Crash log reports access violation, so length linkage is an inference supported by source limit and successful shortened retry."
+  },
+  "toolCorrection": "Scheduled Shot basenames resolve under GameScreenshotSaveDirectory;6360char retry succeeds. Conservative15000char guard includes exe length. Read-only InspectActorPath validates path and requires mesh readback."
+}

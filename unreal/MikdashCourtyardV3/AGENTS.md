@@ -3504,3 +3504,20 @@ No actor/asset/state mutation. capture_people_walk_movie supports bounded Inspec
 and requires one native completion marker. Needed because oldSep9 snapshot didnot
 identify current pale slab left of courtstairs. Native identification remains pending;
 do not hide/delete guessed geometry. Earlier NE-horizon slab is a separate report.
+
+Court pale slab IDENTIFIED by packaged complex pixeltrace and exactactorreadback:
+StaticMeshActor_0 owns SM_MikdashWaterV1_CourtChannel, transform0.96/(-248,0,0).
+The exposed X3600->3660 canonicalfall remains cover=True, producing solidconduit
+and suppressing water surface. Do NOT delete the channel as orphangeometry.
+New offline build_court_outlet_v2.py opens only thisfall in freshCourtOutletV2:
+route/bed unchanged, frozenV1 triangles reconstructed exactly;2196/2228stone and
+1010/1020water triangles preserved, all changed geometry confinedX3500..3750,
+Y950..1150. Closedpositive solids andOBJreadback pass. Nativeimport/materials/map/
+collision/render acceptance still owed; originalV1 untouched. See ScenePixelV1
+identification and CourtOutletV2/candidate.json. NE-horizon slab remainsseparate.
+Capture lesson: UE FCommandLine max16384, NOT Windows32767.16552char actorquery
+failedpreinit (receipt retained); no successclaim fromexit0. ScheduledShot basenames
+useGameScreenshotSaveDirectory (GameEngine defaultsScreenShotDir);6360charretry
+succeeds. New15000charconservative guard and boundedInspectActorPath readback.
+Pixelprobe127aggregatebounds are NOT identity; vegetation filledfirst24 candidates.
+Exactcomplexcollisionactor thengetall OUTER mesh query established ownership.

@@ -1,0 +1,140 @@
+{
+  "status": "offline-validated-native-and-visual-pending",
+  "destination": "/Game/MikdashV3/MaterialReview/CourtOutletV2",
+  "routeChange": {
+    "point": [
+      3600,
+      1050,
+      442
+    ],
+    "coverBefore": true,
+    "coverAfter": false
+  },
+  "selected48Transform": {
+    "scale": 0.96,
+    "translationCm": [
+      -248,
+      0,
+      0
+    ]
+  },
+  "explanation": "The covered run included the exposed 3600-to-3660 descent and suppressed its water surface.",
+  "records": [
+    {
+      "suffix": "CourtChannel",
+      "sourceSha256": "192d73f7b0a496bb104994e4c6435470976257cb3bb9518c90a99c9174ac6496",
+      "baselineTriangles": 2228,
+      "preservedTriangles": 2196,
+      "removedTriangles": 32,
+      "addedTriangles": 40,
+      "candidate": {
+        "name": "SM_CourtOutletV2_CourtChannel",
+        "file": "SM_CourtOutletV2_CourtChannel.obj",
+        "sha256": "42d7d26ea94c892dddfd6372202ae2dd93082274aa22bf341527dcd797c65637",
+        "bytes": 649709,
+        "triangles": 2236,
+        "parts": 5,
+        "canonicalBoundsCm": {
+          "min": [
+            -2494.872016727517,
+            133.0,
+            -49.0
+          ],
+          "max": [
+            9200.0,
+            1097.0,
+            907.0
+          ]
+        },
+        "minimumPartSignedVolumeCm3": 2671480.0,
+        "totalSignedVolumeCm3": 29199866.451,
+        "partChecks": [
+          {
+            "name": "Court_Trough_01",
+            "triangles": 620,
+            "closed": true,
+            "volumeCm3": 6375631.118
+          },
+          {
+            "name": "Court_Conduit_01",
+            "triangles": 60,
+            "closed": true,
+            "volumeCm3": 2671480.0
+          },
+          {
+            "name": "Court_Trough_02",
+            "triangles": 332,
+            "closed": true,
+            "volumeCm3": 3126600.0
+          },
+          {
+            "name": "Court_Conduit_02",
+            "triangles": 108,
+            "closed": true,
+            "volumeCm3": 5066600.0
+          },
+          {
+            "name": "Court_Trough_03",
+            "triangles": 1116,
+            "closed": true,
+            "volumeCm3": 11959555.333
+          }
+        ]
+      }
+    },
+    {
+      "suffix": "CourtWater",
+      "sourceSha256": "342ddc99cac89513c58ae25f335677950cbbe548068507cb0a3c867356688003",
+      "baselineTriangles": 1020,
+      "preservedTriangles": 1010,
+      "removedTriangles": 10,
+      "addedTriangles": 18,
+      "candidate": {
+        "name": "SM_CourtOutletV2_CourtWater",
+        "file": "SM_CourtOutletV2_CourtWater.obj",
+        "sha256": "a33d30f5d50523e8d3138bdc5da14ddf8fcc8da53a8f45ef21f89621af6f07f9",
+        "bytes": 299149,
+        "triangles": 1028,
+        "parts": 3,
+        "canonicalBoundsCm": {
+          "min": [
+            -2486.9744769827216,
+            155.0,
+            -34.4
+          ],
+          "max": [
+            9200.0,
+            1075.0,
+            899.0
+          ]
+        },
+        "minimumPartSignedVolumeCm3": 493920.0,
+        "totalSignedVolumeCm3": 3390235.178,
+        "partChecks": [
+          {
+            "name": "SM_MikdashWaterV1_CourtWater_01",
+            "triangles": 308,
+            "closed": true,
+            "volumeCm3": 1007205.171
+          },
+          {
+            "name": "SM_MikdashWaterV1_CourtWater_02",
+            "triangles": 164,
+            "closed": true,
+            "volumeCm3": 493920.0
+          },
+          {
+            "name": "SM_MikdashWaterV1_CourtWater_03",
+            "triangles": 556,
+            "closed": true,
+            "volumeCm3": 1889110.007
+          }
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "No native assets or maps changed",
+    "Walking, collision, materials and rendered flow unverified"
+  ]
+}

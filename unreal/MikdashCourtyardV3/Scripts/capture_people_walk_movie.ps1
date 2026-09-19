@@ -19,7 +19,8 @@ param(
     [switch]$UnfilteredMotionDiagnostic,
     [switch]$DisableMotionBlurDiagnostic,
     [switch]$DisableTemporalAADiagnostic,
-    [ValidatePattern('\A(?:(?:0(?:\.[0-9]{1,6})?|1(?:\.0{1,6})?) (?:0(?:\.[0-9]{1,6})?|1(?:\.0{1,6})?))?\z')][string]$InspectPixel=''
+    [ValidatePattern('\A(?:(?:0(?:\.[0-9]{1,6})?|1(?:\.0{1,6})?) (?:0(?:\.[0-9]{1,6})?|1(?:\.0{1,6})?))?\z')][string]$InspectPixel='',
+    [ValidatePattern('\A(?:/Game/[A-Za-z0-9_/]+\.[A-Za-z0-9_]+:PersistentLevel\.[A-Za-z][A-Za-z0-9_]{0,80})?\z')][string]$InspectActorPath=''
 )
 $ErrorActionPreference='Stop'
 $Archive=[IO.Path]::GetFullPath($Archive)
@@ -64,6 +65,11 @@ if($DisableMotionBlurDiagnostic -and -not $UnfilteredMotionDiagnostic){
 }
 $inspectionCommands=@("${inspectionFrame}:getall MikdashCrowdField SeededAgents","${inspectionFrame}:getall MikdashCrowdField RefusedSeeds")
 if($InspectPixel){$inspectionCommands+="${inspectionFrame}:InspectScenePixel $InspectPixel"}
+if($InspectActorPath){
+    foreach($property in @('StaticMesh','OverrideMaterials','RelativeLocation','RelativeRotation','RelativeScale3D')){
+        $inspectionCommands+="${inspectionFrame}:getall StaticMeshComponent $property OUTER=$InspectActorPath"
+    }
+}
 $launchArgs+=' -csvExecCmds="'+($inspectionCommands -join ',')+'"'
 if($ScheduledShots){
     New-Item -ItemType Directory -Path $shots -Force | Out-Null
@@ -71,7 +77,9 @@ if($ScheduledShots){
     $nextIndex=if($priorIndices.Count){[long]($priorIndices | Measure-Object -Maximum).Maximum+1}else{0}
     $commands=@()
     for($frame=1;$frame -lt $captureFrames;$frame++){
-        $target=(Join-Path $shots ('MovieFrame{0:d6}.png' -f ($nextIndex+$frame-1))).Replace('\','/')
+        # UE resolves a basename in GameScreenshotSaveDirectory (ScreenShotDir in
+        # GameEngine). Avoid repeating the long archive path on every frame.
+        $target='MovieFrame{0:d6}.png' -f ($nextIndex+$frame-1)
         $commands+="${frame}:Shot filename=$target -nosuffix"
     }
     $commands+=$inspectionCommands
@@ -79,9 +87,10 @@ if($ScheduledShots){
     $commands+="${inspectionFrame}:getall HierarchicalInstancedStaticMeshComponent InstanceCountToRender"
     $launchArgs=$launchArgs.Replace('-dumpmovie ','') -replace ' -csvExecCmds="[^"]*"',''
     $launchArgs+=' -csvExecCmds="'+($commands -join ',')+'"'
-    if($launchArgs.Length -gt 30000){throw 'Scheduled screenshot command exceeds safe Windows length'}
 }
 if($RealTimeDiagnostic){$launchArgs=$launchArgs.Replace("-benchmark -fps=$FixedFps ",'')}
+# UE FCommandLine has a 16384-character buffer, smaller than Windows' limit.
+if(($launchArgs.Length+$exe.Length+4) -gt 15000){throw 'Capture command exceeds conservative Unreal command-line limit'}
 $report=[ordered]@{status='starting';label=$Label;view=$View;archive=$Archive;bugItGo=$Go;method='Fixed-step consecutive MovieFrame screenshots; NOT a performance measurement';commandLine=$launchArgs;resolution="$ResX x $ResY";fixedFps=$FixedFps;settleFrames=$settleFrames;recordFrames=$recordFrames;captureFrames=$captureFrames;keepEvery=$KeepEvery;extraArgs=$ExtraArgs;childSha256=(Get-FileHash -LiteralPath $exe).Hash.ToLowerInvariant();startedUtc=[DateTime]::UtcNow.ToString('o');peakPrivateBytes=0;minimumFreeCommitBytes=[long]::MaxValue;maximumPrivateBytes=8GB;reserveCommitBytes=1.25GB;errors=@()}
 function Save-Receipt {$report | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $receipt -Encoding utf8}
 $report.scheduledShots=[bool]$ScheduledShots
@@ -90,6 +99,7 @@ $report.unfilteredMotionDiagnostic=[bool]$UnfilteredMotionDiagnostic
 $report.disableMotionBlurDiagnostic=[bool]$DisableMotionBlurDiagnostic
 $report.disableTemporalAADiagnostic=[bool]$DisableTemporalAADiagnostic
 $report.inspectPixel=$InspectPixel
+$report.inspectActorPath=$InspectActorPath
 if($ScheduledShots){$report.method='Fixed-step scheduled ordinary screenshots; NOT a performance measurement'}
 if($RealTimeDiagnostic){$report.method='Real-time visibility diagnostic; requested frame counts only, NO fixed simulated-time claim'}
 Save-Receipt
@@ -111,6 +121,7 @@ try{
     if(@(Select-String -LiteralPath $log -SimpleMatch 'CSV finalize time :').Count -ne 1){throw 'Missing unique CSV frame-controller finalization'}
     $report.csvFinalized=$true
     if($InspectPixel -and @(Select-String -LiteralPath $log -SimpleMatch 'ScenePixelV1 complete candidates=').Count -ne 1){throw 'Expected one completed scene pixel inspection'}
+    if($InspectActorPath -and -not @(Select-String -LiteralPath $log -SimpleMatch ($InspectActorPath+'.') | Where-Object {$_.Line.Contains('.StaticMesh = ')}).Count){throw 'Expected inspected actor mesh readback'}
     $counts=@(Select-String -LiteralPath $log -Pattern '\.SeededAgents = (\d+)\s*$')
     if($counts.Count -ne 1){throw 'Expected one late crowd population readback'}
     $report.seededAgents=[int]$counts[0].Matches[0].Groups[1].Value

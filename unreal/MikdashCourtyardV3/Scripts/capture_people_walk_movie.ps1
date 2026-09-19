@@ -22,11 +22,15 @@ param(
     [switch]$InspectMotionState,
     [switch]$AuditMotionTransitions,
     [switch]$UseMotionHistoryCandidate,
+    # When set, Go XYZ is the character capsule center; the existing native probe
+    # restores collision and walks toward this XY with ordinary movement input.
+    [ValidatePattern('\A(?:-?[0-9]+(?:\.[0-9]+)? -?[0-9]+(?:\.[0-9]+)?)?\z')][string]$WalkTo='',
     [ValidateSet('None','Velocity','Reprojection')][string]$MotionVisualization='None',
     [ValidatePattern('\A(?:(?:0(?:\.[0-9]{1,6})?|1(?:\.0{1,6})?) (?:0(?:\.[0-9]{1,6})?|1(?:\.0{1,6})?))?\z')][string]$InspectPixel='',
     [ValidatePattern('\A(?:/Game/[A-Za-z0-9_/]+\.[A-Za-z0-9_]+:PersistentLevel\.[A-Za-z][A-Za-z0-9_]{0,80})?\z')][string]$InspectActorPath=''
 )
 $ErrorActionPreference='Stop'
+if($WalkTo -and ($RealTimeDiagnostic -or $SettleSeconds -lt 3)){throw 'Walking movie requires fixed-step capture and at least three settle seconds'}
 $Archive=[IO.Path]::GetFullPath($Archive)
 if($ExtraArgs -match '=(\d+)$' -and [int]$Matches[1] -gt 60000){throw 'CrowdCount must not exceed60000'}
 $exe=Join-Path $Archive 'Windows\MikdashCourtyardV3\Binaries\Win64\MikdashCourtyardV3.exe'
@@ -50,7 +54,7 @@ foreach($captureDrive in $captureDrives){
     if($captureDrive.AvailableFreeSpace -lt (2GB+([long]$captureFrames*$ResX*$ResY*8))){throw 'Insufficient disk headroom for source frames and retained copies'}
 }
 $prior=@(Get-ChildItem -LiteralPath $shots -Filter 'MovieFrame*.png' -File -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName)
-if($ScheduledShots -and $captureFrames -gt 120){throw 'Scheduled screenshot diagnostic limited to120frames'}
+if($ScheduledShots -and $captureFrames -gt 240){throw 'Scheduled screenshot diagnostic limited to240frames'}
 New-Item -ItemType Directory -Path $outDir | Out-Null
 $log=Join-Path $outDir 'runtime.log'
 $receipt=Join-Path $outDir 'movie-receipt.json'
@@ -59,6 +63,11 @@ $launchArgs="-windowed -ResX=$ResX -ResY=$ResY -nosplash -nosteam -notraceserver
 $inspectionFrame=$captureFrames-1
 if($AuditMotionTransitions){$launchArgs+=' -MikdashCrowdMotionAudit'}
 if($UseMotionHistoryCandidate){$launchArgs+=' -MikdashCrowdMotionHistory'}
+if($WalkTo){
+    $origin=$Go.Split(' ');$target=$WalkTo.Replace(' ',':')
+    $start=($origin[0..2]+@($origin[4],$origin[3])) -join ':'
+    $launchArgs+=" -MikdashWalkProbe=label=MovieWalk;start=$start;wp=$target;delay=1;timeout=45"
+}
 $motionViewCommands=@()
 if($MotionVisualization -eq 'Velocity'){
     # Global renderer shader: no uncooked BufferVisualization material or
@@ -126,6 +135,7 @@ $report.inspectActorPath=$InspectActorPath
 $report.inspectMotionState=[bool]$InspectMotionState
 $report.auditMotionTransitions=[bool]$AuditMotionTransitions
 $report.motionHistoryCandidate=[bool]$UseMotionHistoryCandidate
+$report.walkTo=$WalkTo
 $report.motionVisualization=$MotionVisualization
 $report.motionVisualizationReadbacks=@()
 if($ScheduledShots){$report.method='Fixed-step scheduled ordinary screenshots; NOT a performance measurement'}
@@ -160,6 +170,28 @@ try{
     if($UseMotionHistoryCandidate){
         if(@(Select-String -LiteralPath $log -SimpleMatch 'CrowdMotionHistoryV3 enabled customFloats=26 poses=6').Count -ne 1){throw 'Expected one complete history candidate activation'}
         if(@(Select-String -LiteralPath $log -SimpleMatch 'CrowdMotionHistoryV3 refused').Count){throw 'History candidate activation refused'}
+    }
+    if($WalkTo){
+        $starts=@(Select-String -LiteralPath $log -Pattern 'MIKDASH_WALKPROBE start label=MovieWalk t=([0-9.]+) ')
+        if($starts.Count -ne 1){throw 'Expected one native walking start'}
+        $startTime=[double]::Parse($starts[0].Matches[0].Groups[1].Value,[cultureinfo]::InvariantCulture)
+        if(@(Select-String -LiteralPath $log -SimpleMatch 'MIKDASH_WALKPROBE stuck label=MovieWalk ')){throw 'Walking movie encountered a stall'}
+        $samples=@(Select-String -LiteralPath $log -Pattern 'MIKDASH_WALKPROBE sample label=MovieWalk t=([0-9.]+) pos=(-?[0-9.]+),(-?[0-9.]+),(-?[0-9.]+) feetZ=(-?[0-9.]+) speed2D=([0-9.]+) velZ=(-?[0-9.]+) mode=(\d+) grounded=(\d+) ')
+        $moving=@()
+        foreach($sample in $samples){
+            $g=$sample.Matches[0].Groups
+            $values=@(1..7 | ForEach-Object {[double]::Parse($g[$_].Value,[cultureinfo]::InvariantCulture)})
+            $time=$startTime+$values[0]
+            # Keep away from frame-window boundaries; prove actual grounded movement
+            # during retained footage rather than accepting a launch command alone.
+            if($time -gt ($SettleSeconds+2.0/$FixedFps) -and $time -lt ($SettleSeconds+$RecordSeconds-2.0/$FixedFps) -and $values[5] -gt 10 -and $g[9].Value -eq '1'){
+                $moving+=@{gameSeconds=$time;x=$values[1];y=$values[2];z=$values[3];speed=$values[5]}
+            }
+        }
+        if($moving.Count -lt 2){throw 'Insufficient grounded walking samples in retained footage'}
+        $distance=[math]::Sqrt([math]::Pow($moving[-1].x-$moving[0].x,2)+[math]::Pow($moving[-1].y-$moving[0].y,2))
+        $report.walkingEvidence=@{scope='Movement during footage, not full route acceptance';samples=$moving;displacementCm=$distance}
+        if($distance -lt 100){throw 'Retained walking footage spans less than100cm'}
     }
     foreach($variable in $motionViewCommands){
         $expected=if($variable -eq 'r.MotionBlur.VisualizeDebugInformation'){0}else{1}

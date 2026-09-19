@@ -1,0 +1,163 @@
+{
+  "status": "captured-comparison-not-visual-acceptance",
+  "captures": [
+    {
+      "name": "old01",
+      "receipt": "SourceAssets/visual-review/movie-historyv3-walk-old01-corridor/movie-receipt.json",
+      "receiptSha256": "fc6a2fe27f138d1e9ed9119905704e91c49e4c08d6484d43c5a4cee66a5b4830",
+      "rawLogSha256": "1b80d65bef84871624c8d57fc6da92e4cf150339faaa5e740e7632a1858930ac",
+      "childSha256": "c8c628021a9e38355916566bd494581c9e304bfaa7245938f394b56bf6ca9d23",
+      "walkingEvidence": {
+        "displacementCm": 1200.0,
+        "scope": "Movement during footage, not full route acceptance",
+        "samples": [
+          {
+            "speed": 600.0,
+            "y": -1141.9,
+            "z": 98.7,
+            "gameSeconds": 3.53,
+            "x": 11500.0
+          },
+          {
+            "speed": 600.0,
+            "y": -1441.9,
+            "z": 98.7,
+            "gameSeconds": 4.029999999999999,
+            "x": 11500.0
+          },
+          {
+            "speed": 600.0,
+            "y": -1741.9,
+            "z": 98.7,
+            "gameSeconds": 4.529999999999999,
+            "x": 11500.0
+          },
+          {
+            "speed": 600.0,
+            "y": -2041.9,
+            "z": 98.7,
+            "gameSeconds": 5.03,
+            "x": 11500.0
+          },
+          {
+            "speed": 600.0,
+            "y": -2341.9,
+            "z": 98.7,
+            "gameSeconds": 5.53,
+            "x": 11500.0
+          }
+        ]
+      },
+      "reviewedFrames": [
+        105,
+        120,
+        150
+      ],
+      "publishedFrames": [
+        {
+          "sequenceIndex": 105,
+          "sha256": "d27c8a3e23562c825ccb0793504bba2e12c0d4fb08fc5abc0bfb06e876683fda"
+        },
+        {
+          "sequenceIndex": 120,
+          "sha256": "6085d690a19cc497543e0784db04e7a993c29dbc88f2828905972da48e6d137f"
+        },
+        {
+          "sequenceIndex": 150,
+          "sha256": "7e4ea0de4a49c5a44cd9406bf7a3bb5b22ce42caf171fe8e9496690ebb07852d"
+        }
+      ]
+    },
+    {
+      "name": "new01",
+      "receipt": "SourceAssets/visual-review/movie-historyv3-walk-new01-corridor/movie-receipt.json",
+      "receiptSha256": "57903b3419b3d1902d3f47e90559ab0b52b3362d26c94f7639e364eb4bf64de5",
+      "rawLogSha256": "4b93c010950e722b5afd8f4bd965fcac8db0ac3fb5d974e2a3c9a7c02a0bd008",
+      "childSha256": "c8c628021a9e38355916566bd494581c9e304bfaa7245938f394b56bf6ca9d23",
+      "walkingEvidence": {
+        "scope": "Movement during footage, not full route acceptance",
+        "samples": [
+          {
+            "z": 98.7,
+            "y": -1141.9,
+            "speed": 600.0,
+            "x": 11500.0,
+            "gameSeconds": 3.53
+          },
+          {
+            "z": 98.7,
+            "y": -1441.9,
+            "speed": 600.0,
+            "x": 11500.0,
+            "gameSeconds": 4.029999999999999
+          },
+          {
+            "z": 98.7,
+            "y": -1741.9,
+            "speed": 600.0,
+            "x": 11500.0,
+            "gameSeconds": 4.529999999999999
+          },
+          {
+            "z": 98.7,
+            "y": -2041.9,
+            "speed": 600.0,
+            "x": 11500.0,
+            "gameSeconds": 5.03
+          },
+          {
+            "z": 98.7,
+            "y": -2341.9,
+            "speed": 600.0,
+            "x": 11500.0,
+            "gameSeconds": 5.53
+          }
+        ],
+        "displacementCm": 1200.0
+      },
+      "reviewedFrames": [
+        105,
+        120,
+        150
+      ],
+      "publishedFrames": [
+        {
+          "sequenceIndex": 105,
+          "sha256": "6c21e552ba772209ed172837d6bf50e1335b50e2181fc97e86acaa5683d1ad33"
+        },
+        {
+          "sequenceIndex": 120,
+          "sha256": "d83d3a79626b3921655c71a3eca4c92613551797e6860d4dd7e18e603851b8ef"
+        },
+        {
+          "sequenceIndex": 150,
+          "sha256": "be3bd6c527cf73f5c242cb04befc153965c857604c15385d4300d54f0e90114e"
+        }
+      ]
+    }
+  ],
+  "walkPayloadsEqual": true,
+  "walkPayloadCount": 15,
+  "conditions": {
+    "resolution": "1280x720",
+    "fixedFps": 30,
+    "screenPercentage": 77,
+    "settleSeconds": 3,
+    "recordSeconds": 3,
+    "crowdCount": 10000,
+    "normalTemporalAA": true,
+    "motionBlurUnchanged": true
+  },
+  "observations": [
+    "Root reviewed corresponding frames105/120/150 in both runs.",
+    "Close crowd proxies remain visibly coarse and angular; distant crowd edges remain noisy.",
+    "A dark modern gloved first-person hand appears in both runs; ownership not yet identified.",
+    "Reviewed frames do not establish a clear motion-quality improvement. Candidate remains opt-in."
+  ],
+  "remaining": [
+    "Continuous playback review with turn/stop coverage and temporal-error evaluation.",
+    "Improve nearby representation and crowd avoidance if required by ground-level review.",
+    "Identify and replace/remove inappropriate visitor hand through owning blueprint/component."
+  ],
+  "walkPayloadScope": "Every MIKDASH_WALKPROBE log payload, including parsed/start/landed/reached/sample"
+}

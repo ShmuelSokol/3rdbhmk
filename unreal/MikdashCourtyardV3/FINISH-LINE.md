@@ -1026,3 +1026,34 @@ No performance acceptance or default adoption. Root reviewed all four late PNGs:
 crowds visible, central stairs clear; old water slab remains. Moving-camera and
 higher-resolution motion-quality acceptance remain open. Evidence and raw-file
 hashes: SourceAssets/perf-review/crowd-vat/MotionHistoryV3/performance-abba01.json.
+
+## Grounded crowd walking capture — 19 September 2026
+capture_people_walk_movie.ps1 now accepts optional WalkTo XY. Go XYZ then denotes
+capsule-center start; existing packaged MikdashWalkProbe restores collision and
+uses ordinary movement. No C++ or crowd behavior changes. Requires fixed-step,
+three settle seconds, unique native start, no stall events, at least two grounded
+moving samples inside the retained window and100cm displacement. Scheduled
+screenshot limit240frames (formerly120); existing15000-character command limit,
+9/8/1.25GiB memory and disk guards remain. Default stationary capture unchanged.
+Control historyv3-walk-old01:1280x720,normalHigh77%,10000,3ssettle/3srecord at30Hz,
+90retainedframes,exit0; five grounded600cm/s samples span1200cm, z98.7. Root sees
+coarse close proxies and a modern dark gloved first-person hand atframe120.
+Do not call people visually finished. Hand ownership/replacement needs separate
+inspection. Candidate same-route capture is collecting; no comparative claim yet.
+
+## Matched moving-camera crowd pair — 19 September 2026
+historyv3-walk-old01/new01 both pass acquisition:90retained720pframes,10000people,
+exit0, same c8c62802 child. All walking log payloads identical; five retained-window
+grounded600cm/s samples span1200cm. All180retained hashes match. Root reviewed
+frames105/120/150 in both. Coarse angular close figures, noisy distant edges and
+modern gloved visitor hand remain. Corresponding stills do not establish a clear
+motion-quality improvement; continuous playback/turn-stop review remains owed.
+No default adoption. SourceAssets/perf-review/crowd-vat/MotionHistoryV3/walking-review01.json
+pins evidence. This is moving-camera acquisition and sampled visual review, not
+full route acceptance, collision avoidance acceptance or crowd completion.
+
+Visitor-hand source lead: printable package references show BP_MikdashWalker
+inherits /Game/FirstPerson/Blueprints/BP_FirstPersonCharacter. That parent references
+FirstPersonMesh, SKM_Manny_Simple, ABP_Unarmed and ABP_FP_Copy. This is a source
+ownership lead, not a native component/material binding audit. Inspect the live
+pawn or isolated blueprint before changing visibility or replacing the hand.

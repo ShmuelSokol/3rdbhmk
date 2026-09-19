@@ -29,7 +29,9 @@ param(
     [switch]$CsvOnGameThread,
     [switch]$GroundAudit,
     [switch]$DeferredSpawnAudit,
-    [ValidateRange(0,1024)][int]$GroupSeedAttempts = 0
+    [ValidateRange(0,1024)][int]$GroupSeedAttempts = 0,
+    # Diagnostic only: zero leaves the packaged setting unchanged.
+    [ValidateSet(0,4,8,16,32,64,128)][int]$CloudShadowSampleCap = 0
 )
 $ErrorActionPreference = 'Stop'
 if($DeferredSpawnAudit -and (-not $GroundAudit -or $CrowdCount -lt 0)){throw 'DeferredSpawnAudit requires GroundAudit and an explicit CrowdCount'}
@@ -64,6 +66,7 @@ $inspectionFrame = $frames - 120
 $photo = (Join-Path $outDir 'crowd.png').Replace('\','/')
 $inspection = @('SeededAgents','RefusedSeeds','GroundTraceMisses','ActivePoseCount','bUseVertexAnimation') | ForEach-Object { "${inspectionFrame}:getall MikdashCrowdField $_" }
 $inspection += "${inspectionFrame}:Shot filename=$photo -nosuffix"
+if($CloudShadowSampleCap -gt 0){$inspection += "${inspectionFrame}:r.VolumetricCloud.ShadowMap.RaySampleMaxCount"}
 if($DeferredSpawnAudit){$inspection = @("120:ke MikdashCrowdField BuildCrowd $CrowdCount") + $inspection}
 $inspectionArgs = '-csvExecCmds="' + ($inspection -join ',') + '"'
 $argline = "-windowed -ResX=$ResX -ResY=$ResY -nosplash -nosteam -notraceserver -notrace -noverifygc " +
@@ -71,6 +74,9 @@ $argline = "-windowed -ResX=$ResX -ResY=$ResY -nosplash -nosteam -notraceserver 
            "-ExecCmds=`"sg.ViewDistanceQuality 2,sg.ShadowQuality 2,sg.GlobalIlluminationQuality 2,sg.ReflectionQuality 2,sg.PostProcessQuality 2,sg.TextureQuality 2,sg.EffectsQuality 2,sg.FoliageQuality 2,sg.ShadingQuality 2,r.ScreenPercentage 77,r.SetRes ${ResX}x${ResY}w,Ghost,BugItGo $Go,t.MaxFPS 0,r.VSync 0,csv.ForceExit 0`""
 $log = Join-Path $outDir 'runtime.log'
 $argline += (' -abslog="'+$log+'"')
+if($CloudShadowSampleCap -gt 0){
+    $argline=$argline.Replace('csv.ForceExit 0"',"csv.ForceExit 0,r.VolumetricCloud.ShadowMap.RaySampleMaxCount $CloudShadowSampleCap`"")
+}
 if($CsvOnGameThread){$argline += ' -csvNoProcessingThread'}
 if($GroundAudit){$argline += ' -MikdashCrowdGroundAudit'}
 if($GroupSeedAttempts -gt 0){$argline += (' -CrowdSeedAttempts='+$GroupSeedAttempts)}
@@ -83,6 +89,7 @@ $report = [ordered]@{
     inspectionFrame = $inspectionFrame; inspectionScope = 'Late-frame reflected crowd counts and viewport image; analysis must exclude inspection frame and later'
     csvOnGameThread = [bool]$CsvOnGameThread
     groundAudit = [bool]$GroundAudit
+    cloudShadowSampleCapOverride = if($CloudShadowSampleCap -gt 0){$CloudShadowSampleCap}else{$null}
     deferredSpawnAudit = [bool]$DeferredSpawnAudit
     groupSeedAttemptOverride = if($GroupSeedAttempts -gt 0){$GroupSeedAttempts}else{$null}
     spawnFrame = if($DeferredSpawnAudit){120}else{'BeginPlay'}
@@ -115,6 +122,12 @@ try {
     $finalized = @(Select-String -LiteralPath $log -Pattern 'CSV finalize time :')
     if($finalized.Count -ne 1){throw 'Expected one engine CSV finalization before exit'}
     $report.csvFinalized=$true
+    if($CloudShadowSampleCap -gt 0){
+        $readbacks=@(Select-String -LiteralPath $log -Pattern '^.*r\.VolumetricCloud\.ShadowMap\.RaySampleMaxCount\s*=\s*"?(\d+(?:\.\d+)?)"?\s.*$')
+        if($readbacks.Count -eq 0){throw 'Missing native cloud-shadow sample cap readback'}
+        if([double]$readbacks[-1].Matches[0].Groups[1].Value -ne $CloudShadowSampleCap){throw 'Native cloud-shadow sample cap differs from request'}
+        $report.nativeCloudShadowSampleCapVerified=$true
+    }
     if($DeferredSpawnAudit){
         $called=@(Select-String -LiteralPath $log -SimpleMatch "Called 'BuildCrowd $CrowdCount' on 1 instance(s) of class '/Script/MikdashRuntime.MikdashCrowdField' (1 succeeded)")
         if($called.Count -ne 1){throw 'Expected exactly one successful deferred BuildCrowd call'}

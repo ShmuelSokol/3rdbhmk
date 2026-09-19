@@ -1,0 +1,23 @@
+{
+  "status": "diagnostic-improvement-not-adopted",
+  "sourceBinaryCommit": "bd075bd3",
+  "childSha256": "0086af4dca0d888bc8abeddd1191859e91a547fbbd45ce386c0dee6a5e388c26",
+  "requested": 10000,
+  "seeded": 10000,
+  "exitCode": 0,
+  "cloudShadowSampleCapOverride": 8,
+  "nativeCloudShadowSampleCapVerified": true,
+  "rawLogSha256": "bf6a6e8e781e2fd5b5a531f829ca47cf430b097c3ab4115d871ae181aa0d4ced",
+  "receiptSha256": "cfe97cf7ab640c6f1cae6651b4f3d2c892826cfbf9c22bcfcb91cfbc77b9da94",
+  "csvSha256": "d4005d92c84ce289e47a14e8c79eafba517b2f859fdd873143e8d71d66ff7438",
+  "photoSha256": "db951edc9b4e1d1d2d5e2b0599126a96b513506215748fb65ca2238b2a0fb7e8",
+  "readbacks": [
+    "[2026.09.19-03.12.17:764][  0]r.VolumetricCloud.ShadowMap.RaySampleMaxCount = \"8\"",
+    "[2026.09.19-03.15.08:827][879]0) MikdashCrowdField /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.SeededAgents = 10000",
+    "[2026.09.19-03.15.08:832][879]0) MikdashCrowdField /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.RefusedSeeds = 0",
+    "[2026.09.19-03.15.08:847][879]r.VolumetricCloud.ShadowMap.RaySampleMaxCount = \"8\"      LastSetBy: Console"
+  ],
+  "visualReview": "Court image reviewed against saved baseline: no obvious lighting regression at this fixed view. Moving cloud shadows, city and open sky still require visual checks.",
+  "interpretation": "Single diagnostic cap8 median17.899ms vs baseline19.315; cloudshadow GPU median2.064vs3.989ms. Still misses16.7ms. No release setting adopted.",
+  "engineSource": "UE5.8 VolumetricCloudRendering.cpp base16 times lightscale then capped by r.VolumetricCloud.ShadowMap.RaySampleMaxCount (default128), horizon factor applied afterwards."
+}

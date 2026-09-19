@@ -683,3 +683,13 @@ PowerShell batch lesson: capture script does not set LASTEXITCODE on success whe
 invoked in-process. A stale value stopped the wrapper after successful2500. Check
 terminal receipt status,errors,childexit andCSVfinalized; do not rerun validcapture.
 5000 was launched separately after verifying2500 evidence, no duplicate native job.
+
+Cloud-shadow diagnostic: capture_crowd_frametime now accepts bounded optional
+CloudShadowSampleCap (0unchanged;4/8/16/32/64/128), logs override and requires
+native console readback. Production settings/assets unchanged. UE5.8 source uses
+base16*lightscale capped by RaySampleMaxCount(default128), then horizonfactor.
+Cap8 native10000/0refused exit0,1661frames45/30:median17.899 p9520.871ms;
+GPU16.820 vs19.013baseline. Cloudshadowpass2.064 vs3.989medianms; TSR3.350vs3.341.
+Single diagnostic improvement, still misses16.7ms, noadoption. Root courtPNGreview
+finds noobviouslightingregression; city/open-sky/movingcloudshadow checks owed.
+See crowd-cloud8-01 review/comparison/gpu-passes and capturereceipt/PNG.

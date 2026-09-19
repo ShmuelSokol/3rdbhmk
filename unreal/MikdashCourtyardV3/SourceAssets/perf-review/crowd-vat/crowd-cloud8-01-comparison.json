@@ -1,0 +1,108 @@
+{
+  "settleSeconds": 45.0,
+  "requestedRecordSeconds": 30.0,
+  "captures": {
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\crowd-vat\\frametime-crowd-cloud8-01-outercourt-crowd10000\\frametime-crowd-cloud8-01-outercourt-crowd10000.csv": {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\crowd-vat\\frametime-crowd-cloud8-01-outercourt-crowd10000\\frametime-crowd-cloud8-01-outercourt-crowd10000.csv",
+      "columns": {
+        "frame": "FrameTime",
+        "game": "GameThreadTime",
+        "render": "RenderThreadTime",
+        "gpu": "GPUTime",
+        "rhi": "RHIThreadTime"
+      },
+      "framesKept": 1661,
+      "recordSeconds": 30.01,
+      "requestedRecordSeconds": 30.0,
+      "frame": {
+        "median": 17.899,
+        "mean": 18.069,
+        "p95": 20.871,
+        "p99": 23.012
+      },
+      "game": {
+        "median": 12.92,
+        "mean": 13.593,
+        "p95": 18.165,
+        "p99": 20.072
+      },
+      "render": {
+        "median": 17.441,
+        "mean": 17.345,
+        "p95": 19.411,
+        "p99": 20.922
+      },
+      "gpu": {
+        "median": 16.82,
+        "mean": 17.133,
+        "p95": 18.513,
+        "p99": 18.825
+      },
+      "rhi": {
+        "median": 3.045,
+        "mean": 3.111,
+        "p95": 3.791,
+        "p99": 4.239
+      },
+      "fpsFromMedian": 55.9
+    },
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\crowd-vat\\frametime-crowd-1080court01-outercourt-crowd10000\\frametime-crowd-1080court01-outercourt-crowd10000.csv": {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\crowd-vat\\frametime-crowd-1080court01-outercourt-crowd10000\\frametime-crowd-1080court01-outercourt-crowd10000.csv",
+      "columns": {
+        "frame": "FrameTime",
+        "game": "GameThreadTime",
+        "render": "RenderThreadTime",
+        "gpu": "GPUTime",
+        "rhi": "RHIThreadTime"
+      },
+      "framesKept": 1516,
+      "recordSeconds": 30.01,
+      "requestedRecordSeconds": 30.0,
+      "frame": {
+        "median": 19.315,
+        "mean": 19.793,
+        "p95": 22.847,
+        "p99": 43.41
+      },
+      "game": {
+        "median": 11.381,
+        "mean": 11.97,
+        "p95": 15.914,
+        "p99": 23.411
+      },
+      "render": {
+        "median": 19.244,
+        "mean": 19.779,
+        "p95": 22.762,
+        "p99": 37.77
+      },
+      "gpu": {
+        "median": 19.013,
+        "mean": 18.762,
+        "p95": 20.958,
+        "p99": 21.239
+      },
+      "rhi": {
+        "median": 3.125,
+        "mean": 3.282,
+        "p95": 4.085,
+        "p99": 7.761
+      },
+      "fpsFromMedian": 51.8
+    }
+  },
+  "crowdCostDeltas": [
+    {
+      "on": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\crowd-vat\\frametime-crowd-cloud8-01-outercourt-crowd10000\\frametime-crowd-cloud8-01-outercourt-crowd10000.csv",
+      "off": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\crowd-vat\\frametime-crowd-1080court01-outercourt-crowd10000\\frametime-crowd-1080court01-outercourt-crowd10000.csv",
+      "frameMedianDeltaMs": -1.416,
+      "frameP95DeltaMs": -1.976,
+      "gameMedianDeltaMs": 1.539,
+      "gameP95DeltaMs": 2.251,
+      "renderMedianDeltaMs": -1.803,
+      "renderP95DeltaMs": -3.351,
+      "gpuMedianDeltaMs": -2.193,
+      "gpuP95DeltaMs": -2.445
+    }
+  ]
+}

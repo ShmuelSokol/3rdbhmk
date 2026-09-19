@@ -1305,3 +1305,36 @@ Only first front/t0 frames differ; root inspected five side-by-side contact pair
 and Standard at full resolution. Shoulder shape/attachment match; small shading
 and edge differences remain, cause unproven. This accepts saved shoulder repairs
 for discrete native poses, not complete character art or a packaged release.
+
+## ResidentV4 crowd pilot — 19 September 2026
+CrowdResidentStudy01 converts the repaired Man_Standard into 8000/2400 triangle
+VAT candidates, preserving six material slots and UV0 plus walk/idle UV1/2.
+Successful isolated build093046 exited0:24 assets,8000tri4599verts (two rows/frame)
+and2400tri1442verts(one row/frame). Existing maps, ResidentV4, PilgrimRigV3 and
+CrowdVATV1 unchanged. Native source .skeleton attribute is absent on AnimSequence;
+use get_editor_property('skeleton'). First build092923 failed before creating
+assets on that API mistake; failure receipt retained.
+Pilot shader adds linear vertex colors and UV0 mottle onto the existing stock-node
+VAT shader. Source six slots/roughness/specular/tint/mottle retained, per-instance
+brightness still active; palette/skin variation disabled for this comparison.
+Fine pore/weave normal detail and skin subsurface are not yet implemented: this
+is NOT a complete near-character material or a default crowd adoption. Fresh
+readback/color/texture checks and GPU source-versus-two-level comparison pending.
+
+ResidentStudy01 GPU093255 normal0 rejected for washed-out source colors.
+Engine source MeshDescriptionToDynamicMesh.h default bTransformVertexColorsLinearToSRGB
+and CopyMeshFromSkeletalMesh source-model route confirm an implicit linear-to-sRGB
+transform. Opt-in _convert(linear_source_colors=True) reverses it via GeometryScript
+VertexColors BEFORE simplification, preserving linear-space color averaging.
+Default conversion remains unchanged for existing crowd workflows. Study02 is a
+fresh namespace using this correction; do not fix this by changing the accepted
+ResidentV4 skeletal material exponent. Shader fine-normal/subsurface gaps remain.
+
+Study02 fresh build093601/readback093746/GPU093802 all normal exit0 and protected
+assets unchanged.24saved assets;7999tri/2399tri, six slots/three UVchannels. Native
+color readback now2767/1086 uniqueRGB, minR.0231/.0289 vs Study01.1662/.1961.
+Root inspected both frame0 levels full-resolution and all12 source/candidate
+frames in480px tiles. Warm colors restored and four sampled poses follow source.
+Skin remains darker (surface mismatch unresolved); collar/face/narrow trim lose
+detail under decimation, especially2400. Neither candidate adopted. Next: complete
+material match and detail policy, remaining variants, real-time/distance/perf.

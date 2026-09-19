@@ -254,7 +254,7 @@ def _first_object(result, cls):
     return result if isinstance(result, cls) else None
 
 
-def _convert(ue, skel, package, target, row):
+def _convert(ue, skel, package, target, row, linear_source_colors=False):
     """Skeletal LOD0 -> DynamicMesh -> simplify -> new StaticMesh asset, all GeometryScript.
 
     MEASURED 2026-09-11 (crowd-vat-bake-20260911T042112123114Z.json): the plugin's own
@@ -278,6 +278,12 @@ def _convert(ue, skel, package, target, row):
     result = utils.copy_mesh_from_skeletal_mesh(skel, dynamic, read, lod)
     if not _outcome_ok(ue, result):
         raise RuntimeError('copy_mesh_from_skeletal_mesh failed: %r' % (result,))
+    if linear_source_colors:
+        # MeshDescriptionToDynamicMesh defaults to LinearToSRGB even for skeletal
+        # sources. ResidentV4's shader consumes linear COLOR_0. Undo that transform
+        # before simplification so color averaging also occurs in linear space.
+        ue.GeometryScript_VertexColors.convert_mesh_vertex_colors_srgb_to_linear(dynamic)
+        row['sourceColorTransform'] = 'Undo skeletal-copy LinearToSRGB before simplification'
     before = int(dynamic.get_triangle_count())
     box = ue.GeometryScript_MeshQueries.get_mesh_bounding_box(dynamic)
     row['sourceDynamic'] = dict(triangles=before, boundsMin=_v3(box.min), boundsMax=_v3(box.max))

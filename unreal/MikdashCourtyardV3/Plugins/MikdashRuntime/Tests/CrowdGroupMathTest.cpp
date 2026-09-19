@@ -144,6 +144,14 @@ int main()
         Expect(!R.Relocate(7,{0,0},{10,0}),"unknown id refused");
         Expect(R.Relocate(2,{90,0},{95,0})&&!R.SegmentClear({95,0},{96,0},3),"same-cell relocate updates the position");
     }
+    {
+        const std::vector<int> Requested={100,100,0,200,100};
+        const std::vector<int> Placed={100,50,0,200,90};
+        Expect(FallbackZoneOrder(1,Requested,Placed)==std::vector<int>({0,3,4}),
+               "fallback excludes preferred and disabled zones; full zones tie stably before partial zones");
+        Expect(FallbackZoneOrder(0,{10},{10}).empty(),"single enabled zone cannot invent another allowed area");
+        Expect(FallbackZoneOrder(0,{10,0},{10}).empty(),"mismatched capacity inventory refused");
+    }
     std::cout<<"CrowdGroupMath: "<<Checks<<" checks, "<<Failures<<" failures\n";
     return Failures?1:0;
 }

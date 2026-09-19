@@ -3302,3 +3302,28 @@ not final1080p or causal performance proof. Root viewed finalPNG. See
 crowd-street01-10000-review.json and timing/receipt. Next investigate packing of
 unchanged cohorts/identities within existing zones; do not reduce separation,
 force missing groups into individuals or move them onto priestly/interior floors.
+
+## Whole-cohort placement fallback — 18 September 2026
+
+Offline geometry-only packing study reproduces native plaza239/271 and15264trials;
+refused cohorts are eight triples and two fours, no singles. Sorting the same1024
+candidate points along the strip improves some zones but fills none completely.
+Study source/fixture/results are retained in Scripts/study_crowd_packing.cpp and
+crowd-vat/packing-study01. It omits native ground/obstacles and is not a capacity bound.
+
+New runtime treats authored zone weights as preferred initial distribution. After
+that unchanged first pass, intact refused cohorts try other enabled visitor zones,
+ordered by initial placement success with stable ties. This intentionally permits
+final zone counts to differ from preferred allocation; it preserves all identities,
+cohort sizes/membership, original standing decision, existing successful placements,
+80cm minimum separation,120cm group spacing, exactground55/20checks and34/96capsules.
+No group is split or moved after initialization. Only already-refused identities can
+be retried; each enabled destination is tried once with existing48/default or the
+same diagnostic override. Still-unsafe groups remain counted as refused. Logs retain
+six initial audits plus each recovered cohort, six final zone counts and totals.
+This changes the earlier allocation-preservation choice to complete the requested
+population in permitted areas without cramming whole groups into preferred strips.
+Pending source verification and packaged evidence; no10000acceptance claimed yet.
+Source fallback gate now passes active12/12,33/33math, Editor/Game and clonequick7/7.
+Independent study rebuild matches all nine saved rows; ten-file parity and accounting
+review pass. Native fallback counts/distribution/visuals still need validation.

@@ -631,7 +631,7 @@ void AMikdashCrowdField::ClearCrowd()
         }
     }
     Agents.Reset();
-    VisitorGroups.Reset();VisitorSpacing.Clear();
+    VisitorGroups.Reset();VisitorSpacing.Clear();RefusedCohorts.Reset();
     bSocialRuntime=false;
     GroupedVisitors=0;IndividualVisitors=0;RefusedGroups=0;PausedVisitorGroups=0;
     GroupSweepsLastFrame=0;GroupRejectedMovesLastFrame=0;GroupWaitVisitsLastFrame=0;
@@ -669,9 +669,16 @@ bool AMikdashCrowdField::SocialSegmentAllowed(int32 ZoneIndex,const Vec2& From,c
     return MikdashCrowdGroups::SegmentAllowed(Geometry,From,To);
 }
 
-void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& GlobalIndex)
+void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& GlobalIndex,
+    const MikdashCrowdGroups::SeedBatch* Retry,int32 PreferredZone)
 {
     using namespace MikdashCrowd;
+    if(Retry)
+    {
+        if(!RuntimeZones.IsValidIndex(PreferredZone)||Retry->Count<1||Retry->Count>MikdashCrowdGroups::MaxMembers) return;
+        for(int32 M=0;M<Retry->Count;++M)
+            if(!Agents.IsValidIndex(Retry->First+M)||Agents[Retry->First+M].bValid) return;
+    }
     const auto& Zone=RuntimeZones[ZoneIndex];
     const Vec2* Polygon=ZonePointCache.GetData()+ZoneStartCache[ZoneIndex];
     const int32 Vertices=ZoneVertexCountCache[ZoneIndex];
@@ -681,7 +688,8 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
     int32 AttemptBudget=SeedAttempts;
     if(FParse::Value(FCommandLine::Get(),TEXT("CrowdSeedAttempts="),AttemptBudget))
         AttemptBudget=FMath::Clamp(AttemptBudget,1,1024);
-    const auto Batches=MikdashCrowdGroups::PlanSeedBatches(ZoneTotal,GlobalIndex,IndividualVisitorRatio,Seed);
+    const auto Batches=Retry?std::vector<MikdashCrowdGroups::SeedBatch>{*Retry}
+        :MikdashCrowdGroups::PlanSeedBatches(ZoneTotal,GlobalIndex,IndividualVisitorRatio,Seed);
     const double MinSpeed=FMath::Max(0.f,MinWalkSpeedCmPerSecond);
     const double MaxSpeed=FMath::Max(MinSpeed,static_cast<double>(MaxWalkSpeedCmPerSecond));
     // Count the first failing gate per attempt; these are attempts, not refused people.
@@ -693,7 +701,8 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
     {
         const int32 First=Batch.First;
         const int32 Size=Batch.Count;
-        const bool Standing=IsStanding(Seed,static_cast<uint32>(First),Zone.StandingRatio);
+        const bool Standing=IsStanding(Seed,static_cast<uint32>(First),
+            Retry?RuntimeZones[PreferredZone].StandingRatio:Zone.StandingRatio);
         Vec2 Points[MikdashCrowdGroups::MaxMembers];float Grounds[MikdashCrowdGroups::MaxMembers]{};
         double Heading=0;bool Placed=false;
         for(int32 Attempt=0;Attempt<AttemptBudget&&!Placed;++Attempt)
@@ -769,7 +778,16 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
             GroupIndex=VisitorGroups.Add(Group);GroupedVisitors+=Size;
         }
         else if(Placed) ++IndividualVisitors;
-        else if(Size>1) ++RefusedGroups;
+        else if(!Retry&&Size>1) ++RefusedGroups;
+        if(Retry&&!Placed) continue; // Preserve original invalid agents and count each refusal once.
+        if(Retry&&Placed)
+        {
+            RefusedSeeds-=Size;
+            if(Size>1) --RefusedGroups;
+            UE_LOG(LogTemp,Display,TEXT("CrowdOverflowCohortV1 first=%d count=%d preferred=%d destination=%d"),
+                First,Size,PreferredZone,ZoneIndex);
+        }
+        if(!Retry&&!Placed) RefusedCohorts.Add({ZoneIndex,Batch});
         for(int32 Member=0;Member<Size;++Member)
         {
             const int32 AgentIndex=First+Member;
@@ -786,10 +804,39 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
             Agent.GroupIndex=GroupIndex;Agent.GroupMember=Member;++SeededAgents;
         }
     }
+    if(Retry) return;
     GlobalIndex+=ZoneTotal;
     UE_LOG(LogTemp,Display,TEXT("CrowdSeedAuditV1 zone=%d name=\"%s\" requested=%d seeded=%d refused=%d trials=%d accepted=%d point=%d segment=%d spacing=%d formation=%d link=%d ground=%d obstacle=%d insert=%d maxAttempts=%d"),
         ZoneIndex,*Zone.Name,ZoneTotal,SeededAgents-SeededBefore,RefusedSeeds-RefusedBefore,
         Trials,Accepted,PointReject,SegmentReject,SpacingReject,FormationReject,LinkReject,GroundReject,ObstacleReject,InsertReject,AttemptBudget);
+}
+
+void AMikdashCrowdField::RetryRefusedCohorts()
+{
+    std::vector<int> Requested,Initial;
+    for(int32 Z=0;Z<RuntimeZones.Num();++Z) {Requested.push_back(ZoneCounts[Z]);Initial.push_back(0);}
+    for(const auto& Agent:Agents) if(Agent.bValid) ++Initial[Agent.ZoneIndex];
+    const int32 Before=RefusedSeeds;
+    // Keep initial successful placements. Retry whole original cohorts, never split
+    // them or invent new identities to achieve a population count.
+    RefusedCohorts.StableSort([](const FRefusedCohort&A,const FRefusedCohort&B){return A.Batch.Count>B.Batch.Count;});
+    for(const auto& Cohort:RefusedCohorts)
+    {
+        for(const int Destination:MikdashCrowdGroups::FallbackZoneOrder(Cohort.PreferredZone,Requested,Initial))
+        {
+            int32 UnusedIndex=0;
+            SeedSocialZone(Destination,0,UnusedIndex,&Cohort.Batch,Cohort.PreferredZone);
+            if(Agents[Cohort.Batch.First].bValid) break;
+        }
+    }
+    TArray<int32> Actual;Actual.SetNumZeroed(RuntimeZones.Num());
+    for(const auto& Agent:Agents) if(Agent.bValid) ++Actual[Agent.ZoneIndex];
+    for(int32 Z=0;Z<RuntimeZones.Num();++Z)
+        UE_LOG(LogTemp,Display,TEXT("CrowdFinalZoneV1 zone=%d name=\"%s\" preferredRequested=%d initialSeeded=%d actualSeeded=%d relocatedIn=%d"),
+            Z,*RuntimeZones[Z].Name,Requested[Z],Initial[Z],Actual[Z],Actual[Z]-Initial[Z]);
+    UE_LOG(LogTemp,Display,TEXT("CrowdOverflowAuditV1 initialRefused=%d recovered=%d remainingRefused=%d finalSeeded=%d"),
+        Before,Before-RefusedSeeds,RefusedSeeds,SeededAgents);
+    RefusedCohorts.Reset();
 }
 
 void AMikdashCrowdField::StepSocialAgent(int32 Index,double Dt,const MikdashCrowd::FlowZone& Flow)
@@ -1097,6 +1144,8 @@ void AMikdashCrowdField::BuildCrowd(int32 OverrideCount)
         Agents[GlobalIndex].bValid = 0;
         ++RefusedSeeds;
     }
+
+    if(bSocialRuntime) RetryRefusedCohorts();
 
     if (bUseVertexAnimation)
     {

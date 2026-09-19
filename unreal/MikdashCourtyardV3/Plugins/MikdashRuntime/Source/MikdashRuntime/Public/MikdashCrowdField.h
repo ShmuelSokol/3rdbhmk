@@ -499,6 +499,8 @@ private:
         double PausedSince=-1.0;
     };
     TArray<FVisitorGroup> VisitorGroups;
+    struct FRefusedCohort { int32 PreferredZone; MikdashCrowdGroups::SeedBatch Batch; };
+    TArray<FRefusedCohort> RefusedCohorts;
     MikdashCrowdGroups::SpatialIndex VisitorSpacing;
     int32 GroupedVisitors=0,IndividualVisitors=0,RefusedGroups=0,PausedVisitorGroups=0;
     int32 GroupSweepsLastFrame=0,GroupRejectedMovesLastFrame=0,GroupWaitVisitsLastFrame=0;
@@ -507,7 +509,9 @@ private:
     bool bUseKotelGroundModel=false;
     FTimerHandle CrowdStartTimer;
     void StartCrowdAfterWorldInitialization();
-    void SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& GlobalIndex);
+    void SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& GlobalIndex,
+        const MikdashCrowdGroups::SeedBatch* Retry=nullptr,int32 PreferredZone=INDEX_NONE);
+    void RetryRefusedCohorts();
     void StepSocialAgent(int32 Index,double Dt,const MikdashCrowd::FlowZone& Flow);
     /** Vertex-animation visit: commit the anchor along the segment validated last time, then plan
      * and validate the next Horizon seconds of travel. A figure that cannot walk idles. */

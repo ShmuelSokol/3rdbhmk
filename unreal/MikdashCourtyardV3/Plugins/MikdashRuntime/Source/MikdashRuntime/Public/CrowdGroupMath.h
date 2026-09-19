@@ -13,6 +13,19 @@ constexpr int MaxMembers=6;
 constexpr double MinSeparationCm=80.0;
 constexpr double MaxStepCm=100.0;
 struct Settings { double SpacingCm=120.0, SlowLagCm=100.0, WaitLagCm=250.0; };
+// Prefer other enabled zones whose initial placement succeeded most often.
+// This orders attempts only; it does not grant space or bypass any native gate.
+inline std::vector<int> FallbackZoneOrder(int Preferred,const std::vector<int>& Requested,const std::vector<int>& Placed)
+{
+    std::vector<int> Order;
+    if(Requested.size()!=Placed.size()) return Order;
+    for(std::size_t I=0;I<Requested.size();++I)
+        if(static_cast<int>(I)!=Preferred && Requested[I]>0 && Placed[I]>=0)
+            Order.push_back(static_cast<int>(I));
+    std::stable_sort(Order.begin(),Order.end(),[&](int A,int B)
+        {return static_cast<double>(Placed[A])/Requested[A]>static_cast<double>(Placed[B])/Requested[B];});
+    return Order;
+}
 enum class TravelMode { Forward, Returning, Paused };
 struct Travel { TravelMode Mode=TravelMode::Forward;double FormationHeading=0; };
 inline void RejectedLeaderMove(Travel& State,double DistanceToAnchor)

@@ -1547,3 +1547,23 @@ overrides; wrapper refuses other studies/cast or sweep. NEVER use the four-frame
 PNGs for runtime: other68 walk frames still carry old normals. Next bake full walk
 and idle direct skeletal normals into a fresh candidate, review views/transitions,
 then further reduction/all-cast/performance work. Evidence: posed-normal-review.json.
+
+## Resident complete direct normals — 19 September 2026
+Study11 duplicates Study10 Elder/Woman geometry and six material instances each,
+replacing only walk/idle normal textures with evaluated source skeletal normals.
+All72 walk and192 idle frames per variant are baked:528 frames total. Fresh native
+readback PNG pixels are exact; frame hashes, occupied unit normals and coverage
+pass offline checks. Geometry digests, bounds, material parents and existing
+parameters are unchanged. Independent prior walk poses18/36/54 match encoded
+normals exactly; frame0 differs by up to6 codewords (~0.01013 degrees), cause not
+established. Direction comparison explicitly permits <0.02 degrees; saved texture
+pixels still require exact equality. Do not describe all CPU poses as bit-exact.
+Eight successful guarded native jobs,18 candidate assets,96 GPU captures and12
+root-reviewed contact sheets. Lower-robe lighting is substantially closer across
+12 sampled walk phases, two views per variant. Coarse folds/hem/trim differences
+remain. No idle GPU, transition, continuous clearance or performance acceptance.
+Initial allocation-growth attempt was deliberately stopped below the4GiB cap;
+reuse one DynamicMesh throughout the bake, keeping all memory guards unchanged.
+No runtime adoption; defaultStudy03 unchanged. Next idle/transition review,
+remaining views/distances, further body reduction, all-cast and crowd performance.
+Evidence: SourceAssets/perf-review/crowd-vat/ResidentStudy11/review.json.

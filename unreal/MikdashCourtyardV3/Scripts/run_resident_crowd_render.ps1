@@ -1,4 +1,4 @@
-param([ValidateSet('01','02','03','04','05','06','07','08','09','10')][string]$Study='03',[ValidateRange(100,10000)][int]$DistanceCm=253,[ValidateSet('Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder','Youth')][string]$Variant='Man_Standard',[ValidateSet('Front','Right','Rear','Left')][string]$View='Front',[switch]$Sweep,[switch]$ShadowParity,[switch]$NoNormalDetail,[switch]$NormalCorrection)
+param([ValidateSet('01','02','03','04','05','06','07','08','09','10','11')][string]$Study='03',[ValidateRange(100,10000)][int]$DistanceCm=253,[ValidateSet('Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder','Youth')][string]$Variant='Man_Standard',[ValidateSet('Front','Right','Rear','Left')][string]$View='Front',[switch]$Sweep,[switch]$ShadowParity,[switch]$NoNormalDetail,[switch]$NormalCorrection)
 $ErrorActionPreference = 'Stop'
 if($NormalCorrection -and ($Study -ne '10' -or $Sweep -or $Variant -notin @('Man_Elder','Woman_Young'))){throw 'NormalCorrection is a Study10 four-phase diagnostic only'}
 $root = (Split-Path -Parent $PSScriptRoot).Replace('\','/')

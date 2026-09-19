@@ -1,0 +1,54 @@
+{
+  "status": "verified-complete-normal-textures",
+  "scope": "Complete72 walk/192 idle frame coverage and exact saved texture readback; four independent walk pose exports. Not idle GPU/transition or runtime acceptance.",
+  "build": "native-20260919T122848346173Z.json",
+  "buildSha256": "30e5e645b390bf8168bc2f6edb503e36ef5304938b0f44293bc82c043f9fd50e",
+  "fresh": "native-20260919T123334717106Z.json",
+  "freshSha256": "5d91e711a9f123b54c0cdfbf9e051f0d3b6311dd833c8e85ccb3d394da9af3d4",
+  "clips": {
+    "walk": {
+      "frames": 72,
+      "texelsPerFrame": 24234,
+      "savedPixelsExact": true,
+      "allFrameHashesVerified": true,
+      "maximumUnitLengthError": 2.5936159059547492e-05
+    },
+    "idle": {
+      "frames": 192,
+      "texelsPerFrame": 24234,
+      "savedPixelsExact": true,
+      "allFrameHashesVerified": true,
+      "maximumUnitLengthError": 2.5683963438827284e-05
+    }
+  },
+  "independentWalkPoseComparisons": [
+    {
+      "frame": 0,
+      "comparedRows": 24234,
+      "maximumUnsigned16Difference": 6,
+      "maximumNormalAngleDegrees": 0.010050516146601123,
+      "maximumAllowedDegrees": 0.02
+    },
+    {
+      "frame": 18,
+      "comparedRows": 24234,
+      "maximumUnsigned16Difference": 0,
+      "maximumNormalAngleDegrees": 0.0014746359041467704,
+      "maximumAllowedDegrees": 0.02
+    },
+    {
+      "frame": 36,
+      "comparedRows": 24234,
+      "maximumUnsigned16Difference": 0,
+      "maximumNormalAngleDegrees": 0.0014818704485651583,
+      "maximumAllowedDegrees": 0.02
+    },
+    {
+      "frame": 54,
+      "comparedRows": 24234,
+      "maximumUnsigned16Difference": 0,
+      "maximumNormalAngleDegrees": 0.001496133020763375,
+      "maximumAllowedDegrees": 0.02
+    }
+  ]
+}

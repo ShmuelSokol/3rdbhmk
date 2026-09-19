@@ -1497,3 +1497,17 @@ materials; do not attribute all differences to this flag or claim full parity.
 No adoption or performance acceptance: bodies still too dense. Next: preserve
 garments while reducing other body regions; isolate remaining inner-robe shading;
 then all-cast/distance/runtime validation. Evidence: ResidentStudy10/review.json.
+
+## Resident normal-detail isolation — 19 September 2026
+Capture harness adds opt-in NoNormalDetail: transient component MIDs set source
+PoreStrength/WeaveStrength and VAT DetailStrength to zero with scalar readback.
+Four guarded native runs exit0: Elder Left and Woman_Young Right, four phases
+each, detail on/off with both cast-shadow flags false.32 GPU images and four
+contact pages. Protected file hashes unchanged; no asset saves or adoption.
+Inner/lower robe stays brighter in VAT without detail normals. Detail reconstruction
+alone is not the cause. Both master materials are single-sided; typed instance
+override flags in follow-up controls are false, effective sidedness false. Initial
+no-detail receipts contain opaque override struct strings, not typed flag proof.
+Do not add TwoSidedSign as a speculative fix. Engine AnimToTexture maps normals
+through closest-triangle frames; compare conversion and posed normal data next.
+Evidence: ResidentStudy10/normal-detail-review.json. No performance acceptance.

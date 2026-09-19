@@ -24,6 +24,7 @@ VIEW=view_match.group(1) if view_match else 'Front'
 assert VIEW in ('Front','Right','Rear','Left')
 SWEEP=bool(re.search(r'-ResidentCrowdSweep\b',ue.SystemLibrary.get_command_line()))
 SHADOW_PARITY=bool(re.search(r'-ResidentCrowdShadowParity\b',ue.SystemLibrary.get_command_line()))
+NO_NORMAL_DETAIL=bool(re.search(r'-ResidentCrowdNoNormalDetail\b',ue.SystemLibrary.get_command_line()))
 FRAMES=tuple(range(0,72,6)) if SWEEP else (0,18,36,54)
 
 
@@ -31,7 +32,7 @@ FRAMES=tuple(range(0,72,6)) if SWEEP else (0,18,36,54)
 def run():
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     output = OUT / ('render-' + stamp + '.json')
-    report = dict(status='running', scope='Frozen instanced VAT walk phases against the saved skeletal source. Not continuous clearance, real-time movie or in-scene acceptance.', view=VIEW, frames=list(FRAMES), captures=[])
+    report = dict(status='running', scope='Frozen instanced VAT walk phases against the saved skeletal source. Not continuous clearance, real-time movie or in-scene acceptance.', view=VIEW, frames=list(FRAMES), noNormalDetail=NO_NORMAL_DETAIL, materials={}, captures=[])
     protected = list((ROOT/'Content').rglob('*.umap'))
     for name in ('CrowdVATV1', 'CrowdNearV1', 'CrowdResidentStudy'+STUDY):
         protected += list((ROOT/'Content/MikdashV3/Runtime'/name).rglob('*.uasset'))
@@ -100,6 +101,49 @@ def run():
         meshes=[('source',built['sourceMesh'])]+[(str(row['target']),row['mesh']) for row in built['variants']]
         custom=[0.,.5,0.,0.,0.,0.,0.,0.,-1000.,.5/13.7,0.]
         instance_created=False
+        material_cache={}
+        def bind_review_materials(mesh, mesh_component, is_source):
+            path=mesh.get_path_name()
+            if path not in material_cache:
+                bindings=[]
+                rows=[]
+                slots=mesh.get_editor_property('materials' if is_source else 'static_materials')
+                for index,slot in enumerate(slots):
+                    original=slot.get_editor_property('material_interface')
+                    assert original
+                    parent=original
+                    chain=[]
+                    while isinstance(parent,ue.MaterialInstance):
+                        overrides=parent.get_editor_property('base_property_overrides')
+                        chain.append(dict(path=parent.get_path_name(),
+                                          overrideTwoSided=bool(overrides.get_editor_property('override_two_sided')),
+                                          twoSided=bool(overrides.get_editor_property('two_sided'))))
+                        parent=parent.get_editor_property('parent')
+                        assert parent
+                    row=dict(slot=index,material=original.get_path_name(),instanceChain=chain,
+                             master=parent.get_path_name(),twoSided=bool(parent.get_editor_property('two_sided')),
+                             tangentSpaceNormal=bool(parent.get_editor_property('tangent_space_normal')),disabledParameters={})
+                    row['effectiveTwoSided']=next((entry['twoSided'] for entry in chain if entry['overrideTwoSided']),row['twoSided'])
+                    binding=original
+                    if NO_NORMAL_DETAIL:
+                        names={str(n) for n in ue.MaterialEditingLibrary.get_scalar_parameter_names(original)}
+                        parameters=names.intersection(('PoreStrength','WeaveStrength') if is_source else ('DetailStrength',))
+                        assert parameters, 'Missing normal-detail controls: '+original.get_path_name()
+                        binding=mesh_component.create_dynamic_material_instance(index,original)
+                        assert binding
+                        for parameter in sorted(parameters):
+                            binding.set_scalar_parameter_value(parameter,0.)
+                            value=float(binding.get_scalar_parameter_value(parameter))
+                            assert value==0.
+                            row['disabledParameters'][parameter]=value
+                    bindings.append(binding)
+                    rows.append(row)
+                material_cache[path]=bindings
+                report['materials'][path]=rows
+            if NO_NORMAL_DETAIL:
+                for index,binding in enumerate(material_cache[path]):
+                    mesh_component.set_material(index,binding)
+                    assert mesh_component.get_material(index)==binding
         for frame,label,path in [(frame,label,path) for frame in FRAMES for label,path in meshes]:
             label='frame%02d-'%frame+label
             is_source=path==built['sourceMesh']
@@ -122,6 +166,7 @@ def run():
                     assert body.set_custom_data_value(0,idx,value,True)
                 readback=list(body.get_editor_property('per_instance_sm_custom_data'))
                 assert len(readback)==11 and all(abs(a-b)<1e-6 for a,b in zip(readback,custom))
+            bind_review_materials(mesh,source if is_source else body,is_source)
             ue.AutomationLibrary.finish_loading_before_screenshot()
             image = OUT/('render-'+stamp+'-'+label+'.png')
             assert not image.exists()

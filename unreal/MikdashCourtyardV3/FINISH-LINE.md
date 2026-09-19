@@ -1157,3 +1157,50 @@ Rotate review lights with camera: previous rear views were too dark to evaluate.
 Acceptance record CrowdMantleStudy05/acceptance01.json pins source,384pose audit,
 native receipts/images/logs. Only source candidate, NOT production adoption.
 Next import/bake fresh native crowd candidate and verify actual animated poses.
+
+## Repaired mantle native crowd candidate — 19 September 2026
+CrowdNearV2b holds 33 fresh assets (25,316,463 bytes), imported from the hash-pinned
+CrowdMantleStudy05 GLB. Full-detail mesh remains 19,600 triangles/9,924 vertices,
+10 slots/3 UV sets. Walk/idle bake72/192frames, 3rows/frame at width3308. Bounds
+extensions now match production policy: positive(110,110,25), negative(110,110,15).
+No live actor/material binding or cook inclusion changed.
+First CrowdNearV2 import failed the key-count gate: Interchange defaults did not
+preserve60Hz. Use pipeline animation.use30_hz_to_bake_bone_animation=False and
+custom_bone_animation_sample_rate=60 with readbacks, as release_walk_v2 already
+requires. Fresh V2b import then returned73walk/193idle keys and correct lengths.
+The editor saved the complete V2b bake but exited3 during shutdown with
+'Object is not packaged: ModeManagerInteractiveToolsContext None'. This is NOT a
+successful normal build exit. All failure receipts and partial V2 assets remain.
+Fresh commandlet readback exited0 and validates every V2b asset hash, mesh stats,
+material slot, texture dimensions/settings and bounds. Commandlets have no
+StaticMeshEditorSubsystem; obtain UV count from GeometryScript source-model copy
+and get_num_uv_sets instead of dropping the UV invariant. New wrapper uses
+UnrealEditor-Cmd and no quit_editor; that readback route passed. A fresh build via
+this revised commandlet route has not yet been exercised.
+Native capture cannot call Actor.add_component_by_class (not Python-exposed;
+this was already documented by import_instances_ue58). For this crowd test spawn
+transient MikdashCrowdField and use its owned default CrowdPose0 HISM, initially
+empty. Set11custom floats before adding one instance; read back each phase.
+Capture082122191777 uses four frozen walk phases0/18/36/54 with zero rate/horizon,
+not a running movie. Native AnimPoseExtensions raw pose comparisons match all27
+bones exactly between original/candidate imports at all4times. This proves pose
+correspondence between those imported clips, not exact VAT vertex reconstruction.
+Root reviewed all8native before/after PNGs: cloak/tunic/sash breaks are removed at
+all4poses. Lower legs still visibly protrude through the unchanged tunic in both
+versions. Source leg/robe clearance audit is running; this remains a distinct
+release blocker. Cloth shoulders, other variants, real-time motion and near/far
+transitions/performance also remain open. All native processes are terminal.
+
+Source lower-leg audit finished: original V3 Man_Standard walk has leg/robe
+protrusion in all288samples at240Hz, maximum23.848cm (FootL,t0.5167s). Source
+positions/weights were already proven identical in CrowdMantleStudy05; V2b did
+not alter the tunic or legs. This independently confirms the old source defect.
+Before authoring another V3 repair, evaluate EXISTING create_resident_v4.py and
+ResidentV4 assets for near crowd: they already implement higher hems, thigh/calf
+cloth weights, mantle attached to tunic motion, richer faces/UVs/vertex colours.
+Do not assume V4 is accepted: native rendering/clearance and VAT material support
+must be checked, especially preserving its six-slot vertex-colour shading. V3
+was intended as a distant proxy; further close-art work should reuse the newer
+resident source where valid. NearV2/review01.json records the narrowed candidate
+result, normal-exit readback/render, abnormal builder shutdown and lower-leg
+blocker. Frozen HISM pose capture is reusable for the newer source.

@@ -3108,3 +3108,16 @@ ground tolerances and static sweeps are unchanged. Both windings, a real rotated
 approach, deterministic broad coverage, empty insets, protected regions, nonfinite
 margins and concave fallback are covered. Native count/placement acceptance pending;
 this changes deterministic seed positions and must be measured on a fresh package.
+
+## Crowd sampler native acceptance at 2500 — 18 September 2026
+
+Source 6fd54c0f passes active11/11, math33/33 and Editor/Game; clone quick6/6.
+Fresh sampler01 package retains all six cooked file hashes. Native late-frame
+readback confirms2500/2500, zero refused across all six zones; child exits0.
+Plaza68/68, approach73/73 and street52/52 now complete with unchanged48attempts
+and safety thresholds. Both Kotel zones have zero ground rejections. Root viewed
+the late-frame image: visitors stand on restored plaza paving. See
+SourceAssets/perf-review/crowd-vat/crowd-sampler01-review.json for raw-log-derived
+counts and192ground contacts. Diagnostic30/30 CSV validates capture integrity,
+not the final performance matrix. Larger populations, clean45/60 benchmarks,
+all-frame feet/movement and state-transition acceptance remain pending.

@@ -3327,3 +3327,32 @@ Pending source verification and packaged evidence; no10000acceptance claimed yet
 Source fallback gate now passes active12/12,33/33math, Editor/Game and clonequick7/7.
 Independent study rebuild matches all nine saved rows; ten-file parity and accounting
 review pass. Native fallback counts/distribution/visuals still need validation.
+
+## Whole-cohort fallback native result and default adoption — 18 September 2026
+
+Source09b27654 overflow01 child1ad8ce80e88d67a6aa878d05f007ce6e84e4aeefc4316c659df3da4c73512ba8
+retains six verified street01 cooked hashes through immutable hardlinks. Native48
+initiallyrefuses660;94cohorts recover264, final9604/10000. Childexit0 and wrapper
+correctlyfails. Samebinary1024 initiallyrefuses153;44intactcohorts recoverall153,
+final10000/10000,0refused, normalexit and CSVfinalized. Finalzones east2921,west2018,
+deck4402,plaza239,street179,approach241.139people fallbacktoeast,14todeck. Recovered
+IDranges are unique, remainwithinoriginalpreferred-zone cohort ranges, destinations
+enabled; summaries reconcile initial/final counts. Original standing choices retained.
+Root viewedbothPNGs. Default48diagnostic1650frames median17.950ms,p9523.052;
+1024diagnostic1815frames median16.351ms,p9519.577.30/30 at720p77percent, no final
+1080p or causal speed claim.192groundcontacts each; fullmotion/state/appearance open.
+See crowd-overflow01 and crowd-overflow1024 10000-review, combinedtiming andreceipts.
+
+Newsource adopts1024 as SocialSeedAttempts after this nativecomparison; non-social
+SeedAttempts remains48. Same bounded loop/checks/fallback, now no override needed.
+This source default change still requires its own build and no-override native run;
+full10000 is proven only for the tested09b27654 binary with1024override so far.
+
+Default adoption source verification passes active12/12, math33/33, Editor/Game
+and publicationquick7/7. Independent review verified both native evidence sets,
+exact original cohort membership, final accounting, all hashes and11-file parity.
+Logs: verify-social-default-20260918T222811.stdout.log, Editor-rh59b_9o.log,
+Game-n5zv6qfa.log and verify-social-default-publication.log in Working-5.8.
+Native slot confirmed empty after owner's restart-complete message. The new binary
+still needs packaged10000 without GroupSeedAttempts override; normal map default
+population and final1080p performance remain separate unverified acceptance items.

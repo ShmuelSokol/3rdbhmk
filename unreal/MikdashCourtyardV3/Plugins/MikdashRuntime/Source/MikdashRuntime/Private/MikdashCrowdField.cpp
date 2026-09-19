@@ -42,6 +42,9 @@ MikdashCrowd::FlowZone MakeFlowZone(const FMikdashCrowdZone& Zone)
  * but it is small enough to be invisible. Refusals are counted, never hidden. */
 constexpr float RefusedInstanceScale = 0.0001f;
 constexpr int32 SeedAttempts = 48;
+// Native 10000-person validation needs a larger bounded search for whole cohorts.
+// Ordinary non-social point seeding retains its original budget.
+constexpr int32 SocialSeedAttempts = 1024;
 }   // namespace
 
 AMikdashCrowdField::AMikdashCrowdField()
@@ -685,7 +688,7 @@ void AMikdashCrowdField::SeedSocialZone(int32 ZoneIndex,int32 ZoneTotal,int32& G
     const uint32 Seed=static_cast<uint32>(RandomSeed);
     // Bounded diagnostic override: measure search exhaustion separately from physical
     // capacity without relaxing any placement constraint or changing the default.
-    int32 AttemptBudget=SeedAttempts;
+    int32 AttemptBudget=SocialSeedAttempts;
     if(FParse::Value(FCommandLine::Get(),TEXT("CrowdSeedAttempts="),AttemptBudget))
         AttemptBudget=FMath::Clamp(AttemptBudget,1,1024);
     const auto Batches=Retry?std::vector<MikdashCrowdGroups::SeedBatch>{*Retry}

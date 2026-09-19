@@ -945,3 +945,46 @@ clips and do not prove native texture/velocity output. Native fresh cook, actual
 activation, current-frame A/B, velocity/motion and performance acceptance remain
 required. This is a concrete opt-in correction candidate, NOT an accepted smear
 fix. Capture -UseMotionHistoryCandidate requires one full activation marker.
+
+## Crowd motion diagnostic capture prepared — 19 September 2026
+Capture now accepts MotionVisualization=Velocity or Reprojection (defaultNone).
+These use Unreal global renderer showflags, not BufferVisualization material
+assets that are absent from the current packaged cook. Velocity uses HSV direction/
+magnitude (r.MotionBlur.Visualize1), debug overlay off. Reprojection compares
+current colour with previous colour warped by the rendered velocity texture.
+See engine PostProcessMotionBlur.cpp, VisualizeMotionVectors.cpp/.usf and
+PostProcessing.cpp; actual packaged activation/images remain to be tested.
+
+Readback review lesson: an ANY-match search for the expected console value can
+pass on a startup echo even when the later value is wrong. Capture requires the
+LAST numeric exact-variable readback and records its line/value/count. Tests of
+the actual PowerShell block pass last-good, and reject startup-good/last-bad,
+wrong numeric10, missing, and prefixed-lookalike variables. No render acceptance
+is implied by parser/source tests. Fresh cook still owns the native slot.
+
+## Crowd history packaged evidence — 19 September 2026
+Fresh crowd-history01-20260919T061743Z cook/archive exited0 in19m4s, no shader
+compile errors; both maps unchanged. ChildSHA c8c628021a9e38355916566bd494581c9e304bfaa7245938f394b56bf6ca9d23. Wrapper33152/UAT/cooker are terminal; native slot released.
+Normal/HSVvelocity/reprojection control and candidate captures all exit0 with
+10000/0refused,30retained frames each,640x360/77%,fixed30fps,2ssettle/1srecord.
+Candidate activation confirms26floats/sixposes. All65 logged original-model
+audit payloads match between normal control/candidate (simulation unchanged).
+This audit still models the OLD reconstruction; its nonzero errors are NOT a
+failure of the candidate shader and cannot measure the candidate's pixel error.
+
+Repeated original velocity captures:28/30pixel-identical, other two differ by
+at most4pixels. Candidate A/B changes0..4465pixels/frame. Root sees substantial
+rotation vectors near pixel(150,210) atframe75 where the original barely showed
+rotation. This proves a native velocity-output change, not numerical accuracy
+or visually resolved smearing. Root reviewed normal/velocity/reprojection pairs;
+close crowd proxies remain coarse. Higher-resolution/moving-camera review,
+longer transition/freeze coverage and candidate frame-time/GPU cost remain.
+Default remains original11float path; no adoption or crowd-finish claim.
+Evidence: SourceAssets/perf-review/crowd-vat/MotionHistoryV3/packaged-review01.json.
+
+Native diagnostic parser correction: UE bool console variables print true/false,
+not numeric0/1. First velocity-old01 receipt remains FAILED (nativeexit0), because
+readback rejected false. Last-value parser now accepts bool/integer, rejects an
+invalid or empty LAST value (cannot fall back to a valid startup echo), and stores
+the raw token. Nine actual-block regressions and fresh old02/new01 captures pass.
+All failed evidence is retained; raw old01 frames are only repeatability evidence.

@@ -22,6 +22,7 @@ param(
     [switch]$InspectMotionState,
     [switch]$AuditMotionTransitions,
     [switch]$UseMotionHistoryCandidate,
+    [ValidateSet('None','Velocity','Reprojection')][string]$MotionVisualization='None',
     [ValidatePattern('\A(?:(?:0(?:\.[0-9]{1,6})?|1(?:\.0{1,6})?) (?:0(?:\.[0-9]{1,6})?|1(?:\.0{1,6})?))?\z')][string]$InspectPixel='',
     [ValidatePattern('\A(?:/Game/[A-Za-z0-9_/]+\.[A-Za-z0-9_]+:PersistentLevel\.[A-Za-z][A-Za-z0-9_]{0,80})?\z')][string]$InspectActorPath=''
 )
@@ -58,6 +59,17 @@ $launchArgs="-windowed -ResX=$ResX -ResY=$ResY -nosplash -nosteam -notraceserver
 $inspectionFrame=$captureFrames-1
 if($AuditMotionTransitions){$launchArgs+=' -MikdashCrowdMotionAudit'}
 if($UseMotionHistoryCandidate){$launchArgs+=' -MikdashCrowdMotionHistory'}
+$motionViewCommands=@()
+if($MotionVisualization -eq 'Velocity'){
+    # Global renderer shader: no uncooked BufferVisualization material or
+    # shipping debug-view override. HSV encodes velocity direction/magnitude.
+    $launchArgs=$launchArgs.Replace('Ghost,BugItGo','ShowFlag.VisualizeMotionBlur 1,r.MotionBlur.Visualize 1,r.MotionBlur.VisualizeDebugInformation 0,Ghost,BugItGo')
+    $motionViewCommands=@('ShowFlag.VisualizeMotionBlur','r.MotionBlur.Visualize','r.MotionBlur.VisualizeDebugInformation')
+}
+elseif($MotionVisualization -eq 'Reprojection'){
+    $launchArgs=$launchArgs.Replace('Ghost,BugItGo','ShowFlag.VisualizeReprojection 1,Ghost,BugItGo')
+    $motionViewCommands=@('ShowFlag.VisualizeReprojection')
+}
 if($UnfilteredMotionDiagnostic){
     # Capture-only isolation of temporal reconstruction and blur; never a release preset.
     $launchArgs=$launchArgs.Replace('r.ScreenPercentage 77,','r.ScreenPercentage 100,r.AntiAliasingMethod 0,ShowFlag.AntiAliasing 0,r.MotionBlurQuality 0,')
@@ -69,6 +81,7 @@ if($DisableMotionBlurDiagnostic -and -not $UnfilteredMotionDiagnostic){
     $launchArgs=$launchArgs.Replace('r.ScreenPercentage 77,','r.ScreenPercentage 77,r.MotionBlurQuality 0,')
 }
 $inspectionCommands=@("${inspectionFrame}:getall MikdashCrowdField SeededAgents","${inspectionFrame}:getall MikdashCrowdField RefusedSeeds")
+foreach($command in $motionViewCommands){$inspectionCommands+="${inspectionFrame}:$command"}
 if($InspectMotionState){
     foreach($command in @('LIST ISM','r.Velocity.EnableVertexDeformation','r.VelocityOutputPass','r.AntiAliasingMethod')){
         $inspectionCommands+="${inspectionFrame}:$command"
@@ -113,6 +126,8 @@ $report.inspectActorPath=$InspectActorPath
 $report.inspectMotionState=[bool]$InspectMotionState
 $report.auditMotionTransitions=[bool]$AuditMotionTransitions
 $report.motionHistoryCandidate=[bool]$UseMotionHistoryCandidate
+$report.motionVisualization=$MotionVisualization
+$report.motionVisualizationReadbacks=@()
 if($ScheduledShots){$report.method='Fixed-step scheduled ordinary screenshots; NOT a performance measurement'}
 if($RealTimeDiagnostic){$report.method='Real-time visibility diagnostic; requested frame counts only, NO fixed simulated-time claim'}
 Save-Receipt
@@ -145,6 +160,20 @@ try{
     if($UseMotionHistoryCandidate){
         if(@(Select-String -LiteralPath $log -SimpleMatch 'CrowdMotionHistoryV3 enabled customFloats=26 poses=6').Count -ne 1){throw 'Expected one complete history candidate activation'}
         if(@(Select-String -LiteralPath $log -SimpleMatch 'CrowdMotionHistoryV3 refused').Count){throw 'History candidate activation refused'}
+    }
+    foreach($variable in $motionViewCommands){
+        $expected=if($variable -eq 'r.MotionBlur.VisualizeDebugInformation'){0}else{1}
+        $readbacks=@(Select-String -LiteralPath $log -Pattern ('(?<![A-Za-z0-9_.])'+[regex]::Escape($variable)+'\s*=\s*(?:"([^"]*)"|(\S+))(?:\s|$)'))
+        if(-not $readbacks.Count){throw "Missing motion visualization readback: $variable"}
+        $lastReadback=$readbacks[-1]
+        $valueMatch=$lastReadback.Matches[0]
+        $rawValue=if($valueMatch.Groups[1].Success){$valueMatch.Groups[1].Value}else{$valueMatch.Groups[2].Value}
+        $actual=0
+        if($rawValue -ceq 'true'){$actual=1}
+        elseif($rawValue -ceq 'false'){$actual=0}
+        elseif(-not [int]::TryParse($rawValue,[ref]$actual)){throw "Invalid final motion visualization readback: $variable = $rawValue"}
+        $report.motionVisualizationReadbacks+=@{variable=$variable;expected=$expected;actual=$actual;raw=$rawValue;line=$lastReadback.LineNumber;count=$readbacks.Count}
+        if($actual -ne $expected){throw "Last motion visualization readback differs: $variable = $actual; expected $expected"}
     }
     $counts=@(Select-String -LiteralPath $log -Pattern '\.SeededAgents = (\d+)\s*$')
     if($counts.Count -ne 1){throw 'Expected one late crowd population readback'}

@@ -1,0 +1,1023 @@
+{
+  "status": "packaged-candidate-active-vector-output-changed-not-visual-performance-acceptance",
+  "sourceCommit": "a7acc552",
+  "archive": "C:/Mikdash/Builds/Checkpoint-crowd-history01-20260919T061743Z",
+  "childSha256": "c8c628021a9e38355916566bd494581c9e304bfaa7245938f394b56bf6ca9d23",
+  "cookReceipt": "SourceAssets/build-review/checkpoint-crowd-history01-20260919T061743Z.json",
+  "conditions": {
+    "camera": "11500 -300 200 -10 270 0",
+    "resolution": [
+      640,
+      360
+    ],
+    "screenPercentage": 77,
+    "fixedFps": 30,
+    "settleSeconds": 2,
+    "recordSeconds": 1,
+    "crowd": 10000
+  },
+  "captures": {
+    "historyv3-control01": {
+      "receipt": "SourceAssets\\visual-review\\movie-historyv3-control01-corridor\\movie-receipt.json",
+      "receiptSha256": "fa7b92e16d1ec3a89fc54481302d44c0fec81cf118fabf6553e7ebc9a8b4585d",
+      "runtimeLogSha256": "a3540d96bac21caccb02c829f946cbb61e0715bd06ec87596f0fa443a8887d1c",
+      "status": "movie_captured_visual_review_pending",
+      "exitCode": 0,
+      "seededAgents": 10000,
+      "peakPrivateBytes": 7873470464,
+      "candidate": false,
+      "visualization": "None",
+      "readbacks": [],
+      "refusedSeedReadback": [
+        "0"
+      ],
+      "evidenceFrames": [
+        {
+          "path": "SourceAssets\\visual-review\\movie-historyv3-control01-corridor\\frame-000075.png",
+          "sha256": "8c6383d2b84f17b34ea9e43f7c0286ed547347b4601de12b7343263b072d68ab"
+        },
+        {
+          "path": "SourceAssets\\visual-review\\movie-historyv3-control01-corridor\\frame-000089.png",
+          "sha256": "c7689dd534a99c16b354ca05c48c88f43c90e7bba484b22c5ecc4943d52dbf9b"
+        }
+      ]
+    },
+    "historyv3-candidate01": {
+      "receipt": "SourceAssets\\visual-review\\movie-historyv3-candidate01-corridor\\movie-receipt.json",
+      "receiptSha256": "af4cc3b1e92ea23acd9bbe4a2c07070013a983a0a7070a7de0f3ff96b830e914",
+      "runtimeLogSha256": "6762b645f860108c8216cc45ad88cff5e7ae2d61c353a12323821881dc995950",
+      "status": "movie_captured_visual_review_pending",
+      "exitCode": 0,
+      "seededAgents": 10000,
+      "peakPrivateBytes": 7710633984,
+      "candidate": true,
+      "visualization": "None",
+      "readbacks": [],
+      "refusedSeedReadback": [
+        "0"
+      ],
+      "evidenceFrames": [
+        {
+          "path": "SourceAssets\\visual-review\\movie-historyv3-candidate01-corridor\\frame-000075.png",
+          "sha256": "7e580e9dc5f1f2e7a70e908ca7f3e3b43094253fe4a0a97e9ac4730e100d097c"
+        },
+        {
+          "path": "SourceAssets\\visual-review\\movie-historyv3-candidate01-corridor\\frame-000089.png",
+          "sha256": "6e9e3197317d6abba99a0b6057dcf00dee299cf8ef1d7e95c06b0501ea3953a5"
+        }
+      ]
+    },
+    "historyv3-velocity-old01": {
+      "receipt": "SourceAssets\\visual-review\\movie-historyv3-velocity-old01-corridor\\movie-receipt.json",
+      "receiptSha256": "f8d557dc34cc7c83bdfae659a7255b4d301c81e93023836fb40c0eb38b80e455",
+      "runtimeLogSha256": "9f1eef6f3e681c28c4aae1f339b6f7d514671c18a5b5b760cb65a482ba26d2cf",
+      "status": "failed_capture",
+      "exitCode": 0,
+      "seededAgents": null,
+      "peakPrivateBytes": 7897735168,
+      "candidate": false,
+      "visualization": "Velocity",
+      "readbacks": [
+        {
+          "count": 2,
+          "variable": "ShowFlag.VisualizeMotionBlur",
+          "actual": 1,
+          "expected": 1,
+          "line": 1491
+        },
+        {
+          "count": 2,
+          "variable": "r.MotionBlur.Visualize",
+          "actual": 1,
+          "expected": 1,
+          "line": 1498
+        }
+      ],
+      "refusedSeedReadback": [
+        "0"
+      ],
+      "evidenceFrames": [
+        {
+          "path": "SourceAssets\\visual-review\\movie-historyv3-velocity-old01-corridor\\frame-000075.png",
+          "sha256": "522a8e078974a2c066529e64b2c5a43bca4e3c9e418a47a1e1f8f8ac1a97418d"
+        },
+        {
+          "path": "SourceAssets\\visual-review\\movie-historyv3-velocity-old01-corridor\\frame-000089.png",
+          "sha256": "11cc3900814167866637675ddd5b1e3994673f8bc3fe325fc79c7aaed2964809"
+        }
+      ]
+    },
+    "historyv3-velocity-old02": {
+      "receipt": "SourceAssets\\visual-review\\movie-historyv3-velocity-old02-corridor\\movie-receipt.json",
+      "receiptSha256": "81cf85533602ea0f32f9b389ca1c66f23ef7e091b312743f159c1c2c290d268b",
+      "runtimeLogSha256": "2f0aaba8431aa780190128cf69007ad41c80f3e95a81e9a2e7239773f5f8f932",
+      "status": "movie_captured_visual_review_pending",
+      "exitCode": 0,
+      "seededAgents": 10000,
+      "peakPrivateBytes": 7630516224,
+      "candidate": false,
+      "visualization": "Velocity",
+      "readbacks": [
+        {
+          "expected": 1,
+          "actual": 1,
+          "count": 2,
+          "raw": "1",
+          "variable": "ShowFlag.VisualizeMotionBlur",
+          "line": 1491
+        },
+        {
+          "expected": 1,
+          "actual": 1,
+          "count": 2,
+          "raw": "1",
+          "variable": "r.MotionBlur.Visualize",
+          "line": 1498
+        },
+        {
+          "expected": 0,
+          "actual": 0,
+          "count": 2,
+          "raw": "false",
+          "variable": "r.MotionBlur.VisualizeDebugInformation",
+          "line": 1505
+        }
+      ],
+      "refusedSeedReadback": [
+        "0"
+      ],
+      "evidenceFrames": [
+        {
+          "path": "SourceAssets\\visual-review\\movie-historyv3-velocity-old02-corridor\\frame-000075.png",
+          "sha256": "522a8e078974a2c066529e64b2c5a43bca4e3c9e418a47a1e1f8f8ac1a97418d"
+        },
+        {
+          "path": "SourceAssets\\visual-review\\movie-historyv3-velocity-old02-corridor\\frame-000089.png",
+          "sha256": "11cc3900814167866637675ddd5b1e3994673f8bc3fe325fc79c7aaed2964809"
+        }
+      ]
+    },
+    "historyv3-velocity-new01": {
+      "receipt": "SourceAssets\\visual-review\\movie-historyv3-velocity-new01-corridor\\movie-receipt.json",
+      "receiptSha256": "027a5ec8b16de40c4891867b8bc672dc77d424b9ae80af535caff49e6942a9e3",
+      "runtimeLogSha256": "a4d5570c3e6f164eefedac3d55d050442baf80e26bbcfb327b846ddc165885ac",
+      "status": "movie_captured_visual_review_pending",
+      "exitCode": 0,
+      "seededAgents": 10000,
+      "peakPrivateBytes": 7648055296,
+      "candidate": true,
+      "visualization": "Velocity",
+      "readbacks": [
+        {
+          "line": 1491,
+          "variable": "ShowFlag.VisualizeMotionBlur",
+          "count": 2,
+          "expected": 1,
+          "actual": 1,
+          "raw": "1"
+        },
+        {
+          "line": 1498,
+          "variable": "r.MotionBlur.Visualize",
+          "count": 2,
+          "expected": 1,
+          "actual": 1,
+          "raw": "1"
+        },
+        {
+          "line": 1505,
+          "variable": "r.MotionBlur.VisualizeDebugInformation",
+          "count": 2,
+          "expected": 0,
+          "actual": 0,
+          "raw": "false"
+        }
+      ],
+      "refusedSeedReadback": [
+        "0"
+      ],
+      "evidenceFrames": [
+        {
+          "path": "SourceAssets\\visual-review\\movie-historyv3-velocity-new01-corridor\\frame-000075.png",
+          "sha256": "3218f11a0f41ed514b0e32697442294d41752bd3c4991299e73130ee4cc1d8b4"
+        },
+        {
+          "path": "SourceAssets\\visual-review\\movie-historyv3-velocity-new01-corridor\\frame-000089.png",
+          "sha256": "05d1953252d85560afc52f2ba9308957305149674c90994261630869612b89a5"
+        }
+      ]
+    },
+    "historyv3-reproject-old01": {
+      "receipt": "SourceAssets\\visual-review\\movie-historyv3-reproject-old01-corridor\\movie-receipt.json",
+      "receiptSha256": "6d486969dd44d07ce0f8065eba1effb8942f7e69bea5e454e7495e45b6d7d7d4",
+      "runtimeLogSha256": "87873166ec500b653627c21825574e606a3755be0762064f7e8e96ac57c4a76a",
+      "status": "movie_captured_visual_review_pending",
+      "exitCode": 0,
+      "seededAgents": 10000,
+      "peakPrivateBytes": 7657828352,
+      "candidate": false,
+      "visualization": "Reprojection",
+      "readbacks": [
+        {
+          "expected": 1,
+          "count": 2,
+          "actual": 1,
+          "line": 1477,
+          "raw": "1",
+          "variable": "ShowFlag.VisualizeReprojection"
+        }
+      ],
+      "refusedSeedReadback": [
+        "0"
+      ],
+      "evidenceFrames": [
+        {
+          "path": "SourceAssets\\visual-review\\movie-historyv3-reproject-old01-corridor\\frame-000075.png",
+          "sha256": "a0f1a1803c168cb213ba196380ea508232355142219c387b5b31a613b6b5815f"
+        },
+        {
+          "path": "SourceAssets\\visual-review\\movie-historyv3-reproject-old01-corridor\\frame-000089.png",
+          "sha256": "047c9c71e01ceb8f201ca20a01c757c39d4ae18864ae3142cb383b5bb5bacd56"
+        }
+      ]
+    },
+    "historyv3-reproject-new01": {
+      "receipt": "SourceAssets\\visual-review\\movie-historyv3-reproject-new01-corridor\\movie-receipt.json",
+      "receiptSha256": "9b4b5782f25477cc398d294f84d22871089ad0accd8d023c6fa296069ba7b411",
+      "runtimeLogSha256": "b8e9f102039170aee5b9e1d1ecb1dc56c83b1c23ff01abf0da31915c722b8fb0",
+      "status": "movie_captured_visual_review_pending",
+      "exitCode": 0,
+      "seededAgents": 10000,
+      "peakPrivateBytes": 7629049856,
+      "candidate": true,
+      "visualization": "Reprojection",
+      "readbacks": [
+        {
+          "count": 2,
+          "expected": 1,
+          "line": 1478,
+          "raw": "1",
+          "variable": "ShowFlag.VisualizeReprojection",
+          "actual": 1
+        }
+      ],
+      "refusedSeedReadback": [
+        "0"
+      ],
+      "evidenceFrames": [
+        {
+          "path": "SourceAssets\\visual-review\\movie-historyv3-reproject-new01-corridor\\frame-000075.png",
+          "sha256": "90d61c38bf67728b529c18423b6c1dab5864877d7f9b5749047b2d2fa339ba30"
+        },
+        {
+          "path": "SourceAssets\\visual-review\\movie-historyv3-reproject-new01-corridor\\frame-000089.png",
+          "sha256": "f2187c1bebfa3de5af6b37c195a1d15a90232dd093e0a7db4f8fcf7ba6589706"
+        }
+      ]
+    }
+  },
+  "normalAuditPayloadsExactlyEqual": true,
+  "auditPayloadRows": 65,
+  "velocityRepeat": [
+    {
+      "frame": "frame-000060.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000061.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000062.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000063.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000064.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000065.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000066.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000067.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000068.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000069.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000070.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000071.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000072.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000073.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000074.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000075.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000076.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000077.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000078.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000079.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000080.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000081.png",
+      "changedPixels": 4,
+      "meanAbsoluteRgbDifference": 1.1574074074074073e-05,
+      "maximumChannelDifference": 1
+    },
+    {
+      "frame": "frame-000082.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000083.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000084.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000085.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000086.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000087.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000088.png",
+      "changedPixels": 1,
+      "meanAbsoluteRgbDifference": 1.4467592592592592e-06,
+      "maximumChannelDifference": 1
+    },
+    {
+      "frame": "frame-000089.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    }
+  ],
+  "velocityCandidateDifference": [
+    {
+      "frame": "frame-000060.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000061.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000062.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000063.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000064.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000065.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000066.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000067.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000068.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000069.png",
+      "changedPixels": 21,
+      "meanAbsoluteRgbDifference": 0.0028370949074074075,
+      "maximumChannelDifference": 79
+    },
+    {
+      "frame": "frame-000070.png",
+      "changedPixels": 498,
+      "meanAbsoluteRgbDifference": 0.03738715277777778,
+      "maximumChannelDifference": 82
+    },
+    {
+      "frame": "frame-000071.png",
+      "changedPixels": 3335,
+      "meanAbsoluteRgbDifference": 1.0997699652777777,
+      "maximumChannelDifference": 216
+    },
+    {
+      "frame": "frame-000072.png",
+      "changedPixels": 4383,
+      "meanAbsoluteRgbDifference": 1.800769675925926,
+      "maximumChannelDifference": 255
+    },
+    {
+      "frame": "frame-000073.png",
+      "changedPixels": 4465,
+      "meanAbsoluteRgbDifference": 1.1448784722222223,
+      "maximumChannelDifference": 255
+    },
+    {
+      "frame": "frame-000074.png",
+      "changedPixels": 437,
+      "meanAbsoluteRgbDifference": 0.0540625,
+      "maximumChannelDifference": 145
+    },
+    {
+      "frame": "frame-000075.png",
+      "changedPixels": 3531,
+      "meanAbsoluteRgbDifference": 1.1094429976851852,
+      "maximumChannelDifference": 255
+    },
+    {
+      "frame": "frame-000076.png",
+      "changedPixels": 492,
+      "meanAbsoluteRgbDifference": 0.06009837962962963,
+      "maximumChannelDifference": 128
+    },
+    {
+      "frame": "frame-000077.png",
+      "changedPixels": 3062,
+      "meanAbsoluteRgbDifference": 0.45353587962962966,
+      "maximumChannelDifference": 255
+    },
+    {
+      "frame": "frame-000078.png",
+      "changedPixels": 56,
+      "meanAbsoluteRgbDifference": 0.0030439814814814813,
+      "maximumChannelDifference": 38
+    },
+    {
+      "frame": "frame-000079.png",
+      "changedPixels": 1,
+      "meanAbsoluteRgbDifference": 1.4467592592592592e-06,
+      "maximumChannelDifference": 1
+    },
+    {
+      "frame": "frame-000080.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000081.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000082.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000083.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000084.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000085.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000086.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000087.png",
+      "changedPixels": 0,
+      "meanAbsoluteRgbDifference": 0.0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "frame": "frame-000088.png",
+      "changedPixels": 1,
+      "meanAbsoluteRgbDifference": 1.4467592592592592e-06,
+      "maximumChannelDifference": 1
+    },
+    {
+      "frame": "frame-000089.png",
+      "changedPixels": 34,
+      "meanAbsoluteRgbDifference": 0.003878761574074074,
+      "maximumChannelDifference": 109
+    }
+  ],
+  "normalCandidateDifference": [
+    {
+      "frame": "frame-000060.png",
+      "changedPixels": 209534,
+      "meanAbsoluteRgbDifference": 2.247611400462963,
+      "maximumChannelDifference": 113
+    },
+    {
+      "frame": "frame-000061.png",
+      "changedPixels": 208747,
+      "meanAbsoluteRgbDifference": 2.1750390625,
+      "maximumChannelDifference": 109
+    },
+    {
+      "frame": "frame-000062.png",
+      "changedPixels": 207982,
+      "meanAbsoluteRgbDifference": 2.1124320023148146,
+      "maximumChannelDifference": 107
+    },
+    {
+      "frame": "frame-000063.png",
+      "changedPixels": 207061,
+      "meanAbsoluteRgbDifference": 2.0363758680555555,
+      "maximumChannelDifference": 103
+    },
+    {
+      "frame": "frame-000064.png",
+      "changedPixels": 205976,
+      "meanAbsoluteRgbDifference": 1.971589988425926,
+      "maximumChannelDifference": 96
+    },
+    {
+      "frame": "frame-000065.png",
+      "changedPixels": 205137,
+      "meanAbsoluteRgbDifference": 1.9221614583333333,
+      "maximumChannelDifference": 87
+    },
+    {
+      "frame": "frame-000066.png",
+      "changedPixels": 204709,
+      "meanAbsoluteRgbDifference": 1.8777314814814814,
+      "maximumChannelDifference": 72
+    },
+    {
+      "frame": "frame-000067.png",
+      "changedPixels": 204050,
+      "meanAbsoluteRgbDifference": 1.8385575810185186,
+      "maximumChannelDifference": 65
+    },
+    {
+      "frame": "frame-000068.png",
+      "changedPixels": 203067,
+      "meanAbsoluteRgbDifference": 1.8023234953703704,
+      "maximumChannelDifference": 67
+    },
+    {
+      "frame": "frame-000069.png",
+      "changedPixels": 202061,
+      "meanAbsoluteRgbDifference": 1.7624594907407407,
+      "maximumChannelDifference": 60
+    },
+    {
+      "frame": "frame-000070.png",
+      "changedPixels": 201362,
+      "meanAbsoluteRgbDifference": 1.731127025462963,
+      "maximumChannelDifference": 93
+    },
+    {
+      "frame": "frame-000071.png",
+      "changedPixels": 201702,
+      "meanAbsoluteRgbDifference": 1.8214655671296296,
+      "maximumChannelDifference": 106
+    },
+    {
+      "frame": "frame-000072.png",
+      "changedPixels": 202209,
+      "meanAbsoluteRgbDifference": 1.9159809027777779,
+      "maximumChannelDifference": 110
+    },
+    {
+      "frame": "frame-000073.png",
+      "changedPixels": 201540,
+      "meanAbsoluteRgbDifference": 1.883599537037037,
+      "maximumChannelDifference": 97
+    },
+    {
+      "frame": "frame-000074.png",
+      "changedPixels": 198588,
+      "meanAbsoluteRgbDifference": 1.60359375,
+      "maximumChannelDifference": 96
+    },
+    {
+      "frame": "frame-000075.png",
+      "changedPixels": 198759,
+      "meanAbsoluteRgbDifference": 1.665523726851852,
+      "maximumChannelDifference": 95
+    },
+    {
+      "frame": "frame-000076.png",
+      "changedPixels": 197259,
+      "meanAbsoluteRgbDifference": 1.572722800925926,
+      "maximumChannelDifference": 88
+    },
+    {
+      "frame": "frame-000077.png",
+      "changedPixels": 197363,
+      "meanAbsoluteRgbDifference": 1.5930034722222222,
+      "maximumChannelDifference": 102
+    },
+    {
+      "frame": "frame-000078.png",
+      "changedPixels": 196991,
+      "meanAbsoluteRgbDifference": 1.5292418981481481,
+      "maximumChannelDifference": 81
+    },
+    {
+      "frame": "frame-000079.png",
+      "changedPixels": 196469,
+      "meanAbsoluteRgbDifference": 1.4554774305555556,
+      "maximumChannelDifference": 87
+    },
+    {
+      "frame": "frame-000080.png",
+      "changedPixels": 195572,
+      "meanAbsoluteRgbDifference": 1.3975347222222223,
+      "maximumChannelDifference": 75
+    },
+    {
+      "frame": "frame-000081.png",
+      "changedPixels": 196117,
+      "meanAbsoluteRgbDifference": 1.343689236111111,
+      "maximumChannelDifference": 72
+    },
+    {
+      "frame": "frame-000082.png",
+      "changedPixels": 195093,
+      "meanAbsoluteRgbDifference": 1.2864048032407407,
+      "maximumChannelDifference": 69
+    },
+    {
+      "frame": "frame-000083.png",
+      "changedPixels": 195201,
+      "meanAbsoluteRgbDifference": 1.2491767939814815,
+      "maximumChannelDifference": 63
+    },
+    {
+      "frame": "frame-000084.png",
+      "changedPixels": 194999,
+      "meanAbsoluteRgbDifference": 1.2161747685185185,
+      "maximumChannelDifference": 69
+    },
+    {
+      "frame": "frame-000085.png",
+      "changedPixels": 194845,
+      "meanAbsoluteRgbDifference": 1.186847511574074,
+      "maximumChannelDifference": 64
+    },
+    {
+      "frame": "frame-000086.png",
+      "changedPixels": 195081,
+      "meanAbsoluteRgbDifference": 1.154085648148148,
+      "maximumChannelDifference": 57
+    },
+    {
+      "frame": "frame-000087.png",
+      "changedPixels": 194689,
+      "meanAbsoluteRgbDifference": 1.1251302083333334,
+      "maximumChannelDifference": 56
+    },
+    {
+      "frame": "frame-000088.png",
+      "changedPixels": 194762,
+      "meanAbsoluteRgbDifference": 1.0973206018518518,
+      "maximumChannelDifference": 57
+    },
+    {
+      "frame": "frame-000089.png",
+      "changedPixels": 195437,
+      "meanAbsoluteRgbDifference": 1.085853587962963,
+      "maximumChannelDifference": 65
+    }
+  ],
+  "reprojectionCandidateDifference": [
+    {
+      "frame": "frame-000060.png",
+      "changedPixels": 111701,
+      "meanAbsoluteRgbDifference": 1.3040538194444444,
+      "maximumChannelDifference": 100
+    },
+    {
+      "frame": "frame-000061.png",
+      "changedPixels": 110927,
+      "meanAbsoluteRgbDifference": 1.2166883680555556,
+      "maximumChannelDifference": 96
+    },
+    {
+      "frame": "frame-000062.png",
+      "changedPixels": 109700,
+      "meanAbsoluteRgbDifference": 1.1560792824074073,
+      "maximumChannelDifference": 96
+    },
+    {
+      "frame": "frame-000063.png",
+      "changedPixels": 108894,
+      "meanAbsoluteRgbDifference": 1.1221976273148149,
+      "maximumChannelDifference": 90
+    },
+    {
+      "frame": "frame-000064.png",
+      "changedPixels": 107913,
+      "meanAbsoluteRgbDifference": 1.0566218171296295,
+      "maximumChannelDifference": 85
+    },
+    {
+      "frame": "frame-000065.png",
+      "changedPixels": 107028,
+      "meanAbsoluteRgbDifference": 1.0259563078703704,
+      "maximumChannelDifference": 86
+    },
+    {
+      "frame": "frame-000066.png",
+      "changedPixels": 106284,
+      "meanAbsoluteRgbDifference": 0.9869111689814815,
+      "maximumChannelDifference": 84
+    },
+    {
+      "frame": "frame-000067.png",
+      "changedPixels": 105164,
+      "meanAbsoluteRgbDifference": 0.9561299189814815,
+      "maximumChannelDifference": 93
+    },
+    {
+      "frame": "frame-000068.png",
+      "changedPixels": 105679,
+      "meanAbsoluteRgbDifference": 0.9250882523148148,
+      "maximumChannelDifference": 78
+    },
+    {
+      "frame": "frame-000069.png",
+      "changedPixels": 105230,
+      "meanAbsoluteRgbDifference": 0.9073191550925926,
+      "maximumChannelDifference": 66
+    },
+    {
+      "frame": "frame-000070.png",
+      "changedPixels": 104456,
+      "meanAbsoluteRgbDifference": 0.8733666087962964,
+      "maximumChannelDifference": 89
+    },
+    {
+      "frame": "frame-000071.png",
+      "changedPixels": 104099,
+      "meanAbsoluteRgbDifference": 1.1001359953703704,
+      "maximumChannelDifference": 98
+    },
+    {
+      "frame": "frame-000072.png",
+      "changedPixels": 106115,
+      "meanAbsoluteRgbDifference": 1.4210460069444444,
+      "maximumChannelDifference": 145
+    },
+    {
+      "frame": "frame-000073.png",
+      "changedPixels": 105977,
+      "meanAbsoluteRgbDifference": 1.4148871527777778,
+      "maximumChannelDifference": 153
+    },
+    {
+      "frame": "frame-000074.png",
+      "changedPixels": 105361,
+      "meanAbsoluteRgbDifference": 1.2520442708333333,
+      "maximumChannelDifference": 109
+    },
+    {
+      "frame": "frame-000075.png",
+      "changedPixels": 104910,
+      "meanAbsoluteRgbDifference": 1.3736183449074073,
+      "maximumChannelDifference": 116
+    },
+    {
+      "frame": "frame-000076.png",
+      "changedPixels": 105359,
+      "meanAbsoluteRgbDifference": 1.2485677083333333,
+      "maximumChannelDifference": 97
+    },
+    {
+      "frame": "frame-000077.png",
+      "changedPixels": 105859,
+      "meanAbsoluteRgbDifference": 1.2669560185185185,
+      "maximumChannelDifference": 106
+    },
+    {
+      "frame": "frame-000078.png",
+      "changedPixels": 105275,
+      "meanAbsoluteRgbDifference": 1.1738353587962962,
+      "maximumChannelDifference": 81
+    },
+    {
+      "frame": "frame-000079.png",
+      "changedPixels": 104532,
+      "meanAbsoluteRgbDifference": 1.100212673611111,
+      "maximumChannelDifference": 71
+    },
+    {
+      "frame": "frame-000080.png",
+      "changedPixels": 103403,
+      "meanAbsoluteRgbDifference": 1.0379369212962963,
+      "maximumChannelDifference": 73
+    },
+    {
+      "frame": "frame-000081.png",
+      "changedPixels": 103874,
+      "meanAbsoluteRgbDifference": 0.9870659722222223,
+      "maximumChannelDifference": 64
+    },
+    {
+      "frame": "frame-000082.png",
+      "changedPixels": 104421,
+      "meanAbsoluteRgbDifference": 0.9633897569444444,
+      "maximumChannelDifference": 74
+    },
+    {
+      "frame": "frame-000083.png",
+      "changedPixels": 103086,
+      "meanAbsoluteRgbDifference": 0.9095138888888888,
+      "maximumChannelDifference": 69
+    },
+    {
+      "frame": "frame-000084.png",
+      "changedPixels": 102271,
+      "meanAbsoluteRgbDifference": 0.8802488425925926,
+      "maximumChannelDifference": 57
+    },
+    {
+      "frame": "frame-000085.png",
+      "changedPixels": 102899,
+      "meanAbsoluteRgbDifference": 0.8513831018518518,
+      "maximumChannelDifference": 55
+    },
+    {
+      "frame": "frame-000086.png",
+      "changedPixels": 102225,
+      "meanAbsoluteRgbDifference": 0.8271614583333333,
+      "maximumChannelDifference": 51
+    },
+    {
+      "frame": "frame-000087.png",
+      "changedPixels": 100838,
+      "meanAbsoluteRgbDifference": 0.794191261574074,
+      "maximumChannelDifference": 50
+    },
+    {
+      "frame": "frame-000088.png",
+      "changedPixels": 100607,
+      "meanAbsoluteRgbDifference": 0.7695442708333333,
+      "maximumChannelDifference": 49
+    },
+    {
+      "frame": "frame-000089.png",
+      "changedPixels": 100436,
+      "meanAbsoluteRgbDifference": 0.7511877893518518,
+      "maximumChannelDifference": 49
+    }
+  ],
+  "observations": [
+    "Root inspected normal frames75/89, velocity75/89 and reprojection75/89; current crowd placement/appearance broadly preserved; close proxies visibly coarse.",
+    "At frame75 the candidate produces substantial rotation vectors on the figure near x150,y210 that the original path barely represented.",
+    "Changes in velocity pixels establish native effect, not numerical accuracy or a lower reprojection error.",
+    "Reprojection is a renderer visualization, not a calibrated error metric; normal screenshots alone do not prove smear improvement.",
+    "All65 bounded original-model audit payloads match; audit remains a counterfactual original-path root model even when the candidate is active.",
+    "The first velocity capture remains failed for a boolean-readback parser error despite native exit0; retained raw pixels serve only as repeatability evidence."
+  ],
+  "remaining": [
+    "Higher-resolution and moving-camera visual acceptance",
+    "Frame-time/GPU cost of candidate",
+    "Broader walk/turn/stop, distance freeze and long-session review",
+    "Default adoption remains disabled"
+  ]
+}

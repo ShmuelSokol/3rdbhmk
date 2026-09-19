@@ -738,3 +738,19 @@ late10000/0refused andtreesstill10000built. Rootframes60/89 showcrowdandmotion,
 but visiblesmearing; NOTfootcontact/appearanceacceptance. Initialinvisibilityfixed;
 newbinaryperformance andlongerclosemotionstillowed. See renderseedpackage/review
 andfailed/successfulreceipts/PNGs. Allretainedframeshashpinnedlocal.
+
+Newrender-readybinary48275a33 real-time1080court10000 runnormalexit0,all10000/0
+refused,sixinitialtreesbuilt. High77%,45settle30record,nocloudcapoverride:
+1520frames median19.150 p9524.242 p9944.339 GPUmedian18.918ms. Medianclose
+tooldbinary19.315,notrepeatedcausalproof;16.7mscourtbudgetandframetailstillfail.
+RootPNGviewedcrowdvisible/centerlaneopen; motionandappearancepending. See
+crowd-renderperf01-review/timing andreceipt/PNG. Nextclosemotiondiagnostic.
+
+Capture-only UnfilteredMotionDiagnostic requests screen100, AA0 plus AntiAliasing
+showflag0, motionblur0; saves receipt flag, never production settings. Native
+crowd-unfiltered01 corridor640x360 fixed30fps2+1s:10000/0refused,exit0,30retained,
+peak7900708864 under8GiBguard. All retained hashes verified. Rootframes60/89 have
+sharper silhouettes but jagged edges/stippled paving. Combined diagnostic supports
+rendering contribution to smearing, not isolation of individual setting or motion/
+footcontact acceptance. No adoption; close motion and temporal velocity remain.
+See crowd-unfiltered01-review and receipt/samples. Six cooked hashes verified.

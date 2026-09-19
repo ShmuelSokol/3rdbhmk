@@ -15,7 +15,8 @@ param(
     [ValidateRange(1,120)][int]$FixedFps=30,
     [ValidatePattern('^(?:-CrowdCount=(?:0|[1-9][0-9]{0,4}))?$')][string]$ExtraArgs='',
     [switch]$ScheduledShots,
-    [switch]$RealTimeDiagnostic
+    [switch]$RealTimeDiagnostic,
+    [switch]$UnfilteredMotionDiagnostic
 )
 $ErrorActionPreference='Stop'
 $Archive=[IO.Path]::GetFullPath($Archive)
@@ -48,6 +49,10 @@ $receipt=Join-Path $outDir 'movie-receipt.json'
 $ini='-ini:Game:[/Script/MikdashRuntime.MikdashFrontEnd]:bShowMainMenuOnBoot=False,[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=FableMovieProbe_'+$Label+',[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=FableMovieProbe_'+$Label+'_Settings,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:bApplyGraphicsToEngine=False'
 $launchArgs="-windowed -ResX=$ResX -ResY=$ResY -nosplash -nosteam -notraceserver -notrace -dumpmovie -benchmark -fps=$FixedFps $ExtraArgs $ini -csvCaptureFrames=$captureFrames -ExitAfterCsvProfiling -csvNoProcessingThread -abslog=`"$log`" -ExecCmds=`"sg.ViewDistanceQuality 2,sg.ShadowQuality 2,sg.GlobalIlluminationQuality 2,sg.ReflectionQuality 2,sg.PostProcessQuality 2,sg.TextureQuality 2,sg.EffectsQuality 2,sg.FoliageQuality 2,sg.ShadingQuality 2,r.ScreenPercentage 77,Ghost,BugItGo $Go,csv.ForceExit 0`""
 $inspectionFrame=$captureFrames-1
+if($UnfilteredMotionDiagnostic){
+    # Capture-only isolation of temporal reconstruction and blur; never a release preset.
+    $launchArgs=$launchArgs.Replace('r.ScreenPercentage 77,','r.ScreenPercentage 100,r.AntiAliasingMethod 0,ShowFlag.AntiAliasing 0,r.MotionBlurQuality 0,')
+}
 $launchArgs += " -csvExecCmds=`"${inspectionFrame}:getall MikdashCrowdField SeededAgents,${inspectionFrame}:getall MikdashCrowdField RefusedSeeds`""
 if($ScheduledShots){
     New-Item -ItemType Directory -Path $shots -Force | Out-Null
@@ -71,6 +76,7 @@ $report=[ordered]@{status='starting';label=$Label;view=$View;archive=$Archive;bu
 function Save-Receipt {$report | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $receipt -Encoding utf8}
 $report.scheduledShots=[bool]$ScheduledShots
 $report.realTimeDiagnostic=[bool]$RealTimeDiagnostic
+$report.unfilteredMotionDiagnostic=[bool]$UnfilteredMotionDiagnostic
 if($ScheduledShots){$report.method='Fixed-step scheduled ordinary screenshots; NOT a performance measurement'}
 if($RealTimeDiagnostic){$report.method='Real-time visibility diagnostic; requested frame counts only, NO fixed simulated-time claim'}
 Save-Receipt

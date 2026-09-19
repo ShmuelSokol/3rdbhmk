@@ -3291,3 +3291,14 @@ Diagnostic30/30 has1943frames,median15.334ms,p9518.073ms at720p77percent, not fi
 state transitions and final appearance remain open. See crowd-street01-5000-review,
 matching timing, package manifest and frametime receipt. Next test default5000 or
 same-budget10000; do not claim diagnostic1024budget as the production default.
+
+Street01 10000-request diagnostic completed normally with9847placed/153refused,
+childexit0; wrapper correctlyfails population. Refusals west41/plaza32/street29/
+approach51. Street improves149->179with same1024budget; east/deck already complete.
+192contacts retained;32street maximumresidual0.000030cm, so preserve exact ground
+and existing support guards. Spacing dominates smaller-zone first-failure counters.
+30/30analysis1858frames,median16.062ms,p9518.496ms at720p77percent is diagnostic,
+not final1080p or causal performance proof. Root viewed finalPNG. See
+crowd-street01-10000-review.json and timing/receipt. Next investigate packing of
+unchanged cohorts/identities within existing zones; do not reduce separation,
+force missing groups into individuals or move them onto priestly/interior floors.

@@ -441,10 +441,35 @@ inline bool SeedPointInZone(const Vec2* ZonePoints, int ZoneCount,
 {
     Vec2 Min{}, Max{};
     if (!PolygonBounds(ZonePoints, ZoneCount, Min, Max)) return false;
+    if (!std::isfinite(EdgeMarginCm) || !std::isfinite(ProtectedMarginCm)) return false;
+    // Sample parallelogram interiors directly. An axis-aligned bounding box wastes most
+    // draws on empty space around a narrow diagonal street. The final polygon/keep-out
+    // guards still run on every candidate, including approximately authored quads.
+    Vec2 EdgeU{}, EdgeV{};
+    double InsetU=0, InsetV=0;
+    bool Direct=false;
+    if (ZoneCount==4)
+    {
+        EdgeU=ZonePoints[1]-ZonePoints[0];
+        EdgeV=ZonePoints[3]-ZonePoints[0];
+        const double Area=std::abs(EdgeU.X*EdgeV.Y-EdgeU.Y*EdgeV.X);
+        Direct=std::isfinite(Area) && Area>1e-6
+            && Length((ZonePoints[0]+ZonePoints[2])-(ZonePoints[1]+ZonePoints[3]))<1e-3;
+        if(Direct)
+        {
+            const double Margin=std::max(0.0,EdgeMarginCm)+1e-6;
+            InsetU=Margin*Length(EdgeV)/Area;
+            InsetV=Margin*Length(EdgeU)/Area;
+            if(!std::isfinite(InsetU)||!std::isfinite(InsetV)||InsetU>=.5||InsetV>=.5) return false;
+        }
+    }
     for (int Attempt = 0; Attempt < std::max(1, MaxAttempts); ++Attempt)
     {
         const uint32_t Lane = 1000u + static_cast<uint32_t>(Attempt) * 2u;
-        const Vec2 P{HashRange(Seed, Index, Lane, Min.X, Max.X), HashRange(Seed, Index, Lane + 1u, Min.Y, Max.Y)};
+        const Vec2 P=Direct
+            ? ZonePoints[0]+EdgeU*HashRange(Seed,Index,Lane,InsetU,1-InsetU)
+                +EdgeV*HashRange(Seed,Index,Lane+1u,InsetV,1-InsetV)
+            : Vec2{HashRange(Seed, Index, Lane, Min.X, Max.X), HashRange(Seed, Index, Lane + 1u, Min.Y, Max.Y)};
         if (!PointInPolygonWithMargin(ZonePoints, ZoneCount, P, EdgeMarginCm)) continue;
         if (PointInAnyProtected(ProtectedPoints, ProtectedStarts, ProtectedCounts, ProtectedPolygons, P, ProtectedMarginCm)) continue;
         OutPoint = P;

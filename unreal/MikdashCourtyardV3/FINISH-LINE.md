@@ -385,3 +385,15 @@ feet, transition stability, appearance or benchmark acceptance. Approach boundin
 sampling wastes many attempts outside its narrow rotated zone; investigate candidate
 sampling while retaining48attempts and all spacing/obstacle protections. Street ground
 reference/spacing still needs separate review. Full finish-line scope stays open.
+
+## Direct sampling of crowd-zone interiors — 18 September 2026
+
+SeedPointInZone now recognizes nondegenerate parallelograms and draws uniformly
+inside their inset parallelogram, rather than the larger axis-aligned bounding box.
+Insets use perpendicular distances, including skewed quads. Every candidate still
+passes the original polygon margin and protected-area checks; concave/arbitrary
+polygons retain rejection sampling. The 48 group-attempt limit, member spacing,
+ground tolerances and static sweeps are unchanged. Both windings, a real rotated
+approach, deterministic broad coverage, empty insets, protected regions, nonfinite
+margins and concave fallback are covered. Native count/placement acceptance pending;
+this changes deterministic seed positions and must be measured on a fresh package.

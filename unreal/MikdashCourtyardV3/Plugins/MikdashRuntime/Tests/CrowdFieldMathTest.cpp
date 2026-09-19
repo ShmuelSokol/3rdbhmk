@@ -91,6 +91,53 @@ static void SeedingChecks()
     std::printf("seeding: %d/4000 placed, deterministic, enclosed zone refused\n", Placed);
 }
 
+static void RotatedSeedChecks()
+{
+    // Actual narrow Kotel approach: one draw should be useful rather than usually
+    // falling outside its rotated boundary. Neither edge nor keep-out margins shrink.
+    const Vec2 Corridor[]={{-18754.043,20301.046},{-13905.543,18523.546},
+                          {-14146.487,17866.320},{-18994.987,19643.820}};
+    const Vec2 Reverse[]={Corridor[0],Corridor[3],Corridor[2],Corridor[1]};
+    const Vec2 Centre=(Corridor[0]+Corridor[2])*.5;
+    Vec2 Mean{};
+    int Halves[2]={0,0};
+    const Vec2 Axis=Normalized(Corridor[1]-Corridor[0]);
+    for(uint32_t I=0;I<4096;++I)
+    {
+        Vec2 P{},Again{},Reversed{};
+        assert(SeedPointInZone(Corridor,4,nullptr,nullptr,nullptr,0,44,100,37,I,1,P));
+        assert(PointInPolygonWithMargin(Corridor,4,P,100));
+        assert(SeedPointInZone(Corridor,4,nullptr,nullptr,nullptr,0,44,100,37,I,1,Again));
+        assert(P.X==Again.X && P.Y==Again.Y);
+        assert(SeedPointInZone(Reverse,4,nullptr,nullptr,nullptr,0,44,100,37,I,1,Reversed));
+        assert(PointInPolygonWithMargin(Corridor,4,Reversed,100));
+        Mean=Mean+P;
+        ++Halves[Dot(P-Centre,Axis)>=0?1:0];
+    }
+    Mean=Mean*(1.0/4096);
+    assert(Length(Mean-Centre)<80); // broad spatial spread, not a centre-only shortcut
+    assert(Halves[0]>1800 && Halves[1]>1800);
+    Vec2 P{};
+    assert(!SeedPointInZone(Corridor,4,nullptr,nullptr,nullptr,0,44,400,37,0,48,P));
+    const int Starts[]={0},Counts[]={4};
+    assert(!SeedPointInZone(Corridor,4,Corridor,Starts,Counts,1,44,100,37,0,48,P));
+    assert(!SeedPointInZone(Corridor,4,nullptr,nullptr,nullptr,0,44,
+                           std::numeric_limits<double>::quiet_NaN(),37,0,48,P));
+    // Concave outlines retain guarded rejection sampling; their notch is never filled.
+    int Placed=0;
+    for(uint32_t I=0;I<100;++I)
+        if(SeedPointInZone(LShape,6,nullptr,nullptr,nullptr,0,0,10,37,I,24,P))
+        { ++Placed;assert(PointInPolygonWithMargin(LShape,6,P,10)); }
+    assert(Placed>95);
+    const Vec2 Skew[]={{0,0},{1500,0},{2200,800},{700,800}};
+    for(uint32_t I=0;I<128;++I)
+    {
+        assert(SeedPointInZone(Skew,4,nullptr,nullptr,nullptr,0,0,100,37,I,1,P));
+        assert(PointInPolygonWithMargin(Skew,4,P,100));
+    }
+    std::puts("rotated seeding: 4096 single-draw legal candidates, both windings, protected/empty regions refused");
+}
+
 static void FlowChecks()
 {
     FlowZone Zone;
@@ -581,6 +628,7 @@ int main()
 {
     ContainmentChecks();
     SeedingChecks();
+    RotatedSeedChecks();
     FlowChecks();
     SpeedAndPhaseChecks();
     BudgetChecks();

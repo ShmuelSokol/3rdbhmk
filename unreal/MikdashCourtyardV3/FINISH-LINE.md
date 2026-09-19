@@ -810,3 +810,28 @@ useGameScreenshotSaveDirectory (GameEngine defaultsScreenShotDir);6360charretry
 succeeds. New15000charconservative guard and boundedInspectActorPath readback.
 Pixelprobe127aggregatebounds are NOT identity; vegetation filledfirst24 candidates.
 Exactcomplexcollisionactor thengetall OUTER mesh query established ownership.
+
+## Court outlet native candidate — 19 September 2026
+CourtOutletV2 now has two fresh imported assets, verified in a separate native
+process: stone 2236 and water 1028 triangles. Every float32 triangle position and
+winding matches both source and render LOD0. Native winding is reversed from the
+canonical authoring convention; the same exact adapter is independently proved
+on BOTH frozen V1 assets. Do not infer an import bug from canonical winding alone.
+All existing maps and V1 asset hashes remain unchanged. Materials match V1 slots.
+The first strict canonical-winding assertion failed and its receipts are retained.
+
+Native inspection uncovered a separate collision defect: V1 uses one generated
+convex hull across the entire roughly 117 m route. V2 imports have no simple hulls.
+Copying V1's hull would preserve phantom blocking space. Backed-up V2-only settings
+now use CTF_USE_COMPLEX_AS_SIMPLE, verified in a fresh process. Existing V1 assets
+remain untouched; source and render geometry match exactly. This is asset-level
+verification, NOT physics traversal or visual acceptance. The water actor must
+retain its existing NoCollision profile when integrated.
+
+Scripts/import_court_outlet_v2.py and run_court_outlet_v2.ps1 use isolated 6/4/2 GiB
+limits. Import resumes only missing siblings, validates existing candidates, and
+never replaces them. Collision mode backs up candidates before changing policy.
+Final receipt: SourceAssets/water-review/CourtOutletV2/native-20260919T050825803318Z.json.
+Next: guarded Candidate48 map integration with verified backup, exact actor/material/
+transform/profile preservation, fresh map readback, fresh cook, same-camera image
+and actual character walking tests. No public walkthrough or scene-fix acceptance yet.

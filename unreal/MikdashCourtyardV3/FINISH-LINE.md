@@ -701,3 +701,16 @@ baseline1449frames median18.682 p9542.255;cap8 1680frames median16.821 p9527.489
 Median improves1.861ms but frame-time tails remainopen. BothPNGs reviewed; noobvious
 static sky/wall lighting regression. Motion/cloudshadows and correctedpanorama
 required beforeadoption. See crowd-citycloud8-01-review/comparison and bothcaptures.
+
+Filmstriptool repaired: no screenshotdeletion or evidenceoverwrite, freshlabel/view,
+fixed-step simulatedframe windows instead ofwalltime, contiguousnumeric sourceframes,
+CSV-controlled normalexit, hiddenownedprocess,9/8/1.25GiB memoryguards,diskreserve,
+receipts/frameshashes andlatepopulationreadback. ExtraArgs nowbounded CrowdCountonly.
+Defaults10secsettle3secrecord30fps; not a performanceinstrument. Failed acquisition
+cannot report success merelybecause anyPNGexists. Oldframes retained acrossruns.
+Three native smoke acquisitions exit0,63/393/93dumpedframes with30/90/30retained.
+BUT renderedcrowd is absent despite10000placement. Rootviewedrepresentativeframes.
+Warmup1->10sec didnotfix; explicitHigh77percent/noShowHUD didnotfix. Thus initial
+warmuphypothesis rejected. No movementacceptance; investigatefixedstep/dumpmovie
+visibility beforemore acceptancecaptures. Review+receipts+samplePNGspublished;
+allretained frameshashpinned andkeptlocal. Do not confuse acquiredframes with visualpass.

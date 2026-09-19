@@ -1,0 +1,48 @@
+{
+  "status": "acquisition-guarded-motion-validation-blocked-by-capture-visibility",
+  "runs": [
+    {
+      "label": "crowd-motion-smoke01",
+      "acquisition": "movie_captured_visual_review_pending",
+      "visualStatus": "failed-no-visible-crowd",
+      "exitCode": 0,
+      "framesDumped": 63,
+      "framesKept": 30,
+      "firstSourceIndex": 0,
+      "sample": "frame-000030.png",
+      "rawLogSha256": "5da60e0e65e9e49f50e7de0a07e5750519d2109c75ffeb40684b6edd8237c3d0",
+      "receiptSha256": "eb4269674970971dad84dc11efd361a89197099004f7f1dea4aa2dd25fdc85e2",
+      "sampleSha256": "d573f6dfd5f1fedcddfbfffce432314e72bd50a2cb4375ee49ef0d568b2d0bd6"
+    },
+    {
+      "label": "crowd-motion-smoke02",
+      "acquisition": "movie_captured_visual_review_pending",
+      "visualStatus": "failed-no-visible-crowd",
+      "exitCode": 0,
+      "framesDumped": 393,
+      "framesKept": 90,
+      "firstSourceIndex": 63,
+      "sample": "frame-000300.png",
+      "rawLogSha256": "9b33a56d573ef1719ac1561fe4cb676ba68ba27bc2571f31bee3a70f829118c4",
+      "receiptSha256": "07748c107d0cd0fdadb69760e206af5388d280026d1b8bea3491c0f9a7fd7e3a",
+      "sampleSha256": "1584fc8eb8accbe32e3bd38989a73fa763e49ddb555f0b475a60309cc24dff84"
+    },
+    {
+      "label": "crowd-motion-smoke03",
+      "acquisition": "movie_captured_visual_review_pending",
+      "visualStatus": "failed-no-visible-crowd",
+      "exitCode": 0,
+      "framesDumped": 93,
+      "framesKept": 30,
+      "firstSourceIndex": 456,
+      "sample": "frame-000060.png",
+      "rawLogSha256": "2a7dcfac77736148ad6d6157763fa0142640cdb8df436e2ef9d4c36a9487653d",
+      "receiptSha256": "0d8ba91558f810eb4846aaa14e9b618a38fee00195206032f45e93836b517349",
+      "sampleSha256": "7359de460fc2301d67879f5d2bca10d24ccde98950bfb60db65e29d980e0927a"
+    }
+  ],
+  "sourceBinaryCommit": "bd075bd3",
+  "visualReview": "Root inspected frames30/45/59 ofsmoke01,300/345/389 ofsmoke02,and60 ofsmoke03: environment present, crowd not visible. Placementcounter10000 does not establish rendered presence.",
+  "hypotheses": "1second warmup explanation disproven by10second fixed-step settle. ExplicitHigh77percent matching performancecapture also fails to show crowd. Cause unresolved; no gamevisibilitychange adopted.",
+  "evidenceScope": "Receipts pin every retained frame. One representative frame per run published; complete source and retained sequences remain local. These are failed motion evidence, not performance tests."
+}

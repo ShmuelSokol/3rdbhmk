@@ -1259,3 +1259,27 @@ Worst nearest outward upper-tunic signed root distance drops9.2626cm to-0.6273cm
 This verifies sampled proximal attachment only, not whole-sleeve collision or
 continuous/native animation. Candidate SHA60f43e3995850bcb9bf84595ce231408d513b1210f55b057d45857274180d4e6.
 Native animated review and other five variants remain required before adoption.
+
+## Native resident pose review — 19 September 2026
+MikdashAnimationReviewLibrary evaluates a skeletal component's single-node clip
+with TickAnimation(0) and RefreshBoneTransforms; SetPosition alone does not update
+bones in the capture commandlet. Helper refuses non-commandlet use, game worlds,
+non-transient actors, mismatched skeletons and invalid/out-of-range time; packaged
+builds return false. No runtime caller. Editor target compiled successfully.
+Youth native four walk phases0/.3/.6/.9 (three views, before/after) passed090543:
+five tracked bone positions match source/candidate, hand positions vary across
+phases, protected assets unchanged, normal exit0. Root inspected all12after views;
+shoulder attachments survive these discrete native poses. Not a real-time movie.
+Capture now imports transient candidates onto each existing variant skeleton via
+release_resident_v4._mesh_pipeline; it creates no new animation and saves nothing.
+All other five source candidates passed384 root samples each. Man_Heavy baseline
+already stays inside (-0.447cm worst), so do not adopt its optional geometry edit
+without visual benefit. Builder tolerates only1e-12 regenerated-normal differences
+(two near-zero Man_Standard normals differ1.21e-17); final byte patch still preserves
+ALL original non-sleeve bytes including morphs. Native cast review is underway.
+
+Native cast capture batch finished: all six commandlets exit0,24PNGs each (four
+walk phases,three views,before/after), five tracked bone positions equal across
+source/candidate, moving hand confirmed, protected assets unchanged. Cast02
+review01.json lists root visual inspection scope exactly; some adult side/rear
+and intermediate views remain to inspect. No live adoption or real-time claim.

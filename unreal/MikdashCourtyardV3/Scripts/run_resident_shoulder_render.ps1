@@ -1,4 +1,4 @@
-param()
+param([ValidateSet('Youth','Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder')][string]$Variant='Youth',[switch]$Animated)
 $ErrorActionPreference = 'Stop'
 $root = (Split-Path -Parent $PSScriptRoot).Replace('\','/')
 $busy = @(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3,AutomationTool -ErrorAction SilentlyContinue)
@@ -6,7 +6,7 @@ $busy += @(Get-CimInstance Win32_Process -Filter "Name='dotnet.exe'" | Where-Obj
 if($busy.Count){throw 'Native slot occupied'}
 if(([long](Get-CimInstance Win32_OperatingSystem).FreeVirtualMemory*1KB) -lt 6GB){throw 'Isolated audit needs 6 GiB free commit'}
 $stamp=(Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ')
-$folder="$root/SourceAssets/characters-review/ResidentShoulderStudy05"
+$folder=if($Variant -eq 'Youth'){"$root/SourceAssets/characters-review/ResidentShoulderStudy05"}else{"$root/SourceAssets/characters-review/ResidentShoulderCast02/$Variant"}
 New-Item -ItemType Directory -Path $folder -Force | Out-Null
 $log="$folder/shoulder-render-run-$stamp.log"
 $receipt="$folder/shoulder-render-run-$stamp.json"
@@ -18,6 +18,8 @@ Save-Receipt
 $exe='C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor-Cmd.exe'
 $arguments=@(('"'+$root+'/MikdashCourtyardV3.uproject"'),'-run=pythonscript',('-script="'+$root+'/Scripts/capture_resident_shoulder_study.py"'),'-AllowCommandletRendering','-RenderOffscreen','-EnablePlugins=AnimToTexture,GeometryScripting','-DisablePlugins=MetaHumanCharacter,MetaHumanSDK','-unattended','-nosplash','-nosound','-notraceserver','-NoMetaHumanAccountPortalLoginFallback','-NoAsyncLoadingThread','-asyncstaticmeshcompilationmaxconcurrency=1',('-abslog="'+$log+'"'))
 
+$arguments += ('-RV4ShoulderVariant='+$Variant)
+if($Animated){$arguments += '-RV4ShoulderAnimated'}
 $child=$null
 try {
     $child=Start-Process -FilePath $exe -ArgumentList $arguments -WorkingDirectory $root -WindowStyle Hidden -PassThru

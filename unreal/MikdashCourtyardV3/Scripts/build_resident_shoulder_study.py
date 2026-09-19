@@ -5,6 +5,7 @@ import hashlib
 import json
 import math
 import struct
+import numpy as np
 from pathlib import Path
 
 import create_resident_v4 as R
@@ -28,11 +29,17 @@ def build(folder, short):
     regenerated_doc,regenerated_bin=read_glb(regenerated)
     assert original_doc==regenerated_doc, 'Current generator layout differs from shipped source'
     required={original_doc['skins'][0]['inverseBindMatrices']}
+    normal_accessors=set()
     for primitive in original_doc['meshes'][0]['primitives']:
         required.update(primitive['attributes'].values())
+        normal_accessors.add(primitive['attributes']['NORMAL'])
         required.add(primitive['indices'])
     for i in required:
-        assert read_accessor(original_doc,original_bin,i)==read_accessor(regenerated_doc,regenerated_bin,i), ('Source accessor mismatch',i)
+        actual=read_accessor(original_doc,original_bin,i)
+        regenerated_values=read_accessor(regenerated_doc,regenerated_bin,i)
+        matches=(np.allclose(actual,regenerated_values,rtol=0,atol=1e-12) if i in normal_accessors
+                 else actual==regenerated_values)
+        assert matches, ('Source accessor mismatch',i)
     candidate=copy.deepcopy(parts)
     tunic=B.Tunic(variant)
     changes=[]

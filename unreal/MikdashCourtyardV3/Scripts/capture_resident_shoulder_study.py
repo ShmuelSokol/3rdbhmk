@@ -4,16 +4,26 @@ import hashlib
 import json
 from pathlib import Path
 import struct
+import sys
+import re
 import unreal as ue
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / 'SourceAssets/characters-review/ResidentShoulderStudy05'
+sys.path.insert(0,str(ROOT/'Scripts'))
+import release_resident_v4 as release
+import create_crowd_vat_v2 as vat
+command=ue.SystemLibrary.get_command_line()
+match=re.search(r'-RV4ShoulderVariant=(\w+)',command)
+VARIANT=match.group(1) if match else 'Youth'
+assert VARIANT in ('Youth','Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder')
+ANIMATED='-RV4ShoulderAnimated' in command
+OUT=ROOT/'SourceAssets/characters-review'/('ResidentShoulderStudy05' if VARIANT=='Youth' else 'ResidentShoulderCast02/'+VARIANT)
 
 
 def run():
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     output = OUT / ('render-' + stamp + '.json')
-    report = dict(status='running', scope='Source/candidate skeletal reference-pose A/B with identical baseline materials; not animated/in-scene acceptance.', captures=[])
+    report = dict(status='running', scope='Source/candidate native pose A/B with identical materials; discrete animation samples when requested, not real-time or in-scene acceptance.', captures=[])
     protected = list((ROOT/'Content').rglob('*.umap'))
     for name in ('CrowdVATV1', 'CrowdNearV1'):
         protected += list((ROOT/'Content/MikdashV3/Runtime'/name).rglob('*.uasset'))
@@ -54,21 +64,30 @@ def run():
             settings.set_editor_property(key,value)
         component.set_editor_property('post_process_settings',settings)
         report['camera'] = dict(position=[80,240,105],pitchYawRoll=[0,-108.435,0],fov=45,resolution=[960,960])
-        source = OUT / 'SK_RV4_Youth_ShoulderStudy.glb'
+        source = OUT / ('SK_RV4_'+VARIANT+'_ShoulderStudy.glb')
         review = json.loads((OUT/'review.json').read_text())
         assert sha(source) == review['candidateSha256']
-        baseline = ue.load_asset('/Game/MikdashV3/Characters/ResidentV4/Youth/SK_RV4_Youth')
+        baseline = ue.load_asset('/Game/MikdashV3/Characters/ResidentV4/'+VARIANT+'/SK_RV4_'+VARIANT)
         assert baseline
         folder = '/Game/Characters/ResidentShoulderStudy_' + stamp
         assert not ue.EditorAssetLibrary.does_directory_exist(folder)
+        override,readback=release._mesh_pipeline(ue,baseline.get_editor_property('skeleton'))
         task = ue.AssetImportTask()
         for key, value in dict(filename=str(source), destination_path=folder, automated=True,
-                               replace_existing=False, save=False).items():
+                               replace_existing=False, save=False,options=override).items():
             task.set_editor_property(key,value)
         ue.AssetToolsHelpers.get_asset_tools().import_asset_tasks([task])
         meshes = [o for o in task.get_objects() if isinstance(o,ue.SkeletalMesh)]
         assert len(meshes) == 1
         candidate = meshes[0]
+        assert candidate.get_editor_property('skeleton')==baseline.get_editor_property('skeleton')
+        report['animated']=ANIMATED
+        clip=None
+        if ANIMATED:
+            spec=next(v for v in vat.load_spec()['variants'] if v['short']==VARIANT)
+            clip=ue.load_asset(spec['walk'])
+            assert clip
+            report['clip']=clip.get_path_name()
         body.set_skeletal_mesh_asset(baseline)
         bindings = {str(n):body.get_material(i) for i,n in enumerate(body.get_material_slot_names())}
         report['candidateSourceSha256'] = sha(source)
@@ -76,9 +95,10 @@ def run():
         views = [('front', ue.Vector(80,240,105), -108.435),
                  ('side', ue.Vector(260,0,105), 180.),
                  ('back', ue.Vector(-80,-240,105), 71.565)]
-        for label, mesh, position, yaw in [(name+'-'+side, mesh, position, yaw)
-                                          for name, position, yaw in views
-                                          for side, mesh in [('before',baseline),('after',candidate)]]:
+        times=(0.,.3,.6,.9) if ANIMATED else (None,)
+        for label,mesh,position,yaw,time in [(name+'-'+side+('' if t is None else '-t'+str(t)),mesh,position,yaw,t)
+                                           for t in times for name,position,yaw in views
+                                           for side,mesh in [('before',baseline),('after',candidate)]]:
             path = mesh.get_path_name()
             camera.set_actor_location(position,False,False)
             camera.set_actor_rotation(ue.Rotator(yaw=yaw),False)
@@ -88,6 +108,12 @@ def run():
             slots = [str(n) for n in body.get_material_slot_names()]
             assert set(slots) == set(bindings)
             for i,n in enumerate(slots): body.set_material(i,bindings[n])
+            pose={}
+            if ANIMATED:
+                assert ue.MikdashAnimationReviewLibrary.evaluate_review_pose(body,clip,time)
+                for bone in ('upperarm_l','hand_l','upperarm_r','hand_r','calf_l'):
+                    tr=body.get_socket_transform(bone,ue.RelativeTransformSpace.RTS_COMPONENT)
+                    pose[bone]=[tr.translation.x,tr.translation.y,tr.translation.z]
             ue.AutomationLibrary.finish_loading_before_screenshot()
             image = OUT/('render-'+stamp+'-'+label+'.png')
             assert not image.exists()
@@ -99,7 +125,11 @@ def run():
             assert data[:8] == b'\x89PNG\r\n\x1a\n' and struct.unpack('>II',data[16:24]) == (960,960)
             report['captures'].append(dict(label=label,mesh=path,triangles=None,file=image.name,sha256=sha(image),
                                            cameraPosition=[position.x,position.y,position.z],cameraYaw=yaw,
-                                           lightYawOffset=yaw+108.435))
+                                           lightYawOffset=yaw+108.435,pose=pose,time=time))
+        if ANIMATED:
+            for a,b in zip(report['captures'][::2],report['captures'][1::2]):
+                assert a['pose']==b['pose'], 'Source/candidate pose mismatch'
+            assert len({tuple(c['pose']['hand_l']) for c in report['captures']})>1, 'Animation did not move the hand'
         report['status']='captured-review-pending'
     except Exception as error:
         report.update(status='failed',error=repr(error))

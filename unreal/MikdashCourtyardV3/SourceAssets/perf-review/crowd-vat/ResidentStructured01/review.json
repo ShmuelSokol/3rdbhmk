@@ -1,0 +1,53 @@
+{
+  "status": "offline-diagnostic-no-native-adoption",
+  "runs": [
+    {
+      "variant": "Man_Elder",
+      "rowStride": 1,
+      "columnStride": 1,
+      "legOutsideCm": 0.0,
+      "tunicOutsideMantleCm": 0.0,
+      "framesWithLegClipping": 0,
+      "garmentTriangles": 15356,
+      "file": "SourceAssets/perf-review/crowd-vat/ResidentStructured01/Man_Elder-r1-c1-full.json",
+      "sha256": "1eab9cbc336eb3775a2db04e3bb9fa2d298edabb4aa0465aa072c6504838c316"
+    },
+    {
+      "variant": "Man_Elder",
+      "rowStride": 2,
+      "columnStride": 2,
+      "legOutsideCm": 0.0,
+      "tunicOutsideMantleCm": 0.0,
+      "framesWithLegClipping": 0,
+      "garmentTriangles": 5572,
+      "file": "SourceAssets/perf-review/crowd-vat/ResidentStructured01/Man_Elder-r2-c2-full.json",
+      "sha256": "bf018432b9f6631f929b3a3a2735a0e0b39f6f803a2ebe8f49bef08bda8b2ec4"
+    },
+    {
+      "variant": "Woman_Young",
+      "rowStride": 1,
+      "columnStride": 1,
+      "legOutsideCm": 0.0,
+      "tunicOutsideMantleCm": 0.0,
+      "framesWithLegClipping": 0,
+      "garmentTriangles": 16476,
+      "file": "SourceAssets/perf-review/crowd-vat/ResidentStructured01/Woman_Young-r1-c1-full.json",
+      "sha256": "ddacd9f9af9b47bbd59cf70f544780b5963451403b33e0ebc614ca336a44848d"
+    },
+    {
+      "variant": "Woman_Young",
+      "rowStride": 2,
+      "columnStride": 2,
+      "legOutsideCm": 0.0,
+      "tunicOutsideMantleCm": 0.0,
+      "framesWithLegClipping": 0,
+      "garmentTriangles": 5908,
+      "file": "SourceAssets/perf-review/crowd-vat/ResidentStructured01/Woman_Young-r2-c2-full.json",
+      "sha256": "fd8975e44e825d1d952e85522ab94823959d10bad7fc769818403e18da8f3acc"
+    }
+  ],
+  "sampledPoses": 1152,
+  "method": "Retriangulate retained source grid rows/columns; retain original vertex positions, skin anchors and dense source probes. Preserve hem-shaping and waist/shoulder rows.",
+  "limitations": "Original generator garment/leg geometry and one walk clip only. Not compact export, native VAT, visual, continuous-time, belt/headcover, whole-body or performance acceptance.",
+  "next": "Use passing grid settings to build isolated compact GLBs while preserving accepted shoulder attributes byte-for-byte. Then native import, VAT conversion and multi-view validation before adoption."
+}

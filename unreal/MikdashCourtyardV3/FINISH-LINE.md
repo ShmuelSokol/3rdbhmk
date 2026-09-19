@@ -1472,3 +1472,11 @@ Engine mapping ranks all triangles without material partition; zero-distance
 match takes weight1, otherwise inverse-distance. Do not assume shader parity or
 complete skinning fidelity from a source triangle-count match.
 Evidence: SourceAssets/perf-review/crowd-vat/ResidentStudy09/review.json.
+
+## Structured resident garment reduction results — 19 September 2026
+Four offline walk runs completed (288 poses each,1152 total):
+- Man_Elder rows1/columns1: 15356 garment triangles; max leg outside 0.0cm, max tunic outside mantle 0.0cm.
+- Man_Elder rows2/columns2: 5572 garment triangles; max leg outside 0.0cm, max tunic outside mantle 0.0cm.
+- Woman_Young rows1/columns1: 16476 garment triangles; max leg outside 0.0cm, max tunic outside mantle 0.0cm.
+- Woman_Young rows2/columns2: 5908 garment triangles; max leg outside 0.0cm, max tunic outside mantle 0.0cm.
+Dense source probes and authored skin anchors retained. Stride1 reproduces source faces exactly (independent verifier). These measurements exclude belt/headcover/whole-body and native rendering; no adoption. Next: isolated compact export preserving accepted shoulder bytes, then native VAT and multi-view checks. Evidence: SourceAssets/perf-review/crowd-vat/ResidentStructured01/review.json.

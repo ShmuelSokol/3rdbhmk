@@ -1,5 +1,6 @@
-param([ValidateSet('01','02','03','04','05','06','07','08','09','10','11')][string]$Study='03',[ValidateRange(100,10000)][int]$DistanceCm=253,[ValidateSet('Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder','Youth')][string]$Variant='Man_Standard',[ValidateSet('Front','Right','Rear','Left')][string]$View='Front',[switch]$Sweep,[switch]$ShadowParity,[switch]$NoNormalDetail,[switch]$NormalCorrection)
+param([ValidateSet('01','02','03','04','05','06','07','08','09','10','11')][string]$Study='03',[ValidateRange(100,10000)][int]$DistanceCm=253,[ValidateSet('Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder','Youth')][string]$Variant='Man_Standard',[ValidateSet('Front','Right','Rear','Left')][string]$View='Front',[switch]$Sweep,[switch]$ShadowParity,[switch]$NoNormalDetail,[switch]$NormalCorrection,[ValidateSet('Walk','Idle','Transition')][string]$Mode='Walk')
 $ErrorActionPreference = 'Stop'
+if($Mode -ne 'Walk' -and ($Study -ne '11' -or $Variant -notin @('Man_Elder','Woman_Young') -or $Sweep -or $NoNormalDetail -or $NormalCorrection)){throw 'Idle/Transition review requires Study11 Elder/Woman without other diagnostics'}
 if($NormalCorrection -and ($Study -ne '10' -or $Sweep -or $Variant -notin @('Man_Elder','Woman_Young'))){throw 'NormalCorrection is a Study10 four-phase diagnostic only'}
 $root = (Split-Path -Parent $PSScriptRoot).Replace('\','/')
 $busy = @(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3,AutomationTool -ErrorAction SilentlyContinue)
@@ -13,7 +14,7 @@ New-Item -ItemType Directory -Path $folder -Force | Out-Null
 $log="$folder/resident-crowd-render-run-$stamp.log"
 $receipt="$folder/resident-crowd-render-run-$stamp.json"
 if(Test-Path -LiteralPath $receipt){throw 'Fresh audit receipt required'}
-$before=@(Get-ChildItem -LiteralPath $folder -Filter 'render-*.json' -File | Where-Object {$_.Name -notlike 'resident-crowd-render-run-*'} | Select-Object -ExpandProperty FullName)
+$before=@(Get-ChildItem -LiteralPath $folder -Filter 'render-*.json' -File | Where-Object {$_.Name -match '^render-\d{8}T\d{12}Z\.json$'} | Select-Object -ExpandProperty FullName)
 $record=[ordered]@{status='starting';scope='Isolated native GPU static pose A/B; no saves';startedUtc=$stamp;log=$log;minimumStartCommitBytes=6GB;maximumPrivateBytes=4GB;reserveCommitBytes=2GB;peakPrivateBytes=0}
 function Save-Receipt {$record | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $receipt -Encoding utf8}
 Save-Receipt
@@ -23,6 +24,7 @@ $arguments=@(('"'+$root+'/MikdashCourtyardV3.uproject"'),'-run=pythonscript',('-
 $arguments += ('-ResidentCrowdStudy='+$Study)
 $arguments += ('-ResidentCrowdVariant='+$Variant)
 $arguments += ('-ResidentCrowdView='+$View)
+$arguments += ('-ResidentCrowdMode='+$Mode)
 if($Sweep){$arguments += '-ResidentCrowdSweep'}
 if($ShadowParity){$arguments += '-ResidentCrowdShadowParity'}
 if($NoNormalDetail){$arguments += '-ResidentCrowdNoNormalDetail'}
@@ -44,7 +46,7 @@ try {
     } while($true)
     $child.WaitForExit();$record.exitCode=$child.ExitCode
     if($child.ExitCode -ne 0){throw "Audit exited $($child.ExitCode)"}
-    $outputs=@(Get-ChildItem -LiteralPath $folder -Filter 'render-*.json' -File | Where-Object {$_.Name -notlike 'resident-crowd-render-run-*'} | Where-Object {$_.FullName -notin $before})
+    $outputs=@(Get-ChildItem -LiteralPath $folder -Filter 'render-*.json' -File | Where-Object {$_.Name -match '^render-\d{8}T\d{12}Z\.json$'} | Where-Object {$_.FullName -notin $before})
     if($outputs.Count -ne 1){throw 'Expected one fresh near candidate receipt'}
     $result=Get-Content -LiteralPath $outputs[0].FullName -Raw | ConvertFrom-Json
     $expectedStatus='captured-review-pending'

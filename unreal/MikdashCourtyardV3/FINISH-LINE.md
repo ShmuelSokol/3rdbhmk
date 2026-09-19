@@ -1567,3 +1567,20 @@ reuse one DynamicMesh throughout the bake, keeping all memory guards unchanged.
 No runtime adoption; defaultStudy03 unchanged. Next idle/transition review,
 remaining views/distances, further body reduction, all-cast and crowd performance.
 Evidence: SourceAssets/perf-review/crowd-vat/ResidentStudy11/review.json.
+
+## Resident idle and blend states — 19 September 2026
+Study11 now has12 frozen idle poses and five fixed walk18/idle48 blend weights in
+both directions, side/rear views for Elder and Woman_Young. Eight native jobs exit0,
+144 captures and20 root-reviewed contact pages. All20 reverse-direction matching
+weights produce pixel-identical images. Idle follows source lighting closely;
+coarser mantle/hem folds, trim and fine detail remain. No obvious new skin patches
+or limb collapse in these samples. This is NOT continuous transition clearance,
+intermediate skeletal blend parity, loop-seam or runtime/performance acceptance.
+IdleOff also controls palette brightness. Transient review MIDs compensate that
+factor with BaseColor readback and require PaletteMix/SkinVariation=0; assert world
+time0 around captures. Production materials unchanged. One completed native run
+was falsely rejected by broad output discovery seeing an auxiliary proof JSON;
+strict timestamp matching fixes wrapper discovery. Preserve and reconcile original
+failed wrapper; do not rerender terminal successful native work for a green receipt.
+Evidence: ResidentStudy11/state-review.json. Next body reduction, all-cast/distance
+and continuously advancing in-scene blend/loop/performance review before adoption.

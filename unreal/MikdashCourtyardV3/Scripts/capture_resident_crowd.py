@@ -1,4 +1,4 @@
-"""Resident crowd candidates versus saved skeletal source at selectable frozen walk phases; no saves."""
+"""Resident crowd frozen walk/idle comparisons and fixed-pose blend review; no saves."""
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -26,6 +26,9 @@ SWEEP=bool(re.search(r'-ResidentCrowdSweep\b',ue.SystemLibrary.get_command_line(
 SHADOW_PARITY=bool(re.search(r'-ResidentCrowdShadowParity\b',ue.SystemLibrary.get_command_line()))
 NO_NORMAL_DETAIL=bool(re.search(r'-ResidentCrowdNoNormalDetail\b',ue.SystemLibrary.get_command_line()))
 NORMAL_CORRECTION=bool(re.search(r'-ResidentCrowdNormalCorrection\b',ue.SystemLibrary.get_command_line()))
+mode_match=re.search(r'-ResidentCrowdMode=(Walk|Idle|Transition)\b',ue.SystemLibrary.get_command_line())
+MODE=mode_match.group(1) if mode_match else 'Walk'
+assert MODE=='Walk' or (STUDY=='11' and not NORMAL_CORRECTION and not NO_NORMAL_DETAIL and not SWEEP)
 FRAMES=tuple(range(0,72,6)) if SWEEP else (0,18,36,54)
 assert not NORMAL_CORRECTION or (STUDY=='10' and not SWEEP and VARIANT in ('Man_Elder','Woman_Young'))
 
@@ -35,6 +38,9 @@ def run():
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     output = OUT / ('render-' + stamp + '.json')
     report = dict(status='running', scope='Frozen instanced VAT walk phases against the saved skeletal source. Not continuous clearance, real-time movie or in-scene acceptance.', view=VIEW, frames=list(FRAMES), noNormalDetail=NO_NORMAL_DETAIL, materials={}, captures=[])
+    report['mode']=MODE
+    if MODE!='Walk':
+        report['scope']='Frozen idle source/VAT poses or fixed-pose shader blend states in both directions. No intermediate skeletal blend reference, continuous motion, clearance or runtime acceptance.'
     protected = list((ROOT/'Content').rglob('*.umap'))
     for name in ('CrowdVATV1', 'CrowdNearV1', 'CrowdResidentStudy'+STUDY):
         protected += list((ROOT/'Content/MikdashV3/Runtime'/name).rglob('*.uasset'))
@@ -112,6 +118,7 @@ def run():
             report['normalCorrection']=dict(**correction,asset=correction_texture.get_path_name(),saved=False)
         skel=ue.load_asset(built['sourceMesh'])
         clip=ue.load_asset(built['clips']['walk'])
+        idle_clip=ue.load_asset(built['clips']['idle']) if MODE!='Walk' else None
         source=spawn(ue.SkeletalMeshActor,ue.Vector()).skeletal_mesh_component
         source.set_mobility(ue.ComponentMobility.MOVABLE)
         source.set_skeletal_mesh_asset(skel)
@@ -127,6 +134,7 @@ def run():
         custom=[0.,.5,0.,0.,0.,0.,0.,0.,-1000.,.5/13.7,0.]
         instance_created=False
         material_cache={}
+        original_base_colors={}
         def bind_review_materials(mesh, mesh_component, is_source):
             path=mesh.get_path_name()
             if path not in material_cache:
@@ -150,9 +158,13 @@ def run():
                              tangentSpaceNormal=bool(parent.get_editor_property('tangent_space_normal')),disabledParameters={})
                     row['effectiveTwoSided']=next((entry['twoSided'] for entry in chain if entry['overrideTwoSided']),row['twoSided'])
                     binding=original
-                    if NO_NORMAL_DETAIL or (NORMAL_CORRECTION and not is_source):
+                    if NO_NORMAL_DETAIL or ((NORMAL_CORRECTION or MODE!='Walk') and not is_source):
                         binding=mesh_component.create_dynamic_material_instance(index,original)
                         assert binding
+                    if MODE!='Walk' and not is_source:
+                        assert ue.MaterialEditingLibrary.get_material_instance_scalar_parameter_value(original,'PaletteMix')==0.
+                        assert ue.MaterialEditingLibrary.get_material_instance_scalar_parameter_value(original,'SkinVariation')==0.
+                        original_base_colors[(path,index)]=binding.get_vector_parameter_value('BaseColor')
                     if NO_NORMAL_DETAIL:
                         names={str(n) for n in ue.MaterialEditingLibrary.get_scalar_parameter_names(original)}
                         parameters=names.intersection(('PoreStrength','WeaveStrength') if is_source else ('DetailStrength',))
@@ -170,20 +182,35 @@ def run():
                     rows.append(row)
                 material_cache[path]=bindings
                 report['materials'][path]=rows
-            if NO_NORMAL_DETAIL or NORMAL_CORRECTION:
+            if NO_NORMAL_DETAIL or NORMAL_CORRECTION or MODE!='Walk':
                 for index,binding in enumerate(material_cache[path]):
                     mesh_component.set_material(index,binding)
                     assert mesh_component.get_material(index)==binding
-        for frame,label,path in [(frame,label,path) for frame in FRAMES for label,path in meshes]:
-            label='frame%02d-'%frame+label
+        samples=[]
+        if MODE=='Walk':
+            samples=[dict(frame=f,label='frame%02d-'%f+label,path=path,clip='walk') for f in FRAMES for label,path in meshes]
+        elif MODE=='Idle':
+            idle_frames=(0,16,32,48,64,80,96,112,128,144,176,191)
+            report['frames']=list(idle_frames)
+            samples=[dict(frame=f,label='idle%03d-'%f+label,path=path,clip='idle',idleWeight=1.) for f in idle_frames for label,path in meshes]
+        else:
+            report['frames']=[]
+            samples=[dict(frame=18,label='reference-walk18',path=built['sourceMesh'],clip='walk'),dict(frame=48,label='reference-idle48',path=built['sourceMesh'],clip='idle')]
+            for direction in ('toIdle','toWalk'):
+                for step in range(5):
+                    weight=step/4. if direction=='toIdle' else 1.-step/4.
+                    samples.append(dict(frame=18,label=direction+'-step'+str(step),path=built['variants'][0]['mesh'],clip='transition',idleFrame=48,idleWeight=weight,direction=direction))
+        for sample in samples:
+            frame,label,path=sample['frame'],sample['label'],sample['path']
             is_source=path==built['sourceMesh']
+            if MODE!='Walk':assert ue.GameplayStatics.get_time_seconds(world)==0.,'Review shader requires frozen world time'
             body.set_visibility(not is_source)
             source.set_visibility(is_source)
             readback=[]
             mesh=ue.load_asset(path)
             assert mesh
             if is_source:
-                assert ue.MikdashAnimationReviewLibrary.evaluate_review_pose(source,clip,frame/60.)
+                assert ue.MikdashAnimationReviewLibrary.evaluate_review_pose(source,idle_clip if sample['clip']=='idle' else clip,frame/60.)
             else:
                 if body.get_editor_property('static_mesh') != mesh:
                     assert body.set_static_mesh(mesh)
@@ -192,11 +219,28 @@ def run():
                     assert body.add_instance(ue.Transform())==0
                     instance_created=True
                 custom[0]=frame/72.
+                if MODE!='Walk':
+                    custom[9]=(frame if MODE=='Idle' else sample['idleFrame'])/192.
+                    custom[2]=1. if MODE=='Idle' or sample.get('direction')=='toIdle' else 0.
+                    blend=ue.MaterialEditingLibrary.get_material_instance_scalar_parameter_value(mesh.get_material(0),'BlendSeconds')
+                    assert blend>0.
+                    custom[8]=-1000. if MODE=='Idle' else -blend*(sample['idleWeight'] if custom[2]==1. else 1.-sample['idleWeight'])
                 for idx,value in enumerate(custom):
                     assert body.set_custom_data_value(0,idx,value,True)
                 readback=list(body.get_editor_property('per_instance_sm_custom_data'))
                 assert len(readback)==11 and all(abs(a-b)<1e-6 for a,b in zip(readback,custom))
             bind_review_materials(mesh,source if is_source else body,is_source)
+            if MODE!='Walk' and not is_source:
+                # IdleOff also drives palette brightness. Cancel that factor in
+                # transient review MIDs so phase changes cannot fake shading errors.
+                brightness=.90+.20*((custom[9]*13.7)%1.)
+                for index,binding in enumerate(material_cache[path]):
+                    base=original_base_colors[(path,index)]
+                    value=ue.LinearColor(base.r/brightness,base.g/brightness,base.b/brightness,base.a)
+                    binding.set_vector_parameter_value('BaseColor',value)
+                    actual=binding.get_vector_parameter_value('BaseColor')
+                    assert all(abs(getattr(actual,k)-getattr(value,k))<1e-6 for k in ('r','g','b','a'))
+                sample['reviewBrightnessCompensation']=1./brightness
             ue.AutomationLibrary.finish_loading_before_screenshot()
             image = OUT/('render-'+stamp+'-'+label+'.png')
             assert not image.exists()
@@ -206,7 +250,8 @@ def run():
             ue.RenderingLibrary.export_render_target(world,target,str(OUT),image.name)
             data=image.read_bytes()
             assert data[:8] == b'\x89PNG\r\n\x1a\n' and struct.unpack('>II',data[16:24]) == (960,960)
-            report['captures'].append(dict(label=label,mesh=path,triangles=None if is_source else mesh.get_num_triangles(0),frame=frame,customData=readback,file=image.name,sha256=sha(image)))
+            if MODE!='Walk':assert ue.GameplayStatics.get_time_seconds(world)==0.
+            report['captures'].append(dict(label=label,mesh=path,triangles=None if is_source else mesh.get_num_triangles(0),frame=frame,customData=readback,file=image.name,sha256=sha(image),sample=sample))
         report['status']='captured-review-pending'
     except Exception as error:
         report.update(status='failed',error=repr(error))

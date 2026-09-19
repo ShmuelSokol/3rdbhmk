@@ -492,3 +492,34 @@ syntax and input parse pass; native extraction is still pending. No asset saves.
 Audit-runner review correction: guard owned-child Refresh/Stop-Process in a nested
 try/catch inside finally, and save the receipt afterward even when cleanup throws.
 Do not let a cleanup exception erase the original diagnostic/failure record.
+
+Search1024 5000-request capture is terminal:4997seeded,3refused allinStreetBateiMahase
+(101/104); otherzones complete. Sixbudgetreadbacks1024verified; childexit0, wrapper
+correctlyfails. Root viewed finalPNG.45/60analysis retains1604frames59.96s,
+median31.923ms,p9577.769ms. Concurrent verification read multi-GiB cooked data
+during the run; this is NOT an isolated performance benchmark. The cause of the
+slowdown versus other captures is unproven. Future release benchmarks must keep
+owned heavy hashing, compilation and unrelated work out of measured windows.
+Keep counts/evidence; do not attribute timing changes solely to crowd population.
+See crowd-search1024-5000-review.json. Read-only native street audit is next.
+
+## Street terrain collision audit — 18 September 2026
+
+Read-only native audit street-native-mesh-20260919T010523238528Z.json completed
+with child exit0 and peak1.443GiB private memory. Both asset hashes stayed unchanged.
+Identity-transform terrain07_09 (actor2754) has512source triangles but255renderLOD0
+triangles, Nanite enabled, fallbackRelativeError1, complex-as-simple collisionLOD0.
+Its22packaged contacts match renderLOD0 within0.000001cm, but sit1.25..18.82cm
+above source geometry. Asphalt02GridN004P004 (actor4503) has74triangles in both
+representations; all10contacts match both within0.000001cm. This implicates reduced
+terrain fallback geometry; it is evidence for investigation, not a repaired asset.
+Next: preserve source geometry and other settings while testing full-fidelity
+terrain fallback, then replace the approximate street ground plane with audited
+surfaces. Changing expected heights alone before collision agrees risks overlap.
+No asset saves, placement-rule changes or new cooked release occurred in this audit.
+Both tree quick gates pass6/6; native audit and5000evidence independently verified.
+UE5.8 MeshBuilderCommon/Private/NaniteHelper.cpp CorrectFallbackSettings confirms
+Auto can replace fallback_relative_error during build; setting that number alone
+is insufficient. Explicit PercentTriangles with fraction1 sets effective error0.
+Use that explicit target for the backed-up single-terrain fidelity experiment;
+retain the rest of the existing settings struct, then verify fresh native geometry.

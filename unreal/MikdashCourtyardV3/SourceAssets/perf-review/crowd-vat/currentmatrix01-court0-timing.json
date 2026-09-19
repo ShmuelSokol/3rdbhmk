@@ -1,0 +1,51 @@
+{
+  "settleSeconds": 45.0,
+  "requestedRecordSeconds": 30.0,
+  "captures": {
+    "SourceAssets/perf-review/crowd-vat/frametime-currentmatrix01-outercourt-crowd0/frametime-currentmatrix01-outercourt-crowd0.csv": {
+      "file": "SourceAssets\\perf-review\\crowd-vat\\frametime-currentmatrix01-outercourt-crowd0\\frametime-currentmatrix01-outercourt-crowd0.csv",
+      "columns": {
+        "frame": "FrameTime",
+        "game": "GameThreadTime",
+        "render": "RenderThreadTime",
+        "gpu": "GPUTime",
+        "rhi": "RHIThreadTime"
+      },
+      "framesKept": 1542,
+      "recordSeconds": 30.0,
+      "requestedRecordSeconds": 30.0,
+      "frame": {
+        "median": 17.144,
+        "mean": 19.458,
+        "p95": 36.166,
+        "p99": 38.675
+      },
+      "game": {
+        "median": 7.102,
+        "mean": 8.571,
+        "p95": 18.167,
+        "p99": 21.902
+      },
+      "render": {
+        "median": 17.146,
+        "mean": 19.447,
+        "p95": 35.582,
+        "p99": 37.997
+      },
+      "gpu": {
+        "median": 16.78,
+        "mean": 16.795,
+        "p95": 18.571,
+        "p99": 18.851
+      },
+      "rhi": {
+        "median": 2.762,
+        "mean": 3.35,
+        "p95": 7.47,
+        "p99": 8.784
+      },
+      "fpsFromMedian": 58.3
+    }
+  },
+  "crowdCostDeltas": []
+}

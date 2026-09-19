@@ -855,3 +855,16 @@ Still misses16.7ms court target. Root inspected late PNG:people visible, center
 stairs clear; old slab remains because map adoption is pending. Single-run evidence,
 not motion/footcontact acceptance. Current-binary0/5000/10000 still owed. See
 SourceAssets/perf-review/crowd-vat/currentmatrix01-court2500-review.json.
+
+## Current crowd count matrix — 19 September 2026
+Same source1332e820/scenePixel01 binary and immutable cooked scene now have
+0/2500/5000/10000 court captures, all exit0, exact requested counts, zero refused.
+1080pHigh77%,45s settle/30s record, no cloud-cap override. Frame medians in count
+order:17.144/17.925/18.495/18.030ms; GPU16.780/17.462/18.042/17.677ms.
+Game-thread medians7.102/8.796/8.970/9.707ms. Every run misses16.7ms court target;
+nonmonotonic frame/GPU results require repeated matched trials for causal claims.
+Root reviewed all late PNGs:people visible, center stairs open, V1 slab remains.
+No motion/footcontact/appearance acceptance. This closes the current-binary count
+measurement task only; performance, scene finish and public walkthrough are open.
+See SourceAssets/perf-review/crowd-vat/currentmatrix01-review.json and count timings.
+Raw CSVs/logs retained locally and hash-pinned; receipts and PNGs published.

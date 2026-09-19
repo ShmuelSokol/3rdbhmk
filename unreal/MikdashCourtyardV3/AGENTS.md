@@ -3383,3 +3383,14 @@ already exceeds target; optimize scene GPU work as well as crowd.2500/5000,city
 and other views remain. BothPNGs reviewed; pale leaning slab left of stairs
 persists without crowd, actor/intent not identified, add to geometry investigation.
 See crowd-1080court01 review/comparison and both capture receipts/PNGs.
+
+1080court01 countmatrix complete for0/2500/5000/10000 atHigh77percent,45/30.
+New2500 and5000 runs reach fullcounts,0refused,exit0.2500:1714frames,median17.425
+p9519.839;5000:1653frames,median18.045 p9520.509ms. Allfour medians miss16.7ms.
+BothPNGs reviewed; centerstairs lane open. Single serial runs, not repeated causal
+estimates; cityviews, motion/state/appearance and releasepopulation still open.
+See crowd-1080court01-matrix/midcounts-review and2500/5000receipts/PNGs.
+PowerShell batch lesson: capture script does not set LASTEXITCODE on success when
+invoked in-process. A stale value stopped the wrapper after successful2500. Check
+terminal receipt status,errors,childexit andCSVfinalized; do not rerun validcapture.
+5000 was launched separately after verifying2500 evidence, no duplicate native job.

@@ -1702,3 +1702,16 @@ last30s; the other two only7.77/4.69cm. Baseline was0cm for allseven. A separate
 79.86437cm spacing pair persists versus80cm target. Continue group return/follower
 routing and prospective-motion spacing; do not count resumed counters as success.
 Evidence: SourceAssets/perf-review/crowd-vat/ResidentRuntime03/review.json.
+
+## Prospective spacing defect reproduced — 19 September 2026
+ResidentMotionReservation01 directly exercises the production SpatialIndex: two
+99cm perpendicular paths each clear the other stored anchor by80cm, yet their
+simultaneous rendered roots intersect. Committing their endpoints leaves26.87cm
+separation and rejects both strictly outward escape moves. This is a diagnostic
+of unsafe accepted motion, NOT a passing safety test or native fix. Runtime03's
+10/47 pair remains consistent with this mechanism; five-second snapshots cannot
+prove its exact causal path. Fix future reservations, including stopped endpoints
+and early replan/idle/freeze/cull invalidation. Do not add a commit-time refusal to
+Relocate: that would leave the index behind the rendered person. Do not relax80cm
+or teleport. Formation return routing remains independently open. Evidence:
+SourceAssets/perf-review/crowd-vat/ResidentMotionReservation01/README.md.

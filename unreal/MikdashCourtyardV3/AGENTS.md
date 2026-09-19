@@ -4527,3 +4527,16 @@ remains79.86437cm foragents10/47, below80cm; no threshold relaxed or collision
 bypassed. Next inspect formation/follower return routing and prospective VAT spacing.
 Evidence: SourceAssets/perf-review/crowd-vat/ResidentRuntime03/review.json. No packaged
 refresh, resident adoption, complete navigation or performance acceptance.
+
+## Prospective spacing defect reproduced — 19 September 2026
+ResidentMotionReservation01 directly exercises the production SpatialIndex: two
+99cm perpendicular paths each clear the other stored anchor by80cm, yet their
+simultaneous rendered roots intersect. Committing their endpoints leaves26.87cm
+separation and rejects both strictly outward escape moves. This is a diagnostic
+of unsafe accepted motion, NOT a passing safety test or native fix. Runtime03's
+10/47 pair remains consistent with this mechanism; five-second snapshots cannot
+prove its exact causal path. Fix future reservations, including stopped endpoints
+and early replan/idle/freeze/cull invalidation. Do not add a commit-time refusal to
+Relocate: that would leave the index behind the rendered person. Do not relax80cm
+or teleport. Formation return routing remains independently open. Evidence:
+SourceAssets/perf-review/crowd-vat/ResidentMotionReservation01/README.md.

@@ -16,7 +16,9 @@ param(
     [ValidatePattern('^(?:-CrowdCount=(?:0|[1-9][0-9]{0,4}))?$')][string]$ExtraArgs='',
     [switch]$ScheduledShots,
     [switch]$RealTimeDiagnostic,
-    [switch]$UnfilteredMotionDiagnostic
+    [switch]$UnfilteredMotionDiagnostic,
+    [switch]$DisableMotionBlurDiagnostic,
+    [switch]$DisableTemporalAADiagnostic
 )
 $ErrorActionPreference='Stop'
 $Archive=[IO.Path]::GetFullPath($Archive)
@@ -53,6 +55,12 @@ if($UnfilteredMotionDiagnostic){
     # Capture-only isolation of temporal reconstruction and blur; never a release preset.
     $launchArgs=$launchArgs.Replace('r.ScreenPercentage 77,','r.ScreenPercentage 100,r.AntiAliasingMethod 0,ShowFlag.AntiAliasing 0,r.MotionBlurQuality 0,')
 }
+elseif($DisableTemporalAADiagnostic){
+    $launchArgs=$launchArgs.Replace('r.ScreenPercentage 77,','r.ScreenPercentage 77,r.AntiAliasingMethod 0,ShowFlag.AntiAliasing 0,')
+}
+if($DisableMotionBlurDiagnostic -and -not $UnfilteredMotionDiagnostic){
+    $launchArgs=$launchArgs.Replace('r.ScreenPercentage 77,','r.ScreenPercentage 77,r.MotionBlurQuality 0,')
+}
 $launchArgs += " -csvExecCmds=`"${inspectionFrame}:getall MikdashCrowdField SeededAgents,${inspectionFrame}:getall MikdashCrowdField RefusedSeeds`""
 if($ScheduledShots){
     New-Item -ItemType Directory -Path $shots -Force | Out-Null
@@ -77,6 +85,8 @@ function Save-Receipt {$report | ConvertTo-Json -Depth 8 | Set-Content -LiteralP
 $report.scheduledShots=[bool]$ScheduledShots
 $report.realTimeDiagnostic=[bool]$RealTimeDiagnostic
 $report.unfilteredMotionDiagnostic=[bool]$UnfilteredMotionDiagnostic
+$report.disableMotionBlurDiagnostic=[bool]$DisableMotionBlurDiagnostic
+$report.disableTemporalAADiagnostic=[bool]$DisableTemporalAADiagnostic
 if($ScheduledShots){$report.method='Fixed-step scheduled ordinary screenshots; NOT a performance measurement'}
 if($RealTimeDiagnostic){$report.method='Real-time visibility diagnostic; requested frame counts only, NO fixed simulated-time claim'}
 Save-Receipt

@@ -1,0 +1,47 @@
+{
+  "status": "temporal-rendering-contribution-supported-not-fixed",
+  "sourceCommit": "48275a33",
+  "runs": [
+    {
+      "label": "crowd-bluroff01",
+      "exitCode": 0,
+      "seeded": 10000,
+      "framesKept": 30,
+      "peakPrivateBytes": 7628378112,
+      "errors": [],
+      "receiptSha256": "3dc216ae79c2b8be1fda6dee7af924c2fd3b6cef7a89a7bef439dbdc3dc16ad3",
+      "logSha256": "40b9e591198410a1ba81cca3687fd25b807d9dd805c56f67058926708242fa08"
+    },
+    {
+      "label": "crowd-aaoff01",
+      "exitCode": 0,
+      "seeded": 10000,
+      "framesKept": 30,
+      "peakPrivateBytes": 7636377600,
+      "errors": [],
+      "receiptSha256": "9920c9dc08289d2c58903d1151ec8976324d504a7e07ee7c2afc308c8110c614",
+      "logSha256": "deded729dbf7507a9aa178b0d5aa863c6151a7a74b6c84312633c2bb13a7db45"
+    },
+    {
+      "label": "crowd-close01",
+      "exitCode": 0,
+      "seeded": 10000,
+      "framesKept": 30,
+      "peakPrivateBytes": 7651438592,
+      "errors": [],
+      "receiptSha256": "c765f68ad525b2bcc4294b6af68d534ee3648d8674074860e31ba3adfa8ae859",
+      "logSha256": "6afe985c435cf9dffb3f805e1ae88ff02273331063bac1dc7e426b1a8722b238"
+    }
+  ],
+  "visualReview": "Baseline versus blur-off frame60: no clear visual improvement. AA-off at the same77percent has harder outlines but pixelation. Close normal-render frames60/89 show actual movement and crude nearby proxy detail; feet are not tracked well enough for contact acceptance. Combined with prior unfiltered100percent result, temporal reconstruction is implicated more than motion blur; no production setting adopted.",
+  "sourceFindings": [
+    "UE MaterialExpressionTime compiles to PrevFrameGameTime for previous-frame WPO, so missing explicit PreviousFrameSwitch alone is not proof of a bug.",
+    "UE HISM bTeleport forwards to physics; changing that flag alone is not a justified temporal-rendering fix.",
+    "Current PushVat replaces custom data at anchor updates; previous anchor data/history still needs focused inspection."
+  ],
+  "remaining": [
+    "Temporal velocity/history diagnosis and production fix",
+    "Near-character detail and longer foot-contact validation",
+    "Full scene acceptance"
+  ]
+}

@@ -754,3 +754,14 @@ sharper silhouettes but jagged edges/stippled paving. Combined diagnostic suppor
 rendering contribution to smearing, not isolation of individual setting or motion/
 footcontact acceptance. No adoption; close motion and temporal velocity remain.
 See crowd-unfiltered01-review and receipt/samples. Six cooked hashes verified.
+
+Temporal isolation01: optional capture switches DisableMotionBlurDiagnostic and
+DisableTemporalAADiagnostic retain77percent; no production change. Blur-off and
+AA-off corridor captures plus close camera11500 -300 200 -10 270 0 all finish
+10000/0refused,exit0,30retained each under8GiBguard. All90 retained hashes checked.
+Root reviewed blur/AA frame60 and close60/89: blur-off no clear improvement; AA-off
+harder outlines with pixelation. Temporal reconstruction contribution supported,
+not fixed. Close view reveals crude proxies; motion visible, footcontact unproven.
+UE Time node supplies PrevFrameGameTime automatically; absence of PreviousFrameSwitch
+alone is not a bug. HISM bTeleport changes physics, not a justified render fix.
+Investigate per-instance anchor history and near detail. See crowd-temporal01-review.

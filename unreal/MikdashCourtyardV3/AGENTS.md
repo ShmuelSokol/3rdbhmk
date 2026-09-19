@@ -3356,3 +3356,12 @@ Game-n5zv6qfa.log and verify-social-default-publication.log in Working-5.8.
 Native slot confirmed empty after owner's restart-complete message. The new binary
 still needs packaged10000 without GroupSeedAttempts override; normal map default
 population and final1080p performance remain separate unverified acceptance items.
+
+Production search default native proof: bd075bd3 default01 archive20260919T023531Z,
+child0086af4dca0d888bc8abeddd1191859e91a547fbbd45ce386c0dee6a5e388c26.
+Explicit10000 with NO CrowdSeedAttempts override places10000/refused0 and exits0.
+Six native budgets1024; initial9847 plus153 recovered, final zones match prior
+diagnostic exactly. PNG reviewed: Kotel crowd and paving visible.30/30diagnostic
+1870frames median15.960ms p9518.137ms at720p77percent, not final1080p acceptance.
+Normal map-default population, crowd appearance/movement and state checks remain.
+See crowd-default01 package/review/timing and capture receipt/PNG. Native slot free.

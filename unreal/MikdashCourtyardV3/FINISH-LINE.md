@@ -1616,3 +1616,15 @@ facial morph, continuous motion, VAT, LOD-switching or performance acceptance.
 Carry source reduction into an isolated crowd candidate with full direct skeletal
 normals next, followed by all-cast/runtime tests. Near characters remain unchanged.
 Evidence: SourceAssets/characters-review/ResidentHeadGrid01/distance-review.json.
+
+## Reduced-head crowd base — 19 September 2026
+Study12 imports hash-pinned HeadGrid01 Elder/Woman sources into its own namespace,
+preserving source topology, six material sections, morph names and skeleton binding.
+Four guarded native jobs exit0: two builds plus fresh-process readback.28 assets;
+Elder33244 triangles and Woman27664, each12500 fewer than Study10. Walk72/idle192
+frames at60Hz, three UV channels. Accepted characters, maps and Study10/11 assets
+are hash-protected and unchanged. DefaultStudy03 unchanged. This is a VAT base,
+NOT visual/performance acceptance: stock normal baking has the diagnosed mapping
+defect. Next duplicate with full direct skeletal normal clips before GPU review,
+then all-cast/continuous/distance/runtime tests. Evidence: ResidentStudy12/review.json
+under SourceAssets/perf-review/crowd-vat. No adoption into the playable release.

@@ -1,6 +1,7 @@
-param([ValidateSet('01','02','03','04','05','06','07','08','09','10','11')][string]$Study='03',[switch]$Build,[ValidateSet('Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder','Youth')][string]$Variant='Man_Standard',[switch]$NormalsAudit,[switch]$Posed)
+param([ValidateSet('01','02','03','04','05','06','07','08','09','10','11','12')][string]$Study='03',[switch]$Build,[ValidateSet('Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder','Youth')][string]$Variant='Man_Standard',[switch]$NormalsAudit,[switch]$Posed)
 $ErrorActionPreference = 'Stop'
 if($Study -eq '11' -and ($NormalsAudit -or $Posed -or $Variant -notin @('Man_Elder','Woman_Young'))){throw 'Study11 supports direct-normal Elder/Woman build or fresh readback only'}
+if($Study -eq '12' -and ($NormalsAudit -or $Posed -or $Variant -notin @('Man_Elder','Woman_Young'))){throw 'Study12 supports reduced-head Elder/Woman base build or fresh readback only'}
 if($Posed -and -not $NormalsAudit){throw 'Posed requires NormalsAudit'}
 if($NormalsAudit -and ($Build -or $Study -notin @('09','10') -or $Variant -notin @('Man_Elder','Woman_Young'))){throw 'NormalsAudit requires existing Study09/10 Elder or Woman_Young and no Build'}
 $root = (Split-Path -Parent $PSScriptRoot).Replace('\','/')

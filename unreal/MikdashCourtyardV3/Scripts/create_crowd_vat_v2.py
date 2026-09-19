@@ -398,7 +398,7 @@ def _texture(ue, tools, assets, folder, name):
     return tex
 
 
-def _bake_clip(ue, spec, mesh, skel, clip, clip_spec, pos, nrm, row_key, row):
+def _bake_clip(ue, spec, mesh, skel, clip, clip_spec, pos, nrm, row_key, row, allow_multiple_rows=False):
     att = ue.AnimToTextureBPLibrary
     da = ue.new_object(ue.AnimToTextureDataAsset)
     names = {}
@@ -452,9 +452,11 @@ def _bake_clip(ue, spec, mesh, skel, clip, clip_spec, pos, nrm, row_key, row):
     row[row_key] = dict(clip=_path(clip), frames=frames, rowsPerFrame=rows, minBBox=vmin, sizeBBox=vsize,
                         width=width, height=height, uvChannel=int(clip_spec['uvChannel']),
                         sampleRateHz=float(clip_spec['sampleRateHz']), dataAssetProps=names)
-    if rows != 1:
-        raise RuntimeError('%s needs %d rows per frame; the material assumes 1 (mesh too dense for a 4096 row)' %
+    if rows != 1 and not allow_multiple_rows:
+        raise RuntimeError('%s needs %d rows per frame; legacy bake permits 1 unless explicitly opted in' %
                            (clip.get_name(), rows))
+    if rows < 1 or width < 1 or height > 4096:
+        raise RuntimeError('Invalid VAT layout dimensions')
     return row[row_key]
 
 
@@ -1081,8 +1083,9 @@ def build_master_v2(ue, spec, ns, name, defaults, receipt, previous_wpo_builder=
         a = g.unary(E.MaterialExpressionFrac, fr)
         u = g.mask(uv, 'r')
         v = g.mask(uv, 'g')
-        # Row f sits at V + f/N (one row per frame, height = N). Frame N wraps to frame 0 through the
-        # texture's Wrap addressing, so the last-to-first interpolation needs no branch.
+        # AnimToTexture UV V contains the vertex row offset / texture height.
+        # With R rows/frame and height=N*R, frame f adds f*R/(N*R)=f/N.
+        # Frame N wraps to frame 0 through texture Wrap addressing.
         v0 = g.op(A, v, g.op(D, f0, frames))
         v1 = g.op(A, v, g.op(D, g.op(A, f0, g.const(1.0)), frames))
         s0 = g.tex(tex_name, tex_obj, g.op(E.MaterialExpressionAppendVector, u, v0))

@@ -1,0 +1,81 @@
+{
+  "status": "candidate-preparation-complete-not-adopted",
+  "nativeBuild": "native-20260919T073804231683Z.json",
+  "freshReadback": "native-20260919T073850577461Z.json",
+  "render": "render-20260919T074504112904Z.json",
+  "assetCount": 16,
+  "assetBytes": 21658694,
+  "sourceTriangleCount": 19600,
+  "distantTriangleCount": 2400,
+  "textureLayout": {
+    "walkBake": {
+      "frames": 72,
+      "rowsPerFrame": 3,
+      "width": 3308,
+      "height": 216
+    },
+    "idleBake": {
+      "frames": 192,
+      "rowsPerFrame": 3,
+      "width": 3308,
+      "height": 576
+    }
+  },
+  "evidenceHashes": {
+    "native-20260919T073704760056Z.json": "f4dd461b6b570dd48e24025883124505101a07128f8e85a7a97ef0318ecbab48",
+    "native-20260919T073804231683Z.json": "6b959ec2271ffa64cbf0f3e3f1b4dc0ac70141346b58a0ab25b92ba600784b8c",
+    "native-20260919T073850577461Z.json": "13a97fe95315ec54251e381fda99d749d7dd0d0f66408734e4686adec5dc8af5",
+    "near-render-run-20260919T074108Z.json": "33076f713d104fd5d9e66b7b8d8cd38e753f60c8c11ea3295fbd794ad2f61f45",
+    "near-render-run-20260919T074108Z.log": "6b4af84b13df410aba5778b50cce709a227fb60bc96069bd901707baf8c9ff84",
+    "near-render-run-20260919T074306Z.json": "80c3c7207181b68daa2d372fadc04fd3127aa7d779cfe85d5999c7bd3c557537",
+    "near-render-run-20260919T074306Z.log": "512be9f4853eb87044364ba78d690c1f4902753406f82358f21c63c626f81262",
+    "near-render-run-20260919T074451Z.json": "7520b480fa5e878882488cb102b18517f8ad94317e4bc38ea4a786449d1e1ff0",
+    "near-render-run-20260919T074451Z.log": "f752d18c0fcfb3e9a3031a2666444e3b21a1a375560785a990fb7014f2ad1043",
+    "near-run-20260919T073627Z.json": "dc799404735eded5a03bdf76b95610b0307c9e6878064b1000cfcb7755d69d8e",
+    "near-run-20260919T073627Z.log": "a09a0b5c0787e1f6561d9f519e34d41e1906e263a84dc132c93e4362bf077d77",
+    "near-run-20260919T073746Z.json": "8d9205543c842b4f14a8643b3680ce6bf56a8b2d967294cd70daba98163449cc",
+    "near-run-20260919T073746Z.log": "f479776bb948dbc296f83794940c38595483ecfe3de27cde90ce4576684ee6fa",
+    "near-run-20260919T073833Z.json": "32d87b38621f6bd989135141a00dbf0c47da0b3f2af2e216aacddadae9820c93",
+    "near-run-20260919T073833Z.log": "ebaf7b4090b65e61943046cd42e1e6026a2083e4b148215be2ffa1eeb3a95ee9",
+    "render-20260919T074125816895Z.json": "a2c3b34ecae0ecbf099a3be931081e10cd7b9a22dabb4dfe1724a35a0931f708",
+    "render-20260919T074319054667Z.json": "19beaede2bdbd8e2dd75d7cf30c2d14aa53a21d6e000a779fed5da98df0a8020",
+    "render-20260919T074504112904Z.json": "9dfce1874215209ff903b23b10190c7374bd94f1fde48679410e1a5a70f882ff"
+  },
+  "reviewedImages": [
+    {
+      "label": "distant-proxy",
+      "mesh": "/Game/MikdashV3/Runtime/CrowdVATV1/Meshes/SM_CrowdVAT_Man_Standard",
+      "triangles": 2400,
+      "file": "render-20260919T074504112904Z-distant-proxy.png",
+      "sha256": "1003194be32004779a2cb6af5123252b727734f6f00ae430ab9c3cd78eaee5cc"
+    },
+    {
+      "label": "full-source",
+      "mesh": "/Game/MikdashV3/Runtime/CrowdNearV1/Meshes/SM_CrowdNear_Man_Standard",
+      "triangles": 19600,
+      "file": "render-20260919T074504112904Z-full-source.png",
+      "sha256": "8641bc5af1e2f6505644ec58a43ad21a6bc6e9bcd69de7e73548b2bc884192db"
+    },
+    {
+      "label": "skeletal-reference",
+      "mesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard",
+      "triangles": null,
+      "file": "render-20260919T074504112904Z-skeletal-reference.png",
+      "sha256": "ce6f7ce89cce5a6a5fb2006ac8b78c7355c31fc712159ba2cc92962b86dcd36b"
+    }
+  ],
+  "observations": [
+    "Native full-source VAT has smoother face/hat/silhouette, but clothing breaks remain.",
+    "Original skeletal reference pose also shows collar/mantle breaks; not pose-matched to VAT, so cannot isolate mapping error.",
+    "First attempted skeleton frame-zero control only set animation time; bones remained reference pose. That render is not accepted as pose matched.",
+    "Later capture labels skeleton reference explicitly.",
+    "No production map, material binding, crowd setting or cook inclusion changed."
+  ],
+  "remaining": [
+    "Evaluate original skeleton and VAT in identical animated poses.",
+    "Measure and repair source garment overlaps where confirmed.",
+    "Apply appropriate candidate bounds for animation/extrapolation before production.",
+    "Create and verify remaining variants and near/far representation transitions.",
+    "Packaged 2500/5000/10000 performance and visual acceptance."
+  ]
+}

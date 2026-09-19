@@ -1089,3 +1089,35 @@ unchanged. Acceptance SourceAssets/visual-review/VisitorHandsV1/acceptance01.jso
 This accepts narrow glove removal in walking, not a finished visitor avatar/crowd.
 Photo/dove return regression stays on broader release acceptance; source lifecycle
 review preserves existing photo world-space-only visibility restoration.
+
+## Near-crowd candidate and source limitations — 19 September 2026
+Walking evidence shows 2400triangle distant proxies at arm's length; source spec
+explicitly intended30-200m. New isolated CrowdNearV1 candidate retains Man_Standard's
+19600source triangles (9924vertices,10slots), with72walk/192idle frames. Native
+AnimToTexture packs3rows/frame:width3308,walkheight216,idleheight576. New optional
+allow_multiple_rows preserves default single-row restriction in existing bake.
+Actual stock-node clip AST test spans1536float32 cases (72/192frames,1/2/3/6/11/21
+rows,width3308/4096,vertex-row/frame-loop boundaries). Formula remains UV.v+f/N:
+installed AnimToTextureBPLibrary.cpp encodes vertex row/height and WriteVectorsToTexture
+starts each frame at rows*width*frame. No live mesh/material/map binding changed.
+
+build_crowd_near_v1.py creates16fresh assets under CrowdNearV1; default only verifies.
+Build/fresh-readback passed under6/4/2GiB isolated guards; buildpeak~2.98GiB.
+First attempt failed BEFORE asset creation: AnimSequence.skeleton is not a direct
+Python property; use get_editor_property('skeleton'). Failure receipt retained.
+Protected original CrowdVATV1 assets, source body/clips and all maps hash unchanged.
+
+Native isolated GPU comparison: full-source head/hat/silhouette smoother than2400
+proxy, but torn-looking clothing/layer breaks remain. Full-detail alone is NOT an
+accepted fix. Native skeleton reference pose also shows collar/mantle breaks.
+SetPosition(0) changes single-node time but DOES NOT evaluate bones in this GPU
+commandlet; the first skeleton comparison is NOT pose-matched. Engine source
+confirms UAnimSingleNodeInstance::SetPosition only updates proxy time. Capture tool
+now labels skeleton reference pose explicitly; prior receipts/images retained.
+Need actual same-pose deformation/garment clearance analysis before attribution.
+
+Candidate is NOT cooked/adopted. Still needs production bounds expansion (old VAT
+uses +/-110cm XY to cover motion/extrapolation), same-pose animation validation,
+source garment repair as indicated, six-variant near/far transitions and performance.
+Do not replace all10000 figures with full-detail meshes. Render-target images use
+transient actors and native materials at static walkframe0, not HISM movement.

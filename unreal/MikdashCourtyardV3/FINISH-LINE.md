@@ -523,3 +523,26 @@ Auto can replace fallback_relative_error during build; setting that number alone
 is insufficient. Explicit PercentTriangles with fraction1 sets effective error0.
 Use that explicit target for the backed-up single-terrain fidelity experiment;
 retain the rest of the existing settings struct, then verify fresh native geometry.
+
+## Street fallback fidelity repair — 18 September 2026
+
+repair_crowd_street_fallback.py changes only terrain07_09 Nanite fallback target
+from Auto to PercentTriangles with100percent retained, using its existing struct.
+Original SHA043684bd...48e7 is backed up under ReviewCheckpoints/street-fallback-
+20260919T011657361835Z; repaired SHAbd73bd26acbdfea670ba6a68df8ac2ee6908d5cb5dba9f37102689ff8c674ab0.
+Apply and fresh native verification both exit0. Source/render now512/512triangles;
+1558source-corner/contact checks have zero height difference. Source positions and
+triangles match the pinned original audit exactly. Complete settings/materials
+survive save/reload; collision mode/LOD unchanged. No map or asphalt asset edits.
+Receipts street-fallback-20260919T011657361835Z and20260919T011719681520Z preserve
+apply and fresh evidence. This is source-asset acceptance, not a newly cooked
+collision/contact proof or completed street placement fix. Exact street model and
+full recook/runtime testing remain next; old checkpoints retain old collision.
+
+Commandlet lesson: insert the script directory into sys.path before sibling imports.
+StaticMeshEditorSubsystem can be absent in commandlets; direct set_editor_property
+sends change notifications and rebuilt this mesh, verified through native extraction.
+Do not instantiate an uninitialized subsystem. First two attempts failed before
+saving any asset (import path, then missing subsystem); receipts retained locally.
+Fresh verification must compare persisted materials and complete settings against
+the successful apply receipt plus original hash-verified backup, not against itself.

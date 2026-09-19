@@ -24,6 +24,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Misc/CommandLine.h"
 #include "Misc/Parse.h"
+#include "Materials/MaterialInterface.h"
 #include "Sound/SoundBase.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Styling/CoreStyle.h"
@@ -966,6 +967,60 @@ void AMikdashPlayerController::CyclePrecinctView()
             UE_LOG(LogTemp, Log, TEXT("V pressed but no AMikdashEnclosure is in the level; run release_enclosure.py."));
         }
     }
+}
+
+void AMikdashPlayerController::InspectScenePixel(float U, float V)
+{
+    int32 Width = 0, Height = 0;
+    GetViewportSize(Width, Height);
+    FVector Start, Direction;
+    if (!GetWorld() || !FMath::IsFinite(U) || !FMath::IsFinite(V)
+        || U < 0 || U > 1 || V < 0 || V > 1 || Width <= 0 || Height <= 0
+        || !DeprojectScreenPositionToWorld(U * (Width - 1), V * (Height - 1), Start, Direction))
+    {
+        UE_LOG(LogTemp, Warning, TEXT("ScenePixelV1 refused invalid viewport or normalized coordinates"));
+        return;
+    }
+    const FVector End = Start + Direction * 10000.0;
+    UE_LOG(LogTemp, Display, TEXT("ScenePixelV1 ray u=%.6f v=%.6f viewport=%dx%d start=%s direction=%s rangeCm=10000"),
+        U, V, Width, Height, *Start.ToString(), *Direction.ToString());
+    for (bool bComplex : {false, true})
+    {
+        FCollisionQueryParams Query(SCENE_QUERY_STAT(MikdashScenePixel), bComplex, GetPawn());
+        Query.bReturnFaceIndex = true;
+        FHitResult Hit;
+        const bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Query);
+        UE_LOG(LogTemp, Display, TEXT("ScenePixelV1 collision complex=%d hit=%d actor=%s component=%s point=%s face=%d item=%d"),
+            bComplex, bHit, *GetPathNameSafe(Hit.GetActor()), *GetPathNameSafe(Hit.GetComponent()),
+            *Hit.ImpactPoint.ToString(), Hit.FaceIndex, Hit.Item);
+    }
+    struct FCandidate { UStaticMeshComponent* Component; double Time; };
+    TArray<FCandidate> Candidates;
+    for (TActorIterator<AActor> Actor(GetWorld()); Actor; ++Actor)
+    {
+        if (*Actor == GetPawn() || Actor->IsHidden()) continue;
+        TArray<UStaticMeshComponent*> Components;
+        Actor->GetComponents(Components);
+        for (UStaticMeshComponent* Component : Components)
+        {
+            if (!Component || !Component->IsRegistered() || !Component->IsVisible() || !Component->GetStaticMesh()) continue;
+            FVector Point, Normal;
+            float Time = 0;
+            if (FMath::LineExtentBoxIntersection(Component->Bounds.GetBox(), Start, End, FVector::ZeroVector, Point, Normal, Time))
+                Candidates.Add({Component, Time});
+        }
+    }
+    Candidates.Sort([](const FCandidate& A, const FCandidate& B) { return A.Time < B.Time; });
+    for (int32 Index = 0; Index < FMath::Min(Candidates.Num(), 24); ++Index)
+    {
+        UStaticMeshComponent* Component = Candidates[Index].Component;
+        UE_LOG(LogTemp, Display, TEXT("ScenePixelV1 bound rank=%d distanceCm=%.2f actor=%s component=%s mesh=%s material0=%s min=%s max=%s"),
+            Index, Candidates[Index].Time * 10000.0, *GetPathNameSafe(Component->GetOwner()), *Component->GetPathName(),
+            *GetPathNameSafe(Component->GetStaticMesh()), *GetPathNameSafe(Component->GetMaterial(0)),
+            *Component->Bounds.GetBox().Min.ToString(), *Component->Bounds.GetBox().Max.ToString());
+    }
+    UE_LOG(LogTemp, Display, TEXT("ScenePixelV1 complete candidates=%d reported=%d boundsAreNotTriangleHits=1"),
+        Candidates.Num(), FMath::Min(Candidates.Num(), 24));
 }
 
 #undef LOCTEXT_NAMESPACE

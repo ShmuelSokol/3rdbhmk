@@ -18,7 +18,8 @@ param(
     [switch]$RealTimeDiagnostic,
     [switch]$UnfilteredMotionDiagnostic,
     [switch]$DisableMotionBlurDiagnostic,
-    [switch]$DisableTemporalAADiagnostic
+    [switch]$DisableTemporalAADiagnostic,
+    [ValidatePattern('\A(?:(?:0(?:\.[0-9]{1,6})?|1(?:\.0{1,6})?) (?:0(?:\.[0-9]{1,6})?|1(?:\.0{1,6})?))?\z')][string]$InspectPixel=''
 )
 $ErrorActionPreference='Stop'
 $Archive=[IO.Path]::GetFullPath($Archive)
@@ -61,7 +62,9 @@ elseif($DisableTemporalAADiagnostic){
 if($DisableMotionBlurDiagnostic -and -not $UnfilteredMotionDiagnostic){
     $launchArgs=$launchArgs.Replace('r.ScreenPercentage 77,','r.ScreenPercentage 77,r.MotionBlurQuality 0,')
 }
-$launchArgs += " -csvExecCmds=`"${inspectionFrame}:getall MikdashCrowdField SeededAgents,${inspectionFrame}:getall MikdashCrowdField RefusedSeeds`""
+$inspectionCommands=@("${inspectionFrame}:getall MikdashCrowdField SeededAgents","${inspectionFrame}:getall MikdashCrowdField RefusedSeeds")
+if($InspectPixel){$inspectionCommands+="${inspectionFrame}:InspectScenePixel $InspectPixel"}
+$launchArgs+=' -csvExecCmds="'+($inspectionCommands -join ',')+'"'
 if($ScheduledShots){
     New-Item -ItemType Directory -Path $shots -Force | Out-Null
     $priorIndices=@($prior | ForEach-Object {if([IO.Path]::GetFileNameWithoutExtension($_) -match '^MovieFrame(\d+)$'){[long]$Matches[1]}})
@@ -71,8 +74,7 @@ if($ScheduledShots){
         $target=(Join-Path $shots ('MovieFrame{0:d6}.png' -f ($nextIndex+$frame-1))).Replace('\','/')
         $commands+="${frame}:Shot filename=$target -nosuffix"
     }
-    $commands+="${inspectionFrame}:getall MikdashCrowdField SeededAgents"
-    $commands+="${inspectionFrame}:getall MikdashCrowdField RefusedSeeds"
+    $commands+=$inspectionCommands
     $commands+="${inspectionFrame}:getall HierarchicalInstancedStaticMeshComponent NumBuiltInstances"
     $commands+="${inspectionFrame}:getall HierarchicalInstancedStaticMeshComponent InstanceCountToRender"
     $launchArgs=$launchArgs.Replace('-dumpmovie ','') -replace ' -csvExecCmds="[^"]*"',''
@@ -87,6 +89,7 @@ $report.realTimeDiagnostic=[bool]$RealTimeDiagnostic
 $report.unfilteredMotionDiagnostic=[bool]$UnfilteredMotionDiagnostic
 $report.disableMotionBlurDiagnostic=[bool]$DisableMotionBlurDiagnostic
 $report.disableTemporalAADiagnostic=[bool]$DisableTemporalAADiagnostic
+$report.inspectPixel=$InspectPixel
 if($ScheduledShots){$report.method='Fixed-step scheduled ordinary screenshots; NOT a performance measurement'}
 if($RealTimeDiagnostic){$report.method='Real-time visibility diagnostic; requested frame counts only, NO fixed simulated-time claim'}
 Save-Receipt
@@ -107,6 +110,7 @@ try{
     if($proc.ExitCode -ne 0){throw 'Nonzero game exit'}
     if(@(Select-String -LiteralPath $log -SimpleMatch 'CSV finalize time :').Count -ne 1){throw 'Missing unique CSV frame-controller finalization'}
     $report.csvFinalized=$true
+    if($InspectPixel -and @(Select-String -LiteralPath $log -SimpleMatch 'ScenePixelV1 complete candidates=').Count -ne 1){throw 'Expected one completed scene pixel inspection'}
     $counts=@(Select-String -LiteralPath $log -Pattern '\.SeededAgents = (\d+)\s*$')
     if($counts.Count -ne 1){throw 'Expected one late crowd population readback'}
     $report.seededAgents=[int]$counts[0].Matches[0].Groups[1].Value

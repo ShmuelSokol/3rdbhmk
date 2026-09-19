@@ -26,6 +26,10 @@ public:
     virtual void SetupInputComponent() override;
     virtual void PlayerTick(float DeltaTime) override;
 
+    /** Read-only diagnostic: normalized viewport point, collision hits and mesh-bound candidates.
+     * Bounds alone do not identify the visible triangle; no actors or assets are changed. */
+    UFUNCTION(Exec) void InspectScenePixel(float U, float V);
+
     UFUNCTION(BlueprintCallable, Category="Walkthrough")
     void ToggleWalkthroughMenu();
 

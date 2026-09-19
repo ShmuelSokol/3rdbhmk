@@ -3495,3 +3495,12 @@ smearing improvement. 1080pHigh77percent court45/30 exit0 full10000:
 Single-run improvement, not repeated causal proof; still misses16.7ms and tails.
 RootcourtPNG reviewed, centerstairs open, pale slab unresolved. No visualfinish
 claim. See incremental01 package/review, incrementalperf01 timing and receipts.
+
+Scene defect identification: InspectScenePixel U V is an opt-in read-only console
+command. Validates normalizedviewport coordinates, deprojects currentview, traces
+visibility simple/complex to100m and reports up to24 nearest staticmesh bounding
+candidates (including noncolliding meshes). Bounds are NOT triangleidentification.
+No actor/asset/state mutation. capture_people_walk_movie supports bounded InspectPixel
+and requires one native completion marker. Needed because oldSep9 snapshot didnot
+identify current pale slab left of courtstairs. Native identification remains pending;
+do not hide/delete guessed geometry. Earlier NE-horizon slab is a separate report.

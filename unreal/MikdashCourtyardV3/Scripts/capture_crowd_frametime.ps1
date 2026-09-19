@@ -29,6 +29,7 @@ param(
     [switch]$CsvOnGameThread,
     [switch]$GroundAudit,
     [switch]$DeferredSpawnAudit,
+    [switch]$UseMotionHistoryCandidate,
     [ValidateRange(0,1024)][int]$GroupSeedAttempts = 0,
     # Diagnostic only: zero leaves the packaged setting unchanged.
     [ValidateSet(0,4,8,16,32,64,128)][int]$CloudShadowSampleCap = 0
@@ -79,6 +80,7 @@ if($CloudShadowSampleCap -gt 0){
 }
 if($CsvOnGameThread){$argline += ' -csvNoProcessingThread'}
 if($GroundAudit){$argline += ' -MikdashCrowdGroundAudit'}
+if($UseMotionHistoryCandidate){$argline += ' -MikdashCrowdMotionHistory'}
 if($GroupSeedAttempts -gt 0){$argline += (' -CrowdSeedAttempts='+$GroupSeedAttempts)}
 
 $report = [ordered]@{
@@ -89,6 +91,7 @@ $report = [ordered]@{
     inspectionFrame = $inspectionFrame; inspectionScope = 'Late-frame reflected crowd counts and viewport image; analysis must exclude inspection frame and later'
     csvOnGameThread = [bool]$CsvOnGameThread
     groundAudit = [bool]$GroundAudit
+    motionHistoryCandidate = [bool]$UseMotionHistoryCandidate
     cloudShadowSampleCapOverride = if($CloudShadowSampleCap -gt 0){$CloudShadowSampleCap}else{$null}
     deferredSpawnAudit = [bool]$DeferredSpawnAudit
     groupSeedAttemptOverride = if($GroupSeedAttempts -gt 0){$GroupSeedAttempts}else{$null}
@@ -122,6 +125,10 @@ try {
     $finalized = @(Select-String -LiteralPath $log -Pattern 'CSV finalize time :')
     if($finalized.Count -ne 1){throw 'Expected one engine CSV finalization before exit'}
     $report.csvFinalized=$true
+    if($UseMotionHistoryCandidate){
+        if(@(Select-String -LiteralPath $log -SimpleMatch 'CrowdMotionHistoryV3 enabled customFloats=26 poses=6').Count -ne 1){throw 'Expected one complete history candidate activation'}
+        if(@(Select-String -LiteralPath $log -SimpleMatch 'CrowdMotionHistoryV3 refused').Count){throw 'History candidate activation refused'}
+    }
     if($CloudShadowSampleCap -gt 0){
         $readbacks=@(Select-String -LiteralPath $log -Pattern '^.*r\.VolumetricCloud\.ShadowMap\.RaySampleMaxCount\s*=\s*"?(\d+(?:\.\d+)?)"?\s.*$')
         if($readbacks.Count -eq 0){throw 'Missing native cloud-shadow sample cap readback'}

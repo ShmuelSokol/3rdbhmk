@@ -1,0 +1,277 @@
+{
+  "status": "measured-not-accepted",
+  "order": [
+    "off01",
+    "on01",
+    "on02",
+    "off02"
+  ],
+  "childSha256": "c8c628021a9e38355916566bd494581c9e304bfaa7245938f394b56bf6ca9d23",
+  "conditions": {
+    "crowdCount": 10000,
+    "resolution": "1920x1080",
+    "screenPercentage": 77,
+    "quality": "High all groups 2",
+    "camera": "4974 0 468 0 180 0",
+    "settleSeconds": 45,
+    "recordSeconds": 30,
+    "realTime": true
+  },
+  "runs": [
+    {
+      "name": "off01",
+      "candidate": false,
+      "receipt": "SourceAssets/perf-review/crowd-vat/frametime-historyv3-off01-outercourt-crowd10000/frametime-receipt.json",
+      "hashes": {
+        "crowd.png": "50f0769dce92f6d1e2ca5fa990cc8f92e93e9e16b8f68fc111e17f9aa6689c57",
+        "frametime-historyv3-off01-outercourt-crowd10000.csv": "02d7e560a4ffa3a62da5c366c6e2e8f595ab99c0e50fbaa46d7de8443d4e6460",
+        "frametime-receipt.json": "92ccc7396685135edccc1b46cdc139b9fe07653e7e97dd4973fdf3e80f9e60fa",
+        "runtime.log": "9942c32e8325c26aa00f41377beb3076ffa5d983d8b08ee9f9bdf528b7b1913c"
+      },
+      "metrics": {
+        "file": "SourceAssets\\perf-review\\crowd-vat\\frametime-historyv3-off01-outercourt-crowd10000\\frametime-historyv3-off01-outercourt-crowd10000.csv",
+        "columns": {
+          "frame": "FrameTime",
+          "game": "GameThreadTime",
+          "render": "RenderThreadTime",
+          "gpu": "GPUTime",
+          "rhi": "RHIThreadTime"
+        },
+        "framesKept": 1579,
+        "recordSeconds": 30.01,
+        "requestedRecordSeconds": 30.0,
+        "frame": {
+          "median": 17.865,
+          "mean": 19.009,
+          "p95": 31.279,
+          "p99": 42.454
+        },
+        "game": {
+          "median": 9.707,
+          "mean": 10.624,
+          "p95": 16.287,
+          "p99": 24.308
+        },
+        "render": {
+          "median": 17.855,
+          "mean": 18.998,
+          "p95": 30.441,
+          "p99": 37.047
+        },
+        "gpu": {
+          "median": 17.559,
+          "mean": 17.494,
+          "p95": 19.327,
+          "p99": 19.579
+        },
+        "rhi": {
+          "median": 2.9,
+          "mean": 3.204,
+          "p95": 5.359,
+          "p99": 7.397
+        },
+        "fpsFromMedian": 56.0
+      }
+    },
+    {
+      "name": "on01",
+      "candidate": true,
+      "receipt": "SourceAssets/perf-review/crowd-vat/frametime-historyv3-on01-outercourt-crowd10000/frametime-receipt.json",
+      "hashes": {
+        "crowd.png": "210af30d51ac82439afd09138766720aca38669c7e525c12008a968daa284366",
+        "frametime-historyv3-on01-outercourt-crowd10000.csv": "1be28277bb27843c1a1d39187357d78363eba28e6ef79cf7a96348285cc547d1",
+        "frametime-receipt.json": "dc101cbe7e4344058a746b6a55a7f2b2aa890b3066f638b61ee7eb4b11d57704",
+        "runtime.log": "09b02f0216859d76a8271db9e2f57ab1c882ead074c52420f24d5b41a8d894d4"
+      },
+      "metrics": {
+        "file": "SourceAssets\\perf-review\\crowd-vat\\frametime-historyv3-on01-outercourt-crowd10000\\frametime-historyv3-on01-outercourt-crowd10000.csv",
+        "columns": {
+          "frame": "FrameTime",
+          "game": "GameThreadTime",
+          "render": "RenderThreadTime",
+          "gpu": "GPUTime",
+          "rhi": "RHIThreadTime"
+        },
+        "framesKept": 1510,
+        "recordSeconds": 30.01,
+        "requestedRecordSeconds": 30.0,
+        "frame": {
+          "median": 18.263,
+          "mean": 19.874,
+          "p95": 36.845,
+          "p99": 44.38
+        },
+        "game": {
+          "median": 9.944,
+          "mean": 11.162,
+          "p95": 19.024,
+          "p99": 24.91
+        },
+        "render": {
+          "median": 18.297,
+          "mean": 19.861,
+          "p95": 33.719,
+          "p99": 38.233
+        },
+        "gpu": {
+          "median": 17.865,
+          "mean": 17.887,
+          "p95": 19.651,
+          "p99": 19.954
+        },
+        "rhi": {
+          "median": 2.748,
+          "mean": 3.126,
+          "p95": 5.85,
+          "p99": 7.332
+        },
+        "fpsFromMedian": 54.8
+      }
+    },
+    {
+      "name": "on02",
+      "candidate": true,
+      "receipt": "SourceAssets/perf-review/crowd-vat/frametime-historyv3-on02-outercourt-crowd10000/frametime-receipt.json",
+      "hashes": {
+        "crowd.png": "541254b8793e4480af079ad3dcb9d7961425e6cec61e2137d2af725c49fe79d3",
+        "frametime-historyv3-on02-outercourt-crowd10000.csv": "3d96dcf7abafc909df513817b98a9b54b29e78971d08759dc854eb77879aee46",
+        "frametime-receipt.json": "524dd689dc68f5a541355b2ad987d9df9cff29e81a73cdb69bba1f1514934342",
+        "runtime.log": "33108330f927cd7c7f7c48b3267f557ee974146e0612a72a72ab27861f8ed057"
+      },
+      "metrics": {
+        "file": "SourceAssets\\perf-review\\crowd-vat\\frametime-historyv3-on02-outercourt-crowd10000\\frametime-historyv3-on02-outercourt-crowd10000.csv",
+        "columns": {
+          "frame": "FrameTime",
+          "game": "GameThreadTime",
+          "render": "RenderThreadTime",
+          "gpu": "GPUTime",
+          "rhi": "RHIThreadTime"
+        },
+        "framesKept": 1437,
+        "recordSeconds": 29.99,
+        "requestedRecordSeconds": 30.0,
+        "frame": {
+          "median": 18.339,
+          "mean": 20.871,
+          "p95": 40.911,
+          "p99": 45.668
+        },
+        "game": {
+          "median": 10.115,
+          "mean": 11.55,
+          "p95": 20.399,
+          "p99": 26.747
+        },
+        "render": {
+          "median": 18.351,
+          "mean": 20.86,
+          "p95": 36.866,
+          "p99": 39.594
+        },
+        "gpu": {
+          "median": 18.57,
+          "mean": 18.375,
+          "p95": 20.19,
+          "p99": 20.395
+        },
+        "rhi": {
+          "median": 2.791,
+          "mean": 3.274,
+          "p95": 6.661,
+          "p99": 7.899
+        },
+        "fpsFromMedian": 54.5
+      }
+    },
+    {
+      "name": "off02",
+      "candidate": false,
+      "receipt": "SourceAssets/perf-review/crowd-vat/frametime-historyv3-off02-outercourt-crowd10000/frametime-receipt.json",
+      "hashes": {
+        "crowd.png": "64583df1f1757833e1534e28d069247c1d5a5f745b7ad134771bff47a90fed76",
+        "frametime-historyv3-off02-outercourt-crowd10000.csv": "911c3b2b4624f13125dab30a76dc133904f47bb60f622705376051e0687f484f",
+        "frametime-receipt.json": "3f6b80afb0b09c89fcf245fe8907ed64f60c388e8a4baedec77dd6646a564563",
+        "runtime.log": "91195041ad85ef241c10855146eeaf5a5ab2f7364d6a81ff252b9bb7b7f53c26"
+      },
+      "metrics": {
+        "file": "SourceAssets\\perf-review\\crowd-vat\\frametime-historyv3-off02-outercourt-crowd10000\\frametime-historyv3-off02-outercourt-crowd10000.csv",
+        "columns": {
+          "frame": "FrameTime",
+          "game": "GameThreadTime",
+          "render": "RenderThreadTime",
+          "gpu": "GPUTime",
+          "rhi": "RHIThreadTime"
+        },
+        "framesKept": 1476,
+        "recordSeconds": 30.01,
+        "requestedRecordSeconds": 30.0,
+        "frame": {
+          "median": 18.202,
+          "mean": 20.332,
+          "p95": 40.49,
+          "p99": 45.791
+        },
+        "game": {
+          "median": 9.767,
+          "mean": 11.093,
+          "p95": 20.482,
+          "p99": 25.773
+        },
+        "render": {
+          "median": 18.237,
+          "mean": 20.321,
+          "p95": 36.277,
+          "p99": 39.125
+        },
+        "gpu": {
+          "median": 18.222,
+          "mean": 18.015,
+          "p95": 19.884,
+          "p99": 20.169
+        },
+        "rhi": {
+          "median": 2.791,
+          "mean": 3.192,
+          "p95": 6.538,
+          "p99": 7.724
+        },
+        "fpsFromMedian": 54.9
+      }
+    }
+  ],
+  "summary": {
+    "frame": {
+      "controlMeanOfRunMediansMs": 18.0335,
+      "candidateMeanOfRunMediansMs": 18.301,
+      "observedDifferenceMs": 0.2675
+    },
+    "gpu": {
+      "controlMeanOfRunMediansMs": 17.8905,
+      "candidateMeanOfRunMediansMs": 18.2175,
+      "observedDifferenceMs": 0.327
+    },
+    "game": {
+      "controlMeanOfRunMediansMs": 9.737,
+      "candidateMeanOfRunMediansMs": 10.0295,
+      "observedDifferenceMs": 0.2925
+    },
+    "render": {
+      "controlMeanOfRunMediansMs": 18.046,
+      "candidateMeanOfRunMediansMs": 18.324,
+      "observedDifferenceMs": 0.278
+    },
+    "rhi": {
+      "controlMeanOfRunMediansMs": 2.8455,
+      "candidateMeanOfRunMediansMs": 2.7695,
+      "observedDifferenceMs": -0.076
+    }
+  },
+  "limitations": [
+    "Two runs per setting, not a confidence interval or precise causal cost estimate.",
+    "All frame medians exceed 16.7ms; p95 values show remaining frame pacing problems.",
+    "Static camera only; higher resolution moving-camera motion acceptance remains open.",
+    "off01 predates receipt boolean addition; command line and no activation marker identify original path.",
+    "Late images reviewed: crowd visible, center stairs clear, V1 water slab remains. No motion-quality conclusion from these stills."
+  ],
+  "defaultAdopted": false
+}

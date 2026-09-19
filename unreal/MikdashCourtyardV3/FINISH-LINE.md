@@ -988,3 +988,41 @@ readback rejected false. Last-value parser now accepts bool/integer, rejects an
 invalid or empty LAST value (cannot fall back to a valid startup echo), and stores
 the raw token. Nine actual-block regressions and fresh old02/new01 captures pass.
 All failed evidence is retained; raw old01 frames are only repeatability evidence.
+
+## Crowd history performance comparison started — 19 September 2026
+capture_crowd_frametime.ps1 now has explicit UseMotionHistoryCandidate, recorded
+in the receipt and requiring one26-float/six-pose activation with no refusal.
+No fixed-step/movie flags are introduced into the real-time profiler. Guards
+remain9/8/1.25GiB. First control off01 began before this tool extension, so its
+receipt lacks the new boolean field; command line and absence of activation
+confirm the original path. All runs use the same fresh history01 childc8c62802.
+
+Control off01:10000,1080pHigh77%,court4974 0 468 0 180 0,45ssettle/30srecord.
+1579frames/30.01s:frame median17.865ms,p95 31.279;GPU17.559,game9.707.
+Still misses16.7ms target. Root reviewed late1080pPNG:people visible at sides,
+central stairs clear, unchangedV1water slab still present. Candidate on01 is
+collecting; do not infer cost from a single run. Matched repeated trials needed.
+
+## Boarding bridge crowd ownership resolved — 19 September 2026
+The six extra 40-instance/3-custom-float HISM groups in the packaged motion
+inspection belong to MikdashTransitBoardingBridge_0.BridgePose0 through
+BridgePose5, not MikdashCrowdField_0. Existing movie-historyv3-candidate01-corridor
+runtime.log contains the full reflected component paths (NumBuiltInstances).
+MikdashTransitBoardingBridge.cpp independently configures three custom floats.
+Do not classify these 240 bridge figures as orphan crowd instances or remove them.
+The motion-history candidate targets the main crowd field; bridge motion needs
+its own review if a defect is observed.
+
+## Crowd history performance ABBA completed — 19 September 2026
+All four same-child 10000-person real-time captures passed acquisition, native
+exit0, finalized CSV, 45ssettle/30sanalysis, 1080pHigh77% at the same court camera.
+Order:off01,on01,on02,off02. Frame medians respectively17.865/18.263/18.339/18.202ms;
+GPU17.559/17.865/18.570/18.222ms; game9.707/9.944/10.115/9.767ms.
+Mean of run medians:control18.0335 vs candidate18.301ms(frame),17.8905 vs
+18.2175ms(GPU),9.737 vs10.0295ms(game). Observed differences +0.2675/+0.327/
++0.2925ms are descriptive; two runs per setting and drifting controls cannot
+establish a precise causal cost. All runs miss16.7ms and frame p95 reaches40.911ms.
+No performance acceptance or default adoption. Root reviewed all four late PNGs:
+crowds visible, central stairs clear; old water slab remains. Moving-camera and
+higher-resolution motion-quality acceptance remain open. Evidence and raw-file
+hashes: SourceAssets/perf-review/crowd-vat/MotionHistoryV3/performance-abba01.json.

@@ -1,0 +1,283 @@
+{
+  "status": "movie_captured_visual_review_pending",
+  "label": "motion-audit01",
+  "view": "corridor",
+  "archive": "C:\\Mikdash\\Builds\\Checkpoint-crowd-motionaudit01-20260919T054907Z",
+  "bugItGo": "11500 -300 200 -10 270 0",
+  "method": "Fixed-step scheduled ordinary screenshots; NOT a performance measurement",
+  "commandLine": "-windowed -ResX=640 -ResY=360 -nosplash -nosteam -notraceserver -notrace -benchmark -fps=30 -CrowdCount=10000 -ini:Game:[/Script/MikdashRuntime.MikdashFrontEnd]:bShowMainMenuOnBoot=False,[/Script/MikdashRuntime.MikdashSaveSystem]:SlotNamePrefix=FableMovieProbe_motion-audit01,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:SaveSlot=FableMovieProbe_motion-audit01_Settings,[/Script/MikdashRuntime.MikdashSettingsSubsystem]:bApplyGraphicsToEngine=False -csvCaptureFrames=92 -ExitAfterCsvProfiling -csvNoProcessingThread -abslog=\"C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\runtime.log\" -ExecCmds=\"sg.ViewDistanceQuality 2,sg.ShadowQuality 2,sg.GlobalIlluminationQuality 2,sg.ReflectionQuality 2,sg.PostProcessQuality 2,sg.TextureQuality 2,sg.EffectsQuality 2,sg.FoliageQuality 2,sg.ShadingQuality 2,r.ScreenPercentage 77,Ghost,BugItGo 11500 -300 200 -10 270 0,csv.ForceExit 0\" -MikdashCrowdMotionAudit -csvExecCmds=\"1:Shot filename=MovieFrame000000.png -nosuffix,2:Shot filename=MovieFrame000001.png -nosuffix,3:Shot filename=MovieFrame000002.png -nosuffix,4:Shot filename=MovieFrame000003.png -nosuffix,5:Shot filename=MovieFrame000004.png -nosuffix,6:Shot filename=MovieFrame000005.png -nosuffix,7:Shot filename=MovieFrame000006.png -nosuffix,8:Shot filename=MovieFrame000007.png -nosuffix,9:Shot filename=MovieFrame000008.png -nosuffix,10:Shot filename=MovieFrame000009.png -nosuffix,11:Shot filename=MovieFrame000010.png -nosuffix,12:Shot filename=MovieFrame000011.png -nosuffix,13:Shot filename=MovieFrame000012.png -nosuffix,14:Shot filename=MovieFrame000013.png -nosuffix,15:Shot filename=MovieFrame000014.png -nosuffix,16:Shot filename=MovieFrame000015.png -nosuffix,17:Shot filename=MovieFrame000016.png -nosuffix,18:Shot filename=MovieFrame000017.png -nosuffix,19:Shot filename=MovieFrame000018.png -nosuffix,20:Shot filename=MovieFrame000019.png -nosuffix,21:Shot filename=MovieFrame000020.png -nosuffix,22:Shot filename=MovieFrame000021.png -nosuffix,23:Shot filename=MovieFrame000022.png -nosuffix,24:Shot filename=MovieFrame000023.png -nosuffix,25:Shot filename=MovieFrame000024.png -nosuffix,26:Shot filename=MovieFrame000025.png -nosuffix,27:Shot filename=MovieFrame000026.png -nosuffix,28:Shot filename=MovieFrame000027.png -nosuffix,29:Shot filename=MovieFrame000028.png -nosuffix,30:Shot filename=MovieFrame000029.png -nosuffix,31:Shot filename=MovieFrame000030.png -nosuffix,32:Shot filename=MovieFrame000031.png -nosuffix,33:Shot filename=MovieFrame000032.png -nosuffix,34:Shot filename=MovieFrame000033.png -nosuffix,35:Shot filename=MovieFrame000034.png -nosuffix,36:Shot filename=MovieFrame000035.png -nosuffix,37:Shot filename=MovieFrame000036.png -nosuffix,38:Shot filename=MovieFrame000037.png -nosuffix,39:Shot filename=MovieFrame000038.png -nosuffix,40:Shot filename=MovieFrame000039.png -nosuffix,41:Shot filename=MovieFrame000040.png -nosuffix,42:Shot filename=MovieFrame000041.png -nosuffix,43:Shot filename=MovieFrame000042.png -nosuffix,44:Shot filename=MovieFrame000043.png -nosuffix,45:Shot filename=MovieFrame000044.png -nosuffix,46:Shot filename=MovieFrame000045.png -nosuffix,47:Shot filename=MovieFrame000046.png -nosuffix,48:Shot filename=MovieFrame000047.png -nosuffix,49:Shot filename=MovieFrame000048.png -nosuffix,50:Shot filename=MovieFrame000049.png -nosuffix,51:Shot filename=MovieFrame000050.png -nosuffix,52:Shot filename=MovieFrame000051.png -nosuffix,53:Shot filename=MovieFrame000052.png -nosuffix,54:Shot filename=MovieFrame000053.png -nosuffix,55:Shot filename=MovieFrame000054.png -nosuffix,56:Shot filename=MovieFrame000055.png -nosuffix,57:Shot filename=MovieFrame000056.png -nosuffix,58:Shot filename=MovieFrame000057.png -nosuffix,59:Shot filename=MovieFrame000058.png -nosuffix,60:Shot filename=MovieFrame000059.png -nosuffix,61:Shot filename=MovieFrame000060.png -nosuffix,62:Shot filename=MovieFrame000061.png -nosuffix,63:Shot filename=MovieFrame000062.png -nosuffix,64:Shot filename=MovieFrame000063.png -nosuffix,65:Shot filename=MovieFrame000064.png -nosuffix,66:Shot filename=MovieFrame000065.png -nosuffix,67:Shot filename=MovieFrame000066.png -nosuffix,68:Shot filename=MovieFrame000067.png -nosuffix,69:Shot filename=MovieFrame000068.png -nosuffix,70:Shot filename=MovieFrame000069.png -nosuffix,71:Shot filename=MovieFrame000070.png -nosuffix,72:Shot filename=MovieFrame000071.png -nosuffix,73:Shot filename=MovieFrame000072.png -nosuffix,74:Shot filename=MovieFrame000073.png -nosuffix,75:Shot filename=MovieFrame000074.png -nosuffix,76:Shot filename=MovieFrame000075.png -nosuffix,77:Shot filename=MovieFrame000076.png -nosuffix,78:Shot filename=MovieFrame000077.png -nosuffix,79:Shot filename=MovieFrame000078.png -nosuffix,80:Shot filename=MovieFrame000079.png -nosuffix,81:Shot filename=MovieFrame000080.png -nosuffix,82:Shot filename=MovieFrame000081.png -nosuffix,83:Shot filename=MovieFrame000082.png -nosuffix,84:Shot filename=MovieFrame000083.png -nosuffix,85:Shot filename=MovieFrame000084.png -nosuffix,86:Shot filename=MovieFrame000085.png -nosuffix,87:Shot filename=MovieFrame000086.png -nosuffix,88:Shot filename=MovieFrame000087.png -nosuffix,89:Shot filename=MovieFrame000088.png -nosuffix,90:Shot filename=MovieFrame000089.png -nosuffix,91:Shot filename=MovieFrame000090.png -nosuffix,91:getall MikdashCrowdField SeededAgents,91:getall MikdashCrowdField RefusedSeeds,91:LIST ISM,91:r.Velocity.EnableVertexDeformation,91:r.VelocityOutputPass,91:r.AntiAliasingMethod,91:getall HierarchicalInstancedStaticMeshComponent NumBuiltInstances,91:getall HierarchicalInstancedStaticMeshComponent InstanceCountToRender\"",
+  "resolution": "640 x 360",
+  "fixedFps": 30,
+  "settleFrames": 60,
+  "recordFrames": 30,
+  "captureFrames": 92,
+  "keepEvery": 1,
+  "extraArgs": "-CrowdCount=10000",
+  "childSha256": "9e5c7298c00c5c1c4d853255082370c8efb564e652bdf432d5e7cbe139d77a6d",
+  "startedUtc": "2026-09-19T05:49:44.5928514Z",
+  "peakPrivateBytes": 7931170816,
+  "minimumFreeCommitBytes": 12483039232,
+  "maximumPrivateBytes": 8589934592,
+  "reserveCommitBytes": 1342177280.0,
+  "errors": [],
+  "scheduledShots": true,
+  "realTimeDiagnostic": false,
+  "unfilteredMotionDiagnostic": false,
+  "disableMotionBlurDiagnostic": false,
+  "disableTemporalAADiagnostic": false,
+  "inspectPixel": "",
+  "inspectActorPath": "",
+  "inspectMotionState": true,
+  "auditMotionTransitions": true,
+  "pid": 2268,
+  "csvFinalized": true,
+  "seededAgents": 10000,
+  "exitCode": 0,
+  "framesDumped": 90,
+  "firstSourceIndex": 1,
+  "frames": [
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000060.png",
+      "source": "MovieFrame000061.png",
+      "sourceIndex": 61,
+      "sequenceIndex": 60,
+      "simulatedSecondsFromFirstDump": 2.0,
+      "sha256": "7bb940d87ea8893765473b08a1eaacd186957a871f673b2e458b1ba47be9f5eb"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000061.png",
+      "source": "MovieFrame000062.png",
+      "sourceIndex": 62,
+      "sequenceIndex": 61,
+      "simulatedSecondsFromFirstDump": 2.033333333333333,
+      "sha256": "11f2efc38f74ea6f40e1a2ff936d7e28f3f42a4919626a6a2f4a61832f8c534d"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000062.png",
+      "source": "MovieFrame000063.png",
+      "sourceIndex": 63,
+      "sequenceIndex": 62,
+      "simulatedSecondsFromFirstDump": 2.066666666666667,
+      "sha256": "1c2aaa681ebee250f45a189b41eb2847f69926ed76ffc037b82e7bec5bdcc4d1"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000063.png",
+      "source": "MovieFrame000064.png",
+      "sourceIndex": 64,
+      "sequenceIndex": 63,
+      "simulatedSecondsFromFirstDump": 2.1,
+      "sha256": "4f6aa8775a1d5efbf9296831110d57af6c3f58a351488599b53edd9f8cfce037"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000064.png",
+      "source": "MovieFrame000065.png",
+      "sourceIndex": 65,
+      "sequenceIndex": 64,
+      "simulatedSecondsFromFirstDump": 2.1333333333333333,
+      "sha256": "f965bba3514cfd87167054a4a8810789a68fe5a9ac871a4ae6e6f35da113f146"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000065.png",
+      "source": "MovieFrame000066.png",
+      "sourceIndex": 66,
+      "sequenceIndex": 65,
+      "simulatedSecondsFromFirstDump": 2.1666666666666665,
+      "sha256": "fe97811c284c5db1bfc45baf04ddad734aefa81ef12fa9eda23be241dd059116"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000066.png",
+      "source": "MovieFrame000067.png",
+      "sourceIndex": 67,
+      "sequenceIndex": 66,
+      "simulatedSecondsFromFirstDump": 2.2,
+      "sha256": "a62169a1384eedf80bc76bab5da4dd6f9936ff0c22ae5bf967b7eb5df43fe484"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000067.png",
+      "source": "MovieFrame000068.png",
+      "sourceIndex": 68,
+      "sequenceIndex": 67,
+      "simulatedSecondsFromFirstDump": 2.2333333333333334,
+      "sha256": "bcd0fd44e306714ddd738a59841d5fa43ea339c7df23631054d038ba6124486d"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000068.png",
+      "source": "MovieFrame000069.png",
+      "sourceIndex": 69,
+      "sequenceIndex": 68,
+      "simulatedSecondsFromFirstDump": 2.2666666666666666,
+      "sha256": "ac12322833a9ebcf1bbbaf6e18b5e31bc45545d96f0276e4e06ab01bb6dfb746"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000069.png",
+      "source": "MovieFrame000070.png",
+      "sourceIndex": 70,
+      "sequenceIndex": 69,
+      "simulatedSecondsFromFirstDump": 2.3,
+      "sha256": "daa7bcd4478de71eaae4dae3c188cb96be3f5e13e370794a57c55759daebf67c"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000070.png",
+      "source": "MovieFrame000071.png",
+      "sourceIndex": 71,
+      "sequenceIndex": 70,
+      "simulatedSecondsFromFirstDump": 2.3333333333333335,
+      "sha256": "12044b1c06249d91bef82f67416253e16b1900c72cd134bfde23c80cd5755816"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000071.png",
+      "source": "MovieFrame000072.png",
+      "sourceIndex": 72,
+      "sequenceIndex": 71,
+      "simulatedSecondsFromFirstDump": 2.3666666666666667,
+      "sha256": "3d8546aafff4dcaef43bfd67508106335c7b08b4c24f6b0719c3ad8a3420867c"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000072.png",
+      "source": "MovieFrame000073.png",
+      "sourceIndex": 73,
+      "sequenceIndex": 72,
+      "simulatedSecondsFromFirstDump": 2.4,
+      "sha256": "a42925339e392d1fa96f9986731b16be6c022d73971fc6c6df002347bb15183a"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000073.png",
+      "source": "MovieFrame000074.png",
+      "sourceIndex": 74,
+      "sequenceIndex": 73,
+      "simulatedSecondsFromFirstDump": 2.433333333333333,
+      "sha256": "a033b714b138c4866f202d066636cf1510bcf338304d4eba5b5cd1a730e8cce3"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000074.png",
+      "source": "MovieFrame000075.png",
+      "sourceIndex": 75,
+      "sequenceIndex": 74,
+      "simulatedSecondsFromFirstDump": 2.466666666666667,
+      "sha256": "d63156946a00d4b11c214e03057b8b6c1ca4e8d0be5bfc4d68b2a6a043036188"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000075.png",
+      "source": "MovieFrame000076.png",
+      "sourceIndex": 76,
+      "sequenceIndex": 75,
+      "simulatedSecondsFromFirstDump": 2.5,
+      "sha256": "3f877609e0205a619768233bd23da2b4f33b5a9e7649c1af4c411cf6fd943b43"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000076.png",
+      "source": "MovieFrame000077.png",
+      "sourceIndex": 77,
+      "sequenceIndex": 76,
+      "simulatedSecondsFromFirstDump": 2.533333333333333,
+      "sha256": "735e0ad9cd96561b9e6be006bd2c8a2709fe30f28541e2fa690b59aed89d6aae"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000077.png",
+      "source": "MovieFrame000078.png",
+      "sourceIndex": 78,
+      "sequenceIndex": 77,
+      "simulatedSecondsFromFirstDump": 2.566666666666667,
+      "sha256": "f15cadfce7234a3e91afaa069d76eb0d118926de92c9b323cbdaab82b737e9c3"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000078.png",
+      "source": "MovieFrame000079.png",
+      "sourceIndex": 79,
+      "sequenceIndex": 78,
+      "simulatedSecondsFromFirstDump": 2.6,
+      "sha256": "0c17cdd87a7df28dc4d00d810e699ba21430364f4bf8a966a30c8312dd3e9a5a"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000079.png",
+      "source": "MovieFrame000080.png",
+      "sourceIndex": 80,
+      "sequenceIndex": 79,
+      "simulatedSecondsFromFirstDump": 2.6333333333333333,
+      "sha256": "58b68aefbd70f225802efe7cf675ea9bdfd042591ea206443921fa1cfb25ab31"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000080.png",
+      "source": "MovieFrame000081.png",
+      "sourceIndex": 81,
+      "sequenceIndex": 80,
+      "simulatedSecondsFromFirstDump": 2.6666666666666665,
+      "sha256": "59b0dc0d5d9fcc18f417e1441f19f25e01f8c13fbd65c0b8300a5926b5d74d52"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000081.png",
+      "source": "MovieFrame000082.png",
+      "sourceIndex": 82,
+      "sequenceIndex": 81,
+      "simulatedSecondsFromFirstDump": 2.7,
+      "sha256": "7b61db93c3f7993ce114808b9963f57c546514de18904ec0d3b451fb6e9b4327"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000082.png",
+      "source": "MovieFrame000083.png",
+      "sourceIndex": 83,
+      "sequenceIndex": 82,
+      "simulatedSecondsFromFirstDump": 2.7333333333333334,
+      "sha256": "9dcf7ce8839c8de942af4aa9afc091fa0b71257c483f83b54f1ee22468751715"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000083.png",
+      "source": "MovieFrame000084.png",
+      "sourceIndex": 84,
+      "sequenceIndex": 83,
+      "simulatedSecondsFromFirstDump": 2.7666666666666666,
+      "sha256": "d51296c0dbf80cfce13eb7e083c1cd627115488c976a1d7f3d76abcbee6119ae"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000084.png",
+      "source": "MovieFrame000085.png",
+      "sourceIndex": 85,
+      "sequenceIndex": 84,
+      "simulatedSecondsFromFirstDump": 2.8,
+      "sha256": "34c3a96d23ec5f377c0fe3a27c84ee7e20064fe7e628df5c1dddef606133e8e4"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000085.png",
+      "source": "MovieFrame000086.png",
+      "sourceIndex": 86,
+      "sequenceIndex": 85,
+      "simulatedSecondsFromFirstDump": 2.8333333333333335,
+      "sha256": "7d13cc7dfdef09819ba32d94d78ca01d5bc01016e21f9a2f57818d8bb862a5b8"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000086.png",
+      "source": "MovieFrame000087.png",
+      "sourceIndex": 87,
+      "sequenceIndex": 86,
+      "simulatedSecondsFromFirstDump": 2.8666666666666667,
+      "sha256": "36e4f08cc070e251e6a5fef2fc40a342abec1e8e88195e984ed92584e35b6460"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000087.png",
+      "source": "MovieFrame000088.png",
+      "sourceIndex": 88,
+      "sequenceIndex": 87,
+      "simulatedSecondsFromFirstDump": 2.9,
+      "sha256": "29a65278be239e62c3f4b3ae94d712f20c4832865e7570a6e69a9ff294b63274"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000088.png",
+      "source": "MovieFrame000089.png",
+      "sourceIndex": 89,
+      "sequenceIndex": 88,
+      "simulatedSecondsFromFirstDump": 2.933333333333333,
+      "sha256": "592f6bc97d2d5b6576ba99d60c970131312f25972790b8a5f0172efb664c12ca"
+    },
+    {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\visual-review\\movie-motion-audit01-corridor\\frame-000089.png",
+      "source": "MovieFrame000090.png",
+      "sourceIndex": 90,
+      "sequenceIndex": 89,
+      "simulatedSecondsFromFirstDump": 2.966666666666667,
+      "sha256": "28dde63c711607a2e6ae52d65d7456d76c682e1c0e59ce0842e364162d57872f"
+    }
+  ],
+  "framesKept": 30,
+  "rawLogSha256": "b6e73bebb9af09469a878c655b0e096f52bb11598e53ba4c92e6aad03f493a81",
+  "finishedUtc": "2026-09-19T05:50:18.5356486Z"
+}

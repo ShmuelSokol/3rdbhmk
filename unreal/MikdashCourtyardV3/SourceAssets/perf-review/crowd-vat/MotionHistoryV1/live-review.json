@@ -1,0 +1,24 @@
+{
+  "status": "bounded-live-history-error-confirmed-not-visual-fix",
+  "sourceCommit": "608ea4c2",
+  "captureReceipt": "SourceAssets/visual-review/movie-motion-audit01-corridor/movie-receipt.json",
+  "captureReceiptSha256": "add82887d7f988a6fafe17b858561d59d2356a4da2eaffbdb050fa0e8d33cd8f",
+  "analysis": "live-audit01.json",
+  "sourceFullGate": "Active12/12,33math,Editor48.87s,Game51.74s;publicationquick7/7",
+  "simulationFps": 30,
+  "rootErrorThresholdCm": 0.1,
+  "samples": 4096,
+  "rootErrors": 358,
+  "headingChanges": 511,
+  "maximumRootErrorCm": 4.714286,
+  "maximumIndependentResidualCm": 1.3468431832031058E-06,
+  "interpretation": "Observed live social updates invalidate the current-state-only previous-frame root model during some transitions. Heading changes also require previous orientation for vertex history. This justifies a versioned previous-state material/CPU candidate, not a claim that all visible smearing is explained.",
+  "visualReview": "Root frame89 reviewed:people visible and coarse near figures remain; no visual improvement claimed.",
+  "limitations": [
+    "Fixed30fps diagnostic, not performance",
+    "First4096 eligible updates after2s;64 changed rows, not all agents or long-run frequency",
+    "Root model assumes authoredNegativeDtSeconds0.25;excludes VAT deformation and pixel velocity",
+    "Source map and old channel unchanged"
+  ],
+  "next": "Implement previous anchor/velocity/heading/animation history in a fresh versioned CPU/material contract, preserve current-frame output, then compare native motion and performance."
+}

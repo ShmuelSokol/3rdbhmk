@@ -896,3 +896,23 @@ culled transitions and VAT vertex deformation; root error is a shader-model esti
 NOT measured velocity-buffer pixels or visible-smear attribution. Lower dt clamp
 assumes the authored NegativeDtSeconds0.25 contract. Capture AuditMotionTransitions
 requires exactly one4096-update completion marker. Compile and native evidence pending.
+
+## Live crowd history audit complete — 19 September 2026
+Source608ea4c2 passed active12/12,33math,Editor48.87s/Game51.74s,clonequick7/7.
+Runtime-only motionaudit01-20260919T054907Z uses six hash-verified immutable Paks;
+child9e5c7298c00c5c1c4d853255082370c8efb564e652bdf432d5e7cbe139d77a6d.
+Native fixed30fps closecapture exits0 with10000/0refused and30retainedframes.
+Audit completes4096 eligible social updates after2s:358 root errors>0.1cm,
+511 heading changes>0.1degree, maxrooterror4.714286cm,64detailedchangedrows.
+Independent analyzer recomputes everylogged root/heading result;maximum root
+residual0.000001347cm. Frame89 reviewed:crowd visible,near proxies still coarse.
+This supports a previous-state contract correction, NOT a visualsmearingfix or
+long-run frequency claim. Rootmodel excludesVATdeformation/pixelvelocity and
+assumes authoredNegativeDtSeconds0.25. Next freshversioned CPU/materialhistory
+candidate must preserve current-frame behavior and pass native motion/perf review.
+See SourceAssets/perf-review/crowd-vat/MotionHistoryV1/live-review.json.
+Analyzer review lesson: reject NaN/Infinity in EVERY parsed scalar before numeric
+mismatch comparisons; abs(NaN)>tolerance is false. Motion audit reader now checks
+finite times/horizons/yaw/errors, nonnegative horizons/errors, heading0..180 and
+bounded summary counters. Current native data is finite; malformed-log rejection
+is verified separately and must not weaken the native evidence requirements.

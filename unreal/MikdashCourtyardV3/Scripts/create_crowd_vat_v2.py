@@ -294,7 +294,7 @@ def _simplify_resident_materials(ue, dynamic, skel, budgets, row):
     return combined
 
 
-def _convert(ue, skel, package, target, row, linear_source_colors=False, preserve_vertex_positions=False, resident_attribute_metric=False, resident_material_budgets=None):
+def _convert(ue, skel, package, target, row, linear_source_colors=False, preserve_vertex_positions=False, resident_attribute_metric=False, resident_material_budgets=None, preserve_source_topology=False):
     """Skeletal LOD0 -> DynamicMesh -> simplify -> new StaticMesh asset, all GeometryScript.
 
     MEASURED 2026-09-11 (crowd-vat-bake-20260911T042112123114Z.json): the plugin's own
@@ -351,13 +351,20 @@ def _convert(ue, skel, package, target, row, linear_source_colors=False, preserv
         options.set_editor_property('preserve_vertex_positions', True)
         assert options.get_editor_property('preserve_vertex_positions') is True
         applied['preserve_vertex_positions'] = True
-    if resident_material_budgets is not None:
+    if preserve_source_topology:
+        assert target is None and resident_material_budgets is None
+        assert not preserve_vertex_positions and not resident_attribute_metric
+        target = before
+        applied = {'simplificationSkipped': True}
+    elif resident_material_budgets is not None:
         assert not preserve_vertex_positions and not resident_attribute_metric
         assert sum(resident_material_budgets.values()) == int(target)
         dynamic = _simplify_resident_materials(ue, dynamic, skel, resident_material_budgets, row)
     else:
         ue.GeometryScript_MeshSimplification.apply_simplify_to_triangle_count(dynamic, int(target), options)
     after = int(dynamic.get_triangle_count())
+    if preserve_source_topology:
+        assert after == before
     if after <= 0 or after > before:
         raise RuntimeError('Simplification produced %d triangles from %d' % (after, before))
     row['decimation'] = dict(dynamicTrianglesBefore=before, dynamicTrianglesAfter=after, target=int(target),

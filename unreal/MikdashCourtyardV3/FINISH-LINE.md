@@ -1454,3 +1454,21 @@ Separate material budgets are insufficient to preserve garment clearance. Next:
 inspect source garment topology and deformation correspondence, then constrain
 shape/clearance rather than repeat unconstrained metric/budget sweeps.
 Evidence: SourceAssets/perf-review/crowd-vat/ResidentStudy08/review.json.
+
+## Full source topology crowd control — 19 September 2026
+
+Study09 full-source control complete:8 successful guarded native processes
+(2build,2fresh,4right/rear12phase captures),26 assets,96 successful PNGs,12
+root-reviewed contacts. Initial redundant-set_static_mesh capture failure and
+3partial PNGs retained separately.450 protected files unchanged. Static triangle
+counts retain55528 Elder/50732 Woman; this is not full exported topology proof.
+Both controls avoid the obvious new robe skin slits and belt-through-mantle
+patches that rejected08 in these sampled poses. Inference: reduction contributes
+to clipping, not necessarily the sole cause. Lower/inner robe and rear garment
+shading still differs from skeletal source. No continuous-clearance, runtime or
+performance acceptance. Next: preserve authored garment ring layout and layered
+clearance during reduction; investigate full-source shading separately.
+Engine mapping ranks all triangles without material partition; zero-distance
+match takes weight1, otherwise inverse-distance. Do not assume shader parity or
+complete skinning fidelity from a source triangle-count match.
+Evidence: SourceAssets/perf-review/crowd-vat/ResidentStudy09/review.json.

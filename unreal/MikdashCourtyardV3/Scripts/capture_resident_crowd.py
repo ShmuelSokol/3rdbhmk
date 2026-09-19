@@ -9,7 +9,7 @@ import math
 import unreal as ue
 
 ROOT = Path(__file__).resolve().parents[1]
-match = re.search(r'-ResidentCrowdStudy=(01|02|03|04|05|06|07|08)\b', ue.SystemLibrary.get_command_line())
+match = re.search(r'-ResidentCrowdStudy=(01|02|03|04|05|06|07|08|09)\b', ue.SystemLibrary.get_command_line())
 STUDY = match.group(1) if match else '03'
 OUT = ROOT / ('SourceAssets/perf-review/crowd-vat/ResidentStudy'+STUDY)
 variant_match=re.search(r'-ResidentCrowdVariant=(\w+)',ue.SystemLibrary.get_command_line())
@@ -102,7 +102,9 @@ def run():
             if is_source:
                 assert ue.MikdashAnimationReviewLibrary.evaluate_review_pose(source,clip,frame/60.)
             else:
-                assert body.set_static_mesh(mesh)
+                if body.get_editor_property('static_mesh') != mesh:
+                    assert body.set_static_mesh(mesh)
+                assert body.get_editor_property('static_mesh') == mesh
                 if not instance_created:
                     assert body.add_instance(ue.Transform())==0
                     instance_created=True

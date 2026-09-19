@@ -4265,3 +4265,21 @@ no-detail receipts contain opaque override struct strings, not typed flag proof.
 Do not add TwoSidedSign as a speculative fix. Engine AnimToTexture maps normals
 through closest-triangle frames; compare conversion and posed normal data next.
 Evidence: ResidentStudy10/normal-detail-review.json. No performance acceptance.
+
+## Resident reference-normal conversion audit — 19 September 2026
+audit_resident_vat_normals.py / run_resident_crowd.ps1 -NormalsAudit read existing
+Study09/10 assets without saving. Study10 Elder24234 and Woman20877 unique normal
+rows match source position/UV/material/normal tuples exactly after conversion;
+zero missing keys and zero shared VAT texels with divergent corner normals.
+Independent raw tuple comparison confirms all45111 rows, eliminating conversion
+and corner averaging as explanations in these candidates. Animated normals remain
+unverified. Two successful native runs each preserve464 protected file hashes.
+Raw source/static records and walk normal textures exported for posed comparison;
+PNG headers confirm16-bit RGBA and original dimensions, every chunk CRC passes.
+Two initial failures retained: UE Python names GetTriangleUVs get_triangle_u_vs;
+EXR export of integer RGBA16 triggers a native assertion (exit3). AnimToTexture's
+SIXTEEN_BITS is TSF_RGBA16, not floating HDR despite TC_HDR compression. Use PNG16.
+Crash partial data remains local; successful retries prove protected assets intact.
+Next compare posed skeletal normals with decoded VAT normals using proven vertex
+correspondence. No runtime material/mesh changes or visual/performance acceptance.
+Evidence: ResidentStudy10/normal-conversion-review.json.

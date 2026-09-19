@@ -1,0 +1,67 @@
+{
+  "status": "conversion-normals-preserved",
+  "scope": "Study10 Elder and Woman_Young reference source-model normals. Does not compare animated normals or GPU results.",
+  "runs": [
+    {
+      "variant": "Man_Elder",
+      "receipt": "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Man_Elder/resident-crowd-run-20260919T120104Z.json",
+      "output": "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Man_Elder/normals-20260919T120114856786Z.json",
+      "exactMatchingNormalRows": 24234,
+      "sharedTexelNormalSplits": 0,
+      "png": [
+        4039,
+        432,
+        16,
+        6,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "variant": "Woman_Young",
+      "receipt": "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Woman_Young/resident-crowd-run-20260919T120224Z.json",
+      "output": "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Woman_Young/normals-20260919T120235246277Z.json",
+      "exactMatchingNormalRows": 20877,
+      "sharedTexelNormalSplits": 0,
+      "png": [
+        3480,
+        432,
+        16,
+        6,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "failedAttempts": [
+    {
+      "receipt": "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Man_Elder/resident-crowd-run-20260919T115857Z.json",
+      "exitCode": -1,
+      "reason": "Python UV binding is get_triangle_u_vs"
+    },
+    {
+      "receipt": "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Man_Elder/resident-crowd-run-20260919T115957Z.json",
+      "exitCode": 3,
+      "reason": "Native EXR exporter rejects integer RGBA16; use lossless PNG16"
+    }
+  ],
+  "finding": "All 45111 unique source position/UV/material/normal tuples survive static conversion exactly. No UV1 texel combines differing normals. Conversion and corner averaging do not explain the observed shading difference in these candidates.",
+  "next": "Compare posed skeletal normals with decoded VAT normals. GeometryScript SceneUtils CopyMeshFromComponent supports skinned source data; establish stable correspondence before claiming a deformation mismatch.",
+  "evidenceHashes": {
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Man_Elder/resident-crowd-run-20260919T115857Z.json": "0f8bc2ede439b7b63dcac1d51730069063da853984946dea8a17df23ba24ff4c",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Man_Elder/resident-crowd-run-20260919T115957Z.json": "ead5617bc7b086d93f5231254790f3bcf377969c30002999e1f45e7b5b09fece",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Man_Elder/resident-crowd-run-20260919T120104Z.json": "350c13cb0a4359bf9eb2e5f79f268017f84cb99daa6de56129dc382e8e49c3ca",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Man_Elder/normals-20260919T120114856786Z.json": "ee74bc18df0d64657e0c6d39ed4c68293057f8b0bc38dda3de5a143097fe1c5e",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Man_Elder/normals-20260919T120114856786Z-source.json.gz": "31279287d509b6a9581e98efb7449e466a5993505d38183ee8108cc79d8c975b",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Man_Elder/normals-20260919T120114856786Z-static.json.gz": "0956069adc921459c28f1843b9fa8ae0bd3128ae456d87ac22691c9c1b0c0667",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Man_Elder/normals-20260919T120114856786Z-walk.png": "06f45a2d029cf56d7bb10b498951833b18931449505236edf72aa33659dc49e0",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Woman_Young/resident-crowd-run-20260919T120224Z.json": "af15bbcc27c04264c31121c9b9c02a50ed02cae0baa7e080b381d93081dc4c5d",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Woman_Young/normals-20260919T120235246277Z.json": "ff8fb1da0caf7a0ed3b972540f01b976bb7653b705962f625bbad5962f63cf0c",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Woman_Young/normals-20260919T120235246277Z-source.json.gz": "746d07a397e7c619edf9c14b0055f2ad8c466c3d0193dd3d64fd4426796a311f",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Woman_Young/normals-20260919T120235246277Z-static.json.gz": "cbdb5fa8bfc0d821b190cd5cf20738054cfe93150956b6eb61d697fdac433b8e",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Woman_Young/normals-20260919T120235246277Z-walk.png": "5601288e69a51edf20ce2bce58909e9c2260f2be52e3fdbb0a31ad269dbd8caf",
+    "SourceAssets/perf-review/crowd-vat/ResidentStudy10/Cast/Man_Elder/normals-20260919T115907972085Z.json": "7955195e926b670457987cd1e3ba6314371e59e9b8c62eb495179a2727d155a8"
+  }
+}

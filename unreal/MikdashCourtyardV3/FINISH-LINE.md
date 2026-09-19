@@ -1480,3 +1480,20 @@ Four offline walk runs completed (288 poses each,1152 total):
 - Woman_Young rows1/columns1: 16476 garment triangles; max leg outside 0.0cm, max tunic outside mantle 0.0cm.
 - Woman_Young rows2/columns2: 5908 garment triangles; max leg outside 0.0cm, max tunic outside mantle 0.0cm.
 Dense source probes and authored skin anchors retained. Stride1 reproduces source faces exactly (independent verifier). These measurements exclude belt/headcover/whole-body and native rendering; no adoption. Next: isolated compact export preserving accepted shoulder bytes, then native VAT and multi-view checks. Evidence: SourceAssets/perf-review/crowd-vat/ResidentStructured01/review.json.
+
+## Structured resident native review / shadow comparison — 19 September 2026
+Study10 completed15 guarded native processes exit0:2build,2fresh readback,
+8four-view sweeps and3shadow-parity sweeps.28 native assets,264 GPU captures,
+33 root-reviewed contact pages;450 protected files unchanged. Accepted shoulder
+attribute/morph rows preserved byte-for-byte in two source exports. Complete
+meshes45744 Elder/40164 Woman triangles; main garments retain~64% reduction.
+No obvious new orange skin-through-robe, severe belt-through-mantle or collapsed
+limb/headcover silhouettes in sampled views. Coarse hems/folds/trim and small
+dark layer notches remain; corresponding creases occur in09 full-source control.
+Both-false shadow readback trials reduce hand/headcover shadow differences but
+inner/lower robe shading still differs. Prior default comparisons confounded
+skeletal cast-shadows=True and crowd=False. Use matched settings to investigate
+materials; do not attribute all differences to this flag or claim full parity.
+No adoption or performance acceptance: bodies still too dense. Next: preserve
+garments while reducing other body regions; isolate remaining inner-robe shading;
+then all-cast/distance/runtime validation. Evidence: ResidentStudy10/review.json.

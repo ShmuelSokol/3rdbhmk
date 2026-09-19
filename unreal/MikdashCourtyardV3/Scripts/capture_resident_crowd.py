@@ -9,7 +9,7 @@ import math
 import unreal as ue
 
 ROOT = Path(__file__).resolve().parents[1]
-match = re.search(r'-ResidentCrowdStudy=(01|02|03|04|05|06|07|08|09)\b', ue.SystemLibrary.get_command_line())
+match = re.search(r'-ResidentCrowdStudy=(01|02|03|04|05|06|07|08|09|10)\b', ue.SystemLibrary.get_command_line())
 STUDY = match.group(1) if match else '03'
 OUT = ROOT / ('SourceAssets/perf-review/crowd-vat/ResidentStudy'+STUDY)
 variant_match=re.search(r'-ResidentCrowdVariant=(\w+)',ue.SystemLibrary.get_command_line())
@@ -23,6 +23,7 @@ view_match=re.search(r'-ResidentCrowdView=(\w+)',ue.SystemLibrary.get_command_li
 VIEW=view_match.group(1) if view_match else 'Front'
 assert VIEW in ('Front','Right','Rear','Left')
 SWEEP=bool(re.search(r'-ResidentCrowdSweep\b',ue.SystemLibrary.get_command_line()))
+SHADOW_PARITY=bool(re.search(r'-ResidentCrowdShadowParity\b',ue.SystemLibrary.get_command_line()))
 FRAMES=tuple(range(0,72,6)) if SWEEP else (0,18,36,54)
 
 
@@ -88,6 +89,14 @@ def run():
         source=spawn(ue.SkeletalMeshActor,ue.Vector()).skeletal_mesh_component
         source.set_mobility(ue.ComponentMobility.MOVABLE)
         source.set_skeletal_mesh_asset(skel)
+        if SHADOW_PARITY:
+            source.set_cast_shadow(False)
+            body.set_cast_shadow(False)
+        report['shadowComparison'] = dict(parityRequested=SHADOW_PARITY,
+                                          sourceCastsShadow=bool(source.get_editor_property('cast_shadow')),
+                                          crowdCastsShadow=bool(body.get_editor_property('cast_shadow')))
+        if SHADOW_PARITY:
+            assert not any(report['shadowComparison'][k] for k in ('sourceCastsShadow','crowdCastsShadow'))
         meshes=[('source',built['sourceMesh'])]+[(str(row['target']),row['mesh']) for row in built['variants']]
         custom=[0.,.5,0.,0.,0.,0.,0.,0.,-1000.,.5/13.7,0.]
         instance_created=False

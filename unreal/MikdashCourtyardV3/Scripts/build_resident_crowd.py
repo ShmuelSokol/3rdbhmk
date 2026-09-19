@@ -13,7 +13,7 @@ import create_crowd_vat_v2 as vat
 import release_resident_v4 as resident
 from build_crowd_near_v2 import mesh_stats
 
-match = re.search(r'-ResidentCrowdStudy=(01|02|03|04|05|06|07|08|09)\b', ue.SystemLibrary.get_command_line())
+match = re.search(r'-ResidentCrowdStudy=(01|02|03|04|05|06|07|08|09|10)\b', ue.SystemLibrary.get_command_line())
 STUDY = match.group(1) if match else '03'
 NS = '/Game/MikdashV3/Runtime/CrowdResidentStudy'+STUDY
 OUT = ROOT/('SourceAssets/perf-review/crowd-vat/ResidentStudy'+STUDY)
@@ -25,6 +25,40 @@ if VARIANT!='Man_Standard':
     OUT=OUT/'Cast'/VARIANT
 sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
 disk = lambda p: ROOT/('Content/'+p.split('.')[0].removeprefix('/Game/')+'.uasset')
+
+
+def structured_source(original, report):
+    """Import only into Study10; keep accepted runtime characters untouched."""
+    assert VARIANT in ('Man_Elder', 'Woman_Young')
+    folder = ROOT/'SourceAssets/characters-review/ResidentStructured01'/VARIANT
+    review = json.loads((folder/'review.json').read_text())
+    source = folder/review['candidate']
+    assert sha(source) == review['candidateSha256']
+    assert sha(ROOT/review['source']) == review['sourceSha256']
+    override, settings = resident._mesh_pipeline(ue, original.skeleton)
+    task = ue.AssetImportTask()
+    for key, value in dict(filename=str(source), destination_path=NS+'/Source',
+                           automated=True, replace_existing=False, save=False, options=override).items():
+        task.set_editor_property(key, value)
+    ue.AssetToolsHelpers.get_asset_tools().import_asset_tasks([task])
+    imported = [o for o in task.get_objects() if isinstance(o, ue.SkeletalMesh)]
+    assert len(imported) == 1
+    mesh = imported[0]
+    assert mesh.get_path_name().startswith(NS+'/Source/')
+    assert mesh.skeleton == original.skeleton
+    assert sorted(map(str, mesh.get_all_morph_target_names())) == sorted(map(str, original.get_all_morph_target_names()))
+    materials = {str(m.material_slot_name): m.material_interface for m in original.materials}
+    slots = list(mesh.materials)
+    assert {str(m.material_slot_name) for m in slots} == set(materials)
+    for slot in slots:
+        slot.material_interface = materials[str(slot.material_slot_name)]
+    mesh.materials = slots
+    assert ue.EditorAssetLibrary.save_loaded_asset(mesh, False)
+    report['structuredSource'] = dict(mesh=mesh.get_path_name(), sourceSha256=sha(source),
+                                      assetSha256=sha(disk(mesh.get_path_name())), settings=settings,
+                                      expectedTriangles=review['totals']['candidateTriangles'],
+                                      morphs=sorted(map(str, mesh.get_all_morph_target_names())))
+    return mesh
 
 
 def surface(master, report):
@@ -50,7 +84,7 @@ def surface(master, report):
     final = g.op(ue.MaterialExpressionMultiply, g.op(ue.MaterialExpressionMultiply, base, vc), mottle)
     g.prop(final, mp.MP_BASE_COLOR)
     g.prop(g.op(ue.MaterialExpressionAdd, rough, g.op(ue.MaterialExpressionMultiply, centered, g.const(.15))), mp.MP_ROUGHNESS)
-    if STUDY in ('03','04','05','06','07','08','09'):
+    if STUDY in ('03','04','05','06','07','08','09','10'):
         # Reconstruct the tangent frame from the deformed position and UV0 in
         # the pixel shader; a rest-pose tangent would not follow VAT animation.
         M,A=ue.MaterialExpressionMultiply,ue.MaterialExpressionAdd
@@ -85,7 +119,7 @@ def surface(master, report):
     ml.recompile_material(master)
     assert ue.EditorAssetLibrary.save_loaded_asset(master, False)
     report['residentSurface'] = dict(linearVertexColor=STUDY!='01', uvChannel=0, mottle=True,
-                                    derivativeNormalDetail=STUDY in ('03','04','05','06','07','08','09'),skinSubsurface=STUDY in ('03','04','05','06','07','08','09'),
+                                    derivativeNormalDetail=STUDY in ('03','04','05','06','07','08','09','10'),skinSubsurface=STUDY in ('03','04','05','06','07','08','09','10'),
                                     limitations=['Visual pilot, not runtime acceptance'])
 
 
@@ -156,7 +190,8 @@ def run():
     OUT.mkdir(parents=True, exist_ok=True)
     receipt = OUT/('native-'+stamp+'.json')
     report = dict(status='running', namespace=NS, castVariant=VARIANT, variants=[],
-                  scope='Full source topology VAT diagnostic; no scene adoption' if STUDY=='09'
+                  scope='Authored grid-reduced garment VAT diagnostic; no scene adoption' if STUDY=='10'
+                        else 'Full source topology VAT diagnostic; no scene adoption' if STUDY=='09'
                         else '8000/2400-triangle crowd candidates; no scene adoption')
     protected = list((ROOT/'Content').rglob('*.umap'))
     for folder in ('Characters/ResidentV4','Characters/PilgrimRigV3','Runtime/CrowdVATV1'):
@@ -177,13 +212,16 @@ def run():
             assert skel
             report['sourceMeshSha256'] = sha(disk(skel.get_path_name()))
             report['sourceMesh'] = skel.get_path_name()
+            if STUDY == '10':
+                report['scope'] = 'Authored grid-reduced garment VAT diagnostic; no scene adoption'
+                skel = structured_source(skel, report)
             clips = {k:ue.load_asset(variant[k]) for k in ('walk','idle')}
             for key, clip in clips.items():
                 assert clip and clip.get_editor_property('skeleton') == skel.get_editor_property('skeleton')
                 assert ue.AnimationLibrary.get_num_keys(clip) == spec[key]['expectedKeys']
             report['clips'] = {k:v.get_path_name() for k,v in clips.items()}
             tools = ue.AssetToolsHelpers.get_asset_tools()
-            for target in ((None,) if STUDY=='09' else (8000,2400)):
+            for target in ((None,) if STUDY in ('09','10') else (8000,2400)):
                 row = dict(target='full-source' if target is None else target)
                 report['variants'].append(row)
                 label = 'ResidentSourceTopology' if target is None else 'Resident'+str(target)
@@ -195,7 +233,9 @@ def run():
                 mesh = vat._convert(ue, skel, ns+'/SM_'+label, target, row, linear_source_colors=STUDY!='01',
                                     preserve_vertex_positions=STUDY in ('04','05','07'),
                                     resident_attribute_metric=STUDY in ('06','07'),resident_material_budgets=budgets,
-                                    preserve_source_topology=STUDY=='09')
+                                    preserve_source_topology=STUDY in ('09','10'))
+                if STUDY == '10':
+                    assert row['decimation']['dynamicTrianglesAfter'] == report['structuredSource']['expectedTriangles']
                 assert ue.AnimToTextureBPLibrary.set_light_map_index(mesh,0,0,False)
                 textures = {key+kind:vat._texture(ue,tools,assets,ns+'/Textures','T_'+key+kind)
                             for key in ('Walk','Idle') for kind in ('Position','Normal')}
@@ -213,7 +253,7 @@ def run():
                 master = vat.build_master_v2(ue,spec,ns,'M_ResidentVAT',defaults,row)
                 surface(master,row)
                 skin_master=master
-                if STUDY in ('03','04','05','06','07','08','09'):
+                if STUDY in ('03','04','05','06','07','08','09','10'):
                     skin_master=assets.duplicate_asset(master.get_path_name(),ns+'/Materials/M_ResidentVAT_Skin')
                     assert isinstance(skin_master,ue.Material)
                     skin_master.set_editor_property('shading_model',ue.MaterialShadingModel.MSM_SUBSURFACE)
@@ -230,7 +270,7 @@ def run():
                     tex_params={k:v for k,v in defaults.items() if k.endswith('Texture')}
                     scalars=dict(Roughness=rough,Specular=specular,PaletteMix=0.,SkinVariation=0.,
                                  MottleTiling=params['MottleTiling'],MottleStrength=params['MottleStrength'])
-                    if STUDY in ('03','04','05','06','07','08','09'):
+                    if STUDY in ('03','04','05','06','07','08','09','10'):
                         prefix='Pore' if kind=='skin' else 'Weave'
                         tex_params['DetailNormal']=ue.load_asset(resident.TEX_FOLDER+'/'+params['Pores' if kind=='skin' else 'WeaveNormal'])
                         scalars.update(DetailTiling=params[prefix+'Tiling'],DetailStrength=params[prefix+'Strength'])
@@ -252,6 +292,14 @@ def run():
             built=[r for r in prior if r['status']=='built-needs-fresh-readback-and-render']
             assert len(built)==1
             source=built[0]
+            if STUDY == '10':
+                reduced = ue.load_asset(source['structuredSource']['mesh'])
+                original = ue.load_asset(source['sourceMesh'])
+                assert reduced.skeleton == original.skeleton
+                assert sorted(map(str, reduced.get_all_morph_target_names())) == source['structuredSource']['morphs']
+                assert {str(m.material_slot_name): m.material_interface for m in reduced.materials} == {
+                    str(m.material_slot_name): m.material_interface for m in original.materials}
+                report['structuredSource'] = source['structuredSource']
             for p,digest in source['assets'].items():
                 assert sha(ROOT/p)==digest
                 assert ue.load_asset('/Game/'+str(Path(p).relative_to('Content').with_suffix('')).replace('\\','/'))
@@ -265,7 +313,7 @@ def run():
                     assert vat._v3(mesh.get_editor_property(key+'_bounds_extension'))==list(vat.BOUNDS_EXTENSION_CM[key])
                 for i,_,path in row['slots']:
                     assert mesh.get_material(i).get_path_name()==path
-                if STUDY in ('03','04','05','06','07','08','09'):
+                if STUDY in ('03','04','05','06','07','08','09','10'):
                     skin=ue.load_asset(row['skinMaster'])
                     assert skin.get_editor_property('shading_model')==ue.MaterialShadingModel.MSM_SUBSURFACE
                     ml=ue.MaterialEditingLibrary

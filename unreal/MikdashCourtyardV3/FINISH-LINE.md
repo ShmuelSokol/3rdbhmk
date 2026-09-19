@@ -1384,3 +1384,38 @@ quality, live distance transitions or performance. See Study03/cast-review.json.
 Next: investigate simplification/deformation transfer for robe artifacts, then
 continuous multi-view checks and measured runtime integration. Distance alone
 must not be used to declare these defects resolved.
+
+## Crowd deformation isolation — 19 September 2026
+Study04 opt-in constrains GeometryScript simplification to existing vertex
+positions (preserve_vertex_positions=True, setter/readback required). Study03
+remains default. Source colors, surface shaders, driver count and animation
+clips remain the same to isolate this factor. Testing Elder and Woman_Young in
+fresh namespaces before considering adoption; no quality claim yet.
+
+Study04 Elder native comparison retains lower-skirt skin protrusions; preserving
+positions alone is not a fix. Woman_Young still has dark lower-skirt patches and
+severe2400 face collapse. Study05 isolates one driver triangle (instead of stock
+count) atop04. Study06 returns to03 positions/drivers and tests AttributeAwareV2
+with scale_correction100 (cm-to-meter metric), color_attribute_weight16. Engine
+Runtime/GeometryScripting/.../GeometryScript/MeshSimplifyFunctions.h documents
+that default AttributeAware optimizes normals only; V2 adds colors/UVs/seams.
+This is evidence for a color-loss hypothesis, not proof that the patches are
+caused by vertex-color simplification. All studies remain opt-in, default03.
+
+Study05 Elder and Woman_Young rendered all12 poses each: one driver does not
+remove observed robe protrusions/dark patches. Study06 Elder retains more trim
+but produces major pointed silhouette artifacts and clipping: reject adoption.
+Study07 combines06's color-aware metric with preserved vertex positions to
+constrain off-surface relocation; fresh isolated test pending. Do not confuse
+source setter/readback success with visual acceptance.
+
+Study04/05/06/07 complete:24 guarded native processes exit0,208 assets,96 GPU
+captures. Root reviewed all eight close contacts; current450 protected hashes
+rechecked.04 and05 do not resolve defects.06 causes major sharp projections,
+rejected.07 combines color-aware metric with existing vertex positions: prior
+visible Elder robe skin patches and06 spikes are absent in four sampled front
+poses; Woman_Young trim better preserved without06 projections.2400 face/belt
+and skirt-shading defects remain.07 is a promising candidate, NOT a close-view
+or runtime adoption. Next: broader phase/side/rear validation, investigate
+remaining skirt shading, improve detail allocation, then other cast and measured
+runtime integration. Per-study review.json records hashes and limited findings.

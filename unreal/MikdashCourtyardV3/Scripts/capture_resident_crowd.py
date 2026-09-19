@@ -9,7 +9,7 @@ import math
 import unreal as ue
 
 ROOT = Path(__file__).resolve().parents[1]
-match = re.search(r'-ResidentCrowdStudy=(01|02|03)\b', ue.SystemLibrary.get_command_line())
+match = re.search(r'-ResidentCrowdStudy=(01|02|03|04|05|06|07)\b', ue.SystemLibrary.get_command_line())
 STUDY = match.group(1) if match else '03'
 OUT = ROOT / ('SourceAssets/perf-review/crowd-vat/ResidentStudy'+STUDY)
 variant_match=re.search(r'-ResidentCrowdVariant=(\w+)',ue.SystemLibrary.get_command_line())

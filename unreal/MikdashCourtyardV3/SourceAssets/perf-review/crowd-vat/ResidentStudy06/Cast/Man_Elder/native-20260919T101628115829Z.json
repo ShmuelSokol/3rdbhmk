@@ -1,0 +1,5022 @@
+{
+  "status": "built-needs-fresh-readback-and-render",
+  "namespace": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder",
+  "castVariant": "Man_Elder",
+  "variants": [
+    {
+      "target": 8000,
+      "sourceColorTransform": "Undo skeletal-copy LinearToSRGB before simplification",
+      "sourceDynamic": {
+        "triangles": 55528,
+        "boundsMin": [
+          -56.08099,
+          -18.777605,
+          0.0
+        ],
+        "boundsMax": [
+          57.998871,
+          20.91728,
+          179.400009
+        ]
+      },
+      "decimation": {
+        "dynamicTrianglesBefore": 55528,
+        "dynamicTrianglesAfter": 8000,
+        "target": 8000,
+        "simplifyOptionsApplied": {
+          "auto_compact": true,
+          "allow_seam_collapse": true,
+          "method": "<GeometryScriptRemoveMeshSimplificationType.ATTRIBUTE_AWARE_V2: 3>",
+          "scale_correction": 100.0,
+          "color_attribute_weight": 16.0
+        }
+      },
+      "skeletalSlots": [
+        "RV4_Skin",
+        "RV4_Eye",
+        "RV4_Hair",
+        "RV4_Cloth",
+        "RV4_Garment",
+        "RV4_Leather"
+      ],
+      "convertRoute": "GeometryScript copy_mesh_from_skeletal_mesh + create_new_static_mesh_asset_from_mesh",
+      "walkBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk.V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk",
+        "frames": 72,
+        "rowsPerFrame": 2,
+        "minBBox": [
+          -35.913475,
+          -50.244461,
+          -15.205046
+        ],
+        "sizeBBox": [
+          72.170059,
+          95.375847,
+          34.320847
+        ],
+        "width": 2245,
+        "height": 144,
+        "uvChannel": 1,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "idleBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle.V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle",
+        "frames": 192,
+        "rowsPerFrame": 2,
+        "minBBox": [
+          -30.705896,
+          -0.72779,
+          -9.468613
+        ],
+        "sizeBBox": [
+          61.751278,
+          4.392755,
+          11.515564
+        ],
+        "width": 2245,
+        "height": 384,
+        "uvChannel": 2,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "textureSettings": {
+        "T_WalkPosition": {
+          "srgb": "False",
+          "filter": "<TextureFilter.TF_NEAREST: 0>",
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+          "never_stream": "True",
+          "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+        },
+        "T_WalkNormal": {
+          "srgb": "False",
+          "filter": "<TextureFilter.TF_NEAREST: 0>",
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+          "never_stream": "True",
+          "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+        },
+        "T_IdlePosition": {
+          "srgb": "False",
+          "filter": "<TextureFilter.TF_NEAREST: 0>",
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+          "never_stream": "True",
+          "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+        },
+        "T_IdleNormal": {
+          "srgb": "False",
+          "filter": "<TextureFilter.TF_NEAREST: 0>",
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+          "never_stream": "True",
+          "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+        }
+      },
+      "resolvedPins": [
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionClamp",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionClamp",
+          "Min",
+          ""
+        ],
+        [
+          "MaterialExpressionClamp",
+          "Max",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFloor",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFloor",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTransform",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFloor",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFloor",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionNormalize",
+          "VectorInput",
+          ""
+        ],
+        [
+          "MaterialExpressionTransform",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionVertexInterpolator",
+          "VS",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionVertexInterpolator",
+          "VS",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          "R"
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionNormalize",
+          "VectorInput",
+          ""
+        ],
+        [
+          "MaterialExpressionDDX",
+          "Value",
+          ""
+        ],
+        [
+          "MaterialExpressionDDY",
+          "Value",
+          ""
+        ],
+        [
+          "MaterialExpressionDDX",
+          "Value",
+          ""
+        ],
+        [
+          "MaterialExpressionDDY",
+          "Value",
+          ""
+        ],
+        [
+          "MaterialExpressionCrossProduct",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionCrossProduct",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionCrossProduct",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionCrossProduct",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDotProduct",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDotProduct",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDotProduct",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDotProduct",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMax",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMax",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMax",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMax",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSquareRoot",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionNormalize",
+          "VectorInput",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ]
+      ],
+      "masterV2": {
+        "path": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Materials/M_ResidentVAT.M_ResidentVAT",
+        "census": {
+          "MaterialExpressionTime": 1,
+          "MaterialExpressionPerInstanceCustomData": 11,
+          "MaterialExpressionTextureCoordinate": 2,
+          "MaterialExpressionScalarParameter": 9,
+          "MaterialExpressionVectorParameter": 5,
+          "MaterialExpressionComponentMask": 13,
+          "MaterialExpressionSubtract": 12,
+          "MaterialExpressionConstant": 28,
+          "MaterialExpressionMultiply": 29,
+          "MaterialExpressionClamp": 1,
+          "MaterialExpressionAdd": 28,
+          "MaterialExpressionFrac": 9,
+          "MaterialExpressionDivide": 10,
+          "MaterialExpressionSaturate": 9,
+          "MaterialExpressionOneMinus": 9,
+          "MaterialExpressionLinearInterpolate": 9,
+          "MaterialExpressionFloor": 4,
+          "MaterialExpressionAppendVector": 10,
+          "MaterialExpressionTextureSampleParameter2D": 8,
+          "MaterialExpressionTransform": 2,
+          "MaterialExpressionConstant3Vector": 9,
+          "MaterialExpressionNormalize": 1,
+          "MaterialExpressionVertexInterpolator": 2,
+          "MaterialExpressionAbs": 8
+        },
+        "customNodes": 0,
+        "usedWithInstancedStaticMeshes": true,
+        "tangentSpaceNormal": false
+      },
+      "residentSurface": {
+        "linearVertexColor": true,
+        "uvChannel": 0,
+        "mottle": true,
+        "derivativeNormalDetail": true,
+        "skinSubsurface": true,
+        "limitations": [
+          "Visual pilot, not runtime acceptance"
+        ]
+      },
+      "skinMaster": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Materials/M_ResidentVAT_Skin.M_ResidentVAT_Skin",
+      "materialInstances": {
+        "MI_RV4_Skin": {
+          "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_WalkPosition.T_WalkPosition",
+          "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_WalkNormal.T_WalkNormal",
+          "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_IdlePosition.T_IdlePosition",
+          "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_IdleNormal.T_IdleNormal",
+          "DetailNormal": "/Game/MikdashV3/Characters/ResidentV4/Textures/T_RV4_PoresN.T_RV4_PoresN",
+          "WalkMinBBox": [
+            -35.913475,
+            -50.244461,
+            -15.205046
+          ],
+          "WalkSizeBBox": [
+            72.170059,
+            95.375847,
+            34.320847
+          ],
+          "IdleMinBBox": [
+            -30.705896,
+            -0.72779,
+            -9.468613
+          ],
+          "IdleSizeBBox": [
+            61.751278,
+            4.392755,
+            11.515564
+          ],
+          "BaseColor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Roughness": 0.52,
+          "Specular": 0.45,
+          "PaletteMix": 0.0,
+          "SkinVariation": 0.0,
+          "MottleTiling": 0.7,
+          "MottleStrength": 0.1,
+          "DetailTiling": 25.0,
+          "DetailStrength": 0.15
+        },
+        "MI_RV4_Eye": {
+          "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_WalkPosition.T_WalkPosition",
+          "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_WalkNormal.T_WalkNormal",
+          "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_IdlePosition.T_IdlePosition",
+          "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_IdleNormal.T_IdleNormal",
+          "DetailNormal": "/Game/MikdashV3/Characters/ResidentV4/Textures/T_RV4_PoresN.T_RV4_PoresN",
+          "WalkMinBBox": [
+            -35.913475,
+            -50.244461,
+            -15.205046
+          ],
+          "WalkSizeBBox": [
+            72.170059,
+            95.375847,
+            34.320847
+          ],
+          "IdleMinBBox": [
+            -30.705896,
+            -0.72779,
+            -9.468613
+          ],
+          "IdleSizeBBox": [
+            61.751278,
+            4.392755,
+            11.515564
+          ],
+          "BaseColor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Roughness": 0.06,
+          "Specular": 0.8,
+          "PaletteMix": 0.0,
+          "SkinVariation": 0.0,
+          "MottleTiling": 1.0,
+          "MottleStrength": 0.0,
+          "DetailTiling": 1.0,
+          "DetailStrength": 0.0
+        },
+        "MI_RV4_Hair": {
+          "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_WalkPosition.T_WalkPosition",
+          "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_WalkNormal.T_WalkNormal",
+          "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_IdlePosition.T_IdlePosition",
+          "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_IdleNormal.T_IdleNormal",
+          "DetailNormal": "/Game/MikdashV3/Characters/ResidentV4/Textures/T_RV4_StrandN.T_RV4_StrandN",
+          "WalkMinBBox": [
+            -35.913475,
+            -50.244461,
+            -15.205046
+          ],
+          "WalkSizeBBox": [
+            72.170059,
+            95.375847,
+            34.320847
+          ],
+          "IdleMinBBox": [
+            -30.705896,
+            -0.72779,
+            -9.468613
+          ],
+          "IdleSizeBBox": [
+            61.751278,
+            4.392755,
+            11.515564
+          ],
+          "BaseColor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Roughness": 0.55,
+          "Specular": 0.38,
+          "PaletteMix": 0.0,
+          "SkinVariation": 0.0,
+          "MottleTiling": 2.0,
+          "MottleStrength": 0.25,
+          "DetailTiling": 18.0,
+          "DetailStrength": 0.7
+        },
+        "MI_RV4_Cloth": {
+          "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_WalkPosition.T_WalkPosition",
+          "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_WalkNormal.T_WalkNormal",
+          "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_IdlePosition.T_IdlePosition",
+          "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_IdleNormal.T_IdleNormal",
+          "DetailNormal": "/Game/MikdashV3/Characters/ResidentV4/Textures/T_RV4_WeaveN.T_RV4_WeaveN",
+          "WalkMinBBox": [
+            -35.913475,
+            -50.244461,
+            -15.205046
+          ],
+          "WalkSizeBBox": [
+            72.170059,
+            95.375847,
+            34.320847
+          ],
+          "IdleMinBBox": [
+            -30.705896,
+            -0.72779,
+            -9.468613
+          ],
+          "IdleSizeBBox": [
+            61.751278,
+            4.392755,
+            11.515564
+          ],
+          "BaseColor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Roughness": 0.88,
+          "Specular": 0.4,
+          "PaletteMix": 0.0,
+          "SkinVariation": 0.0,
+          "MottleTiling": 0.55,
+          "MottleStrength": 0.32,
+          "DetailTiling": 12.0,
+          "DetailStrength": 0.75
+        },
+        "MI_RV4_Garment": {
+          "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_WalkPosition.T_WalkPosition",
+          "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_WalkNormal.T_WalkNormal",
+          "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_IdlePosition.T_IdlePosition",
+          "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_IdleNormal.T_IdleNormal",
+          "DetailNormal": "/Game/MikdashV3/Characters/ResidentV4/Textures/T_RV4_WeaveN.T_RV4_WeaveN",
+          "WalkMinBBox": [
+            -35.913475,
+            -50.244461,
+            -15.205046
+          ],
+          "WalkSizeBBox": [
+            72.170059,
+            95.375847,
+            34.320847
+          ],
+          "IdleMinBBox": [
+            -30.705896,
+            -0.72779,
+            -9.468613
+          ],
+          "IdleSizeBBox": [
+            61.751278,
+            4.392755,
+            11.515564
+          ],
+          "BaseColor": [
+            0.72,
+            0.66,
+            0.52
+          ],
+          "Roughness": 0.9,
+          "Specular": 0.38,
+          "PaletteMix": 0.0,
+          "SkinVariation": 0.0,
+          "MottleTiling": 0.45,
+          "MottleStrength": 0.38,
+          "DetailTiling": 7.0,
+          "DetailStrength": 0.85
+        },
+        "MI_RV4_Leather": {
+          "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_WalkPosition.T_WalkPosition",
+          "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_WalkNormal.T_WalkNormal",
+          "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_IdlePosition.T_IdlePosition",
+          "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_IdleNormal.T_IdleNormal",
+          "DetailNormal": "/Game/MikdashV3/Characters/ResidentV4/Textures/T_RV4_PoresN.T_RV4_PoresN",
+          "WalkMinBBox": [
+            -35.913475,
+            -50.244461,
+            -15.205046
+          ],
+          "WalkSizeBBox": [
+            72.170059,
+            95.375847,
+            34.320847
+          ],
+          "IdleMinBBox": [
+            -30.705896,
+            -0.72779,
+            -9.468613
+          ],
+          "IdleSizeBBox": [
+            61.751278,
+            4.392755,
+            11.515564
+          ],
+          "BaseColor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Roughness": 0.66,
+          "Specular": 0.42,
+          "PaletteMix": 0.0,
+          "SkinVariation": 0.0,
+          "MottleTiling": 1.5,
+          "MottleStrength": 0.3,
+          "DetailTiling": 6.0,
+          "DetailStrength": 0.45
+        }
+      },
+      "mesh": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/SM_Resident8000.SM_Resident8000",
+      "slots": [
+        [
+          0,
+          "RV4_Skin",
+          "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Materials/MI_RV4_Skin.MI_RV4_Skin"
+        ],
+        [
+          1,
+          "RV4_Eye",
+          "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Materials/MI_RV4_Eye.MI_RV4_Eye"
+        ],
+        [
+          2,
+          "RV4_Hair",
+          "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Materials/MI_RV4_Hair.MI_RV4_Hair"
+        ],
+        [
+          3,
+          "RV4_Cloth",
+          "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Materials/MI_RV4_Cloth.MI_RV4_Cloth"
+        ],
+        [
+          4,
+          "RV4_Garment",
+          "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Materials/MI_RV4_Garment.MI_RV4_Garment"
+        ],
+        [
+          5,
+          "RV4_Leather",
+          "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Materials/MI_RV4_Leather.MI_RV4_Leather"
+        ]
+      ],
+      "stats": {
+        "lods": 1,
+        "triangles": 8000,
+        "vertices": 4487,
+        "sections": 6,
+        "boundsMin": [
+          -165.909962,
+          -130.410242,
+          -15.001353
+        ],
+        "boundsMax": [
+          168.182762,
+          131.465527,
+          205.140945
+        ],
+        "slots": [
+          "RV4_Skin",
+          "RV4_Eye",
+          "RV4_Hair",
+          "RV4_Cloth",
+          "RV4_Garment",
+          "RV4_Leather"
+        ],
+        "uvChannels": 3
+      },
+      "textures": {
+        "WalkPosition": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_WalkPosition.T_WalkPosition",
+        "WalkNormal": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_WalkNormal.T_WalkNormal",
+        "IdlePosition": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_IdlePosition.T_IdlePosition",
+        "IdleNormal": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident8000/Textures/T_IdleNormal.T_IdleNormal"
+      }
+    },
+    {
+      "target": 2400,
+      "sourceColorTransform": "Undo skeletal-copy LinearToSRGB before simplification",
+      "sourceDynamic": {
+        "triangles": 55528,
+        "boundsMin": [
+          -56.08099,
+          -18.777605,
+          0.0
+        ],
+        "boundsMax": [
+          57.998871,
+          20.91728,
+          179.400009
+        ]
+      },
+      "decimation": {
+        "dynamicTrianglesBefore": 55528,
+        "dynamicTrianglesAfter": 2399,
+        "target": 2400,
+        "simplifyOptionsApplied": {
+          "auto_compact": true,
+          "allow_seam_collapse": true,
+          "method": "<GeometryScriptRemoveMeshSimplificationType.ATTRIBUTE_AWARE_V2: 3>",
+          "scale_correction": 100.0,
+          "color_attribute_weight": 16.0
+        }
+      },
+      "skeletalSlots": [
+        "RV4_Skin",
+        "RV4_Eye",
+        "RV4_Hair",
+        "RV4_Cloth",
+        "RV4_Garment",
+        "RV4_Leather"
+      ],
+      "convertRoute": "GeometryScript copy_mesh_from_skeletal_mesh + create_new_static_mesh_asset_from_mesh",
+      "walkBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk.V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk",
+        "frames": 72,
+        "rowsPerFrame": 1,
+        "minBBox": [
+          -35.817894,
+          -50.302994,
+          -14.849876
+        ],
+        "sizeBBox": [
+          71.845764,
+          95.451797,
+          33.965675
+        ],
+        "width": 1381,
+        "height": 72,
+        "uvChannel": 1,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "idleBake": {
+        "clip": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle.V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle",
+        "frames": 192,
+        "rowsPerFrame": 1,
+        "minBBox": [
+          -30.569651,
+          -0.72779,
+          -9.259834
+        ],
+        "sizeBBox": [
+          61.346081,
+          4.343519,
+          11.306786
+        ],
+        "width": 1381,
+        "height": 192,
+        "uvChannel": 2,
+        "sampleRateHz": 60.0,
+        "dataAssetProps": {
+          "skeletal_mesh": "skeletal_mesh",
+          "static_mesh": "static_mesh",
+          "skeletal_lod": "skeletal_lod_index",
+          "static_lod": "static_lod_index",
+          "uv": "uv_channel",
+          "drivers": "num_driver_triangles",
+          "sigma": "sigma",
+          "max_h": "max_height",
+          "max_w": "max_width",
+          "pow2": "enforce_power_of_two",
+          "precision": "precision",
+          "mode": "mode",
+          "vpos": "vertex_position_texture",
+          "vnrm": "vertex_normal_texture",
+          "rate": "sample_rate",
+          "anims": "anim_sequences",
+          "frames": "num_frames",
+          "rows": "vertex_rows_per_frame",
+          "min": "vertex_min_b_box",
+          "size": "vertex_size_b_box",
+          "animations": "animations"
+        }
+      },
+      "textureSettings": {
+        "T_WalkPosition": {
+          "srgb": "False",
+          "filter": "<TextureFilter.TF_NEAREST: 0>",
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+          "never_stream": "True",
+          "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+        },
+        "T_WalkNormal": {
+          "srgb": "False",
+          "filter": "<TextureFilter.TF_NEAREST: 0>",
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+          "never_stream": "True",
+          "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+        },
+        "T_IdlePosition": {
+          "srgb": "False",
+          "filter": "<TextureFilter.TF_NEAREST: 0>",
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+          "never_stream": "True",
+          "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+        },
+        "T_IdleNormal": {
+          "srgb": "False",
+          "filter": "<TextureFilter.TF_NEAREST: 0>",
+          "mip_gen_settings": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+          "never_stream": "True",
+          "compression": "<TextureCompressionSettings.TC_HDR: 6>"
+        }
+      },
+      "resolvedPins": [
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionClamp",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionClamp",
+          "Min",
+          ""
+        ],
+        [
+          "MaterialExpressionClamp",
+          "Max",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFloor",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFloor",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTransform",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFloor",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFloor",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAppendVector",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionNormalize",
+          "VectorInput",
+          ""
+        ],
+        [
+          "MaterialExpressionTransform",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionVertexInterpolator",
+          "VS",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAbs",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionOneMinus",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionSaturate",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionFrac",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionVertexInterpolator",
+          "VS",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "A",
+          "R"
+        ],
+        [
+          "MaterialExpressionSubtract",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionNormalize",
+          "VectorInput",
+          ""
+        ],
+        [
+          "MaterialExpressionDDX",
+          "Value",
+          ""
+        ],
+        [
+          "MaterialExpressionDDY",
+          "Value",
+          ""
+        ],
+        [
+          "MaterialExpressionDDX",
+          "Value",
+          ""
+        ],
+        [
+          "MaterialExpressionDDY",
+          "Value",
+          ""
+        ],
+        [
+          "MaterialExpressionCrossProduct",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionCrossProduct",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionCrossProduct",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionCrossProduct",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDotProduct",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDotProduct",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionDotProduct",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDotProduct",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMax",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMax",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMax",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMax",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionSquareRoot",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionDivide",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionTextureSampleParameter2D",
+          "UVs",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "B",
+          "RGB"
+        ],
+        [
+          "MaterialExpressionLinearInterpolate",
+          "Alpha",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionMultiply",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "A",
+          ""
+        ],
+        [
+          "MaterialExpressionAdd",
+          "B",
+          ""
+        ],
+        [
+          "MaterialExpressionNormalize",
+          "VectorInput",
+          ""
+        ],
+        [
+          "MaterialExpressionComponentMask",
+          "None",
+          ""
+        ]
+      ],
+      "masterV2": {
+        "path": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Materials/M_ResidentVAT.M_ResidentVAT",
+        "census": {
+          "MaterialExpressionTime": 1,
+          "MaterialExpressionPerInstanceCustomData": 11,
+          "MaterialExpressionTextureCoordinate": 2,
+          "MaterialExpressionScalarParameter": 9,
+          "MaterialExpressionVectorParameter": 5,
+          "MaterialExpressionComponentMask": 13,
+          "MaterialExpressionSubtract": 12,
+          "MaterialExpressionConstant": 28,
+          "MaterialExpressionMultiply": 29,
+          "MaterialExpressionClamp": 1,
+          "MaterialExpressionAdd": 28,
+          "MaterialExpressionFrac": 9,
+          "MaterialExpressionDivide": 10,
+          "MaterialExpressionSaturate": 9,
+          "MaterialExpressionOneMinus": 9,
+          "MaterialExpressionLinearInterpolate": 9,
+          "MaterialExpressionFloor": 4,
+          "MaterialExpressionAppendVector": 10,
+          "MaterialExpressionTextureSampleParameter2D": 8,
+          "MaterialExpressionTransform": 2,
+          "MaterialExpressionConstant3Vector": 9,
+          "MaterialExpressionNormalize": 1,
+          "MaterialExpressionVertexInterpolator": 2,
+          "MaterialExpressionAbs": 8
+        },
+        "customNodes": 0,
+        "usedWithInstancedStaticMeshes": true,
+        "tangentSpaceNormal": false
+      },
+      "residentSurface": {
+        "linearVertexColor": true,
+        "uvChannel": 0,
+        "mottle": true,
+        "derivativeNormalDetail": true,
+        "skinSubsurface": true,
+        "limitations": [
+          "Visual pilot, not runtime acceptance"
+        ]
+      },
+      "skinMaster": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Materials/M_ResidentVAT_Skin.M_ResidentVAT_Skin",
+      "materialInstances": {
+        "MI_RV4_Skin": {
+          "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_WalkPosition.T_WalkPosition",
+          "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_WalkNormal.T_WalkNormal",
+          "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_IdlePosition.T_IdlePosition",
+          "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_IdleNormal.T_IdleNormal",
+          "DetailNormal": "/Game/MikdashV3/Characters/ResidentV4/Textures/T_RV4_PoresN.T_RV4_PoresN",
+          "WalkMinBBox": [
+            -35.817894,
+            -50.302994,
+            -14.849876
+          ],
+          "WalkSizeBBox": [
+            71.845764,
+            95.451797,
+            33.965675
+          ],
+          "IdleMinBBox": [
+            -30.569651,
+            -0.72779,
+            -9.259834
+          ],
+          "IdleSizeBBox": [
+            61.346081,
+            4.343519,
+            11.306786
+          ],
+          "BaseColor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Roughness": 0.52,
+          "Specular": 0.45,
+          "PaletteMix": 0.0,
+          "SkinVariation": 0.0,
+          "MottleTiling": 0.7,
+          "MottleStrength": 0.1,
+          "DetailTiling": 25.0,
+          "DetailStrength": 0.15
+        },
+        "MI_RV4_Eye": {
+          "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_WalkPosition.T_WalkPosition",
+          "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_WalkNormal.T_WalkNormal",
+          "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_IdlePosition.T_IdlePosition",
+          "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_IdleNormal.T_IdleNormal",
+          "DetailNormal": "/Game/MikdashV3/Characters/ResidentV4/Textures/T_RV4_PoresN.T_RV4_PoresN",
+          "WalkMinBBox": [
+            -35.817894,
+            -50.302994,
+            -14.849876
+          ],
+          "WalkSizeBBox": [
+            71.845764,
+            95.451797,
+            33.965675
+          ],
+          "IdleMinBBox": [
+            -30.569651,
+            -0.72779,
+            -9.259834
+          ],
+          "IdleSizeBBox": [
+            61.346081,
+            4.343519,
+            11.306786
+          ],
+          "BaseColor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Roughness": 0.06,
+          "Specular": 0.8,
+          "PaletteMix": 0.0,
+          "SkinVariation": 0.0,
+          "MottleTiling": 1.0,
+          "MottleStrength": 0.0,
+          "DetailTiling": 1.0,
+          "DetailStrength": 0.0
+        },
+        "MI_RV4_Hair": {
+          "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_WalkPosition.T_WalkPosition",
+          "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_WalkNormal.T_WalkNormal",
+          "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_IdlePosition.T_IdlePosition",
+          "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_IdleNormal.T_IdleNormal",
+          "DetailNormal": "/Game/MikdashV3/Characters/ResidentV4/Textures/T_RV4_StrandN.T_RV4_StrandN",
+          "WalkMinBBox": [
+            -35.817894,
+            -50.302994,
+            -14.849876
+          ],
+          "WalkSizeBBox": [
+            71.845764,
+            95.451797,
+            33.965675
+          ],
+          "IdleMinBBox": [
+            -30.569651,
+            -0.72779,
+            -9.259834
+          ],
+          "IdleSizeBBox": [
+            61.346081,
+            4.343519,
+            11.306786
+          ],
+          "BaseColor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Roughness": 0.55,
+          "Specular": 0.38,
+          "PaletteMix": 0.0,
+          "SkinVariation": 0.0,
+          "MottleTiling": 2.0,
+          "MottleStrength": 0.25,
+          "DetailTiling": 18.0,
+          "DetailStrength": 0.7
+        },
+        "MI_RV4_Cloth": {
+          "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_WalkPosition.T_WalkPosition",
+          "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_WalkNormal.T_WalkNormal",
+          "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_IdlePosition.T_IdlePosition",
+          "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_IdleNormal.T_IdleNormal",
+          "DetailNormal": "/Game/MikdashV3/Characters/ResidentV4/Textures/T_RV4_WeaveN.T_RV4_WeaveN",
+          "WalkMinBBox": [
+            -35.817894,
+            -50.302994,
+            -14.849876
+          ],
+          "WalkSizeBBox": [
+            71.845764,
+            95.451797,
+            33.965675
+          ],
+          "IdleMinBBox": [
+            -30.569651,
+            -0.72779,
+            -9.259834
+          ],
+          "IdleSizeBBox": [
+            61.346081,
+            4.343519,
+            11.306786
+          ],
+          "BaseColor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Roughness": 0.88,
+          "Specular": 0.4,
+          "PaletteMix": 0.0,
+          "SkinVariation": 0.0,
+          "MottleTiling": 0.55,
+          "MottleStrength": 0.32,
+          "DetailTiling": 12.0,
+          "DetailStrength": 0.75
+        },
+        "MI_RV4_Garment": {
+          "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_WalkPosition.T_WalkPosition",
+          "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_WalkNormal.T_WalkNormal",
+          "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_IdlePosition.T_IdlePosition",
+          "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_IdleNormal.T_IdleNormal",
+          "DetailNormal": "/Game/MikdashV3/Characters/ResidentV4/Textures/T_RV4_WeaveN.T_RV4_WeaveN",
+          "WalkMinBBox": [
+            -35.817894,
+            -50.302994,
+            -14.849876
+          ],
+          "WalkSizeBBox": [
+            71.845764,
+            95.451797,
+            33.965675
+          ],
+          "IdleMinBBox": [
+            -30.569651,
+            -0.72779,
+            -9.259834
+          ],
+          "IdleSizeBBox": [
+            61.346081,
+            4.343519,
+            11.306786
+          ],
+          "BaseColor": [
+            0.72,
+            0.66,
+            0.52
+          ],
+          "Roughness": 0.9,
+          "Specular": 0.38,
+          "PaletteMix": 0.0,
+          "SkinVariation": 0.0,
+          "MottleTiling": 0.45,
+          "MottleStrength": 0.38,
+          "DetailTiling": 7.0,
+          "DetailStrength": 0.85
+        },
+        "MI_RV4_Leather": {
+          "WalkPositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_WalkPosition.T_WalkPosition",
+          "WalkNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_WalkNormal.T_WalkNormal",
+          "IdlePositionTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_IdlePosition.T_IdlePosition",
+          "IdleNormalTexture": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_IdleNormal.T_IdleNormal",
+          "DetailNormal": "/Game/MikdashV3/Characters/ResidentV4/Textures/T_RV4_PoresN.T_RV4_PoresN",
+          "WalkMinBBox": [
+            -35.817894,
+            -50.302994,
+            -14.849876
+          ],
+          "WalkSizeBBox": [
+            71.845764,
+            95.451797,
+            33.965675
+          ],
+          "IdleMinBBox": [
+            -30.569651,
+            -0.72779,
+            -9.259834
+          ],
+          "IdleSizeBBox": [
+            61.346081,
+            4.343519,
+            11.306786
+          ],
+          "BaseColor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Roughness": 0.66,
+          "Specular": 0.42,
+          "PaletteMix": 0.0,
+          "SkinVariation": 0.0,
+          "MottleTiling": 1.5,
+          "MottleStrength": 0.3,
+          "DetailTiling": 6.0,
+          "DetailStrength": 0.45
+        }
+      },
+      "mesh": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/SM_Resident2400.SM_Resident2400",
+      "slots": [
+        [
+          0,
+          "RV4_Skin",
+          "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Materials/MI_RV4_Skin.MI_RV4_Skin"
+        ],
+        [
+          1,
+          "RV4_Eye",
+          "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Materials/MI_RV4_Eye.MI_RV4_Eye"
+        ],
+        [
+          2,
+          "RV4_Hair",
+          "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Materials/MI_RV4_Hair.MI_RV4_Hair"
+        ],
+        [
+          3,
+          "RV4_Cloth",
+          "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Materials/MI_RV4_Cloth.MI_RV4_Cloth"
+        ],
+        [
+          4,
+          "RV4_Garment",
+          "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Materials/MI_RV4_Garment.MI_RV4_Garment"
+        ],
+        [
+          5,
+          "RV4_Leather",
+          "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Materials/MI_RV4_Leather.MI_RV4_Leather"
+        ]
+      ],
+      "stats": {
+        "lods": 1,
+        "triangles": 2399,
+        "vertices": 1379,
+        "sections": 6,
+        "boundsMin": [
+          -165.833164,
+          -137.400427,
+          -15.2888
+        ],
+        "boundsMax": [
+          167.418869,
+          131.293909,
+          204.90741
+        ],
+        "slots": [
+          "RV4_Skin",
+          "RV4_Eye",
+          "RV4_Hair",
+          "RV4_Cloth",
+          "RV4_Garment",
+          "RV4_Leather"
+        ],
+        "uvChannels": 3
+      },
+      "textures": {
+        "WalkPosition": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_WalkPosition.T_WalkPosition",
+        "WalkNormal": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_WalkNormal.T_WalkNormal",
+        "IdlePosition": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_IdlePosition.T_IdlePosition",
+        "IdleNormal": "/Game/MikdashV3/Runtime/CrowdResidentStudy06/Cast/Man_Elder/Resident2400/Textures/T_IdleNormal.T_IdleNormal"
+      }
+    }
+  ],
+  "scope": "8000/2400-triangle crowd candidates; no scene adoption",
+  "protectedBefore": {
+    "Content\\FirstPerson\\Lvl_FirstPerson.umap": "3d476154bf4cac39a59ec91b88f5ed6889af113a1ecf9690a01c89d8bc32d258",
+    "Content\\MikdashV3\\Amah48Candidate_20260908T144034771385Z\\Maps\\Walkthrough.umap": "9daa88a181a44009467ab6a3f296dcff3ed9ff8b93500ddee593adc84ff0367e",
+    "Content\\MikdashV3\\FutureMountV1\\L_FutureMount.umap": "601f9718365a337c9cece4c309d2eb0a4ccc7534b32c2c9e3f88f62f5695490c",
+    "Content\\MikdashV3\\IntegratedReviewV1\\Maps\\Walkthrough.umap": "0234cabb52465fbfba8c88c7a6c360bf1938f91289d4cbe94fa0ce73e04368f4",
+    "Content\\MikdashV3\\IntegratedReviewV2\\Maps\\Walkthrough.umap": "2b82ae66d7059244d1f4d5f7d39dbe39979794221b46a239a9a6e9c6b598d4c6",
+    "Content\\MikdashV3\\Maps\\Courtyard.umap": "d0417e294388e603facc66ab279693ec01464ace5b25da4ea129601dfd08f56c",
+    "Content\\MikdashV3\\MaterialReview\\AntiRepeatV1\\Maps\\FrameTrial_Candidate48.umap": "4d966f9a9f25c63abb4885fa6a41f6d9fc7f80631ef6a6501b866eab98ec976e",
+    "Content\\MikdashV3\\MaterialReview\\AtmospherePilotV1\\Maps\\CourtyardAtmosphere.umap": "a4f2fc6873100f534cd12d23dd807501342e8b4d19931c261983bae0483cdcb0",
+    "Content\\MikdashV3\\MaterialReview\\BusVisualAuditV1\\Maps\\Walkthrough.umap": "bbe702243c2fd51c7b81932f9ab3636e014c20089bad975c681ef3f0f5e8f9be",
+    "Content\\MikdashV3\\MaterialReview\\CheckpointAudit\\BeforePlatform.umap": "60540f658ccfeff733c0f8e1890e9b8f378b05baabd2f6f6402ad779f2f64d30",
+    "Content\\MikdashV3\\MaterialReview\\IncenseSmokeReviewV1\\L_IncenseSmokeReview.umap": "8a9d3e7466b1dfc68abe20a149c8a2c8946817595596671d4e1bc1508d0eac7c",
+    "Content\\MikdashV3\\MaterialReview\\IncenseSmokeReviewV2\\L_IncenseSmokeReview.umap": "d554e44729a516016591b1ebe01912a29d4cd87f2e0c8616e3cdb18c86d97c58",
+    "Content\\MikdashV3\\MaterialReview\\IncenseSmokeReviewV3\\L_IncenseSmokeReview.umap": "40aef4a74392803a791a45cd40c64454bffcde38c94e2da428d7dedc9575ee99",
+    "Content\\MikdashV3\\MaterialReview\\InteriorExposureV1\\Courtyard_InteriorExposureV1.umap": "5531d97d364165bd8323243b6a1c69c7f2897629a683d31c600dc18ad20cf788",
+    "Content\\MikdashV3\\MaterialReview\\KotelPhotoSurfaceV2\\Maps\\Walkthrough.umap": "201bfd69a7375e841c51157a635b3880abb58c01f0afab0387ec31a8ffb4354a",
+    "Content\\MikdashV3\\MaterialReview\\KotelSurfacePolishV1\\Maps\\Walkthrough.umap": "b22cf5b61350fb67bcf76fe728f06ea96e82d3408450d37784345b320bced82e",
+    "Content\\MikdashV3\\MaterialReview\\KotelSurfacePolishV2\\Maps\\Walkthrough.umap": "9395a3cbb79246bb4722879a94e4f6bddb9cad9e7c229061bb1900435b6c8262",
+    "Content\\MikdashV3\\MaterialReview\\SanctuaryFinishesV1\\Maps\\CourtyardGold.umap": "5a0cef9cbb51b4ff83978aaf91318d8043c62640a934c732269d3fa23128af47",
+    "Content\\MikdashV3\\MaterialReview\\SanctuaryPolishV1\\Maps\\CourtyardPolish.umap": "da6d8bb23fd2f159fff6794b419098652bf3b4285466419368d66dc6c531933e",
+    "Content\\MikdashV3\\ResidentCrowdReview\\20260907T222556423474Z\\Walkthrough.umap": "86a0ff691b32957ae9636021d2e20aebc204105acfe4e7bf4ef9bca162175755",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Man_Elder\\SK_RV4_Man_Elder.uasset": "35900d5b01eb15896dc08575b8ff7b505dc5ee3a5dfda9987a97a13e53cf03c8",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Man_Heavy\\SK_RV4_Man_Heavy.uasset": "7712fb997369d8febd9ff6a9f1f46d14535cfd768971040fa650e7eb2ad9227d",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Man_Standard\\SK_RV4_Man_Standard.uasset": "1cb749274cd813721ae6f2cdde55fc264f32bb00256c8723ddad67552d28204c",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\MI_RV4_Cloth.uasset": "76e9b5637f78ff46cb7eb34f18d3cfc957eab087b7f4b56de45ffe970f1f31ad",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\MI_RV4_Eye.uasset": "ea9356b3ec557c1cc854de9a9705fb14e3ae0e87f1d24554218d01905862247b",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\MI_RV4_Garment.uasset": "8bcf9dda6ac96090924818b8ec1db14799c6834b9787c295da72e48547f5b2f5",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\MI_RV4_Garment_LinenBleached.uasset": "a615f35794485819e533f3526d597527a77ddeedac146898bda5c66ba17dd993",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\MI_RV4_Garment_LinenUndyed.uasset": "a2e5b2415856c9ebe31f72d33ca72e3a0b18f248b7c72d37fe33310ceff7d02c",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\MI_RV4_Garment_MantleOlive.uasset": "de32df2036f0b8e86690dcc4907996e6d2dd1037cc4643c554af50d150310895",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\MI_RV4_Garment_MantleSaffron.uasset": "b423edaff0ebb0d79b6a5007534f86a50af098e85969e2646e17cbcf09259480",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\MI_RV4_Garment_TravellerDust.uasset": "83704492554d0762a62e9fcd340d751f913a71b95a35df89869b80363df6f236",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\MI_RV4_Garment_WoolIndigo.uasset": "aede8460a33175873710b23e112cab867f06e33b2e285dea29ab2d17fbdb9363",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\MI_RV4_Garment_WoolMadder.uasset": "27a3fbacb36c87c30fc6e78148754426b423acf599e49795b2db4a3ca66f9cd0",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\MI_RV4_Garment_WoolUmber.uasset": "bd7ebb6caca7a3e4aa6c4f246efdae8c25e468ed0d81f8da4c5818e22e7e0394",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\MI_RV4_Hair.uasset": "878f371f1f9ccc2a2e1ce27ba7766b6439f054c636b2ea6e76181efdb3d3cb76",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\MI_RV4_Leather.uasset": "6f40e902d405a1fd3e146b6483755f4c62c80d8e22a0d4c0c3790739d60591e2",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\MI_RV4_Skin.uasset": "a3b3a5676f2cda7c1381ee0ea9adedcda380537c3d06bcd0cc59920840a1129c",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\M_RV4_Cloth.uasset": "52d26d17b5fe47470bce326fb107efb12d5898850f537f7ab00824e6957436a7",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Materials\\M_RV4_Skin.uasset": "e307aa14976e5d3ddbe619460fc4e3b69eac81ebb14e5064b175d551ebd8a14f",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Textures\\T_RV4_PoresN.uasset": "7df1ca4b89d4f0813a032c1fe1cb36e1d0771c4eb8e2285e122095396afd9b8c",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Textures\\T_RV4_SlubMottle.uasset": "c725ca026daa1986a68f6ef3db86d5b95d4dc89fc47b705b981cf0921125625f",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Textures\\T_RV4_StrandN.uasset": "5d719b1b0dccf1577d34c29da43933c23007e2b33a749b9cbc9d925761e45674",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Textures\\T_RV4_WeaveN.uasset": "1d8f79de2aec9fb886dc48a46fc30548c17bfd03de3a199efd9ef50fc50a1e27",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Woman_Elder\\SK_RV4_Woman_Elder.uasset": "a0f021213b4a9c218ea6313e5547cc87eb6f66f2531a7557f17efbbb539ad748",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Woman_Young\\SK_RV4_Woman_Young.uasset": "e70de841c2f87f618b4ee796f1b5c6c108a236aea17faf020775fe20d39d1868",
+    "Content\\MikdashV3\\Characters\\ResidentV4\\Youth\\SK_RV4_Youth.uasset": "f58a34553be29a32260bed362ba0a85a6363028a368b16f29427dd762c719c4a",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\StaticMeshes\\Denim.uasset": "3234efe12dd5cf8f70a8a3ad7fc746e5e7b37a1f5007f6d8a02feb9f3b9ff971",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\StaticMeshes\\Eyes.uasset": "e721f0a24c3482733d634b7023c7d1916480d87f70778d35d50ee81479cbe17e",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\StaticMeshes\\Hair.uasset": "c757f25d968fe165e3f4c8fcbb20473762b2ca0e2d79ffea47daaded95781367",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\StaticMeshes\\Headcloth.uasset": "bf69aa4aaed58b47019b2c8072fdba5a208cb3ef2a7f08141c119179af286d4c",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\StaticMeshes\\Iris.uasset": "8aaa1a69912d39bdf2a475d21eb6513fdc1033500b96fc98bafe0d652216cc0a",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\StaticMeshes\\Leather.uasset": "1742f690cf5e4a834724b70f14d552f069c535cee052f03712dea365b43b40d4",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\StaticMeshes\\Linen.uasset": "b6a3ca60a4334e9e29d0a959e91ee18b3f518b7792fca8a3bd6fd5fd7a556012",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\StaticMeshes\\Mantle.uasset": "88c66ce79797720067d344bd349020f181aacd81cb74daf02200697d05a8fc1c",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\StaticMeshes\\Prop.uasset": "cf403647fb6577bbcb817ca4670151929e66dc1746581f7953d75007dcfd3d88",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\StaticMeshes\\PropGlass.uasset": "506b8f0ac4a4203830e2d94cecd5e6f2256ca9ab563b1a0b08c9814941050e70",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\StaticMeshes\\Sash.uasset": "8ffa0106854d10d173cbcce07273f6cb8f1e2702001912ffe9c0ab775c408bfd",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\StaticMeshes\\Skin.uasset": "651b8ae65654eaf3716c402933cf0895c56fdec290aa85c5137b599ed743556f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\StaticMeshes\\SM_V3_Kohen_White.uasset": "0b12b7af382fa2ebcc29205ded8c85688a90138d4fdb99a3f9e8c4e1310e5df0",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\StaticMeshes\\Trim.uasset": "54f5b35f45a2b6a64c6ef89aa6f9a63532aaaa1dc26a3f676da3f530afe26bc6",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\Materials\\Eyes.uasset": "bf99a089d84ef8a548ed4c5a38479b9e8a47fd84954f2905b4fb4c06c09726c3",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\Materials\\Hair.uasset": "ef96eb6557ff269aa67e1e10c9b57565f0e1ff7a18c1d6736294dd02839207cf",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\Materials\\Headcloth.uasset": "4648a207570a8018f0543cf47b4c3a7132abb2ee0dbcfb58b3f2877c4190ef6e",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\Materials\\Iris.uasset": "453e07fd762078598b8b63f111bc3d9398701d804ab6a4d9cc3c635e009e7f74",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\Materials\\Linen.uasset": "1d4093b904ed7c34b80ead9e8500400887dbede69c053a4b9da83ae30a4c24c2",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\Materials\\Sash.uasset": "9434f19919d7522fc3a391bb18271cd4037970d2cedb2ae0bed870495d623711",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\Materials\\Skin.uasset": "6eb8d8b2809d0799d2b2efc9737c00841b31ec5b3c69130f5270ec2997bf7783",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\Materials\\Trim.uasset": "0dca7ac977c358c3e68e723969557b007c4d8a262cd700e8cf1b07050792ab10",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\SkeletalMeshes\\V3_Kohen_White.uasset": "47b5606b8c731a8bedc5bf3a67383f39a5a4fcbf6f71b6c1613600fc95d0f547",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\SkeletalMeshes\\V3_Kohen_WhiteA_Pilgrim_Original_Idle.uasset": "17f6b8608bc081cad22faccf18e00f96669816ce8004dd6cb8d4ba749e9febd4",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\SkeletalMeshes\\V3_Kohen_WhiteA_Pilgrim_Original_Walk.uasset": "40a8282f2c3cbb89ce0fd2a1471bce2c333d96cee2ab16db85e01d177e4c1fab",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\SkeletalMeshes\\V3_Kohen_WhiteA_Pilgrim_V3_PhotoCamera.uasset": "cb3b74c664b394f5bda735ab21d9a4fc704b3a70c72a6e1cde96a81c369b947f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\SkeletalMeshes\\V3_Kohen_WhiteA_Pilgrim_V3_PhotoPhone.uasset": "51a5c269ff17329e91fd2f097b1a7ce8e636f85b013020adb9c0f6ef97fcfccf",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\SkeletalMeshes\\V3_Kohen_White_PhysicsAsset.uasset": "ae20375363c9d055d1e54541e9a1586b25050cb29e657d7f15525d92d6f73877",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\V3_Kohen_White\\SkeletalMeshes\\V3_Kohen_White_Skeleton.uasset": "b5ecfabdf097abfc267e258ce85706939b8d8debf10b1d3047e790b3f4b3bbc1",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\WalkV2\\V3_Kohen_WhiteA_Pilgrim_Original_Idle.uasset": "8d09b956d8530c6157bad312680f7f719b09222d46de9c4ec7c6bc25325fc698",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\WalkV2\\V3_Kohen_WhiteA_Pilgrim_Original_Walk.uasset": "eddd0039bde510b487c553aa1c791d9c3ddb0ccaa96f755f895d134081ff94dd",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\WalkV2\\V3_Kohen_WhiteA_Pilgrim_V3_PhotoCamera.uasset": "879de0b47020e32fab25ee0c5c054c4343fcd3ca41860e273dae1607c324b4e5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Kohen_White\\WalkV2\\V3_Kohen_WhiteA_Pilgrim_V3_PhotoPhone.uasset": "8d9753614be3dd71958b927a9c39e966eccf2f8252aeee7dae4e5b7de201cf0f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\StaticMeshes\\Denim.uasset": "d4d0e56215a30095faafed5aeae5ad090a2f995f99eae06a0dc6e18a8e1d14af",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\StaticMeshes\\Eyes.uasset": "d41bc38fd50d8d298839d668d44beb712e8c64e86d561e4109907a51c374e980",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\StaticMeshes\\Hair.uasset": "eafbd4bf4efc90e91599ac592117fc566ac1cb4288e8a091ca2420c84977c07d",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\StaticMeshes\\Headcloth.uasset": "45a03be39aeaf56dfc2b10d7c5603c20671c733909c664aaaff2e0633ddee1f5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\StaticMeshes\\Iris.uasset": "9ee4f430249192c079a0c59197e7431079bd2736ef4b80cb020c53d8f597da9b",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\StaticMeshes\\Leather.uasset": "90aab1d8aca3ed55268e8a2b3c5200d7e4118a0851b513af6ef9549d5ce044ff",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\StaticMeshes\\Linen.uasset": "cbb3d2beec92e54d168432da0734ffe073317dbb227b73ed6f494f2780cf5918",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\StaticMeshes\\Mantle.uasset": "12a55960e22b7c243be17ceb7b0f2612c93d94bc94d6cc1ad37fb37d3b9eb43f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\StaticMeshes\\Prop.uasset": "ab5972bfcbc14b73e1b180be4155098740a78ea23e3b275fe973a70649e2cfca",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\StaticMeshes\\PropGlass.uasset": "9ef6a1ff08abea637d8e0535f8e907fd0646176334f5bfc84f22e8a81f2b8b7e",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\StaticMeshes\\Sash.uasset": "69b4338b807aa01f0181fc09cc4db3caaae92d9c7d728e94443a2a358c3d18bb",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\StaticMeshes\\Skin.uasset": "52868e478cbafe672cd2c2fd8f7408758c3beb086367d985439e059adf777132",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\StaticMeshes\\SM_V3_Pilgrim_Man_Elder.uasset": "2ccea870422a192752b880ddb475a83f987cbebdee202db282f5303edd96106c",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\StaticMeshes\\Trim.uasset": "4f27f756d0802fe2f0babdc1e8cc151d2a1186637beffe45ab0ae2358ebf9bba",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\Materials\\Eyes.uasset": "cf6471618e9a22a55a155ab8c6071397d0080f568406121b1c3a76ec4347bdac",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\Materials\\Hair.uasset": "5820f759c3a0de131392623aa6dc5e9067d44a516851c390ff64d72896fa6af0",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\Materials\\Headcloth.uasset": "86ba32de2e5e293a4550ba4b3a51202f42f032e4ccc06114bfa1ca4119262321",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\Materials\\Iris.uasset": "b66ad0df707bec22349a569400492e1b94b7568ccf51c65334ff5966fe07e804",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\Materials\\Leather.uasset": "9b96a5e4dcc2913e0945083bcb3a3bd1a453f9de9dd0266dcb3ba0751184436a",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\Materials\\Linen.uasset": "5ee6d74ffbc3e2651152fcc7042037d56040416a82c3307ad5b0f24b927d0175",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\Materials\\Mantle.uasset": "ac43e45af402b7bb6c874ef9a93e9d185d813dbc9622253483d3df359ade16a7",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\Materials\\Sash.uasset": "21408680d4461dd0f183c9ea5fe3098bc0539d42a07853de11c21fabb66e8d4a",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\Materials\\Skin.uasset": "2fb94bf1297915ade52a5fed31c52d76aeac8da48b66c13c3876a46796913c5c",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\Materials\\Trim.uasset": "0587a0d89d3f476f543c2c5c7a347dd2494175ae3a744fc6538990dae67b5ac3",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\SkeletalMeshes\\V3_Pilgrim_Man_Elder.uasset": "2a8ad72eee6d64eaf6bd87cf59a21118312ea35cdfb375556e770c9048516db9",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\SkeletalMeshes\\V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle.uasset": "025d870e3f7dd95798d31e069e3520414790ff7d5c7d1d56e0ae5d30ac9fb167",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\SkeletalMeshes\\V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk.uasset": "4d91a06192df71fb710d8d61612e575625cd81ff442aa50b69aea20dde72e35f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\SkeletalMeshes\\V3_Pilgrim_Man_ElderA_Pilgrim_V3_PhotoCamera.uasset": "0be28bb9332aebb9b1c3e26e11fa33ffee401e34ff3e8ae402885ee7891b7aeb",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\SkeletalMeshes\\V3_Pilgrim_Man_ElderA_Pilgrim_V3_PhotoPhone.uasset": "3aee119edf7bbfcc3e102a09ef6a8a3995d3d5ed1ecef748f053980fffc731cd",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\SkeletalMeshes\\V3_Pilgrim_Man_Elder_PhysicsAsset.uasset": "37d129aa8ec2eb22ecc13870acdf02624c9659dc756d6316c1dcd1f69e117b80",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\V3_Pilgrim_Man_Elder\\SkeletalMeshes\\V3_Pilgrim_Man_Elder_Skeleton.uasset": "1bcfd257d8e1771fb91138d7b864105f2b3fd2c02f14ec757aa77319d2b72e7f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\WalkV2\\V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle.uasset": "658ce4a0bfe707c4b68109f1ec762203148d2c80322f2d31f76489836d423c71",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\WalkV2\\V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk.uasset": "fd8d602f7d458d81a73540095ef8fd83b2040cffe363ebc706a283975d364645",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\WalkV2\\V3_Pilgrim_Man_ElderA_Pilgrim_V3_PhotoCamera.uasset": "c9c66467149305e335f3e3320e29e9c1951b3652a7e36cf52939c34000fa5037",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Elder\\WalkV2\\V3_Pilgrim_Man_ElderA_Pilgrim_V3_PhotoPhone.uasset": "1d923802cb6a58679e79e0f23e2753bd7eaba191d69d488b1bd71c439d37ece2",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\StaticMeshes\\Denim.uasset": "01684bab8f5bde8d87285145bdd1109b336fa781db601263c1eb7dd9b32f8c04",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\StaticMeshes\\Eyes.uasset": "c13ebc9c3d7c048db49c4e00353a3eeaa872a1e778d835e555468f0f206d7f0e",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\StaticMeshes\\Hair.uasset": "0f8e493f14cc239f7c320e79818f7d1960c0fade6d7f6faa7e795b48514eaddb",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\StaticMeshes\\Headcloth.uasset": "8271af7d793659c0659f040ce6230756ff1c85a80b5eb6c14bd3562b53e5c542",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\StaticMeshes\\Iris.uasset": "daf50f35c0ec33b1bb2ce864c60dfb47313570c92bb373d3494af5e5bcfc6b6d",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\StaticMeshes\\Leather.uasset": "1ede6ea29a7953f3a93e323dde258ae071b7afac42d9554bc5e92e962776fc35",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\StaticMeshes\\Linen.uasset": "50d1f3c2ecf8d9e202872d979ac5960b9dfb230d6c6cd8e04b79301db5e77a9d",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\StaticMeshes\\Mantle.uasset": "4fc12d45f57b39677547e3e0820576dc372f6021f1c19c214113036d9fa33d84",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\StaticMeshes\\Prop.uasset": "cb21b38cf26badfa38e51e2ab9cc2debf86b7ee4967db1e48156e72eccd1e46e",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\StaticMeshes\\PropGlass.uasset": "128c892a1e80fce14da7bb908e3fbea5e628c84d3fad898c0921ade250fe8fe9",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\StaticMeshes\\Sash.uasset": "881e5f448d767126887df62e3cd78c9537ba77f651edfd608f1bd76ea93fb786",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\StaticMeshes\\Skin.uasset": "8a72c587e709631c0c868a64ef6a731bd52fab6ed0619eb361624bf02eb02db8",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\StaticMeshes\\SM_V3_Pilgrim_Man_Heavy.uasset": "8cab6793c392c7f2a124389278403ce8a27b5bcc55a79cae01e13543ec4da733",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\StaticMeshes\\Trim.uasset": "56729dfb1403b174297084a44da2a1b5a0b04a068af2c9f7d903ec922be0ca63",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\Materials\\Eyes.uasset": "71d50abae0b339956a8e181749e24b9fbe59d39d285b2336a2abcc2b2be7585a",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\Materials\\Hair.uasset": "e3566c86fba9b907fc0281a6ea931728785c917f6e31af069fb59f8afa7483a5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\Materials\\Headcloth.uasset": "3ae417392cdfe3a4d89ca76041d5b4705170e71f953ff33962d5cf6675bc0f98",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\Materials\\Iris.uasset": "707f7ccda7e1cc9e143b7e47cc7499a18efc852dcea13a4ced6484665565371b",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\Materials\\Leather.uasset": "0672f8cd7adf354789dac11b1a9fc8a334d1ea3d0f47b8fc9d7cb12d2017fc87",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\Materials\\Linen.uasset": "779a9b46866658711010ce349149cdd58f779c9c7af7253065dda6129af91198",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\Materials\\Mantle.uasset": "c9786f4df8e0153765b598e44e0c56f10906b11660b9fdc6957d79e955a0ab06",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\Materials\\Sash.uasset": "0446185ab845dc89579f54bb6d8693fa84491a1cd1fffd0cdba8e2267428b595",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\Materials\\Skin.uasset": "bcb64583e020c1bb4be766915affd7ede5b2b58a9baabe2ec8c3433167f9d4cd",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\Materials\\Trim.uasset": "bc55fcb418a4eb0c837091232a72842660222fac1580c1bdd6b98a380a01de17",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\SkeletalMeshes\\V3_Pilgrim_Man_Heavy.uasset": "72360ce036afee2cec54b95d1e058cad82590fecc42d54355dc56c4b1a75abad",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\SkeletalMeshes\\V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Idle.uasset": "5a36025be34e5ad5937b04ef31bfb21d4747c8adada4c1cce69ce3b4587f9194",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\SkeletalMeshes\\V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Walk.uasset": "89f7a627245a0b414d8212542d59d6331ca9b4d05b8d9f319ee6c16ae905a3d6",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\SkeletalMeshes\\V3_Pilgrim_Man_HeavyA_Pilgrim_V3_PhotoCamera.uasset": "b6e0ace8842fe172dbacc5f6796afda95b4c7d5952de19f538d4f80052036f20",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\SkeletalMeshes\\V3_Pilgrim_Man_HeavyA_Pilgrim_V3_PhotoPhone.uasset": "5b690eef5b86776b8724b90763306009be0f0cc65ccfe2083d25190eb30b0696",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\SkeletalMeshes\\V3_Pilgrim_Man_Heavy_PhysicsAsset.uasset": "c492ee361ad044d04cec386c39de0741e6c99f7ba45a99abc35c3a2b206b2150",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\V3_Pilgrim_Man_Heavy\\SkeletalMeshes\\V3_Pilgrim_Man_Heavy_Skeleton.uasset": "94991d2d409f8d15e5c65111f02a7cddc3309b5a202c5d60e77196a796048095",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\WalkV2\\V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Idle.uasset": "203c40c3ef15c2caa16edbfef9919d413cd74df9df9f57bb0022077f8202445a",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\WalkV2\\V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Walk.uasset": "8b251c98389e608b2bd4fc8e011ed6f43cc042ea696d25697a204aa8bfae8899",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\WalkV2\\V3_Pilgrim_Man_HeavyA_Pilgrim_V3_PhotoCamera.uasset": "7df70790d27caf057d3eff260df1895c7269bf1b7ec268a464553a980c76288f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Heavy\\WalkV2\\V3_Pilgrim_Man_HeavyA_Pilgrim_V3_PhotoPhone.uasset": "a2b5c070ddc1f4c4f0e0eeec4ac73b3d143f012522ab55e92de024d25326d55f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\StaticMeshes\\Denim.uasset": "0b41d4a51368caa667aa53ae8ec5c6c4163e30f4a0d0530dc2a2c41d474d8e1f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\StaticMeshes\\Eyes.uasset": "2e79d842cbfdae48a04544a73541f983c4b0764a1b45a070877e53b838eca92a",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\StaticMeshes\\Hair.uasset": "76e94acf3ea0d0f962c6cecfd6b907346d8a9a1d104f761fc05306b75d90c6a9",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\StaticMeshes\\Headcloth.uasset": "ac8210eb72cf8158f9fad259719f4b7d53de5594caf9e26980e55807da76cbd2",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\StaticMeshes\\Iris.uasset": "f89f5f4cf8ad3beba7b5ce69a6a85e592767427f031f3b532f9fb5cfb409539b",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\StaticMeshes\\Leather.uasset": "f99ad4d5dbf700918533c73da5715885b40e2678a7119a7d43a8a25ce37f20b4",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\StaticMeshes\\Linen.uasset": "66c653cc0f705e80f4b402bda1ecacf8fdf4a5d49a561ae969439aeead6471f0",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\StaticMeshes\\Mantle.uasset": "80508ed5c1055625da7c6f73c52aed0948ea89e708b972e4025c709f4a1532a2",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\StaticMeshes\\Prop.uasset": "720ce162db8ee8fab2c2877f09383c63555a1b1e2b774434b6bce949309b841e",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\StaticMeshes\\PropGlass.uasset": "7d16c7e64faf869cd7b2358e059e5a5d8cf757a7c2a35c13c0c0fd2bc57d53b0",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\StaticMeshes\\Sash.uasset": "60dcdd18c98d5436dcdba41ca1b7c212ce16df98c18f19d930451875f310a24b",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\StaticMeshes\\Skin.uasset": "d3a81173db93d129f1b640050239781d554d16a14f7185f0a80bd1e3f35978d7",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\StaticMeshes\\SM_V3_Pilgrim_Man_Standard.uasset": "de52e3d99ebaaf171357dfd6034bfa5a0742214fd93f790b2c08031771555a3f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\StaticMeshes\\Trim.uasset": "c8564f9e7df936a6345108e41dd1e3df09ab44b841abd727e9e1e4169db81b18",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\TendV1\\V3_Pilgrim_Man_Standard_TendLamp.uasset": "b426049250b599e31010632f3ca625fc914762942059515f039c6210c7f440da",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\Materials\\Eyes.uasset": "41a27b9e519f1d193e0786a4229c3fdb6459c3c4435c6306b4d54b68f29dfa05",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\Materials\\Hair.uasset": "9736a28855fdbb32b650f96d3ff1a52d3245b81587e56b56e9d18b320363b8cd",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\Materials\\Headcloth.uasset": "f6c28852c1c58725a0ec324282189f276ed9f86448dd8d3943fd0942a3a52ab0",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\Materials\\Iris.uasset": "11aaf40e8f51a46cfc502c74ef6cd4602f3eb1bc63456b501fa8d51f3419ba08",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\Materials\\Leather.uasset": "1e17d42738f46a19ac8c46e2ee460b277806e085dc56c6836f47648cc6985857",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\Materials\\Linen.uasset": "227edd804e5b16f81c269cc9c9c22e4c35830309e38eed187a307b81dae502ef",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\Materials\\Mantle.uasset": "43fd2682a08918c13a1dfb3ddd52f5f60c43eaed6ad27b7a2889627897ac8dd9",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\Materials\\Sash.uasset": "9c8611116e80afd2bae838bbc90d34a6149d981862bd7821e3bd773c5a946f19",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\Materials\\Skin.uasset": "07fac40ba2c8f28c5b722e55fba556de28423b37bbdd6f758c30532c4ae370f8",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\Materials\\Trim.uasset": "f3b4fd12d1ec587de697c211efc1740d52ed7065014b409a7f1ba4243857f9d5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\SkeletalMeshes\\V3_Pilgrim_Man_Standard.uasset": "9f6fa7d8605282e5acc7eb5b018b4f359118478330127cce9f358b9738b2f075",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\SkeletalMeshes\\V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle.uasset": "680278ef16be99a6fb5ef79edb7a39da2ba25d150ba6e985b9cc4bc22b54ef95",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\SkeletalMeshes\\V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.uasset": "ea12a0135c16aa33237b7c5b12cdfb4882b378ab011eda4367038c17d5fecaa1",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\SkeletalMeshes\\V3_Pilgrim_Man_StandardA_Pilgrim_V3_PhotoCamera.uasset": "424f2ae208fa7a79131b849cec129b2c24f7347c9e51ff40d3868b25cafd0b87",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\SkeletalMeshes\\V3_Pilgrim_Man_StandardA_Pilgrim_V3_PhotoPhone.uasset": "106e3d0e90fca0e152a08a83a0f0d10b2c37a2d7c121b59c98a849958d17d313",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\SkeletalMeshes\\V3_Pilgrim_Man_Standard_PhysicsAsset.uasset": "8f4936056c59df42a33f38448a69a07db3c44d6fa5788d188198b302cdbdf018",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\V3_Pilgrim_Man_Standard\\SkeletalMeshes\\V3_Pilgrim_Man_Standard_Skeleton.uasset": "c15e7ea36dedb9b48d7e3513794b88ec8c803897d3d1c907e96ae0095c8e0d81",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\WalkV2\\V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle.uasset": "a96605ef26ef5b7d0ab7b7fae0972178f0cd00c57811a70baef549a760136388",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\WalkV2\\V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.uasset": "596c079016c8964216528d60961497f19cd696fa171fb22c375dc0c696255489",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\WalkV2\\V3_Pilgrim_Man_StandardA_Pilgrim_V3_PhotoCamera.uasset": "8a19f610a8ab44b393d2f9d118652e25349884c1a5699997672fa58cc774ae4c",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Man_Standard\\WalkV2\\V3_Pilgrim_Man_StandardA_Pilgrim_V3_PhotoPhone.uasset": "6a1c8a76fc3a9213fcf1dfcab7553962f182ee9514788217c249f11d27f4d805",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\StaticMeshes\\Denim.uasset": "1da1a215fd241e09f3e970686788d195ba5c533800e873b187f61cda8bf9077e",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\StaticMeshes\\Eyes.uasset": "a15d1d1ab10d03c82c8378960ea8f59c147afbc0c8f854d517c56b17eb139bec",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\StaticMeshes\\Hair.uasset": "3c04662c9b8c48a95266eddeae50358d466fb5da35f95d13e8346be06de37e70",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\StaticMeshes\\Headcloth.uasset": "a6775d92554b0d7eb339cdc882738cd5bf2949691acd79336a0b69e816c957cb",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\StaticMeshes\\Iris.uasset": "41d7b6f4eb319db0d95826242737e6a81215bcd8a83232b78c683e3a28644ff6",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\StaticMeshes\\Leather.uasset": "2feceda5fc6bfbac9e9916f5794ebe5e0009777ea1293f18927d462c5965c153",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\StaticMeshes\\Linen.uasset": "d17b5d24f7d08a32b0071e16415b8584ab2bc495cb6cf6ecbe8aa1c28a94194e",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\StaticMeshes\\Mantle.uasset": "0594a766d60086b718190310c45d578232759966998c722a154776da71f75a2b",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\StaticMeshes\\Prop.uasset": "52857093ac06e308d66196d855492ee9139cfee49b5cf64e05bcc4649af0a2b5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\StaticMeshes\\PropGlass.uasset": "83cd768a424cb1b0836c52bb6cf665164a652ae59da0dc32b108420417de8f84",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\StaticMeshes\\Sash.uasset": "6e1bd948306c42bac04e62b0e37a12898a5d5948cd73f3ca568c93f1418bf0e7",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\StaticMeshes\\Skin.uasset": "7dbf4c8bb6105d3a1da24491424252a0cd31f9c0808b223a116ecd4941791908",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\StaticMeshes\\SM_V3_Pilgrim_Woman_Elder.uasset": "2fadb1a97e094bffec080ef8597ce8ae5665e1dd4a091f408bf305ace9c9a11a",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\StaticMeshes\\Trim.uasset": "f6539e541cbed62d53f67a37c01ed8694fe760eefa6313a60f1b5c87e0f5b436",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\Materials\\Eyes.uasset": "287a9186e983feda12d043f47cf0feaf7ae9176a853381ee25022f4bdafa1264",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\Materials\\Hair.uasset": "508cb42c73b61e30e6ef73697630849beb1102b9b8e4d88e6229795f55e6b6b5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\Materials\\Headcloth.uasset": "26d8ce90a4b7f75a3f6fae141d48c4486d016fead6a0cfe28589c814f2691857",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\Materials\\Iris.uasset": "277f063de4827af9c53f10de0efd3de55c34fc2d4f5935727b9a4d1dbb160aaa",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\Materials\\Leather.uasset": "1a7fbc1021761db6451d8daa973971e0316f9e1d0b72f957a285f81a2b09aa01",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\Materials\\Linen.uasset": "3c8020345f1184c18b4c28c6d1998f01a573a88c009c40956d1861533e95a982",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\Materials\\Mantle.uasset": "20f7798ebce88162c910cb225ff07747f7553b3c7f7fcaa9d24329e84c4b6c77",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\Materials\\Sash.uasset": "8b38d2800dc55fc408f74616e1cbc427283cebb80d245f31fbb2baf8046f2b8e",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\Materials\\Skin.uasset": "f46c207d863effa20bdf7e16e25908aa13606b0f717493473a1ee7deded3db34",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\Materials\\Trim.uasset": "325fbd651c76ca64cb69a88d9590002a03962eaf3b2b0b7336eacfac1e3dcad3",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\SkeletalMeshes\\V3_Pilgrim_Woman_Elder.uasset": "dcc12bb5de7f491ac5f53634b34b9e966f9b290bcb3138a4925c83eee0ddd4e8",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\SkeletalMeshes\\V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Idle.uasset": "dc177af679ae982cc54385957944dea624a40f61b71d6628b6e67cad0142bf07",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\SkeletalMeshes\\V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Walk.uasset": "fe607aa30f067f216d1133ee0cd9c5ba1babf619248e551bac6c1c1fee5af1d0",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\SkeletalMeshes\\V3_Pilgrim_Woman_ElderA_Pilgrim_V3_PhotoCamera.uasset": "9ef21996916a5c5678eb4c4e7fa5b0f08c6a6236658fbb2daa62798af5bc9edf",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\SkeletalMeshes\\V3_Pilgrim_Woman_ElderA_Pilgrim_V3_PhotoPhone.uasset": "4ac276ceb5334db53e8ffe99cf69677c0666999a9dfec654863e2b2f0002f760",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\SkeletalMeshes\\V3_Pilgrim_Woman_Elder_PhysicsAsset.uasset": "7f9efc4c63eab6c3b32cbab910ef0e64050b30b20e88748e1e4270d479877e30",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\V3_Pilgrim_Woman_Elder\\SkeletalMeshes\\V3_Pilgrim_Woman_Elder_Skeleton.uasset": "c115b61874567d19791cb45b9646d139edacaaf10f1cd12767a88f723b4d3b01",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\WalkV2\\V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Idle.uasset": "a800988f4d9a5424768ec0317bd3aa2ab3e80285032d7c348f7880c956e49ddc",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\WalkV2\\V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Walk.uasset": "adebbde53981f3e56cab925e2f7797b73b4613b1eef2bdc88942dc191f4ab1b0",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\WalkV2\\V3_Pilgrim_Woman_ElderA_Pilgrim_V3_PhotoCamera.uasset": "cc0fd8711da212f673c87c1c73c77d5f2fa3b3ab30c53bbcbd343e75881e54ba",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Elder\\WalkV2\\V3_Pilgrim_Woman_ElderA_Pilgrim_V3_PhotoPhone.uasset": "3f1775598d01895927fe50a3fca01046c90cd44769d9b8666c0804ec97dd3d7a",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\StaticMeshes\\Denim.uasset": "bf571f4f797ac98f7cc563f925fe79bbb55eed8554632c4dbb77f8045b2d1277",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\StaticMeshes\\Eyes.uasset": "91889e78d90def59322708545bddf8cf6a96eeaeb04ef8573788f410902ea212",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\StaticMeshes\\Hair.uasset": "bd466f38d86707212f1698cf50765b3ed02f2284de298984aa230e42b9d44c80",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\StaticMeshes\\Headcloth.uasset": "c60db043d3a6707c22040e188ade33b62d84505f1f051f2f6faecf688771c94e",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\StaticMeshes\\Iris.uasset": "97f71a51361e0158eb99275a2fc51f34a0d07bd67c46e74f8fd8440582085b78",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\StaticMeshes\\Leather.uasset": "a0fd99507e99dd6966c99f05705a7018ac07551bf7cb814995a5e19928260056",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\StaticMeshes\\Linen.uasset": "d93f86c175f032547101f592704273cc95361326a709fb28a59c1edcb155d5e8",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\StaticMeshes\\Mantle.uasset": "d24c0f81f77af47660e3caf810ef6c7db5796289ad58b92217ab2554fb1028b0",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\StaticMeshes\\Prop.uasset": "d7359fd3c5b0e9650fad6b69a60ecc217275d0bd9a4f42b012967d705246f000",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\StaticMeshes\\PropGlass.uasset": "0c53e94d951e329afba15270747761729a3cbfc05c3e47398b470c741cc7a424",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\StaticMeshes\\Sash.uasset": "0832c6295d330f717656a936119bd6c83900526d6770ab436bebf8b3cc12c532",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\StaticMeshes\\Skin.uasset": "0cd6b0606f2cf945fc8099d5d100e6643c787588a85e7a2041224274500c22d5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\StaticMeshes\\SM_V3_Pilgrim_Woman_Young.uasset": "939da28ea51233a9c8f811d3a0eb2d94a1556361aecc4b64546bd76f6902bdf5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\StaticMeshes\\Trim.uasset": "7aaa6f3859b6b565510ec1ed2bf99935ca3611ef0433b786ba070dbb97bde61c",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\Materials\\Eyes.uasset": "db0084164b5522bf88091718a3d6ebd3d28bbbd389e7c6f71be53317a9fb7fe2",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\Materials\\Hair.uasset": "ef9aa8e1a266df41a9da97941ba57f7197c762ca8b1f05b9dedede86eb75fe7e",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\Materials\\Headcloth.uasset": "53e5a0ddf2f333128701270c1d9cea7abaa9720c25e88688219326259a03b15d",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\Materials\\Iris.uasset": "01e35955b7dc2a021d89cd0591604a903fec91cd8270cac4a9fb323409a45855",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\Materials\\Leather.uasset": "d49c3de07e9204e30211652dc9e12aad6d5746c218c5be80220b553369048d02",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\Materials\\Linen.uasset": "531259cbd0971559fdc9ab57b71fad3279070562ccbc6ac440f2f98cbad15ec1",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\Materials\\Mantle.uasset": "2e8a3f0748c8c79d2b6540bc8f585c2bbf8ea756a36e811bd48b2de8a1041a66",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\Materials\\Sash.uasset": "c3938d1450fe75869092ea8e6df58addab40883f25ec630ab57fab2dfdd0a516",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\Materials\\Skin.uasset": "f7c2e7759c9dd3334ffab5b02a71f8d805c007a9fd6d8ab27575d97197b4a834",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\Materials\\Trim.uasset": "6c543cb08a9223a0220e1a600e157c33f7f8ae12bb6343e2a7e8141e7a69a8a7",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\SkeletalMeshes\\V3_Pilgrim_Woman_Young.uasset": "df10866987f8bf3f4fdea33d7a34a1f9bc3b97d745ae7acdf0581472d0b7548f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\SkeletalMeshes\\V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Idle.uasset": "556383f055585a97ec0ca844eb13d379eaffd02c035f83ede9163344c99c9989",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\SkeletalMeshes\\V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Walk.uasset": "43a89cc53eafaa7a18198f29aebdc63c8be3ddc710b34e6941d3b4e3d99dce4f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\SkeletalMeshes\\V3_Pilgrim_Woman_YoungA_Pilgrim_V3_PhotoCamera.uasset": "8abfe391e48c27a1dfe228306bcd3caf824a5602c243c1ec1f333260c465d4fc",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\SkeletalMeshes\\V3_Pilgrim_Woman_YoungA_Pilgrim_V3_PhotoPhone.uasset": "cfbeaf55570c7916d42fe5659deecfdc0af2d7a5b0b91c0d17a1d6b2c3b48cde",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\SkeletalMeshes\\V3_Pilgrim_Woman_Young_PhysicsAsset.uasset": "99d344cbcef5fd7a26afa465bdbe5c9ddcf36cfbaac265331e3816a7790fd59f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\V3_Pilgrim_Woman_Young\\SkeletalMeshes\\V3_Pilgrim_Woman_Young_Skeleton.uasset": "4502d8d92d5378959913e50e14724f38666446eaa63eacefde1905313320cbe3",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\WalkV2\\V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Idle.uasset": "663da275fe64cab5df69220cd8fc738dd4872f5585e0f00fcff36e69710d7a93",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\WalkV2\\V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Walk.uasset": "6bbe7023e079b392814d73dad45c224756a24e995333386e388dd93aa114f690",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\WalkV2\\V3_Pilgrim_Woman_YoungA_Pilgrim_V3_PhotoCamera.uasset": "cf5443067ce683efc5826117ea8e8c4cfe458b3d24a4aa737460738e79180457",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Woman_Young\\WalkV2\\V3_Pilgrim_Woman_YoungA_Pilgrim_V3_PhotoPhone.uasset": "97bf6c4b6ad382ab492be1bf6df6584da18f74e46edb87429aecac0d7b00f70f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\StaticMeshes\\Denim.uasset": "34e5c8097377fdbdc7048bbdbe0816f36e2e8e53bb2decc5a808f15f1b50e72f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\StaticMeshes\\Eyes.uasset": "eb90feea9d7372c2c41fbc6038843960ae6bd6d2d3790aaf8abe0d13101a1c91",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\StaticMeshes\\Hair.uasset": "3fd91bbbc9879696593c8ce69b01acbb57a1a4a6599071c53bf8e008d90c5318",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\StaticMeshes\\Headcloth.uasset": "5c545578f0600c9fd685985ca83f1bbbd7f80cd12179f2ff5b50ae54a4ba2175",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\StaticMeshes\\Iris.uasset": "0b1f64d940895a1accb582406ff684d34f2ed77b48c7733d61df124d36c74d7f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\StaticMeshes\\Leather.uasset": "19e8ba347f2f2d20054a581549c2828e12e2a0cc60b4588e2d8fe55e8e3994e6",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\StaticMeshes\\Linen.uasset": "6fbaa9819d57303895cf919024193451023c3091d368bbdcf46c077e92ff7bad",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\StaticMeshes\\Mantle.uasset": "ac0ac6a69c9728b0022dadf706e61356659ce1ba09596fe9ed28ada207a088e3",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\StaticMeshes\\Prop.uasset": "fe7f54e377b096a44e5dd466a84675b3b5d506c00b708c91abcb08ca5be93fa9",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\StaticMeshes\\PropGlass.uasset": "122181d7c7b0a4ed675ffac6bbf49a2c99bc9acde0745bc686e40ed23ece44c0",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\StaticMeshes\\Sash.uasset": "8e5061d89ac1a67d1f8248fb8915ec79446e9ec0cd0d467a74eaf2d38712d511",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\StaticMeshes\\Skin.uasset": "b9df863c281b13dc3beba4d6bbd9d6c88fe1f90814e1126f3f97c82a4419ffc2",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\StaticMeshes\\SM_V3_Pilgrim_Youth.uasset": "cb7184dd1bd1ed8daf41eff7f14c772f3de6b7328ff8fb3fa1555aa85da3b3fa",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\StaticMeshes\\Trim.uasset": "3d9be803fafdae0e1e53812949780889ac2b8a79f71929edf8e1b60907b6f547",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\Materials\\Eyes.uasset": "b6934e15e9a1c1e37c86be29412c96b802f591a62e4bf0bf9b2b85c3be4535c8",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\Materials\\Hair.uasset": "c935c1fa44fa8bd4342e553ff530d0059b27c5e23cdfe632a2f4dc8265422c70",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\Materials\\Headcloth.uasset": "4686eb00d20bfd0f0050d43ec3fd1b457881438f35ecd314a713380caf80e882",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\Materials\\Iris.uasset": "36ea73317506c86dae1a8903a326d9e0e5e3a002f2898eda46d0fbc26dc7eecd",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\Materials\\Leather.uasset": "db76b583e4772ba0006ea59585692b649d28fa62616d437c9e7529904e9329c6",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\Materials\\Linen.uasset": "35d0f0f51e5ed697f1575d9b71b0346cf754b7c390d27673cd3df435a307ed99",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\Materials\\Sash.uasset": "069389769da1cf2621e1cc50ad751d822add2bda80aa90cde6112d32f327c229",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\Materials\\Skin.uasset": "a6448dbeabb5f205abfc6bebdaadcacaf81a297f956d5d236295cf57824c8fb4",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\Materials\\Trim.uasset": "ce195ce3b4e818df12af634d5530c3fd44ee3e9ac57f29430b4f84ef899bf19c",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\SkeletalMeshes\\V3_Pilgrim_Youth.uasset": "6ac881527078b89cbec3baac7fe17ec2bdcb6a3fae402a4239a4fd0cf1e2c4c4",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\SkeletalMeshes\\V3_Pilgrim_YouthA_Pilgrim_Original_Idle.uasset": "dbbf332f94127ba0e34c97cb8bc0ccf5a8181f81a66c6cbad853ecde3e25fe19",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\SkeletalMeshes\\V3_Pilgrim_YouthA_Pilgrim_Original_Walk.uasset": "8b7dee36c284d62a5665a4318308645617b8f6a9d2c38f1934fd748cdd732ec5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\SkeletalMeshes\\V3_Pilgrim_YouthA_Pilgrim_V3_PhotoCamera.uasset": "5b258bdf89d002079c031de83161a38bd65b33124c3a3743f85640df13db4590",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\SkeletalMeshes\\V3_Pilgrim_YouthA_Pilgrim_V3_PhotoPhone.uasset": "a00b800a6ad8ab552ffe2ac0b5c835fda56dc67f1b0ad34560a1825d7f0a3717",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\SkeletalMeshes\\V3_Pilgrim_Youth_PhysicsAsset.uasset": "6edf4c925d13c20a094d053b2ceffe7323b077675f9314cf18cc9a80fc3a2c08",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\V3_Pilgrim_Youth\\SkeletalMeshes\\V3_Pilgrim_Youth_Skeleton.uasset": "e2471f55f6d9b51cf97782381814577c020525558f569593f47c71eaa439a66a",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\WalkV2\\V3_Pilgrim_YouthA_Pilgrim_Original_Idle.uasset": "4bf95b3f6c4ba48ed0e7ecc9eec5eb39d5b2f1264fa7e61da4ecf911cfe3603a",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\WalkV2\\V3_Pilgrim_YouthA_Pilgrim_Original_Walk.uasset": "100922fdf514425cd71c39be052f1b8704ad7c52fec02b9ea4f1e9062b9c71be",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\WalkV2\\V3_Pilgrim_YouthA_Pilgrim_V3_PhotoCamera.uasset": "997c178dec3fbc36b8351e733846c4587c87c39a1bd5404ae60a543562996957",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Pilgrim_Youth\\WalkV2\\V3_Pilgrim_YouthA_Pilgrim_V3_PhotoPhone.uasset": "532c2131d2b71baa6bc4aae89cb6d6d11914dacb40f113802e14b1c5043ffec5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\StaticMeshes\\Denim.uasset": "f8702df64bb36ab331b0678d830bc381a933e61f9eb6301b3823c3c9e3b94639",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\StaticMeshes\\Eyes.uasset": "d0ebd87a00469eddd92cb7794ce4fd440688528b338ba5981a5343a549564d9e",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\StaticMeshes\\Hair.uasset": "66a8eaab30cc99c6e3cb675259b2a511a574dbe6f54a91b008245d6e2a5b5fa5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\StaticMeshes\\Headcloth.uasset": "935b6af241e9483801ebe7c58ada0ea322da5f37256549d0a893944a98d8b4e5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\StaticMeshes\\Iris.uasset": "cbea606abbb1326af0d4ead4257e761d4f75e407685ca5bf2207fb87c441cf57",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\StaticMeshes\\Leather.uasset": "fa986bddf02e6e98dfa32db21b433b13547b5e6f02f1434af85c30b5f9a340d1",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\StaticMeshes\\Linen.uasset": "cd1709793829f427445ebc81f48a3f0523ba3532ab0ac86f424bd88326dfd899",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\StaticMeshes\\Mantle.uasset": "4fd0c28532305c21ec6ab6082f455e7a81fc4a5e72442e54d9f2fe64333d9a7f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\StaticMeshes\\Prop.uasset": "fdd5db2d6efabcf7d18d66e01a6349af74cc9cf8dc6963b9ccfdf6d38ab127f4",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\StaticMeshes\\PropGlass.uasset": "6ab12f463d8007167eb1411d0ccfda6aca8c555538145e868d98d4d52a888f56",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\StaticMeshes\\Sash.uasset": "bd040f80e36103ad38e2832718ce9ec972930007b09cb07141670fed4d48b1ea",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\StaticMeshes\\Skin.uasset": "32ddb75694a676cfdff9b1c899434f91b8e4ae92ab4d5ef6b71a4d692caa414a",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\StaticMeshes\\SM_V3_Visitor_Camera.uasset": "536bf5321bed9950dd59ba1056d10254d0889007d008ab841e92c60469564548",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\StaticMeshes\\Trim.uasset": "78cbed4121c1c72348644f22dd603922ca916d80bd6ed012ea3b5fc625f2b593",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\Materials\\Denim.uasset": "5e4e0f243ec50059248518921f750a8e7417b2ce505c3cdc9d7f62ff2d3c281f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\Materials\\Eyes.uasset": "9b4eb2926c8fe7c278e9e8acb36ad9b63f0098444255883eedf5d9c123657d38",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\Materials\\Hair.uasset": "f076190a1475e4118ef15bca311eda5d67aefaddbf980442a9a306be762c61b2",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\Materials\\Headcloth.uasset": "adcad29fe0fbc47bb59fed90f0249abf94472960feb150db74d7afc2e560acbc",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\Materials\\Iris.uasset": "ffb46b62608b0ed5fbcf51e35b9a9ad5035c819fc122ad4f67aa7ef2c45e5e66",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\Materials\\Leather.uasset": "f216900a7d99c55c5209260ee111a07a6470cd3dbb13706095787582bbddfbde",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\Materials\\Linen.uasset": "0157f0fb009008d43faa87646e190b070a27dde89190908011a8d6921cd99763",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\Materials\\Prop.uasset": "c277d69df53f7e1554ad36a3026875c2b265b2183c59e626335e575e2ecc9419",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\Materials\\PropGlass.uasset": "0faadf5aebd160f4244d5c53ec5cf8b7d1e39b1545f01090f68a6e55c21f8688",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\Materials\\Skin.uasset": "bb6b64031dbb40f64997ebce60ce3605fc9aaaa56c14856204f378d1d6f4f15a",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\Materials\\Trim.uasset": "c5cb544b69248cef83fd1a37eb85eda249229a7f17d9e49edbf41f3ed45606a1",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\SkeletalMeshes\\V3_Visitor_Camera.uasset": "0a1d30152856ae618c977c4e9caf2e634b666bab90823ea6f39bfc50e1df0c0d",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\SkeletalMeshes\\V3_Visitor_CameraA_Pilgrim_Original_Idle.uasset": "4e558689b027b325eb76716d7ed2e1c5b50b08945457ffe355d33fe4541fd7c8",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\SkeletalMeshes\\V3_Visitor_CameraA_Pilgrim_Original_Walk.uasset": "c78c5a4382daf3909f95c7ff02a644f16d8a92ae970a9ed86dde1bf55fdacf27",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\SkeletalMeshes\\V3_Visitor_CameraA_Pilgrim_V3_PhotoCamera.uasset": "10872824fc0f0a602d56a88d781bf8a797d476b0e7f351cd3dca5de06a5c3ebc",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\SkeletalMeshes\\V3_Visitor_CameraA_Pilgrim_V3_PhotoPhone.uasset": "676570a32b3564867d28524141065f91cb783994d7f17f4d34a7858e9d58febe",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\SkeletalMeshes\\V3_Visitor_Camera_PhysicsAsset.uasset": "b5e4a2729a9b22cfb0baf5c1dd71ea2fc50d1b4aa15cb44498bd987172fe5bbc",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\V3_Visitor_Camera\\SkeletalMeshes\\V3_Visitor_Camera_Skeleton.uasset": "63efc6eae38008dfd28c4b0822ce83aacb78fead7caaff417bdcc6f57ab09881",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\WalkV2\\V3_Visitor_CameraA_Pilgrim_Original_Idle.uasset": "c584bab758def382633786f3e6b093a67a58d808fe5ffd575a454644c5b4afd6",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\WalkV2\\V3_Visitor_CameraA_Pilgrim_Original_Walk.uasset": "6bb4ab8fe6671d2f7ecb6dc2fe6879314d1f002fd151a60bc329f485d0cf9561",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\WalkV2\\V3_Visitor_CameraA_Pilgrim_V3_PhotoCamera.uasset": "2d4e822380e94959c70526bb18e4e8ac41f937f3a839689804155685faf0bc47",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Camera\\WalkV2\\V3_Visitor_CameraA_Pilgrim_V3_PhotoPhone.uasset": "7225ad685228544a559133c06fb6250556564b653a01200fad3e6cdcbc7d938e",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\StaticMeshes\\Denim.uasset": "1cdcee59203a328dc740c291da301cbf0010c2a3c0483640f6558d8038587726",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\StaticMeshes\\Eyes.uasset": "1e4b9842cf357625b9b17a9c838cfe0d48bb4665b08d5cade8bb9eeed23a30da",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\StaticMeshes\\Hair.uasset": "54322fc9fad31b7c295b663cb54d3491e4bf36a0eb1bd903256ca737a9bff7f5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\StaticMeshes\\Headcloth.uasset": "96563363f0777222a056893110abd8f728e667f67894de3c00c6db186d89e1d2",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\StaticMeshes\\Iris.uasset": "13a14c35b1b6b0924aad3145bb0976b2d2fe5322d31c9dd8f0d0f6c3c75e4db5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\StaticMeshes\\Leather.uasset": "d85fda950992d9fc772950535b22a318f473983e9aa8858844dff77cd90d4d93",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\StaticMeshes\\Linen.uasset": "7c989aeee6847f5cb3d13c063e980cacb5c27d479f541ba7e612e6d0ad1241a6",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\StaticMeshes\\Mantle.uasset": "5832e18394148ee601bb2ff4d178084cb27cabbe4797780c5b326348ae7a05c7",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\StaticMeshes\\Prop.uasset": "d06ae2a48fcd0afb4a677c7634e50372cc46ad3cff36e9b9e0cb850edf6f3d24",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\StaticMeshes\\PropGlass.uasset": "50ddbbf72761923f4f5b3c7cbe0da6396f69a0d56d48a837a278293a2843c5e0",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\StaticMeshes\\Sash.uasset": "80f5631ac8e44dbdd8a17a0eea94e5f2d6c4191ac2eee1683046ce23a5921ef3",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\StaticMeshes\\Skin.uasset": "e775b86286817b8961fe9e68131c8535d0f6d1ddcfe48c913495492f5a54faf1",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\StaticMeshes\\SM_V3_Visitor_Phone.uasset": "b1fad6f587e009821560f5ca09cc30f8fc72ff18a1fde3ab515c7741f84b1b2f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\StaticMeshes\\Trim.uasset": "3c801503f641d4bbf0e08307cd9384356bd4f23cfa46738186f5c4a652c483c9",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\Materials\\Denim.uasset": "778606bdae2767a1011aca8684cdc7ca91f0197b863088d06e855b8c6aa7bb89",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\Materials\\Eyes.uasset": "895d5107c3cfbf2a7d7f1664ad4ee04dc408542d052bd765a21fc6e95c59448d",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\Materials\\Hair.uasset": "78eeae555ce6fa29f428c6ba0953868c2d093ea7d3f8ee28718cd7d5e2db821c",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\Materials\\Iris.uasset": "bdec47fa21e998eb4a62b7e79b94281ad4e9ff5de550918c07726ea374adf801",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\Materials\\Leather.uasset": "95585e5b58fcdd0074eec35a5ede76f8ead828f0699d382ebfa91a532f8034b6",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\Materials\\Linen.uasset": "2cf5b489fce936d2e7bc88af72d7cfd2b94cabeb015cb95f732e9fb1d6b119eb",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\Materials\\Prop.uasset": "0d36db5df0dc8c3b587e72966afbb4edb0899ddd7ab35ba9f2632c209a0b0e68",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\Materials\\PropGlass.uasset": "5874292da00e6e0cfc798b8ee5b0b2dabe2fd4446d635cd8d5638e35599b482f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\Materials\\Skin.uasset": "448cbdaeb4a399422bf789e6891e502742761644a23f937a5e6ab895a1ef80ea",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\Materials\\Trim.uasset": "40cae6eec4c2db0fa38558b11ef0244e8a6ec2fd6e865171c035e940d6d3b4fb",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\SkeletalMeshes\\V3_Visitor_Phone.uasset": "bce0cd3f597e601b618adaf0c140e5b699f9f754884c6e4683d2b4fc31bdf2d5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\SkeletalMeshes\\V3_Visitor_PhoneA_Pilgrim_Original_Idle.uasset": "7b17992b52bc9edf6642c2dfc0a393837d9111f74e3f4b262fa25530196cb9f8",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\SkeletalMeshes\\V3_Visitor_PhoneA_Pilgrim_Original_Walk.uasset": "bd52e3b0a792069e618da0b8782310b4ae7124609c9f22757ec2e2db4ca21aa2",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\SkeletalMeshes\\V3_Visitor_PhoneA_Pilgrim_V3_PhotoCamera.uasset": "3482a347c4e9bbdd9d3e87d9636293fd4945e2c50782b9a8dc00867f62f883a5",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\SkeletalMeshes\\V3_Visitor_PhoneA_Pilgrim_V3_PhotoPhone.uasset": "8fcc11b9163a0eda9b0c03d3f352695b41b0b5df60a0760973893a820fd0a665",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\SkeletalMeshes\\V3_Visitor_Phone_PhysicsAsset.uasset": "99e35330ae89982f6ae50f5c5c05548dddd1f85b242e241688429831b4b6a831",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\V3_Visitor_Phone\\SkeletalMeshes\\V3_Visitor_Phone_Skeleton.uasset": "edbe9317f06e1085454c8d2b74abac22f20c77c5a08d7c1a5cde5ba3d681ec0f",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\WalkV2\\V3_Visitor_PhoneA_Pilgrim_Original_Idle.uasset": "43715a6b26cce3f2e13160e7da7a44022ca9145d7dd870d9af41903bd1270aa6",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\WalkV2\\V3_Visitor_PhoneA_Pilgrim_Original_Walk.uasset": "bf3ca36773d40d06a89eec5fd538d03125f567d981e80dbec7f8fb3b037894ca",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\WalkV2\\V3_Visitor_PhoneA_Pilgrim_V3_PhotoCamera.uasset": "57dd370fd4a7589877ee1ef9614c676b91101cd505659ad2cb48f37103db5599",
+    "Content\\MikdashV3\\Characters\\PilgrimRigV3\\V3_Visitor_Phone\\WalkV2\\V3_Visitor_PhoneA_Pilgrim_V3_PhotoPhone.uasset": "e5d8f69c7946bb3a6e83779c0105d1223539bfaef7203d3a58eaac98e391ddcc",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Elder_Eyes.uasset": "a18d4dc7f6eb7d98a4a53167fcd5173dd0d0f2c8f2a785bc3b2e6a561c4991bd",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Elder_Hair.uasset": "b1153f7e2bea6c5c79823938ec6422222a3715a9308d19e8ce6cf11ad4c808aa",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Elder_Headcloth.uasset": "4806152be2a81f05b80b12acb515e6d6d2a2ade9ac34de2ce2b86edfc69c1f7a",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Elder_Iris.uasset": "7103fb4b769c49e1bc62a8ac4ebd00ef39b5a5d1dc8f0f1ef76175f3a9384724",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Elder_Leather.uasset": "3cd9fb19ccb042a5eaf78645597a85beb5a62037c6a536128c0930cae98e9d0e",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Elder_Linen.uasset": "2cb159e3fb1cc5799923e9ec6b30a06523a7c8bc0c7ae6dc82cd4ed20475cd96",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Elder_Mantle.uasset": "7e8cbd6b5d721596b876df56efd00a7445f0421b01cbf97448b8f9f2b2764074",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Elder_Sash.uasset": "9704f9234b43447a6d321f800a80d5e7191f8ef727448f2e461b6e4e3090191e",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Elder_Skin.uasset": "d0c4b92d2fa53fa70b15c17e31149e1a8444a3e8955c0c6f7e39cb1182233dd9",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Elder_Trim.uasset": "e5af60cb6b78b6d7f26a647e00ad35699ad4ad3c7123a2a0ffd8a0f21dcd5fe7",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Heavy_Eyes.uasset": "33056f1a440e6c0714335ccbf5236bbf9815dc62881eff12379005e3b013475c",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Heavy_Hair.uasset": "c973713911013665a720fac4d57cd23347b494adec34594db1e810953e29f0c7",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Heavy_Headcloth.uasset": "fc655ec4fd86e56814aa7f1df06e8831072e1a18989804612ceed0098e0b607e",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Heavy_Iris.uasset": "fef0072d706c9b670e9624b04d56e991bb23cd01cdd7e7776411f8d7ee492629",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Heavy_Leather.uasset": "713e62ee5384f69cc66df882d10ef32cfd8b123c2d2e6dc9eb5aa523b64980ab",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Heavy_Linen.uasset": "17deb2273dfedc424f3351241800810ccbae8a0f3cb1f74b98d928b043a85c9c",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Heavy_Mantle.uasset": "c136d0d2ec0316048c1ceaa78fd47f40a0f8d7da11f946e65565d084f314a966",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Heavy_Sash.uasset": "a1f5fc679728f0f3634dd356a5ac71261f62fa020550358562c1c200b900f0f7",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Heavy_Skin.uasset": "d0c6ab1d5d4bf022c4969e06e11b4e7803b2c1c96d76b341183fc9d390a3bca4",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Heavy_Trim.uasset": "b674422a9f129d70a4df5c92b873eccdb2d49e72333723b3ec99f9b5d446a855",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Standard_Eyes.uasset": "d33c0002421ed2ccb712ebe91e44b77e89bb894fc4e264af0540751993ea8a52",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Standard_Hair.uasset": "32101444fa61aae0fa847016e1dff0e8eca41d06af6c664ad8ca17664b6cf073",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Standard_Headcloth.uasset": "7d1ca919255f4bef2b3f9e04ac47795bb130d7d4e101c508581cfb1257172a47",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Standard_Iris.uasset": "25b55326e92f47cb39fc2a96938189d26de67642e2eb698bdc0f40d4e6c5ec93",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Standard_Leather.uasset": "809addd4298c8d6427888b97f7843ff8b2cd157ce79d1a7d0d6bb134e53a1a5b",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Standard_Linen.uasset": "207cdd18c296764340facfff764e7f0aa379f5fbbab70c005cbd430e0bb02746",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Standard_Mantle.uasset": "9bd844b22c3cba7fcbbe782b5e6c6a7669aea2c608f5d7a7240a7a35de632762",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Standard_Sash.uasset": "1f3687d89ef9f8079d4dc9b554e47235578c81baa887137435ecce6a65839eb3",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Standard_Skin.uasset": "c981fce8352c5edfdd2d5839cb6780d908d84acf6c42b9b5bb6eed1e24c55d25",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Man_Standard_Trim.uasset": "73e36673c5b7d38affaabd61357dda90a7d1323e414834c7d4f88f22541ca6db",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Elder_Eyes.uasset": "8c06e0b6b90602356ee574274072f8ab9a855a3f4044ca8a6f20615c7992327a",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Elder_Hair.uasset": "fa4c059af0e85a138776f5f8b5d6c25579abf13f1e8134dbab97850b40e1ed00",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Elder_Headcloth.uasset": "7f2cb3ba6f2e4758aaae218a5618291c6b36e26c5e42962b9e5448dabef22689",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Elder_Iris.uasset": "e90fd17087ee467f2c215a5dcbedfa3bfb3fcdbad882e339a68aab3bd08d0689",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Elder_Leather.uasset": "9a9799d93de6bc42fc36fe1e45af2b3dc126b82a5610dd4375696b48e9868b05",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Elder_Linen.uasset": "e6eac91ed9990506e438935c5aeecf12049043fadf93e248d6897d2dffcc2491",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Elder_Mantle.uasset": "a8a73f4cf81b70dfc5eeda0f984cb4cc662debd8b4861ec0e463ee0709b1d0c5",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Elder_Sash.uasset": "ea96137fad5f178c24ab96f20df4ef452adabf8ff9b1948d03229e0143dc41c9",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Elder_Skin.uasset": "f3071a5808260477b2bf8ece971d7349e79d5967e7570ba01d18fb80fdf560fe",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Elder_Trim.uasset": "f714c0096df0899e8bf49203ab33b2dba6d86ef54edfb784b97c3d804e4b25a1",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Young_Eyes.uasset": "f572a0538c5f789adeee9fd27ca1badd5ded4c9b411b1197edb1fcfb9f4c59d5",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Young_Hair.uasset": "84c1a5cb3fb57f77bd9697c141cdccd757b0745716092fbf47de16a8f58270ff",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Young_Headcloth.uasset": "b534cdb7c83770071a63383cf4ec1acb6cda5faf8ba0167344b175b2f52835c1",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Young_Iris.uasset": "b25ee50bcfe71922848fca413b67317aa22ba055535753aa34a198a1a1c03aec",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Young_Leather.uasset": "da28c39c6e3d9daf4ea2a5df9c4a34ec341ff9949212232605fa2aa3631fdc68",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Young_Linen.uasset": "2c33b17fa1029c56eace810691e694eea8198f43db557ea28b4b2c98efd245bd",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Young_Mantle.uasset": "de6e4673c46f081044928c41a927a008bc199760a42abf88161a5377c440dadd",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Young_Sash.uasset": "af85c90a455e37160495c1d27e096093a6d4ceaad30c5dcd7fd6abee2b34fb49",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Young_Skin.uasset": "a0c529c18af69a8c2b1611a260c3510c82a0d8ee8cdb238c291360f5d6561632",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Woman_Young_Trim.uasset": "2ac233e943e2baa6f6f6d4cfbc3b869dbc3301e01a6db6fc42c668d54e44b8f7",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Youth_Eyes.uasset": "bd8fb4587539409ac499442eb1ceeafaf84c70bf4d78429b8d9ece2b640d5b0a",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Youth_Hair.uasset": "c4f035c5e085fc036b9807822ddd924f80689a9de088b5b581a0b4451eb4efc2",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Youth_Headcloth.uasset": "cb36fba5db0880c62a8e8d5d3cf28f5770f6461c4488c5ff11c989443f428e33",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Youth_Iris.uasset": "d2fcff84aad19072d2e20a5c8ee9d65e877723e691427c38e5d28ebed469ff3f",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Youth_Leather.uasset": "45978d083033013b3d65f75cc72f2a48ddc4d04efa4fd9420828fed5e42346df",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Youth_Linen.uasset": "d420d9568e8de007b0505335ab96086c01171fe18eefa3142332f8ad1df9bbf6",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Youth_Sash.uasset": "1e243c83d406868b4aeec0a6e2fd0c6c46e24148d82fff0309ee82fab9140bb5",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Youth_Skin.uasset": "9fc4995cb86ae354f777e92420302dcc2be1e6675b4e8743a6894bfdd83474fd",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\MI_CrowdVAT2_Youth_Trim.uasset": "fb5db6833085e6ace6803d077cfe40d373015b63cc76bdb7e37feb2f7b67cfbb",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Materials\\M_CrowdVAT_V2.uasset": "7e949a03f24d4fd5bdcd2421ed3e802a83852a3a306c901c745d72c00bf9b5d6",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Meshes\\SM_CrowdVAT_Man_Elder.uasset": "64435f6508b1d7d1bcafc08e186f0fcdd467a427ad3305ef072e951da7315bde",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Meshes\\SM_CrowdVAT_Man_Heavy.uasset": "eb1190036b4b7e950975b31d623bd3fb377e0e54382e5e2d68985619f06ae79b",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Meshes\\SM_CrowdVAT_Man_Standard.uasset": "fc268f1c14bf60780978b199b1768fa48f75a8f0a25bfc929689cce2c57e33f7",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Meshes\\SM_CrowdVAT_Woman_Elder.uasset": "788981983bbfe3d0a2abf98ba38c1d5a035c51aa69124f960d94760d294d6237",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Meshes\\SM_CrowdVAT_Woman_Young.uasset": "c8eb99e598e58b6eaaaef87f477a15950c707d8c618f1bb51c5395434509db96",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Meshes\\SM_CrowdVAT_Youth.uasset": "725a13c85a7f4f10c3e0bdc1a0b82bf7c791ff518cb27bd1a8511ae8d7f4f379",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Man_Elder_IdleNormal.uasset": "738273985ed0aacd7542088401922fd828ebcde90d613ca2f32b0f1f15de04bc",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Man_Elder_IdlePosition.uasset": "8b5809651e59591fc313e5684db6272e713b9495df498b7fdd3dc2ee495eb371",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Man_Elder_WalkNormal.uasset": "1217eaad44dc02904ab6f71e9e22a2c7dcf2592e070f0d492701aca70652995d",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Man_Elder_WalkPosition.uasset": "54991a94c639856c24a843ca321d755816594643f70b74b02639a7b59959f0be",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Man_Heavy_IdleNormal.uasset": "b53fff48eef8310552266db1c872582d24af691d92aabb9fec393ef47d7c2cf3",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Man_Heavy_IdlePosition.uasset": "8cfae407246845299cf5fac98dc5e534703d87c97538b88fcc950338d8a69eea",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Man_Heavy_WalkNormal.uasset": "b2464f08cfafa0be8b379fdf369c479c1e93b3ce5c1294ebba856e929fbbd439",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Man_Heavy_WalkPosition.uasset": "8f958a067e2e436e22f6d56a27575e9f015152fc63f2aafd1f8d3d9612a0a096",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Man_Standard_IdleNormal.uasset": "369b126a332ff2b42b32814d6691792a0942451cd1f4f4df6a90fe4cfda6a321",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Man_Standard_IdlePosition.uasset": "0f3d8484ec1dc15b4c1e694b9a233ded3264ea39d9811510ba3b55a51cf2a30e",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Man_Standard_WalkNormal.uasset": "fddfa978e322abebd59570b195c4a770c41df78d27dacc61af226374799c8363",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Man_Standard_WalkPosition.uasset": "5035ded73e96581127aa4361ffc884b09f9b1b20b101119a2d7c670603207618",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Woman_Elder_IdleNormal.uasset": "d419a5f2e2bf5792c64324f2b8f1b46d7d88ea9405ef2653116acc1e5fcb2400",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Woman_Elder_IdlePosition.uasset": "f594770644f82b741c9ba77ca97944d05f1c62b7cf5f3439fcd7a37a461e1238",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Woman_Elder_WalkNormal.uasset": "3b3c867d107edc0339bc5adbe00985938ec9014e482f17dc810d7d0545a16cef",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Woman_Elder_WalkPosition.uasset": "5042b49b71c654f0d8ab44c4e8ed908454a541ae6767c226e19d84f189279d84",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Woman_Young_IdleNormal.uasset": "5cdbf540b24c6b5488c57f388ab05e8e9efbe2a63ef00dc4f8cb1952a7080fe7",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Woman_Young_IdlePosition.uasset": "59833dc1122ea347638dd44faeb178b1cdb5edb8e6fafa14dcdb9192e8e2b4b0",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Woman_Young_WalkNormal.uasset": "9d83628376c2de7d88a93ec6e2f66efded07910d3978670ca20c4ed24c9a2cb6",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Woman_Young_WalkPosition.uasset": "0d965a0e51ec2430afb601cd64d3078d4f248e797a4c49635c31ef4c49cdbdb3",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Youth_IdleNormal.uasset": "1ed95f904105e70b2298fe7327370c7233755c6074f835c0faa8049acda964cc",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Youth_IdlePosition.uasset": "1ea4b916d5a846c953b22fe1874e8d72cbdda51cecae7b1cdbb63ba3eec17014",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Youth_WalkNormal.uasset": "f5ce890bd5dfa465adc37be8f4e3c078765cea1c744ffd41be12db0783b4b0fa",
+    "Content\\MikdashV3\\Runtime\\CrowdVATV1\\Textures\\T_CrowdVAT_Youth_WalkPosition.uasset": "0ec79e3694a14a74f75c9cffc795db7a1e6e111bb78e37758b0fb22cff217c4f"
+  },
+  "numDriverTriangles": 10,
+  "sourceMeshSha256": "35900d5b01eb15896dc08575b8ff7b505dc5ee3a5dfda9987a97a13e53cf03c8",
+  "sourceMesh": "/Game/MikdashV3/Characters/ResidentV4/Man_Elder/SK_RV4_Man_Elder.SK_RV4_Man_Elder",
+  "clips": {
+    "walk": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk.V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk",
+    "idle": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle.V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle"
+  },
+  "assets": {
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident2400\\SM_Resident2400.uasset": "2d128381ff5d67c1b49d18e268d0410c2b299c1c8a5224a6aeb2d4f20e4a0de6",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident2400\\Materials\\MI_RV4_Cloth.uasset": "8d8399ac4bf0cb37f1e4fc5c7e28d9a3af990bdfe77985398484ade068b2e9dd",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident2400\\Materials\\MI_RV4_Eye.uasset": "dc0591e3a01e444c5c0b64686005bfe5fb9c9217a3ba2769287c82b8d004f0ac",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident2400\\Materials\\MI_RV4_Garment.uasset": "645ccf0b8e4cb30d7e2a4658038215e24a8b41398077af19703bdced71952123",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident2400\\Materials\\MI_RV4_Hair.uasset": "c77d39717b46fb184e8d0d0982e6181198a148446590b136a2db7319917c58f1",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident2400\\Materials\\MI_RV4_Leather.uasset": "4406f5bfaf2f1cc463b64770c23259cc048c9ddc802278db9b1d3801e9811480",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident2400\\Materials\\MI_RV4_Skin.uasset": "95e8c63178e83a3014922cdcc812d8e71b099de36885c30b9682fd9759612470",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident2400\\Materials\\M_ResidentVAT.uasset": "a1d98650435934b172454e8205f2603300de35d86fb23d39e5f2e4d3ea3818df",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident2400\\Materials\\M_ResidentVAT_Skin.uasset": "d567ad9d6f3e80ecf582c3bcf93fd3befd3d6a8e534961f534db1c4aa3e17e7a",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident2400\\Textures\\T_IdleNormal.uasset": "0ab8bf985438de199c765734d0fe50cc6ef6a7021e428bc6a0e8faa47aeeb887",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident2400\\Textures\\T_IdlePosition.uasset": "0fa2b1bb0c79532d84ac7fb2f603773cc1ddabd7ddd91b7d0797d047170a83db",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident2400\\Textures\\T_WalkNormal.uasset": "537c63f995cbd498ce38dd850fb755ca37956fa7c51cd05a2d803927dfe2c752",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident2400\\Textures\\T_WalkPosition.uasset": "9d16a207d23e60ce27681496746ef93a80a93f7a4cab4a5166baeb9a486597db",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident8000\\SM_Resident8000.uasset": "2183e838d3c80f525d8e11ce59979e788c5847b4c737224de368a4c0df4a9ed3",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident8000\\Materials\\MI_RV4_Cloth.uasset": "8ace3c2b6e5b28c1fa44b1637ee5d729bd69cc9194ae0ef76b5ef1d01c5910b7",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident8000\\Materials\\MI_RV4_Eye.uasset": "38ef60c37bb97a775c9aed8207ba00805b724cc0418ae56116fe9800e00c79ff",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident8000\\Materials\\MI_RV4_Garment.uasset": "635849506867488e2456c743ca455620796c96354bc92d27ff78fcabb03a7ff1",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident8000\\Materials\\MI_RV4_Hair.uasset": "6a26f99f38ec06a44924c5d79effb9ce4f91c7aaf55945447f77a0cee7cd14c7",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident8000\\Materials\\MI_RV4_Leather.uasset": "384b2b2b0d8717b322d66204131906b4c2193b0339ad14070d6cd1457d939735",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident8000\\Materials\\MI_RV4_Skin.uasset": "e8fc4503918a294e170fdbb8acf80c78669b6d456ac5b779fd45ebad8108e4da",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident8000\\Materials\\M_ResidentVAT.uasset": "397e494938bfa73cf043839a6584c8bdd15d1ee5d6b8ff29635be2e272c6163e",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident8000\\Materials\\M_ResidentVAT_Skin.uasset": "d8012281abf64d0a7e2ef4c3209ccd2d844ed34dc210a55d990416a09b6bb0c9",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident8000\\Textures\\T_IdleNormal.uasset": "dbc844b3dcf6d5c266992c46b0359e8907fe623961504f34014f18f117aa8e8f",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident8000\\Textures\\T_IdlePosition.uasset": "9c9597b8756c6ce006f8b1747beabc1390fa168483187dbef411477b3de24ceb",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident8000\\Textures\\T_WalkNormal.uasset": "62ec086a5c37d8ef04e54322034ac6ca27370244e04973ca28b2ce29f65a3f7f",
+    "Content\\MikdashV3\\Runtime\\CrowdResidentStudy06\\Cast\\Man_Elder\\Resident8000\\Textures\\T_WalkPosition.uasset": "756fa7f40a9e5a5b85139546c14ef348c694d8c90eac0c8bb7b9286373a56a9c"
+  },
+  "protectedUnchanged": true
+}

@@ -254,7 +254,7 @@ def _first_object(result, cls):
     return result if isinstance(result, cls) else None
 
 
-def _convert(ue, skel, package, target, row, linear_source_colors=False):
+def _convert(ue, skel, package, target, row, linear_source_colors=False, preserve_vertex_positions=False, resident_attribute_metric=False):
     """Skeletal LOD0 -> DynamicMesh -> simplify -> new StaticMesh asset, all GeometryScript.
 
     MEASURED 2026-09-11 (crowd-vat-bake-20260911T042112123114Z.json): the plugin's own
@@ -297,6 +297,20 @@ def _convert(ue, skel, package, target, row, linear_source_colors=False):
             applied[key] = value
         except Exception:                                           # noqa: BLE001
             pass
+    if resident_attribute_metric:
+        # UE5.8's original AttributeAware only optimizes normals. V2 includes
+        # vertex colors and UVs; normalize centimeter geometry to meter scale.
+        for key, value in (('method', ue.GeometryScriptRemoveMeshSimplificationType.ATTRIBUTE_AWARE_V2),
+                           ('scale_correction', 100.), ('color_attribute_weight', 16.)):
+            options.set_editor_property(key, value)
+            assert options.get_editor_property(key) == value
+            applied[key] = str(value) if key == 'method' else value
+    if preserve_vertex_positions:
+        # Opt-in resident study: constrain collapse to existing vertex positions.
+        # Fail closed if the engine cannot honor this requested experiment.
+        options.set_editor_property('preserve_vertex_positions', True)
+        assert options.get_editor_property('preserve_vertex_positions') is True
+        applied['preserve_vertex_positions'] = True
     ue.GeometryScript_MeshSimplification.apply_simplify_to_triangle_count(dynamic, int(target), options)
     after = int(dynamic.get_triangle_count())
     if after <= 0 or after > before:

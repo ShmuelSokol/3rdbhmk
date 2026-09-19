@@ -1,0 +1,51 @@
+{
+  "settleSeconds": 30.0,
+  "requestedRecordSeconds": 30.0,
+  "captures": {
+    "SourceAssets\\perf-review\\crowd-vat\\frametime-crowd-street01-kotel-crowd5000\\frametime-crowd-street01-kotel-crowd5000.csv": {
+      "file": "SourceAssets\\perf-review\\crowd-vat\\frametime-crowd-street01-kotel-crowd5000\\frametime-crowd-street01-kotel-crowd5000.csv",
+      "columns": {
+        "frame": "FrameTime",
+        "game": "GameThreadTime",
+        "render": "RenderThreadTime",
+        "gpu": "GPUTime",
+        "rhi": "RHIThreadTime"
+      },
+      "framesKept": 1943,
+      "recordSeconds": 30.0,
+      "requestedRecordSeconds": 30.0,
+      "frame": {
+        "median": 15.334,
+        "mean": 15.442,
+        "p95": 18.073,
+        "p99": 20.719
+      },
+      "game": {
+        "median": 10.068,
+        "mean": 10.236,
+        "p95": 13.086,
+        "p99": 14.887
+      },
+      "render": {
+        "median": 15.333,
+        "mean": 15.406,
+        "p95": 17.352,
+        "p99": 19.99
+      },
+      "gpu": {
+        "median": 14.2,
+        "mean": 14.626,
+        "p95": 15.999,
+        "p99": 16.27
+      },
+      "rhi": {
+        "median": 2.931,
+        "mean": 2.947,
+        "p95": 3.303,
+        "p99": 3.512
+      },
+      "fpsFromMedian": 65.2
+    }
+  },
+  "crowdCostDeltas": []
+}

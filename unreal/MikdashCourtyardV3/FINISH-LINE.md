@@ -563,3 +563,20 @@ Never reuse the old checkpoint Paks: terrain fallback changed in03896243.
 Source verification now passes active12/12 (including33/33math and Editor/Game),
 publicationquick7/7 and seven-file parity. Packaged collision/contact and crowd
 counts remain unverified until the new full cook is tested.
+
+## Packaged exact street ground result — 18 September 2026
+
+Source7eb95a1a full cook completed at20260919T014906Z, archivecrowd-street01-
+20260919T012805Z, childSHA12e118429cea92fcb71a8d8f4636c06c3fe0e3212f9e46b471c9aea3e6775fc1.
+Both map hashes unchanged. Cook took21minutes under physical-memory pressure but
+completed each stage and exit0; do not restart a still-live cook just for slowness.
+Fresh package hashes recorded before runtime measurement; no competing owned heavy
+hash/build work during measurement. New5000diagnostic with1024attempts placesall5000,
+zero refusals in everyzone, late-frame count5000/0, childexit0 and CSV finalized.
+Street104/104, groundrefusals0;32street contacts maxabsolute residual0.000029cm.
+All192zone contacts retained. Root viewed PNG: Kotel crowd/paving remain visible.
+Diagnostic30/30 has1943frames,median15.334ms,p9518.073ms at720p77percent, not final
+1080p performance acceptance. Default48attempts,10000counts, all-frame movement,
+state transitions and final appearance remain open. See crowd-street01-5000-review,
+matching timing, package manifest and frametime receipt. Next test default5000 or
+same-budget10000; do not claim diagnostic1024budget as the production default.

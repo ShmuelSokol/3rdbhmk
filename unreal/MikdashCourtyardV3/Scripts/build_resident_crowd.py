@@ -13,7 +13,7 @@ import create_crowd_vat_v2 as vat
 import release_resident_v4 as resident
 from build_crowd_near_v2 import mesh_stats
 
-match = re.search(r'-ResidentCrowdStudy=(01|02|03|04|05|06|07)\b', ue.SystemLibrary.get_command_line())
+match = re.search(r'-ResidentCrowdStudy=(01|02|03|04|05|06|07|08)\b', ue.SystemLibrary.get_command_line())
 STUDY = match.group(1) if match else '03'
 NS = '/Game/MikdashV3/Runtime/CrowdResidentStudy'+STUDY
 OUT = ROOT/('SourceAssets/perf-review/crowd-vat/ResidentStudy'+STUDY)
@@ -50,7 +50,7 @@ def surface(master, report):
     final = g.op(ue.MaterialExpressionMultiply, g.op(ue.MaterialExpressionMultiply, base, vc), mottle)
     g.prop(final, mp.MP_BASE_COLOR)
     g.prop(g.op(ue.MaterialExpressionAdd, rough, g.op(ue.MaterialExpressionMultiply, centered, g.const(.15))), mp.MP_ROUGHNESS)
-    if STUDY in ('03','04','05','06','07'):
+    if STUDY in ('03','04','05','06','07','08'):
         # Reconstruct the tangent frame from the deformed position and UV0 in
         # the pixel shader; a rest-pose tangent would not follow VAT animation.
         M,A=ue.MaterialExpressionMultiply,ue.MaterialExpressionAdd
@@ -85,7 +85,7 @@ def surface(master, report):
     ml.recompile_material(master)
     assert ue.EditorAssetLibrary.save_loaded_asset(master, False)
     report['residentSurface'] = dict(linearVertexColor=STUDY!='01', uvChannel=0, mottle=True,
-                                    derivativeNormalDetail=STUDY in ('03','04','05','06','07'),skinSubsurface=STUDY in ('03','04','05','06','07'),
+                                    derivativeNormalDetail=STUDY in ('03','04','05','06','07','08'),skinSubsurface=STUDY in ('03','04','05','06','07','08'),
                                     limitations=['Visual pilot, not runtime acceptance'])
 
 
@@ -186,9 +186,13 @@ def run():
                 report['variants'].append(row)
                 label = 'Resident'+str(target)
                 ns = NS+'/'+label
+                budgets = None
+                if STUDY == '08':
+                    values = (2200,200,500,3600,1200,300) if target == 8000 else (800,80,160,960,280,120)
+                    budgets = dict(zip(('RV4_Skin','RV4_Eye','RV4_Hair','RV4_Cloth','RV4_Garment','RV4_Leather'),values))
                 mesh = vat._convert(ue, skel, ns+'/SM_'+label, target, row, linear_source_colors=STUDY!='01',
                                     preserve_vertex_positions=STUDY in ('04','05','07'),
-                                    resident_attribute_metric=STUDY in ('06','07'))
+                                    resident_attribute_metric=STUDY in ('06','07'),resident_material_budgets=budgets)
                 assert ue.AnimToTextureBPLibrary.set_light_map_index(mesh,0,0,False)
                 textures = {key+kind:vat._texture(ue,tools,assets,ns+'/Textures','T_'+key+kind)
                             for key in ('Walk','Idle') for kind in ('Position','Normal')}
@@ -206,7 +210,7 @@ def run():
                 master = vat.build_master_v2(ue,spec,ns,'M_ResidentVAT',defaults,row)
                 surface(master,row)
                 skin_master=master
-                if STUDY in ('03','04','05','06','07'):
+                if STUDY in ('03','04','05','06','07','08'):
                     skin_master=assets.duplicate_asset(master.get_path_name(),ns+'/Materials/M_ResidentVAT_Skin')
                     assert isinstance(skin_master,ue.Material)
                     skin_master.set_editor_property('shading_model',ue.MaterialShadingModel.MSM_SUBSURFACE)
@@ -223,7 +227,7 @@ def run():
                     tex_params={k:v for k,v in defaults.items() if k.endswith('Texture')}
                     scalars=dict(Roughness=rough,Specular=specular,PaletteMix=0.,SkinVariation=0.,
                                  MottleTiling=params['MottleTiling'],MottleStrength=params['MottleStrength'])
-                    if STUDY in ('03','04','05','06','07'):
+                    if STUDY in ('03','04','05','06','07','08'):
                         prefix='Pore' if kind=='skin' else 'Weave'
                         tex_params['DetailNormal']=ue.load_asset(resident.TEX_FOLDER+'/'+params['Pores' if kind=='skin' else 'WeaveNormal'])
                         scalars.update(DetailTiling=params[prefix+'Tiling'],DetailStrength=params[prefix+'Strength'])
@@ -258,7 +262,7 @@ def run():
                     assert vat._v3(mesh.get_editor_property(key+'_bounds_extension'))==list(vat.BOUNDS_EXTENSION_CM[key])
                 for i,_,path in row['slots']:
                     assert mesh.get_material(i).get_path_name()==path
-                if STUDY in ('03','04','05','06','07'):
+                if STUDY in ('03','04','05','06','07','08'):
                     skin=ue.load_asset(row['skinMaster'])
                     assert skin.get_editor_property('shading_model')==ue.MaterialShadingModel.MSM_SUBSURFACE
                     ml=ue.MaterialEditingLibrary

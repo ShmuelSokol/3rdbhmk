@@ -254,7 +254,47 @@ def _first_object(result, cls):
     return result if isinstance(result, cls) else None
 
 
-def _convert(ue, skel, package, target, row, linear_source_colors=False, preserve_vertex_positions=False, resident_attribute_metric=False):
+def _simplify_resident_materials(ue, dynamic, skel, budgets, row):
+    """Isolated study: reserve detail per material instead of competing globally."""
+    _, parts, ids = ue.GeometryScript_MeshDecomposition.split_mesh_by_material_i_ds(dynamic, None)
+    names = [str(s.get_editor_property('material_slot_name')) for s in skel.get_editor_property('materials')]
+    assert len(parts) == len(ids) == len(names) == len(budgets)
+    assert set(ids) == set(range(len(names))) and set(budgets) == set(names)
+    combined = ue.DynamicMesh()
+    records = []
+    for part, material_id in zip(parts, ids):
+        name = names[material_id]
+        before = int(part.get_triangle_count())
+        options = ue.GeometryScriptSimplifyMeshOptions()
+        options.set_editor_property('auto_compact', True)
+        options.set_editor_property('allow_seam_collapse', True)
+        cloth = name in ('RV4_Cloth', 'RV4_Garment')
+        settings = dict(method=ue.GeometryScriptRemoveMeshSimplificationType.ATTRIBUTE_AWARE_V2 if cloth
+                        else ue.GeometryScriptRemoveMeshSimplificationType.ATTRIBUTE_AWARE,
+                        preserve_vertex_positions=cloth)
+        if cloth:
+            settings.update(scale_correction=100., color_attribute_weight=16.)
+        for key, value in settings.items():
+            options.set_editor_property(key, value)
+            assert options.get_editor_property(key) == value
+        ue.GeometryScript_MeshSimplification.apply_simplify_to_triangle_count(part, budgets[name], options)
+        after = int(part.get_triangle_count())
+        assert 0 < after <= before
+        # Extraction/append must preserve the original material IDs, not remap
+        # each independently simplified part to material slot zero.
+        for tid in range(after):
+            actual, valid = ue.GeometryScript_Materials.get_triangle_material_id(part, tid)
+            assert valid and actual == material_id
+        ue.GeometryScript_MeshEdits.append_mesh(combined, part, ue.Transform())
+        records.append(dict(material=name, materialID=material_id, before=before,
+                            after=after, target=budgets[name], options={k:str(v) for k,v in settings.items()}))
+    assert combined.get_triangle_count() == sum(r['after'] for r in records)
+    assert sum(r['before'] for r in records) == dynamic.get_triangle_count()
+    row['materialBudgets'] = records
+    return combined
+
+
+def _convert(ue, skel, package, target, row, linear_source_colors=False, preserve_vertex_positions=False, resident_attribute_metric=False, resident_material_budgets=None):
     """Skeletal LOD0 -> DynamicMesh -> simplify -> new StaticMesh asset, all GeometryScript.
 
     MEASURED 2026-09-11 (crowd-vat-bake-20260911T042112123114Z.json): the plugin's own
@@ -311,7 +351,12 @@ def _convert(ue, skel, package, target, row, linear_source_colors=False, preserv
         options.set_editor_property('preserve_vertex_positions', True)
         assert options.get_editor_property('preserve_vertex_positions') is True
         applied['preserve_vertex_positions'] = True
-    ue.GeometryScript_MeshSimplification.apply_simplify_to_triangle_count(dynamic, int(target), options)
+    if resident_material_budgets is not None:
+        assert not preserve_vertex_positions and not resident_attribute_metric
+        assert sum(resident_material_budgets.values()) == int(target)
+        dynamic = _simplify_resident_materials(ue, dynamic, skel, resident_material_budgets, row)
+    else:
+        ue.GeometryScript_MeshSimplification.apply_simplify_to_triangle_count(dynamic, int(target), options)
     after = int(dynamic.get_triangle_count())
     if after <= 0 or after > before:
         raise RuntimeError('Simplification produced %d triangles from %d' % (after, before))

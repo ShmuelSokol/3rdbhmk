@@ -4160,3 +4160,20 @@ therefore trades away geometry quality. Next: measure geometry allocation and
 protect limb volume/layered garment clearance via per-part budgets or source
 topology reduction; do not keep escalating global color weighting. No adoption.
 Evidence: ResidentStudy07/sweep-review.json; defaults still four front phases.
+
+## Resident per-material detail allocation — 19 September 2026
+Study08 reserves explicit triangle budgets for six material groups. Body/eye/hair/leather use the original normals-aware simplifier; cloth/garment use07's color-aware existing-position metric. Extraction must preserve every material ID and triangle accounting. Isolated Elder/Woman_Young candidates only; source repairs/default03/runtime remain unchanged. Native readback and side/rear phase review are required before any quality claim.
+
+Study08 first native attempt failed before asset creation: MeshBasicEditFunctions.h's Python ScriptName is GeometryScript_MeshEdits (not GeometryScript_MeshBasicEdit). Corrected to engine declaration; retry built Elder successfully. All six material IDs and triangle counts checked before append. Elder four-view review shows fuller legs but robe skin exposure persists at8000, severe mantle/belt intersections and new skin patches at2400. Do not adopt. Remaining female validation pending.
+
+Study08 complete:12 successful guarded native processes (2build,2fresh readback,
+8four-view sweeps),52 assets,288 GPU PNGs and24 inspected contacts. One initial
+API-name failure occurred before assets and is recorded separately. Current450
+protected files unchanged. Legs retain fuller side silhouettes than07 in both
+variants, but8000 still exposes skin through right-view robes (Woman notably
+throughout sweep).2400 severe mantle/belt layer intersections, angular hems and
+Woman headcover collapse remain. Both levels rejected; no adoption/default change.
+Separate material budgets are insufficient to preserve garment clearance. Next:
+inspect source garment topology and deformation correspondence, then constrain
+shape/clearance rather than repeat unconstrained metric/budget sweeps.
+Evidence: SourceAssets/perf-review/crowd-vat/ResidentStudy08/review.json.

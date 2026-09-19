@@ -17,6 +17,12 @@ match = re.search(r'-ResidentCrowdStudy=(01|02|03)\b', ue.SystemLibrary.get_comm
 STUDY = match.group(1) if match else '03'
 NS = '/Game/MikdashV3/Runtime/CrowdResidentStudy'+STUDY
 OUT = ROOT/('SourceAssets/perf-review/crowd-vat/ResidentStudy'+STUDY)
+variant_match=re.search(r'-ResidentCrowdVariant=(\w+)',ue.SystemLibrary.get_command_line())
+VARIANT=variant_match.group(1) if variant_match else 'Man_Standard'
+assert VARIANT in ('Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder','Youth')
+if VARIANT!='Man_Standard':
+    NS+='/Cast/'+VARIANT
+    OUT=OUT/'Cast'/VARIANT
 sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
 disk = lambda p: ROOT/('Content/'+p.split('.')[0].removeprefix('/Game/')+'.uasset')
 
@@ -149,7 +155,7 @@ def run():
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     OUT.mkdir(parents=True, exist_ok=True)
     receipt = OUT/('native-'+stamp+'.json')
-    report = dict(status='running', namespace=NS, variants=[], scope='Man_Standard 8000/2400-triangle crowd candidates; no scene adoption')
+    report = dict(status='running', namespace=NS, castVariant=VARIANT, variants=[], scope='8000/2400-triangle crowd candidates; no scene adoption')
     protected = list((ROOT/'Content').rglob('*.umap'))
     for folder in ('Characters/ResidentV4','Characters/PilgrimRigV3','Runtime/CrowdVATV1'):
         protected += list((ROOT/'Content/MikdashV3'/folder).rglob('*.uasset'))
@@ -161,8 +167,8 @@ def run():
         if build:
             assert not assets.list_assets(NS, True, False), 'Fresh namespace required'
             spec = vat.load_spec()
-            variant = next(v for v in spec['variants'] if v['short']=='Man_Standard')
-            skel = ue.load_asset('/Game/MikdashV3/Characters/ResidentV4/Man_Standard/SK_RV4_Man_Standard')
+            variant = next(v for v in spec['variants'] if v['short']==VARIANT)
+            skel = ue.load_asset('/Game/MikdashV3/Characters/ResidentV4/'+VARIANT+'/SK_RV4_'+VARIANT)
             assert skel
             report['sourceMeshSha256'] = sha(disk(skel.get_path_name()))
             report['sourceMesh'] = skel.get_path_name()

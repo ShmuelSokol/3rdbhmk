@@ -5,12 +5,20 @@ import json
 from pathlib import Path
 import struct
 import re
+import math
 import unreal as ue
 
 ROOT = Path(__file__).resolve().parents[1]
 match = re.search(r'-ResidentCrowdStudy=(01|02|03)\b', ue.SystemLibrary.get_command_line())
 STUDY = match.group(1) if match else '03'
 OUT = ROOT / ('SourceAssets/perf-review/crowd-vat/ResidentStudy'+STUDY)
+variant_match=re.search(r'-ResidentCrowdVariant=(\w+)',ue.SystemLibrary.get_command_line())
+VARIANT=variant_match.group(1) if variant_match else 'Man_Standard'
+assert VARIANT in ('Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder','Youth')
+if VARIANT!='Man_Standard':OUT=OUT/'Cast'/VARIANT
+distance_match=re.search(r'-ResidentCrowdDistanceCm=(\d+(?:\.\d+)?)\b',ue.SystemLibrary.get_command_line())
+DISTANCE=float(distance_match.group(1)) if distance_match else math.hypot(80,240)
+assert math.isfinite(DISTANCE) and 100<=DISTANCE<=10000
 
 
 def run():
@@ -44,7 +52,9 @@ def run():
             light = spawn(ue.DirectionalLight, ue.Vector(0,0,1000), ue.Rotator(pitch=-25,yaw=yaw))
             light.light_component.set_mobility(ue.ComponentMobility.MOVABLE)
             light.light_component.set_editor_property('intensity', intensity)
-        camera = spawn(ue.SceneCapture2D, ue.Vector(80,240,105), ue.Rotator(yaw=-108.435))
+        scale=DISTANCE/math.hypot(80,240)
+        camera_position=[80*scale,240*scale,105]
+        camera = spawn(ue.SceneCapture2D, ue.Vector(*camera_position), ue.Rotator(yaw=-108.435))
         component = camera.get_component_by_class(ue.SceneCaptureComponent2D)
         for key,value in dict(capture_every_frame=False,capture_on_movement=False,fov_angle=45.,
                               capture_source=ue.SceneCaptureSource.SCS_FINAL_COLOR_LDR).items():
@@ -58,7 +68,7 @@ def run():
                               override_bloom_intensity=True,bloom_intensity=0.).items():
             settings.set_editor_property(key,value)
         component.set_editor_property('post_process_settings',settings)
-        report['camera'] = dict(position=[80,240,105],pitchYawRoll=[0,-108.435,0],fov=45,resolution=[960,960])
+        report['camera'] = dict(position=camera_position,distanceCm=DISTANCE,pitchYawRoll=[0,-108.435,0],fov=45,resolution=[960,960])
         builds=[json.loads(p.read_text()) for p in OUT.glob('native-*.json')]
         built=next(r for r in builds if r.get('status')=='built-needs-fresh-readback-and-render')
         skel=ue.load_asset(built['sourceMesh'])

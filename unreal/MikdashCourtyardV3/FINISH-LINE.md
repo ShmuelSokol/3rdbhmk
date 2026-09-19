@@ -1359,3 +1359,28 @@ VAT normal interpolation, exactly twoDDX/twoDDY nodes, WPO-including worldpositi
 normal sampler, vertexcolor and subsurface values. All12 MIs match recorded
 texture/vector/scalar values; skin parents/models match; protected files unchanged.
 This closes the pilot surface-wiring gap, not remaining crowd acceptance.
+
+## Crowd distance and full cast candidate pass — 19 September 2026
+Standard distance captures095346/095408 exited0, no protected changes. At45degree
+FOV/960square,source height~100px at20m/~50px at40m. ThresholdRGB>8 foreground
+silhouette IoU min:8000target .9522/.9700;2400target .9306/.9521 at20/40m.
+Root inspected all24 native-size crops.50px is a provisional visual reference for
+in-scene distance policy, NOT a universal pass threshold or adopted cutoff.
+Wrappers/capture support bounded100..10000cm explicit distance; omitting it keeps
+the exact original80,240,105 camera. Added validated cast selector for five more
+variants under isolated Cast/<name> folders; selected skeleton/WalkV2/idle stay
+matched. Serial build/fresh readback/close+40m captures underway for all five.
+
+## Full cast crowd review checkpoint — 19 September 2026
+All five additional Study03 variants completed build, fresh readback, close and40m
+GPU captures:20 native processes exited0;130 saved assets and120 PNG hashes match.
+Post-interruption checks revalidated protected hashes and saved evidence. Root
+reviewed all close contacts and all five40m contacts. Elder man2400 is rejected
+for new skin-through-robe patches in poses0/18/54. Both women show altered dark
+lower-skirt shading; cause unproven. Face/cap/collar/trim losses remain, strongest
+at2400. Youth/Heavy broadly follow the four sampled source poses. No cast level
+is adopted; frozen frontal poses do not establish continuous clearance, side/rear
+quality, live distance transitions or performance. See Study03/cast-review.json.
+Next: investigate simplification/deformation transfer for robe artifacts, then
+continuous multi-view checks and measured runtime integration. Distance alone
+must not be used to declare these defects resolved.

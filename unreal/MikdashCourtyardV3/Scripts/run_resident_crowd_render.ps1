@@ -1,4 +1,4 @@
-param([ValidateSet('01','02','03')][string]$Study='03')
+param([ValidateSet('01','02','03')][string]$Study='03',[ValidateRange(100,10000)][int]$DistanceCm=253,[ValidateSet('Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder','Youth')][string]$Variant='Man_Standard')
 $ErrorActionPreference = 'Stop'
 $root = (Split-Path -Parent $PSScriptRoot).Replace('\','/')
 $busy = @(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3,AutomationTool -ErrorAction SilentlyContinue)
@@ -7,6 +7,7 @@ if($busy.Count){throw 'Native slot occupied'}
 if(([long](Get-CimInstance Win32_OperatingSystem).FreeVirtualMemory*1KB) -lt 6GB){throw 'Isolated audit needs 6 GiB free commit'}
 $stamp=(Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ')
 $folder="$root/SourceAssets/perf-review/crowd-vat/ResidentStudy$Study"
+if($Variant -ne 'Man_Standard'){$folder+='/Cast/'+$Variant}
 New-Item -ItemType Directory -Path $folder -Force | Out-Null
 $log="$folder/resident-crowd-render-run-$stamp.log"
 $receipt="$folder/resident-crowd-render-run-$stamp.json"
@@ -19,6 +20,8 @@ $exe='C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor-Cmd.
 $arguments=@(('"'+$root+'/MikdashCourtyardV3.uproject"'),'-run=pythonscript',('-script="'+$root+'/Scripts/capture_resident_crowd.py"'),'-AllowCommandletRendering','-RenderOffscreen','-EnablePlugins=AnimToTexture,GeometryScripting','-DisablePlugins=MetaHumanCharacter,MetaHumanSDK','-unattended','-nosplash','-nosound','-notraceserver','-NoMetaHumanAccountPortalLoginFallback','-NoAsyncLoadingThread','-asyncstaticmeshcompilationmaxconcurrency=1',('-abslog="'+$log+'"'))
 
 $arguments += ('-ResidentCrowdStudy='+$Study)
+$arguments += ('-ResidentCrowdVariant='+$Variant)
+if($PSBoundParameters.ContainsKey('DistanceCm')){$arguments += ('-ResidentCrowdDistanceCm='+$DistanceCm)}
 $child=$null
 try {
     $child=Start-Process -FilePath $exe -ArgumentList $arguments -WorkingDirectory $root -WindowStyle Hidden -PassThru

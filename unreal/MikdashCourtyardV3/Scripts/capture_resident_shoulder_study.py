@@ -6,6 +6,7 @@ from pathlib import Path
 import struct
 import sys
 import re
+import math
 import unreal as ue
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,7 +19,9 @@ VARIANT=match.group(1) if match else 'Youth'
 assert VARIANT in ('Youth','Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder')
 ANIMATED='-RV4ShoulderAnimated' in command
 HEAD_GRID='-RV4HeadGrid' in command
-assert not HEAD_GRID or (VARIANT in ('Man_Elder','Woman_Young') and not ANIMATED)
+DISTANCE_SWEEP='-RV4HeadDistanceSweep' in command
+assert not HEAD_GRID or (VARIANT in ('Man_Elder','Woman_Young') and (not ANIMATED or DISTANCE_SWEEP))
+assert not DISTANCE_SWEEP or (HEAD_GRID and ANIMATED)
 OUT=ROOT/'SourceAssets/characters-review'/('ResidentShoulderStudy05' if VARIANT=='Youth' else 'ResidentShoulderCast02/'+VARIANT)
 if HEAD_GRID:OUT=ROOT/'SourceAssets/characters-review/ResidentHeadGrid01'/VARIANT
 
@@ -86,6 +89,7 @@ def run():
         assert candidate.get_editor_property('skeleton')==baseline.get_editor_property('skeleton')
         assert sorted(map(str,candidate.get_all_morph_target_names()))==sorted(map(str,baseline.get_all_morph_target_names()))
         report['headGrid']=HEAD_GRID
+        report['headDistanceSweep']=DISTANCE_SWEEP
         report['animated']=ANIMATED
         clip=None
         if ANIMATED:
@@ -103,6 +107,11 @@ def run():
         if HEAD_GRID:
             views=[('face',ue.Vector(0,80,166),-90.),('threequarter',ue.Vector(56.57,56.57,166),-135.),('profile',ue.Vector(80,0,166),180.)]
             report['scope']='Transient reduced head-grid import versus accepted skeletal source; neutral close-up views, no asset saves, morph/animation or runtime acceptance.'
+        if DISTANCE_SWEEP:
+            views=[(name+'-d'+str(distance),ue.Vector(x*distance,y*distance,105),yaw)
+                   for distance in (1000,2000)
+                   for name,x,y,yaw in (('face',0,1,-90.),('threequarter',math.sqrt(.5),math.sqrt(.5),-135.),('profile',1,0,180.))]
+            report['scope']='Transient reduced head-grid source/candidate comparisons at10/20m, four frozen walk phases and three views. Not continuous motion, VAT, LOD switching or performance acceptance.'
         times=(0.,.3,.6,.9) if ANIMATED else (None,)
         for label,mesh,position,yaw,time in [(name+'-'+side+('' if t is None else '-t'+str(t)),mesh,position,yaw,t)
                                            for t in times for name,position,yaw in views

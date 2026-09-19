@@ -1602,3 +1602,17 @@ Native skeleton/morph names and material bindings match; protected assets unchan
 Next distance/morph review, feature-preserving refinement if needed, remaining body
 reduction and direct-normal VAT/all-cast/performance tests. Evidence:
 SourceAssets/characters-review/ResidentHeadGrid01/review.json.
+
+## Resident head-grid distance review — 19 September 2026
+HeadDistanceSweep is opt-in HeadGrid+Animated for Elder/Woman:10/20m, three views,
+four evaluated walking phases, native960px square FOV45. Two native runs exit0,
+96 source/candidate captures and four root-reviewed contacts preserving native
+pixels. Sampled bone transforms match; protected assets unchanged, imports unsaved.
+Close-up facial losses are less prominent at these scales; silhouette stays close.
+Garment hem/fold differences remain at10m. Whole foreground IoU minimum0.97338;
+head-region RGB8 MAE maximum4.528 at10m/2.620 at20m. Projected head rectangle is not
+semantic segmentation; metrics have no adoption threshold. No universal LOD distance,
+facial morph, continuous motion, VAT, LOD-switching or performance acceptance.
+Carry source reduction into an isolated crowd candidate with full direct skeletal
+normals next, followed by all-cast/runtime tests. Near characters remain unchanged.
+Evidence: SourceAssets/characters-review/ResidentHeadGrid01/distance-review.json.

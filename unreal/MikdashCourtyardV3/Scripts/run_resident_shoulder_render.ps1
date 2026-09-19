@@ -1,6 +1,7 @@
-param([ValidateSet('Youth','Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder')][string]$Variant='Youth',[switch]$Animated,[switch]$HeadGrid)
+param([ValidateSet('Youth','Man_Standard','Man_Heavy','Man_Elder','Woman_Young','Woman_Elder')][string]$Variant='Youth',[switch]$Animated,[switch]$HeadGrid,[switch]$HeadDistanceSweep)
 $ErrorActionPreference = 'Stop'
-if($HeadGrid -and ($Animated -or $Variant -notin @('Man_Elder','Woman_Young'))){throw 'HeadGrid requires Elder/Woman neutral review'}
+if($HeadGrid -and (($Animated -and -not $HeadDistanceSweep) -or $Variant -notin @('Man_Elder','Woman_Young'))){throw 'HeadGrid requires Elder/Woman neutral or distance review'}
+if($HeadDistanceSweep -and (-not $HeadGrid -or -not $Animated)){throw 'HeadDistanceSweep requires HeadGrid and Animated'}
 $root = (Split-Path -Parent $PSScriptRoot).Replace('\','/')
 $busy = @(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3,AutomationTool -ErrorAction SilentlyContinue)
 $busy += @(Get-CimInstance Win32_Process -Filter "Name='dotnet.exe'" | Where-Object {$_.CommandLine -match 'AutomationTool|UnrealBuildTool'})
@@ -23,6 +24,7 @@ $arguments=@(('"'+$root+'/MikdashCourtyardV3.uproject"'),'-run=pythonscript',('-
 $arguments += ('-RV4ShoulderVariant='+$Variant)
 if($Animated){$arguments += '-RV4ShoulderAnimated'}
 if($HeadGrid){$arguments += '-RV4HeadGrid'}
+if($HeadDistanceSweep){$arguments += '-RV4HeadDistanceSweep'}
 $child=$null
 try {
     $child=Start-Process -FilePath $exe -ArgumentList $arguments -WorkingDirectory $root -WindowStyle Hidden -PassThru

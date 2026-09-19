@@ -1,6 +1,7 @@
 #include "CrowdGroundMath.h"
 #include "CrowdGroupMath.h"
 #include "../Source/MikdashRuntime/Private/CrowdKotelGroundData.h"
+#include "../Source/MikdashRuntime/Private/CrowdStreetGroundData.h"
 #include <iostream>
 int main()
 {
@@ -27,6 +28,15 @@ int main()
     Check(MikdashCrowdGroups::FollowPlane(A+.04,A,B,Moved)&&std::abs(Moved-(B+.04))<1e-8,
           "movement follows exact surface difference and retains contact offset");
     Check(!MikdashCrowdGroups::FollowPlane(A,A,Missing(),Moved),"movement cannot cross missing support");
+    const double StreetTerrain=TerrainHeight(CrowdStreetGroundData::Street,-37409.103863,47107.001752);
+    Check(std::abs(StreetTerrain-889.5093043147889)<.001,"street uses original terrain after fallback repair");
+    Check(std::abs(TerrainHeight(CrowdStreetGroundData::Street,-37840.18529,46646.836323)-980.810144)<.001,
+          "street chooses native asphalt above terrain");
+    bool Covered=true;
+    for(int X=0;X<=100;++X) for(int Y=0;Y<=100;++Y)
+        Covered=Covered && std::isfinite(TerrainHeight(CrowdStreetGroundData::Street,-38800+22.*X,46200+13.*Y));
+    Check(Covered,"entire street zone has support on 101x101 grid");
+    Check(!std::isfinite(TerrainHeight(CrowdStreetGroundData::Street,0,0)),"street does not invent distant ground");
     std::cout<<"Crowd ground checks: "<<(Fail?"FAIL":"PASS")<<'\n';
     return Fail?1:0;
 }

@@ -546,3 +546,20 @@ Do not instantiate an uninitialized subsystem. First two attempts failed before
 saving any asset (import path, then missing subsystem); receipts retained locally.
 Fresh verification must compare persisted materials and complete settings against
 the successful apply receipt plus original hash-verified backup, not against itself.
+
+## Exact street crowd ground model — 18 September 2026
+
+StreetBateiMahase now uses highest source terrain/asphalt triangles (8+18faces)
+on the selected48 shipping map, through the same exact-surface path as Kotel.
+The generator pins the native source audit, fresh fallback repair proof, zone file
+and current terrain/asphalt asset hashes. It refuses drift; verify.py checks the
+header against the generator. No old native contact is used to fit a new plane.
+The math test covers repaired terrain height, unchanged asphalt native contact,
+101x101 zone support coverage and missing distant support. Existing support,
+spacing, protected-area and capsule checks stay intact; default search budget48.
+Runtime walking uses existing exact-surface height deltas. Source/runtime gate and
+new full cook/packaged contact/population acceptance remain pending for this change.
+Never reuse the old checkpoint Paks: terrain fallback changed in03896243.
+Source verification now passes active12/12 (including33/33math and Editor/Game),
+publicationquick7/7 and seven-file parity. Packaged collision/contact and crowd
+counts remain unverified until the new full cook is tested.

@@ -4,6 +4,7 @@
 #include "MikdashSceneUnits.h"
 #include "PopulationSceneMath.h"
 #include "CrowdKotelGroundData.h"
+#include "CrowdStreetGroundData.h"
 #include "TimerManager.h"
 
 #include "Components/HierarchicalInstancedStaticMeshComponent.h"
@@ -338,6 +339,8 @@ float AMikdashCrowdField::ZoneGroundZ(const FMikdashCrowdZone& Zone, const FVect
             return static_cast<float>(MikdashCrowdGround::DeckHeight(CrowdKotelGroundData::Plaza,P.X,P.Y));
         if(Zone.Name==TEXT("KotelApproachCorridor"))
             return static_cast<float>(MikdashCrowdGround::TerrainHeight(CrowdKotelGroundData::Approach,P.X,P.Y));
+        if(Zone.Name==TEXT("StreetBateiMahase"))
+            return static_cast<float>(MikdashCrowdGround::TerrainHeight(CrowdStreetGroundData::Street,P.X,P.Y));
     }
     if (Zone.GroundMode == EMikdashCrowdGround::Plane)
     {

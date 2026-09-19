@@ -395,6 +395,10 @@ def main() -> int:
     check_specs()
     check_receipts()
     check_map_parity()
+    street = subprocess.run([sys.executable, str(ROOT / 'Scripts/generate_crowd_street_ground.py'), '--check'],
+                            capture_output=True, text=True, timeout=60)
+    check('pinned street ground surfaces', street.returncode == 0,
+          (street.stdout + street.stderr).strip())
     print("-- C++")
     if args.quick:
         print("  SKIP  standalone math tests (--quick)")

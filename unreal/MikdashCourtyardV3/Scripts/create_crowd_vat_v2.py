@@ -1035,7 +1035,7 @@ class StockGraph(Graph):
         return (node, 'RGB')
 
 
-def build_master_v2(ue, spec, ns, name, defaults, receipt):
+def build_master_v2(ue, spec, ns, name, defaults, receipt, previous_wpo_builder=None):
     tools = ue.AssetToolsHelpers.get_asset_tools()
     assets = ue.EditorAssetLibrary
     folder = ns + '/Materials'
@@ -1095,6 +1095,9 @@ def build_master_v2(ue, spec, ns, name, defaults, receipt):
     to_world = lambda src: _transform(g, src)
     drift = g.op(M, g.op(E.MaterialExpressionAppendVector, g.op(E.MaterialExpressionAppendVector, cd[5], cd[6]), cd[7]), dt)
     wpo = g.op(A, to_world(delta), drift)
+    if previous_wpo_builder is not None:
+        wpo = previous_wpo_builder(g, t, cd, wpo, clip, walk_frames, uvw,
+                                   defaults, wsize, wmin, idle_p, blend, negdt, to_world)
     g.prop(wpo, mp.MP_WORLD_POSITION_OFFSET)
 
     decode = lambda x: g.op(S, g.op(M, x, g.const(2.0)), g.const(1.0))

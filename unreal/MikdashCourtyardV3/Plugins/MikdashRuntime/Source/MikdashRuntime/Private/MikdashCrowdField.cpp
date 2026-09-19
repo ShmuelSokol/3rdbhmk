@@ -290,6 +290,35 @@ void AMikdashCrowdField::CacheGeometry()
 
 void AMikdashCrowdField::ConfigureComponents()
 {
+    bVatMotionHistory = bUseVertexAnimation && FParse::Param(FCommandLine::Get(), TEXT("MikdashCrowdMotionHistory"));
+    TArray<TArray<UMaterialInterface*>> HistoryMaterials;
+    HistoryMaterials.SetNum(PoseComponents.Num());
+    if (bVatMotionHistory)
+    {
+        // Resolve the entire candidate before changing any component. A partial
+        // material set cannot safely consume a different custom-data layout.
+        for (int32 Pose = 0; Pose < PoseComponents.Num(); ++Pose)
+        {
+            UStaticMesh* Mesh = PoseMeshes.IsValidIndex(Pose) ? PoseMeshes[Pose].Get() : nullptr;
+            if (!Mesh) continue;
+            for (int32 Slot = 0; Slot < Mesh->GetStaticMaterials().Num(); ++Slot)
+            {
+                UMaterialInterface* Original = Mesh->GetMaterial(Slot);
+                const FString Name = Original ? Original->GetName() : FString();
+                const FString Path = FString::Printf(TEXT("/Game/MikdashV3/Runtime/CrowdVATV3/Materials/%s.%s"), *Name, *Name);
+                UMaterialInterface* Candidate = Name.StartsWith(TEXT("MI_CrowdVAT2_"))
+                    ? LoadObject<UMaterialInterface>(nullptr, *Path) : nullptr;
+                if (!Candidate)
+                {
+                    UE_LOG(LogTemp, Error, TEXT("CrowdMotionHistoryV3 refused missing candidate pose=%d slot=%d path=%s"), Pose, Slot, *Path);
+                    bVatMotionHistory = false;
+                }
+                HistoryMaterials[Pose].Add(Candidate);
+            }
+        }
+    }
+    VatPreviousAgents.Reset();
+    VatHistoryUpdatedAt.Reset();
     ActivePoseCount = 0;
     for (int32 Index = 0; Index < PoseComponents.Num(); ++Index)
     {
@@ -300,7 +329,8 @@ void AMikdashCrowdField::ConfigureComponents()
         }
         UStaticMesh* Mesh = PoseMeshes.IsValidIndex(Index) ? PoseMeshes[Index].Get() : nullptr;
         Component->SetStaticMesh(Mesh);
-        Component->NumCustomDataFloats = bUseVertexAnimation ? VatCustomDataFloats : 3;
+        Component->NumCustomDataFloats = bUseVertexAnimation
+            ? (bVatMotionHistory ? VatHistoryCustomDataFloats : VatCustomDataFloats) : 3;
         Component->SetCastShadow(bCastShadows);
         if (bUseVertexAnimation)
         {
@@ -308,6 +338,9 @@ void AMikdashCrowdField::ConfigureComponents()
             // left fifteen on every pose component) would replace it with a static material and
             // turn every figure back into a statue.
             Component->EmptyOverrideMaterials();
+            if (bVatMotionHistory)
+                for (int32 Slot = 0; Slot < HistoryMaterials[Index].Num(); ++Slot)
+                    Component->SetMaterial(Slot, HistoryMaterials[Index][Slot]);
             // The distance field, Lumen card and ray-tracing geometry of a VAT mesh are its REST
             // pose; letting them light the scene would draw a ghost standing where the figure is not.
             Component->SetAffectDistanceFieldLighting(false);
@@ -332,6 +365,8 @@ void AMikdashCrowdField::ConfigureComponents()
             ++ActivePoseCount;
         }
     }
+    if (bVatMotionHistory)
+        UE_LOG(LogTemp, Display, TEXT("CrowdMotionHistoryV3 enabled customFloats=%d poses=%d"), VatHistoryCustomDataFloats, ActivePoseCount);
 }
 
 float AMikdashCrowdField::ZoneGroundZ(const FMikdashCrowdZone& Zone, const FVector2D& P) const
@@ -496,6 +531,26 @@ void AMikdashCrowdField::AppendVatCustomData(int32 Index, TArray<float>& Out) co
     Out.Add(static_cast<float>(Agent.SwitchTime));          // 8
     Out.Add(Agent.IdleOffset);                              // 9
     Out.Add(Agent.HorizonSeconds);                          // 10
+    if (bVatMotionHistory)
+    {
+        const FMikdashCrowdAgent& Previous = VatPreviousAgents[Index];
+        Out.Add(static_cast<float>(Previous.Position.X - Agent.Position.X)); // 11 world anchor offset
+        Out.Add(static_cast<float>(Previous.Position.Y - Agent.Position.Y)); // 12
+        Out.Add(Previous.GroundZCm - Agent.GroundZCm);                        // 13
+        const float RelativeYaw = FMath::DegreesToRadians(Previous.HeadingDegrees - Agent.HeadingDegrees);
+        Out.Add(FMath::Cos(RelativeYaw));                       // 14 previous basis in current local space
+        Out.Add(FMath::Sin(RelativeYaw));                       // 15
+        Out.Add(Previous.WalkPhaseAtAnchor);                    // 16
+        Out.Add(static_cast<float>(Previous.AnchorTime));       // 17
+        Out.Add(Previous.WalkRate);                             // 18
+        Out.Add(static_cast<float>(Previous.Velocity.X));       // 19 world velocity
+        Out.Add(static_cast<float>(Previous.Velocity.Y));       // 20
+        Out.Add(Previous.VelocityZ);                            // 21
+        Out.Add(Previous.bIdleAnim ? 1.f : 0.f);                // 22
+        Out.Add(static_cast<float>(Previous.SwitchTime));       // 23
+        Out.Add(Previous.HorizonSeconds);                       // 24
+        Out.Add(VatHistoryUpdatedAt[Index]);                    // 25 interval boundary, NOT anchor time
+    }
 }
 
 void AMikdashCrowdField::PushVat(int32 GlobalStart, int32 GlobalCount)
@@ -504,7 +559,7 @@ void AMikdashCrowdField::PushVat(int32 GlobalStart, int32 GlobalCount)
     {
         return;
     }
-    const int32 Floats = VatCustomDataFloats;
+    const int32 Floats = bVatMotionHistory ? VatHistoryCustomDataFloats : VatCustomDataFloats;
     for (int32 Pose = 0; Pose < ActivePoseCount; ++Pose)
     {
         UHierarchicalInstancedStaticMeshComponent* Component = PoseComponents.IsValidIndex(Pose) ? PoseComponents[Pose].Get() : nullptr;
@@ -1171,6 +1226,11 @@ void AMikdashCrowdField::BuildCrowd(int32 OverrideCount)
             Agent.bIdleAnim = 1;
             Agent.SwitchTime = -1000.0;
         }
+        if (bVatMotionHistory)
+        {
+            VatPreviousAgents = Agents;
+            VatHistoryUpdatedAt.Init(static_cast<float>(Now), Total);
+        }
         for (int32 Pose = 0; Pose < ActivePoseCount; ++Pose)
         {
             UHierarchicalInstancedStaticMeshComponent* Component = PoseComponents.IsValidIndex(Pose) ? PoseComponents[Pose].Get() : nullptr;
@@ -1340,6 +1400,13 @@ void AMikdashCrowdField::Tick(float DeltaSeconds)
             if (!Agent.bValid || !RuntimeZones.IsValidIndex(Agent.ZoneIndex))
             {
                 continue;
+            }
+            if (bVatMotionHistory)
+            {
+                // Capture BEFORE every mutation, including freeze/cull stops and
+                // idle heading changes. Later frames select the current interval.
+                VatPreviousAgents[Index] = Agent;
+                VatHistoryUpdatedAt[Index] = static_cast<float>(VatTime);
             }
             // Distance policy. Freezing and culling skip the simulation -- the flow sample, the
             // polygon tests and the re-seed trace, which is where the time goes. The unchanged

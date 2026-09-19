@@ -3627,3 +3627,32 @@ mismatch comparisons; abs(NaN)>tolerance is false. Motion audit reader now check
 finite times/horizons/yaw/errors, nonnegative horizons/errors, heading0..180 and
 bounded summary counters. Current native data is finite; malformed-log rejection
 is verified separately and must not weaken the native evidence requirements.
+
+## Crowd motion history candidate implemented — 19 September 2026
+Opt-in -MikdashCrowdMotionHistory uses the new 26-float CrowdVATV3 contract.
+The released 11-float path remains default. Each visited agent snapshots its old
+state BEFORE any freeze/cull stop or simulated mutation. A separate visit-time
+boundary matters: an idle heading change need not change its anchor time.
+PreviousFrameSwitch preserves current WPO; previous-frame evaluation selects old
+phase/rate/velocity/idle/blend/horizon only before the visit boundary. Compensation
+includes the REST vertex plus VAT displacement, relative yaw, world anchor offset
+and world drift; body scale and idle offset remain constant. Later frames use the
+current interval. No changes to placement, steering, collision, AA or map bindings.
+
+Native builder created one fresh master and 59 material instances for all six
+meshes. Every candidate preserves all resolved original scalar/vector/texture
+parameters; no original mesh/material/map bytes changed. Fresh-process readback
+verifies saved WPO switch/interval wiring, custom-data dependency sets, indices
+0..25, zero Custom nodes, usage and exact material parameters. Guards6/4/2GiB,
+both processes exit0. Evidence: SourceAssets/perf-review/crowd-vat/MotionHistoryV3.
+Candidate directory is explicitly cooked for runtime name loading; ordinary
+runs remain unchanged. Missing candidate material makes opt-in refuse with error.
+
+Active full gate12/12,33math,Editor44.70s/Game49.76s. Four tests evaluate the actual
+stock-node callback against independent world-vertex trajectories, including
+150random transitions, turns/stops/starts, idle heading-only changes, initial
+history, later frames, body scale and float32 payloads. They use synthetic VAT
+clips and do not prove native texture/velocity output. Native fresh cook, actual
+activation, current-frame A/B, velocity/motion and performance acceptance remain
+required. This is a concrete opt-in correction candidate, NOT an accepted smear
+fix. Capture -UseMotionHistoryCandidate requires one full activation marker.

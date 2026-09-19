@@ -312,6 +312,7 @@ public:
     float PausedGroupResumeSeconds = 0.f;
 
     static constexpr int32 VatCustomDataFloats = 11;
+    static constexpr int32 VatHistoryCustomDataFloats = 26;
 
     /** Figures currently walking (not idle). O(N); for receipts and probes. */
     UFUNCTION(BlueprintPure, Category = "Crowd|VertexAnimation")
@@ -523,6 +524,11 @@ private:
     void AppendVatCustomData(int32 Index, TArray<float>& Out) const;
     void PushVat(int32 GlobalStart, int32 GlobalCount);
     double VatNow() const;
+    // Candidate material contract: enabled only with -MikdashCrowdMotionHistory
+    // and a complete set of CrowdVATV3 material instances. No saved-map mutation.
+    bool bVatMotionHistory = false;
+    TArray<FMikdashCrowdAgent> VatPreviousAgents;
+    TArray<float> VatHistoryUpdatedAt;
     // Opt-in bounded diagnostic; never changes simulation or instance data.
     bool bMotionAudit = false;
     int32 MotionAuditSamples = 0, MotionAuditLogged = 0;

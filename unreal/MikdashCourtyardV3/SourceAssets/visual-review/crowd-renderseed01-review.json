@@ -1,0 +1,63 @@
+{
+  "status": "initial-render-readiness-restored-motion-quality-open",
+  "sourceCommit": "48275a33",
+  "childSha256": "ee8ccc0355651d1c0adaeec0e295970f57805f446dc536158a5e70dd06970479",
+  "runs": [
+    {
+      "label": "crowd-renderseed01",
+      "acquisition": "failed_capture",
+      "exitCode": null,
+      "seeded": null,
+      "errors": [
+        "Owned movie capture hit memory guard",
+        "Owned game required termination",
+        "Insufficient rendered frames for requested simulated window"
+      ],
+      "peakPrivateBytes": 8642469888,
+      "receiptSha256": "a093a4c0cf0bed6e7271cc1157b33aad4abe4bf3863e538f51048dc7e248a82d",
+      "rawLogSha256": "88d50f06666ad22469a69e792a862a95be2cbe5e710d09f52954df508bef4898",
+      "renderRows": [
+        "[2026.09.19-03.55.57:510][  0]LogTemp: Display: CrowdRenderSeedV1 pose=0 instances=1667 built=1667 render=1667",
+        "[2026.09.19-03.55.57:512][  0]LogTemp: Display: CrowdRenderSeedV1 pose=1 instances=1667 built=1667 render=1667",
+        "[2026.09.19-03.55.57:514][  0]LogTemp: Display: CrowdRenderSeedV1 pose=2 instances=1667 built=1667 render=1667",
+        "[2026.09.19-03.55.57:515][  0]LogTemp: Display: CrowdRenderSeedV1 pose=3 instances=1667 built=1667 render=1667",
+        "[2026.09.19-03.55.57:518][  0]LogTemp: Display: CrowdRenderSeedV1 pose=4 instances=1666 built=1666 render=1666",
+        "[2026.09.19-03.55.57:519][  0]LogTemp: Display: CrowdRenderSeedV1 pose=5 instances=1666 built=1666 render=1666"
+      ]
+    },
+    {
+      "label": "crowd-renderseed02",
+      "acquisition": "movie_captured_visual_review_pending",
+      "exitCode": 0,
+      "seeded": 10000,
+      "errors": [],
+      "peakPrivateBytes": 7872077824,
+      "receiptSha256": "7c35bfa8abc1a0f88ae3f1c04af8248152284a6681dc4625be226298c51874d4",
+      "rawLogSha256": "7361acaba320f57bfc1962e10aae4e72bb92978f03adff42654d54b8c6498ef0",
+      "renderRows": [
+        "[2026.09.19-03.57.38:651][  0]LogTemp: Display: CrowdRenderSeedV1 pose=0 instances=1667 built=1667 render=1667",
+        "[2026.09.19-03.57.38:653][  0]LogTemp: Display: CrowdRenderSeedV1 pose=1 instances=1667 built=1667 render=1667",
+        "[2026.09.19-03.57.38:654][  0]LogTemp: Display: CrowdRenderSeedV1 pose=2 instances=1667 built=1667 render=1667",
+        "[2026.09.19-03.57.38:656][  0]LogTemp: Display: CrowdRenderSeedV1 pose=3 instances=1667 built=1667 render=1667",
+        "[2026.09.19-03.57.38:659][  0]LogTemp: Display: CrowdRenderSeedV1 pose=4 instances=1666 built=1666 render=1666",
+        "[2026.09.19-03.57.38:660][  0]LogTemp: Display: CrowdRenderSeedV1 pose=5 instances=1666 built=1666 render=1666",
+        "[2026.09.19-03.57.46:320][ 90]0) MikdashCrowdField /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.RefusedSeeds = 0",
+        "[2026.09.19-03.57.46:324][ 90]123) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose0.NumBuiltInstances = 1667",
+        "[2026.09.19-03.57.46:324][ 90]124) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose1.NumBuiltInstances = 1667",
+        "[2026.09.19-03.57.46:324][ 90]125) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose2.NumBuiltInstances = 1667",
+        "[2026.09.19-03.57.46:324][ 90]126) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose3.NumBuiltInstances = 1667",
+        "[2026.09.19-03.57.46:324][ 90]127) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose4.NumBuiltInstances = 1666",
+        "[2026.09.19-03.57.46:324][ 90]128) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose5.NumBuiltInstances = 1666"
+      ]
+    }
+  ],
+  "partialSampleSha256": "f1f330dce260cb2a8488e18c1f3c42c776f3fc48fc9d7a1081149df1875416f7",
+  "visualReview": "1280x720 partialframe60 now visiblypopulated, butrunfailed8GiBguard andwasstopped.640x360 repeat completesexit0 with10000;frames60and89 visiblypopulated anddiffer inbodypositions. Motion smearing visible; this is render-readiness proof, not animation/footcontact/appearance acceptance.",
+  "scope": "Sourcefullgate12/12 math33/33 Editor/Game andclone7/7 beforepackaging. Same immutablecookedassets. Shortfixedstep proof; performance must be rerun with newbinary.",
+  "remaining": [
+    "Longer close motion/foot contact and appearance",
+    "Newbinary real-time performance",
+    "Preserved scene/state/route checks",
+    "Full finish-line scope"
+  ]
+}

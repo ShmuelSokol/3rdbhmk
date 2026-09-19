@@ -3437,3 +3437,15 @@ beforemovementtick, VAT/nonVAT; logsCrowdRenderSeedV1. Nativeproofpending, nofix
 acceptanceyet. Capturetooladds boundedScheduledShots(120frames/30kcmd) andnormal
 clockdiagnostic(nullsimulatedtimestamps). Bothfailedruns preserved; do not call
 this fixedstep-onlyfailure. See crowd-render-readiness-review and04/05receipts/PNG.
+
+Initialrenderreadiness source48275a33 now native-proven. Fullgate12/12 math33/33
+Editor/Game andclone7/7 passed. Runtimearchive renderseed01-20260919T035419Z child
+ee8ccc0355651d1c0adaeec0e295970f57805f446dc536158a5e70dd06970479 usesverified
+siximmutable street01 cookedhashes. Sixinitialtrees1667/1667/1667/1667/1666/1666
+built=instances=render, total10000.1280x720partialframe60 nowshowscrowd butrun
+hit8GiBguard(8642469888bytes), stoppedownedgame; retainedasFAILED, nooverride.
+Repeat640x360same10000/fixed30fps acquires90frames,retains30,exit0,peak7872077824,
+late10000/0refused andtreesstill10000built. Rootframes60/89 showcrowdandmotion,
+but visiblesmearing; NOTfootcontact/appearanceacceptance. Initialinvisibilityfixed;
+newbinaryperformance andlongerclosemotionstillowed. See renderseedpackage/review
+andfailed/successfulreceipts/PNGs. Allretainedframeshashpinnedlocal.

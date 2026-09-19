@@ -13,7 +13,9 @@ param(
     [ValidateRange(360,1080)][int]$ResY=720,
     [ValidateRange(1,120)][int]$KeepEvery=1,
     [ValidateRange(1,120)][int]$FixedFps=30,
-    [ValidatePattern('^(?:-CrowdCount=(?:0|[1-9][0-9]{0,4}))?$')][string]$ExtraArgs=''
+    [ValidatePattern('^(?:-CrowdCount=(?:0|[1-9][0-9]{0,4}))?$')][string]$ExtraArgs='',
+    [switch]$ScheduledShots,
+    [switch]$RealTimeDiagnostic
 )
 $ErrorActionPreference='Stop'
 $Archive=[IO.Path]::GetFullPath($Archive)
@@ -39,6 +41,7 @@ foreach($captureDrive in $captureDrives){
     if($captureDrive.AvailableFreeSpace -lt (2GB+([long]$captureFrames*$ResX*$ResY*8))){throw 'Insufficient disk headroom for source frames and retained copies'}
 }
 $prior=@(Get-ChildItem -LiteralPath $shots -Filter 'MovieFrame*.png' -File -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName)
+if($ScheduledShots -and $captureFrames -gt 120){throw 'Scheduled screenshot diagnostic limited to120frames'}
 New-Item -ItemType Directory -Path $outDir | Out-Null
 $log=Join-Path $outDir 'runtime.log'
 $receipt=Join-Path $outDir 'movie-receipt.json'
@@ -46,8 +49,30 @@ $ini='-ini:Game:[/Script/MikdashRuntime.MikdashFrontEnd]:bShowMainMenuOnBoot=Fal
 $launchArgs="-windowed -ResX=$ResX -ResY=$ResY -nosplash -nosteam -notraceserver -notrace -dumpmovie -benchmark -fps=$FixedFps $ExtraArgs $ini -csvCaptureFrames=$captureFrames -ExitAfterCsvProfiling -csvNoProcessingThread -abslog=`"$log`" -ExecCmds=`"sg.ViewDistanceQuality 2,sg.ShadowQuality 2,sg.GlobalIlluminationQuality 2,sg.ReflectionQuality 2,sg.PostProcessQuality 2,sg.TextureQuality 2,sg.EffectsQuality 2,sg.FoliageQuality 2,sg.ShadingQuality 2,r.ScreenPercentage 77,Ghost,BugItGo $Go,csv.ForceExit 0`""
 $inspectionFrame=$captureFrames-1
 $launchArgs += " -csvExecCmds=`"${inspectionFrame}:getall MikdashCrowdField SeededAgents,${inspectionFrame}:getall MikdashCrowdField RefusedSeeds`""
+if($ScheduledShots){
+    New-Item -ItemType Directory -Path $shots -Force | Out-Null
+    $priorIndices=@($prior | ForEach-Object {if([IO.Path]::GetFileNameWithoutExtension($_) -match '^MovieFrame(\d+)$'){[long]$Matches[1]}})
+    $nextIndex=if($priorIndices.Count){[long]($priorIndices | Measure-Object -Maximum).Maximum+1}else{0}
+    $commands=@()
+    for($frame=1;$frame -lt $captureFrames;$frame++){
+        $target=(Join-Path $shots ('MovieFrame{0:d6}.png' -f ($nextIndex+$frame-1))).Replace('\','/')
+        $commands+="${frame}:Shot filename=$target -nosuffix"
+    }
+    $commands+="${inspectionFrame}:getall MikdashCrowdField SeededAgents"
+    $commands+="${inspectionFrame}:getall MikdashCrowdField RefusedSeeds"
+    $commands+="${inspectionFrame}:getall HierarchicalInstancedStaticMeshComponent NumBuiltInstances"
+    $commands+="${inspectionFrame}:getall HierarchicalInstancedStaticMeshComponent InstanceCountToRender"
+    $launchArgs=$launchArgs.Replace('-dumpmovie ','') -replace ' -csvExecCmds="[^"]*"',''
+    $launchArgs+=' -csvExecCmds="'+($commands -join ',')+'"'
+    if($launchArgs.Length -gt 30000){throw 'Scheduled screenshot command exceeds safe Windows length'}
+}
+if($RealTimeDiagnostic){$launchArgs=$launchArgs.Replace("-benchmark -fps=$FixedFps ",'')}
 $report=[ordered]@{status='starting';label=$Label;view=$View;archive=$Archive;bugItGo=$Go;method='Fixed-step consecutive MovieFrame screenshots; NOT a performance measurement';commandLine=$launchArgs;resolution="$ResX x $ResY";fixedFps=$FixedFps;settleFrames=$settleFrames;recordFrames=$recordFrames;captureFrames=$captureFrames;keepEvery=$KeepEvery;extraArgs=$ExtraArgs;childSha256=(Get-FileHash -LiteralPath $exe).Hash.ToLowerInvariant();startedUtc=[DateTime]::UtcNow.ToString('o');peakPrivateBytes=0;minimumFreeCommitBytes=[long]::MaxValue;maximumPrivateBytes=8GB;reserveCommitBytes=1.25GB;errors=@()}
 function Save-Receipt {$report | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $receipt -Encoding utf8}
+$report.scheduledShots=[bool]$ScheduledShots
+$report.realTimeDiagnostic=[bool]$RealTimeDiagnostic
+if($ScheduledShots){$report.method='Fixed-step scheduled ordinary screenshots; NOT a performance measurement'}
+if($RealTimeDiagnostic){$report.method='Real-time visibility diagnostic; requested frame counts only, NO fixed simulated-time claim'}
 Save-Receipt
 $proc=$null
 try{
@@ -91,7 +116,7 @@ try{
     for($i=$settleFrames;$i -lt ($settleFrames+$recordFrames);$i+=$KeepEvery){
         $source=$fresh[$i];$dest=Join-Path $outDir ('frame-{0:d6}.png' -f $i)
         Copy-Item -LiteralPath $source.file.FullName -Destination $dest
-        $kept+=[ordered]@{file=$dest;source=$source.file.Name;sourceIndex=$source.index;sequenceIndex=$i;simulatedSecondsFromFirstDump=$i/[double]$FixedFps;sha256=(Get-FileHash -LiteralPath $dest).Hash.ToLowerInvariant()}
+        $kept+=[ordered]@{file=$dest;source=$source.file.Name;sourceIndex=$source.index;sequenceIndex=$i;simulatedSecondsFromFirstDump=if($RealTimeDiagnostic){$null}else{$i/[double]$FixedFps};sha256=(Get-FileHash -LiteralPath $dest).Hash.ToLowerInvariant()}
     }
     $report.frames=$kept;$report.framesKept=$kept.Count
     $report.rawLogSha256=(Get-FileHash -LiteralPath $log).Hash.ToLowerInvariant()

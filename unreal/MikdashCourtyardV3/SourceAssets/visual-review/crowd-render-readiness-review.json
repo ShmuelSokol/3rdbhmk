@@ -1,0 +1,47 @@
+{
+  "status": "initial-render-tree-defect-hypothesis-fix-pending",
+  "sourceBinaryCommit": "bd075bd3",
+  "runs": [
+    {
+      "label": "crowd-motion-shot04",
+      "visualStatus": "failed-no-visible-crowd",
+      "exitCode": 0,
+      "seeded": 10000,
+      "framesDumped": 90,
+      "framesKept": 30,
+      "rawLogSha256": "d77fb53294c0bb4e4ae1c64e3c21b0d66714d0553f1b9838d5c552caf9132734",
+      "receiptSha256": "7cba8476a4109490425d66f96f0ec09cb97de1340ce6fc9aae90b3dba4707462",
+      "sampleSha256": "89f93a113dd44b74f7d5e9691fdd9af86d2573ff956103ff6e1cee2c58f9bc91",
+      "renderReadbacks": []
+    },
+    {
+      "label": "crowd-motion-real05",
+      "visualStatus": "failed-no-visible-crowd",
+      "exitCode": 0,
+      "seeded": 10000,
+      "framesDumped": 90,
+      "framesKept": 30,
+      "rawLogSha256": "4a96c046c865c530c2606cb768d3be4582f220f9a6dd59452df3a5b723e6f754",
+      "receiptSha256": "82900b511db3bf6cad0939fb06a718e5fc2f73b918c0496c652a4d672d0ed435",
+      "sampleSha256": "5a120f9e0749701bf0c999db5cba3db454af0d09358b1c35173677effa02a09c",
+      "renderReadbacks": [
+        "[2026.09.19-03.46.26:670][ 90]123) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose0.NumBuiltInstances = 0",
+        "[2026.09.19-03.46.26:670][ 90]124) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose1.NumBuiltInstances = 0",
+        "[2026.09.19-03.46.26:670][ 90]125) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose2.NumBuiltInstances = 0",
+        "[2026.09.19-03.46.26:670][ 90]126) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose3.NumBuiltInstances = 0",
+        "[2026.09.19-03.46.26:670][ 90]127) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose4.NumBuiltInstances = 0",
+        "[2026.09.19-03.46.26:670][ 90]128) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose5.NumBuiltInstances = 0",
+        "[2026.09.19-03.46.26:674][ 90]123) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose0.InstanceCountToRender = 1667",
+        "[2026.09.19-03.46.26:674][ 90]124) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose1.InstanceCountToRender = 1667",
+        "[2026.09.19-03.46.26:674][ 90]125) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose2.InstanceCountToRender = 1667",
+        "[2026.09.19-03.46.26:674][ 90]126) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose3.InstanceCountToRender = 1667",
+        "[2026.09.19-03.46.26:674][ 90]127) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose4.InstanceCountToRender = 1666",
+        "[2026.09.19-03.46.26:674][ 90]128) HierarchicalInstancedStaticMeshComponent /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.CrowdPose5.InstanceCountToRender = 1666"
+      ]
+    }
+  ],
+  "finding": "Scheduled ordinary screenshots without dumpmovie still show no crowd. Removingbenchmark/fixedfps also fails. Real05 late sixactiveposes report10000InstanceCountToRender butzeroNumBuiltInstances.",
+  "engineEvidence": "UE5.8 HierarchicalInstancedStaticMesh.cpp BuildTreeIfOutdated forcesinitialsync onlybeforeWorldHasBegunPlay. Concurrentchanges invalidateasyncresult; ApplyBuildTreeAsync discardsandrestarts.",
+  "proposedFix": "Complete initial HISM tree synchronously after initial transforms/customdata and before ticking, VAT andnonVAT. No per-frame sync and no placement/appearance changes. Build and replacementnativeproof pending.",
+  "limitations": "No movement acceptance. Counters locate a render-readiness discrepancy but sourcefix needs nativevisibleproof."
+}

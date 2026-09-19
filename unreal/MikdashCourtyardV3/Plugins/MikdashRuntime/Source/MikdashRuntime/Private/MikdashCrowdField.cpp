@@ -1188,6 +1188,12 @@ void AMikdashCrowdField::BuildCrowd(int32 OverrideCount)
                 AppendVatCustomData(Local * ActivePoseCount + Pose, CustomScratch);
                 Component->SetCustomData(Local, TArrayView<const float>(CustomScratch.GetData(), CustomScratch.Num()), false);
             }
+            // BeginPlay seeding is deferred until the world has begun play, so HISM's
+            // pre-BeginPlay force-sync guard no longer applies. Finish the initial tree
+            // before per-frame transforms can repeatedly invalidate its async build.
+            Component->BuildTreeIfOutdated(/*Async*/ false, /*ForceUpdate*/ false);
+            UE_LOG(LogTemp, Display, TEXT("CrowdRenderSeedV1 pose=%d instances=%d built=%d render=%d"),
+                Pose, Component->GetInstanceCount(), Component->NumBuiltInstances, Component->InstanceCountToRender);
             Component->MarkRenderStateDirty();
         }
         UpdateCursor = 0;
@@ -1231,6 +1237,10 @@ void AMikdashCrowdField::BuildCrowd(int32 OverrideCount)
             Component->SetCustomDataValue(LocalIndex, 1, Tint, /*bMarkRenderStateDirty*/ false);
             Component->SetCustomDataValue(LocalIndex, 2, Agent.bStanding ? 1.f : 0.f, /*bMarkRenderStateDirty*/ false);
         }
+        // Establish initial render readiness before this actor starts moving instances.
+        Component->BuildTreeIfOutdated(/*Async*/ false, /*ForceUpdate*/ false);
+        UE_LOG(LogTemp, Display, TEXT("CrowdRenderSeedV1 pose=%d instances=%d built=%d render=%d"),
+            Pose, Component->GetInstanceCount(), Component->NumBuiltInstances, Component->InstanceCountToRender);
         Component->MarkRenderStateDirty();
     }
 

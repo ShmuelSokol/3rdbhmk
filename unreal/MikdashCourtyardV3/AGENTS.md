@@ -3425,3 +3425,15 @@ Warmup1->10sec didnotfix; explicitHigh77percent/noShowHUD didnotfix. Thus initia
 warmuphypothesis rejected. No movementacceptance; investigatefixedstep/dumpmovie
 visibility beforemore acceptancecaptures. Review+receipts+samplePNGspublished;
 allretained frameshashpinned andkeptlocal. Do not confuse acquiredframes with visualpass.
+
+Crowdvisibility diagnosis advanced: ordinary scheduledShot fixedstep04 stillempty;
+normalclock/noBenchmark05 alsoempty. Thus notspecific toDumpMovie orfixedstep.
+Real05 sixactiveCrowdPose components report total10000 InstanceCountToRender but
+NumBuiltInstances0; placementalone isnotrenderreadiness. EngineHISM initialforceSync
+onlyappliesbeforeWorldHasBegunPlay; oursseedsnexttick afterBeginPlay. Concurrent
+instancechanges invalidateasyncbuildresults andcanrestartinitialtree indefinitely.
+Newsource callsBuildTreeIfOutdated(false,false) onceperinitialpose aftercustomdata,
+beforemovementtick, VAT/nonVAT; logsCrowdRenderSeedV1. Nativeproofpending, nofix
+acceptanceyet. Capturetooladds boundedScheduledShots(120frames/30kcmd) andnormal
+clockdiagnostic(nullsimulatedtimestamps). Bothfailedruns preserved; do not call
+this fixedstep-onlyfailure. See crowd-render-readiness-review and04/05receipts/PNG.

@@ -1,0 +1,56 @@
+{
+  "status": "diagnostic-corridor-improvement-not-adopted",
+  "sourceBinaryCommit": "bd075bd3",
+  "runs": [
+    {
+      "label": "crowd-citybase01",
+      "seeded": 10000,
+      "exitCode": 0,
+      "childSha256": "0086af4dca0d888bc8abeddd1191859e91a547fbbd45ce386c0dee6a5e388c26",
+      "cloudShadowSampleCapOverride": null,
+      "nativeCloudShadowSampleCapVerified": null,
+      "receiptSha256": "35653a48de43dbf0da78e9603fe2bc74c56d851a1f28ba03a684236a6df0d35c",
+      "rawLogSha256": "9900d66c2ee88ca6241cd623f2d85185489234232692b5ff0627378fc7b15512",
+      "csvSha256": "bf7e3253bf700da95cb22b178305791ac358b203e9028f3bc74ddc54e0e8e2d6",
+      "photoSha256": "8fdcce89387d6e882f2a66ed8b2de6c143eee25331e3e23b38e2266e20d9f732",
+      "readbacks": [
+        "[2026.09.19-03.22.30:536][879]0) MikdashCrowdField /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.SeededAgents = 10000",
+        "[2026.09.19-03.22.30:540][879]0) MikdashCrowdField /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.RefusedSeeds = 0"
+      ]
+    },
+    {
+      "label": "crowd-citycloud8-01",
+      "seeded": 10000,
+      "exitCode": 0,
+      "childSha256": "0086af4dca0d888bc8abeddd1191859e91a547fbbd45ce386c0dee6a5e388c26",
+      "cloudShadowSampleCapOverride": 8,
+      "nativeCloudShadowSampleCapVerified": true,
+      "receiptSha256": "05cf5dc40ba2f47d7b5a3851def7a2cc82a809c7130ace46d34f0cd13af7fde6",
+      "rawLogSha256": "2693374c4254a58a6b8cbfd88be618daa447955a9485add4b6a8d968ecc9af2c",
+      "csvSha256": "81ac0c36cb23585bd58e53b2edc4070579f01af825abbf37ba7999e33cfe1dce",
+      "photoSha256": "4a2ddf17a81a17cd39f0947b43d58788eda50766c011cbba25913d0f3d8fba7a",
+      "readbacks": [
+        "[2026.09.19-03.23.09:440][  0]r.VolumetricCloud.ShadowMap.RaySampleMaxCount = \"8\"",
+        "[2026.09.19-03.25.53:045][879]0) MikdashCrowdField /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.SeededAgents = 10000",
+        "[2026.09.19-03.25.53:052][879]0) MikdashCrowdField /Game/MikdashV3/Amah48Candidate_20260908T144034771385Z/Maps/Walkthrough.Walkthrough:PersistentLevel.MikdashCrowdField_0.RefusedSeeds = 0",
+        "[2026.09.19-03.25.53:067][879]r.VolumetricCloud.ShadowMap.RaySampleMaxCount = \"8\"      LastSetBy: Console"
+      ]
+    }
+  ],
+  "camera": "11500 -300 400 0 270 0",
+  "actualView": "Dense outer corridor with sky and a narrow distant city strip; historical plaza_over_city station no longer shows full city panorama in current map",
+  "outputResolution": "1920x1080",
+  "screenPercentage": 77,
+  "scalability": "High",
+  "settleSeconds": 45,
+  "recordSeconds": 30,
+  "visualReview": "Both images viewed. No obvious static sky/wall lighting regression with cap8. Crowd motion, cloud shadow motion and full city panorama not accepted.",
+  "interpretation": "Baseline1449frames median18.682 p9542.255; cap8 1680frames median16.821 p9527.489ms. Median improvement1.861ms with high-tail spikes still unresolved. Single-pair evidence only; no production adoption.",
+  "remaining": [
+    "Diagnose frame-time spikes",
+    "Correct panorama camera and assess full city",
+    "Moving cloud shadow quality",
+    "crowd movement and close appearance",
+    "production graphics/default population choice"
+  ]
+}

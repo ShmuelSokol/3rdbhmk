@@ -3404,3 +3404,11 @@ GPU16.820 vs19.013baseline. Cloudshadowpass2.064 vs3.989medianms; TSR3.350vs3.34
 Single diagnostic improvement, still misses16.7ms, noadoption. Root courtPNGreview
 finds noobviouslightingregression; city/open-sky/movingcloudshadow checks owed.
 See crowd-cloud8-01 review/comparison/gpu-passes and capturereceipt/PNG.
+
+Historical plaza_over_city station11500 -300 400 yaw270 now shows a denseouter
+corridor, sky and narrowcitystrip, NOT fullcitypanorama. Do not acceptfullcity
+budget from thiscamera. Nativepair10000/0refused bothnormalexit,1080pHigh77%,45/30:
+baseline1449frames median18.682 p9542.255;cap8 1680frames median16.821 p9527.489.
+Median improves1.861ms but frame-time tails remainopen. BothPNGs reviewed; noobvious
+static sky/wall lighting regression. Motion/cloudshadows and correctedpanorama
+required beforeadoption. See crowd-citycloud8-01-review/comparison and bothcaptures.

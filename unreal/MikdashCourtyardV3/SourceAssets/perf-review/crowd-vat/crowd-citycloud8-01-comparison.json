@@ -1,0 +1,108 @@
+{
+  "settleSeconds": 45.0,
+  "requestedRecordSeconds": 30.0,
+  "captures": {
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\crowd-vat\\frametime-crowd-citycloud8-01-city-crowd10000\\frametime-crowd-citycloud8-01-city-crowd10000.csv": {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\crowd-vat\\frametime-crowd-citycloud8-01-city-crowd10000\\frametime-crowd-citycloud8-01-city-crowd10000.csv",
+      "columns": {
+        "frame": "FrameTime",
+        "game": "GameThreadTime",
+        "render": "RenderThreadTime",
+        "gpu": "GPUTime",
+        "rhi": "RHIThreadTime"
+      },
+      "framesKept": 1680,
+      "recordSeconds": 30.0,
+      "requestedRecordSeconds": 30.0,
+      "frame": {
+        "median": 16.821,
+        "mean": 17.858,
+        "p95": 27.489,
+        "p99": 40.953
+      },
+      "game": {
+        "median": 11.067,
+        "mean": 11.696,
+        "p95": 16.817,
+        "p99": 24.838
+      },
+      "render": {
+        "median": 16.798,
+        "mean": 17.694,
+        "p95": 28.648,
+        "p99": 34.855
+      },
+      "gpu": {
+        "median": 16.479,
+        "mean": 16.435,
+        "p95": 18.201,
+        "p99": 18.509
+      },
+      "rhi": {
+        "median": 2.964,
+        "mean": 3.186,
+        "p95": 4.463,
+        "p99": 7.948
+      },
+      "fpsFromMedian": 59.4
+    },
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\crowd-vat\\frametime-crowd-citybase01-city-crowd10000\\frametime-crowd-citybase01-city-crowd10000.csv": {
+      "file": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\crowd-vat\\frametime-crowd-citybase01-city-crowd10000\\frametime-crowd-citybase01-city-crowd10000.csv",
+      "columns": {
+        "frame": "FrameTime",
+        "game": "GameThreadTime",
+        "render": "RenderThreadTime",
+        "gpu": "GPUTime",
+        "rhi": "RHIThreadTime"
+      },
+      "framesKept": 1449,
+      "recordSeconds": 30.0,
+      "requestedRecordSeconds": 30.0,
+      "frame": {
+        "median": 18.682,
+        "mean": 20.702,
+        "p95": 42.255,
+        "p99": 45.273
+      },
+      "game": {
+        "median": 9.473,
+        "mean": 11.152,
+        "p95": 22.914,
+        "p99": 28.083
+      },
+      "render": {
+        "median": 18.794,
+        "mean": 20.691,
+        "p95": 36.202,
+        "p99": 38.533
+      },
+      "gpu": {
+        "median": 18.381,
+        "mean": 18.435,
+        "p95": 20.065,
+        "p99": 20.356
+      },
+      "rhi": {
+        "median": 2.812,
+        "mean": 3.381,
+        "p95": 7.589,
+        "p99": 8.556
+      },
+      "fpsFromMedian": 53.5
+    }
+  },
+  "crowdCostDeltas": [
+    {
+      "on": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\crowd-vat\\frametime-crowd-citycloud8-01-city-crowd10000\\frametime-crowd-citycloud8-01-city-crowd10000.csv",
+      "off": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\perf-review\\crowd-vat\\frametime-crowd-citybase01-city-crowd10000\\frametime-crowd-citybase01-city-crowd10000.csv",
+      "frameMedianDeltaMs": -1.861,
+      "frameP95DeltaMs": -14.766,
+      "gameMedianDeltaMs": 1.594,
+      "gameP95DeltaMs": -6.097,
+      "renderMedianDeltaMs": -1.996,
+      "renderP95DeltaMs": -7.554,
+      "gpuMedianDeltaMs": -1.902,
+      "gpuP95DeltaMs": -1.864
+    }
+  ]
+}

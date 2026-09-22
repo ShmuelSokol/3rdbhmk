@@ -1,6 +1,6 @@
-param([switch]$RenderTarget, [switch]$CalibrateColors, [switch]$RepairColors, [switch]$VerifyColors, [switch]$BeardStudy)
+param([switch]$RenderTarget, [switch]$CalibrateColors, [switch]$RepairColors, [switch]$VerifyColors, [switch]$BeardStudy, [switch]$CombinedStudy)
 $ErrorActionPreference = 'Stop'
-if (@($RenderTarget,$CalibrateColors,$RepairColors,$VerifyColors,$BeardStudy | Where-Object {$_}).Count -gt 1) {throw 'Choose one study mode'}
+if (@($RenderTarget,$CalibrateColors,$RepairColors,$VerifyColors,$BeardStudy,$CombinedStudy | Where-Object {$_}).Count -gt 1) {throw 'Choose one study mode'}
 $root = (Split-Path -Parent $PSScriptRoot).Replace('\', '/')
 $busy = @(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3 -ErrorAction SilentlyContinue)
 $busy += @(Get-CimInstance Win32_Process -Filter "Name='dotnet.exe'" | Where-Object {$_.CommandLine -match 'AutomationTool|UnrealBuildTool'})
@@ -16,7 +16,7 @@ function Save-Receipt { $record | ConvertTo-Json | Set-Content -LiteralPath $rec
 Save-Receipt
 $exe = 'C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor.exe'
 $arguments = @(('"'+$root+'/MikdashCourtyardV3.uproject"'),'/Engine/Maps/Entry',('-ExecCmds="py '+$root+'/Scripts/capture_kohen_skin_study.py"'),'-DisablePlugins=MetaHumanCharacter,MetaHumanSDK','-RenderOffscreen','-unattended','-nosplash','-nosound','-notraceserver','-NoMetaHumanAccountPortalLoginFallback','-NoAsyncLoadingThread','-ResX=960','-ResY=720','-asyncstaticmeshcompilationmaxconcurrency=1','-asyncskinnedassetcompilationmaxconcurrency=1','-asynctexturecompilationmaxconcurrency=1',('-abslog="'+$log+'"'))
-if ($RenderTarget -or $CalibrateColors -or $RepairColors -or $VerifyColors -or $BeardStudy) {
+if ($RenderTarget -or $CalibrateColors -or $RepairColors -or $VerifyColors -or $BeardStudy -or $CombinedStudy) {
     $exe = 'C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor-Cmd.exe'
     $arguments = @($arguments | Where-Object {$_ -ne '/Engine/Maps/Entry' -and $_ -notlike '-ExecCmds=*'})
     $scriptName = if ($CalibrateColors) {'calibrate_kohen_vertex_colors.py'} elseif ($RepairColors -or $VerifyColors) {'repair_kohen_linear_colors.py'} else {'capture_kohen_skin_commandlet.py'}
@@ -24,6 +24,7 @@ if ($RenderTarget -or $CalibrateColors -or $RepairColors -or $VerifyColors -or $
     $record.scope='isolated GPU render-target commandlet, transient actors, no saves'
     $record.script=$scriptName
     if ($BeardStudy) { $arguments += '-KohenBeardStudy' }
+    if ($CombinedStudy) { $arguments += '-KohenCombinedStudy' }
     if ($RepairColors -or $VerifyColors) {
         $arguments = @($arguments | Where-Object {$_ -ne '-AllowCommandletRendering' -and $_ -ne '-RenderOffscreen'})
         $arguments += '-nullrhi'
@@ -52,10 +53,15 @@ try {
 } catch {
     $record.status='failed';$record.error=$_.Exception.Message
 } finally {
-    if ($child) {
-        $child.Refresh()
-        if (-not $child.HasExited) { $child | Stop-Process -Force; $record.stoppedOwnedChild=$true }
+    try {
+        if ($child) {
+            $child.Refresh()
+            if (-not $child.HasExited) { $child | Stop-Process -Force -ErrorAction Stop; $record.stoppedOwnedChild=$true }
+        }
+    } catch {
+        $record.status='failed'; $record.cleanupError=$_.Exception.Message
+    } finally {
+        Save-Receipt
     }
-    Save-Receipt
 }
 if ($record.status -eq 'failed') { exit 1 }

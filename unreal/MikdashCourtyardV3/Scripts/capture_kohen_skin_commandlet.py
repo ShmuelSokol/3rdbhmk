@@ -12,6 +12,11 @@ OUT = ROOT / 'SourceAssets/characters-review/KohenSkinV2'
 
 def run():
     beard_study = '-KohenBeardStudy' in ue.SystemLibrary.get_command_line()
+    combined_study = '-KohenCombinedStudy' in ue.SystemLibrary.get_command_line()
+    if beard_study and combined_study:
+        raise RuntimeError('Choose one geometry study')
+    geometry_study = beard_study or combined_study
+    study_key = 'combinedStudy' if combined_study else 'beardStudy'
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     receipt = OUT / ('render-target-' + stamp + '.json')
     maps = {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT / 'Content').rglob('*.umap')}
@@ -32,12 +37,17 @@ def run():
         if not mesh or not skin:
             raise RuntimeError('Missing approved mesh or study material')
         candidate = None
-        if beard_study:
-            source = OUT / 'SK_KohenGadol_BeardNeckStudy02.glb'
+        if geometry_study:
+            source = (ROOT / 'SourceAssets/characters-review/KohenCombinedV1/SK_Kohen_KneeHairStudy01.glb'
+                      if combined_study else OUT / 'SK_KohenGadol_BeardNeckStudy02.glb')
             source_receipt = json.loads(source.with_suffix('.json').read_text())
             if hashlib.sha256(source.read_bytes()).hexdigest() != source_receipt['outputSha256']:
                 raise RuntimeError('Beard study source hash mismatch')
-            folder = '/Game/Characters/KohenBeardStudy_' + stamp
+            if combined_study and source_receipt['outputSha256'] != 'b542efdc1a053fd5ae59720a578701355a4a6e5a203691d999755d6ee4f67535':
+                raise RuntimeError('Unexpected combined candidate')
+            folder = '/Game/Characters/' + ('KohenCombinedStudy_' if combined_study else 'KohenBeardStudy_') + stamp
+            if ue.EditorAssetLibrary.does_directory_exist(folder):
+                raise RuntimeError('Fresh study namespace required')
             task = ue.AssetImportTask()
             for key, value in {'filename': str(source), 'destination_path': folder, 'automated': True,
                                'replace_existing': False, 'save': False}.items():
@@ -47,7 +57,7 @@ def run():
             if len(meshes) != 1:
                 raise RuntimeError('Expected one beard study skeletal mesh')
             candidate = meshes[0]
-            report['beardStudy'] = {'source': source.name, 'sha256': source_receipt['outputSha256'], 'folder': folder}
+            report[study_key] = {'source': source.name, 'sha256': source_receipt['outputSha256'], 'folder': folder}
         ue.AutomationLibrary.finish_loading_before_screenshot()
         world = ue.get_editor_subsystem(ue.UnrealEditorSubsystem).get_editor_world()
         if world.get_outermost().get_name().startswith('/Game/'):
@@ -85,12 +95,15 @@ def run():
         linear_study.set_scalar_parameter_value('VCDecodeExponent', 1.0)
         variants = [('baseline', baseline), ('skin-study', skin), ('skin-linear', linear_study),
                     ('skin-linear-no-beard', linear_study)]
-        if beard_study:
+        if geometry_study:
             variants = [('beard-before', skin), ('beard-trimmed', skin),
                         ('beard-before-front', skin), ('beard-trimmed-front', skin)]
+        if combined_study:
+            variants = [('combined-before', baseline), ('combined-candidate', baseline),
+                        ('combined-before-front', baseline), ('combined-candidate-front', baseline)]
         for label, material in variants:
-            if beard_study:
-                body.set_skeletal_mesh_asset(candidate if 'trimmed' in label else mesh)
+            if geometry_study:
+                body.set_skeletal_mesh_asset(candidate if ('trimmed' in label or 'candidate' in label) else mesh)
                 names = [str(n) for n in body.get_material_slot_names()]
                 if set(names) != set(bindings):
                     raise RuntimeError('Beard study material slots differ')
@@ -132,17 +145,31 @@ def run():
         report.update(status='failed', error=repr(error))
         raise
     finally:
+        cleanup_errors = []
         for actor in reversed(spawned):
-            actors.destroy_actor(actor)
-        report['mapsUnchanged'] = maps == {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT / 'Content').rglob('*.umap')}
-        if beard_study and 'beardStudy' in report:
-            folder = ROOT / 'Content' / report['beardStudy']['folder'].removeprefix('/Game/')
-            report['nativeStudyAssetsSaved'] = [str(p) for p in folder.rglob('*.uasset')]
-            if report['nativeStudyAssetsSaved']:
-                report['status'] = 'failed_unexpected_asset_save'
-        if not report['mapsUnchanged']:
-            report['status'] = 'failed_maps_changed'
+            try:
+                if not actors.destroy_actor(actor):
+                    cleanup_errors.append('Transient actor destruction returned false')
+            except Exception as error:
+                cleanup_errors.append('Actor cleanup: ' + repr(error))
+        try:
+            report['mapsUnchanged'] = maps == {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT / 'Content').rglob('*.umap')}
+            if not report['mapsUnchanged']:
+                report['status'] = 'failed_maps_changed'
+            if geometry_study and study_key in report:
+                folder = ROOT / 'Content' / report[study_key]['folder'].removeprefix('/Game/')
+                report['nativeStudyAssetsSaved'] = [str(p) for p in folder.rglob('*.uasset')]
+                if report['nativeStudyAssetsSaved']:
+                    report['status'] = 'failed_unexpected_asset_save'
+        except Exception as error:
+            cleanup_errors.append('Preservation check: ' + repr(error))
+        if cleanup_errors:
+            report['cleanupErrors'] = cleanup_errors
+            report['status'] = 'failed_cleanup_or_preservation_check'
         receipt.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+        if report['status'].startswith('failed'):
+            raise RuntimeError('Native review failed; inspect ' + str(receipt))
+
 
 
 if __name__ == '__main__':

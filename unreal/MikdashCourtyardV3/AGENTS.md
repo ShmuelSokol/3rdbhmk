@@ -4768,3 +4768,19 @@ endings. KohenCombinedV1/Sources retains exact compressed source bytes plus hash
 for loaded study dependencies so byte-pinned evidence remains reproducible after
 checkout. Strict source checks should refuse changed bytes; restore snapshots in
 an isolated reproduction tree, never silently rewrite production code to pass.
+
+## Release continuation: combined Kohen native entry point — 22 September 2026
+Owner reiterated that the finished playable release is owed, not more isolated
+candidate deliveries. Added -CombinedStudy to the existing guarded GPU harness:
+hash-pinned combined character, current production head material for fair A/B,
+transient import, front/three-quarter captures, no map or native asset saves.
+Existing beard and skin modes remain available. Initial free commit3.76GiB is
+below6GiB isolated/9GiB game/20GiB main-map requirements; Chrome's largest process
+uses3.97GiB. Owner asked to save work and close unused apps; do not terminate them
+or bypass guards. Native appearance/adoption/package remain the next release steps.
+
+Native review failure handling: verification found inherited cleanup exceptions
+could skip terminal receipts, and failed preservation status could exit zero.
+Actor/process cleanup now catches errors, writes terminal failure receipts, and
+Python raises on failed preservation/cleanup. The guarded CombinedStudy launch
+was refused before engine startup for <6GiB free commit; no native acceptance.

@@ -1,0 +1,106 @@
+{
+  "body": "kohen",
+  "definition": "v3 closed-volume parity AND signed distance must both say outside, above the local hem",
+  "meilTestSampling": "ketonet ring vertices from 1.5 cm above the me'il hem to rest z 80, every 2nd segment",
+  "robe": "Ketonet",
+  "legVertices": 1176,
+  "legParts": [
+    "FootL",
+    "FootR",
+    "ShinL",
+    "ShinR"
+  ],
+  "robeTriangles": 18304,
+  "clips": {
+    "walk": {
+      "glb": "SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Pilgrim_Man_Standard.glb",
+      "clip": "A_Pilgrim_Original_Walk",
+      "durationSeconds": 1.2,
+      "framesSampled": 29,
+      "sampleRateHz": 24.0,
+      "maxLegOutsideRobeCm": 0.0,
+      "worst": {
+        "cm": 0.0,
+        "t": null,
+        "part": null,
+        "restZ": null
+      },
+      "framesWithAnyClipping": 0,
+      "animationSourceSha256": "e362b72cc2c6f3e4b13930068426f560eef129b973fa796729738009ca2fffda",
+      "measurementSeconds": {
+        "pose": 0.0199,
+        "skin": 0.1349,
+        "legClearance": 25.1695,
+        "outerClearance": 45.6617
+      },
+      "perFrameMaxCm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "maxKetonetOutsideMeilCm": 0.0,
+      "worstKetonetOutsideMeil": {
+        "cm": 0.0,
+        "t": null,
+        "restZ": null
+      }
+    }
+  },
+  "skinningScope": {
+    "parts": [
+      "Ketonet",
+      "FootR",
+      "ShinR",
+      "FootL",
+      "ShinL",
+      "Meil"
+    ],
+    "verticesPerFrame": 17016,
+    "scope": "Generator garment/leg geometry only; head, beard and eyes are not skinned. Not native-asset or rendered acceptance."
+  },
+  "seconds": 72.4,
+  "candidate": {
+    "kneeTopCm": 65.0,
+    "kneeBottomCm": 20.0,
+    "productionKneeTopCm": 52.0,
+    "productionKneeBottomCm": 30.0,
+    "lowerEaseCm": 0.0,
+    "hemBandCm": 6.0
+  },
+  "scope": "Sparse diagnostic only; not full-clip clearance acceptance",
+  "limitations": [
+    "No exported/native geometry or rendered acceptance.",
+    "Existing measurement covers legs/ketonet and ketonet/meil, not every garment layer."
+  ],
+  "sourceHashes": {
+    "create_kohen_gadol_v1.py": "fc1d24f7e40d6ff01a41b79dea51efb81b9201acf5e3231bf3cb83e0a3e7fdd3",
+    "measure_kohen_garment_clearance.py": "f6fa57abef14bec02fb575b6be873a044413fa729897da7dbf421fdaf8315dd7",
+    "study_kohen_knee_blend.py": "50a5be26e9429865d85097a3362995501d986e6df76a8877c76ecc4392a89019"
+  }
+}

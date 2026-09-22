@@ -1851,3 +1851,78 @@ Do not retry archived output folders, stop user apps/security services, or bypas
 memory limits. The earlier all-person candidate is rejected; current leader-only
 variant remains opt-in and its native efficacy is unproven. Publish the retained
 source/build/control evidence without claiming crowd recovery or a new package.
+
+## Kohen knee-blend diagnosis and isolated study — 21 September 2026
+At the original worst walk pose71/240s, matching ketonet/meil vertices already
+have identical joint weights. The nearest outer face spans restZ36..39.5cm,
+but its upper rest ring folds below the lower one in the pose. Matching radial
+layer offsets project behind that face normal (-0.229/-0.388cm). Widening alone
+therefore does not address this local fold. Exact selected-pose diagnostics and
+compressed producing scripts are retained in KohenKneeBlendV1.
+A wider knee-weight transition65..20cm (production52..30) clears three selected
+outer-layer poses and the sparse29-frame walk's leg/ketonet and ketonet/meil tests.
+Sparse sampling is NOT clearance acceptance. Full walk/tend/idle checks running.
+The isolated SK_Kohen_Knee65_20.glb preserves every approved Walter source byte
+except matched garment joint/weight bytes;35,086vertices matched and7,056changed.
+All33,312measured garment/leg triangles match its positions/weights/winding.
+Ephod and trim receive the same anchored field; native decoration alignment and
+visual review remain required. No production generator default or native asset
+is changed. Do not regenerate the historical head to apply a garment study.
+
+## Owner correction: visible hair and sidelocks — 21 September 2026
+The owner explicitly pointed out the Kohen is missing sidelocks and looks hairless
+at the exposed sides of his head. Visible temple hair and sidelocks are REQUIRED
+character details, not optional polish. Preserve the approved Walter face, turban,
+beard, rig and garments. Develop additive hair geometry from the approved source
+and inspect close front/side views before native adoption; do not leave bald-looking
+side panels or mistake the existing beard for complete scalp/temple hair.
+
+## Kohen hair studies and close-up review — 21 September 2026
+KohenHairV1 preserves the approved Walter source and APPENDS head-weighted temple/
+scalp hair and natural earlobe-length sidelocks. Study01's narrow smooth locks
+were rejected; Study02 broadened them, Study03 adds raised grey strands. Nine
+close-up images reviewed across the studies: front, both sides and rear. Study03
+retains Study02's scalp shape. Hair is visible; offline shading still does not
+establish final Unreal appearance. No production/native mesh changed.
+Independent Study03 check: original binary prefix, primitives, materials and rig
+preserved;10,761newvertices/20,792triangles, finite/unitnormals/head-onlyweights,
+validindices, no degenerate or reversed triangles. This is a single hero-character
+study, not suitable as an unmeasured crowd replacement. Native import/material/
+animation review and owner styling feedback remain owed. Exact scripts for the
+superseded variants are retained compressed beside source hashes and previews.
+
+## Clearance receipt gate must reject rounded-zero hits — 21 September 2026
+Independent review caught that garment maximum distances are rounded to0.001cm.
+A displayed0.000alone is not proof of no intersection. Combined-study gating now
+requires zero leg hit count and None worst-hit timestamps for BOTH tests, plus
+all per-frame values and expected sample counts. It pins generator, checker and
+study-script hashes; animation hashes/rates; knee65/20, lowerEase0 and hemBand6.
+Four regression tests cover clean input, sub-rounding leg/outer hits, and mismatched
+source/configuration. All4 plus6existing garment tests pass independently. Never
+substitute rounded maxima or selected rendered poses for the full configured gate.
+
+## Kohen knee blend clears all configured clips; combined hair study — 21 September 2026
+Knee65..20cm with unchanged lowerEase0/hemBand6 passes walk288samples at240Hz,
+tend601at60Hz and idle97at30Hz: zero leg/ketonet and ketonet/meil intersections,
+zero leg hit frames and no worst-hit timestamps.986total sampled poses; this is
+configured source sampling, not continuous-time or every-garment-layer proof.
+SK_Kohen_KneeHairStudy01.glb combines the cleared field with HairStudy03's temple
+hair and natural sidelocks. Combined SHA b542efdc1a053fd5ae59720a578701355a4a6e5a203691d999755d6ee4f67535.
+All33,312measured triangles match the combined export exactly. Original approved
+face/beard/turban/rig retained; only garment joint/weight bytes change and hair
+geometry is appended. Source generator defaults and production/native assets
+remain unchanged. Native import/material/animation review and refreshed playable
+package are still required; the newest playable release remains visitor-hands01.
+
+## Study publication and exact source snapshots — 21 September 2026
+Active and publication quick gates pass7/7;4composition and6garment tests pass.
+The95-file publication manifest initially matches exactly and94protected assets
+remain unchanged. Combined head PNG exactly matches the reviewed hair-only head;
+combined walk side view reviewed. Four matched2x-supersampled head comparisons
+also retained. Source-only acceptance; final free commit5.73GiB remains below6GiB
+isolated/9GiB game/20GiB main-map guards, so no native process was launched.
+Git normalizes text line endings; several existing measurement scripts have mixed
+endings. KohenCombinedV1/Sources retains exact compressed source bytes plus hashes
+for loaded study dependencies so byte-pinned evidence remains reproducible after
+checkout. Strict source checks should refuse changed bytes; restore snapshots in
+an isolated reproduction tree, never silently rewrite production code to pass.

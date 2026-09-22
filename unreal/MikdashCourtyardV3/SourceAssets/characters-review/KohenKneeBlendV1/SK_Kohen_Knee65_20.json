@@ -1,0 +1,39 @@
+{
+  "status": "source-study-native-and-visual-review-pending",
+  "kneeTopCm": 65.0,
+  "kneeBottomCm": 20.0,
+  "sourceSha256": "173a0971089f20e9685a4c80b5c55c0ea214e2b55f4bf910b91e3a916685a09c",
+  "outputSha256": "5ef4f2e777db7d71e2a7f204cc17e877bca128864f31ca57591425248c22c984",
+  "matchedVertices": 35086,
+  "changedVerticesByMaterial": {
+    "KG_Linen": 2617,
+    "KG_Meil": 2617,
+    "KG_Ephod": 1664,
+    "KG_Gold": 158
+  },
+  "changedBinaryBytes": 67056,
+  "measuredGeometry": {
+    "passed": true,
+    "glb": "SourceAssets\\characters-review\\KohenKneeBlendV1\\SK_Kohen_Knee65_20.glb",
+    "sha256": "5ef4f2e777db7d71e2a7f204cc17e877bca128864f31ca57591425248c22c984",
+    "measuredParts": [
+      "Ketonet",
+      "Meil",
+      "FootR",
+      "ShinR",
+      "FootL",
+      "ShinL"
+    ],
+    "measuredTriangles": 33312,
+    "missingTriangles": 0,
+    "comparison": "Exact float32 positions/weights, joint identities, material and winding; triangle multiset containment.",
+    "scope": "Generator garments exist in exported source GLB. Native imported mesh and rendered clearance remain unverified."
+  },
+  "preserved": "All original GLB bytes except matched garment joint/weight bytes. Face, geometry, normals, UVs, colors, indices, skeleton, JSON and source file unchanged.",
+  "limitations": "Source study only. Full clip clearance, decoration alignment and native visual review required.",
+  "sourceHashes": {
+    "create_kohen_gadol_v1.py": "fc1d24f7e40d6ff01a41b79dea51efb81b9201acf5e3231bf3cb83e0a3e7fdd3",
+    "verify_kohen_clearance_source.py": "3c2f04faeae044ce5f8c5645590ebd5beac8e957e13e819316e3bb60cb005260",
+    "build_kohen_knee_study.py": "f0c91f8c7f0f75825d3f79ba57628fd0fd02e77e215a1b9c13364bfe4087f813"
+  }
+}

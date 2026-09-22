@@ -535,6 +535,8 @@ private:
     bool bMotionAudit = false;
     bool bReviewAudit = false;
     bool bLocalDetours = true;
+    // Experimental leader/solo guidance; live comparisons have not accepted it.
+    bool bBoundaryAnticipation = false;
     int32 ReviewAuditSnapshot = 0;
     void AuditReviewState(double Now);
     int32 MotionAuditSamples = 0, MotionAuditLogged = 0;

@@ -1802,3 +1802,52 @@ old slot-error waiting; CohesionBuild pins radial-excess waiting(lagMetric1).
 No full navigation,10k performance,main-map adoption or refreshed packaged release
 acceptance. Next: diagnose paused recovery and effectively stalled group8, then
 multiple zones/longer runs and large-population cost of up to9movement probes.
+
+## Boundary anticipation candidate — 19 September 2026
+Runtime03 group8 leader reaches x899.94cm against the x900cm allowed edge; its
+nearest neighbours sit81/88cm away, while authored flow still points east. Local
+short-step detours start too late to prevent this packing. Candidate polygon-only
+lookahead turns early using speed/turn-rate distance(clamped100..400cm). It checks
+at most8directions in up to5short segments each, including keep-outs; this is
+steering guidance, never permission to move. Actual spacing/reservation/ground/
+capsule gates and normal yaw limit remain required. -NoBoundaryAnticipation gives
+a same-binary control. This is not global pathfinding; native results and cost
+remain pending. Pure fixture tests two-minute constant outward flow on bounded
+floor, finite inputs, keep-out crossing and unchanged turn/edge limits.
+
+## Boundary anticipation first native comparison — 19 September 2026
+BoundaryBuild passes12/12,36math suites, both targets; pure bounded-floor fixture
+walks14328cm with18refusals in3600frames. Same-binary control game160702Z exactly
+reproduces prior155219Z group travel and spacing. All-person anticipation160812Z
+preserves>=80cm frame spacing(min80.00058523), but regresses aggregate late leader
+travel: group8 improves0.152->41.39cm while groups1/2/3/9 decline substantially.
+Both50captures reviewed; persistent clusters remain. Do NOT adopt this as a fix.
+A revised candidate guides leaders/solos only, preserving follower formation goals.
+It is now explicitly OPT-IN via -MikdashCrowdBoundaryAnticipation (wrapper
+-BoundaryAnticipation). Default stays at ef048c74 behavior. Archived BoundaryBuild
+pins the superseded all-person/default-on source and negative-switch harness;
+its receipts retain noBoundaryAnticipation, newer receipts use boundaryAnticipation.
+New candidate build/native verification pending. Never count a single group's
+improvement as whole-crowd acceptance when other groups regress.
+
+## VAT anticipation cadence limitation — 19 September 2026
+Read-through confirmed walking commits a whole horizon before replanning, but yaw
+updates are capped by only the current frame delta. At30Hz with0.12s horizon,
+a moving agent normally replans every4frames, so90deg/s nominal yields about
+22.5deg/s sustained yaw. Boundary guidance currently uses the nominal rate and
+its pure fixture turns every frame. That fixture cannot establish VAT-native
+turning efficacy. Preserve the one-frame yaw cap; do not restore yaw jumps to
+make anticipation pass. Test the leader-only candidate, then account for actual
+replan cadence if anticipation remains too late. Default guidance remains off.
+
+## Boundary study recovered after interruption — 21 September 2026
+Leader-only opt-in source and both binaries still match BoundaryLeaderBuild's
+successful12/12 gate and36math suites. Interrupted default run161608Z actually
+finished normally on19September; its13snapshots, group travel and minimum spacing
+match155219Z. All50captures reviewed. No current native process remained.
+The positive-flag candidate run was refused BEFORE launch on21September: free
+commit about6.09GiB versus the unchanged9GiB game guard, physical free1.90GiB.
+Do not retry archived output folders, stop user apps/security services, or bypass
+memory limits. The earlier all-person candidate is rejected; current leader-only
+variant remains opt-in and its native efficacy is unproven. Publish the retained
+source/build/control evidence without claiming crowd recovery or a new package.

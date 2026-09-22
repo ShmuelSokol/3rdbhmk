@@ -1,0 +1,173 @@
+{
+  "status": "recorded-boundary-packing-not-native-causal-proof",
+  "source": "game-20260919T155219Z/runtime.log.gz",
+  "uncompressedLogSha256": "1e6b8d92be2cf42899b8e2ca4a2e650500c181f411cb20d91fd001b5ea1e1d99",
+  "zoneSource": "Scripts/create_resident_runtime_review.py",
+  "zoneSourceSha256": "7554153832d6176018f9f7866b47170780401ed2ba0af95fd36e08b85fef9dd2",
+  "allowedEastEdgeCm": 900,
+  "group": 8,
+  "leader": 28,
+  "snapshots": [
+    {
+      "snapshot": 0.0,
+      "agent": 28.0,
+      "group": 8.0,
+      "member": 0.0,
+      "standing": 0.0,
+      "idle": 0.0,
+      "x": 837.083091,
+      "y": 465.065499,
+      "z": 0.0001,
+      "yaw": -35.763992
+    },
+    {
+      "snapshot": 1.0,
+      "agent": 28.0,
+      "group": 8.0,
+      "member": 0.0,
+      "standing": 0.0,
+      "idle": 1.0,
+      "x": 898.001399,
+      "y": 411.00425,
+      "z": 0.0001,
+      "yaw": -169.223343
+    },
+    {
+      "snapshot": 2.0,
+      "agent": 28.0,
+      "group": 8.0,
+      "member": 0.0,
+      "standing": 0.0,
+      "idle": 1.0,
+      "x": 898.001399,
+      "y": 411.00425,
+      "z": 0.0001,
+      "yaw": -169.223343
+    },
+    {
+      "snapshot": 3.0,
+      "agent": 28.0,
+      "group": 8.0,
+      "member": 0.0,
+      "standing": 0.0,
+      "idle": 1.0,
+      "x": 898.001399,
+      "y": 411.00425,
+      "z": 0.0001,
+      "yaw": -169.223343
+    },
+    {
+      "snapshot": 4.0,
+      "agent": 28.0,
+      "group": 8.0,
+      "member": 0.0,
+      "standing": 0.0,
+      "idle": 1.0,
+      "x": 899.811563,
+      "y": 414.174802,
+      "z": 0.0001,
+      "yaw": -25.223345
+    },
+    {
+      "snapshot": 5.0,
+      "agent": 28.0,
+      "group": 8.0,
+      "member": 0.0,
+      "standing": 0.0,
+      "idle": 1.0,
+      "x": 899.811563,
+      "y": 414.174802,
+      "z": 0.0001,
+      "yaw": -25.223345
+    },
+    {
+      "snapshot": 6.0,
+      "agent": 28.0,
+      "group": 8.0,
+      "member": 0.0,
+      "standing": 0.0,
+      "idle": 1.0,
+      "x": 899.811563,
+      "y": 414.174802,
+      "z": 0.0001,
+      "yaw": -25.223345
+    },
+    {
+      "snapshot": 7.0,
+      "agent": 28.0,
+      "group": 8.0,
+      "member": 0.0,
+      "standing": 0.0,
+      "idle": 1.0,
+      "x": 899.811563,
+      "y": 414.174802,
+      "z": 0.0001,
+      "yaw": 139.6427
+    },
+    {
+      "snapshot": 8.0,
+      "agent": 28.0,
+      "group": 8.0,
+      "member": 0.0,
+      "standing": 0.0,
+      "idle": 1.0,
+      "x": 899.811563,
+      "y": 414.174802,
+      "z": 0.0001,
+      "yaw": 139.6427
+    },
+    {
+      "snapshot": 9.0,
+      "agent": 28.0,
+      "group": 8.0,
+      "member": 0.0,
+      "standing": 0.0,
+      "idle": 1.0,
+      "x": 899.811563,
+      "y": 414.174802,
+      "z": 0.0001,
+      "yaw": 139.6427
+    },
+    {
+      "snapshot": 10.0,
+      "agent": 28.0,
+      "group": 8.0,
+      "member": 0.0,
+      "standing": 0.0,
+      "idle": 1.0,
+      "x": 899.940223,
+      "y": 414.255052,
+      "z": 0.0001,
+      "yaw": -51.736065
+    },
+    {
+      "snapshot": 11.0,
+      "agent": 28.0,
+      "group": 8.0,
+      "member": 0.0,
+      "standing": 0.0,
+      "idle": 1.0,
+      "x": 899.940223,
+      "y": 414.255052,
+      "z": 0.0001,
+      "yaw": -27.736065
+    },
+    {
+      "snapshot": 12.0,
+      "agent": 28.0,
+      "group": 8.0,
+      "member": 0.0,
+      "standing": 0.0,
+      "idle": 1.0,
+      "x": 899.940223,
+      "y": 414.255052,
+      "z": 0.0001,
+      "yaw": -27.736065
+    }
+  ],
+  "interpretation": "Group leader reaches the eastern inset while constant stream points east. Hypothesis: short-step avoidance turns too late to prevent boundary packing. Test earlier polygon guidance with identical crowd and same-binary disabled control.",
+  "limitations": [
+    "Snapshot distances alone do not identify which actual movement gate rejected a step.",
+    "No spacing or boundary relaxation is justified by this diagnosis."
+  ]
+}

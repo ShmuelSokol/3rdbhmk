@@ -1085,7 +1085,18 @@ void AMikdashCrowdField::StepSocialAgentVat(int32 Index, double Now, float Horiz
         }
         return true;
     };
-    const double DesiredHeading = YawDegrees(Direction);
+    double DesiredHeading = YawDegrees(Direction);
+    if (bBoundaryAnticipation && (!Group || Agent.GroupMember == 0))
+    {
+        // Reserve room for the turn before the short committed step reaches an
+        // edge. This is polygon guidance only; actual motion still passes every
+        // spacing, ground and world-sweep gate below.
+        const double TurnRateRadians = FMath::Max(0.1, static_cast<double>(MaxTurnDegreesPerSecond) * Pi / 180.0);
+        const double LookAhead = Clamp(Playable * (SafeHorizon + 2.0 / TurnRateRadians), 100.0, 400.0);
+        const auto BoundaryRoute = MikdashCrowdGroups::FindBoundaryRoute(From, DesiredHeading, LookAhead,
+            [&](const Vec2& A, const Vec2& B) { return SocialSegmentAllowed(Agent.ZoneIndex, A, B); });
+        if (BoundaryRoute.Clear) DesiredHeading = BoundaryRoute.Heading;
+    }
     MikdashCrowdGroups::LocalRouteChoice Route;
     double RouteGround = Agent.GroundZCm;
     if (bLocalDetours) Route = MikdashCrowdGroups::FindLocalRoute(DesiredHeading,
@@ -1356,6 +1367,7 @@ void AMikdashCrowdField::BeginPlay()
     bMotionAudit = FParse::Param(FCommandLine::Get(), TEXT("MikdashCrowdMotionAudit"));
     bReviewAudit = FParse::Param(FCommandLine::Get(), TEXT("MikdashCrowdReviewAudit"));
     bLocalDetours = !FParse::Param(FCommandLine::Get(), TEXT("MikdashCrowdNoLocalDetours"));
+    bBoundaryAnticipation = FParse::Param(FCommandLine::Get(), TEXT("MikdashCrowdBoundaryAnticipation"));
     if (!bActivateOnBeginPlay)
     {
         // Adopted opt-in, matching the rest of this plugin: placing the actor changes nothing

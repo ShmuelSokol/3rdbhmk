@@ -191,6 +191,29 @@ inline bool SegmentAllowed(const Geometry& World,const Vec2& From,const Vec2& To
     return true;
 }
 
+// Guidance only: look beyond the committed animation step so a walker starts
+// turning before reaching a boundary. Validate every short subsegment, including
+// concave boundaries/keep-outs; never use this result as movement permission.
+template<class Gate> inline LocalRouteChoice FindBoundaryRoute(const Vec2& From,double Heading,
+    double LookAhead,Gate&& Allowed)
+{
+    if(!MikdashCrowd::Finite(From)||!std::isfinite(LookAhead)||LookAhead<=0) return {};
+    const double Distance=std::min(400.0,LookAhead);
+    const int Parts=std::max(1,static_cast<int>(std::ceil(Distance/99.0)));
+    return FindLocalRoute(Heading,[&](double Yaw)
+    {
+        const Vec2 Delta=MikdashCrowd::FromDegrees(Yaw)*(Distance/Parts);
+        Vec2 Start=From;
+        for(int I=0;I<Parts;++I)
+        {
+            const Vec2 End=From+Delta*(I+1);
+            if(!Allowed(Start,End)) return false;
+            Start=End;
+        }
+        return true;
+    });
+}
+
 // A committed straight movement, followed by an indefinite hold at its endpoint.
 // Do not replace a live reservation: another visitor may rely on it continuing.
 struct MotionReservation

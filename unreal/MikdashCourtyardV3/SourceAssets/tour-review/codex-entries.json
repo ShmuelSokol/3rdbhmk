@@ -1,4 +1,4 @@
-﻿{
+{
   "schemaVersion": 1,
   "title": "Codex of the Third Beis HaMikdash reconstruction",
   "generated": "2026-09-08",
@@ -1081,24 +1081,78 @@
     {
       "id": "paroches",
       "category": "house",
-      "name": { "en": "The paroches", "he": "פרוכת" },
+      "name": {
+        "en": "The paroches",
+        "he": "פרוכת"
+      },
       "confidence": "disputed",
-      "summary": { "en": "A curtain of blue, purple, scarlet and linen with keruvim woven on both sides, hanging before the entrance to the Kodesh HaKodashim and exactly the size of the gateway - seven amot by six, no less and no more. The Aron's poles press into it from behind like two breasts.\n\nIt is not in the navi. Yechezkel gives the partition, the opening and the two doors; the curtain comes from Mishkenei Elyon, and the book draws it. In the First Temple there were doors and a curtain both, against an amah-thick wall; in the Second there was no wall at all and two curtains with an amah between them, and it was a matter of doubt which side that amah belonged to.\n\nIn this build the line of the paroches at X -5600 is a hard boundary, enforced in three separate places in the service code so that the depicted Kohen Gadol cannot cross it on an ordinary day.", "he": "" },
+      "summary": {
+        "en": "Under the reconstruction chosen from Mishkenei Elyon and the supplied book, a curtain covers the Kodesh HaKodashim doorway, seven amot wide by six high. Yechezkel describes the partition and opening but does not explicitly specify this curtain. The earlier four textile materials are blue wool, purple wool, scarlet wool and linen; their names do not establish an exact RGB palette or a unique pattern.\n\nThe replacement textile is still being designed, drawing on the book illustration and the user-selected architectural motif. Its blue ground, border, colors, figure anatomy and motif arrangement are artistic choices, not a recovered historical textile or a definitive prophetic design. A separate optional blood-mask concept is an authored service-state interpretation; it has not been adopted into this scene. Historical sprinkling toward the curtain did not require contact; no source establishes these exact marks.\n\nThe selected 48 cm amah gives a 336 x 288 cm doorway. The working scene still uses the legacy 50 cm architecture until the coordinated conversion is complete. Existing cloth includes an authored edge overlap that still needs dimensional review. The service code defines an ordinary-day boundary at the legacy X -5600, but its service actor has not yet been integrated into this working map.",
+        "he": ""
+      },
       "measurements": [
-        { "label": "Paroches", "value": "7 x 6 amot = 350 x 300 cm, the measure of the gateway", "source": "Mishkenei Elyon 159-160, 166" },
-        { "label": "As built", "value": "at [-5585, 0, 928]; the boundary line is X -5600", "source": "SourceAssets/sanctuary-detail/DoorsParochesV1/native-import-20260907T184828Z.json" }
+        {
+          "label": "Paroches",
+          "value": "7 x 6 amot: selected 48 cm = 336 x 288 cm; legacy 50 cm opening = 350 x 300 cm",
+          "source": "Mishkenei Elyon 159-160, 166"
+        },
+        {
+          "label": "As built",
+          "value": "at [-5585, 0, 928]; the boundary line is X -5600",
+          "source": "SourceAssets/sanctuary-detail/DoorsParochesV1/native-import-20260907T184828Z.json"
+        }
       ],
-      "dispute": { "positions": [
-        { "who": "Yechezkel 41:3", "holds": "the partition, the 7 x 6 opening and the doors - certain" },
-        { "who": "Mishkenei Elyon 159-160, 166", "holds": "there is also a curtain, exactly the size of the gateway - not in the navi" },
-        { "who": "The book author", "holds": "the doors open inward - starred" }
-      ] },
-      "sources": ["Yechezkel 41:3, 41:21, 41:23 with Rashi", "Yoma 54a", "Shemos 26:31-33", "Menachos 98a-b", "Rambam, Beis HaBechirah 4:2", "Yoma 51b", "Mishnah Middot 4:7", "Mishkenei Elyon 159-166, 203", "Lishchno Tidreshu pp. 184-186, 261"],
-      "receipts": ["SourceAssets/sanctuary-detail/DoorsParochesV1/native-import-20260907T184828Z.json", "SourceAssets/runtime-review/kohen-service/sources.md - SVC-KODESH-BOUNDARY", "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/ServiceScheduleMath.h - KodeshLineX"],
-      "unlockedBy": ["paroches"],
-      "related": ["kodesh-hakodashim", "who-may-enter", "aron", "heikhal-doors"],
+      "dispute": {
+        "positions": [
+          {
+            "who": "Yechezkel 41:3",
+            "holds": "the partition, the 7 x 6 opening and the doors - certain"
+          },
+          {
+            "who": "Mishkenei Elyon 159-160, 166",
+            "holds": "there is also a curtain, exactly the size of the gateway - not in the navi"
+          },
+          {
+            "who": "The book author",
+            "holds": "the doors open inward - starred"
+          }
+        ]
+      },
+      "sources": [
+        "Yechezkel 41:3, 41:21, 41:23 with Rashi",
+        "Yoma 54a",
+        "Shemos 26:31-33",
+        "Menachos 98a-b",
+        "Rambam, Beis HaBechirah 4:2",
+        "Yoma 51b",
+        "Mishnah Middot 4:7",
+        "Mishkenei Elyon 159-166, 203",
+        "Lishchno Tidreshu pp. 184-186, 261",
+        "Tosefta Shekalim 3:11 (Mechon Mamre numbering)",
+        "Yoma 57a",
+        "Lishchno Tidreshu illustration 19b, printed p.133 (reference export page238); illustrated interpretation"
+      ],
+      "receipts": [
+        "SourceAssets/sanctuary-detail/DoorsParochesV1/native-import-20260907T184828Z.json",
+        "SourceAssets/runtime-review/kohen-service/sources.md - SVC-KODESH-BOUNDARY",
+        "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/ServiceScheduleMath.h - KodeshLineX",
+        "SourceAssets/sanctuary-detail/ParochesFabricV1/README.md - generated design provenance and limitations"
+      ],
+      "unlockedBy": [
+        "paroches"
+      ],
+      "related": [
+        "kodesh-hakodashim",
+        "who-may-enter",
+        "aron",
+        "heikhal-doors"
+      ],
       "hebrewProse": "not-authored",
-      "narrationAudio": { "asset": "", "transcriptEn": "", "transcriptHe": "" }
+      "narrationAudio": {
+        "asset": "",
+        "transcriptEn": "",
+        "transcriptHe": ""
+      }
     },
     {
       "id": "kodesh-hakodashim",

@@ -3,6 +3,15 @@
 Written 1 October 2026 for shmuel. Repo: github.com/ShmuelSokol/3rdbhmk. Work runs on the
 PC at C:\Mikdash (16 GB RAM, RTX 2070 with 8 GB of video memory).
 
+## Decided 1 October 2026: no money
+
+shmuel said not to spend any money. So the phone version uses only free options:
+- **Walk-it-yourself link streamed from the PC at C:\Mikdash.** Free, but only 1-2 visitors at a time,
+  and only while the PC is on. Good for showing family and friends live.
+- **A free 360-degree photo tour** from key spots that anyone can open on any phone, any time, hosted
+  free (GitHub Pages). This is the version to share widely.
+Paid cloud hosting stays off the table unless shmuel raises it again.
+
 ## What you asked for
 
 1. A **phone link**: someone taps it and walks through the Mikdash themselves on their phone.

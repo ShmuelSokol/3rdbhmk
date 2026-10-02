@@ -2331,3 +2331,26 @@ started and no candidate receipt exists. No production shader or map was adopted
 ForceAllowShaderCompilerJobCache also changes ODSC/material-map cache policy;
 representative positive shader statistics remain mandatory and would not establish
 full HISM permutation or rendered-motion acceptance. No automatic retry is armed.
+## Angular Compile04 comparison — 2 October 2026
+
+The single identical bounded comparison stopped after 294.743 s at the deadline,
+peak owned memory 3,634,794,496 bytes. Cleanup/source preservation passed and the
+engine slot was released. It observed all 5,363 prior DDC input hashes plus 407
+new hashes, but its terminal shader stage was not comparable under the declared
+criterion. The comparator returned STOP; candidate shader proof remains false.
+No further unchanged run is armed. Receipt and comparison remain local under
+C:/Mikdash/Verification/angular-native03-20261002/runner/runs/angular-compile04/compile.
+
+A subsequent read-only search found actual packaged readbacks of
+r.VelocityOutputPass=0 (Constructor), including movie-historyv3-candidate01-corridor,
+movie-historyv3-velocity-new01-corridor and movie-motion-state01-corridor/runtime.log.
+The isolated angular runner explicitly uses 1. Production parity and whether 1 is
+necessary are now being audited before proposing a different run. This finding
+is not a shader acceptance claim or permission to change the shipped renderer.
+
+Independent AngularFailClosed01 review reproduced seven CSVs exactly and passed
+88 unit plus 176 refusal-preservation assertions. It proves publication is refused
+when the index operation refuses before mutation, not post-write rollback.
+Walking still passes only 28/162 valid cases at 120/600 seconds; matched natural
+starts improve from 9 to 15 and 6 to 15 respectively. The 134 valid failures remain open.
+Measured resident envelopes are being derived to replace synthetic body bounds.

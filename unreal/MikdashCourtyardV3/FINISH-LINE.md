@@ -49,6 +49,14 @@ The tree worker's frozen Run16 reports positive-area texture contribution from a
 
 PairedRenderHost11 passes independent source review and replay (1,751 protocol checks, 43 structural checks; 16 payloads and 20 installed-source references exact). The project-owned raster ISM proxy compares serial/generation, all packet bytes and current/previous transforms in the actual renderer CPU-buffer update callback; this is not a standalone fence or GPU acknowledgement. Host10 remains frozen with its two defects: render-state recreation does not call OnRegister, and unconditional orthogonalization differs from UE's identity-primitive buffer arithmetic. Host11 renews only pre-admission sessions during CreateRenderState_Concurrent, retains old generations, quarantines any journal-owning recreation, and matches the engine's nonuniform-primitive condition exactly. It remains an uncompiled isolated alternative: non-Nanite, at most 64 retained publications, no default physical-world lease, no shipping HISM compatibility, no GPU proof and no production adoption.
 
+## Tree material review — 2 October 2026
+
+Run18BoundaryPatch01 independently passes its scoped geometry/evidence review: 182 frozen payloads, 15 checks, both meshes' topology/collision audits and all-face coverage (9,942 near / 8,142 LOD bark faces). All 52 boundaries and geometry outside nine patches are preserved. Saved actual-Mikk outputs were validated, not rerun. Appearance remains HOLD: soft bark, broad grain and the boundary normal-derivative p95 regression (0.5736 to 0.7056 per cm) are unresolved. No native or runtime-cost acceptance follows.
+
+Run19Material01 independently passes 95 payload pins, 15 assertions, exact geometry/TBN and leaf preservation, source statistics, finite density probes and edge-report replay. Its 45 cm texture period is diagnostic, not a measured olive-bark scale. The existing source is elongated scalar noise without independently authored fine fissure/plate detail; resampling cannot supply that detail. Face-local tangent-normal averaging and extrapolated gutters remain unsuitable as general seam/mip proof. Run19 is frozen and unadopted.
+
+Run20 source research retained CC0 Poly Haven bark candidates and a separately credited olive photograph for reference. The PBR candidates do not identify their species as olive. Run21 is an active generic-bark approximation on preserved geometry, not production adoption. Supplier normal-map negative-Z samples were reproduced in independent encodings; a mapping offset passing six views does not certify the complete material. Full export checks and visual review remain required. No new playable checkpoint has been produced.
+
 ## 1. Establish the current release baseline
 
 - [x] Read current handoff and publication HEAD (2f872366); S5 implementation is 00153f5e.

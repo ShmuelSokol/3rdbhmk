@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "status": "offline-source-review-candidate",
+  "createdUtc": "2026-10-02T07:53:47.879423+00:00",
+  "python": "3.8.1",
+  "pythonChecks": 81,
+  "groups": {
+    "adapters.process04.test_host": {
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "passed": true
+    },
+    "adapters.process04.test_consumption_channel": {
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "passed": true
+    },
+    "adapters.process04.test_native_order": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "passed": true
+    },
+    "oracle_original": {
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "passed": true
+    },
+    "oracle_suppression": {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "passed": true
+    }
+  },
+  "fileSha256": {
+    "adapters/process04/win32_child.py": "ca492324a7572a8ecd6ac3c9777785b3af65b89133e7c345b11f4ad7bfd87bc6",
+    "adapters/process04/host.py": "2f9457c33aa0d7165f3ea6ee12edd2d5893d57e1e6f42f7b28dfee5be7c9d8f0",
+    "adapters/process04/consumption_channel.py": "dde0222d3b9494a3d376e5fabbab1aeb76c974eb63de9ebb995aba46348eda14",
+    "adapters/process04/harmless_child.py": "1b5b6cb720223b34a9d9ab142ce2f8c886e4411587a5256ff57f4cd8920d77c1",
+    "adapters/process04/test_host.py": "58b242ed16760da57ed1112f7fb6b2f2865a7c94e8056a81d4c02d855b8b4d72",
+    "adapters/process04/test_consumption_channel.py": "0b01e67e410a902c77743a1b89e8941accaf0ece085f892ffafa5bc44bd7dfdd",
+    "adapters/process04/test_native_order.py": "4dd96055776dcaecd66b15b430caa19dd28c59461a7025519b65ace7e4b06022",
+    "adapters/process04/validate.py": "b0c9929653ba7460c0270788ffe04250f6a11559b4c868e56a9148736247e235",
+    "adapters/process04/CONTRACT.md": "122e0c342d522d327fd251da72e7ba9ee9b742eaca9a7a98a7a3b7682b585f0f",
+    "adapters/process04/README.md": "54495c0a0c22f27346c1bbc74b5437d6c549285470dad483ba99112be125a067",
+    "native/receiver04/Authority.h": "3bc735fac6306f4dd1b5b137ac52f3a31b72350eda7365a349e28f93f90766da",
+    "native/receiver04/Authority.cpp": "7f98947b80515adb9808f301939afcab1ec3312df9b5a891927ba87976b345cb",
+    "native/receiver04/SemanticMailbox.h": "68d8d4bc45a4681650b7b991bf5386dc38ef6754f861910d514fa74ff8d104f8",
+    "native/receiver04/SemanticMailboxTests.cpp": "b79cab6bb4abb676883d320b59121cc7bf37f45b5793112e2e39ebd66fc2a22a",
+    "native/receiver04/OwnedConsumers.h": "5ef67015f830c9b9ecc2b42dfa20c85bf1c83fe7950d12c285476f3d7a7b8b27",
+    "native/receiver04/OnlineController.h": "cc5da9fe10cf061333cc65881182113a36646f3f428159be9ce8cb271d0e132c",
+    "native/receiver04/OnlineController.cpp": "9e79eed945d9d17e6534e3875cbec8e62b35de6c454120564d519b48199285fd",
+    "native/receiver04/OnlineMovement.h": "b2335a9ca190347179a60a1df50f78aa0f93c8195239c295ac9276d656194a3c",
+    "native/receiver04/OnlineMovement.cpp": "9b6a0ab5448997067a23a906b9c8d513d9a9a3ca194c983b045b5330a0d947c5",
+    "native/receiver04/Receiver.h": "9b5c20bf41d41d2f14cdf546589d4dd3ee47cebff1b57811e97a201241aecb07",
+    "native/receiver04/Receiver.cpp": "8e37e70849fa819b8c138ae52ed378815778ed70c0514afbef2a0a12bff14ee6",
+    "native/receiver04/Bootstrap.h": "d4db28da45e7fea01d680b097db723eb0d23f280d33a2828f60bc8f994c85eda",
+    "native/receiver04/Bootstrap.cpp": "1d77352b9703f16e47a72345f569cf0d3e3b843defb6711fa89812f62d658033"
+  },
+  "sourceFileCount": 23,
+  "sourceStable": true,
+  "frozenEvidence": {
+    "adapters/receipt-real-stream-source-02.json": {
+      "files": 26,
+      "sha256": "9e29569f670557b104b3893cd4a0b5ea08614e85f8084c6bac75bdefa3344d7b"
+    },
+    "native/receiver03/receipt-01.json": {
+      "files": 15,
+      "sha256": "ec38cfd70dfcefeeb7d60a88044565472fbad281ab35a38528e65db1e3bc028b"
+    },
+    "oracle": {
+      "originalReceiptSha256": "020a6bfdfe40fe57f0a5ac1f45f0197f22e20b76acac54f72717301724928c67",
+      "suppressionReceiptSha256": "33d31c0c2f2fcea62a0a7650bc5db52aaaadf5902fc20a0cdb22a8317c07020a",
+      "files": 5
+    }
+  },
+  "source02Preserved": true,
+  "receiver03Preserved": true,
+  "oraclePreserved": true,
+  "nativeAutomationTestsStaged": 7,
+  "nativeAutomationTestsExecuted": 0,
+  "nativeCompiled": false,
+  "windowsBackendExecuted": false,
+  "childProcessesExecuted": 0,
+  "realThreadsStarted": 0,
+  "socketsOpened": 0,
+  "pipesOpened": 0,
+  "projectConfigurationChanged": false,
+  "limitations": [
+    "Python/Win32 doubles and ordering models are not native execution",
+    "No UHT/UBT/native compile performed; coordinator reserved slot only",
+    "No installed controller/movement/bootstrap module or approved launch recipe",
+    "No authenticated streamer attachment, media start or browser admission/RPC transport",
+    "Settings/save application and explicit project interaction outcome API still required",
+    "Remote stock-camera control rotation does not claim same-tick pawn-facing acceptance",
+    "Unknown timeout may follow an effect; no automatic replay or rollback claim"
+  ]
+}

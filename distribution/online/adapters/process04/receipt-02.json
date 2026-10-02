@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "status": "offline-source-review-candidate",
+  "createdUtc": "2026-10-02T08:03:01.628132+00:00",
+  "python": "3.8.1",
+  "pythonChecks": 97,
+  "groups": {
+    "adapters.process04.test_host": {
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "passed": true
+    },
+    "adapters.process04.test_consumption_channel": {
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "passed": true
+    },
+    "adapters.process04.test_native_order": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "passed": true
+    },
+    "adapters.process04.test_stream_read": {
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "passed": true
+    },
+    "adapters.process04.test_receiver_controlflow": {
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "passed": true
+    },
+    "oracle_original": {
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "passed": true
+    },
+    "oracle_suppression": {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "passed": true
+    }
+  },
+  "fileSha256": {
+    "adapters/process04/win32_child.py": "ca492324a7572a8ecd6ac3c9777785b3af65b89133e7c345b11f4ad7bfd87bc6",
+    "adapters/process04/host.py": "2f9457c33aa0d7165f3ea6ee12edd2d5893d57e1e6f42f7b28dfee5be7c9d8f0",
+    "adapters/process04/consumption_channel.py": "dde0222d3b9494a3d376e5fabbab1aeb76c974eb63de9ebb995aba46348eda14",
+    "adapters/process04/harmless_child.py": "1b5b6cb720223b34a9d9ab142ce2f8c886e4411587a5256ff57f4cd8920d77c1",
+    "adapters/process04/test_host.py": "58b242ed16760da57ed1112f7fb6b2f2865a7c94e8056a81d4c02d855b8b4d72",
+    "adapters/process04/test_consumption_channel.py": "0b01e67e410a902c77743a1b89e8941accaf0ece085f892ffafa5bc44bd7dfdd",
+    "adapters/process04/test_native_order.py": "4dd96055776dcaecd66b15b430caa19dd28c59461a7025519b65ace7e4b06022",
+    "adapters/process04/test_stream_read.py": "48c00a00500b633c70065ebf3df95258e25e6f2f06607cbce75acc14282bad34",
+    "adapters/process04/test_receiver_controlflow.py": "baf33554bfa0254125b18ab98b26549e8c4e519edf9f2877db2feb4d529f4575",
+    "adapters/process04/validate.py": "30f3086fd7ad66db20206eb84b888f5e8b8463870aba3848bb546f3cbab2b4f0",
+    "adapters/process04/CONTRACT.md": "41ce146487d1d399a8fd1b03d200196f9661289b8982d7a6d490f4d6d1ce912e",
+    "adapters/process04/README.md": "527d5b7d4e6fef20c38111ac56a2280b08023117e20894f3e37b0fc60d0f6c97",
+    "native/receiver04/Authority.h": "6c9371200adecee52701d919a1d6413fb41034d0d880b99e47d94742b6634fe7",
+    "native/receiver04/Authority.cpp": "faa2acb68689a643c5aa72f66d1db2243608373f6dd80f32fb0a55ca0d631c8e",
+    "native/receiver04/SemanticMailbox.h": "68d8d4bc45a4681650b7b991bf5386dc38ef6754f861910d514fa74ff8d104f8",
+    "native/receiver04/SemanticMailboxTests.cpp": "b79cab6bb4abb676883d320b59121cc7bf37f45b5793112e2e39ebd66fc2a22a",
+    "native/receiver04/OwnedConsumers.h": "5ef67015f830c9b9ecc2b42dfa20c85bf1c83fe7950d12c285476f3d7a7b8b27",
+    "native/receiver04/OnlineController.h": "cc5da9fe10cf061333cc65881182113a36646f3f428159be9ce8cb271d0e132c",
+    "native/receiver04/OnlineController.cpp": "9e79eed945d9d17e6534e3875cbec8e62b35de6c454120564d519b48199285fd",
+    "native/receiver04/OnlineMovement.h": "b2335a9ca190347179a60a1df50f78aa0f93c8195239c295ac9276d656194a3c",
+    "native/receiver04/OnlineMovement.cpp": "9b6a0ab5448997067a23a906b9c8d513d9a9a3ca194c983b045b5330a0d947c5",
+    "native/receiver04/Receiver.h": "9b5c20bf41d41d2f14cdf546589d4dd3ee47cebff1b57811e97a201241aecb07",
+    "native/receiver04/Receiver.cpp": "dd12481f20437c8d561ac3d36a2664d33073d2b93cc078d0cfbef7f279634fdf",
+    "native/receiver04/Bootstrap.h": "6fb21a31124252dd1c56e1ead82c43d13bfbd1bc7402df116918a300f0ce922a",
+    "native/receiver04/Bootstrap.cpp": "10040aff9993660e0b493fffd648c09d203dc4ed1401ef83e676a92a62ab8a47",
+    "native/receiver04/BootstrapGuards.h": "6269adf1dbb7ca02f68e10d74a4e1fcc87f5592ab23b2d3ab05c72fac3feed0c",
+    "native/receiver04/LifecycleRegressionTests.cpp": "7d034c8ffb791e60cf0db8ce116b05e7890e2f8fc8202c1e29416fba1f434298",
+    "native/receiver04/StreamRead.h": "54f16ee76e7a062d778178eaaff8c7c56d732a81d64186fae3a32009c1749b07",
+    "native/receiver04/StreamReadTests.cpp": "73f39d2a4b2380e48c72c7161dbda00148fc3f1dca7586f0b280ce4c46eeb28e"
+  },
+  "sourceFileCount": 29,
+  "sourceStable": true,
+  "frozenEvidence": {
+    "process04PriorReceiptSha256": "9dc0c057b9a2bb1518ebe6b95ef8a8fbab955c2c57f3b03d4104340606cd9e38",
+    "adapters/receipt-real-stream-source-02.json": {
+      "files": 26,
+      "sha256": "9e29569f670557b104b3893cd4a0b5ea08614e85f8084c6bac75bdefa3344d7b"
+    },
+    "native/receiver03/receipt-01.json": {
+      "files": 15,
+      "sha256": "ec38cfd70dfcefeeb7d60a88044565472fbad281ab35a38528e65db1e3bc028b"
+    },
+    "oracle": {
+      "originalReceiptSha256": "020a6bfdfe40fe57f0a5ac1f45f0197f22e20b76acac54f72717301724928c67",
+      "suppressionReceiptSha256": "33d31c0c2f2fcea62a0a7650bc5db52aaaadf5902fc20a0cdb22a8317c07020a",
+      "files": 5
+    }
+  },
+  "source02Preserved": true,
+  "receiver03Preserved": true,
+  "oraclePreserved": true,
+  "nativeAutomationTestsStaged": 14,
+  "nativeAutomationTestsExecuted": 0,
+  "nativeCompiled": false,
+  "windowsBackendExecuted": false,
+  "childProcessesExecuted": 0,
+  "realThreadsStarted": 0,
+  "socketsOpened": 0,
+  "pipesOpened": 0,
+  "projectConfigurationChanged": false,
+  "limitations": [
+    "Python/Win32 doubles and ordering models are not native execution",
+    "No UHT/UBT/native compile performed; coordinator reserved slot only",
+    "No installed controller/movement/bootstrap module or approved launch recipe",
+    "No authenticated streamer attachment, media start or browser admission/RPC transport",
+    "Settings/save application and explicit project interaction outcome API still required",
+    "Remote stock-camera control rotation does not claim same-tick pawn-facing acceptance",
+    "Unknown timeout may follow an effect; no automatic replay or rollback claim"
+  ],
+  "changedSinceReceipt01": [
+    "adapters/process04/test_stream_read.py",
+    "adapters/process04/test_receiver_controlflow.py",
+    "adapters/process04/validate.py",
+    "adapters/process04/CONTRACT.md",
+    "adapters/process04/README.md",
+    "native/receiver04/Authority.h",
+    "native/receiver04/Authority.cpp",
+    "native/receiver04/Receiver.cpp",
+    "native/receiver04/Bootstrap.h",
+    "native/receiver04/Bootstrap.cpp",
+    "native/receiver04/BootstrapGuards.h",
+    "native/receiver04/LifecycleRegressionTests.cpp",
+    "native/receiver04/StreamRead.h",
+    "native/receiver04/StreamReadTests.cpp"
+  ]
+}

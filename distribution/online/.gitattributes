@@ -12,3 +12,11 @@ native/OnlineInputGate.h -text
 upstream-lock.json -text
 adapters/receipt-real-stream-source-01.json -text
 adapters/receipt-real-stream-source-02.json -text
+
+# Preserve exact historical Receiver03 and independent oracle receipt bytes.
+native/receiver03/FrozenVector.h -text
+native/receiver03/public-test-vectors.json -text
+native/receiver03/receipt-01.json -text
+native/receiver04/semantic-expiry-oracle/suppression-results-01.json -text
+
+native/receiver04/semantic-expiry-oracle/CONTRACT.txt text eol=lf

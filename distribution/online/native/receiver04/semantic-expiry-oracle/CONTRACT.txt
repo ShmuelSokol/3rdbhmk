@@ -1,0 +1,86 @@
+Receiver04 independent semantic expiry oracle (Wegener)
+
+Ownership: this subdirectory only. McClintock owns receiver04 native source and
+process04. Source02/03 are historical; this study imports none of their code.
+No production integration, engine compilation, IPC or native execution occurred.
+
+Replay from OnlineWalkthrough, Python 3.11 standard library only:
+  python -B native/receiver04/semantic-expiry-oracle/run.py
+Optional --receipt <fresh-path.json> creates a result exclusively, never overwrites.
+The runner checks all 15 source03 files against the existing receipt before/after.
+The committed/publication candidate receipt is model-results-01.json; subsequent
+runs should use stdout or a different output path. Coordinator owns publication.
+
+Scope and meaning
+-----------------
+Integer ticks model monotonic raw-QPC-domain milliseconds. Exact 500ms boundaries
+are intentional; no calls to QPC, pipes, sockets, threads, subprocesses or UE.
+This is an independent oracle for authenticated, already-parsed semantic input,
+not a packet parser, socket implementation, physics simulation or native adapter.
+The two pawn tags exercise the shared policy for walker and dove; actual native
+hook parity needs separate compilation and runtime evidence. Vector addition is
+unclamped and unscaled to expose provenance; engine movement/rotation scaling,
+inertia, collision and camera constraints are outside this model.
+
+Concrete integration contract
+-----------------------------
+1. Authenticate/validate before the mailbox. Capacity one, immutable sequence,
+   connection generation and exact controller/pawn ownership. Native weak handles
+   must be checked; model owns one implicit controller and names pawn identity.
+   Queueing is not success. No remote InputKey injection into shared accumulators.
+2. Deadline=min(acceptQpc+0.5s, sessionEndQpc), never extended at dispatch/controller
+   or consumer. Model assumes accept/dispatch coincide; actual socket accept time
+   must be retained if parsing/dispatch happens later. Owner must add parser-delay
+   cases against the native implementation. Held input expiry is independently
+   min(original input receipt+2s, sessionEnd), not consumption time+2s.
+3. Button effects: PostProcessInput is reached from paused TickPlayerInput too.
+   Recheck authorization at the state-changing handler branch. P/M allowed paused;
+   interact rejected. Existing void handlers may no-op: return explicit outcome.
+   NoEffect is not an applied action. Native handler work after entry can stall.
+4. Controller movement routing is not consumption. Keep remote vector separately;
+   merge it only after fresh authorization in actual ConsumeInputVector, including
+   walker and dove paths. Do not put remote contribution in pawn shared pending
+   vector early. Look is one-shot, checked at UpdateRotation, not shared MouseX/Y.
+5. Pause clears held/pending remote move/look even if normal PlayerTick is skipped;
+   fresh P/M still works through paused input. Resume never replays discarded input.
+   Release, disconnect, pawn replacement and generation change revoke pending/held
+   remote state. Preserve local contributions. Completed effects cannot be undone.
+6. Response becomes consumed/no_effect/paused_rejected/cancelled only after actual
+   semantic processing with sequence and consumption timestamp. At the original
+   response deadline host result is unknown even if internal result is known.
+   A missing consumer yields pending then unknown, not success. A new command
+   submitted explicitly later is allowed; no code automatically resubmits with
+   the same OR a fresh sequence after uncertainty. Dedupe alone is insufficient.
+7. Bound the host wait externally. A blocked game thread cannot cancel itself or
+   send a timely rejection. Owned watchdog/process teardown remains required.
+   Checks authorize entry at the consumer boundary, not a hard real-time guarantee
+   that all effects finish before expiry. A stall inside the handler yields unknown
+   to the caller and may have caused an effect. Never claim rollback from timeout.
+
+Local UE5.8 source evidence used in the review (not executed by this model)
+------------------------------------------------------------------------
+Engine/Classes/GameFramework/PlayerController.h:
+  protected virtual ProcessPlayerInput(float,bool); public virtual PreProcessInput,
+  PostProcessInput and UpdateRotation. TickPlayerInput itself is not virtual.
+Engine/Private/UserInterface/PlayerInput.cpp:1285:
+  PreProcessInput -> EvaluateKeyMapState -> EvaluateInputDelegates -> PostProcessInput.
+Engine/Private/PlayerController.cpp:5504:
+  paused TickActor calls TickPlayerInput(...,true), then clears RotationInput.
+Engine/Classes/GameFramework/PawnMovementComponent.h:86:
+  virtual FVector ConsumeInputVector(). CharacterMovement uses it later in its tick.
+MikdashPlayerController.cpp:289,305,334,499,581,719,742:
+  E/P/M handlers, Super::PlayerTick before movement polling, turn/look accumulation,
+  void handler early-outs. M calls SaveConfig: isolated settings remain mandatory.
+
+Executable evidence
+-------------------
+Unsafe dispatch_only: button authorized at t0, processed at501 despite deadline500.
+Unsafe controller_only: movement routed499, consumed501 despite deadline500.
+Guarded: same movement trace yields local vector only; caller sees unknown.
+Regression suite: all semantics before-controller stall; move/look after-controller
+stall; 252 exact boundary schedules; paused walker+dove including pause after route;
+generation/pawn changes; release preserving local; held TTL and session cap;
+one-shot look; no early ACK; no-op handlers; late response; handler stall and unknown
+with/without effects; no automatic replay; bounded mailbox; backward clock failure.
+These tests do not automatically certify McClintock's C++ implementation. They are
+the executable expected-outcome reference for porting equivalent native tests.

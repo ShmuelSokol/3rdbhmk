@@ -2277,3 +2277,25 @@ The independent Receiver04 mailbox driver compiled with MSVC C++17 /W4 and passe
 This is actual standalone C++ execution; it does not exercise UE input hooks, IPC,
 streaming, a browser connection or native gameplay. Receiver04 source-level Python
 replay separately passes 97 checks. Runtime integration remains outstanding.
+
+## Browser receiver source checkpoint - 2 October 2026
+
+Receiver04/Process04 receipt02 fixes UE nonblocking true/zero-byte reads, expiry
+when no peer is connected, failed bootstrap-handle close reporting, and ownership
+revalidation after settings callbacks. Independent replay and fresh isolated export
+both pass97 source/model checks; all29 reviewed source hashes match. Native input
+hooks honor cinematic suppression and avoid a second camera-modifier evaluation.
+
+Publication04 exports90 explicitly listed files including frozen Source02/03
+validation dependencies and separate mailbox C++ evidence. The publication clone
+already matched27 files;63 new source/dependency files were added without changing
+existing reviewed bytes. Historical CRLF fixtures retain exact-byte attributes;
+the oracle text contract explicitly uses LF for reproducible fresh checkouts.
+No binaries, raw logs, assets, credentials or live host configuration are included.
+
+The actual unchanged mailbox headers separately passed MSVC C++17 /W4:12 cases,
+64 assertions, zero failures. Its driver and sanitized receipt are an append-only
+addition, not a rewrite of receipt02. Fourteen UE automation tests remain unrun;
+no native receiver build, IPC, listener, browser admission or online delivery is
+claimed by this source checkpoint. Owned harmless-child OS tests are preparation
+for the next integration step, not currently established execution evidence.

@@ -1,0 +1,169 @@
+{
+  "schema": 1,
+  "status": "model_passed",
+  "python": "3.11.8",
+  "tests": 21,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "boundarySchedules": 252,
+  "sourceSha256": {
+    "model.py": "6fa64abef9809216693881472177cda43b1b802f2898a6f676c708ff23ba18a2",
+    "test_model.py": "e2033896efd66240b6ac4a847d3188d266f8bd4560dac94c30bf05e51173e79b",
+    "run.py": "85cbca6cf0513d4cb1ad7b87b88fffe25376324fb39b09ef55e32586590e99cb",
+    "CONTRACT.txt": "f01fe2705472d4bfda8accda9efcdc192ba487326765fe1679278591d09b4135"
+  },
+  "sourcesStable": true,
+  "receiver03ReceiptSha256": "ec38cfd70dfcefeeb7d60a88044565472fbad281ab35a38528e65db1e3bc028b",
+  "receiver03FilesChecked": 15,
+  "receiver03Preserved": true,
+  "counterexamples": [
+    {
+      "policy": "dispatch_only",
+      "action": "interact",
+      "inputDeadline": 500,
+      "vector": [
+        0,
+        0,
+        0
+      ],
+      "effects": [
+        [
+          "interact",
+          501
+        ]
+      ],
+      "ack": {
+        "sequence": 1,
+        "status": "unknown",
+        "consumed_at": 501,
+        "observed_at": 501
+      },
+      "trace": [
+        [
+          "queued",
+          1,
+          0
+        ],
+        [
+          "consumed",
+          1,
+          501
+        ],
+        [
+          "consumer",
+          "move",
+          501,
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ]
+      ]
+    },
+    {
+      "policy": "controller_only",
+      "action": "move",
+      "inputDeadline": 500,
+      "vector": [
+        1,
+        0,
+        0
+      ],
+      "effects": [],
+      "ack": {
+        "sequence": 1,
+        "status": "unknown",
+        "consumed_at": 501,
+        "observed_at": 501
+      },
+      "trace": [
+        [
+          "queued",
+          1,
+          0
+        ],
+        [
+          "consumed",
+          1,
+          501
+        ],
+        [
+          "consumer",
+          "move",
+          501,
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            0
+          ]
+        ]
+      ]
+    },
+    {
+      "policy": "guarded",
+      "action": "move",
+      "inputDeadline": 500,
+      "vector": [
+        0,
+        0,
+        0
+      ],
+      "effects": [],
+      "ack": {
+        "sequence": 1,
+        "status": "unknown",
+        "consumed_at": null,
+        "observed_at": 501
+      },
+      "trace": [
+        [
+          "queued",
+          1,
+          0
+        ],
+        [
+          "expired",
+          1,
+          501
+        ],
+        [
+          "consumer",
+          "move",
+          501,
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ]
+      ]
+    }
+  ],
+  "socketsOpened": 0,
+  "pipesOpened": 0,
+  "nativeLaunches": 0,
+  "limitations": [
+    "Independent Python oracle, not compiled receiver04 or UE execution",
+    "Pawn tags share semantic policy; do not establish actual walker/dove hook wiring",
+    "Integer injected clock models QPC-domain order, not live QPC calls",
+    "Consumer authorization is not physics completion or rendered acceptance",
+    "No OS watchdog, transport, scheduling or real cancellation exercised"
+  ]
+}

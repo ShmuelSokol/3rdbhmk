@@ -18,7 +18,8 @@ The persistent Codex goal is active. This file tracks implementation and accepta
 - [ ] Identify each visible orphan by actor/component/source geometry, using reversible isolation. Prior roof, road and foundation fixes do not establish the cause of newly reported remnants.
 - [ ] Repair owning visibility/geometry/terrain logic locally; preserve outside surfaces and original-state restoration. Require before/after engine images from identical cameras.
 - [ ] Finish the thin exposed Haram apron edge without floor-only projection on vertical faces.
-- [ ] Repair tree-bark shader fallback and verify foliage, trunks, shadows and scale in the packaged renderer.
+- [x] Repair tree-bark shader fallback: seven material assets and twelve textures still match the September 18 fresh-process verification; isolated cook and packaged finish-bark01 acceptance exist. October 2 audit confirms this is not an open shader-binding defect.
+- [ ] Finish broader foliage appearance: branch junctions, unsupported-looking foliage, trunk contact, shadows and scale on the current release. The shader repair does not accept those details.
 - [ ] Pave Old City negative space coherently along the lane network; correct sunken stalls/arches, floating foundations, facade/roof defects and terrain seams.
 - [ ] Re-run Kotel preservation, thirteen gate walks, interior/arrival routes and all state transitions after affected changes.
 
@@ -1993,3 +1994,37 @@ to Python3.8.1. Use the bundled UE Python3.11 executable explicitly for verify.p
 The old interpreter failed pinned street-ground checking on str.removeprefix; all
 36 native math suites still passed. This is an invocation/environment failure,
 not justification to weaken the street-ground gate or change pinned surfaces.
+
+
+## Cadence-aware crowd guidance rejected - 2 October 2026
+
+A scheduled fixture now models full VAT reservation lifetimes and budgeted visits
+instead of turning every frame. It covers 30/60 Hz, partial budgets, standing
+neighbours and 2/3/6-person cohorts; 4,447,773 safety/math checks pass. Nevertheless
+the six-person full-budget candidate has zero final 30s leader travel versus 867cm
+with guidance disabled. That is a movement regression, not crowd acceptance.
+Runtime code and its existing default/opt-in behavior are restored unchanged.
+The candidate calculation lives ONLY in Tests/CrowdBoundaryCadenceStudy.h.
+The rejected measured sources and log are preserved compressed with 24 comparative
+rows in ResidentRuntime03/CadenceStudy. Fresh active full gate passes 8/8, including 36/36 math suites, with UE Python3.11; no UBT was requested.
+
+Current foliage audit: M_StreetTrees_Bark's old Normal-vs-Color default-texture
+compiler error was already fixed on 18 September. All 19 pinned source assets still
+match the repair verification; finish-bark01 has packaged evidence. Do not rerun
+asset placement or weaken sampler types to fix an obsolete archive. Broader
+branch/canopy/contact appearance remains separate unfinished work.
+
+
+## Checkpoint failure propagation and owned smoke - 2 October 2026
+
+Checkpoint-Build now refuses failed/missing/malformed smoke evidence and changed
+project dependency manifests. Disk headroom requires two archive copies plus a
+10 GiB reserve; previous archives are never overwritten or deleted. Scans detect
+changes but do not isolate concurrent writers; native work must remain serial.
+Smoke-Build launches the direct packaged child hidden with unique save/settings
+slots, requires 9 GiB free commit, and polls its 8 GiB private cap/2 GiB reserve
+through startup and ten seconds of stability. Cleanup targets only its owned
+process identity. Startup_verified is bounded startup, not visual, interaction,
+audio, route, bootstrap, or production-quality acceptance. 252 PowerShell fixture
+assertions pass without a production launch. Actual hidden-window/save isolation
+still requires a guarded packaged runtime check. No new package is claimed.

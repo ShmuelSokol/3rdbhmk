@@ -1,0 +1,366 @@
+{
+  "schemaVersion": 1,
+  "status": "not_adopted",
+  "reason": "movement_regression",
+  "scope": "Offline bounded cadence-aware guidance study; rejected for runtime adoption.",
+  "runtime": {
+    "cadenceHelperCalled": false,
+    "preChangeFileRestoredExactly": true,
+    "referenceBuild": "BoundaryLeaderBuild/build.json",
+    "defaultAndExistingOptInBehaviorUnchanged": true
+  },
+  "rejection": {
+    "members": 6,
+    "budget": 48,
+    "fps": 30,
+    "lateWindowSeconds": 30,
+    "controlLateLeaderTravelCm": 867.32,
+    "candidateLateLeaderTravelCm": 0,
+    "controlAllTravelCm": 19858.9,
+    "candidateAllTravelCm": 12881.6
+  },
+  "verification": {
+    "kind": "standalone_cpp",
+    "checks": 4447773,
+    "failures": 0,
+    "compiler": "MSVC via VS2022 BuildTools vcvars64.bat",
+    "flags": "/std:c++17 /EHsc /W4 /O2",
+    "log": "standalone-20261002T0453155268048Z.log",
+    "logSha256": "b7c4fa61a397a7c2743a7975f38944374a01d7c5d44d351688492b80227dd7e4",
+    "fixtureAndHelperMatchTestedHashes": true,
+    "rerunAfterRuntimeRestore": false,
+    "rerunReason": "Fixture and helper unchanged; reverted runtime translation unit is not linked by standalone fixture.",
+    "fullProjectVerifyRun": false,
+    "nativeRun": false,
+    "ubtRun": false,
+    "compressedLog": "standalone-20261002T0453155268048Z.log.gz"
+  },
+  "sourceHashes": {
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdGroupMath.h": "f77171ee6f4e374537ca6bbd28ea9e5f1d0a149d415cc7ddd153bc5697295444",
+    "Plugins/MikdashRuntime/Tests/CrowdBoundaryMathTest.cpp": "6206c2a9789e43e0e5f33f364a8d11ff9ae04a8ca7e32fbf559c32d4fa3b8a1a",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashCrowdField.cpp": "8a8ef49652634e077b5d68cc63e0d257520837681a00be1ec20900fb31e60176"
+  },
+  "rowDefinitions": {
+    "durationSeconds": 120,
+    "distanceUnits": "cm",
+    "precision": "Values parsed from retained stdout; six significant digits, not unrounded measurements.",
+    "scheduled": "cadence0: nominal-rate guidance; cadence1: cadence-aware guidance; single moving leader and stationary neighbour.",
+    "group": "All group runs30Hz. enabled0: boundary guidance disabled; enabled1: cadence-aware leader-only guidance; not a nominal-leader-only vs cadence comparison.",
+    "lateLeaderTravel": "Final30seconds",
+    "waits": "Steering waiting visits, not seconds",
+    "maxLag": "Physical spread excess",
+    "maxFormation": "Formation slot error",
+    "longestStopFrames": "Consecutive sampled frames without displacement"
+  },
+  "comparativeRows": [
+    {
+      "fixture": "scheduled",
+      "fps": 30.0,
+      "budget": 48.0,
+      "cadence": 0.0,
+      "travel": 11073.6,
+      "refusals": 477.0,
+      "longestStopFrames": 58.0
+    },
+    {
+      "fixture": "scheduled",
+      "fps": 30.0,
+      "budget": 48.0,
+      "cadence": 1.0,
+      "travel": 12741.6,
+      "refusals": 30.0,
+      "longestStopFrames": 30.0
+    },
+    {
+      "fixture": "scheduled",
+      "fps": 30.0,
+      "budget": 17.0,
+      "cadence": 0.0,
+      "travel": 8248.0,
+      "refusals": 328.0,
+      "longestStopFrames": 168.0
+    },
+    {
+      "fixture": "scheduled",
+      "fps": 30.0,
+      "budget": 17.0,
+      "cadence": 1.0,
+      "travel": 10992.0,
+      "refusals": 49.0,
+      "longestStopFrames": 120.0
+    },
+    {
+      "fixture": "scheduled",
+      "fps": 30.0,
+      "budget": 8.0,
+      "cadence": 0.0,
+      "travel": 6728.0,
+      "refusals": 226.0,
+      "longestStopFrames": 357.0
+    },
+    {
+      "fixture": "scheduled",
+      "fps": 30.0,
+      "budget": 8.0,
+      "cadence": 1.0,
+      "travel": 7088.0,
+      "refusals": 202.0,
+      "longestStopFrames": 357.0
+    },
+    {
+      "fixture": "scheduled",
+      "fps": 60.0,
+      "budget": 48.0,
+      "cadence": 0.0,
+      "travel": 10919.2,
+      "refusals": 808.0,
+      "longestStopFrames": 119.0
+    },
+    {
+      "fixture": "scheduled",
+      "fps": 60.0,
+      "budget": 48.0,
+      "cadence": 1.0,
+      "travel": 11384.0,
+      "refusals": 416.0,
+      "longestStopFrames": 116.0
+    },
+    {
+      "fixture": "scheduled",
+      "fps": 60.0,
+      "budget": 17.0,
+      "cadence": 0.0,
+      "travel": 8481.6,
+      "refusals": 727.0,
+      "longestStopFrames": 337.0
+    },
+    {
+      "fixture": "scheduled",
+      "fps": 60.0,
+      "budget": 17.0,
+      "cadence": 1.0,
+      "travel": 9563.6,
+      "refusals": 473.0,
+      "longestStopFrames": 336.0
+    },
+    {
+      "fixture": "scheduled",
+      "fps": 60.0,
+      "budget": 8.0,
+      "cadence": 0.0,
+      "travel": 6664.0,
+      "refusals": 459.0,
+      "longestStopFrames": 717.0
+    },
+    {
+      "fixture": "scheduled",
+      "fps": 60.0,
+      "budget": 8.0,
+      "cadence": 1.0,
+      "travel": 7042.0,
+      "refusals": 411.0,
+      "longestStopFrames": 717.0
+    },
+    {
+      "fixture": "group",
+      "members": 2.0,
+      "budget": 48.0,
+      "enabled": 0.0,
+      "leaderTravel": 4879.42,
+      "lateLeaderTravel": 1582.85,
+      "allTravel": 11346.2,
+      "refusals": 1389.0,
+      "waits": 973.0,
+      "minSpacing": 80.2055,
+      "maxLag": 780.547,
+      "maxFormation": 875.051
+    },
+    {
+      "fixture": "group",
+      "members": 2.0,
+      "budget": 48.0,
+      "enabled": 1.0,
+      "leaderTravel": 4445.5,
+      "lateLeaderTravel": 1406.65,
+      "allTravel": 7537.71,
+      "refusals": 1866.0,
+      "waits": 14.0,
+      "minSpacing": 80.0015,
+      "maxLag": 250.15,
+      "maxFormation": 468.737
+    },
+    {
+      "fixture": "group",
+      "members": 2.0,
+      "budget": 17.0,
+      "enabled": 0.0,
+      "leaderTravel": 3678.89,
+      "lateLeaderTravel": 616.831,
+      "allTravel": 7615.27,
+      "refusals": 1159.0,
+      "waits": 0.0,
+      "minSpacing": 80.0316,
+      "maxLag": 179.326,
+      "maxFormation": 265.3
+    },
+    {
+      "fixture": "group",
+      "members": 2.0,
+      "budget": 17.0,
+      "enabled": 1.0,
+      "leaderTravel": 3000.65,
+      "lateLeaderTravel": 246.0,
+      "allTravel": 8620.51,
+      "refusals": 732.0,
+      "waits": 190.0,
+      "minSpacing": 80.023,
+      "maxLag": 405.856,
+      "maxFormation": 550.29
+    },
+    {
+      "fixture": "group",
+      "members": 3.0,
+      "budget": 48.0,
+      "enabled": 0.0,
+      "leaderTravel": 4989.6,
+      "lateLeaderTravel": 1720.25,
+      "allTravel": 14901.1,
+      "refusals": 1518.0,
+      "waits": 1107.0,
+      "minSpacing": 80.0027,
+      "maxLag": 358.285,
+      "maxFormation": 437.036
+    },
+    {
+      "fixture": "group",
+      "members": 3.0,
+      "budget": 48.0,
+      "enabled": 1.0,
+      "leaderTravel": 2300.29,
+      "lateLeaderTravel": 191.969,
+      "allTravel": 9235.89,
+      "refusals": 2461.0,
+      "waits": 2609.0,
+      "minSpacing": 80.0008,
+      "maxLag": 255.859,
+      "maxFormation": 485.582
+    },
+    {
+      "fixture": "group",
+      "members": 3.0,
+      "budget": 17.0,
+      "enabled": 0.0,
+      "leaderTravel": 3438.95,
+      "lateLeaderTravel": 1597.44,
+      "allTravel": 11762.1,
+      "refusals": 1047.0,
+      "waits": 208.0,
+      "minSpacing": 80.122,
+      "maxLag": 349.966,
+      "maxFormation": 580.107
+    },
+    {
+      "fixture": "group",
+      "members": 3.0,
+      "budget": 17.0,
+      "enabled": 1.0,
+      "leaderTravel": 2271.84,
+      "lateLeaderTravel": 241.65,
+      "allTravel": 10768.5,
+      "refusals": 835.0,
+      "waits": 949.0,
+      "minSpacing": 80.0041,
+      "maxLag": 483.002,
+      "maxFormation": 550.29
+    },
+    {
+      "fixture": "group",
+      "members": 6.0,
+      "budget": 48.0,
+      "enabled": 0.0,
+      "leaderTravel": 3268.71,
+      "lateLeaderTravel": 867.32,
+      "allTravel": 19858.9,
+      "refusals": 1829.0,
+      "waits": 4051.0,
+      "minSpacing": 80.0059,
+      "maxLag": 479.438,
+      "maxFormation": 663.985
+    },
+    {
+      "fixture": "group",
+      "members": 6.0,
+      "budget": 48.0,
+      "enabled": 1.0,
+      "leaderTravel": 2012.42,
+      "lateLeaderTravel": 0.0,
+      "allTravel": 12881.6,
+      "refusals": 4203.0,
+      "waits": 2577.0,
+      "minSpacing": 80.0034,
+      "maxLag": 351.352,
+      "maxFormation": 607.345
+    },
+    {
+      "fixture": "group",
+      "members": 6.0,
+      "budget": 17.0,
+      "enabled": 0.0,
+      "leaderTravel": 1223.89,
+      "lateLeaderTravel": 0.0,
+      "allTravel": 14537.3,
+      "refusals": 943.0,
+      "waits": 1824.0,
+      "minSpacing": 80.0068,
+      "maxLag": 420.895,
+      "maxFormation": 585.866
+    },
+    {
+      "fixture": "group",
+      "members": 6.0,
+      "budget": 17.0,
+      "enabled": 1.0,
+      "leaderTravel": 1779.74,
+      "lateLeaderTravel": 54.5138,
+      "allTravel": 16178.1,
+      "refusals": 2323.0,
+      "waits": 1998.0,
+      "minSpacing": 80.0482,
+      "maxLag": 457.048,
+      "maxFormation": 524.066
+    }
+  ],
+  "limitations": [
+    "Safety assertions passing does not establish movement recovery.",
+    "Group results regress despite isolated-leader improvements; helper and fixtures retained only as offline evidence.",
+    "Steady-frame prediction; no native ground/capsule gates, rendered review, performance acceptance or packaged release proof.",
+    "Subframe spacing samples supplement reservations; they are not independent continuous-time proof.",
+    "No further candidate iteration or runtime adoption."
+  ],
+  "sourceSnapshots": {
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdGroupMath.h": {
+      "file": "Sources/CrowdGroupMath.h.gz",
+      "sha256": "f77171ee6f4e374537ca6bbd28ea9e5f1d0a149d415cc7ddd153bc5697295444"
+    },
+    "Plugins/MikdashRuntime/Tests/CrowdBoundaryMathTest.cpp": {
+      "file": "Sources/CrowdBoundaryMathTest.cpp.gz",
+      "sha256": "6206c2a9789e43e0e5f33f364a8d11ff9ae04a8ca7e32fbf559c32d4fa3b8a1a"
+    },
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashCrowdField.cpp": {
+      "file": "Sources/MikdashCrowdField.cpp.gz",
+      "sha256": "8a8ef49652634e077b5d68cc63e0d257520837681a00be1ec20900fb31e60176"
+    }
+  },
+  "integrationNote": "After this measured run, unchanged experimental helper bodies were moved into test-only CrowdBoundaryCadenceStudy.h. Runtime CrowdGroupMath.h and MikdashCrowdField.cpp restored to prior behavior. A fresh project gate covers the integrated test-only arrangement. Exact measured sources retained compressed.",
+  "integrationVerification": {
+    "runtime": "UE bundled Python 3.11",
+    "command": "Scripts/verify.py (no --build)",
+    "checksPassed": 8,
+    "checksTotal": 8,
+    "mathSuitesPassed": 36,
+    "mathSuitesTotal": 36,
+    "exitCode": 0,
+    "logLocal": "C:/Mikdash/Working-5.8/verify-cadence-active-20261002.log",
+    "scope": "Active tree after moving candidate helper into Tests; no runtime adoption."
+  }
+}

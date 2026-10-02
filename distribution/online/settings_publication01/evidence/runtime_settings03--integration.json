@@ -1,0 +1,57 @@
+{
+  "projection": true,
+  "original_relative_path": "runtime_settings03/integration.json",
+  "original_sha256": "c565fbbdefddb9cef40c184b0ef59d442f4b7da64453140aaddb6aed69502bae",
+  "redaction": "Known machine path prefixes mapped to logical locators; backslashes normalized in strings. Original receipt bytes remain local.",
+  "historical_status_override": null,
+  "data": {
+    "status": "additive source candidate, ready for independent review; no native/UE launch or adoption",
+    "entrypoint": "runtime_settings03.owned_settings_host.make_settings_host(recipe, ports, revoke, ownership_authority, limits)",
+    "composition": "Uses actual process04 OwnedProcesses, OwnedStreams, SessionCore and WindowsChild. SettingsChild wraps the real backend; does not reimplement Job/create/resume/bootstrap/cleanup. Existing candidate05 inspect_private_record validates unchanged v1 private stdin frame before resume_and_write. No unused standalone lease helper offered as integration.",
+    "new_files_only": "runtime_settings03; settings01, settings02, shader03, process04, candidate05, receivers and possession code untouched",
+    "premise_admission": {
+      "mandatory": "Caller supplies an implementation of ExclusiveOwnershipAuthority whose reserve returns ExclusiveAllocation. No production implementation or affirmative fixture implementation is supplied. None, bool, dict, missing verified executable, expired owner, refusing allocation all fail closed.",
+      "not_a_claim": "This source does not establish exclusive ownership on this workstation. Folder names, root handles, file IDs and private bootstrap are not evidence that arbitrary same-account writers cannot modify child files.",
+      "required_evidence": "Trusted deployment allocator must establish the actual exclusive operational premise: one exact owner/process generation for this fresh root; no concurrent untrusted writers to root, child files or relevant parent paths; controlled lifetime and shutdown; externally enforced deployment immutability. If deployment cannot establish that premise, reserve/revalidate must raise and launch stays refused. No ACL changes or token manipulation are implemented.",
+      "capability_contract": "Allocation root and slot_count are immutable; revalidate(owner) must reject mismatched/revoked/unknown ownership and return None only for established exclusive ownership. reserve has strong exception semantics: if it raises it must retain/quarantine its own partially allocated resources rather than orphan them. release_after_cleanup must be idempotent and return None only on confirmed release.",
+      "crash": "Parent-process crash closes OS handles; kill-on-close Job terminates the child but is not instantaneous path locking. External allocator must quarantine that root until actual process/Job disposal is independently established; never infer free root from parent disappearance. No arbitrary same-account adversary isolation claim."
+    },
+    "handle_lifecycle": [
+      "Validate all derived paths and require no whitespace in root before opening any handle. Allocator pre-creates User, Saved, Config, Config/Windows, SaveGames and User/Temp. Adapter makes no directories and changes no permissions.",
+      "Acquire actual GENERIC_READ directory handles without FILE_SHARE_DELETE, no-follow, for drive root, every ancestor, session root and each required directory; bounded to128 unique paths. Read each final DOS path, attributes and volume/file ID. Preserve every partially acquired handle immediately.",
+      "Retain/revalidate handles across suspended child creation, existing Job assignment, real PID/creation-time readback, private frame validation, resume/write, lifetime alive/exchange calls and shutdown. Parent handles are not added to inherited child handle list.",
+      "Existing child.stop must confirm Job active0, root signaled, private writer/thread complete and handle closure. Parent host route revocation must also succeed before directory release. Any unconfirmed process disposal or handle close keeps settings_records and capacity unavailable; cleanup reentry rejects.",
+      "Directory handles close deepest-first; failed closes retained for bounded retry. Allocation released only after handle cleanup. Allocation-release uncertainty retains capacity even though engine is already disposed. No destructor drops ownership silently."
+    ],
+    "review_fixes": {
+      "P1": {
+        "source": "review-overlay/SessionSettingsAdmission.cpp",
+        "change": "GEngine->GameUserSettings.Get() noncreating public pointer replaces GetGameUserSettings(); IsValid/null/custom-class refusal precedes further predicate IO. Header/callback copies otherwise unchanged.",
+        "primary_proof": "Engine.h872 public TObjectPtr; UnrealEngine.cpp17938-17962 creating getter can LoadConfigIni/NewObject/LoadSettings; GameUserSettings.cpp603-653/700-745 migration writes. No UE executed; exact-delta source regression only."
+      },
+      "P2": {
+        "source": "launcher_contract03.py",
+        "change": "Validate every derived directory/INI and all actual settings/manual/autosave paths using unchanged Canon240 before returning arguments. Explicit slot_count1..64 produces session-only SlotCount INI token so generated manual names are bounded and concrete. Native effective readback still required.",
+        "tests": "Historical230root generates265/277INI in frozen01;03 rejects. Also reject root with validINI but excessive long-slot filename. Exact240longest-save boundary accepts;241rejects."
+      }
+    },
+    "argument_contract": "Reject whitespace/quotes/hidden fragments or userdir/saveddir/ini/exec/cmdline/sandbox/responsefile overrides in base recipe. Append exact six settings tokens and set TEMP/TMP to owned User/Temp. Restrict root without whitespace because existing WindowsChild CRT list2cmdline quoting is retained; no claim actual UE FParse tested. Existing memory, one-process Job and cleanup limits unchanged.",
+    "coordination_McClintock": {
+      "ownership": "This worker owns only runtime_settings03. McClintock possession/actor adapter files are not edited.",
+      "handoff": "private_settings_descriptor(owner) exposes actual retained root identity, exact process PID/creation time, slot/prefix/count and process_key only to trusted in-process code after live lease checks. No secret/ready/ownership=true bit. Native possession owner must separately bind these to its trusted private bootstrap and implement settings01 IOwnedSessionLease for the corrected03 callback; current v1 bootstrap wire is unchanged and does not transport this descriptor.",
+      "boundary": "Source parent integration is concrete, but native settings callback/possession handoff is not falsely claimed complete. Reuse corrected review-overlay MakeSettingsOwnedCallback only when actual native lease is available; otherwise keep mute admission false.",
+      "delivery": "McClintock was not identifiable in available task list; this exact disjoint interface is ready for coordinator relay, no message falsely claimed sent."
+    },
+    "verification": {
+      "new_source_controlflow_tests": 14,
+      "actual_windows03_tests": 0,
+      "actual_windows02_history": "33 cases separate historical evidence, including four race limitation reproductions; not rerun or counted as03 runtime proof",
+      "legacy_python01_tests": "4 distinct prior tests, not counted in14",
+      "cpp_compile": false,
+      "ue_run": false,
+      "affirmative_ownership_policy_created": false,
+      "spend": false
+    },
+    "scope_limits": "SettingsOwned is conditional remote mute destination admission, not proof that startup/subsystem/autosave/quit writes were isolated. Native null/custom-class IO regression and actual integrated retained-ancestor Job lifecycle await independent review and explicit authorization. Path-check filesystem calls have no hard per-call timeout; pre-created local-fixed deployment only. No production config/maps/assets modified."
+  }
+}

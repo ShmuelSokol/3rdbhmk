@@ -1,0 +1,187 @@
+{
+  "projection": true,
+  "original_relative_path": "runtime_settings01/source-audit.json",
+  "original_sha256": "97840275e853ac3638926063f61df95db4ee10e683b925d77b72a6809ad8eef4",
+  "redaction": "Known machine path prefixes mapped to logical locators; backslashes normalized in strings. Original receipt bytes remain local.",
+  "historical_status_override": "settings01 HOLD P1 lazy getter/P2 path lengths; superseded only by03 source fixes",
+  "data": {
+    "status": "primary local source audit; no engine code copied, no native/API execution",
+    "sources": [
+      {
+        "path": "external-ue58-engine/Source/Runtime/Core/Private/Misc/Paths.cpp",
+        "sha256": "b2069897033973c2d42966ad6b89811a06cc30a5dbfef3bbef4a2fd292028046",
+        "lines": "85-119,183-191,451-476,485-493,1940-1966",
+        "proof": "UserDir is parsed/cached; ProjectUserDir returns it; saved directory derives from user dir and optional suffix. Runtime readbacks are mandatory."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/CoreUObject/Private/UObject/Obj.cpp",
+        "sha256": "95c02393fc27e9c0a05157212e62a5ee13e3f3ed95bda08d3abb4e33f14cc41f",
+        "lines": "2332-2337,3697-3711,3786,3944",
+        "proof": "SaveConfig default resolves GetClass()->GetConfigName, inherited globalconfig can redirect property writes, final branch flushed."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp",
+        "sha256": "8a1b1a597cf68b055f34ae5255ea49d137723660b85deafe56dd34d52d626010",
+        "lines": "7144-7188",
+        "proof": "Known config class Game returns logical key, not physical filename."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Core/Public/Misc/ConfigCacheIni.h",
+        "sha256": "15e5481088838025174ae651881a76b32c4c14ceeac710a51848d4b35d524345",
+        "lines": "1121-1167,1380-1383",
+        "proof": "Public branch IniPath and no-reload query API."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Core/Private/Misc/ConfigCacheIni.cpp",
+        "sha256": "7f4871539400db4cf9f60cd08d8b3515e3f077d75d255305a2700799fd622dbf",
+        "lines": "525-557,1330-1361,4258-4298,4562-4600",
+        "proof": "Flush saves selected branch IniPath, pre-save delegate may intercept, temporary config file created under ProjectSavedDir."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Core/Public/Misc/CoreDelegates.h",
+        "sha256": "9ab68c85fdd9bddd95120d9b47ead7dcb72ef03027620a467763504601f6bce0",
+        "lines": "322",
+        "proof": "Public thread-safe config pre-save delegate."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Core/Public/Delegates/MulticastDelegateBase.h",
+        "sha256": "16454ba18e06453eca839504a8b869ac73f4d5f3cfa33018861a5301467e0dff",
+        "lines": "131",
+        "proof": "IsBound supports rejecting a registered save hook."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Core/Public/Delegates/DelegateSignatureImpl.inl",
+        "sha256": "81dd46651ce1126190c7ae3bc3fd1727d7aa41cbda5f5ba94e5171dcbbc4a923",
+        "lines": "1140-1143",
+        "proof": "TTSMulticastDelegate alias API."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Engine/Public/PlatformFeatures.h",
+        "sha256": "33b17d28aed8dbb4814467d2e4c0cadfc59f76883e335424df14c988a36ab99e",
+        "lines": "22-46",
+        "proof": "Platform feature Get may initialize/load; predicate requires module already loaded."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Engine/Private/PlatformFeatures.cpp",
+        "sha256": "7f74d9534e9b25c41da9cf083a0a3d0afc5108925b84998aaf4a98ca8f6a419b",
+        "lines": "13-17",
+        "proof": "Qualified base GetSaveGameSystem returns one stock generic singleton, permitting exact live pointer comparison."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Windows/WindowsPlatformFeatures/Private/WindowsPlatformFeatures.cpp",
+        "sha256": "cd9372753508f6974a029c5569b3025ab27092b4dcfb9a63b49d94617f484cd3",
+        "lines": "31-63",
+        "proof": "Windows can select custom module from Engine config and cache backend. Empty config alone insufficient; pointer identity checked."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Engine/Public/SaveGameSystem.h",
+        "sha256": "4acf445f1ad32eb0b45199c2addca87e038e500119d8f4c489fafd237230dce9",
+        "lines": "110-173",
+        "proof": "Generic read/write/delete routes through protected GetSaveGamePath, ProjectSavedDir/SaveGames/name.sav. Predicate does not access protected API."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Engine/Private/GameplayStatics.cpp",
+        "sha256": "2cd3e36e2f3875108e5da0430996a9035051d54cadb51a026a15ce4ec70a9dda",
+        "lines": "2392-2397",
+        "proof": "SaveDataToSlot uses the platform features backend."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Core/Public/HAL/PlatformFileManager.h",
+        "sha256": "3f93d999ee6d7674dfeaa7c4ce24b9e90f5ec299755857f131bfc1694dbefb53",
+        "lines": "35-43",
+        "proof": "Live platform file chain readback."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformFile.h",
+        "sha256": "4e46f6dd2cc9caa5ac6440304bf5ace3b585ba7b77788f63c409d6e20a49d742",
+        "lines": "344,433,1040-1060",
+        "proof": "Physical singleton and wrapper APIs."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Core/Private/Windows/WindowsPlatformFile.cpp",
+        "sha256": "b961e22f4713df6692246ca5fca3bb6d8c7d8eee51f6f15af911931a20f10165",
+        "lines": "1638-1675,1931-1939",
+        "proof": "Physical write opens supplied normalized filename; managed storage build is separately rejected."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/PakFile/Private/IPlatformFilePak.cpp",
+        "sha256": "7c96c92329dc1c5c762603feb274df67005c349a0c851c010b97af3e81c7d103",
+        "lines": "6732-6741",
+        "proof": "Pak OpenWrite rejects pak entry or passes unchanged filename to lower level."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/PakFile/Public/IPlatformFilePak.h",
+        "sha256": "7248e99dbfca680209d0d4b29a518376564059f2410753db3b0df82d3ebb515c",
+        "lines": "2100-2103",
+        "proof": "Pak wrapper type name."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Core/Private/HAL/FileManagerGeneric.cpp",
+        "sha256": "d40fd61f1a2121dfc671d7a2de89b0f0feb2ac2ba4c1733ef443776de5ae0caf",
+        "lines": "645-647",
+        "proof": "Stock FileManager delegates external write path conversion to live platform file."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Core/Public/Modules/ModuleManager.h",
+        "sha256": "d42546dfee608dc81326b11847546b53575467a8ce3bc4cc47fd9409d2b09d99",
+        "lines": "365",
+        "proof": "GetModulePtr existing-module API, no LoadModule in predicate."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Core/Private/Windows/WindowsPlatformMisc.cpp",
+        "sha256": "feb5e787196a9a7d9bc949215bad13635624326005df2cb0c6e6a690db4851bf",
+        "lines": "2694",
+        "proof": "Platform module name API."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Engine/Private/GameUserSettings.cpp",
+        "sha256": "c9c677113e8de4a93c7f3644e5914b3f5623d26555282c4b619eda6445dacfc4",
+        "lines": "671-693",
+        "proof": "Graphics SaveSettings uses GGameUserSettingsIni and optional cloud hook; editor path differs and is rejected."
+      },
+      {
+        "path": "external-ue58-engine/Source/Runtime/Engine/Classes/GameFramework/GameUserSettings.h",
+        "sha256": "97f6aea55c52c7d5724cbcb9aee4265a2e374c0b9361fc5c977bbbe532273ea3",
+        "lines": "658-670",
+        "proof": "Both cloud delegate readbacks exposed."
+      },
+      {
+        "path": "external-project/Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashPlayerController.h",
+        "sha256": "21bbd08b21bad4193646cea63ceeff61905b1ad015b92b7654949ebfd6030a80",
+        "lines": "18",
+        "proof": "Controller Config=Game."
+      },
+      {
+        "path": "external-project/Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashPlayerController.cpp",
+        "sha256": "ab85e385d709f30d00e428dd36b05f06c856a507f408cb841d02675cc0ead312",
+        "lines": "742-747",
+        "proof": "ToggleSound calls SaveConfig on this controller."
+      },
+      {
+        "path": "external-project/Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashSettings.h",
+        "sha256": "feb43f121c7292428ecb433106bf2a13cb040b46474a591dc26aa084aa7dc048",
+        "lines": "138,222-223",
+        "proof": "Config Game settings subsystem and public SaveSlot/SaveUserIndex."
+      },
+      {
+        "path": "external-project/Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashSettings.cpp",
+        "sha256": "7b633b39af8a887746efd80d52567168b461c91b2188f5d72ad6c2f324e4e700",
+        "lines": "148-152,235-278,298-317",
+        "proof": "Startup Load/ApplyAll; settings save slot write; graphics ApplySettings may save."
+      },
+      {
+        "path": "external-project/Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashSaveGame.h",
+        "sha256": "6e5eb3395ca04d1c5d43f9f78d3ea40939999abcba312f78a92c6a9395ad3f23",
+        "lines": "189,341-349",
+        "proof": "Config Game save subsystem; public count/prefix/user."
+      },
+      {
+        "path": "external-project/Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashSaveGame.cpp",
+        "sha256": "2deaf65ac421a3c63751e1a9889f912b3d0798c5dc8d7c35a719edbca0c0592e",
+        "lines": "167-175,771-822",
+        "proof": "Manual/autosave actual names and selected save backend, async and sync calls."
+      }
+    ],
+    "win32_boundary": "CreateFileW OPEN_EXISTING with FILE_FLAG_OPEN_REPARSE_POINT, GetFileInformationByHandle and GetFinalPathNameByHandleW are review code, not executed by offline Python tests. ACL/lease enforcement deliberately required by contract, not claimed as implemented."
+  }
+}

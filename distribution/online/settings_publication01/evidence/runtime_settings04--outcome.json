@@ -1,0 +1,71 @@
+{
+  "projection": true,
+  "original_relative_path": "runtime_settings04/outcome.json",
+  "original_sha256": "e2e018fbcdafe720694a309d28db516639046e8a553146a8f042ad4647bfae9c",
+  "redaction": "Known machine path prefixes mapped to logical locators; backslashes normalized in strings. Original receipt bytes remain local.",
+  "historical_status_override": null,
+  "data": {
+    "status": "21 actual Windows lifecycle cases passed using frozen03 unchanged; no UE acceptance",
+    "receipt": "runs/lifecycle-3263c270bd/receipt.json",
+    "receipt_sha256": "9fa03b04c715e2aa91d2f5cef09eb298dd533dbb31c1afbfd11c0327051fe2b4",
+    "prior_run": "runs/lifecycle-85bb0c697d/receipt.json",
+    "prior_cases": 20,
+    "prior_run_preserved": true,
+    "frozen03_manifest": "5041cbeb6c6785011e8df35763c4819e4e08cde7c16301fb790583bfc3f66079",
+    "actual_children": 3,
+    "actual_host_allocations": 5,
+    "child_modes": [
+      "readexit",
+      "hold",
+      "ignore"
+    ],
+    "elapsed_seconds": 1.0159999999887077,
+    "verified": [
+      "Missing exclusive premise rejects before WindowsChild.create; no child or directory-handle lease acquired by that admission.",
+      "Actual root volume/file ID replacement before admission rejects before child creation.",
+      "Real GENERIC_READ/no-delete-sharing handles refuse rename of session root, retained Saved directory and explicitly owned fixture ancestor while child runs.",
+      "Natural child exits0 and private writer drains; root handles remain until host cleanup. Only after actual Job/root/writer disposal and successful route revocation can root rename succeed.",
+      "Negative QueryInformationJobObject fault causes quarantine with handles/capacity retained, despite actual child exit and writer drain. Real OS queries are observed separately; no successful cleanup value fabricated. Clearing fault permits confirmed disposal/release.",
+      "Owned pipe is filled to real OS-reported capacity; original synchronous WriteFile then blocks against non-reading child. Root rename is refused during observed pending writer. Startup deadline kills exact Job and drains writer. Injected route-revocation failure retains root handles after worker completion; recovery releases them."
+    ],
+    "fault_boundaries": "Only negative query/route failures injected; pipe saturation and kernel handles/processes/Job accounting are real. No simulated UE, no replacement child factory. File marker is a harmless readiness aid, not native receiver/stream/HMAC acceptance.",
+    "fixture_premise": "FixtureAuthority/FixtureAllocation exist only in this explicit test runner and bind fresh owned fixture paths/identity/owner. The test controller creates all test writers and retains all child records. This is an explicit cooperative TEST premise, never a production ACL policy or proof against arbitrary same-account writers. Nothing is registered as a production ownership provider.",
+    "safety": {
+      "engine_or_ubt": false,
+      "permissions_changed": false,
+      "network": false,
+      "spend": false,
+      "shared_path_rename_attempts": false,
+      "recursive_deletion": false,
+      "memory_per_owned_child_bytes": 268435456,
+      "maximum_child_count_concurrent": 1,
+      "acquisition_budget_seconds": 25,
+      "watchdog_seconds": 30,
+      "cleanup_all_confirmed": true,
+      "fixtures_retained": true,
+      "private_bootstrap_logged": false
+    },
+    "remaining": "03 P1/P2 source review remains with Confucius. These OS tests do not compile C++, execute the UE getter/INI admission, provide production exclusivity, or implement McClintock possession handoff. Frozen03 native integration remains separately gated.",
+    "separate_counts": {
+      "settings01_pure_python_methods": 4,
+      "settings02_windows_cases": 33,
+      "settings03_source_controlflow_methods": 14,
+      "settings04_final_windows_lifecycle_cases": 21
+    },
+    "reproduce": "Using pinned installed 64-bit python.exe: python -B run_lifecycle.py --owned-fixture. Explicit fixture invocation only; no automatic retries or native engine launch.",
+    "publish_allowlist": [
+      "child.py",
+      "run_lifecycle.py",
+      "prerequisite-pins.json",
+      "outcome.json",
+      "manifest.json",
+      "runs/lifecycle-3263c270bd/receipt.json",
+      "runs/lifecycle-3263c270bd/source/child.py",
+      "runs/lifecycle-3263c270bd/source/run_lifecycle.py",
+      "runs/lifecycle-85bb0c697d/receipt.json",
+      "runs/lifecycle-85bb0c697d/source/child.py",
+      "runs/lifecycle-85bb0c697d/source/run_lifecycle.py"
+    ],
+    "publish_exclusions": "Entire fixture trees, markers, executables, private logs/config and all unrelated files. No publication or commit performed."
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "projection": true,
+  "original_relative_path": "runtime_settings04/runs/lifecycle-3263c270bd/receipt.json",
+  "original_sha256": "9fa03b04c715e2aa91d2f5cef09eb298dd533dbb31c1afbfd11c0327051fe2b4",
+  "redaction": "Known machine path prefixes mapped to logical locators; backslashes normalized in strings. Original receipt bytes remain local.",
+  "historical_status_override": null,
+  "data": {
+    "status": "passed",
+    "failure": null,
+    "results": [
+      {
+        "name": "missing_premise_refuses_before_create",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "fixture_root_replacement_prepared",
+        "passed": true,
+        "detail": {
+          "renamed": true,
+          "error": 0,
+          "destination": "online/runtime_settings04/runs/lifecycle-3263c270bd/fixture/replaced-retired"
+        }
+      },
+      {
+        "name": "changed_root_identity_refuses_before_create",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "real_job_assigned_and_private_writer_complete",
+        "passed": true,
+        "detail": {
+          "process_identity": [
+            33540,
+            134354160054062750
+          ]
+        }
+      },
+      {
+        "name": "root_rename_refused_while_child_alive",
+        "passed": true,
+        "detail": {
+          "renamed": false,
+          "error": 32,
+          "destination": "online/runtime_settings04/runs/lifecycle-3263c270bd/fixture/natural-bad"
+        }
+      },
+      {
+        "name": "retained_child_directory_rename_refused",
+        "passed": true,
+        "detail": {
+          "renamed": false,
+          "error": 32,
+          "destination": "online/runtime_settings04/runs/lifecycle-3263c270bd/fixture/natural/User/Saved-bad"
+        }
+      },
+      {
+        "name": "retained_owned_ancestor_rename_refused",
+        "passed": true,
+        "detail": {
+          "renamed": false,
+          "error": 32
+        }
+      },
+      {
+        "name": "natural_child_exit_observed",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "real_writer_thread_drained",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "harmless_child_exit_zero",
+        "passed": true,
+        "detail": {
+          "exit_code": 0
+        }
+      },
+      {
+        "name": "handles_retained_after_exit_before_host_cleanup",
+        "passed": true,
+        "detail": {
+          "renamed": false,
+          "error": 32,
+          "destination": "online/runtime_settings04/runs/lifecycle-3263c270bd/fixture/natural-premature"
+        }
+      },
+      {
+        "name": "natural_owned_cleanup_confirmed",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "all_inner_handles_closed_after_cleanup",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "root_rename_after_confirmed_release",
+        "passed": true,
+        "detail": {
+          "renamed": true,
+          "error": 0,
+          "destination": "online/runtime_settings04/runs/lifecycle-3263c270bd/fixture/natural-released"
+        }
+      },
+      {
+        "name": "query_failure_keeps_handles_and_capacity",
+        "passed": true,
+        "detail": {
+          "rename": {
+            "renamed": false,
+            "error": 32,
+            "destination": "online/runtime_settings04/runs/lifecycle-3263c270bd/fixture/query-premature"
+          },
+          "real_job_active_observations": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "name": "query_failure_still_kills_owned_child_and_drains_writer",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "query_recovery_releases_only_after_os_confirmation",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "real_blocked_writer_observed_with_retained_handles",
+        "passed": true,
+        "detail": [
+          {
+            "handles": 15,
+            "writer_pending": true,
+            "rename": {
+              "renamed": false,
+              "error": 32,
+              "destination": "online/runtime_settings04/runs/lifecycle-3263c270bd/fixture/blocked-blocked"
+            }
+          }
+        ]
+      },
+      {
+        "name": "bootstrap_deadline_failure_drains_real_worker",
+        "passed": true,
+        "detail": {
+          "write_error": 995,
+          "cancel_calls": 1,
+          "job_kills": 1
+        }
+      },
+      {
+        "name": "revocation_failure_holds_directories_after_worker_drain",
+        "passed": true,
+        "detail": {
+          "renamed": false,
+          "error": 32,
+          "destination": "online/runtime_settings04/runs/lifecycle-3263c270bd/fixture/blocked-premature"
+        }
+      },
+      {
+        "name": "revocation_recovery_releases_directory_lease",
+        "passed": true,
+        "detail": null
+      }
+    ],
+    "cleanup": [
+      {
+        "process_key": "missingprocess",
+        "confirmed": true,
+        "base_records": 0,
+        "settings_records": 0
+      },
+      {
+        "process_key": "replacedprocess",
+        "confirmed": true,
+        "base_records": 0,
+        "settings_records": 0
+      },
+      {
+        "process_key": "naturalprocess",
+        "confirmed": true,
+        "base_records": 0,
+        "settings_records": 0
+      },
+      {
+        "process_key": "queryprocess",
+        "confirmed": true,
+        "base_records": 0,
+        "settings_records": 0
+      },
+      {
+        "process_key": "blockedprocess",
+        "confirmed": true,
+        "base_records": 0,
+        "settings_records": 0
+      }
+    ],
+    "elapsed_seconds": 1.0159999999887077,
+    "frozen03_manifest": "5041cbeb6c6785011e8df35763c4819e4e08cde7c16301fb790583bfc3f66079",
+    "fixture_premise": "Explicit cooperative test roots/children only; no production ACL policy and no arbitrary same-account writer isolation claim",
+    "fault_injection": "Negative query result after real query; refused route cleanup; real saturated pipe. No successful OS result fabricated.",
+    "unreal": false,
+    "permissions_changed": false,
+    "network": false,
+    "fixtures_retained": true,
+    "source_hashes": {
+      "child.py": "64495379ac269d804232ee80ebb0b0b1245ccea7a53f218429d194186a1b5956",
+      "run_lifecycle.py": "7c747c7975519ad8b7aa3b403abb5329d57bdb0f12bc244ef209735f3bc86380"
+    }
+  }
+}

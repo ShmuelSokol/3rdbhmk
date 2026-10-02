@@ -1,0 +1,72 @@
+{
+  "projection": true,
+  "original_relative_path": "runtime_settings02/outcome.json",
+  "original_sha256": "ac5f90b52761904e8184463598e5aa359f9dd4a0891b16af622d88292ab35d2b",
+  "redaction": "Known machine path prefixes mapped to logical locators; backslashes normalized in strings. Original receipt bytes remain local.",
+  "historical_status_override": null,
+  "data": {
+    "status": "actual Windows filesystem follow-through complete; source-only UE admission remains uncompiled/unrun",
+    "frozen01": {
+      "manifest_sha256": "0bf99f7c893e91be22442a615426b11ad5625b01f71a200d6cc458a8cd42fbd7",
+      "all_eight_pins_unchanged": true,
+      "pure_python_test_methods": 4,
+      "result": "passed separately"
+    },
+    "windows_execution": {
+      "receipt": "runs/windows-65a3e1f10b4c/receipt.json",
+      "sha256": "449052b5304f98567684b07c23a23ecd32d5ec18ebd390c18b857288a66c46b1",
+      "cases": 33,
+      "filesystem_checks": 15,
+      "race_limitation_reproductions": 4,
+      "handle_lease_experiments": 2,
+      "actual_windows_argument_checks": 12,
+      "elapsed_seconds": 0.0629999999946449
+    },
+    "preserved_failure": {
+      "receipt": "runs/windows-b5bf4b9360c1/receipt.json",
+      "sha256": "8acfec5d6aa69eda958b4452392284ee6cf98f15361d4b1d85698f6d338fe204",
+      "reason": "Incorrect experimental hypothesis that a retained FILE_READ_ATTRIBUTES handle without FILE_SHARE_DELETE blocks directory rename. Actual MoveFileW succeeded. Exact pre-correction test sources retained and hash matched to receipt."
+    },
+    "coverage": [
+      "ctypes executes real kernel32 CreateFileW/GetFileInformationByHandle/GetFinalPathNameByHandleW against owned NTFS-style filesystem fixtures. It transcribes the pinned C++ DiskPath control flow and uses frozen lexical contract. No FString/Unreal stubs, no pretend UE tests. Does NOT establish C++ compilation or full SettingsOwned runtime behavior.",
+      "Real FSCTL_SET_REPARSE_POINT junctions and CreateHardLinkW links target only other paths inside the same fresh owned fixture. Root replacement uses actual MoveFileW and real volume/file identity comparisons.",
+      "All 33 assertions passed, but four are successful demonstrations of incomplete security without exclusive ownership; they must not be counted as four isolation guarantees.",
+      "Actual shell32 CommandLineToArgvW confirms quoted UserDir with spaces and detects token differences. New strict exact-line/list validator refuses duplicate/conflicting/ambiguous tokens. It is not installed in frozen01 and is not UE FParse execution. Enclosing real launcher still needs whole-command validation and effective UE path readbacks."
+    ],
+    "findings": [
+      "Junction ancestor/root/file candidates refused; both hardlink names refused; missing final regular file allowed but missing directories/parents refused; changed root ID rejected on fresh check.",
+      "After root check returns, a root may be replaced and a later descendant path check may succeed against the replacement. Controlled replacement after ancestor handle closure inside walker likewise succeeds. Closed snapshots do not lock names.",
+      "A previously absent leaf can acquire a hardlink before a later write. A fresh check rejects that link; a cached true result provides no protection.",
+      "Metadata-only READ_ATTRIBUTES handle omitted FILE_SHARE_DELETE yet did not block rename on this machine. Do not implement a lease on that assumption.",
+      "Retained GENERIC_READ directory handle without FILE_SHARE_DELETE blocked root rename with ERROR_SHARING_VIOLATION=32. Rename succeeded after handle close. This proves one OS mechanism only: it does not stop descendant mutation, hardlink creation, or same-account hostile writers."
+    ],
+    "required_integration": "Keep settings01 frozen. Any later lease implementation must bind actual process/root identity and maintain exclusive ACL/identity ownership through writes and shutdown. A generic-read root handle may supplement but cannot replace these premises. If a real launcher cannot enforce them, SettingsOwned must stay false. No rewrite/adoption approved by these tests.",
+    "fixture_safety": {
+      "location": "runs/windows-*/fixture under this new folder only",
+      "external_targets": false,
+      "acl_or_permission_changes": false,
+      "ue_or_ubt": false,
+      "retained": true,
+      "junction_cleanup": "Exact created junction removed with RemoveDirectoryW, never recursive deletion or target traversal. Both cleanups passed. Regular files, hardlinks and renamed directories remain for review.",
+      "bounds": "33 final cases, at most 64 ownership slots inherited from source contract; tiny synthetic files. Each invocation was supervised with a 45-second subprocess timeout; in-run checks enforce 30-second cooperative budget. No claim Win32 filesystem calls themselves are preemptible."
+    },
+    "reproduce": {
+      "cwd": "online/runtime_settings02",
+      "command": "python -B run_windows_tests.py",
+      "prerequisites": "64-bit Windows on local fixed drive, permission to create owned directories/hardlinks/junctions; frozen runtime_settings01 sibling must match all pins. Unsupported operations fail, never skip into pass. Use an external 45-second timeout as in recorded run; no automatic repeats."
+    },
+    "publication_allowlist": [
+      "win32_predicate.py",
+      "run_windows_tests.py",
+      "outcome.json",
+      "manifest.json",
+      "runs/windows-b5bf4b9360c1/receipt.json",
+      "runs/windows-b5bf4b9360c1/source/win32_predicate.py",
+      "runs/windows-b5bf4b9360c1/source/run_windows_tests.py",
+      "runs/windows-65a3e1f10b4c/receipt.json",
+      "runs/windows-65a3e1f10b4c/source/win32_predicate.py",
+      "runs/windows-65a3e1f10b4c/source/run_windows_tests.py"
+    ],
+    "excluded": "All fixture directories/files/links; no production assets/config or shader files copied. No publication performed."
+  }
+}

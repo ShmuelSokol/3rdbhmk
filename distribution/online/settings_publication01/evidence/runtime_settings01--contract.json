@@ -1,0 +1,41 @@
+{
+  "projection": true,
+  "original_relative_path": "runtime_settings01/contract.json",
+  "original_sha256": "998e956092e3b6792d42fd556565114739872418f001fee4f6247ac5fc1f0073",
+  "redaction": "Known machine path prefixes mapped to logical locators; backslashes normalized in strings. Original receipt bytes remain local.",
+  "historical_status_override": "settings01 HOLD P1 lazy getter/P2 path lengths; superseded only by03 source fixes",
+  "data": {
+    "revision": "runtime_settings01",
+    "status": "source-only admission candidate; no C++ compile, UE execution, runtime isolation or persistence success claimed",
+    "scope": "All writes confined to this new folder. No project, existing OnlineWalkthrough, shader, config, map, asset, or publication edits. No commits/native/UBT.",
+    "launcher": {
+      "generator": "launcher_contract.py:launch_inputs",
+      "root": "Fresh local absolute DOS session directory allocated by trusted supervisor, never inferred from browser slot prefixes. No re-use across sessions.",
+      "identity": "Bind process_key, session generation, child PID plus creation identity, root volume serial and 64-bit file index to a live trusted IOwnedSessionLease. Root/slot/prefix getters are immutable. IsLiveForCurrentProcess checks the actual process identity and lease, not a boolean copied from the client.",
+      "arguments": "Append exactly the generated five tokens. UserDir value is quoted in exact_suffix. No arbitrary appended args. Reject duplicate UserDir, SaveDirSuffix, INI/config filename redirections, sandbox paths and other config overrides in the enclosing launcher. Generator never starts a process.",
+      "directories": "Pre-create the five returned directories before engine initialization. Never copy existing private Saved/config files. Game.ini, GameUserSettings.ini and .sav files may initially be absent; all parent directories must exist.",
+      "ownership": "Supervisor must establish and retain exclusive process/session allocation and a restricted OS identity or equivalent ACL isolation. Other session identities must lack create/write/delete/change-permission rights to this root. Trusted parent ancestors cannot be replaced. Same-account untrusted writers are NOT isolated merely by distinct directories or a marker file.",
+      "lifetime": "Ownership lasts through pending async saves, periodic/quit autosaves and terminal job cleanup. Keep root/private files after failure. Never release root to a new owner while engine workers or save callbacks remain alive. Lease implementation is required integration work, not supplied as a fake always-true default.",
+      "startup": "Apply UserDir before FPaths/config/subsystem initialization. Subsystem Initialize may read/write before remote SettingsOwned is invoked: this callback cannot retroactively prove startup IO isolation. Enclosing bootstrap must withhold remote readiness until this admission succeeds; a later native audit must also cover earliest startup writes. No full startup isolation claim here."
+    },
+    "runtime_predicate": {
+      "entry": "SettingsOwnedCallback.h adapts the real controller/GI subsystem objects to existing SettingsOwned callback. Caller retains its immediate ValidRemote and Authority fence revalidation after bounded path IO.",
+      "effective_paths": "Read FPaths::ProjectUserDir and ProjectSavedDir; require exact Root/User and Root/User/Saved, not string prefix containment. Resolve actual loaded Game branch IniPath using FindBranchWithNoReload for each actual Config=Game class, and compare with GGameIni branch. GetConfigName may be Game, not a filename. Require Root/User/Saved/Config/Windows/Game.ini. Also require effective GameUserSettings.ini path.",
+      "save_backend": "Compare virtual Features.GetSaveGameSystem() pointer with qualified Features.IPlatformFeaturesModule::GetSaveGameSystem(), whose source returns the stock shared FGenericSaveGameSystem singleton. No downcast, protected GetSaveGamePath access, or backend guess from INI. Reject different backend. Generic backend derives actual filename from live ProjectSavedDir + SaveGames + slot + .sav.",
+      "slots": "Read actual Settings.SaveSlot, SaveUserIndex, Saves.SlotNamePrefix, UserIndex, SlotCount and MakeSlotName for every manual/autosave slot. Bound count to 1..64 and reject unsafe components, duplicate case-insensitive slots, or ownership mismatch. Settings slot and save prefix do not by themselves prove directory isolation.",
+      "filesystem": "Win32 read-only no-follow handles inspect every existing ancestor from drive root; reject reparse attributes, final normalized DOS path aliases, non-directory parents and existing multi-link save/INI files. Only final regular files may be missing. Compare root volume/file identity with trusted lease. No filesystem writes by predicate.",
+      "normalization": "Strict ASCII local drive-absolute paths, max 240 characters, no relative/dot/dotdot/UNC/device/ADS/repeated separators/control chars/trailing dots or spaces/reserved device components. Slash style and case normalize for equality only. Reparse/alias checks are physical and separate from lexical normalization. Unicode/long-path/UNC support deliberately absent, fail closed.",
+      "writer_surface": "Reject pre-save config delegate binding, custom graphics settings class/cloud-update delegate, editor mode, GlobalConfig properties and DefaultConfig/GlobalUserConfig/PerObjectConfig classes. Accept stock physical file singleton, optionally under one source-audited PakFile wrapper; reject other wrappers and managed-storage builds. Config temp writes use ProjectSavedDir, also validated. Trusted installed build must match pinned source closure; names alone are not protection from injected code.",
+      "race_boundary": "Read-only path checks are observations, not locks or ACL enforcement. Handles close before SaveConfig; exclusive lifetime ACL/ownership premise prevents TOCTOU replacement and cross-session hardlinks. Trusted game-thread config state and platform/file chain must not mutate between predicate and immediate action. No delayed reuse of true result. These premises must be enforced by supervisor; arbitrary injected/native code is outside boundary.",
+      "limitations": "Bool proves conditional destination admission, not that writes happened/succeeded. ToggleSound returns void and SaveConfig has no propagated success receipt. No native proof of actual FileManager/Pak/module chain, cloud hook state, class flags, or reparse behavior has run. Unexpected supported-runtime variation rejects until independently audited. This callback gates remote mute; it is not installed on all settings/autosave/quit entry points."
+    },
+    "offline_tests": "python -B -m unittest -v test_paths.py; actual pure-Python path and argument contract only. No fake UE objects or simulated native pass.",
+    "required_later_validation": [
+      "Independent source/API review, then separately authorized compile of candidate C++ in a new isolated build closure; no compile permission implied now.",
+      "Trusted lease/ACL bootstrap integration with real process/root identity. Fail closed if missing; no slot-prefix substitute.",
+      "Authorized packaged runtime readbacks of Game branch IniPath, saved dir, backend pointer equality, file chain, hook/class state and all real slot paths before remote admission.",
+      "Two isolated roots: exercise actual mute/settings/manual/autosave/quit, show changed files only in correct root; no cross-session mutation. Include startup IO and async shutdown lifetime.",
+      "Negative runtime tests: Game branch redirection, wrong root/generation, junction/reparse ancestor, hardlinked leaf, custom backend/delegate/file wrapper, slot traversal/collision, revoked lease. No launch or such mutations performed in this task."
+    ]
+  }
+}

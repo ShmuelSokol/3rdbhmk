@@ -241,3 +241,17 @@ export; the genuine pure dialog/mailbox headers passed10 cases/28 checks in two
 independent MSVC runs. These checks do not compile or accept the UE integration,
 start streaming, or prove browser play. The proposed controller patch still needs
 engine compilation and possession/pause/flight runtime verification.
+
+## Owned settings lifecycle source checkpoint — 2 October 2026
+
+The settings_publication01 allowlist preserves the source chain and its explicit
+limitations:01 was held for a creating settings getter and invalid derived path
+lengths;03 fixes both and composes retained directory handles with the existing
+owned child lifecycle. Cooperative Windows fixtures passed33 cases in02 and21
+cases in04, independently replayed. Eighteen portable source tests cover the
+path/control-flow contract. These are not UE settings or browser acceptance.
+
+The closure contains no operational exclusive-ownership allocator. A deployment
+must establish that premise; missing ownership still refuses launch. Native
+settings lease transport, startup IO and actual game persistence remain pending.
+No active project configuration, map or packaged executable is changed.

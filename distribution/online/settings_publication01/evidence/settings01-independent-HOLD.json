@@ -1,0 +1,79 @@
+{
+  "projection": true,
+  "original_sha256": "dd113569182b10762615dcb052f33088e464541fee017ed47854c40c862363a7",
+  "data": {
+    "verdict": "HOLD read-only admission claim: lazy GameUserSettings getter can load/write before validation. No native isolation acceptance.",
+    "manifestSha256": "0bf99f7c893e91be22442a615426b11ad5625b01f71a200d6cc458a8cd42fbd7",
+    "sourceRoot": "online/runtime_settings01",
+    "checks": {
+      "frozenManifestFiles": 8,
+      "primarySourcePins": 29,
+      "freshPurePythonTests": 4,
+      "additionalPurePathCounterexamples": 1,
+      "actualWin32TestsRunByReviewer": 0,
+      "CppOrUeCompilation": 0,
+      "UEExecution": 0
+    },
+    "findings": [
+      {
+        "priority": "P1",
+        "file": "SessionSettingsAdmission.cpp",
+        "line": 133,
+        "title": "Lazy graphics getter can perform IO before destination admission",
+        "trigger": "Valid controller/GI/subsystems and live lease, but GEngine.GameUserSettings is null. This is not rejected as an unsupported state; the predicate calls the creating getter before root/path/backend/class checks. A custom settings class may also be created before exact-class rejection.",
+        "sourceChain": [
+          "SessionSettingsAdmission.cpp133 calls GEngine->GetGameUserSettings; root validation begins137, config and branch checks later",
+          "UnrealEngine.cpp17956-17962 getter calls CreateGameUserSettings if null",
+          "UnrealEngine.cpp17938-17943 calls LoadConfigIni, NewObject with configured class, SetToDefaults and LoadSettings",
+          "GameUserSettings.cpp603-653 loads effective config and writes SaveConfig(CPF_Config,*GGameUserSettingsIni) if deprecated window positions require migration",
+          "GameUserSettings.cpp700-745 LoadConfigIni also contains conditional low-integrity config migration copy"
+        ],
+        "impact": "Predicate can reload config, invoke custom object code or write to an as-yet unvalidated effective destination even if it subsequently returns false. This contradicts its read-only/no-config-reload boundary; external startup caveats do not cover IO initiated by this predicate.",
+        "correction": "Use non-creating public GEngine->GameUserSettings.Get() readback (Engine.h872 public), require IsValid and exact stock class, and fail closed when uninitialized. Perform initialization only in explicitly audited bootstrap startup scope. Add source/real-UE validation for null and custom-class paths without fake UE.",
+        "evidence": "Actual installed source chain; no UE execution performed."
+      },
+      {
+        "priority": "P2",
+        "file": "launcher_contract.py",
+        "line": 36,
+        "title": "Accepted root may generate paths runtime Canon must reject",
+        "trigger": "Valid230-character root made from three75-character components is accepted by launch_inputs. It returns Game.ini265chars,GameUserSettings.ini277chars,save directory251chars, all rejected by the same240-character canonical policy.",
+        "impact": "Generated launch contract may be impossible to admit after startup. Fail-closed availability defect, not isolation bypass.",
+        "correction": "Validate every derived directory/INI and longest supported actual save filename against Canon length/component policy before returning arguments. Keep runtime limits unchanged.",
+        "evidence": "local-review-evidence/settings01-review-ziuqhbid/length-counterexample.json"
+      }
+    ],
+    "effectivePathAudit": [
+      "Paths.cpp caches -UserDir on first use; ProjectUserDir uses it and GameSavedDir derives Saved plus optional suffix. GeneratedConfigDir is platform-driven: effective branch destinations, not generated intent alone, must remain checked.",
+      "Class.cpp GetConfigName returns logical Game for known configs. FindBranchWithNoReload resolves known/other branches; public IniPath is actual SaveBranch destination. SaveConfig may flush/delete destination or temp-write under ProjectSavedDir. Predicate excludes Default/GlobalUser/PerObject and inherited GlobalConfig redirections.",
+      "GameUserSettings SaveSettings uses GGameUserSettingsIni for scalability and SaveConfig; cloud delegate guards and exact stock class narrow write surface but getter side-effect defect precedes those guards.",
+      "Windows platform module caches a custom/generic backend; empty Engine config alone is insufficient. Exact equality against qualified base singleton correctly identifies stock generic path construction ProjectSavedDir+SaveGames+Name.sav.",
+      "Actual MakeSlotName uses00..SlotCount-1 then_Auto atSlotCount. Inclusive enumeration0..SlotCount and case-insensitive collision set correctly cover manual/autosave plus settings slot; users0 and count1..64 constrained.",
+      "Generic IFileManager is a stock static singleton; physical file-chain identity or one audited PakFile forwarding layer is conditional on trusted source/module closure. Wrapper name alone is not adversarial code authentication."
+    ],
+    "lifetimeAndFilesystemAudit": [
+      "Callback captures strong lease and weak controller, reacquires actual GI subsystems on each invocation, and checks live lease at entry/exit. It does not capture dangling stack references or cache a true result. Existing mute caller rechecks ValidRemote and Authority fence after path IO.",
+      "Strong lease callback retention does not implement whole-process/async-save ownership. IOwnedSessionLease has no implementation here; supervisor must enforce immutable process/root/generation identities and retain root until saves/owned cleanup complete.",
+      "Win32 predicate walks drive/root/ancestors with no-follow opens, normalized final DOS equality, directory type, reparse and leaf hardlink-count checks; root volume+64bit file identity compared against lease. Only final files may be absent. This is source intent, not actual Win32 proof in this review.",
+      "Handles permit write/delete sharing and close before action; root identity is observed, not locked across later writes. ACL/exclusive-root/immutable-ancestor premises are essential and not implemented/tested here. Same-account untrusted writers can race if those premises are omitted.",
+      "Ignore-case ASCII equality, local fixed-drive limitation, strict components and exact expected paths avoid sibling-prefix acceptance. Unicode/UNC/long-path/custom-wrapper support deliberately refused.",
+      "Four pure-Python tests do not exercise FString canonicalization, Win32 no-follow semantics, CloseHandle failure, junction/hardlink/root identity or UE branch lookup. Gauss additive real-Windows tests are separate and were not modified or counted."
+    ],
+    "startupScope": [
+      "Actual UMikdashSettingsSubsystem::Initialize calls Load then ApplyAll; graphics ApplySettings can SaveSettings before this remote mute callback. Existing manual/autosave/quit paths do not all invoke SettingsOwned.",
+      "UserDir/config/slot bootstrap and ACLs must be established before first cached paths/subsystem initialization. Successful remote predicate cannot retroactively prove earlier startup IO or future ungated writes isolated.",
+      "ToggleSound SaveConfig has no propagated persistence success receipt. This predicate can only conditionally admit destinations; no actual write-success claim."
+    ],
+    "extraPrimarySourcePins": {
+      "external-ue58-engine/Source/Runtime/Engine/Private/UnrealEngine.cpp": "a856525bd245039126444ff9978c1bf68ffadd76aeaf340b01da30d608af84bf",
+      "external-ue58-engine/Source/Runtime/Engine/Classes/Engine/Engine.h": "dc5e7f587405df64c7fd92ee57aba8c0ef54ada6118de6810cd77e30c6893152",
+      "online/native/receiver04/OnlineController.cpp": "9e79eed945d9d17e6534e3875cbec8e62b35de6c454120564d519b48199285fd"
+    },
+    "pureTestLogSha256": "bd058f5dbca4c013da54e0e27e9a91df8cfbf68373f2e23d37445e5622b3267e",
+    "rootCounterexampleSha256": "c6f8faee35efe5e2b196dc4d66f42170fe9e336717f997ba328b839396f82b14",
+    "frozenPayloadPreserved": true,
+    "GaussPayloadEdited": false,
+    "productionEdited": false,
+    "nativeLaunched": false
+  }
+}

@@ -1,0 +1,3240 @@
+{
+  "status": "measured_not_adopted",
+  "mode": "baseline",
+  "seconds": 600,
+  "exitCode": 0,
+  "sourceHashes": {
+    "Plugins/MikdashRuntime/Tests/CrowdBoundaryMathTest.cpp": "5c359eec74c0bfb10e50daf799d374e296e9083307540a09d870e1af5c2ab13b",
+    "Plugins/MikdashRuntime/Tests/CrowdBoundaryCadenceStudy.h": "d539357953037737dc42300794ae688d48ec607d236ea5ba4c230a8ec2fb928f",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdGroupMath.h": "a5c7b6a6b093ad93b358ddb81f6999bfb0ea7daac18a6a8e3c52697c383d3e39",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdFieldMath.h": "9bf96573f3082fcbaacd537102cae3faff513f6c139922910c47928d1122debb",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashCrowdField.cpp": "8a8ef49652634e077b5d68cc63e0d257520837681a00be1ec20900fb31e60176",
+    "Plugins/MikdashRuntime/Tests/CrowdReservationMathTest.cpp": "28966388de185a275ec1b5fdf7cdc55b9b728fc63ada06d36abf0cbf9cf6c0a2",
+    "Plugins/MikdashRuntime/Tests/CrowdGroupMathTest.cpp": "bfffb665ba867d284a32e5db2f33f45b3b7235cb5460f35014475eff1a5f1f40",
+    "Plugins/MikdashRuntime/Tests/CrowdLocalRouteMathTest.cpp": "9956a03b20ab6e778cec0abb3aab619df74ed9d2e192f436bf71876864c5ab44"
+  },
+  "liveSourcesUnchanged": {
+    "Plugins/MikdashRuntime/Tests/CrowdBoundaryMathTest.cpp": true,
+    "Plugins/MikdashRuntime/Tests/CrowdBoundaryCadenceStudy.h": true,
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdGroupMath.h": true,
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdFieldMath.h": true,
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashCrowdField.cpp": true,
+    "Plugins/MikdashRuntime/Tests/CrowdReservationMathTest.cpp": true,
+    "Plugins/MikdashRuntime/Tests/CrowdGroupMathTest.cpp": true,
+    "Plugins/MikdashRuntime/Tests/CrowdLocalRouteMathTest.cpp": true
+  },
+  "baselineFidelity": true,
+  "rows": {
+    "group-metrics": [
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "leaderTravel": 14668.190579437773,
+        "lateLeaderTravel": 536.6335934376259,
+        "allTravel": 29089.943209915495,
+        "lateAllTravel": 1226.4469702566869,
+        "refusals": 90.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 152.114857095545,
+        "maxFormation": 308.8764475767114,
+        "finalLag": 129.26607966103393,
+        "finalFormation": 129.26848938598675,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "leaderTravel": 11250.187427804862,
+        "lateLeaderTravel": 495.37272723227187,
+        "allTravel": 23192.181129834073,
+        "lateAllTravel": 927.5646154389603,
+        "refusals": 120.0,
+        "waits": 128.0,
+        "minSpacing": 80.0804587535996,
+        "maxLag": 405.85586876283554,
+        "maxFormation": 550.2900403312921,
+        "finalLag": 38.67701568807409,
+        "finalFormation": 38.77291773770077,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "leaderTravel": 12357.578236032416,
+        "lateLeaderTravel": 580.7212274855682,
+        "allTravel": 36647.341558066015,
+        "lateAllTravel": 2014.8948781209574,
+        "refusals": 93.0,
+        "waits": 0.0,
+        "minSpacing": 80.13786898325502,
+        "maxLag": 232.76946951491902,
+        "maxFormation": 321.07002264971425,
+        "finalLag": 243.9240604610904,
+        "finalFormation": 294.7083637298066,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "leaderTravel": 10650.641326452325,
+        "lateLeaderTravel": 679.9727831279258,
+        "allTravel": 33519.68315415514,
+        "lateAllTravel": 1890.6694857613106,
+        "refusals": 163.0,
+        "waits": 167.0,
+        "minSpacing": 80.0,
+        "maxLag": 405.85586876283554,
+        "maxFormation": 550.2900403312921,
+        "finalLag": 190.75408548172396,
+        "finalFormation": 201.7108360317917,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "leaderTravel": 10389.10253652442,
+        "lateLeaderTravel": 389.7246745840328,
+        "allTravel": 64059.00010451478,
+        "lateAllTravel": 2619.400180937164,
+        "refusals": 90.0,
+        "waits": 0.0,
+        "minSpacing": 80.4355976072492,
+        "maxLag": 183.22561615274236,
+        "maxFormation": 338.8252288918329,
+        "finalLag": 10.995932866862944,
+        "finalFormation": 39.24888711727164,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "leaderTravel": 8680.554089518197,
+        "lateLeaderTravel": 314.788432890667,
+        "allTravel": 55367.64826427695,
+        "lateAllTravel": 1875.6350134750815,
+        "refusals": 248.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 240.69233833354693,
+        "maxFormation": 524.0664563326751,
+        "finalLag": 23.98483033283344,
+        "finalFormation": 28.196281657875584,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "leaderTravel": 13422.284901244124,
+        "lateLeaderTravel": 632.5103710245467,
+        "allTravel": 27226.274102623564,
+        "lateAllTravel": 1373.5884084926963,
+        "refusals": 0.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 0.0,
+        "maxFormation": 0.0,
+        "finalLag": 287.61216588938254,
+        "finalFormation": 287.6148321171455,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "leaderTravel": 11130.940076242812,
+        "lateLeaderTravel": 697.901610199878,
+        "allTravel": 22232.85951772642,
+        "lateAllTravel": 1087.677542983778,
+        "refusals": 0.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 0.0,
+        "maxFormation": 0.0,
+        "finalLag": 111.96509929993196,
+        "finalFormation": 114.13338302588214,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "leaderTravel": 11961.607267576741,
+        "lateLeaderTravel": 332.7963628199266,
+        "allTravel": 33489.49835413889,
+        "lateAllTravel": 1482.882870105514,
+        "refusals": 0.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 0.0,
+        "maxFormation": 0.0,
+        "finalLag": 176.46592731537396,
+        "finalFormation": 180.59610401947177,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "leaderTravel": 9811.593448588053,
+        "lateLeaderTravel": 527.6771610201588,
+        "allTravel": 30150.63349938115,
+        "lateAllTravel": 1393.9503338672614,
+        "refusals": 0.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 0.0,
+        "maxFormation": 0.0,
+        "finalLag": 16.228662607423686,
+        "finalFormation": 29.56249264657172,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "leaderTravel": 9920.908009898018,
+        "lateLeaderTravel": 480.3505041434138,
+        "allTravel": 58580.155606048145,
+        "lateAllTravel": 2700.4820878741857,
+        "refusals": 0.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 0.0,
+        "maxFormation": 0.0,
+        "finalLag": 108.50687707690922,
+        "finalFormation": 119.00451385359428,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "leaderTravel": 7927.151218741193,
+        "lateLeaderTravel": 395.919553955044,
+        "allTravel": 47028.15770268101,
+        "lateAllTravel": 2452.2316337536577,
+        "refusals": 0.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 0.0,
+        "maxFormation": 0.0,
+        "finalLag": 154.55786045458575,
+        "finalFormation": 284.5178744159427,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      }
+    ],
+    "member-metrics": [
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 14668.190579437773,
+        "late0": 0.0,
+        "late1": 201.70430157960504,
+        "late2": 334.92929185802103,
+        "longestLateStopFrames": 333.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 14421.752630477722,
+        "late0": 299.57488940585245,
+        "late1": 360.0,
+        "late2": 30.238487413208297,
+        "longestLateStopFrames": 352.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 11250.187427804862,
+        "late0": 208.24975271932342,
+        "late1": 275.1044702614019,
+        "late2": 12.01850425154661,
+        "longestLateStopFrames": 449.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 11941.99370202921,
+        "late0": 24.590293568160007,
+        "late1": 227.7621165493721,
+        "late2": 179.83947808915633,
+        "longestLateStopFrames": 252.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 12357.578236032416,
+        "late0": 477.06081460476616,
+        "late1": 0.0,
+        "late2": 103.66041288080264,
+        "longestLateStopFrames": 466.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 12302.547226577959,
+        "late0": 101.34755238729798,
+        "late1": 183.07829340125141,
+        "late2": 429.74780484683924,
+        "longestLateStopFrames": 118.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 11987.21609545564,
+        "late0": 360.0,
+        "late1": 0.0,
+        "late2": 360.0,
+        "longestLateStopFrames": 473.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 10650.641326452325,
+        "late0": 188.8082471644048,
+        "late1": 210.78957648862988,
+        "late2": 280.374959474889,
+        "longestLateStopFrames": 177.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 11196.53977708117,
+        "late0": 319.0590928611795,
+        "late1": 50.15741696842685,
+        "late2": 151.19034533447504,
+        "longestLateStopFrames": 396.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 11672.502050621642,
+        "late0": 240.86354018147227,
+        "late1": 162.463236443341,
+        "late2": 286.9630708444922,
+        "longestLateStopFrames": 215.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 10389.10253652442,
+        "late0": 55.5555559694767,
+        "late1": 304.4444440305233,
+        "late2": 29.724674584032886,
+        "longestLateStopFrames": 467.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 10429.828577704091,
+        "late0": 10.301575072754241,
+        "late1": 191.9185938395876,
+        "late2": 208.22443942219326,
+        "longestLateStopFrames": 268.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 12128.291803445627,
+        "late0": 238.55438318496772,
+        "late1": 368.1223312812415,
+        "late2": 9.938079899999094,
+        "longestLateStopFrames": 448.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 3.0,
+        "id": 18.0,
+        "totalTravel": 10425.886097983981,
+        "late0": 10.307764064044152,
+        "late1": 372.24757269147494,
+        "late2": 0.0,
+        "longestLateStopFrames": 407.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 4.0,
+        "id": 19.0,
+        "totalTravel": 10484.81031038757,
+        "late0": 82.17911684223132,
+        "late1": 330.0,
+        "late2": 10.301575072754213,
+        "longestLateStopFrames": 460.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 5.0,
+        "id": 20.0,
+        "totalTravel": 10201.080778469093,
+        "late0": 20.6155281280883,
+        "late1": 179.6010417501488,
+        "late2": 197.36350510364602,
+        "longestLateStopFrames": 281.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 8680.554089518197,
+        "late0": 195.95107734460333,
+        "late1": 118.83735554606334,
+        "late2": 0.0,
+        "longestLateStopFrames": 513.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 8772.301791928305,
+        "late0": 246.80957843731454,
+        "late1": 0.0,
+        "late2": 0.0,
+        "longestLateStopFrames": 793.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 10716.392364790336,
+        "late0": 150.7127626387404,
+        "late1": 150.8010292149057,
+        "late2": 225.94174372377447,
+        "longestLateStopFrames": 73.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 3.0,
+        "id": 18.0,
+        "totalTravel": 9175.964300854599,
+        "late0": 234.28369785630088,
+        "late1": 0.0,
+        "late2": 0.0,
+        "longestLateStopFrames": 795.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 4.0,
+        "id": 19.0,
+        "totalTravel": 9211.373808081777,
+        "late0": 153.3044349858574,
+        "late1": 177.65262966761819,
+        "late2": 0.0,
+        "longestLateStopFrames": 369.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 5.0,
+        "id": 20.0,
+        "totalTravel": 8811.061909103735,
+        "late0": 221.3407040599031,
+        "late1": 0.0,
+        "late2": 0.0,
+        "longestLateStopFrames": 801.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 13422.284901244124,
+        "late0": 316.56277893172654,
+        "late1": 234.4444440305233,
+        "late2": 81.50314806229683,
+        "longestLateStopFrames": 352.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 13803.98920137944,
+        "late0": 30.238487413208297,
+        "late1": 232.72693205248754,
+        "late2": 478.1126180024537,
+        "longestLateStopFrames": 245.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 11130.940076242812,
+        "late0": 247.2190668833007,
+        "late1": 285.996683133735,
+        "late2": 164.6858601828414,
+        "longestLateStopFrames": 228.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 11101.91944148361,
+        "late0": 125.43373997212603,
+        "late1": 37.75316336130049,
+        "late2": 226.58902945047438,
+        "longestLateStopFrames": 449.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 11961.607267576741,
+        "late0": 87.22222201526165,
+        "late1": 72.87625741059325,
+        "late2": 172.69788339407157,
+        "longestLateStopFrames": 466.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 11046.945292550332,
+        "late0": 167.83721047061246,
+        "late1": 316.1134064534758,
+        "late2": 201.6914463309759,
+        "longestLateStopFrames": 219.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 10480.945794011814,
+        "late0": 104.4444440305233,
+        "late1": 212.77777798473835,
+        "late2": 147.22222201526165,
+        "longestLateStopFrames": 473.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 9811.593448588053,
+        "late0": 167.6771610201586,
+        "late1": 360.0,
+        "late2": 0.0,
+        "longestLateStopFrames": 417.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 9909.784590684756,
+        "late0": 12.01850425154663,
+        "late1": 177.26667094658941,
+        "late2": 189.62347996569915,
+        "longestLateStopFrames": 294.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 10429.255460108343,
+        "late0": 127.36451768326765,
+        "late1": 360.0,
+        "late2": 0.0,
+        "longestLateStopFrames": 414.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 9920.908009898018,
+        "late0": 120.35050414341376,
+        "late1": 360.0,
+        "late2": 0.0,
+        "longestLateStopFrames": 336.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 9046.087702585075,
+        "late0": 0.0,
+        "late1": 101.34755238729798,
+        "late2": 183.07829340125141,
+        "longestLateStopFrames": 427.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 11245.75515383348,
+        "late0": 195.14953535711598,
+        "late1": 506.9954383990657,
+        "late2": 14.444684031584142,
+        "longestLateStopFrames": 294.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 3.0,
+        "id": 18.0,
+        "totalTravel": 9514.283797683504,
+        "late0": 0.0,
+        "late1": 251.69156432145334,
+        "late2": 130.86377243406562,
+        "longestLateStopFrames": 440.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 4.0,
+        "id": 19.0,
+        "totalTravel": 9566.585377957414,
+        "late0": 153.5251583897207,
+        "late1": 380.0,
+        "late2": 0.0,
+        "longestLateStopFrames": 309.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 5.0,
+        "id": 20.0,
+        "totalTravel": 9286.535564090656,
+        "late0": 0.0,
+        "late1": 101.44309091693275,
+        "late2": 201.592494092284,
+        "longestLateStopFrames": 440.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 7927.151218741193,
+        "late0": 0.0,
+        "late1": 175.86950999384504,
+        "late2": 220.05004396119895,
+        "longestLateStopFrames": 376.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 8024.783803957169,
+        "late0": 199.15617522770293,
+        "late1": 361.24790390415444,
+        "late2": 0.0,
+        "longestLateStopFrames": 318.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 8578.388111739026,
+        "late0": 0.0,
+        "late1": 106.51376303292017,
+        "late2": 144.01010900177175,
+        "longestLateStopFrames": 393.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 3.0,
+        "id": 18.0,
+        "totalTravel": 7488.12347319863,
+        "late0": 0.0,
+        "late1": 379.99999999999983,
+        "late2": 0.0,
+        "longestLateStopFrames": 410.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 4.0,
+        "id": 19.0,
+        "totalTravel": 7500.181050238572,
+        "late0": 0.0,
+        "late1": 141.1450465628744,
+        "late2": 164.60510026444223,
+        "longestLateStopFrames": 385.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 5.0,
+        "id": 20.0,
+        "totalTravel": 7509.530044806424,
+        "late0": 179.63398180474834,
+        "late1": 379.9999999999998,
+        "late2": 0.0,
+        "longestLateStopFrames": 326.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      }
+    ],
+    "recovery": [
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 2620.0,
+        "turnVisits": 16449.0,
+        "drainVisits": 2.0,
+        "maxYaw": 3.000000156462221,
+        "invalid": 0.0,
+        "unfinishedSeconds": 577.4000301137567,
+        "steps0": 1315.0,
+        "steps1": 1305.0,
+        "steps2": 0.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 70.0,
+        "expanded": 3527.0,
+        "peakExpanded": 268.0,
+        "queries": 10045.0,
+        "replans": 0.0,
+        "unplayable": 0.0,
+        "forwardLegs": 33.0,
+        "plannerFailures": 0.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 4059.0,
+        "dwell": 9769.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 1631.0,
+        "turnVisits": 7450.0,
+        "drainVisits": 3.0,
+        "maxYaw": 3.0000001564621925,
+        "invalid": 0.0,
+        "unfinishedSeconds": 568.0000296235085,
+        "steps0": 800.0,
+        "steps1": 831.0,
+        "steps2": 0.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 56.0,
+        "expanded": 3124.0,
+        "peakExpanded": 363.0,
+        "queries": 8661.0,
+        "replans": 0.0,
+        "unplayable": 0.0,
+        "forwardLegs": 26.0,
+        "plannerFailures": 0.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 3111.0,
+        "dwell": 2707.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 3259.0,
+        "turnVisits": 20214.0,
+        "drainVisits": 2.0,
+        "maxYaw": 3.000000156462221,
+        "invalid": 0.0,
+        "unfinishedSeconds": 580.9333636313677,
+        "steps0": 1103.0,
+        "steps1": 1093.0,
+        "steps2": 1063.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 133.0,
+        "expanded": 6617.0,
+        "peakExpanded": 555.0,
+        "queries": 18461.0,
+        "replans": 27.0,
+        "unplayable": 0.0,
+        "forwardLegs": 26.0,
+        "plannerFailures": 21.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 5431.0,
+        "dwell": 11522.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 2305.0,
+        "turnVisits": 10479.0,
+        "drainVisits": 4.0,
+        "maxYaw": 3.0000001564621925,
+        "invalid": 0.0,
+        "unfinishedSeconds": 568.0000296235085,
+        "steps0": 752.0,
+        "steps1": 778.0,
+        "steps2": 775.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 115.0,
+        "expanded": 6625.0,
+        "peakExpanded": 660.0,
+        "queries": 17668.0,
+        "replans": 24.0,
+        "unplayable": 0.0,
+        "forwardLegs": 23.0,
+        "plannerFailures": 15.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 4449.0,
+        "dwell": 3725.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 5719.0,
+        "turnVisits": 40702.0,
+        "drainVisits": 12.0,
+        "maxYaw": 3.000000156462221,
+        "invalid": 0.0,
+        "unfinishedSeconds": 585.0666971802711,
+        "steps0": 922.0,
+        "steps1": 918.0,
+        "steps2": 1092.0,
+        "steps3": 932.0,
+        "steps4": 941.0,
+        "steps5": 914.0,
+        "plans": 195.0,
+        "expanded": 13608.0,
+        "peakExpanded": 490.0,
+        "queries": 35916.0,
+        "replans": 20.0,
+        "unplayable": 0.0,
+        "forwardLegs": 22.0,
+        "plannerFailures": 31.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 9187.0,
+        "dwell": 25794.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 3689.0,
+        "turnVisits": 17508.0,
+        "drainVisits": 6.0,
+        "maxYaw": 3.000000156462221,
+        "invalid": 0.0,
+        "unfinishedSeconds": 565.9000295139849,
+        "steps0": 564.0,
+        "steps1": 573.0,
+        "steps2": 732.0,
+        "steps3": 621.0,
+        "steps4": 604.0,
+        "steps5": 595.0,
+        "plans": 147.0,
+        "expanded": 12215.0,
+        "peakExpanded": 600.0,
+        "queries": 31534.0,
+        "replans": 19.0,
+        "unplayable": 0.0,
+        "forwardLegs": 17.0,
+        "plannerFailures": 11.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 7327.0,
+        "dwell": 6492.0
+      },
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 2717.0,
+        "turnVisits": 17085.0,
+        "drainVisits": 1.0,
+        "maxYaw": 3.000000156462221,
+        "invalid": 0.0,
+        "unfinishedSeconds": 600.0000312924385,
+        "steps0": 1340.0,
+        "steps1": 1377.0,
+        "steps2": 0.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 72.0,
+        "expanded": 3617.0,
+        "peakExpanded": 272.0,
+        "queries": 10323.0,
+        "replans": 0.0,
+        "unplayable": 0.0,
+        "forwardLegs": 34.0,
+        "plannerFailures": 0.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 4199.0,
+        "dwell": 10169.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 1743.0,
+        "turnVisits": 7777.0,
+        "drainVisits": 1.0,
+        "maxYaw": 3.0000001564621925,
+        "invalid": 0.0,
+        "unfinishedSeconds": 600.0000312924385,
+        "steps0": 872.0,
+        "steps1": 871.0,
+        "steps2": 0.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 58.0,
+        "expanded": 2966.0,
+        "peakExpanded": 272.0,
+        "queries": 8447.0,
+        "replans": 0.0,
+        "unplayable": 0.0,
+        "forwardLegs": 27.0,
+        "plannerFailures": 0.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 3309.0,
+        "dwell": 2725.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 3323.0,
+        "turnVisits": 19959.0,
+        "drainVisits": 1.0,
+        "maxYaw": 3.000000156462221,
+        "invalid": 0.0,
+        "unfinishedSeconds": 600.0000312924385,
+        "steps0": 1186.0,
+        "steps1": 1089.0,
+        "steps2": 1048.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 102.0,
+        "expanded": 5726.0,
+        "peakExpanded": 129.0,
+        "queries": 16224.0,
+        "replans": 14.0,
+        "unplayable": 0.0,
+        "forwardLegs": 28.0,
+        "plannerFailures": 0.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 5582.0,
+        "dwell": 11054.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 2366.0,
+        "turnVisits": 10657.0,
+        "drainVisits": 1.0,
+        "maxYaw": 3.0000001564621925,
+        "invalid": 0.0,
+        "unfinishedSeconds": 600.0000312924385,
+        "steps0": 767.0,
+        "steps1": 781.0,
+        "steps2": 818.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 119.0,
+        "expanded": 5604.0,
+        "peakExpanded": 430.0,
+        "queries": 15733.0,
+        "replans": 24.0,
+        "unplayable": 0.0,
+        "forwardLegs": 25.0,
+        "plannerFailures": 15.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 4737.0,
+        "dwell": 3553.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 5802.0,
+        "turnVisits": 40265.0,
+        "drainVisits": 1.0,
+        "maxYaw": 3.000000156462221,
+        "invalid": 0.0,
+        "unfinishedSeconds": 600.0000312924385,
+        "steps0": 988.0,
+        "steps1": 892.0,
+        "steps2": 1109.0,
+        "steps3": 946.0,
+        "steps4": 945.0,
+        "steps5": 922.0,
+        "plans": 188.0,
+        "expanded": 12335.0,
+        "peakExpanded": 375.0,
+        "queries": 33064.0,
+        "replans": 16.0,
+        "unplayable": 0.0,
+        "forwardLegs": 23.0,
+        "plannerFailures": 26.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 9326.0,
+        "dwell": 25137.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 3706.0,
+        "turnVisits": 17437.0,
+        "drainVisits": 1.0,
+        "maxYaw": 3.000000156462221,
+        "invalid": 0.0,
+        "unfinishedSeconds": 600.0000312924385,
+        "steps0": 620.0,
+        "steps1": 632.0,
+        "steps2": 680.0,
+        "steps3": 591.0,
+        "steps4": 590.0,
+        "steps5": 593.0,
+        "plans": 151.0,
+        "expanded": 10124.0,
+        "peakExpanded": 272.0,
+        "queries": 27426.0,
+        "replans": 19.0,
+        "unplayable": 0.0,
+        "forwardLegs": 18.0,
+        "plannerFailures": 13.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 7468.0,
+        "dwell": 6263.0
+      }
+    ]
+  },
+  "motionMetrics": [
+    {
+      "members": 2,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.32322222222222224,
+      "travellingMovingFraction": 0.3018660812294182,
+      "final30MovingFraction": 0.23777777777777778,
+      "maxPause": {
+        "startSeconds": 36.766666666666666,
+        "endSeconds": 54.86666666666667,
+        "seconds": 18.1,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 16.633333333333333,
+          "yaw_alignment": 1.4666666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 67.16666666666667,
+        "endSeconds": 80.6,
+        "seconds": 13.433333333333334,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 11.833333333333334,
+          "yaw_alignment": 1.6
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 581.1,
+        "seconds": 11.1,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 9.5,
+          "yaw_alignment": 1.6
+        }
+      }
+    },
+    {
+      "members": 2,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.3191111111111111,
+      "travellingMovingFraction": 0.29881692889376754,
+      "final30MovingFraction": 0.30666666666666664,
+      "maxPause": {
+        "startSeconds": 85.5,
+        "endSeconds": 97.26666666666667,
+        "seconds": 11.766666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 10.166666666666666,
+          "yaw_alignment": 1.6
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 85.5,
+        "endSeconds": 97.26666666666667,
+        "seconds": 11.766666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 10.166666666666666,
+          "yaw_alignment": 1.6
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 586.0333333333333,
+        "endSeconds": 597.7666666666667,
+        "seconds": 11.733333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 10.133333333333333,
+          "yaw_alignment": 1.6
+        }
+      }
+    },
+    {
+      "members": 2,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.24416666666666667,
+      "travellingMovingFraction": 0.237408266951013,
+      "final30MovingFraction": 0.21444444444444444,
+      "maxPause": {
+        "startSeconds": 87.63333333333334,
+        "endSeconds": 105.46666666666667,
+        "seconds": 17.833333333333332,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 13.266666666666667,
+          "yaw_alignment": 4.533333333333333
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 87.63333333333334,
+        "endSeconds": 105.46666666666667,
+        "seconds": 17.833333333333332,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 13.266666666666667,
+          "yaw_alignment": 4.533333333333333
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 584.0333333333333,
+        "endSeconds": 599.0,
+        "seconds": 14.966666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 10.466666666666667,
+          "yaw_alignment": 4.5
+        }
+      }
+    },
+    {
+      "members": 2,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.26272222222222225,
+      "travellingMovingFraction": 0.2382863952831964,
+      "final30MovingFraction": 0.18777777777777777,
+      "maxPause": {
+        "startSeconds": 234.36666666666667,
+        "endSeconds": 249.36666666666667,
+        "seconds": 15.0,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 10.433333333333334,
+          "yaw_alignment": 4.533333333333333
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 234.36666666666667,
+        "endSeconds": 249.36666666666667,
+        "seconds": 15.0,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 10.433333333333334,
+          "yaw_alignment": 4.533333333333333
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 578.4,
+        "seconds": 8.4,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 3.9,
+          "yaw_alignment": 4.5
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.274,
+      "travellingMovingFraction": 0.2530703386676591,
+      "final30MovingFraction": 0.25666666666666665,
+      "maxPause": {
+        "startSeconds": 34.53333333333333,
+        "endSeconds": 64.06666666666666,
+        "seconds": 29.533333333333335,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 28.066666666666666,
+          "yaw_alignment": 1.4666666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 120.4,
+        "endSeconds": 135.93333333333334,
+        "seconds": 15.533333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.066666666666666,
+          "yaw_alignment": 1.4666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 579.1,
+        "endSeconds": 594.6333333333333,
+        "seconds": 15.533333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.066666666666666,
+          "yaw_alignment": 1.4666666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.27094444444444443,
+      "travellingMovingFraction": 0.25015506760947775,
+      "final30MovingFraction": 0.31222222222222223,
+      "maxPause": {
+        "startSeconds": 100.2,
+        "endSeconds": 115.23333333333333,
+        "seconds": 15.033333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 13.666666666666666,
+          "yaw_alignment": 1.3666666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 100.2,
+        "endSeconds": 115.23333333333333,
+        "seconds": 15.033333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 13.666666666666666,
+          "yaw_alignment": 1.3666666666666667
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 573.9333333333333,
+        "seconds": 3.933333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 2.566666666666667,
+          "yaw_alignment": 1.3666666666666667
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.2611111111111111,
+      "travellingMovingFraction": 0.24215357896042675,
+      "final30MovingFraction": 0.32,
+      "maxPause": {
+        "startSeconds": 99.46666666666667,
+        "endSeconds": 115.83333333333333,
+        "seconds": 16.366666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.4,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 99.46666666666667,
+        "endSeconds": 115.83333333333333,
+        "seconds": 16.366666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.4,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 579.3333333333334,
+        "endSeconds": 595.1,
+        "seconds": 15.766666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 13.8,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.23083333333333333,
+      "travellingMovingFraction": 0.23085438916384476,
+      "final30MovingFraction": 0.29444444444444445,
+      "maxPause": {
+        "startSeconds": 54.9,
+        "endSeconds": 91.43333333333334,
+        "seconds": 36.53333333333333,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 33.2,
+          "yaw_alignment": 3.3
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 190.9,
+        "endSeconds": 209.36666666666667,
+        "seconds": 18.466666666666665,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 14.3,
+          "yaw_alignment": 4.133333333333334
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 594.1,
+        "endSeconds": 600.0,
+        "seconds": 5.9,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 5.866666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.2477777777777778,
+      "travellingMovingFraction": 0.22987757228444908,
+      "final30MovingFraction": 0.22555555555555556,
+      "maxPause": {
+        "startSeconds": 68.46666666666667,
+        "endSeconds": 91.06666666666666,
+        "seconds": 22.6,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 19.666666666666668,
+          "yaw_alignment": 2.933333333333333
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 171.4,
+        "endSeconds": 184.6,
+        "seconds": 13.2,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 9.333333333333334,
+          "yaw_alignment": 3.8333333333333335
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 574.6,
+        "endSeconds": 587.8,
+        "seconds": 13.2,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 9.333333333333334,
+          "yaw_alignment": 3.8333333333333335
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.2513888888888889,
+      "travellingMovingFraction": 0.2236910653816098,
+      "final30MovingFraction": 0.3,
+      "maxPause": {
+        "startSeconds": 191.0,
+        "endSeconds": 210.7,
+        "seconds": 19.7,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.133333333333333,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 191.0,
+        "endSeconds": 210.7,
+        "seconds": 19.7,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.133333333333333,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 581.7666666666667,
+        "endSeconds": 588.9333333333333,
+        "seconds": 7.166666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 2.1666666666666665,
+          "yaw_alignment": 4.966666666666667
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.22905555555555557,
+      "travellingMovingFraction": 0.20639081320601635,
+      "final30MovingFraction": 0.17222222222222222,
+      "maxPause": {
+        "startSeconds": 40.36666666666667,
+        "endSeconds": 67.53333333333333,
+        "seconds": 27.166666666666668,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 25.566666666666666,
+          "yaw_alignment": 1.6
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 72.33333333333333,
+        "endSeconds": 92.46666666666667,
+        "seconds": 20.133333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 19.3,
+          "yaw_alignment": 0.8333333333333334
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 584.0666666666667,
+        "endSeconds": 599.6333333333333,
+        "seconds": 15.566666666666666,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.1,
+          "yaw_alignment": 1.4666666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.2288888888888889,
+      "travellingMovingFraction": 0.20670286463209137,
+      "final30MovingFraction": 0.17777777777777778,
+      "maxPause": {
+        "startSeconds": 117.96666666666667,
+        "endSeconds": 140.03333333333333,
+        "seconds": 22.066666666666666,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 20.7,
+          "yaw_alignment": 1.3666666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 117.96666666666667,
+        "endSeconds": 140.03333333333333,
+        "seconds": 22.066666666666666,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 20.7,
+          "yaw_alignment": 1.3666666666666667
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 578.9333333333333,
+        "seconds": 8.933333333333334,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 7.566666666666666,
+          "yaw_alignment": 1.3666666666666667
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.26266666666666666,
+      "travellingMovingFraction": 0.253885040254634,
+      "final30MovingFraction": 0.27111111111111114,
+      "maxPause": {
+        "startSeconds": 38.166666666666664,
+        "endSeconds": 67.06666666666666,
+        "seconds": 28.9,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 27.733333333333334,
+          "yaw_alignment": 1.1666666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 77.13333333333334,
+        "endSeconds": 92.6,
+        "seconds": 15.466666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.5,
+          "yaw_alignment": 0.9666666666666667
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 584.9,
+        "endSeconds": 599.8333333333334,
+        "seconds": 14.933333333333334,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 13.233333333333333,
+          "yaw_alignment": 1.7
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 3,
+      "movingFraction": 0.232,
+      "travellingMovingFraction": 0.21119640516757163,
+      "final30MovingFraction": 0.1688888888888889,
+      "maxPause": {
+        "startSeconds": 44.266666666666666,
+        "endSeconds": 67.8,
+        "seconds": 23.533333333333335,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 21.633333333333333,
+          "yaw_alignment": 1.9
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 117.4,
+        "endSeconds": 140.46666666666667,
+        "seconds": 23.066666666666666,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 21.233333333333334,
+          "yaw_alignment": 1.8333333333333333
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 586.4333333333333,
+        "endSeconds": 600.0,
+        "seconds": 13.566666666666666,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 11.7,
+          "yaw_alignment": 1.8666666666666667
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 4,
+      "movingFraction": 0.22711111111111112,
+      "travellingMovingFraction": 0.2166885102664919,
+      "final30MovingFraction": 0.18777777777777777,
+      "maxPause": {
+        "startSeconds": 33.233333333333334,
+        "endSeconds": 67.1,
+        "seconds": 33.86666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 32.666666666666664,
+          "yaw_alignment": 1.2
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 145.5,
+        "endSeconds": 160.83333333333334,
+        "seconds": 15.333333333333334,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 13.733333333333333,
+          "yaw_alignment": 1.6
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 584.4,
+        "endSeconds": 599.7333333333333,
+        "seconds": 15.333333333333334,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 13.733333333333333,
+          "yaw_alignment": 1.6
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 5,
+      "movingFraction": 0.2233888888888889,
+      "travellingMovingFraction": 0.21225738001622668,
+      "final30MovingFraction": 0.17444444444444446,
+      "maxPause": {
+        "startSeconds": 39.3,
+        "endSeconds": 67.46666666666667,
+        "seconds": 28.166666666666668,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 26.6,
+          "yaw_alignment": 1.5666666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 117.36666666666666,
+        "endSeconds": 140.46666666666667,
+        "seconds": 23.1,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 21.266666666666666,
+          "yaw_alignment": 1.8333333333333333
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 579.3666666666667,
+        "seconds": 9.366666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 7.533333333333333,
+          "yaw_alignment": 1.8333333333333333
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.19194444444444445,
+      "travellingMovingFraction": 0.1637953536935526,
+      "final30MovingFraction": 0.13666666666666666,
+      "maxPause": {
+        "startSeconds": 48.96666666666667,
+        "endSeconds": 93.4,
+        "seconds": 44.43333333333333,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 40.266666666666666,
+          "yaw_alignment": 4.133333333333334
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 120.2,
+        "endSeconds": 149.7,
+        "seconds": 29.5,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 25.233333333333334,
+          "yaw_alignment": 4.233333333333333
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 582.9,
+        "endSeconds": 600.0,
+        "seconds": 17.1,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 14.766666666666667,
+          "yaw_alignment": 2.3
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.19527777777777777,
+      "travellingMovingFraction": 0.1664056382145654,
+      "final30MovingFraction": 0.10555555555555556,
+      "maxPause": {
+        "startSeconds": 156.46666666666667,
+        "endSeconds": 184.53333333333333,
+        "seconds": 28.066666666666666,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 24.2,
+          "yaw_alignment": 3.8666666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 156.46666666666667,
+        "endSeconds": 184.53333333333333,
+        "seconds": 28.066666666666666,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 24.2,
+          "yaw_alignment": 3.8666666666666667
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 573.5666666666667,
+        "endSeconds": 600.0,
+        "seconds": 26.433333333333334,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 24.1,
+          "yaw_alignment": 2.3
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.23277777777777778,
+      "travellingMovingFraction": 0.20523362046463065,
+      "final30MovingFraction": 0.23333333333333334,
+      "maxPause": {
+        "startSeconds": 120.6,
+        "endSeconds": 150.26666666666668,
+        "seconds": 29.666666666666668,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 24.866666666666667,
+          "yaw_alignment": 4.8
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 120.6,
+        "endSeconds": 150.26666666666668,
+        "seconds": 29.666666666666668,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 24.866666666666667,
+          "yaw_alignment": 4.8
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 597.5666666666667,
+        "endSeconds": 600.0,
+        "seconds": 2.433333333333333,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 0.1,
+          "yaw_alignment": 2.3
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 3,
+      "movingFraction": 0.20666666666666667,
+      "travellingMovingFraction": 0.17423649177760375,
+      "final30MovingFraction": 0.10333333333333333,
+      "maxPause": {
+        "startSeconds": 155.6,
+        "endSeconds": 185.73333333333332,
+        "seconds": 30.133333333333333,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 24.933333333333334,
+          "yaw_alignment": 5.166666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 155.6,
+        "endSeconds": 185.73333333333332,
+        "seconds": 30.133333333333333,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 24.933333333333334,
+          "yaw_alignment": 5.166666666666667
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 573.5,
+        "endSeconds": 600.0,
+        "seconds": 26.5,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 24.1,
+          "yaw_alignment": 2.4
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 4,
+      "movingFraction": 0.1988888888888889,
+      "travellingMovingFraction": 0.17554163403811016,
+      "final30MovingFraction": 0.14444444444444443,
+      "maxPause": {
+        "startSeconds": 121.06666666666666,
+        "endSeconds": 149.9,
+        "seconds": 28.833333333333332,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 24.266666666666666,
+          "yaw_alignment": 4.533333333333333
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 121.06666666666666,
+        "endSeconds": 149.9,
+        "seconds": 28.833333333333332,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 24.266666666666666,
+          "yaw_alignment": 4.533333333333333
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 587.7,
+        "endSeconds": 600.0,
+        "seconds": 12.3,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 9.866666666666667,
+          "yaw_alignment": 2.4
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 5,
+      "movingFraction": 0.1975,
+      "travellingMovingFraction": 0.17097363612633776,
+      "final30MovingFraction": 0.09777777777777778,
+      "maxPause": {
+        "startSeconds": 156.16666666666666,
+        "endSeconds": 185.76666666666668,
+        "seconds": 29.6,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 24.366666666666667,
+          "yaw_alignment": 5.2
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 156.16666666666666,
+        "endSeconds": 185.76666666666668,
+        "seconds": 29.6,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 24.366666666666667,
+          "yaw_alignment": 5.2
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 573.3,
+        "endSeconds": 600.0,
+        "seconds": 26.7,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 24.266666666666666,
+          "yaw_alignment": 2.4
+        }
+      }
+    },
+    {
+      "members": 2,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.29777777777777775,
+      "travellingMovingFraction": 0.298127870010597,
+      "final30MovingFraction": 0.2811111111111111,
+      "maxPause": {
+        "startSeconds": 13.133333333333333,
+        "endSeconds": 35.266666666666666,
+        "seconds": 22.133333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 20.666666666666668,
+          "yaw_alignment": 1.4666666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 47.56666666666667,
+        "endSeconds": 61.0,
+        "seconds": 13.433333333333334,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 11.833333333333334,
+          "yaw_alignment": 1.6
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 583.1333333333333,
+        "endSeconds": 594.8666666666667,
+        "seconds": 11.733333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 10.133333333333333,
+          "yaw_alignment": 1.6
+        }
+      }
+    },
+    {
+      "members": 2,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.306,
+      "travellingMovingFraction": 0.3051925114800424,
+      "final30MovingFraction": 0.3288888888888889,
+      "maxPause": {
+        "startSeconds": 65.9,
+        "endSeconds": 77.66666666666667,
+        "seconds": 11.766666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 10.166666666666666,
+          "yaw_alignment": 1.6
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 65.9,
+        "endSeconds": 77.66666666666667,
+        "seconds": 11.766666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 10.166666666666666,
+          "yaw_alignment": 1.6
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 578.1666666666666,
+        "seconds": 8.166666666666666,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 6.566666666666666,
+          "yaw_alignment": 1.6
+        }
+      }
+    },
+    {
+      "members": 2,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.24222222222222223,
+      "travellingMovingFraction": 0.24010881778934295,
+      "final30MovingFraction": 0.30333333333333334,
+      "maxPause": {
+        "startSeconds": 17.233333333333334,
+        "endSeconds": 40.53333333333333,
+        "seconds": 23.3,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 19.1,
+          "yaw_alignment": 4.166666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 54.9,
+        "endSeconds": 72.7,
+        "seconds": 17.8,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 13.266666666666667,
+          "yaw_alignment": 4.5
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 592.4,
+        "endSeconds": 600.0,
+        "seconds": 7.6,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 7.566666666666666
+        }
+      }
+    },
+    {
+      "members": 2,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.24194444444444443,
+      "travellingMovingFraction": 0.2380389141877107,
+      "final30MovingFraction": 0.17,
+      "maxPause": {
+        "startSeconds": 78.23333333333333,
+        "endSeconds": 93.23333333333333,
+        "seconds": 15.0,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 10.433333333333334,
+          "yaw_alignment": 4.533333333333333
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 78.23333333333333,
+        "endSeconds": 93.23333333333333,
+        "seconds": 15.0,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 10.433333333333334,
+          "yaw_alignment": 4.533333333333333
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 571.8,
+        "endSeconds": 586.7666666666667,
+        "seconds": 14.966666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 10.466666666666667,
+          "yaw_alignment": 4.5
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.26355555555555554,
+      "travellingMovingFraction": 0.25264114506418267,
+      "final30MovingFraction": 0.14555555555555555,
+      "maxPause": {
+        "startSeconds": 70.76666666666667,
+        "endSeconds": 86.3,
+        "seconds": 15.533333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.066666666666666,
+          "yaw_alignment": 1.4666666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 70.76666666666667,
+        "endSeconds": 86.3,
+        "seconds": 15.533333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.066666666666666,
+          "yaw_alignment": 1.4666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 571.1666666666666,
+        "endSeconds": 586.7,
+        "seconds": 15.533333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.066666666666666,
+          "yaw_alignment": 1.4666666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.242,
+      "travellingMovingFraction": 0.24741565375440192,
+      "final30MovingFraction": 0.3,
+      "maxPause": {
+        "startSeconds": 50.56666666666667,
+        "endSeconds": 65.6,
+        "seconds": 15.033333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 13.666666666666666,
+          "yaw_alignment": 1.3666666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 50.56666666666667,
+        "endSeconds": 65.6,
+        "seconds": 15.033333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 13.666666666666666,
+          "yaw_alignment": 1.3666666666666667
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 592.7,
+        "endSeconds": 600.0,
+        "seconds": 7.3,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 7.3
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.2328888888888889,
+      "travellingMovingFraction": 0.23810064750653187,
+      "final30MovingFraction": 0.20666666666666667,
+      "maxPause": {
+        "startSeconds": 49.833333333333336,
+        "endSeconds": 66.2,
+        "seconds": 16.366666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.4,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 49.833333333333336,
+        "endSeconds": 66.2,
+        "seconds": 16.366666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.4,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 571.4,
+        "endSeconds": 587.1666666666666,
+        "seconds": 15.766666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 13.8,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.21305555555555555,
+      "travellingMovingFraction": 0.2254821260583255,
+      "final30MovingFraction": 0.22777777777777777,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 37.13333333333333,
+        "seconds": 37.13333333333333,
+        "causesSeconds": {
+          "moving_or_initial": 0.03333333333333333,
+          "arrived_waiting_cohort": 33.03333333333333,
+          "yaw_alignment": 4.066666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 138.1,
+        "endSeconds": 156.56666666666666,
+        "seconds": 18.466666666666665,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 14.3,
+          "yaw_alignment": 4.133333333333334
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 586.1,
+        "endSeconds": 600.0,
+        "seconds": 13.9,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 13.866666666666667
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.217,
+      "travellingMovingFraction": 0.229656632173095,
+      "final30MovingFraction": 0.16777777777777778,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 36.766666666666666,
+        "seconds": 36.766666666666666,
+        "causesSeconds": {
+          "moving_or_initial": 0.03333333333333333,
+          "arrived_waiting_cohort": 33.06666666666667,
+          "yaw_alignment": 3.6666666666666665
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 118.6,
+        "endSeconds": 131.8,
+        "seconds": 13.2,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 9.333333333333334,
+          "yaw_alignment": 3.8333333333333335
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 579.8,
+        "seconds": 9.8,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 5.966666666666667,
+          "yaw_alignment": 3.8333333333333335
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.22722222222222221,
+      "travellingMovingFraction": 0.21842662276575728,
+      "final30MovingFraction": 0.2111111111111111,
+      "maxPause": {
+        "startSeconds": 138.2,
+        "endSeconds": 157.9,
+        "seconds": 19.7,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.133333333333333,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 138.2,
+        "endSeconds": 157.9,
+        "seconds": 19.7,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 14.133333333333333,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 586.2,
+        "endSeconds": 600.0,
+        "seconds": 13.8,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 13.8
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.21955555555555556,
+      "travellingMovingFraction": 0.20553269318701417,
+      "final30MovingFraction": 0.21333333333333335,
+      "maxPause": {
+        "startSeconds": 46.13333333333333,
+        "endSeconds": 68.5,
+        "seconds": 22.366666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 20.866666666666667,
+          "yaw_alignment": 1.5
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 46.13333333333333,
+        "endSeconds": 68.5,
+        "seconds": 22.366666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 20.866666666666667,
+          "yaw_alignment": 1.5
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 573.3666666666667,
+        "endSeconds": 584.5666666666667,
+        "seconds": 11.2,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 9.5,
+          "yaw_alignment": 1.7
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.19822222222222222,
+      "travellingMovingFraction": 0.2039323273891175,
+      "final30MovingFraction": 0.12444444444444444,
+      "maxPause": {
+        "startSeconds": 74.46666666666667,
+        "endSeconds": 96.56666666666666,
+        "seconds": 22.1,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 20.733333333333334,
+          "yaw_alignment": 1.3666666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 74.46666666666667,
+        "endSeconds": 96.56666666666666,
+        "seconds": 22.1,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 20.733333333333334,
+          "yaw_alignment": 1.3666666666666667
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 584.2333333333333,
+        "seconds": 14.233333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 12.866666666666667,
+          "yaw_alignment": 1.3666666666666667
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.24644444444444444,
+      "travellingMovingFraction": 0.253543667123914,
+      "final30MovingFraction": 0.31555555555555553,
+      "maxPause": {
+        "startSeconds": 46.266666666666666,
+        "endSeconds": 68.7,
+        "seconds": 22.433333333333334,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 20.733333333333334,
+          "yaw_alignment": 1.7
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 46.266666666666666,
+        "endSeconds": 68.7,
+        "seconds": 22.433333333333334,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 20.733333333333334,
+          "yaw_alignment": 1.7
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 590.2,
+        "endSeconds": 600.0,
+        "seconds": 9.8,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 9.8
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 3,
+      "movingFraction": 0.21022222222222223,
+      "travellingMovingFraction": 0.2162780064014632,
+      "final30MovingFraction": 0.1688888888888889,
+      "maxPause": {
+        "startSeconds": 73.66666666666667,
+        "endSeconds": 97.0,
+        "seconds": 23.333333333333332,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 21.5,
+          "yaw_alignment": 1.8333333333333333
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 73.66666666666667,
+        "endSeconds": 97.0,
+        "seconds": 23.333333333333332,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 21.5,
+          "yaw_alignment": 1.8333333333333333
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 584.6666666666666,
+        "seconds": 14.666666666666666,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 12.833333333333334,
+          "yaw_alignment": 1.8333333333333333
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 4,
+      "movingFraction": 0.21,
+      "travellingMovingFraction": 0.21604938271604937,
+      "final30MovingFraction": 0.23555555555555555,
+      "maxPause": {
+        "startSeconds": 45.53333333333333,
+        "endSeconds": 68.56666666666666,
+        "seconds": 23.033333333333335,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 21.433333333333334,
+          "yaw_alignment": 1.6
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 45.53333333333333,
+        "endSeconds": 68.56666666666666,
+        "seconds": 23.033333333333335,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 21.433333333333334,
+          "yaw_alignment": 1.6
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 589.7,
+        "endSeconds": 600.0,
+        "seconds": 10.3,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 10.3
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 5,
+      "movingFraction": 0.2048888888888889,
+      "travellingMovingFraction": 0.21079103795153178,
+      "final30MovingFraction": 0.13333333333333333,
+      "maxPause": {
+        "startSeconds": 73.86666666666666,
+        "endSeconds": 97.0,
+        "seconds": 23.133333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 21.3,
+          "yaw_alignment": 1.8333333333333333
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 73.86666666666666,
+        "endSeconds": 97.0,
+        "seconds": 23.133333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 21.3,
+          "yaw_alignment": 1.8333333333333333
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 584.6666666666666,
+        "seconds": 14.666666666666666,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 12.833333333333334,
+          "yaw_alignment": 1.8333333333333333
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.17222222222222222,
+      "travellingMovingFraction": 0.16605493724840162,
+      "final30MovingFraction": 0.17222222222222222,
+      "maxPause": {
+        "startSeconds": 79.0,
+        "endSeconds": 105.93333333333334,
+        "seconds": 26.933333333333334,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 22.7,
+          "yaw_alignment": 4.233333333333333
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 79.0,
+        "endSeconds": 105.93333333333334,
+        "seconds": 26.933333333333334,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 22.7,
+          "yaw_alignment": 4.233333333333333
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 582.5333333333333,
+        "seconds": 12.533333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 8.4,
+          "yaw_alignment": 4.133333333333334
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.17555555555555555,
+      "travellingMovingFraction": 0.16871892019891072,
+      "final30MovingFraction": 0.24444444444444444,
+      "maxPause": {
+        "startSeconds": 112.7,
+        "endSeconds": 140.76666666666668,
+        "seconds": 28.066666666666666,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 24.2,
+          "yaw_alignment": 3.8666666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 112.7,
+        "endSeconds": 140.76666666666668,
+        "seconds": 28.066666666666666,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 24.2,
+          "yaw_alignment": 3.8666666666666667
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 589.4,
+        "endSeconds": 600.0,
+        "seconds": 10.6,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 10.6
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.18888888888888888,
+      "travellingMovingFraction": 0.20127871181624438,
+      "final30MovingFraction": 0.1111111111111111,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 40.333333333333336,
+        "seconds": 40.333333333333336,
+        "causesSeconds": {
+          "moving_or_initial": 0.06666666666666667,
+          "arrived_waiting_cohort": 36.86666666666667,
+          "yaw_alignment": 3.4
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 79.36666666666666,
+        "endSeconds": 106.5,
+        "seconds": 27.133333333333333,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 22.3,
+          "yaw_alignment": 4.8
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 583.1,
+        "seconds": 13.1,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 8.3,
+          "yaw_alignment": 4.8
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 3,
+      "movingFraction": 0.16416666666666666,
+      "travellingMovingFraction": 0.17493488041676533,
+      "final30MovingFraction": 0.16666666666666666,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 42.4,
+        "seconds": 42.4,
+        "causesSeconds": {
+          "moving_or_initial": 0.06666666666666667,
+          "arrived_waiting_cohort": 36.86666666666667,
+          "yaw_alignment": 5.466666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 111.0,
+        "endSeconds": 141.96666666666667,
+        "seconds": 30.966666666666665,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 25.766666666666666,
+          "yaw_alignment": 5.166666666666667
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 583.6666666666666,
+        "seconds": 13.666666666666666,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 8.3,
+          "yaw_alignment": 5.366666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 4,
+      "movingFraction": 0.1638888888888889,
+      "travellingMovingFraction": 0.1746388823111532,
+      "final30MovingFraction": 0.13333333333333333,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 39.03333333333333,
+        "seconds": 39.03333333333333,
+        "causesSeconds": {
+          "moving_or_initial": 0.06666666666666667,
+          "arrived_waiting_cohort": 36.86666666666667,
+          "yaw_alignment": 2.1
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 79.0,
+        "endSeconds": 105.83333333333333,
+        "seconds": 26.833333333333332,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 22.666666666666668,
+          "yaw_alignment": 4.133333333333334
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 582.8333333333334,
+        "seconds": 12.833333333333334,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 8.3,
+          "yaw_alignment": 4.533333333333333
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 5,
+      "movingFraction": 0.16472222222222221,
+      "travellingMovingFraction": 0.17552687662798958,
+      "final30MovingFraction": 0.24444444444444444,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 42.03333333333333,
+        "seconds": 42.03333333333333,
+        "causesSeconds": {
+          "moving_or_initial": 0.06666666666666667,
+          "arrived_waiting_cohort": 36.9,
+          "yaw_alignment": 5.066666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 110.23333333333333,
+        "endSeconds": 142.0,
+        "seconds": 31.766666666666666,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 26.533333333333335,
+          "yaw_alignment": 5.2
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 589.1333333333333,
+        "endSeconds": 600.0,
+        "seconds": 10.866666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 10.866666666666667
+        }
+      }
+    }
+  ],
+  "causeMethod": "Actual rendered displacement per frame; zero-displacement frames inherit last scheduled decision, except completed-segment waiting is labelled schedule. Multiple causes can form a pause. Full-run and final30 pauses include censored boundary intervals.",
+  "localRawLogs": "C:\\Users\\shmue\\AppData\\Local\\Temp\\crowd-travelling-baseline-0op2biz5",
+  "runnerSha256": "50c730f28f9e4a96983874887b9d59d21a7bd6aefae10246351c19a24a338889",
+  "artifacts": {
+    "episodes.csv.gz": "35f3e821913d00eab01c7f6efe79b5fc5c5df104cd1ab647d02607139fc2ebd9",
+    "ExecutableRouteStudy.h.gz": "334183b43cdc1a88bdb2b7aab553ccaaeb5bd220319b0211e269afffa02a0919",
+    "fixture.cpp.gz": "1a68ce834087410cbd1b2ebfc2851a9b1149386c8525bf56d072381643870dc0",
+    "group-metrics.csv.gz": "b197b1957b3e8572b8f5e6a73843cc1c41ffb3b79cc3dbac2c1721d712e4cdf6",
+    "late-roots.csv.gz": "90129655436cdf347dad77656be7d2c91d64d8b2e14e491cf181afd07cd4cca8",
+    "member-metrics.csv.gz": "1b803569e9c2c9c62ca69893a7a182eca307e1d4f010fa3a11f58c6f8136446a",
+    "motion.csv.gz": "53a2bae885e8e1dca66ef21fd6befa1f0cd73f45e741dabc92b8ea08864cbcff",
+    "recovery.csv.gz": "56b3a9facff9535e0c806acd0bde99cf1e75606a71142c6785ae1c5943d1a4e1",
+    "RouteContinuityStudy.h.gz": "69214195d25d1d2f59d8e43cdb9d88f95cbfda36db5ae39b62878777cba3bf7c",
+    "run.log.gz": "e484f31b9b9e5d21cb2cdd67bb267f443f9525e4a042bcbdf80a9b942c48a42e"
+  }
+}

@@ -2104,3 +2104,19 @@ queued input is not a gameplay/frame ACK. Browser input starts only on WebRTC
 connection, stale ACKs fail their own deadline, and held touch refreshes at200ms.
 Publication pins preserve raw source bytes, including two CRLF source files;
 never normalize them without updating the evidence chain.
+
+
+## Travelling crowd study: partial motion success - 2 October 2026
+
+TravellingCohort01 retains collision/reservation and formation limits, replacing
+repeated all-member corner barriers with individual corner advancement on a bounded
+rolling route. Independent600s replay passes22,676,315 safety/math checks and
+reproduces six CSVs byte-for-byte. Sustained walking passes10 of12 long-run cases;
+the two six-member staggered cases still pause too much. This is NOT adoption or
+visual crowd acceptance. Eight production/test baseline sources remain unchanged.
+
+TravellingCohort01-Publication is a self-contained52-file source/CSV/receipt capsule.
+Its explicit publishFiles excludes historical raw/compressed diagnostic logs;
+reproduce.py extracts pinned sources, compiles a standalone MSVC fixture and compares
+new CSVs. Historical assessment retains omitted-local-log hashes for provenance.
+Further correction belongs in a separate study; never rewrite frozen failed cases.

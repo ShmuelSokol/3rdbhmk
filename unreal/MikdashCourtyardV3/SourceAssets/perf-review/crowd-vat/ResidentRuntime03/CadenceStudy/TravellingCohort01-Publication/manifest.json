@@ -1,0 +1,702 @@
+{
+  "schemaVersion": 1,
+  "status": "frozen_partial_acceptance_not_adopted",
+  "productionAdoption": false,
+  "frozenAssessmentSha256": "c545082b72705fda22c93a44393cd3f4e83df9678dc1adb95a100e891d7e8742",
+  "sourceHashes": {
+    "Plugins/MikdashRuntime/Tests/CrowdBoundaryMathTest.cpp": "5c359eec74c0bfb10e50daf799d374e296e9083307540a09d870e1af5c2ab13b",
+    "Plugins/MikdashRuntime/Tests/CrowdBoundaryCadenceStudy.h": "d539357953037737dc42300794ae688d48ec607d236ea5ba4c230a8ec2fb928f",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdGroupMath.h": "a5c7b6a6b093ad93b358ddb81f6999bfb0ea7daac18a6a8e3c52697c383d3e39",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdFieldMath.h": "9bf96573f3082fcbaacd537102cae3faff513f6c139922910c47928d1122debb",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashCrowdField.cpp": "8a8ef49652634e077b5d68cc63e0d257520837681a00be1ec20900fb31e60176",
+    "Plugins/MikdashRuntime/Tests/CrowdReservationMathTest.cpp": "28966388de185a275ec1b5fdf7cdc55b9b728fc63ada06d36abf0cbf9cf6c0a2",
+    "Plugins/MikdashRuntime/Tests/CrowdGroupMathTest.cpp": "bfffb665ba867d284a32e5db2f33f45b3b7235cb5460f35014475eff1a5f1f40",
+    "Plugins/MikdashRuntime/Tests/CrowdLocalRouteMathTest.cpp": "9956a03b20ab6e778cec0abb3aab619df74ed9d2e192f436bf71876864c5ab44"
+  },
+  "cases": {
+    "baseline600Replay": {
+      "checks": 22130397,
+      "inputs": [
+        {
+          "path": "shared/CrowdGroupMath.h.gz",
+          "compressedSha256": "15918e6ba3fe2f991900d548057cb7858d1034298f8c27d554ea99840d672a87",
+          "sourceSha256": "a5c7b6a6b093ad93b358ddb81f6999bfb0ea7daac18a6a8e3c52697c383d3e39",
+          "extractAs": "CrowdGroupMath.h"
+        },
+        {
+          "path": "shared/CrowdFieldMath.h.gz",
+          "compressedSha256": "146c838f38747d3cb66496bce17e6c80fe193f74fdcff440793bfb6470a6091b",
+          "sourceSha256": "9bf96573f3082fcbaacd537102cae3faff513f6c139922910c47928d1122debb",
+          "extractAs": "CrowdFieldMath.h"
+        },
+        {
+          "path": "shared/CrowdBoundaryCadenceStudy.h.gz",
+          "compressedSha256": "6b781594afc28644b8946b1d9059b5f25794ce05fa4301a3eb66d86a53363107",
+          "sourceSha256": "d539357953037737dc42300794ae688d48ec607d236ea5ba4c230a8ec2fb928f",
+          "extractAs": "CrowdBoundaryCadenceStudy.h"
+        },
+        {
+          "path": "runs/baseline600Replay/ExecutableRouteStudy.h.gz",
+          "compressedSha256": "334183b43cdc1a88bdb2b7aab553ccaaeb5bd220319b0211e269afffa02a0919",
+          "sourceSha256": "0a70341311d1216d3c9183c70967fdec6bfaa502ac959407caac18afd6870f76",
+          "extractAs": "ExecutableRouteStudy.h"
+        },
+        {
+          "path": "runs/baseline600Replay/fixture.cpp.gz",
+          "compressedSha256": "1a68ce834087410cbd1b2ebfc2851a9b1149386c8525bf56d072381643870dc0",
+          "sourceSha256": "51b6bc12ff072899288c80bd1703b084d812b5521ed32dd56cd4d80ea45dcb78",
+          "extractAs": "fixture.cpp"
+        },
+        {
+          "path": "runs/baseline600Replay/RouteContinuityStudy.h.gz",
+          "compressedSha256": "69214195d25d1d2f59d8e43cdb9d88f95cbfda36db5ae39b62878777cba3bf7c",
+          "sourceSha256": "ca8f7f6414ea7afdb2d9150e2abad826c8723e157775cff9c288596aee464b06",
+          "extractAs": "RouteContinuityStudy.h"
+        }
+      ],
+      "expectedCsv": [
+        {
+          "path": "runs/baseline600Replay/episodes.csv.gz",
+          "compressedSha256": "35f3e821913d00eab01c7f6efe79b5fc5c5df104cd1ab647d02607139fc2ebd9",
+          "csvSha256": "42bfa0f042055565d0a6bca1891d439436041eb7fa51fb0337641b007e3862ff",
+          "outputName": "episodes.csv"
+        },
+        {
+          "path": "runs/baseline600Replay/group-metrics.csv.gz",
+          "compressedSha256": "b197b1957b3e8572b8f5e6a73843cc1c41ffb3b79cc3dbac2c1721d712e4cdf6",
+          "csvSha256": "05fb5f697753e2b75f2c0af9ba4ee9b6d157ad81c1a3480a62c05b171b55ab40",
+          "outputName": "group-metrics.csv"
+        },
+        {
+          "path": "runs/baseline600Replay/late-roots.csv.gz",
+          "compressedSha256": "90129655436cdf347dad77656be7d2c91d64d8b2e14e491cf181afd07cd4cca8",
+          "csvSha256": "3f94023f43cc82f38a46db4fb62eab5d9e4cf1da761f85207c468b23525eb2c2",
+          "outputName": "late-roots.csv"
+        },
+        {
+          "path": "runs/baseline600Replay/member-metrics.csv.gz",
+          "compressedSha256": "1b803569e9c2c9c62ca69893a7a182eca307e1d4f010fa3a11f58c6f8136446a",
+          "csvSha256": "e14cd86a422cd68166aaa22d0dc9a9e1a582c0e98b8755a3b8e5489c0fbaa506",
+          "outputName": "member-metrics.csv"
+        },
+        {
+          "path": "runs/baseline600Replay/motion.csv.gz",
+          "compressedSha256": "53a2bae885e8e1dca66ef21fd6befa1f0cd73f45e741dabc92b8ea08864cbcff",
+          "csvSha256": "de7113ac1e081be80394cfb0539e0008dc31273901728d16fdaecc183cc1d2e7",
+          "outputName": "motion.csv"
+        },
+        {
+          "path": "runs/baseline600Replay/recovery.csv.gz",
+          "compressedSha256": "56b3a9facff9535e0c806acd0bde99cf1e75606a71142c6785ae1c5943d1a4e1",
+          "csvSha256": "bee5e8bcf42f4e33d11abfb81d0f411d732648f8a63952b0fc5a3a0f79a3ec1f",
+          "outputName": "recovery.csv"
+        }
+      ]
+    },
+    "candidate120Replay": {
+      "checks": 19838298,
+      "inputs": [
+        {
+          "path": "shared/CrowdGroupMath.h.gz",
+          "compressedSha256": "15918e6ba3fe2f991900d548057cb7858d1034298f8c27d554ea99840d672a87",
+          "sourceSha256": "a5c7b6a6b093ad93b358ddb81f6999bfb0ea7daac18a6a8e3c52697c383d3e39",
+          "extractAs": "CrowdGroupMath.h"
+        },
+        {
+          "path": "shared/CrowdFieldMath.h.gz",
+          "compressedSha256": "146c838f38747d3cb66496bce17e6c80fe193f74fdcff440793bfb6470a6091b",
+          "sourceSha256": "9bf96573f3082fcbaacd537102cae3faff513f6c139922910c47928d1122debb",
+          "extractAs": "CrowdFieldMath.h"
+        },
+        {
+          "path": "shared/CrowdBoundaryCadenceStudy.h.gz",
+          "compressedSha256": "6b781594afc28644b8946b1d9059b5f25794ce05fa4301a3eb66d86a53363107",
+          "sourceSha256": "d539357953037737dc42300794ae688d48ec607d236ea5ba4c230a8ec2fb928f",
+          "extractAs": "CrowdBoundaryCadenceStudy.h"
+        },
+        {
+          "path": "runs/candidate120Replay/ExecutableRouteStudy.h.gz",
+          "compressedSha256": "334183b43cdc1a88bdb2b7aab553ccaaeb5bd220319b0211e269afffa02a0919",
+          "sourceSha256": "0a70341311d1216d3c9183c70967fdec6bfaa502ac959407caac18afd6870f76",
+          "extractAs": "ExecutableRouteStudy.h"
+        },
+        {
+          "path": "runs/candidate120Replay/fixture.cpp.gz",
+          "compressedSha256": "64735f2f850f3fe3c5624bcfa444363e46562690c173c20f0dcd4b0fb4b4472f",
+          "sourceSha256": "7435a75f4947e429b79c236ca87c92e59dddb2119184de80080fd661ab663506",
+          "extractAs": "fixture.cpp"
+        },
+        {
+          "path": "runs/candidate120Replay/RouteContinuityStudy.h.gz",
+          "compressedSha256": "69214195d25d1d2f59d8e43cdb9d88f95cbfda36db5ae39b62878777cba3bf7c",
+          "sourceSha256": "ca8f7f6414ea7afdb2d9150e2abad826c8723e157775cff9c288596aee464b06",
+          "extractAs": "RouteContinuityStudy.h"
+        },
+        {
+          "path": "runs/candidate120Replay/TravellingCohortStudy.h.gz",
+          "compressedSha256": "697912cfca4ee0c1e902ffa735bfa61669264b8d7e700a355cd99b3a5ca1d0c8",
+          "sourceSha256": "c8174ada86e4fbd1503071d034869963d8d8908887f532fb2c4d347d48a39202",
+          "extractAs": "TravellingCohortStudy.h"
+        }
+      ],
+      "expectedCsv": [
+        {
+          "path": "runs/candidate120Replay/episodes.csv.gz",
+          "compressedSha256": "aeb6d8fb0465c8ab5b5de63c6225058f728bcc82bb55fb0d883a6aee9860deb4",
+          "csvSha256": "d194a0a5f20dd6f648f05136f135ac064d3ac1113a0a67aad59821a7d2a72d9d",
+          "outputName": "episodes.csv"
+        },
+        {
+          "path": "runs/candidate120Replay/group-metrics.csv.gz",
+          "compressedSha256": "f0738d941bc46e94e4e9f1bbc3d7a01061e045b08a060b050128bd823ea406b3",
+          "csvSha256": "845e8e4674eef24270030849b5e023595fc7d4923cbbec3ae5bb855d1bed279c",
+          "outputName": "group-metrics.csv"
+        },
+        {
+          "path": "runs/candidate120Replay/late-roots.csv.gz",
+          "compressedSha256": "91af00548817d203c4b80365f3b7318fbe8b13c6fdc730e906c7ebf2b94f22a0",
+          "csvSha256": "7b9fcbdc2b74506ac63ebb4a6dd7c6c1c16331d0f2cf71f8f282a62d1906356e",
+          "outputName": "late-roots.csv"
+        },
+        {
+          "path": "runs/candidate120Replay/member-metrics.csv.gz",
+          "compressedSha256": "c0ca3f5c613024a3453546e26c62d7cf3726cc8ed6d6afc59a8cce4b09f3c36b",
+          "csvSha256": "95b0124cc59d033c531f532ffcd8fea1b43b179672344cc1159e8b2af35376e6",
+          "outputName": "member-metrics.csv"
+        },
+        {
+          "path": "runs/candidate120Replay/motion.csv.gz",
+          "compressedSha256": "f547d7dd7f06d99d606298e2aee6d556ce5129dca9044c33f35e061087362d39",
+          "csvSha256": "0b9cd13e4b3f0a605ee12f76180ad315c60b7638f1b7ef596a6471aacb9b9c2e",
+          "outputName": "motion.csv"
+        },
+        {
+          "path": "runs/candidate120Replay/recovery.csv.gz",
+          "compressedSha256": "81c5a64148a7561825d7046e4dd4913ea2b0d09f35953e50399a4728c61fffd0",
+          "csvSha256": "a6c14f31dbd4b12d564b0c366050110894af0368a60400b59bc878a2b4b27f2b",
+          "outputName": "recovery.csv"
+        }
+      ]
+    },
+    "candidate120Verified": {
+      "checks": 19844472,
+      "inputs": [
+        {
+          "path": "shared/CrowdGroupMath.h.gz",
+          "compressedSha256": "15918e6ba3fe2f991900d548057cb7858d1034298f8c27d554ea99840d672a87",
+          "sourceSha256": "a5c7b6a6b093ad93b358ddb81f6999bfb0ea7daac18a6a8e3c52697c383d3e39",
+          "extractAs": "CrowdGroupMath.h"
+        },
+        {
+          "path": "shared/CrowdFieldMath.h.gz",
+          "compressedSha256": "146c838f38747d3cb66496bce17e6c80fe193f74fdcff440793bfb6470a6091b",
+          "sourceSha256": "9bf96573f3082fcbaacd537102cae3faff513f6c139922910c47928d1122debb",
+          "extractAs": "CrowdFieldMath.h"
+        },
+        {
+          "path": "shared/CrowdBoundaryCadenceStudy.h.gz",
+          "compressedSha256": "6b781594afc28644b8946b1d9059b5f25794ce05fa4301a3eb66d86a53363107",
+          "sourceSha256": "d539357953037737dc42300794ae688d48ec607d236ea5ba4c230a8ec2fb928f",
+          "extractAs": "CrowdBoundaryCadenceStudy.h"
+        },
+        {
+          "path": "runs/candidate120Verified/ExecutableRouteStudy.h.gz",
+          "compressedSha256": "334183b43cdc1a88bdb2b7aab553ccaaeb5bd220319b0211e269afffa02a0919",
+          "sourceSha256": "0a70341311d1216d3c9183c70967fdec6bfaa502ac959407caac18afd6870f76",
+          "extractAs": "ExecutableRouteStudy.h"
+        },
+        {
+          "path": "runs/candidate120Verified/fixture.cpp.gz",
+          "compressedSha256": "531539169d9abdf731d93c4b7ac44a1ac202f830d325ba2c089d02825fa880d0",
+          "sourceSha256": "33bac06e562d6eeea4ec47720d06f0f9b189d1d1860e20d9ed433519791cc955",
+          "extractAs": "fixture.cpp"
+        },
+        {
+          "path": "runs/candidate120Verified/RouteContinuityStudy.h.gz",
+          "compressedSha256": "69214195d25d1d2f59d8e43cdb9d88f95cbfda36db5ae39b62878777cba3bf7c",
+          "sourceSha256": "ca8f7f6414ea7afdb2d9150e2abad826c8723e157775cff9c288596aee464b06",
+          "extractAs": "RouteContinuityStudy.h"
+        },
+        {
+          "path": "runs/candidate120Verified/TravellingCohortStudy.h.gz",
+          "compressedSha256": "2deb85255c1007ccebd223e8bbcccbd3792400d371c9bd10cb2cca7e53aadd5a",
+          "sourceSha256": "474d780ce8cceb580f12e6ef697185349f456df3a1445e15a639e3c0f4bd6c9e",
+          "extractAs": "TravellingCohortStudy.h"
+        }
+      ],
+      "expectedCsv": [
+        {
+          "path": "runs/candidate120Verified/episodes.csv.gz",
+          "compressedSha256": "4f199e01408df71cfcc7567a76a1e9d5bf8b7236d6d8806c8f82d100e20fd660",
+          "csvSha256": "cb37ac48f5dafc2849bf3bcd6482a6b39ab34bd5c6e4e1d203b4da0903e546ef",
+          "outputName": "episodes.csv"
+        },
+        {
+          "path": "runs/candidate120Verified/group-metrics.csv.gz",
+          "compressedSha256": "5ddbf83b25d3bb4582c7741b281b934a9ae7d946849e712862d53535af251060",
+          "csvSha256": "b1537bcceae8f2b61b844b5e5ee2e233aab2e96183a0dec9ef89d27585164f4e",
+          "outputName": "group-metrics.csv"
+        },
+        {
+          "path": "runs/candidate120Verified/late-roots.csv.gz",
+          "compressedSha256": "b06a852bd37d7c26b70f711f7a72f9a3878fa5aa5480f0d1b07e677fea975926",
+          "csvSha256": "a29382ac80e094e64a6fd83a2800cef89f3e7e101c3cab6a6fd0b5ca628717c9",
+          "outputName": "late-roots.csv"
+        },
+        {
+          "path": "runs/candidate120Verified/member-metrics.csv.gz",
+          "compressedSha256": "39f653d2bc11c2d52361fd8f59de9bbfb73e26d8b7829dd7592848f9deab1149",
+          "csvSha256": "c43dc3361ca6750e2043b1ab6f9c693e6e0876586ae67609eef04d3d760aa152",
+          "outputName": "member-metrics.csv"
+        },
+        {
+          "path": "runs/candidate120Verified/motion.csv.gz",
+          "compressedSha256": "9377f15a1d9b46e7684b1e6ae6da6f78f49d62990611ea303b11a44f95534943",
+          "csvSha256": "2e7c38764cd581ed8757e784e31fa56deaa1992c3eb5b618f47e43756314cd07",
+          "outputName": "motion.csv"
+        },
+        {
+          "path": "runs/candidate120Verified/recovery.csv.gz",
+          "compressedSha256": "581d5e212d60ebdd5015b4c155eda1028065d3b7a629aaf482c400211fe1fe86",
+          "csvSha256": "e619d06e144c3f3fb4418fe6547add6560f9805ad035a17f8d25f97bb3e71709",
+          "outputName": "recovery.csv"
+        }
+      ]
+    },
+    "candidate600": {
+      "checks": 22676315,
+      "inputs": [
+        {
+          "path": "shared/CrowdGroupMath.h.gz",
+          "compressedSha256": "15918e6ba3fe2f991900d548057cb7858d1034298f8c27d554ea99840d672a87",
+          "sourceSha256": "a5c7b6a6b093ad93b358ddb81f6999bfb0ea7daac18a6a8e3c52697c383d3e39",
+          "extractAs": "CrowdGroupMath.h"
+        },
+        {
+          "path": "shared/CrowdFieldMath.h.gz",
+          "compressedSha256": "146c838f38747d3cb66496bce17e6c80fe193f74fdcff440793bfb6470a6091b",
+          "sourceSha256": "9bf96573f3082fcbaacd537102cae3faff513f6c139922910c47928d1122debb",
+          "extractAs": "CrowdFieldMath.h"
+        },
+        {
+          "path": "shared/CrowdBoundaryCadenceStudy.h.gz",
+          "compressedSha256": "6b781594afc28644b8946b1d9059b5f25794ce05fa4301a3eb66d86a53363107",
+          "sourceSha256": "d539357953037737dc42300794ae688d48ec607d236ea5ba4c230a8ec2fb928f",
+          "extractAs": "CrowdBoundaryCadenceStudy.h"
+        },
+        {
+          "path": "runs/candidate600/ExecutableRouteStudy.h.gz",
+          "compressedSha256": "334183b43cdc1a88bdb2b7aab553ccaaeb5bd220319b0211e269afffa02a0919",
+          "sourceSha256": "0a70341311d1216d3c9183c70967fdec6bfaa502ac959407caac18afd6870f76",
+          "extractAs": "ExecutableRouteStudy.h"
+        },
+        {
+          "path": "runs/candidate600/fixture.cpp.gz",
+          "compressedSha256": "07f921d4795c542f597ecfe1c4be5efbe12da7002a60e2033c66d84df9504ebd",
+          "sourceSha256": "b5351681d259463dda42e762c5bbb6986ff4538c9c8a76bf708c9f7439b9e86c",
+          "extractAs": "fixture.cpp"
+        },
+        {
+          "path": "runs/candidate600/RouteContinuityStudy.h.gz",
+          "compressedSha256": "69214195d25d1d2f59d8e43cdb9d88f95cbfda36db5ae39b62878777cba3bf7c",
+          "sourceSha256": "ca8f7f6414ea7afdb2d9150e2abad826c8723e157775cff9c288596aee464b06",
+          "extractAs": "RouteContinuityStudy.h"
+        },
+        {
+          "path": "runs/candidate600/TravellingCohortStudy.h.gz",
+          "compressedSha256": "2deb85255c1007ccebd223e8bbcccbd3792400d371c9bd10cb2cca7e53aadd5a",
+          "sourceSha256": "474d780ce8cceb580f12e6ef697185349f456df3a1445e15a639e3c0f4bd6c9e",
+          "extractAs": "TravellingCohortStudy.h"
+        }
+      ],
+      "expectedCsv": [
+        {
+          "path": "runs/candidate600/episodes.csv.gz",
+          "compressedSha256": "180794ac51189b2d1571a51cd8a65cdbcb507d4c4b4091f91a3dac477b11ce29",
+          "csvSha256": "54e6bf9d0b3ef040fc83c6a000a654c6b5b4d45f27bcc5571f3f536155748e91",
+          "outputName": "episodes.csv"
+        },
+        {
+          "path": "runs/candidate600/group-metrics.csv.gz",
+          "compressedSha256": "de2fb47b6e31b10ad308e68ccfdf34354be12c9fdecdf2410761eb5898dd5e1c",
+          "csvSha256": "c40c95bc9c2d58cafe4a14365fc29bb1606c57ac2ba87ed54a5b3af94d1eae50",
+          "outputName": "group-metrics.csv"
+        },
+        {
+          "path": "runs/candidate600/late-roots.csv.gz",
+          "compressedSha256": "b846330bd0f0309d4917f6a174c652acdaf507f061454f3cb5f432023ece1cba",
+          "csvSha256": "1a54e8c929421ae500357802aa50c44f5565d8f40214655236fdcab827ba822f",
+          "outputName": "late-roots.csv"
+        },
+        {
+          "path": "runs/candidate600/member-metrics.csv.gz",
+          "compressedSha256": "d980471c9471a91b64512a99aa83b384ee9a8627597a9bc36c0b0d2e4d6a8ea7",
+          "csvSha256": "840e6d7252e8dd30f5630ac113103a02077716891d19ce911f989657c67ad167",
+          "outputName": "member-metrics.csv"
+        },
+        {
+          "path": "runs/candidate600/motion.csv.gz",
+          "compressedSha256": "51eeb7230da6319d6f6ff82535af666df5cc7c2744e6662389fb7ed075a2f215",
+          "csvSha256": "21d2af4fca3c94b99fb7a9dffea0e75831e6526ad0d3539e692877a04ce27813",
+          "outputName": "motion.csv"
+        },
+        {
+          "path": "runs/candidate600/recovery.csv.gz",
+          "compressedSha256": "28220733af3135f7161af7d9b3b17c02bebf56768c3a55d45827f7b64b5e8cd6",
+          "csvSha256": "d34d6caefa91dad0c7de4d0faa940a93d5e9212c5dcb6d237cb199e00eb64a3b",
+          "outputName": "recovery.csv"
+        }
+      ]
+    }
+  },
+  "files": {
+    "README.md": {
+      "sha256": "9323d1a29262531c3844d4013d8e539d17c6dad407d617c4fb2d9bb26f0d78e8",
+      "bytes": 3413,
+      "origin": "new publication helper"
+    },
+    "receipts/assessment.json": {
+      "sha256": "c545082b72705fda22c93a44393cd3f4e83df9678dc1adb95a100e891d7e8742",
+      "bytes": 88677,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/assessment.json"
+    },
+    "receipts/baseline600Replay.json": {
+      "sha256": "3b37be04e7fd1ed00b5a609d40ca56342903b0aef2363d3f0fd9a212b4a6f73a",
+      "bytes": 94330,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/baseline600Replay/results.json"
+    },
+    "receipts/candidate120Replay.json": {
+      "sha256": "e51c60aa692bd5be57b3d356ffa5d8a45382ad89b96cf666da3a981549e1044e",
+      "bytes": 262066,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Replay/results.json"
+    },
+    "receipts/candidate120Verified.json": {
+      "sha256": "71d61355876d83f217a90a92e7f3029b6be745879964ade3b8ee3ac3b2b0232d",
+      "bytes": 272064,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Verified/results.json"
+    },
+    "receipts/candidate600.json": {
+      "sha256": "625aa5fe833c99d438b39d5c62ce1d853ddd367a95401ade2b393ea11eeadfde",
+      "bytes": 99926,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate600/results.json"
+    },
+    "reproduce.py": {
+      "sha256": "31b19c87c551a8360c9cb1c4f53df11181a71fca2017925a31d058dd9fdbc321",
+      "bytes": 3160,
+      "origin": "new publication helper"
+    },
+    "reproduce.py.gz": {
+      "sha256": "efcff5a0c3086749c8f572ccc0c0ccbfeea844f533cba065056c17a02b008cf8",
+      "bytes": 1423,
+      "origin": "new publication helper"
+    },
+    "runs/baseline600Replay/episodes.csv.gz": {
+      "sha256": "35f3e821913d00eab01c7f6efe79b5fc5c5df104cd1ab647d02607139fc2ebd9",
+      "bytes": 1113291,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/baseline600Replay/episodes.csv.gz"
+    },
+    "runs/baseline600Replay/ExecutableRouteStudy.h.gz": {
+      "sha256": "334183b43cdc1a88bdb2b7aab553ccaaeb5bd220319b0211e269afffa02a0919",
+      "bytes": 1905,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/baseline600Replay/ExecutableRouteStudy.h.gz"
+    },
+    "runs/baseline600Replay/fixture.cpp.gz": {
+      "sha256": "1a68ce834087410cbd1b2ebfc2851a9b1149386c8525bf56d072381643870dc0",
+      "bytes": 10481,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/baseline600Replay/fixture.cpp.gz"
+    },
+    "runs/baseline600Replay/group-metrics.csv.gz": {
+      "sha256": "b197b1957b3e8572b8f5e6a73843cc1c41ffb3b79cc3dbac2c1721d712e4cdf6",
+      "bytes": 1153,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/baseline600Replay/group-metrics.csv.gz"
+    },
+    "runs/baseline600Replay/late-roots.csv.gz": {
+      "sha256": "90129655436cdf347dad77656be7d2c91d64d8b2e14e491cf181afd07cd4cca8",
+      "bytes": 371439,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/baseline600Replay/late-roots.csv.gz"
+    },
+    "runs/baseline600Replay/member-metrics.csv.gz": {
+      "sha256": "1b803569e9c2c9c62ca69893a7a182eca307e1d4f010fa3a11f58c6f8136446a",
+      "bytes": 1883,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/baseline600Replay/member-metrics.csv.gz"
+    },
+    "runs/baseline600Replay/motion.csv.gz": {
+      "sha256": "53a2bae885e8e1dca66ef21fd6befa1f0cd73f45e741dabc92b8ea08864cbcff",
+      "bytes": 8671869,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/baseline600Replay/motion.csv.gz"
+    },
+    "runs/baseline600Replay/recovery.csv.gz": {
+      "sha256": "56b3a9facff9535e0c806acd0bde99cf1e75606a71142c6785ae1c5943d1a4e1",
+      "bytes": 820,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/baseline600Replay/recovery.csv.gz"
+    },
+    "runs/baseline600Replay/RouteContinuityStudy.h.gz": {
+      "sha256": "69214195d25d1d2f59d8e43cdb9d88f95cbfda36db5ae39b62878777cba3bf7c",
+      "bytes": 1647,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/baseline600Replay/RouteContinuityStudy.h.gz"
+    },
+    "runs/candidate120Replay/episodes.csv.gz": {
+      "sha256": "aeb6d8fb0465c8ab5b5de63c6225058f728bcc82bb55fb0d883a6aee9860deb4",
+      "bytes": 339079,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Replay/episodes.csv.gz"
+    },
+    "runs/candidate120Replay/ExecutableRouteStudy.h.gz": {
+      "sha256": "334183b43cdc1a88bdb2b7aab553ccaaeb5bd220319b0211e269afffa02a0919",
+      "bytes": 1905,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Replay/ExecutableRouteStudy.h.gz"
+    },
+    "runs/candidate120Replay/fixture.cpp.gz": {
+      "sha256": "64735f2f850f3fe3c5624bcfa444363e46562690c173c20f0dcd4b0fb4b4472f",
+      "bytes": 10994,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Replay/fixture.cpp.gz"
+    },
+    "runs/candidate120Replay/group-metrics.csv.gz": {
+      "sha256": "f0738d941bc46e94e4e9f1bbc3d7a01061e045b08a060b050128bd823ea406b3",
+      "bytes": 3346,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Replay/group-metrics.csv.gz"
+    },
+    "runs/candidate120Replay/late-roots.csv.gz": {
+      "sha256": "91af00548817d203c4b80365f3b7318fbe8b13c6fdc730e906c7ebf2b94f22a0",
+      "bytes": 1510090,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Replay/late-roots.csv.gz"
+    },
+    "runs/candidate120Replay/member-metrics.csv.gz": {
+      "sha256": "c0ca3f5c613024a3453546e26c62d7cf3726cc8ed6d6afc59a8cce4b09f3c36b",
+      "bytes": 5485,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Replay/member-metrics.csv.gz"
+    },
+    "runs/candidate120Replay/motion.csv.gz": {
+      "sha256": "f547d7dd7f06d99d606298e2aee6d556ce5129dca9044c33f35e061087362d39",
+      "bytes": 3367433,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Replay/motion.csv.gz"
+    },
+    "runs/candidate120Replay/recovery.csv.gz": {
+      "sha256": "81c5a64148a7561825d7046e4dd4913ea2b0d09f35953e50399a4728c61fffd0",
+      "bytes": 1169,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Replay/recovery.csv.gz"
+    },
+    "runs/candidate120Replay/RouteContinuityStudy.h.gz": {
+      "sha256": "69214195d25d1d2f59d8e43cdb9d88f95cbfda36db5ae39b62878777cba3bf7c",
+      "bytes": 1647,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Replay/RouteContinuityStudy.h.gz"
+    },
+    "runs/candidate120Replay/TravellingCohortStudy.h.gz": {
+      "sha256": "697912cfca4ee0c1e902ffa735bfa61669264b8d7e700a355cd99b3a5ca1d0c8",
+      "bytes": 1495,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Replay/TravellingCohortStudy.h.gz"
+    },
+    "runs/candidate120Verified/episodes.csv.gz": {
+      "sha256": "4f199e01408df71cfcc7567a76a1e9d5bf8b7236d6d8806c8f82d100e20fd660",
+      "bytes": 365500,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Verified/episodes.csv.gz"
+    },
+    "runs/candidate120Verified/ExecutableRouteStudy.h.gz": {
+      "sha256": "334183b43cdc1a88bdb2b7aab553ccaaeb5bd220319b0211e269afffa02a0919",
+      "bytes": 1905,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Verified/ExecutableRouteStudy.h.gz"
+    },
+    "runs/candidate120Verified/fixture.cpp.gz": {
+      "sha256": "531539169d9abdf731d93c4b7ac44a1ac202f830d325ba2c089d02825fa880d0",
+      "bytes": 11123,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Verified/fixture.cpp.gz"
+    },
+    "runs/candidate120Verified/group-metrics.csv.gz": {
+      "sha256": "5ddbf83b25d3bb4582c7741b281b934a9ae7d946849e712862d53535af251060",
+      "bytes": 3573,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Verified/group-metrics.csv.gz"
+    },
+    "runs/candidate120Verified/late-roots.csv.gz": {
+      "sha256": "b06a852bd37d7c26b70f711f7a72f9a3878fa5aa5480f0d1b07e677fea975926",
+      "bytes": 1685103,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Verified/late-roots.csv.gz"
+    },
+    "runs/candidate120Verified/member-metrics.csv.gz": {
+      "sha256": "39f653d2bc11c2d52361fd8f59de9bbfb73e26d8b7829dd7592848f9deab1149",
+      "bytes": 6011,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Verified/member-metrics.csv.gz"
+    },
+    "runs/candidate120Verified/motion.csv.gz": {
+      "sha256": "9377f15a1d9b46e7684b1e6ae6da6f78f49d62990611ea303b11a44f95534943",
+      "bytes": 3735076,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Verified/motion.csv.gz"
+    },
+    "runs/candidate120Verified/recovery.csv.gz": {
+      "sha256": "581d5e212d60ebdd5015b4c155eda1028065d3b7a629aaf482c400211fe1fe86",
+      "bytes": 1217,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Verified/recovery.csv.gz"
+    },
+    "runs/candidate120Verified/RouteContinuityStudy.h.gz": {
+      "sha256": "69214195d25d1d2f59d8e43cdb9d88f95cbfda36db5ae39b62878777cba3bf7c",
+      "bytes": 1647,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Verified/RouteContinuityStudy.h.gz"
+    },
+    "runs/candidate120Verified/TravellingCohortStudy.h.gz": {
+      "sha256": "2deb85255c1007ccebd223e8bbcccbd3792400d371c9bd10cb2cca7e53aadd5a",
+      "bytes": 1623,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Verified/TravellingCohortStudy.h.gz"
+    },
+    "runs/candidate600/episodes.csv.gz": {
+      "sha256": "180794ac51189b2d1571a51cd8a65cdbcb507d4c4b4091f91a3dac477b11ce29",
+      "bytes": 888811,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate600/episodes.csv.gz"
+    },
+    "runs/candidate600/ExecutableRouteStudy.h.gz": {
+      "sha256": "334183b43cdc1a88bdb2b7aab553ccaaeb5bd220319b0211e269afffa02a0919",
+      "bytes": 1905,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate600/ExecutableRouteStudy.h.gz"
+    },
+    "runs/candidate600/fixture.cpp.gz": {
+      "sha256": "07f921d4795c542f597ecfe1c4be5efbe12da7002a60e2033c66d84df9504ebd",
+      "bytes": 11093,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate600/fixture.cpp.gz"
+    },
+    "runs/candidate600/group-metrics.csv.gz": {
+      "sha256": "de2fb47b6e31b10ad308e68ccfdf34354be12c9fdecdf2410761eb5898dd5e1c",
+      "bytes": 1049,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate600/group-metrics.csv.gz"
+    },
+    "runs/candidate600/late-roots.csv.gz": {
+      "sha256": "b846330bd0f0309d4917f6a174c652acdaf507f061454f3cb5f432023ece1cba",
+      "bytes": 305043,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate600/late-roots.csv.gz"
+    },
+    "runs/candidate600/member-metrics.csv.gz": {
+      "sha256": "d980471c9471a91b64512a99aa83b384ee9a8627597a9bc36c0b0d2e4d6a8ea7",
+      "bytes": 1438,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate600/member-metrics.csv.gz"
+    },
+    "runs/candidate600/motion.csv.gz": {
+      "sha256": "51eeb7230da6319d6f6ff82535af666df5cc7c2744e6662389fb7ed075a2f215",
+      "bytes": 6865524,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate600/motion.csv.gz"
+    },
+    "runs/candidate600/recovery.csv.gz": {
+      "sha256": "28220733af3135f7161af7d9b3b17c02bebf56768c3a55d45827f7b64b5e8cd6",
+      "bytes": 1117,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate600/recovery.csv.gz"
+    },
+    "runs/candidate600/RouteContinuityStudy.h.gz": {
+      "sha256": "69214195d25d1d2f59d8e43cdb9d88f95cbfda36db5ae39b62878777cba3bf7c",
+      "bytes": 1647,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate600/RouteContinuityStudy.h.gz"
+    },
+    "runs/candidate600/TravellingCohortStudy.h.gz": {
+      "sha256": "2deb85255c1007ccebd223e8bbcccbd3792400d371c9bd10cb2cca7e53aadd5a",
+      "bytes": 1623,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate600/TravellingCohortStudy.h.gz"
+    },
+    "shared/CrowdBoundaryCadenceStudy.h.gz": {
+      "sha256": "6b781594afc28644b8946b1d9059b5f25794ce05fa4301a3eb66d86a53363107",
+      "bytes": 848,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/DetourRouting01/CrowdBoundaryCadenceStudy.h.gz"
+    },
+    "shared/CrowdFieldMath.h.gz": {
+      "sha256": "146c838f38747d3cb66496bce17e6c80fe193f74fdcff440793bfb6470a6091b",
+      "bytes": 9404,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/DetourRouting01/CrowdFieldMath.h.gz"
+    },
+    "shared/CrowdGroupMath.h.gz": {
+      "sha256": "15918e6ba3fe2f991900d548057cb7858d1034298f8c27d554ea99840d672a87",
+      "bytes": 5676,
+      "origin": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/DetourRouting01/CrowdGroupMath.h.gz"
+    },
+    "receipts/publication-replay.json": {
+      "sha256": "41c7a855dae3302b67c2842c0098064d3db344b08b2a067d0158c2d0e585a6e2",
+      "bytes": 3790,
+      "origin": "new isolated publication replay; local logs omitted"
+    }
+  },
+  "publishFiles": [
+    "README.md",
+    "manifest.json",
+    "receipts/assessment.json",
+    "receipts/baseline600Replay.json",
+    "receipts/candidate120Replay.json",
+    "receipts/candidate120Verified.json",
+    "receipts/candidate600.json",
+    "receipts/publication-replay.json",
+    "reproduce.py",
+    "reproduce.py.gz",
+    "runs/baseline600Replay/ExecutableRouteStudy.h.gz",
+    "runs/baseline600Replay/RouteContinuityStudy.h.gz",
+    "runs/baseline600Replay/episodes.csv.gz",
+    "runs/baseline600Replay/fixture.cpp.gz",
+    "runs/baseline600Replay/group-metrics.csv.gz",
+    "runs/baseline600Replay/late-roots.csv.gz",
+    "runs/baseline600Replay/member-metrics.csv.gz",
+    "runs/baseline600Replay/motion.csv.gz",
+    "runs/baseline600Replay/recovery.csv.gz",
+    "runs/candidate120Replay/ExecutableRouteStudy.h.gz",
+    "runs/candidate120Replay/RouteContinuityStudy.h.gz",
+    "runs/candidate120Replay/TravellingCohortStudy.h.gz",
+    "runs/candidate120Replay/episodes.csv.gz",
+    "runs/candidate120Replay/fixture.cpp.gz",
+    "runs/candidate120Replay/group-metrics.csv.gz",
+    "runs/candidate120Replay/late-roots.csv.gz",
+    "runs/candidate120Replay/member-metrics.csv.gz",
+    "runs/candidate120Replay/motion.csv.gz",
+    "runs/candidate120Replay/recovery.csv.gz",
+    "runs/candidate120Verified/ExecutableRouteStudy.h.gz",
+    "runs/candidate120Verified/RouteContinuityStudy.h.gz",
+    "runs/candidate120Verified/TravellingCohortStudy.h.gz",
+    "runs/candidate120Verified/episodes.csv.gz",
+    "runs/candidate120Verified/fixture.cpp.gz",
+    "runs/candidate120Verified/group-metrics.csv.gz",
+    "runs/candidate120Verified/late-roots.csv.gz",
+    "runs/candidate120Verified/member-metrics.csv.gz",
+    "runs/candidate120Verified/motion.csv.gz",
+    "runs/candidate120Verified/recovery.csv.gz",
+    "runs/candidate600/ExecutableRouteStudy.h.gz",
+    "runs/candidate600/RouteContinuityStudy.h.gz",
+    "runs/candidate600/TravellingCohortStudy.h.gz",
+    "runs/candidate600/episodes.csv.gz",
+    "runs/candidate600/fixture.cpp.gz",
+    "runs/candidate600/group-metrics.csv.gz",
+    "runs/candidate600/late-roots.csv.gz",
+    "runs/candidate600/member-metrics.csv.gz",
+    "runs/candidate600/motion.csv.gz",
+    "runs/candidate600/recovery.csv.gz",
+    "shared/CrowdBoundaryCadenceStudy.h.gz",
+    "shared/CrowdFieldMath.h.gz",
+    "shared/CrowdGroupMath.h.gz"
+  ],
+  "omittedLocalLogs": [
+    {
+      "path": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/baseline600/run.log.gz",
+      "sha256": "86d79102a5bf17e1845fdc64f88d1f0aa7da8c5c1a4e208b10aebac75f1f50a7",
+      "bytes": 147,
+      "localOnly": true
+    },
+    {
+      "path": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/baseline600Replay/run.log.gz",
+      "sha256": "e484f31b9b9e5d21cb2cdd67bb267f443f9525e4a042bcbdf80a9b942c48a42e",
+      "bytes": 739,
+      "localOnly": true
+    },
+    {
+      "path": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Replay/run.log.gz",
+      "sha256": "02cd57e5a8c13108f604b76fac0edc6cf591fe3c1010a71303d1d8d14a2a7941",
+      "bytes": 1777,
+      "localOnly": true
+    },
+    {
+      "path": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate120Verified/run.log.gz",
+      "sha256": "9a460202af08584572436b94a666628857a0f5b3a7b4c1216ecafff8f52bc295",
+      "bytes": 1817,
+      "localOnly": true
+    },
+    {
+      "path": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/TravellingCohort01/candidate600/run.log.gz",
+      "sha256": "b9385386d268f4807144d3b1071739cfbf947c4752d80c395d95327d72f48af7",
+      "bytes": 808,
+      "localOnly": true
+    }
+  ],
+  "historicalLogsRequired": false,
+  "manifestSelfHashExcluded": true,
+  "independentVerifierReportedByCoordinator": {
+    "checks": 22676315,
+    "exactCsvReplays": 6
+  },
+  "scope": "TravellingCohort01 only; StaggeredRoute01 excluded"
+}

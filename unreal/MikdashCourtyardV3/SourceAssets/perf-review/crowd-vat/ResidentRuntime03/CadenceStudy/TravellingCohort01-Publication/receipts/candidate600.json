@@ -1,0 +1,3334 @@
+{
+  "status": "measured_not_adopted",
+  "mode": "candidate",
+  "seconds": 600,
+  "exitCode": 0,
+  "sourceHashes": {
+    "Plugins/MikdashRuntime/Tests/CrowdBoundaryMathTest.cpp": "5c359eec74c0bfb10e50daf799d374e296e9083307540a09d870e1af5c2ab13b",
+    "Plugins/MikdashRuntime/Tests/CrowdBoundaryCadenceStudy.h": "d539357953037737dc42300794ae688d48ec607d236ea5ba4c230a8ec2fb928f",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdGroupMath.h": "a5c7b6a6b093ad93b358ddb81f6999bfb0ea7daac18a6a8e3c52697c383d3e39",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdFieldMath.h": "9bf96573f3082fcbaacd537102cae3faff513f6c139922910c47928d1122debb",
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashCrowdField.cpp": "8a8ef49652634e077b5d68cc63e0d257520837681a00be1ec20900fb31e60176",
+    "Plugins/MikdashRuntime/Tests/CrowdReservationMathTest.cpp": "28966388de185a275ec1b5fdf7cdc55b9b728fc63ada06d36abf0cbf9cf6c0a2",
+    "Plugins/MikdashRuntime/Tests/CrowdGroupMathTest.cpp": "bfffb665ba867d284a32e5db2f33f45b3b7235cb5460f35014475eff1a5f1f40",
+    "Plugins/MikdashRuntime/Tests/CrowdLocalRouteMathTest.cpp": "9956a03b20ab6e778cec0abb3aab619df74ed9d2e192f436bf71876864c5ab44"
+  },
+  "liveSourcesUnchanged": {
+    "Plugins/MikdashRuntime/Tests/CrowdBoundaryMathTest.cpp": true,
+    "Plugins/MikdashRuntime/Tests/CrowdBoundaryCadenceStudy.h": true,
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdGroupMath.h": true,
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Public/CrowdFieldMath.h": true,
+    "Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashCrowdField.cpp": true,
+    "Plugins/MikdashRuntime/Tests/CrowdReservationMathTest.cpp": true,
+    "Plugins/MikdashRuntime/Tests/CrowdGroupMathTest.cpp": true,
+    "Plugins/MikdashRuntime/Tests/CrowdLocalRouteMathTest.cpp": true
+  },
+  "baselineFidelity": false,
+  "rows": {
+    "group-metrics": [
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "leaderTravel": 28557.966353043,
+        "lateLeaderTravel": 1455.5555559694767,
+        "allTravel": 57012.41098936407,
+        "lateAllTravel": 2895.5555559694767,
+        "refusals": 90.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 152.114857095545,
+        "maxFormation": 308.8764475767114,
+        "finalLag": 21.151662383969935,
+        "finalFormation": 21.174550321744274,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "leaderTravel": 18246.691717440906,
+        "lateLeaderTravel": 778.5185186656936,
+        "allTravel": 37174.709007495905,
+        "lateAllTravel": 1608.1481483321131,
+        "refusals": 120.0,
+        "waits": 128.0,
+        "minSpacing": 80.0804587535996,
+        "maxLag": 405.85586876283554,
+        "maxFormation": 550.2900403312921,
+        "finalLag": 47.60515358915917,
+        "finalFormation": 47.788422157975305,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "leaderTravel": 27759.132144255815,
+        "lateLeaderTravel": 1455.5555559694767,
+        "allTravel": 83417.49482423179,
+        "lateAllTravel": 4365.555555969477,
+        "refusals": 93.0,
+        "waits": 0.0,
+        "minSpacing": 80.13786898325502,
+        "maxLag": 232.76946951491902,
+        "maxFormation": 321.07002264971425,
+        "finalLag": 46.50160411112374,
+        "finalFormation": 46.67830781161951,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "leaderTravel": 17674.141824798782,
+        "lateLeaderTravel": 925.1851853323619,
+        "allTravel": 55029.82203683954,
+        "lateAllTravel": 2840.0000003311384,
+        "refusals": 163.0,
+        "waits": 167.0,
+        "minSpacing": 80.0,
+        "maxLag": 405.85586876283554,
+        "maxFormation": 550.2900403312921,
+        "finalLag": 54.22841687145525,
+        "finalFormation": 54.44996271006043,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "leaderTravel": 22641.978886724235,
+        "lateLeaderTravel": 1095.5555559694767,
+        "allTravel": 137879.80889381474,
+        "lateAllTravel": 6772.777777984738,
+        "refusals": 90.0,
+        "waits": 0.0,
+        "minSpacing": 80.4355976072492,
+        "maxLag": 183.22561615274236,
+        "maxFormation": 338.8252288918329,
+        "finalLag": 14.48084304798249,
+        "finalFormation": 27.6029634097591,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "leaderTravel": 14162.20928474401,
+        "lateLeaderTravel": 720.0000000000016,
+        "allTravel": 87644.38672599134,
+        "lateAllTravel": 4440.000000000002,
+        "refusals": 248.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 240.69233833354693,
+        "maxFormation": 524.0664563326751,
+        "finalLag": 6.2241859981647,
+        "finalFormation": 12.047407440282399,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "leaderTravel": 27950.55752678703,
+        "lateLeaderTravel": 1454.4444440305233,
+        "allTravel": 55926.39918395485,
+        "lateAllTravel": 2908.8888880610466,
+        "refusals": 0.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 0.0,
+        "maxFormation": 0.0,
+        "finalLag": 46.50160411112374,
+        "finalFormation": 46.67830781161953,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "leaderTravel": 18424.516394277794,
+        "lateLeaderTravel": 1006.6666666666715,
+        "allTravel": 36908.86062335186,
+        "lateAllTravel": 1960.740740667156,
+        "refusals": 0.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 0.0,
+        "maxFormation": 0.0,
+        "finalLag": 0.0,
+        "finalFormation": 3.914109442400707,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "leaderTravel": 28868.411424576738,
+        "lateLeaderTravel": 1440.0,
+        "allTravel": 85214.87072497731,
+        "lateAllTravel": 4350.0,
+        "refusals": 0.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 0.0,
+        "maxFormation": 0.0,
+        "finalLag": 6.858640804545914,
+        "finalFormation": 48.20870311632757,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "leaderTravel": 17352.21514402127,
+        "lateLeaderTravel": 787.4074073338247,
+        "allTravel": 52955.79763236808,
+        "lateAllTravel": 2396.14814803409,
+        "refusals": 0.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 0.0,
+        "maxFormation": 0.0,
+        "finalLag": 0.0,
+        "finalFormation": 23.4500018284734,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "leaderTravel": 23314.459460088674,
+        "lateLeaderTravel": 1141.666666045785,
+        "allTravel": 139084.50667310352,
+        "lateAllTravel": 7037.777776122093,
+        "refusals": 0.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 0.0,
+        "maxFormation": 0.0,
+        "finalLag": 37.86311928131212,
+        "finalFormation": 87.95259255971757,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "leaderTravel": 13987.848141967872,
+        "lateLeaderTravel": 700.7407406671568,
+        "allTravel": 83503.48970259375,
+        "lateAllTravel": 4515.92592606574,
+        "refusals": 0.0,
+        "waits": 0.0,
+        "minSpacing": 80.0,
+        "maxLag": 0.0,
+        "maxFormation": 0.0,
+        "finalLag": 47.73778204213437,
+        "finalFormation": 82.04740744028243,
+        "clipHoldVisits": 0.0,
+        "safetyFailures": 0.0
+      }
+    ],
+    "member-metrics": [
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 28557.966353043,
+        "late0": 420.0,
+        "late1": 535.5555559694767,
+        "late2": 500.0,
+        "longestLateStopFrames": 64.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 28454.444636321074,
+        "late0": 365.5555559694767,
+        "late1": 500.0,
+        "late2": 574.4444440305233,
+        "longestLateStopFrames": 67.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 18246.691717440906,
+        "late0": 260.0,
+        "late1": 311.8518519990238,
+        "late2": 206.66666666666669,
+        "longestLateStopFrames": 170.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 18928.017290055,
+        "late0": 315.5555556659348,
+        "late1": 206.66666666666663,
+        "late2": 307.4074073338214,
+        "longestLateStopFrames": 179.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 27759.132144255815,
+        "late0": 500.0,
+        "late1": 490.0,
+        "late2": 465.5555559694767,
+        "longestLateStopFrames": 64.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 27713.79649923445,
+        "late0": 602.7777779847383,
+        "late1": 437.2222220152616,
+        "late2": 415.5555559694767,
+        "longestLateStopFrames": 67.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 27944.566180741527,
+        "late0": 500.0,
+        "late1": 474.4444440305233,
+        "late2": 480.0,
+        "longestLateStopFrames": 70.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 17674.141824798782,
+        "late0": 360.0000000000004,
+        "late1": 360.0,
+        "late2": 205.1851853323571,
+        "longestLateStopFrames": 173.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 18367.17278212356,
+        "late0": 360.00000000000057,
+        "late1": 322.2222223326012,
+        "late2": 300.7407406671549,
+        "longestLateStopFrames": 176.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 18988.5074299172,
+        "late0": 360.0000000000003,
+        "late1": 360.0,
+        "late2": 211.85185199902378,
+        "longestLateStopFrames": 176.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 22641.978886724235,
+        "late0": 360.0,
+        "late1": 360.0,
+        "late2": 375.5555559694767,
+        "longestLateStopFrames": 75.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 22585.606894701017,
+        "late0": 360.0,
+        "late1": 360.0,
+        "late2": 372.77777798473835,
+        "longestLateStopFrames": 78.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 22397.633679524864,
+        "late0": 360.0,
+        "late1": 360.0,
+        "late2": 375.5555559694767,
+        "longestLateStopFrames": 75.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 3.0,
+        "id": 18.0,
+        "totalTravel": 23590.131412907514,
+        "late0": 397.22222201526165,
+        "late1": 380.0,
+        "late2": 380.0,
+        "longestLateStopFrames": 117.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 4.0,
+        "id": 19.0,
+        "totalTravel": 23363.5107323828,
+        "late0": 390.0,
+        "late1": 380.0,
+        "late2": 380.0,
+        "longestLateStopFrames": 128.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 5.0,
+        "id": 20.0,
+        "totalTravel": 23300.947287574298,
+        "late0": 421.66666604578495,
+        "late1": 380.0,
+        "late2": 380.0,
+        "longestLateStopFrames": 127.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 14162.20928474401,
+        "late0": 96.66666674945088,
+        "late1": 272.222222249817,
+        "late2": 351.1111110007325,
+        "longestLateStopFrames": 175.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 14199.969521152372,
+        "late0": 96.6666667494509,
+        "late1": 275.5555555003661,
+        "late2": 347.7777777501836,
+        "longestLateStopFrames": 173.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 14691.529683478053,
+        "late0": 96.66666674945088,
+        "late1": 270.0,
+        "late2": 353.33333325054934,
+        "longestLateStopFrames": 176.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 3.0,
+        "id": 18.0,
+        "totalTravel": 14947.659883670327,
+        "late0": 46.34920645170109,
+        "late1": 333.6507935482989,
+        "late2": 380.0000000000004,
+        "longestLateStopFrames": 280.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 4.0,
+        "id": 19.0,
+        "totalTravel": 14932.566255350674,
+        "late0": 110.0,
+        "late1": 280.0,
+        "late2": 370.0000000000002,
+        "longestLateStopFrames": 170.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "member": 5.0,
+        "id": 20.0,
+        "totalTravel": 14710.452097595899,
+        "late0": 38.09523809523809,
+        "late1": 341.9047619047619,
+        "late2": 380.0000000000005,
+        "longestLateStopFrames": 283.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 27950.55752678703,
+        "late0": 500.0,
+        "late1": 434.4444440305233,
+        "late2": 520.0,
+        "longestLateStopFrames": 64.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 27975.841657167817,
+        "late0": 602.7777779847383,
+        "late1": 361.66666604578495,
+        "late2": 490.0,
+        "longestLateStopFrames": 67.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 18424.516394277794,
+        "late0": 308.88888899926815,
+        "late1": 337.77777766739877,
+        "late2": 360.0000000000004,
+        "longestLateStopFrames": 170.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 18484.344229074064,
+        "late0": 254.0740740004879,
+        "late1": 340.0,
+        "late2": 360.00000000000057,
+        "longestLateStopFrames": 178.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 28868.411424576738,
+        "late0": 545.5555559694767,
+        "late1": 500.0,
+        "late2": 394.4444440305233,
+        "longestLateStopFrames": 64.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 28161.02154841341,
+        "late0": 500.0,
+        "late1": 564.4444440305233,
+        "late2": 390.0,
+        "longestLateStopFrames": 67.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 28185.437751987163,
+        "late0": 527.2222220152617,
+        "late1": 500.0,
+        "late2": 428.33333395421505,
+        "longestLateStopFrames": 70.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 17352.21514402127,
+        "late0": 196.2962963330893,
+        "late1": 307.40740733382165,
+        "late2": 283.7037036669107,
+        "longestLateStopFrames": 173.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 17329.561924743663,
+        "late0": 300.74074066715497,
+        "late1": 202.96296299975563,
+        "late2": 310.3703703335774,
+        "longestLateStopFrames": 179.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 18274.020563603142,
+        "late0": 195.5555556659345,
+        "late1": 307.4074073338214,
+        "late2": 291.7037037000244,
+        "longestLateStopFrames": 176.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 23314.459460088674,
+        "late0": 361.66666604578495,
+        "late1": 420.0,
+        "late2": 360.0,
+        "longestLateStopFrames": 75.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 22460.41230939927,
+        "late0": 420.0,
+        "late1": 332.77777798473835,
+        "late2": 401.66666604578495,
+        "longestLateStopFrames": 78.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 22452.964781755993,
+        "late0": 361.66666604578495,
+        "late1": 420.0,
+        "late2": 360.0,
+        "longestLateStopFrames": 75.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 3.0,
+        "id": 18.0,
+        "totalTravel": 23644.925482522896,
+        "late0": 432.77777798473835,
+        "late1": 327.22222201526165,
+        "late2": 470.0,
+        "longestLateStopFrames": 117.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 4.0,
+        "id": 19.0,
+        "totalTravel": 23550.420594376446,
+        "late0": 380.0,
+        "late1": 460.0,
+        "late2": 300.0,
+        "longestLateStopFrames": 128.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 5.0,
+        "id": 20.0,
+        "totalTravel": 23661.32404496022,
+        "late0": 408.33333395421505,
+        "late1": 351.66666604578495,
+        "late2": 470.0,
+        "longestLateStopFrames": 127.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 0.0,
+        "id": 15.0,
+        "totalTravel": 13987.848141967872,
+        "late0": 160.74074066715474,
+        "late1": 280.0,
+        "late2": 260.0,
+        "longestLateStopFrames": 173.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 1.0,
+        "id": 16.0,
+        "totalTravel": 14091.687686724219,
+        "late0": 106.66666666666673,
+        "late1": 280.0,
+        "late2": 302.6666667991216,
+        "longestLateStopFrames": 179.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 2.0,
+        "id": 17.0,
+        "totalTravel": 13294.113022092115,
+        "late0": 152.0,
+        "late1": 280.0,
+        "late2": 298.5185186656905,
+        "longestLateStopFrames": 173.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 3.0,
+        "id": 18.0,
+        "totalTravel": 14044.22131970227,
+        "late0": 40.74074066715477,
+        "late1": 380.0,
+        "late2": 346.6666666666669,
+        "longestLateStopFrames": 334.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 4.0,
+        "id": 19.0,
+        "totalTravel": 14051.191565643894,
+        "late0": 194.0740740004881,
+        "late1": 280.0,
+        "late2": 350.0,
+        "longestLateStopFrames": 170.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "enabled": 1.0,
+        "sharedHold": 0.0,
+        "recovery": 1.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "member": 5.0,
+        "id": 20.0,
+        "totalTravel": 14034.4279664634,
+        "late0": 78.6666666004393,
+        "late1": 380.0,
+        "late2": 345.18518533235743,
+        "longestLateStopFrames": 351.0,
+        "lateZeroSpeedVisits": 0.0,
+        "lateBlockedVisits": 0.0,
+        "lateDwellVisits": 0.0,
+        "clipHoldVisits": 0.0
+      }
+    ],
+    "recovery": [
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 5416.0,
+        "turnVisits": 14840.0,
+        "drainVisits": 2.0,
+        "maxYaw": 3.0000001564621925,
+        "invalid": 0.0,
+        "unfinishedSeconds": 577.4000301137567,
+        "steps0": 2706.0,
+        "steps1": 2710.0,
+        "steps2": 0.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 1605.0,
+        "expanded": 4283.0,
+        "peakExpanded": 268.0,
+        "queries": 31867.0,
+        "replans": 1021.0,
+        "unplayable": 0.0,
+        "forwardLegs": 73.0,
+        "plannerFailures": 582.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 8653.0,
+        "dwell": 770.0,
+        "formationRefusals": 0.0,
+        "maxTravellingFormation": 79.730740123329,
+        "maxTravellingLag": 79.28995696859825,
+        "goalUpdates": 17022.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 2668.0,
+        "turnVisits": 8548.0,
+        "drainVisits": 3.0,
+        "maxYaw": 3.0000001564621925,
+        "invalid": 0.0,
+        "unfinishedSeconds": 568.0000296235085,
+        "steps0": 1319.0,
+        "steps1": 1349.0,
+        "steps2": 0.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 937.0,
+        "expanded": 2941.0,
+        "peakExpanded": 363.0,
+        "queries": 20864.0,
+        "replans": 650.0,
+        "unplayable": 0.0,
+        "forwardLegs": 46.0,
+        "plannerFailures": 285.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 5520.0,
+        "dwell": 358.0,
+        "formationRefusals": 0.0,
+        "maxTravellingFormation": 76.66153481775476,
+        "maxTravellingLag": 76.32668884730465,
+        "goalUpdates": 8740.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 7959.0,
+        "turnVisits": 23415.0,
+        "drainVisits": 2.0,
+        "maxYaw": 3.0000001564621925,
+        "invalid": 0.0,
+        "unfinishedSeconds": 580.9333636313677,
+        "steps0": 2652.0,
+        "steps1": 2648.0,
+        "steps2": 2659.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 3005.0,
+        "expanded": 8198.0,
+        "peakExpanded": 555.0,
+        "queries": 58499.0,
+        "replans": 1797.0,
+        "unplayable": 0.0,
+        "forwardLegs": 71.0,
+        "plannerFailures": 1204.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 12882.0,
+        "dwell": 2571.0,
+        "formationRefusals": 0.0,
+        "maxTravellingFormation": 82.43197376825482,
+        "maxTravellingLag": 79.28995696859825,
+        "goalUpdates": 25253.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 3935.0,
+        "turnVisits": 12814.0,
+        "drainVisits": 4.0,
+        "maxYaw": 3.0000001564621925,
+        "invalid": 0.0,
+        "unfinishedSeconds": 568.0000296235085,
+        "steps0": 1274.0,
+        "steps1": 1310.0,
+        "steps2": 1351.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 1416.0,
+        "expanded": 5703.0,
+        "peakExpanded": 660.0,
+        "queries": 33527.0,
+        "replans": 979.0,
+        "unplayable": 0.0,
+        "forwardLegs": 45.0,
+        "plannerFailures": 434.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 8032.0,
+        "dwell": 844.0,
+        "formationRefusals": 0.0,
+        "maxTravellingFormation": 79.87536916211246,
+        "maxTravellingLag": 63.064214378249616,
+        "goalUpdates": 12583.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 13150.0,
+        "turnVisits": 39567.0,
+        "drainVisits": 12.0,
+        "maxYaw": 3.000000156462221,
+        "invalid": 0.0,
+        "unfinishedSeconds": 585.0666971802711,
+        "steps0": 2151.0,
+        "steps1": 2145.0,
+        "steps2": 2133.0,
+        "steps3": 2252.0,
+        "steps4": 2239.0,
+        "steps5": 2230.0,
+        "plans": 6518.0,
+        "expanded": 14285.0,
+        "peakExpanded": 490.0,
+        "queries": 132581.0,
+        "replans": 4380.0,
+        "unplayable": 0.0,
+        "forwardLegs": 57.0,
+        "plannerFailures": 2134.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 20611.0,
+        "dwell": 5803.0,
+        "formationRefusals": 0.0,
+        "maxTravellingFormation": 89.75121358443529,
+        "maxTravellingLag": 81.06435831985033,
+        "goalUpdates": 58139.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "fault": 0.0,
+        "terminal": 0.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 6374.0,
+        "turnVisits": 20920.0,
+        "drainVisits": 6.0,
+        "maxYaw": 3.0000001564621925,
+        "invalid": 0.0,
+        "unfinishedSeconds": 565.9000295139849,
+        "steps0": 1021.0,
+        "steps1": 1054.0,
+        "steps2": 1062.0,
+        "steps3": 1082.0,
+        "steps4": 1087.0,
+        "steps5": 1068.0,
+        "plans": 2991.0,
+        "expanded": 10429.0,
+        "peakExpanded": 600.0,
+        "queries": 60657.0,
+        "replans": 1763.0,
+        "unplayable": 0.0,
+        "forwardLegs": 33.0,
+        "plannerFailures": 1224.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 12082.0,
+        "dwell": 2464.0,
+        "formationRefusals": 0.0,
+        "maxTravellingFormation": 89.75121358443529,
+        "maxTravellingLag": 81.06435831985033,
+        "goalUpdates": 26642.0
+      },
+      {
+        "members": 2.0,
+        "budget": 48.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 5591.0,
+        "turnVisits": 15439.0,
+        "drainVisits": 1.0,
+        "maxYaw": 3.000000156462221,
+        "invalid": 0.0,
+        "unfinishedSeconds": 600.0000312924385,
+        "steps0": 2795.0,
+        "steps1": 2796.0,
+        "steps2": 0.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 1664.0,
+        "expanded": 4413.0,
+        "peakExpanded": 272.0,
+        "queries": 32948.0,
+        "replans": 1056.0,
+        "unplayable": 0.0,
+        "forwardLegs": 75.0,
+        "plannerFailures": 606.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 9022.0,
+        "dwell": 824.0,
+        "formationRefusals": 0.0,
+        "maxTravellingFormation": 79.730740123329,
+        "maxTravellingLag": 79.28995696859825,
+        "goalUpdates": 17666.0
+      },
+      {
+        "members": 2.0,
+        "budget": 17.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 2831.0,
+        "turnVisits": 8946.0,
+        "drainVisits": 1.0,
+        "maxYaw": 3.0000001564621925,
+        "invalid": 0.0,
+        "unfinishedSeconds": 600.0000312924385,
+        "steps0": 1414.0,
+        "steps1": 1417.0,
+        "steps2": 0.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 987.0,
+        "expanded": 2872.0,
+        "peakExpanded": 272.0,
+        "queries": 21573.0,
+        "replans": 687.0,
+        "unplayable": 0.0,
+        "forwardLegs": 49.0,
+        "plannerFailures": 298.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 5910.0,
+        "dwell": 205.0,
+        "formationRefusals": 0.0,
+        "maxTravellingFormation": 79.730740123329,
+        "maxTravellingLag": 79.28995696859825,
+        "goalUpdates": 9273.0
+      },
+      {
+        "members": 3.0,
+        "budget": 48.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 8520.0,
+        "turnVisits": 23646.0,
+        "drainVisits": 1.0,
+        "maxYaw": 3.0000001564621925,
+        "invalid": 0.0,
+        "unfinishedSeconds": 600.0000312924385,
+        "steps0": 2887.0,
+        "steps1": 2816.0,
+        "steps2": 2817.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 3237.0,
+        "expanded": 7574.0,
+        "peakExpanded": 74.0,
+        "queries": 60394.0,
+        "replans": 1953.0,
+        "unplayable": 0.0,
+        "forwardLegs": 78.0,
+        "plannerFailures": 1282.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 13936.0,
+        "dwell": 1188.0,
+        "formationRefusals": 0.0,
+        "maxTravellingFormation": 85.37702019878253,
+        "maxTravellingLag": 76.32668884730465,
+        "goalUpdates": 27479.0
+      },
+      {
+        "members": 3.0,
+        "budget": 17.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 4111.0,
+        "turnVisits": 13279.0,
+        "drainVisits": 1.0,
+        "maxYaw": 3.0000001564621925,
+        "invalid": 0.0,
+        "unfinishedSeconds": 600.0000312924385,
+        "steps0": 1333.0,
+        "steps1": 1336.0,
+        "steps2": 1442.0,
+        "steps3": 0.0,
+        "steps4": 0.0,
+        "steps5": 0.0,
+        "plans": 1535.0,
+        "expanded": 4663.0,
+        "peakExpanded": 430.0,
+        "queries": 33113.0,
+        "replans": 1064.0,
+        "unplayable": 0.0,
+        "forwardLegs": 48.0,
+        "plannerFailures": 469.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 8749.0,
+        "dwell": 418.0,
+        "formationRefusals": 0.0,
+        "maxTravellingFormation": 82.49242853960146,
+        "maxTravellingLag": 81.29820391127714,
+        "goalUpdates": 14036.0
+      },
+      {
+        "members": 6.0,
+        "budget": 48.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 13907.0,
+        "turnVisits": 39177.0,
+        "drainVisits": 1.0,
+        "maxYaw": 3.0000001564621925,
+        "invalid": 0.0,
+        "unfinishedSeconds": 600.0000312924385,
+        "steps0": 2331.0,
+        "steps1": 2246.0,
+        "steps2": 2245.0,
+        "steps3": 2364.0,
+        "steps4": 2355.0,
+        "steps5": 2366.0,
+        "plans": 7222.0,
+        "expanded": 13899.0,
+        "peakExpanded": 375.0,
+        "queries": 141588.0,
+        "replans": 4799.0,
+        "unplayable": 0.0,
+        "forwardLegs": 62.0,
+        "plannerFailures": 2417.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 22246.0,
+        "dwell": 3024.0,
+        "formationRefusals": 0.0,
+        "maxTravellingFormation": 89.75121358443529,
+        "maxTravellingLag": 81.06435831985033,
+        "goalUpdates": 63527.0
+      },
+      {
+        "members": 6.0,
+        "budget": 17.0,
+        "fault": 0.0,
+        "terminal": 1.0,
+        "phase": 2.0,
+        "entries": 1.0,
+        "completions": 1.0,
+        "steps": 6717.0,
+        "turnVisits": 21479.0,
+        "drainVisits": 1.0,
+        "maxYaw": 3.0000001564621925,
+        "invalid": 0.0,
+        "unfinishedSeconds": 600.0000312924385,
+        "steps0": 1118.0,
+        "steps1": 1167.0,
+        "steps2": 1070.0,
+        "steps3": 1104.0,
+        "steps4": 1146.0,
+        "steps5": 1112.0,
+        "plans": 3432.0,
+        "expanded": 8688.0,
+        "peakExpanded": 272.0,
+        "queries": 60335.0,
+        "replans": 1907.0,
+        "unplayable": 0.0,
+        "forwardLegs": 37.0,
+        "plannerFailures": 1520.0,
+        "reservationWaits": 0.0,
+        "yawOnly": 13073.0,
+        "dwell": 1686.0,
+        "formationRefusals": 0.0,
+        "maxTravellingFormation": 92.3865809513423,
+        "maxTravellingLag": 82.96132979018599,
+        "goalUpdates": 29297.0
+      }
+    ]
+  },
+  "motionMetrics": [
+    {
+      "members": 2,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.6323333333333333,
+      "travellingMovingFraction": 0.6411757531406269,
+      "final30MovingFraction": 0.6466666666666666,
+      "maxPause": {
+        "startSeconds": 36.766666666666666,
+        "endSeconds": 54.86666666666667,
+        "seconds": 18.1,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 16.633333333333333,
+          "yaw_alignment": 1.4666666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 85.6,
+        "endSeconds": 87.73333333333333,
+        "seconds": 2.1333333333333333,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.16666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 577.3,
+        "endSeconds": 579.4333333333333,
+        "seconds": 2.1333333333333333,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.16666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 2,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.6313333333333333,
+      "travellingMovingFraction": 0.641541651420905,
+      "final30MovingFraction": 0.64,
+      "maxPause": {
+        "startSeconds": 19.5,
+        "endSeconds": 23.7,
+        "seconds": 4.2,
+        "causesSeconds": {
+          "normal_steering": 3.1333333333333333,
+          "drain": 0.03333333333333333,
+          "yaw_alignment": 1.0333333333333334
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 60.233333333333334,
+        "endSeconds": 63.3,
+        "seconds": 3.066666666666667,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 2.2333333333333334,
+          "yaw_alignment": 0.8333333333333334
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 584.7333333333333,
+        "endSeconds": 586.9666666666667,
+        "seconds": 2.2333333333333334,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.26666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 2,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.38855555555555554,
+      "travellingMovingFraction": 0.40042651947563196,
+      "final30MovingFraction": 0.3322222222222222,
+      "maxPause": {
+        "startSeconds": 54.9,
+        "endSeconds": 71.86666666666666,
+        "seconds": 16.966666666666665,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 13.633333333333333,
+          "yaw_alignment": 3.3
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 88.96666666666667,
+        "endSeconds": 94.83333333333333,
+        "seconds": 5.866666666666666,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.26666666666666666,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 592.1333333333333,
+        "endSeconds": 597.8,
+        "seconds": 5.666666666666667,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.1,
+          "yaw_alignment": 5.566666666666666
+        }
+      }
+    },
+    {
+      "members": 2,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.40644444444444444,
+      "travellingMovingFraction": 0.40055196638022955,
+      "final30MovingFraction": 0.3511111111111111,
+      "maxPause": {
+        "startSeconds": 168.96666666666667,
+        "endSeconds": 174.93333333333334,
+        "seconds": 5.966666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.36666666666666664,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 168.96666666666667,
+        "endSeconds": 174.93333333333334,
+        "seconds": 5.966666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.36666666666666664,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 580.6333333333333,
+        "endSeconds": 586.6,
+        "seconds": 5.966666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.36666666666666664,
+          "yaw_alignment": 5.566666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.6183333333333333,
+      "travellingMovingFraction": 0.637513956084853,
+      "final30MovingFraction": 0.6466666666666666,
+      "maxPause": {
+        "startSeconds": 34.53333333333333,
+        "endSeconds": 64.06666666666666,
+        "seconds": 29.533333333333335,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 28.066666666666666,
+          "yaw_alignment": 1.4666666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 96.8,
+        "endSeconds": 98.93333333333334,
+        "seconds": 2.1333333333333333,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.16666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 573.6,
+        "endSeconds": 575.7333333333333,
+        "seconds": 2.1333333333333333,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.16666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.6165555555555555,
+      "travellingMovingFraction": 0.6360253070338667,
+      "final30MovingFraction": 0.6466666666666666,
+      "maxPause": {
+        "startSeconds": 49.63333333333333,
+        "endSeconds": 60.46666666666667,
+        "seconds": 10.833333333333334,
+        "causesSeconds": {
+          "yaw_alignment": 0.6666666666666666,
+          "idle_dwell": 0.43333333333333335,
+          "planner_or_cached_no_route": 9.733333333333333
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 71.16666666666667,
+        "endSeconds": 74.5,
+        "seconds": 3.3333333333333335,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 2.5,
+          "yaw_alignment": 0.8333333333333334
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 581.0333333333333,
+        "endSeconds": 583.2666666666667,
+        "seconds": 2.2333333333333334,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.26666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.6157777777777778,
+      "travellingMovingFraction": 0.638134226522764,
+      "final30MovingFraction": 0.6466666666666666,
+      "maxPause": {
+        "startSeconds": 15.966666666666667,
+        "endSeconds": 20.966666666666665,
+        "seconds": 5.0,
+        "causesSeconds": {
+          "normal_steering": 3.1333333333333333,
+          "yaw_alignment": 1.8666666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 81.66666666666667,
+        "endSeconds": 84.03333333333333,
+        "seconds": 2.3666666666666667,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.4,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 573.4,
+        "endSeconds": 575.7333333333333,
+        "seconds": 2.3333333333333335,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.36666666666666664,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.37605555555555553,
+      "travellingMovingFraction": 0.40108101067986457,
+      "final30MovingFraction": 0.3933333333333333,
+      "maxPause": {
+        "startSeconds": 54.9,
+        "endSeconds": 91.43333333333334,
+        "seconds": 36.53333333333333,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 33.2,
+          "yaw_alignment": 3.3
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 108.73333333333333,
+        "endSeconds": 114.5,
+        "seconds": 5.766666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.16666666666666666,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 589.8666666666667,
+        "endSeconds": 595.6333333333333,
+        "seconds": 5.766666666666667,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.2,
+          "yaw_alignment": 5.566666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.39561111111111114,
+      "travellingMovingFraction": 0.403164886689242,
+      "final30MovingFraction": 0.4177777777777778,
+      "maxPause": {
+        "startSeconds": 68.46666666666667,
+        "endSeconds": 90.86666666666666,
+        "seconds": 22.4,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 19.666666666666668,
+          "yaw_alignment": 2.7333333333333334
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 165.76666666666668,
+        "endSeconds": 171.73333333333332,
+        "seconds": 5.966666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.36666666666666664,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 578.3666666666667,
+        "endSeconds": 584.2333333333333,
+        "seconds": 5.866666666666666,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.3,
+          "yaw_alignment": 5.533333333333333
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.4116111111111111,
+      "travellingMovingFraction": 0.41150039072675176,
+      "final30MovingFraction": 0.41,
+      "maxPause": {
+        "startSeconds": 245.76666666666668,
+        "endSeconds": 251.63333333333333,
+        "seconds": 5.866666666666666,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.26666666666666666,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 245.76666666666668,
+        "endSeconds": 251.63333333333333,
+        "seconds": 5.866666666666666,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.26666666666666666,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 589.7666666666667,
+        "endSeconds": 595.6333333333333,
+        "seconds": 5.866666666666666,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.26666666666666666,
+          "yaw_alignment": 5.566666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.5021111111111111,
+      "travellingMovingFraction": 0.5131373650377582,
+      "final30MovingFraction": 0.4866666666666667,
+      "maxPause": {
+        "startSeconds": 40.36666666666667,
+        "endSeconds": 67.53333333333333,
+        "seconds": 27.166666666666668,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 25.566666666666666,
+          "yaw_alignment": 1.6
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 105.76666666666667,
+        "endSeconds": 108.26666666666667,
+        "seconds": 2.5,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.5333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 578.7333333333333,
+        "endSeconds": 581.2333333333333,
+        "seconds": 2.5,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.5333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.5016111111111111,
+      "travellingMovingFraction": 0.5130749547525432,
+      "final30MovingFraction": 0.4855555555555556,
+      "maxPause": {
+        "startSeconds": 115.0,
+        "endSeconds": 117.6,
+        "seconds": 2.6,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.6333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 115.0,
+        "endSeconds": 117.6,
+        "seconds": 2.6,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.6333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 578.6666666666666,
+        "endSeconds": 581.2666666666667,
+        "seconds": 2.6,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.6333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.4941111111111111,
+      "travellingMovingFraction": 0.5138862884603382,
+      "final30MovingFraction": 0.4866666666666667,
+      "maxPause": {
+        "startSeconds": 38.166666666666664,
+        "endSeconds": 68.83333333333333,
+        "seconds": 30.666666666666668,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 27.733333333333334,
+          "planner_or_cached_no_route": 1.7666666666666666,
+          "yaw_alignment": 1.1666666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 105.76666666666667,
+        "endSeconds": 108.26666666666667,
+        "seconds": 2.5,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.5333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 578.7333333333333,
+        "endSeconds": 581.2333333333333,
+        "seconds": 2.5,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.5333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 3,
+      "movingFraction": 0.5253333333333333,
+      "travellingMovingFraction": 0.5407227111027897,
+      "final30MovingFraction": 0.5144444444444445,
+      "maxPause": {
+        "startSeconds": 44.266666666666666,
+        "endSeconds": 68.13333333333334,
+        "seconds": 23.866666666666667,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 21.633333333333333,
+          "planner_or_cached_no_route": 1.0333333333333334,
+          "yaw_alignment": 1.2
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 134.16666666666666,
+        "endSeconds": 138.1,
+        "seconds": 3.933333333333333,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 1.9666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 579.8333333333334,
+        "endSeconds": 583.7333333333333,
+        "seconds": 3.9,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 1.9333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 4,
+      "movingFraction": 0.5155555555555555,
+      "travellingMovingFraction": 0.5407227111027897,
+      "final30MovingFraction": 0.5111111111111111,
+      "maxPause": {
+        "startSeconds": 33.233333333333334,
+        "endSeconds": 71.46666666666667,
+        "seconds": 38.233333333333334,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 32.666666666666664,
+          "planner_or_cached_no_route": 3.8666666666666667,
+          "yaw_alignment": 1.7
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 143.3,
+        "endSeconds": 147.76666666666668,
+        "seconds": 4.466666666666667,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 2.5,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.5333333333333,
+        "endSeconds": 574.8,
+        "seconds": 4.266666666666667,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 2.3,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 0,
+      "fault": 0,
+      "member": 5,
+      "movingFraction": 0.5157777777777778,
+      "travellingMovingFraction": 0.5407227111027897,
+      "final30MovingFraction": 0.5255555555555556,
+      "maxPause": {
+        "startSeconds": 39.3,
+        "endSeconds": 69.86666666666666,
+        "seconds": 30.566666666666666,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 26.6,
+          "planner_or_cached_no_route": 2.7666666666666666,
+          "yaw_alignment": 1.2
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 116.16666666666667,
+        "endSeconds": 120.4,
+        "seconds": 4.233333333333333,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 2.2666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 579.8333333333334,
+        "endSeconds": 584.0666666666667,
+        "seconds": 4.233333333333333,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 2.2666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.3188888888888889,
+      "travellingMovingFraction": 0.31290785695640827,
+      "final30MovingFraction": 0.32222222222222224,
+      "maxPause": {
+        "startSeconds": 48.96666666666667,
+        "endSeconds": 93.4,
+        "seconds": 44.43333333333333,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 40.266666666666666,
+          "yaw_alignment": 4.133333333333334
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 94.53333333333333,
+        "endSeconds": 103.1,
+        "seconds": 8.566666666666666,
+        "causesSeconds": {
+          "travelling_frontier_hold": 8.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 584.0333333333333,
+        "endSeconds": 589.8666666666667,
+        "seconds": 5.833333333333333,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.3,
+          "yaw_alignment": 5.533333333333333
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.3288888888888889,
+      "travellingMovingFraction": 0.3233489950404594,
+      "final30MovingFraction": 0.3388888888888889,
+      "maxPause": {
+        "startSeconds": 66.86666666666666,
+        "endSeconds": 92.2,
+        "seconds": 25.333333333333332,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 22.4,
+          "yaw_alignment": 2.933333333333333
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 93.5,
+        "endSeconds": 103.5,
+        "seconds": 10.0,
+        "causesSeconds": {
+          "travelling_frontier_hold": 9.6,
+          "yaw_alignment": 0.4
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 584.0333333333333,
+        "endSeconds": 589.8,
+        "seconds": 5.766666666666667,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.2,
+          "yaw_alignment": 5.566666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.3244444444444444,
+      "travellingMovingFraction": 0.31290785695640827,
+      "final30MovingFraction": 0.32222222222222224,
+      "maxPause": {
+        "startSeconds": 84.63333333333334,
+        "endSeconds": 98.96666666666667,
+        "seconds": 14.333333333333334,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 4.6,
+          "planner_or_cached_no_route": 4.533333333333333,
+          "yaw_alignment": 5.166666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 336.4,
+        "endSeconds": 348.6666666666667,
+        "seconds": 12.266666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "planner_or_cached_no_route": 6.666666666666667,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 584.0333333333333,
+        "endSeconds": 589.9,
+        "seconds": 5.866666666666666,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.26666666666666666,
+          "yaw_alignment": 5.566666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 3,
+      "movingFraction": 0.3347222222222222,
+      "travellingMovingFraction": 0.3246541373009658,
+      "final30MovingFraction": 0.3333333333333333,
+      "maxPause": {
+        "startSeconds": 537.9,
+        "endSeconds": 549.3333333333334,
+        "seconds": 11.433333333333334,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "planner_or_cached_no_route": 5.833333333333333,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 537.9,
+        "endSeconds": 549.3333333333334,
+        "seconds": 11.433333333333334,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "planner_or_cached_no_route": 5.833333333333333,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 579.3333333333334,
+        "seconds": 9.333333333333334,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 3.8,
+          "yaw_alignment": 5.533333333333333
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 4,
+      "movingFraction": 0.33305555555555555,
+      "travellingMovingFraction": 0.33313756199425737,
+      "final30MovingFraction": 0.34444444444444444,
+      "maxPause": {
+        "startSeconds": 82.0,
+        "endSeconds": 103.03333333333333,
+        "seconds": 21.033333333333335,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 7.166666666666667,
+          "planner_or_cached_no_route": 10.533333333333333,
+          "yaw_alignment": 3.3
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 122.1,
+        "endSeconds": 133.7,
+        "seconds": 11.6,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "planner_or_cached_no_route": 6.0,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 584.1333333333333,
+        "endSeconds": 589.8,
+        "seconds": 5.666666666666667,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.1,
+          "yaw_alignment": 5.566666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 0,
+      "fault": 0,
+      "member": 5,
+      "movingFraction": 0.3288888888888889,
+      "travellingMovingFraction": 0.325306708431219,
+      "final30MovingFraction": 0.3277777777777778,
+      "maxPause": {
+        "startSeconds": 82.1,
+        "endSeconds": 99.9,
+        "seconds": 17.8,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 7.066666666666666,
+          "planner_or_cached_no_route": 7.433333333333334,
+          "yaw_alignment": 3.2666666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 353.6333333333333,
+        "endSeconds": 365.9,
+        "seconds": 12.266666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "planner_or_cached_no_route": 6.666666666666667,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.0,
+        "endSeconds": 579.4333333333333,
+        "seconds": 9.433333333333334,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 3.9,
+          "yaw_alignment": 5.533333333333333
+        }
+      }
+    },
+    {
+      "members": 2,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.6211111111111111,
+      "travellingMovingFraction": 0.6407629812787001,
+      "final30MovingFraction": 0.6466666666666666,
+      "maxPause": {
+        "startSeconds": 13.133333333333333,
+        "endSeconds": 35.266666666666666,
+        "seconds": 22.133333333333333,
+        "causesSeconds": {
+          "arrived_waiting_cohort": 20.666666666666668,
+          "yaw_alignment": 1.4666666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 66.0,
+        "endSeconds": 68.13333333333334,
+        "seconds": 2.1333333333333333,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.16666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 572.6,
+        "endSeconds": 574.7333333333333,
+        "seconds": 2.1333333333333333,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.16666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 2,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.6213333333333333,
+      "travellingMovingFraction": 0.6393500529848111,
+      "final30MovingFraction": 0.6466666666666666,
+      "maxPause": {
+        "startSeconds": 40.63333333333333,
+        "endSeconds": 43.7,
+        "seconds": 3.066666666666667,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 2.2333333333333334,
+          "yaw_alignment": 0.8333333333333334
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 40.63333333333333,
+        "endSeconds": 43.7,
+        "seconds": 3.066666666666667,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 2.2333333333333334,
+          "yaw_alignment": 0.8333333333333334
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 580.0333333333333,
+        "endSeconds": 582.2666666666667,
+        "seconds": 2.2333333333333334,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.26666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 2,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.3927777777777778,
+      "travellingMovingFraction": 0.40037849665858416,
+      "final30MovingFraction": 0.42777777777777776,
+      "maxPause": {
+        "startSeconds": 17.233333333333334,
+        "endSeconds": 40.53333333333333,
+        "seconds": 23.3,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 19.1,
+          "yaw_alignment": 4.166666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 58.766666666666666,
+        "endSeconds": 64.53333333333333,
+        "seconds": 5.766666666666667,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.2,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 584.7666666666667,
+        "endSeconds": 590.4333333333333,
+        "seconds": 5.666666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.1,
+          "yaw_alignment": 5.533333333333333
+        }
+      }
+    },
+    {
+      "members": 2,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.39361111111111113,
+      "travellingMovingFraction": 0.3994913951150275,
+      "final30MovingFraction": 0.4033333333333333,
+      "maxPause": {
+        "startSeconds": 70.13333333333334,
+        "endSeconds": 76.1,
+        "seconds": 5.966666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.36666666666666664,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 70.13333333333334,
+        "endSeconds": 76.1,
+        "seconds": 5.966666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.36666666666666664,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 573.3,
+        "endSeconds": 579.2333333333333,
+        "seconds": 5.933333333333334,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.36666666666666664,
+          "yaw_alignment": 5.533333333333333
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.6415555555555555,
+      "travellingMovingFraction": 0.6391003067136204,
+      "final30MovingFraction": 0.64,
+      "maxPause": {
+        "startSeconds": 30.633333333333333,
+        "endSeconds": 32.9,
+        "seconds": 2.2666666666666666,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.3,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 30.633333333333333,
+        "endSeconds": 32.9,
+        "seconds": 2.2666666666666666,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.3,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 582.0666666666667,
+        "endSeconds": 584.2,
+        "seconds": 2.1333333333333333,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.16666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.6257777777777778,
+      "travellingMovingFraction": 0.6397818925366352,
+      "final30MovingFraction": 0.6466666666666666,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 14.5,
+        "seconds": 14.5,
+        "causesSeconds": {
+          "moving_or_initial": 0.03333333333333333,
+          "arrived_waiting_cohort": 13.1,
+          "yaw_alignment": 1.3666666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 38.2,
+        "endSeconds": 40.43333333333333,
+        "seconds": 2.2333333333333334,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.26666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 574.6,
+        "endSeconds": 576.8333333333334,
+        "seconds": 2.2333333333333334,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.26666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.6261666666666666,
+      "travellingMovingFraction": 0.6401794842667272,
+      "final30MovingFraction": 0.6466666666666666,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 16.066666666666666,
+        "seconds": 16.066666666666666,
+        "causesSeconds": {
+          "moving_or_initial": 0.03333333333333333,
+          "arrived_waiting_cohort": 13.1,
+          "planner_or_cached_no_route": 1.7666666666666666,
+          "yaw_alignment": 1.1666666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 60.36666666666667,
+        "endSeconds": 62.7,
+        "seconds": 2.3333333333333335,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.36666666666666664,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 581.8666666666667,
+        "endSeconds": 584.2,
+        "seconds": 2.3333333333333335,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.36666666666666664,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.37027777777777776,
+      "travellingMovingFraction": 0.3918744120413923,
+      "final30MovingFraction": 0.33666666666666667,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 37.5,
+        "seconds": 37.5,
+        "causesSeconds": {
+          "moving_or_initial": 0.03333333333333333,
+          "arrived_waiting_cohort": 33.03333333333333,
+          "yaw_alignment": 4.433333333333334
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 65.63333333333334,
+        "endSeconds": 71.96666666666667,
+        "seconds": 6.333333333333333,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.7666666666666667,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.6666666666666,
+        "endSeconds": 576.4333333333333,
+        "seconds": 5.766666666666667,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.2,
+          "yaw_alignment": 5.566666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.3711111111111111,
+      "travellingMovingFraction": 0.3927563499529633,
+      "final30MovingFraction": 0.35333333333333333,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 37.13333333333333,
+        "seconds": 37.13333333333333,
+        "causesSeconds": {
+          "moving_or_initial": 0.03333333333333333,
+          "arrived_waiting_cohort": 33.06666666666667,
+          "yaw_alignment": 4.033333333333333
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 169.43333333333334,
+        "endSeconds": 175.4,
+        "seconds": 5.966666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.36666666666666664,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 582.2333333333333,
+        "endSeconds": 588.2,
+        "seconds": 5.966666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.36666666666666664,
+          "yaw_alignment": 5.566666666666666
+        }
+      }
+    },
+    {
+      "members": 3,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.4006111111111111,
+      "travellingMovingFraction": 0.40192850423330195,
+      "final30MovingFraction": 0.3511111111111111,
+      "maxPause": {
+        "startSeconds": 32.96666666666667,
+        "endSeconds": 42.96666666666667,
+        "seconds": 10.0,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 0.1,
+          "planner_or_cached_no_route": 4.6,
+          "yaw_alignment": 5.266666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 65.63333333333334,
+        "endSeconds": 71.96666666666667,
+        "seconds": 6.333333333333333,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.7333333333333333,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.5666666666667,
+        "endSeconds": 576.4333333333333,
+        "seconds": 5.866666666666666,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.26666666666666666,
+          "yaw_alignment": 5.566666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.518,
+      "travellingMovingFraction": 0.5125743026977595,
+      "final30MovingFraction": 0.5077777777777778,
+      "maxPause": {
+        "startSeconds": 38.6,
+        "endSeconds": 41.1,
+        "seconds": 2.5,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.5333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 38.6,
+        "endSeconds": 41.1,
+        "seconds": 2.5,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.5333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 576.5333333333333,
+        "endSeconds": 579.0333333333333,
+        "seconds": 2.5,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.5333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.4991111111111111,
+      "travellingMovingFraction": 0.5134887974394147,
+      "final30MovingFraction": 0.5133333333333333,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 18.133333333333333,
+        "seconds": 18.133333333333333,
+        "causesSeconds": {
+          "moving_or_initial": 0.03333333333333333,
+          "arrived_waiting_cohort": 16.766666666666666,
+          "yaw_alignment": 1.3333333333333333
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 19.333333333333332,
+        "endSeconds": 22.566666666666666,
+        "seconds": 3.2333333333333334,
+        "causesSeconds": {
+          "travelling_frontier_hold": 2.2666666666666666,
+          "yaw_alignment": 0.9666666666666667
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 585.7666666666667,
+        "endSeconds": 588.3666666666667,
+        "seconds": 2.6,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.6333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.4988888888888889,
+      "travellingMovingFraction": 0.5132601737540009,
+      "final30MovingFraction": 0.5077777777777778,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 20.0,
+        "seconds": 20.0,
+        "causesSeconds": {
+          "moving_or_initial": 0.03333333333333333,
+          "arrived_waiting_cohort": 16.766666666666666,
+          "planner_or_cached_no_route": 1.7666666666666666,
+          "yaw_alignment": 1.4333333333333333
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 56.36666666666667,
+        "endSeconds": 58.86666666666667,
+        "seconds": 2.5,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.5333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 576.5333333333333,
+        "endSeconds": 579.0333333333333,
+        "seconds": 2.5,
+        "causesSeconds": {
+          "travelling_frontier_hold": 0.5333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 3,
+      "movingFraction": 0.5253333333333333,
+      "travellingMovingFraction": 0.5404663923182441,
+      "final30MovingFraction": 0.5466666666666666,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 19.5,
+        "seconds": 19.5,
+        "causesSeconds": {
+          "moving_or_initial": 0.03333333333333333,
+          "arrived_waiting_cohort": 16.766666666666666,
+          "planner_or_cached_no_route": 1.4666666666666666,
+          "yaw_alignment": 1.2333333333333334
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 48.53333333333333,
+        "endSeconds": 52.43333333333333,
+        "seconds": 3.9,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 1.9333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 586.9333333333333,
+        "endSeconds": 590.8333333333334,
+        "seconds": 3.9,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 1.9333333333333333,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 4,
+      "movingFraction": 0.5233333333333333,
+      "travellingMovingFraction": 0.5384087791495199,
+      "final30MovingFraction": 0.5066666666666667,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 22.2,
+        "seconds": 22.2,
+        "causesSeconds": {
+          "moving_or_initial": 0.03333333333333333,
+          "arrived_waiting_cohort": 16.766666666666666,
+          "planner_or_cached_no_route": 3.8666666666666667,
+          "yaw_alignment": 1.5333333333333334
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 57.56666666666667,
+        "endSeconds": 62.03333333333333,
+        "seconds": 4.466666666666667,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 2.5,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 577.6333333333333,
+        "endSeconds": 581.9,
+        "seconds": 4.266666666666667,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 2.3,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 48,
+      "terminal": 1,
+      "fault": 0,
+      "member": 5,
+      "movingFraction": 0.5257777777777778,
+      "travellingMovingFraction": 0.5409236396890718,
+      "final30MovingFraction": 0.5466666666666666,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 21.5,
+        "seconds": 21.5,
+        "causesSeconds": {
+          "moving_or_initial": 0.03333333333333333,
+          "arrived_waiting_cohort": 16.766666666666666,
+          "planner_or_cached_no_route": 3.3666666666666667,
+          "yaw_alignment": 1.3333333333333333
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 67.06666666666666,
+        "endSeconds": 71.3,
+        "seconds": 4.233333333333333,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 2.2666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 586.9333333333333,
+        "endSeconds": 591.1666666666666,
+        "seconds": 4.233333333333333,
+        "causesSeconds": {
+          "planner_or_cached_no_route": 2.2666666666666666,
+          "yaw_alignment": 1.9666666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 0,
+      "movingFraction": 0.31055555555555553,
+      "travellingMovingFraction": 0.3134619938432394,
+      "final30MovingFraction": 0.3088888888888889,
+      "maxPause": {
+        "startSeconds": 16.3,
+        "endSeconds": 41.166666666666664,
+        "seconds": 24.866666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "arrived_waiting_cohort": 20.7,
+          "yaw_alignment": 4.133333333333334
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 188.43333333333334,
+        "endSeconds": 200.13333333333333,
+        "seconds": 11.7,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "planner_or_cached_no_route": 6.133333333333334,
+          "yaw_alignment": 5.533333333333333
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 587.5,
+        "endSeconds": 593.2666666666667,
+        "seconds": 5.766666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.2,
+          "yaw_alignment": 5.533333333333333
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 1,
+      "movingFraction": 0.3243888888888889,
+      "travellingMovingFraction": 0.3273147051858868,
+      "final30MovingFraction": 0.31555555555555553,
+      "maxPause": {
+        "startSeconds": 41.53333333333333,
+        "endSeconds": 51.733333333333334,
+        "seconds": 10.2,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 7.433333333333334,
+          "yaw_alignment": 2.7333333333333334
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 41.53333333333333,
+        "endSeconds": 51.733333333333334,
+        "seconds": 10.2,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 7.433333333333334,
+          "yaw_alignment": 2.7333333333333334
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 570.3666666666667,
+        "endSeconds": 576.3333333333334,
+        "seconds": 5.966666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.36666666666666664,
+          "yaw_alignment": 5.566666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 2,
+      "movingFraction": 0.29744444444444446,
+      "travellingMovingFraction": 0.3169547714894625,
+      "final30MovingFraction": 0.3211111111111111,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 44.766666666666666,
+        "seconds": 44.766666666666666,
+        "causesSeconds": {
+          "moving_or_initial": 0.06666666666666667,
+          "arrived_waiting_cohort": 36.86666666666667,
+          "planner_or_cached_no_route": 4.433333333333334,
+          "yaw_alignment": 3.4
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 356.73333333333335,
+        "endSeconds": 363.26666666666665,
+        "seconds": 6.533333333333333,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.9333333333333333,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 587.5,
+        "endSeconds": 593.2666666666667,
+        "seconds": 5.766666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.2,
+          "yaw_alignment": 5.533333333333333
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 3,
+      "movingFraction": 0.30666666666666664,
+      "travellingMovingFraction": 0.326781908595785,
+      "final30MovingFraction": 0.33111111111111113,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 44.3,
+        "seconds": 44.3,
+        "causesSeconds": {
+          "moving_or_initial": 0.06666666666666667,
+          "arrived_waiting_cohort": 36.86666666666667,
+          "planner_or_cached_no_route": 3.5,
+          "yaw_alignment": 3.8666666666666667
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 389.1,
+        "endSeconds": 400.53333333333336,
+        "seconds": 11.433333333333334,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "planner_or_cached_no_route": 5.833333333333333,
+          "yaw_alignment": 5.566666666666666
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 571.7,
+        "endSeconds": 582.8333333333334,
+        "seconds": 11.133333333333333,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "planner_or_cached_no_route": 5.533333333333333,
+          "yaw_alignment": 5.566666666666666
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 4,
+      "movingFraction": 0.31833333333333336,
+      "travellingMovingFraction": 0.3392138290314942,
+      "final30MovingFraction": 0.3811111111111111,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 48.8,
+        "seconds": 48.8,
+        "causesSeconds": {
+          "moving_or_initial": 0.06666666666666667,
+          "arrived_waiting_cohort": 36.86666666666667,
+          "planner_or_cached_no_route": 8.566666666666666,
+          "yaw_alignment": 3.3
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 188.63333333333333,
+        "endSeconds": 200.13333333333333,
+        "seconds": 11.5,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "planner_or_cached_no_route": 5.933333333333334,
+          "yaw_alignment": 5.533333333333333
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 587.6,
+        "endSeconds": 593.2666666666667,
+        "seconds": 5.666666666666667,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "travelling_frontier_hold": 0.1,
+          "yaw_alignment": 5.533333333333333
+        }
+      }
+    },
+    {
+      "members": 6,
+      "budget": 17,
+      "terminal": 1,
+      "fault": 0,
+      "member": 5,
+      "movingFraction": 0.3091111111111111,
+      "travellingMovingFraction": 0.32938669192517167,
+      "final30MovingFraction": 0.3466666666666667,
+      "maxPause": {
+        "startSeconds": 0.0,
+        "endSeconds": 48.7,
+        "seconds": 48.7,
+        "causesSeconds": {
+          "moving_or_initial": 0.06666666666666667,
+          "arrived_waiting_cohort": 36.9,
+          "planner_or_cached_no_route": 8.066666666666666,
+          "yaw_alignment": 3.6666666666666665
+        }
+      },
+      "maxTravellingPause": {
+        "startSeconds": 236.83333333333334,
+        "endSeconds": 248.9,
+        "seconds": 12.066666666666666,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "planner_or_cached_no_route": 6.5,
+          "yaw_alignment": 5.533333333333333
+        }
+      },
+      "maxFinal30Pause": {
+        "startSeconds": 571.2333333333333,
+        "endSeconds": 582.9333333333333,
+        "seconds": 11.7,
+        "causesSeconds": {
+          "schedule_after_segment_end": 0.03333333333333333,
+          "planner_or_cached_no_route": 6.1,
+          "yaw_alignment": 5.566666666666666
+        }
+      }
+    }
+  ],
+  "causeMethod": "Actual rendered displacement per frame; zero-displacement frames inherit last scheduled decision, except completed-segment waiting is labelled schedule. Multiple causes can form a pause. Full-run and final30 pauses include censored boundary intervals.",
+  "localRawLogs": "C:\\Users\\shmue\\AppData\\Local\\Temp\\crowd-travelling-candidate-7rmvs7k_",
+  "runnerSha256": "50c730f28f9e4a96983874887b9d59d21a7bd6aefae10246351c19a24a338889",
+  "artifacts": {
+    "episodes.csv.gz": "180794ac51189b2d1571a51cd8a65cdbcb507d4c4b4091f91a3dac477b11ce29",
+    "ExecutableRouteStudy.h.gz": "334183b43cdc1a88bdb2b7aab553ccaaeb5bd220319b0211e269afffa02a0919",
+    "fixture.cpp.gz": "07f921d4795c542f597ecfe1c4be5efbe12da7002a60e2033c66d84df9504ebd",
+    "group-metrics.csv.gz": "de2fb47b6e31b10ad308e68ccfdf34354be12c9fdecdf2410761eb5898dd5e1c",
+    "late-roots.csv.gz": "b846330bd0f0309d4917f6a174c652acdaf507f061454f3cb5f432023ece1cba",
+    "member-metrics.csv.gz": "d980471c9471a91b64512a99aa83b384ee9a8627597a9bc36c0b0d2e4d6a8ea7",
+    "motion.csv.gz": "51eeb7230da6319d6f6ff82535af666df5cc7c2744e6662389fb7ed075a2f215",
+    "recovery.csv.gz": "28220733af3135f7161af7d9b3b17c02bebf56768c3a55d45827f7b64b5e8cd6",
+    "RouteContinuityStudy.h.gz": "69214195d25d1d2f59d8e43cdb9d88f95cbfda36db5ae39b62878777cba3bf7c",
+    "run.log.gz": "b9385386d268f4807144d3b1071739cfbf947c4752d80c395d95327d72f48af7",
+    "TravellingCohortStudy.h.gz": "2deb85255c1007ccebd223e8bbcccbd3792400d371c9bd10cb2cca7e53aadd5a"
+  }
+}

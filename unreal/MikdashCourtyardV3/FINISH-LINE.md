@@ -2575,3 +2575,22 @@ Cooked geometry lifetime, shared vertex identity, complete shape enumeration and
 support-versus-obstacle separation must be established before runtime adoption.
 Memory entry guards remain unchanged; no engine job is authorized by a source
 test or by the availability of a new prototype.
+
+## Tree preview/import mismatch — 2 October 2026
+
+Run04's shared custom tangent frames are not a reliable substitute for the
+engine algorithm. A bounded standalone test of the installed MikkTSpace on
+the frozen candidate's binary32 corners found a collar tangent difference of
+about79degrees at p95,155 handedness mismatches and four zero tangent outputs.
+Zero outputs were retained and reported, not normalized into a passing fallback.
+This compares the supplied author-coordinate normals/UVs; it does not execute
+OBJ import, UE recomputed normals, texture compression or a rendered game frame.
+
+release_street_trees.py does not pin its normal import/generation settings.
+Configurable constructor defaults therefore do not prove which normals the
+candidate would use. The OBJ V flip and UE's stored Mikk sign convention must
+also be accounted for explicitly. Subsequent candidates need an explicit import
+contract and matching algorithm-based previews, followed by native readback and
+visual acceptance. Existing production imports/materials remain untouched.
+Evidence stays local in Verification/run04-installed-mikk-independent01;
+no installed engine source or vendor library is included in publication.

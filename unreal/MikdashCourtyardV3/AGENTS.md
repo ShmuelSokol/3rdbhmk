@@ -5034,3 +5034,22 @@ case remains distinct: three injected-fault assertions never enter recovery;
 a separate three-member group finishes regrouping after121.13s, missing the120s
 walking criterion. Do not describe exact fixture replay as runtime adoption.
 Actual-horizon and continuous angular integration remain separate ongoing work.
+
+## Cloth V4 source verification resolved - 2 October 2026
+
+Independent fresh publication execution of study_kohen_cloth_exec_verify.py
+--scope publication passes21/21, exit0. All47 source pins and12 required project
+prerequisites match. It explicitly reports327 matching historical assets and29
+absent ones, with nativeEligibility=false. This supersedes the V3 publication hold;
+it does not pretend the clone contains the complete native preservation baseline.
+Native run_in_editor calls require_native before imports and still requires every
+historical original; the absence/changed-present fault cases are tested. Original
+before/after preservation remains enforced. No source whitelist authorizes a
+native run, and no C++ build or Chaos simulation has run. The47-file v4 allowlist
+plus itself is the publication boundary, with exact-byte Git attributes.
+
+Independent AngularVATStudy01 source review passes4879 generated-graph assertions:
+429 stock nodes, no Custom nodes, complete posed-position and normal rotation,
+previous-frame WPO reconstruction and translation-gate ordering. This is preparation
+for isolated shader compilation/rendered motion proof, not crowd visual acceptance.
+Production maps, runtime modules and the preserved playable checkpoint are unchanged.

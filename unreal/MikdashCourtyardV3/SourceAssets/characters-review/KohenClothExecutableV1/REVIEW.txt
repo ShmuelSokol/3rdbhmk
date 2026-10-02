@@ -1,0 +1,123 @@
+Kohen cloth executable feasibility — source review, NOT compiled or run
+
+Entry point and isolation
+  ReviewProject/KohenClothReview.uproject is a NEW standalone project. No courtyard
+  module, config, plugin enablement, production binding, asset or map is modified.
+  run_in_editor.py imports hash-pinned WalkV2 and combined GLBs into a fresh namespace,
+  with material/physics imports disabled and animation sampling explicitly60Hz.
+  A fresh skeleton is created from the unchanged source rig; the combined mesh uses it.
+  C++ duplicates the combined mesh transiently and changes only its KG_Meil clothing.
+  No asset is saved. Original input asset/GLB hashes are checked before/after execution.
+
+Implemented C++ (ReviewProject/Plugins/KohenClothExecutable/.../Private)
+  KohenClothBuilder.cpp constructs modern managed cloth collection with six separate
+  physical patterns: Meil836 dynamic/pinned-upper vertices, Ketonet and both shin/foot
+  meshes10504 kinematic vertices. It seeds Chaos config and explicitly enables
+  SelfCollideAgainstAllKinematicVertices in the SAME physical model.
+  RenderDeformer optional schema is explicitly defined. Native KG_Meil render vertices
+  retain exact positions/order, bone weights, material and section topology. Mapping
+  generation supplies an outer-triangle-only filter. Rest position, normal-tip and
+  tangent-tip reconstruction must all be within0.01cm. Bone-axis fit must be unique
+  within0.05cm. No hardcoded native section ID, guessed axis or collider mapping.
+  Build validates physical vertex/triangle order. Binding validates the actual result,
+  including every influence index, blend and barycentric value. No reliance on the
+  binding bool alone. All other sections, materials, rig and source remain identical.
+
+  KohenClothWalk.cpp uses a private FPreviewScene and synchronous
+  FClothingSimulationInstance FillContextAndPrepareTick/Simulate/AppendSimulationData.
+  It does not tick a production world. Fixed config:nominal5/max5 adaptive iterations,0.5cm self-contact
+  thickness,0.1 bending stiffness,zero animation drive,gravity980.665cm/s2, no sweep.
+  Settles120 steps then records288 walk samples at240Hz, from0 to287/240 seconds.
+  Data.Transform is applied before converting component positions to author axes.
+  Every fixed particle must match independently skinned posed rig within0.05cm.
+  Each atomic f32 frame contains solver particles, mapped outer render vertices,
+  unchanged skinned outer control and27 bone positions. Atomic progress every24 frames.
+  Partial frames survive failure; no cleanup deletes evidence. Five-minute simulation
+  budget is checked between steps (not a preemptive native-process timeout).
+
+Control interpretation and eventual two-layer cloth
+  OUTER-ONLY IS API FEASIBILITY, NEVER THE FINAL DRAPE SOLUTION. The exact rigid-skinned
+  ketonet retains ankle-following deformation and may force the outer shell into the
+  same shelf through contact. A persistent shelf here cannot falsify cloth as a fix.
+  The per-frame skinned outer control distinguishes solver response from the original
+  affine motion, while exact inner readback exposes the obstructing shape.
+  Both layers already occupy distinct indexed patterns of one physical collection;
+  body obstacles remain separate zero-distance patterns. A later reviewed change can
+  make ketonet below its upper pins dynamic, retain body colliders, and add a separately
+  filtered inner render pattern. This requires garment-part extraction from KG_Linen:
+  that material ALSO includes the turban, so binding the entire section is prohibited.
+  Current entry point deliberately refuses a second dynamic layer until that separate
+  mapping/extraction review. No runtime switch secretly enables a second candidate.
+  Bells/pomegranates stay skinned in this shell proof. They require later garment-only
+  attachment work before judging the complete period silhouette. Face/hair/turban and
+  the original rig are never replaced or simulated.
+
+Single-action build recipe — NOT EXECUTED
+  After coordinator source review and free native/build slot, invoke:
+    & 'C:/Users/shmue/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe' -NoProfile -File .\Build-Reviewed.ps1 -CoordinatorReviewed
+  Use that verified 64-bit PowerShell7.6.5 path, from this review directory.
+  This performs exactly one UBT invocation:
+    "C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/ThirdParty/DotNet/10.0/win-x64/dotnet.exe"
+      "C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll"
+      KohenClothReviewEditor Win64 Development
+      -Project="<this-folder>/ReviewProject/KohenClothReview.uproject"
+      -WaitMutex -NoHotReloadFromIDE -MaxParallelActions=1 -NoUBA -NoXGE
+  Direct invocation above describes the wrapper's child; do not bypass the wrapper.
+  Working directory is installed engine Source. No Build.bat/bootstrap invocation.
+  The script resolves the absolute project path and retains fresh receipts and logs.
+  It refuses an occupied/blocked native slot or less than9GiB free commit.
+  Prerequisites: installed UE5.8, its bundled dotnet/UBT/UHT, VS2022 MSVC and Windows SDK.
+  Target uses V7 build settings and Unreal5_8 include order, matching installed TP_Blank.
+  Modules: Core/CoreUObject/Engine, UnrealEd, Json, Chaos, ChaosCloth, ChaosClothAsset,
+  ChaosClothAssetEngine, ClothingSystemRuntimeCommon/Interface, RenderCore, RHI.
+  Review-project plugins: PythonScriptPlugin, EditorScriptingUtilities, Interchange;
+  new editor plugin depends on installed ChaosCloth and ChaosClothAsset. No MCP/toolset
+  dependency or modification of an existing project module is required.
+
+Native execution — separate coordinator approval/slot, NOT EXECUTED
+  After a successful reviewed build:
+    & 'C:/Users/shmue/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe' -NoProfile -File .\Run-Reviewed.ps1 -CoordinatorReviewed
+  Runs isolated UnrealEditor-Cmd with PythonScript commandlet, nullRHI, no source map.
+  Logs/readback live only in this review tree; output path is printed as
+  KOHEN_CLOTH_READBACK=.../ReviewProject/Saved/KohenClothWalk/<unique-id>.
+  Both wrappers use Owned-ReviewWatchdog.ps1 and OwnedChildJob.cs: hidden suspended
+  child assigned to a kernel Job Object before resume, no descendant breakaway,
+  per-process/aggregate4GiB limit,500ms polling,2GiB free-commit reserve. Start guard
+  remains9GiB, checked again immediately before launch. Native deadline600s;
+  build deadline900s. Owned-job termination/confirmation is bounded to5seconds.
+  Confirmation requires the original root handle and all captured, membership-checked
+  descendant handles to signal AND job ActiveProcesses=0 inside that same budget.
+  WAIT_FAILED/capture failure refuses confirmation and retains the sentinel. Job
+  accounting alone is insufficient: OS testing observed zero before root signaling.
+  A pretermination membership snapshot cannot prove every late child's kernel teardown;
+  zero active job membership proves no active job processes, not release of all objects.
+  No unrelated-process cleanup, automatic retry or automatic native build.
+  BEFORE child creation the wrapper persists an unresolved ownership sentinel at
+  SourceAssets/context-review/HaramThresholdSidesV1/native-slot-blocked.json relative
+  to the active courtyard project. Publication flushes the temporary file to disk,
+  atomically renames without replacement, then verifies its unique ownership token.
+  Persistence failure refuses launch. Both threshold and cloth wrappers honor this
+  marker. Foreign/existing markers refuse launch untouched, even if malformed.
+  Only confirmed owned cleanup permits removal of this run's matching sentinel.
+  Unconfirmed/unknown cleanup, including constructor failure, leaves it in place
+  even if every subsequent receipt write fails. Coordinator must then verify root
+  AND descendants exited before explicit manual clearance. No automatic retry.
+  Fresh WrapperRuns/<kind>-<UTC>-<GUID> retains atomic receipts, source hashes and log.
+  These guards are implemented but have not been exercised against a native child.
+
+Offline readback — executable, not yet supplied with native data
+  Scientific Python -B Scripts/study_kohen_cloth_exec_readback.py <readback-directory>
+    [--clearance] [--renders]
+  Always validates all288 timestamps/buffers and independently compares pinned source
+  bone poses, exact kinematic layers and skinned render controls (0.05cm maximum).
+  --clearance reuses existing conjunction/parity/signed-distance and hem policies on
+  all288 walk frames. It does NOT run idle/tend or claim the full986 matrix.
+  --renders uses the existing offline rasterizer for matched cloth/control shell views
+  at71/240 (0.295833s) and280/240 (1.166667s). This excludes head and decorations.
+  Passing readback is not passing clearance; passing sampled clearance is not visual
+  approval or exhaustive continuous collision proof. All receipts retain these limits.
+
+Verification boundary
+  Offline contract tests check actual prepared data, correspondence, corrupt frame
+  rejection, atomic publication and header/API availability. They do not compile C++
+  or validate Chaos execution. UHT/compiler/linker and native outcomes remain NOT RUN.

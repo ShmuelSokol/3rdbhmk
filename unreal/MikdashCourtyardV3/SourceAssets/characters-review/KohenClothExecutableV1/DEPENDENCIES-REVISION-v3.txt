@@ -1,0 +1,23 @@
+Dependency correction — no native execution, no production script modification.
+
+source-manifest-v3.json is the current runtime pin set. It preserves the exact v2
+cloth input/physics but replaces the whole release-script dependency with isolated
+mesh_import_pipeline.py. The helper function text is identical in active release
+bd8b3334... and published release b3a9e70c...: SHA256 e4a5a22abc9c18c24620146fbbac6c294a406e6027caaddea4b1474e69ecf749.
+dependency-provenance-v3.json records full source and helper hashes. No release
+globals, module execution, FaceV5 modifications or other functions were copied.
+run_in_editor.py loads only this isolated helper, passing import_materials=False.
+Historical v1/v2 manifests remain evidence, not current runtime dependencies.
+
+Cloth readback/checks now use study_kohen_cloth_parts.body_parts: only ketonet, meil,
+and legs builders. Full character assembly and its optional MetaHuman head route
+are not called. The original generator remains unchanged. Focused tests forbid
+full assembly and the missing head import, and compare exact prepared inner/body
+geometry plus original Meil render correspondence. The publication scanner excludes
+that proven-unused optional head module, not an arbitrary missing dependency.
+
+publish-allowlist-v3.json replaces v2 as the exact publication list. Existing release
+file is no longer required to match the active file. The frozen watchdog still
+hashes the locally present release script before/after each run for nonmutation;
+that check does not require either particular release hash. Frozen wrappers/docs
+and OS-JOB-INTEGRATION.json are untouched. Native/UBT/cloth remain NOT RUN.

@@ -1,0 +1,44 @@
+Cloth physics revision v2 — executable source, UNCOMPILED / UNRUN
+
+This file supersedes only the cloth-input/control descriptions in frozen REVIEW.txt.
+REVIEW.txt, WRAPPER-REVISION.txt and all watchdog sources remain pinned byte-for-byte
+by OS-JOB-INTEGRATION.json. That actual OS test is watchdog evidence, not cloth evidence.
+
+run_in_editor.py now consumes source-manifest-v2.json and prepared-study-input-v2.json.
+The previous input/manifest remain historical evidence; their geometry and weights
+are unchanged. New explicit study physics selects density0.35kg/m2, minimum particle
+mass0.0001kg: area-based mass handles unequal triangles; the floor avoids negligible
+particle inertia. These are authored feasibility choices, NOT historical textile
+measurements. Rest-input estimate:616 movable vertices, approximately0.378779kg;
+12 movable vertices hit the floor. Native effective mass is not yet measured.
+
+FClothEngineTools::GenerateTethers(Collection,MaxDistance,true) creates geodesic
+attachments after physical patterns and MaxDistance exist. It is supplied by the
+already declared ChaosClothAssetEngine module. Every movable outer vertex must have
+at least one tether; every anchor must be a unique fixed outer vertex; lengths must
+be finite, positive and at least the Euclidean chord. Kinematic body/inner particles
+must have no tethers. Built-model attachments/counts/lengths must match the collection.
+Stiffness1 and length scale1 are explicit study settings, not disabled constraints.
+Offline graph checks prove anchor reachability; UE-generated tether validation is
+implemented but cannot be reported passed until a reviewed native execution.
+
+Schema2 frames contain simulation XYZ, cloth-render XYZ, original-rig reference XYZ,
+matched-binding nonsimulated-render XYZ, and27 bone XYZ, all author centimeters.
+The matched control skins EXACT physical points with EXACT solver bone bindings,
+recomputes normals from the same topology, and applies the same render barycentric
+mapping, normal distance and skinning blend. It never integrates a simulation step.
+The original rig remains the independent preservation reference. Only difference
+from the matched control enters the0.01cm physics-response threshold. This detects
+response, not visual drape quality, collision acceptance or historical authenticity.
+Topology exports actual bindings, deformer rows and generated tethers for independent
+offline validation. Matched/cloth/original renders share views and posed collider.
+
+The inner garment remains exactly kinematic and can force a shelf. Outer-only stays
+API feasibility. Existing head/rig/original assets remain immutable; no asset save,
+GLB export, production binding or adoption. Walk only; full986 matrix NOT RUN.
+
+Run offline checks with scientific Python -B Scripts/study_kohen_cloth_exec_verify.py.
+Input regeneration is fresh-only: study_kohen_cloth_exec_input_v2.py deliberately
+refuses to replace existing evidence. No UE/UBT until coordinator review and unchanged
+9GiB start guard. Compilation, solver behavior, tether generation and cloth clearance
+remain NOT RUN. New receipts use temp-file then atomic rename; no interim JSON reads.

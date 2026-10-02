@@ -1,0 +1,51 @@
+Owned wrapper revision v4 (retained-handle cleanup confirmation)
+
+Only Run-Reviewed.ps1, Build-Reviewed.ps1 and new wrapper support/test sources changed.
+The executable UE plugin, parser/import script and project configuration remain frozen.
+
+Both approved launchers now use an actual kernel-owned Windows Job Object. The direct
+child starts suspended and hidden (CREATE_NO_WINDOW plus SW_HIDE), enters the job,
+then resumes. Descendants inherit the job; breakaway is not enabled. Per-process AND
+aggregate job memory limits are4GiB. Polling runs every500ms and stops on private usage
+at4GiB, free commit below2GiB, or deadline. The9GiB start guard remains unchanged and
+is rechecked after source hashes/helper loading immediately before launch.
+
+Native deadline600s; build deadline900s. Cleanup terminates only the owned job and
+polls for at most5000ms. A cleanup deadline/failure is reported as failure, never as
+confirmed exit. KILL_ON_JOB_CLOSE is a fail-safe if the wrapper host terminates.
+OS review found ActiveProcesses=0 could precede root-handle signaling. Cleanup now
+captures descendant handles with kernel membership checks before termination, and
+requires those handles plus retained root to signal AND ActiveProcesses=0 within
+the same total5s budget. WAIT_FAILED/capture failures refuse confirmation. A child
+created after the snapshot is still terminated by the Job; zero accounting does not
+prove completion of every late child's kernel-object teardown. No cap/deadline changed.
+Before child creation, persist an unresolved ownership sentinel in the shared
+SourceAssets/context-review/HaramThresholdSidesV1/native-slot-blocked.json path.
+Flush(true), atomic rename without replacement and token readback must succeed;
+otherwise launch refuses. Existing/foreign sentinel refuses untouched.
+Unconfirmed cleanup (including constructor failure without positive confirmation)
+retains the sentinel even if subsequent receipt writes fail. Only confirmed cleanup
+may remove this run's token-matching sentinel. Otherwise coordinator must verify root
+and descendants exited before explicit manual clearance. No automatic retry.
+Root polling checks WaitForSingleObject first, surfaces WAIT_FAILED, and retrieves
+the final exit code only after a signaled handle; no stale STILL_ACTIVE259 race.
+No process-name kill, taskkill tree or unrelated-process cleanup. PID lookup for memory
+is followed by kernel job-membership validation; cleanup never targets those PIDs.
+
+Build uses the installed bundled dotnet10.0 and UnrealBuildTool.dll directly, with
+engine Source working directory, one UBT invocation and -MaxParallelActions=1.
+-NoUBA/-NoXGE disable those accelerator paths. All local compiler children are owned.
+This replaces Build.bat; it never bootstraps/rebuilds UBT or starts an editor.
+
+Fresh WrapperRuns/<kind>-<UTC>-<GUID>/ retains launch intent, stdout/stderr,
+source-before.json, source-after.json and wrapper.json, including refusal/failure.
+JSON publication uses .tmp then same-directory atomic rename, refusing replacement.
+Protected hashes cover original native/maps/GLBs, prepared input, project/plugin sources,
+mesh import helper and wrapper sources. Changes by another worker are still reported;
+the watchdog does not attribute them or overwrite/restore another worker's changes.
+
+OwnedChildJob.cs is a small managed P/Invoke helper compiled only during a future
+approved wrapper run. Neither wrapper nor helper nor native/UBT was executed here.
+Test-WrappersOffline.ps1 parses wrappers and tests pure policy/atomic receipt functions;
+its source assertions are not proof of Windows job behavior. Native integration remains
+pending coordinator review. No approval flag was supplied and no launch was attempted.

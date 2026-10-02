@@ -1,0 +1,22 @@
+Publication verification and native preservation are different contracts.
+
+Fresh clone command (scientific Python with NumPy and installed UE5.8 headers):
+  python -B Scripts/study_kohen_cloth_exec_verify.py --scope publication
+Run the script in the clone, not the active tree. It hashes every v4 publication
+file and all12 exact project prerequisites, then runs the executable offline tests.
+Historical native inventory lists every missing path with expected hash and every
+present match/change in a fresh SourceChecks-v4-publication-*/source-scope.json.
+Missing historical assets are reported, not source prerequisites unless explicitly
+listed as such. Any required prerequisite missing/changed, publication source change,
+or changed PRESENT historical asset fails. Copied old receipts are not fresh proof.
+The result always has nativeEligibility=false and identifies its execution root.
+
+Default --scope active requires ALL356 historical originals and exact source hashes.
+run_in_editor.py uses source-manifest-v4.json and invokes require_native before any
+asset import: ALL historical originals must exist and match the pinned baseline.
+There is no publication-mode switch in native execution. Existing before/after
+hashes additionally protect every locally present original native/map/GLB and input.
+Do not copy unknown missing assets to satisfy publication verification.
+
+publish-allowlist-v4.json supersedes v3. Frozen watchdog/OS receipt/docs are unchanged.
+Cloth remains uncompiled/unrun; no UE/UBT, production adoption or clearance claim.

@@ -1,0 +1,263 @@
+{
+  "schema": "kohen-wrapper-integration-review-v1",
+  "status": "passed_bounded_os_job_and_offline_checks",
+  "nativeUEOrUBTRuns": 0,
+  "nativeGuardBytes": {
+    "reserve": 2147483648,
+    "ownedPrivate": 4294967296,
+    "start": 9663676416
+  },
+  "wrapperHashes": {
+    "Run-Reviewed.ps1": "5AB4117ACC089691A902FE92F7548CF377921B4053628122F35DA523C53DF9ED",
+    "Build-Reviewed.ps1": "AFDA61F084AB7FB39509E526FCD4FE5532E098073F194B3009C861F312E9D434",
+    "Owned-ReviewWatchdog.ps1": "E910EEF41A15ED7F2FD57FD777616C7CC4BF069BC312FC1BE58BB8780BA5231A",
+    "OwnedChildJob.cs": "0EF998314F3E68976C851E055D9AAFE0E56E935334F1556A44E5E683A05FCEC4",
+    "Test-WrappersOffline.ps1": "FD51B23F10A3E385842A5DA332FD25EC4CF58973CC1EB5AC94BBA2580AC4518A",
+    "REVIEW.txt": "BD413B430A597730532525FFDD54CFEC5238B2311D98E751F38F667433C0E6A0",
+    "WRAPPER-REVISION.txt": "66A184CA0CD30039F467B9E409A52144A91B9222565BA8BF53CD71E418DE2F8F"
+  },
+  "integrationTestHash": "ED605530CB67FF3EA72727D5F35A186C86104FC3CD636657ABDF1748EC717B59",
+  "actualOS": {
+    "schema": "owned-job-os-integration-v1",
+    "passed": true,
+    "helperHash": "0EF998314F3E68976C851E055D9AAFE0E56E935334F1556A44E5E683A05FCEC4",
+    "testScriptHash": "ED605530CB67FF3EA72727D5F35A186C86104FC3CD636657ABDF1748EC717B59",
+    "startedUtc": "2026-10-02T06:53:46.9339612Z",
+    "fixture": "C:\\Users\\shmue\\AppData\\Local\\Temp\\KohenOwnedJobReview-d874b76ca4db4536b0b34e229ebbb268",
+    "cases": [
+      {
+        "name": "normal_exit",
+        "active": 0,
+        "passed": true,
+        "rootPid": 32192,
+        "rootExited": true,
+        "exitCode": 0
+      },
+      {
+        "controlSurvived": true,
+        "cleanupMilliseconds": 67,
+        "name": "deadline_tree_cleanup",
+        "controlActive": 2,
+        "descendantPid": 25160,
+        "controlPid": 30216,
+        "activeAfter": 0,
+        "rootPid": 3400,
+        "rootSignaled": true,
+        "cleanupConfirmed": true,
+        "passed": true,
+        "memberSignals": [
+          {
+            "name": "pwsh",
+            "signaled": true,
+            "pid": 3400,
+            "creationUtc": "2026-10-02T06:53:48.187561Z"
+          },
+          {
+            "name": "conhost",
+            "signaled": true,
+            "pid": 20268,
+            "creationUtc": "2026-10-02T06:53:48.2002319Z"
+          },
+          {
+            "name": "pwsh",
+            "signaled": true,
+            "pid": 25160,
+            "creationUtc": "2026-10-02T06:53:48.7085245Z"
+          },
+          {
+            "name": "conhost",
+            "signaled": true,
+            "pid": 32532,
+            "creationUtc": "2026-10-02T06:53:48.7224475Z"
+          }
+        ]
+      }
+    ],
+    "cleanup": [
+      {
+        "name": "control",
+        "error": null,
+        "confirmed": true,
+        "pid": 30216,
+        "milliseconds": 64
+      },
+      {
+        "name": "exit-zero",
+        "error": null,
+        "confirmed": true,
+        "pid": 32192,
+        "milliseconds": 0
+      },
+      {
+        "name": "owned-tree",
+        "error": null,
+        "confirmed": true,
+        "pid": 3400,
+        "milliseconds": 0
+      }
+    ],
+    "scope": "Actual Windows Job test using hidden sleeping PowerShell children; no UE/UBT or native wrapper execution",
+    "limit": "No memory-pressure, host-crash, arbitrary descendant-churn or OS API-fault injection proof",
+    "managedHelperCompiled": true,
+    "finalHeldProcessSignals": [
+      {
+        "name": "pwsh",
+        "signaled": true,
+        "pid": 3400,
+        "creationUtc": "2026-10-02T06:53:48.187561Z"
+      },
+      {
+        "name": "conhost",
+        "signaled": true,
+        "pid": 20268,
+        "creationUtc": "2026-10-02T06:53:48.2002319Z"
+      },
+      {
+        "name": "pwsh",
+        "signaled": true,
+        "pid": 25160,
+        "creationUtc": "2026-10-02T06:53:48.7085245Z"
+      },
+      {
+        "name": "conhost",
+        "signaled": true,
+        "pid": 32532,
+        "creationUtc": "2026-10-02T06:53:48.7224475Z"
+      },
+      {
+        "name": "pwsh",
+        "signaled": true,
+        "pid": 30216,
+        "creationUtc": "2026-10-02T06:53:47.621801Z"
+      },
+      {
+        "name": "conhost",
+        "signaled": true,
+        "pid": 32416,
+        "creationUtc": "2026-10-02T06:53:47.6363833Z"
+      }
+    ],
+    "finishedUtc": "2026-10-02T06:53:50.4008658Z"
+  },
+  "offlineFaultTests": {
+    "assertions": 47,
+    "receiptSHA256": "54E92A5CF24E8164F83C024369A0BA9437377DA7094C3158332CC185935E8DA6",
+    "managedHelperCompiled": false,
+    "processLaunches": 0,
+    "passed": true
+  },
+  "preservedPreFixFailure": {
+    "receipt": {
+      "scope": "Harmless OS Job integration only; no UE/UBT/native wrappers",
+      "helperHash": "97D9F9781C4AE02292DE9B4972E8DE9E33AE2BE221F6C452174F3EEC99AF8D0B",
+      "exe": "C:\\Users\\shmue\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+      "startedUtc": "2026-10-02T06:47:31.2164182Z",
+      "passed": false,
+      "cases": [
+        {
+          "rootPid": 32216,
+          "activeProcesses": 0,
+          "passed": true,
+          "exitCode": 0,
+          "name": "normal_exit"
+        }
+      ],
+      "cleanup": [
+        {
+          "error": null,
+          "confirmed": true,
+          "milliseconds": 2,
+          "processId": 23288,
+          "name": "control"
+        },
+        {
+          "error": null,
+          "confirmed": true,
+          "milliseconds": 0,
+          "processId": 32216,
+          "name": "exit-zero"
+        },
+        {
+          "error": null,
+          "confirmed": true,
+          "milliseconds": 0,
+          "processId": 30376,
+          "name": "owned-tree"
+        }
+      ],
+      "managedHelperCompiled": true,
+      "treeLastSample": {
+        "rootExited": false,
+        "active": 4,
+        "ready": true
+      },
+      "treeMembers": [
+        {
+          "pid": 30376,
+          "name": "pwsh.exe",
+          "parentPid": 11756,
+          "creation": "2026-10-02T02:47:32.464162-04:00"
+        },
+        {
+          "pid": 21348,
+          "name": "conhost.exe",
+          "parentPid": 30376,
+          "creation": "2026-10-02T02:47:32.47676-04:00"
+        },
+        {
+          "pid": 12752,
+          "name": "pwsh.exe",
+          "parentPid": 30376,
+          "creation": "2026-10-02T02:47:32.962879-04:00"
+        },
+        {
+          "pid": 30904,
+          "name": "conhost.exe",
+          "parentPid": 12752,
+          "creation": "2026-10-02T02:47:32.977103-04:00"
+        }
+      ],
+      "controlMembers": [
+        {
+          "pid": 23288,
+          "name": "pwsh.exe",
+          "parentPid": 11756,
+          "creation": "2026-10-02T02:47:31.91102-04:00"
+        },
+        {
+          "pid": 7024,
+          "name": "conhost.exe",
+          "parentPid": 23288,
+          "creation": "2026-10-02T02:47:31.92418-04:00"
+        }
+      ],
+      "postStop": {
+        "confirmed": true,
+        "controlActive": 2,
+        "controlExit": 0,
+        "controlExited": false,
+        "afterActive": 0,
+        "afterExit": 0,
+        "afterRootExited": false,
+        "elapsed": 2
+      },
+      "laterStop": {
+        "exit": 57005,
+        "rootExited": true,
+        "active": 0
+      },
+      "error": "System.Management.Automation.RuntimeException: Tree cleanup or unrelated control survival failed",
+      "finishedUtc": "2026-10-02T06:47:35.1695326Z"
+    },
+    "receiptSHA256": "95DFC5079174FE41A3C465E6EA2839437BE746418C596A33C79F089D8DFC92B2",
+    "diagnosis": "Job ActiveProcesses=0 preceded root-handle signaling; cleanup falsely confirmed at2ms. Fixed revision now requires root/captured member signals and zero Job count in one5s budget."
+  },
+  "limitations": [
+    "Wrapper-only evidence; evolving cloth plugin is outside the pinned scope.",
+    "No memory-pressure, host-crash, arbitrary late-descendant churn, or OS API fault injection proof.",
+    "Descendant teardown proved for captured stable fixture members, including hidden console hosts.",
+    "Failed original receipt and local logs retained in their TEMP fixtures; logs are excluded from publication."
+  ],
+  "reproduction": "Fresh64-bit PowerShell7: -NoProfile -File ./Test-OwnedJobIntegration.ps1 -ExpectedHelperHash 0EF998314F3E68976C851E055D9AAFE0E56E935334F1556A44E5E683A05FCEC4",
+  "publication": "Prepared only; coordinator owns review/gate/publish. No commit performed."
+}

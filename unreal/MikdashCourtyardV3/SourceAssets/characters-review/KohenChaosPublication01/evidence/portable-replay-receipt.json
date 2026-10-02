@@ -1,0 +1,194 @@
+{
+  "passed": true,
+  "public_commit": "bf115ac5dce81e1f3f2bab997028323d95bbc1c9",
+  "public_blobs": 11,
+  "exactPayloadFiles": 41,
+  "operatorTests": 4,
+  "operatorFailures": 0,
+  "exactReviewedJacobianModuleReplayed": true,
+  "actual240HzLocalStepReplayed": true,
+  "preparedNativeInputExact": true,
+  "preparedInputSha256": "5e6b26fe2a54e3cf0ce4c237c3fcf023a5b5e8b9e2b77fac753bfbf11693221e",
+  "jacobian": {
+    "passed": true,
+    "rows": [
+      {
+        "test": "mapped-position",
+        "denseVertex": 1969,
+        "maxDerivativeError": 1.557979301125556e-10,
+        "omittedOffsetDerivativeError": 0.011473420702401425,
+        "offsetCm": [
+          -1.942890293094024e-15,
+          5.88938620094126e-16,
+          0.02006359397132239
+        ]
+      },
+      {
+        "test": "mapped-position",
+        "denseVertex": 1970,
+        "maxDerivativeError": 1.5273365905343894e-10,
+        "omittedOffsetDerivativeError": 0.0017515538353052305,
+        "offsetCm": [
+          1.6328084717631697e-16,
+          -4.845299508837719e-16,
+          0.0030629456698365518
+        ]
+      },
+      {
+        "test": "mapped-position",
+        "denseVertex": 2146,
+        "maxDerivativeError": 1.2239914637390825e-10,
+        "omittedOffsetDerivativeError": 0.0103431939457721,
+        "offsetCm": [
+          -1.2993078835066285e-15,
+          5.555451931815725e-16,
+          -0.018594644021052285
+        ]
+      },
+      {
+        "test": "cloth-vertex/body-face",
+        "maxDerivativeError": 3.822886451843033e-11,
+        "maxPullbackError": 1.052662592510023e-10,
+        "signedGapCm": -0.059442549197122774
+      },
+      {
+        "test": "body-vertex/cloth-face",
+        "maxDerivativeError": 4.3358761026013326e-11,
+        "maxPullbackError": 1.0231707842089932e-10,
+        "signedGapCm": 0.1102384390450134
+      },
+      {
+        "test": "symmetric-edge-edge-frozen-history-feature",
+        "maxDerivativeError": 8.664291506477184e-11,
+        "maxPullbackError": 1.5217191395855423e-10
+      }
+    ],
+    "finiteDifferenceStepCm": 1e-05,
+    "tolerance": 1e-07,
+    "witness": {
+      "denseKetonetTriangle": 3938,
+      "bodyGlobalTriangle": 2039,
+      "bodyPart": "FootL",
+      "bodyLocalTriangle": 231,
+      "source": "V2 failed .875 rest-to-pose endpoint; NOT a physical time sample"
+    },
+    "covariancePassed": true,
+    "degenerateRefused": true,
+    "native": false,
+    "limits": [
+      "Local fixed-feature Jacobians, not contact detection/CCD",
+      "No cloth acceptance or elastic parameter calibration"
+    ],
+    "publicationInputsVerified": 52,
+    "privateAuthorHistoryReplayed": false,
+    "replayIOAdapter": true,
+    "garmentAcceptance": false
+  },
+  "closingStep": {
+    "status": "LOCAL_STEP_ONLY_NATIVE_AND_GARMENT_HOLD",
+    "optimizerSuccess": true,
+    "message": "Optimization terminated successfully",
+    "t0Seconds": 0.12916666666666668,
+    "t1Seconds": 0.13333333333333333,
+    "stepSeconds": 0.004166666666666652,
+    "sourceRateHz": 240,
+    "restFractionUsed": false,
+    "patch": {
+      "coarseVertices": [
+        185,
+        228,
+        229,
+        230,
+        271,
+        272,
+        273,
+        315,
+        316,
+        317
+      ],
+      "triangles": 8,
+      "hinges": 7,
+      "denseKetonetTriangle": 3938,
+      "FootLTriangle": 231
+    },
+    "assumptions": {
+      "densityKgM2": 0.35,
+      "edgeStiffnessKgPerS2": 20.0,
+      "bendingEnergyKgCm2PerS2PerRad2": 0.05,
+      "initialVelocity": "zero; local test assumption, NOT settled full-clip history",
+      "gravityCmS2": [
+        0.0,
+        0.0,
+        -980.665
+      ],
+      "initialization": "rigidly translated rest patch at actual t0 FootL feature; only two local finite-triangle sample constraints certified"
+    },
+    "restEdgeInitialMaxErrorCm": 1.4210854715202004e-14,
+    "footMaxVertexMotionCm": 0.17772374967423452,
+    "freeGravityDisplacementCm": [
+      0.0,
+      0.0,
+      -0.017025434027777658
+    ],
+    "contactGapMinusMarginBefore": [
+      0.07680880216166686,
+      9.383088039882637e-08
+    ],
+    "gravityPredictorGaps": [
+      -0.0875075897691533,
+      -0.13755888703269148
+    ],
+    "contactGapMinusMarginAfter": [
+      0.02262423997922325,
+      1.2212453270876722e-14
+    ],
+    "activeContacts": 1,
+    "multipliers": [
+      0.0,
+      4.071242203631605
+    ],
+    "stationarityMaxKgCmPerS2": 1.0010552019545926e-06,
+    "complementarityMax": 4.971985516627215e-14,
+    "derivativeErrors": {
+      "energy": 1.9918010311826035e-10,
+      "contact": 7.918552480390417e-10
+    },
+    "maxEdgeStretch": 1.0031448853868474,
+    "minEdgeRatio": 0.9973906875182328,
+    "denseGradients": {
+      "maxPrincipalStretch": 0.9988495940173092,
+      "p95PrincipalStretch": 0.9988495940173092,
+      "minPrincipalStretch": 0.9960201206269316,
+      "maxAreaRatio": 0.994874293121282,
+      "degenerateRestFaces": 0
+    },
+    "maxMovementCm": 0.176312062129665,
+    "sampledExteriorSignsCm": [
+      0.5768088021616604,
+      0.5634283244807822,
+      0.5499373262822161,
+      0.5363359292132512,
+      0.5226242399792234
+    ],
+    "iterations": 37,
+    "elapsedSeconds": 1.9839999999967404,
+    "native": false,
+    "garmentAcceptance": false,
+    "limits": [
+      "Local sample contacts only, no full triangle CCD/self/layer/ornament proof",
+      "Actual body timestamps, but initialized free patch is not a continued drape trajectory",
+      "Elastic/bending assumptions are not calibrated Chaos parameters or a new strain acceptance threshold"
+    ],
+    "publicationInputsVerified": 52,
+    "privateAuthorHistoryReplayed": false,
+    "replayIOAdapter": true
+  },
+  "omittedAuthorTest": "test_preserved_failure_and_active_step_receipts requires private historical file inventory. Not marked passed. Public closure and new step checked separately.",
+  "nativeCompiled": false,
+  "nativeExecuted": false,
+  "fullClothAcceptance": false,
+  "privateAuthorHistoryReplayed": false,
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "testOutput": "test_finite_triangle_interior_edge_vertex_derivatives (test_operators.Operators.test_finite_triangle_interior_edge_vertex_derivatives) ... ok\ntest_zero_distance_refuses_normal_invention (test_operators.Operators.test_zero_distance_refuses_normal_invention) ... ok\ntest_hinge_angle_derivative (test_operators.Operators.test_hinge_angle_derivative) ... ok\ntest_rotation_covariance_nonzero_offset (test_operators.Operators.test_rotation_covariance_nonzero_offset) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.032s\n\nOK\n"
+}

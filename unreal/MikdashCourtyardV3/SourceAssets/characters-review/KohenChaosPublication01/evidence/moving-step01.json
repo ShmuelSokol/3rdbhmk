@@ -1,0 +1,97 @@
+{
+  "status": "LOCAL_STEP_ONLY_NATIVE_AND_GARMENT_HOLD",
+  "optimizerSuccess": true,
+  "message": "Optimization terminated successfully",
+  "t0Seconds": 0.29583333333333334,
+  "t1Seconds": 0.3,
+  "stepSeconds": 0.004166666666666652,
+  "sourceRateHz": 240,
+  "restFractionUsed": false,
+  "patch": {
+    "coarseVertices": [
+      185,
+      228,
+      229,
+      230,
+      271,
+      272,
+      273,
+      315,
+      316,
+      317
+    ],
+    "triangles": 8,
+    "hinges": 7,
+    "denseKetonetTriangle": 3938,
+    "FootLTriangle": 231
+  },
+  "assumptions": {
+    "densityKgM2": 0.35,
+    "edgeStiffnessKgPerS2": 20.0,
+    "bendingEnergyKgCm2PerS2PerRad2": 0.05,
+    "initialVelocity": "zero; local test assumption, NOT settled full-clip history",
+    "gravityCmS2": [
+      0.0,
+      0.0,
+      -980.665
+    ],
+    "initialization": "rigidly translated rest patch at actual t0 FootL feature; only two local finite-triangle sample constraints certified"
+  },
+  "restEdgeInitialMaxErrorCm": 1.4876988529977098e-14,
+  "footMaxVertexMotionCm": 1.0769897013622094,
+  "freeGravityDisplacementCm": [
+    0.0,
+    0.0,
+    -0.017025434027777658
+  ],
+  "contactGapMinusMarginBefore": [
+    0.21447519210961252,
+    8.934888973133326e-08
+  ],
+  "gravityPredictorGaps": [
+    1.0703821052182187,
+    1.0585360400781563
+  ],
+  "contactGapMinusMarginAfter": [
+    1.0703821052182187,
+    1.0585360400781563
+  ],
+  "activeContacts": 0,
+  "multipliers": [
+    0.0,
+    0.0
+  ],
+  "stationarityMaxKgCmPerS2": 3.834161752789191e-13,
+  "complementarityMax": 0.0,
+  "derivativeErrors": {
+    "energy": 1.987493105353357e-10,
+    "contact": 3.2153291140701867e-10
+  },
+  "maxEdgeStretch": 1.0000000000000004,
+  "minEdgeRatio": 0.9999999999999898,
+  "denseGradients": {
+    "maxPrincipalStretch": 1.0000000000000002,
+    "p95PrincipalStretch": 1.0000000000000002,
+    "minPrincipalStretch": 0.9999999999999952,
+    "maxAreaRatio": 0.9999999999999954,
+    "degenerateRestFaces": 0
+  },
+  "maxMovementCm": 0.01702543402777934,
+  "sampledExteriorSignsCm": [
+    0.714475192109615,
+    0.9198186148056813,
+    1.1251619697612183,
+    1.3305052569836513,
+    1.5358484764803952
+  ],
+  "iterations": 1,
+  "elapsedSeconds": 0.4380000000091968,
+  "V2FilesPreserved": 33,
+  "native": false,
+  "garmentAcceptance": false,
+  "limits": [
+    "Local sample contacts only, no full triangle CCD/self/layer/ornament proof",
+    "Actual body timestamps, but initialized free patch is not a continued drape trajectory",
+    "Elastic/bending assumptions are not calibrated Chaos parameters or a new strain acceptance threshold"
+  ]
+}

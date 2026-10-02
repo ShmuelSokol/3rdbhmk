@@ -4,6 +4,31 @@ Owner request, 18 September 2026: work continuously toward a finished project, i
 
 The persistent Codex goal is active. This file tracks implementation and acceptance; unchecked work remains owed. Read the current handoff, plateau/S5 commit open items, integration queue and production plan. Historical status paragraphs are leads to audit, not current proof. Preserve the full production scope, including interiors, service/learning, sound, atmosphere and transit.
 
+## Current checkpoint and acceptance boundary — 2 October 2026
+
+The last verified playable remains Checkpoint-visitor-hands01-20260919T072356Z.
+Fresh coordinator SHA256 reads confirm its child executable:
+6a26468a4294de812cf37440f7cbe75abd1376ff4badabf43337a2bd8cad53dd.
+Candidate48 remains 9daa88a181a44009467ab6a3f296dcff3ed9ff8b93500ddee593adc84ff0367e;
+Main50 remains 2b82ae66d7059244d1f4d5f7d39dbe39979794221b46a239a9a6e9c6b598d4c6.
+The accepted S5 mapped Haram layout is preserved. The older baseline bullets
+below describe intake, not a newer build or a return to the expanded square.
+
+RouteCursor03 independently passes all four standalone controller continuations:
+12,464,161 checks, zero failures, 52 CSVs byte-identical, 176 frozen pins unchanged.
+Each case includes a 600-second prefix; continuation pace is 17.66–20.96 cm/s,
+moving duty 22.4–27.4%, and the worst late pause 5.97 seconds. This proves the
+targeted stale-route correction, NOT natural walking or a 2500-body runtime.
+Independent receipt: C:/Mikdash/Verification/route-cursor03-four-independent01/independent-receipt.json.
+
+Possession03 independently passes 12 source checks and exact reconstruction of
+217 payload files. The real Bootstrap now follows the reviewed pawn/movement
+handoff; release and fresh browser binding are still mandatory. Actual UE
+callbacks, authenticated transport and the complete flight/reconnect flow are
+unverified. Kohen V3's five local operator tests and exact prepared garment inputs
+pass independent review; full cloth dynamics and its native bridge remain unrun.
+These source results are not included in a newly verified playable checkpoint.
+
 ## 1. Establish the current release baseline
 
 - [x] Read current handoff and publication HEAD (2f872366); S5 implementation is 00153f5e.

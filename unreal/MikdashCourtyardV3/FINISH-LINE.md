@@ -2514,3 +2514,16 @@ recorded execution identities. Its verifier has no live engine dependencies.
 This does not yet connect to loaded Chaos geometry or prove obstacle clearance.
 An additive engine bridge must establish shape lifetime, instance transforms,
 face identity and source equivalence before production adoption.
+
+## Street-tree fork diagnosis — 2 October 2026
+
+StreetTreeFork01 reproduces the current Olive S0 L0 bark from pinned generators
+and matches the exported OBJ (all2936 triangles, vertex error below5.1e-6cm).
+It identifies40 separately capped tubes and13 forks. At the root fork61.96% of
+4096 area-uniform cap samples are exposed outside the other bark shells at both
+0.001cm and0.01cm offsets. This is a source numerical diagnostic, not a continuous
+coverage proof or new rendered acceptance. It explains the stump-like shoulder
+in the accepted post-S5 close-up. Bark shader repair remains accepted; a new
+continuous-junction mesh must preserve foliage/root/crown and pass independent
+topology and matched visual review before any native replacement. No maps,
+materials, accepted mesh assets or packaged executables changed.

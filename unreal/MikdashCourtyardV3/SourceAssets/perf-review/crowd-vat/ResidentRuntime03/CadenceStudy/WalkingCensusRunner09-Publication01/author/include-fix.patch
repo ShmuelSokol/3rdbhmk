@@ -1,0 +1,10 @@
+--- frozen08/ProbeProject/Source/CookedWorldProbe/Private/WalkingQuery.cpp
++++ candidate09/ProbeProject/Source/CookedWorldProbe/Private/WalkingQuery.cpp
+@@ -11,6 +11,7 @@
+ #include "PhysicsEngine/BodyInstance.h"
+ #include "Physics/PhysicsFiltering.h"
+ #include "Physics/PhysicsInterfaceCore.h"
++#include "Physics/Experimental/PhysScene_Chaos.h"
+ namespace CookedWorldPort {
+ namespace {
+ constexpr const TCHAR* MeasuredEvidence=TEXT("141148270e83f5c0a9eb1854320e27f71e78a50657530090a65b302d967d8932");

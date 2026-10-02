@@ -29,6 +29,16 @@ unverified. Kohen V3's five local operator tests and exact prepared garment inpu
 pass independent review; full cloth dynamics and its native bridge remain unrun.
 These source results are not included in a newly verified playable checkpoint.
 
+## Integration review update — 2 October 2026
+
+Kohen cloth publication KCP05 is preserved in commit 8d804acb4b2525f482c33e325916fe25623faa63. Its independent fresh-publication replay and both quick project gates pass. This is source/local-contact evidence, not full garment motion or native Chaos acceptance. KCN03 corrects the UE5.8 importer to use FrameAlignment.NONE instead of the deprecated inaccessible boolean; 16 independent adapter tests pass. The guarded native build remains unrun.
+
+WalkingCensusRunner09 passes independent review: 23 Python tests and 25 policy checks. The missing PhysScene_Chaos.h inheritance include is corrected. The collector still permits only 64 payload visits; counter 65 is valid solely as a Budget refusal, never partial success. Its external runner remains an isolated 48-person diagnostic, not a complete collision census or movement approval for the shipping S5 map.
+
+Run10ImplicitFork01 passes eight independent saved-artifact checks, with 4,800 valid actual-Mikk tangent corners and no reported intersection defects. The coordinator accepts its preview direction only. Whole-tree Run11's first simplification is rejected for nonmanifold edges: the coordinator independently checked the raw extraction's 122,994 vertices / 245,722 triangles and found zero invalid vertex links (260 boundary vertices). Raw connectivity does not prove surface quality or native import parity; whole-tree replacement remains unaccepted.
+
+Browser transport review found that an injectable host-clock deadline was compared directly with a raw-QPC native deadline. The current implementation is being corrected to keep the two clock domains separate, with offset/delay regression tests still required. The new local TLS transport is loopback-only; public origin, external network traversal and independent phone/browser acceptance remain owed. No newer playable checkpoint follows from these source reviews.
+
 ## 1. Establish the current release baseline
 
 - [x] Read current handoff and publication HEAD (2f872366); S5 implementation is 00153f5e.

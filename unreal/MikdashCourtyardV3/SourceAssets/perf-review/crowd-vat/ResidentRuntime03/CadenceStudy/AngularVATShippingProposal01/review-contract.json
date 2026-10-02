@@ -1,0 +1,166 @@
+{
+  "scope": "New packaged-setting parity hypothesis; NOT another authorized iteration of the stopped1/1 cache experiment",
+  "parentManifestSha256": "c0b3c5fa69e5f9c93a72109a3f9634376b51a3d830c7a3bdd7410cf7411b7b2d",
+  "historicalCompile04Decision": "STOP remains unchanged",
+  "semanticDelta": {
+    "r.VelocityOutputPass": {
+      "before": 1,
+      "proposed": 0
+    },
+    "r.Velocity.EnableVertexDeformation": {
+      "before": 1,
+      "proposed": 2
+    }
+  },
+  "expectedReadback": "Native script requires0/2; cache settings stay1/1",
+  "unchanged": "Graph,builder,helper,wrapper,realRHI/DX12/SM6,Entry,cache force flag,batch1,diagnostics/5positive stats,6/4/2/300 and5s cleanup",
+  "authoritativePackagedReadbacks": [
+    {
+      "path": "SourceAssets\\visual-review\\movie-historyv3-candidate01-corridor\\runtime.log",
+      "sha256": "6762b645f860108c8216cc45ad88cff5e7ae2d61c353a12323821881dc995950",
+      "readbacks": [
+        {
+          "line": 1725,
+          "variable": "r.Velocity.EnableVertexDeformation",
+          "value": 2,
+          "lastSetBy": "Constructor"
+        },
+        {
+          "line": 1728,
+          "variable": "r.VelocityOutputPass",
+          "value": 0,
+          "lastSetBy": "Constructor"
+        }
+      ],
+      "publishRawLog": false
+    },
+    {
+      "path": "SourceAssets\\visual-review\\movie-historyv3-control01-corridor\\runtime.log",
+      "sha256": "a3540d96bac21caccb02c829f946cbb61e0715bd06ec87596f0fa443a8887d1c",
+      "readbacks": [
+        {
+          "line": 1752,
+          "variable": "r.Velocity.EnableVertexDeformation",
+          "value": 2,
+          "lastSetBy": "Constructor"
+        },
+        {
+          "line": 1755,
+          "variable": "r.VelocityOutputPass",
+          "value": 0,
+          "lastSetBy": "Constructor"
+        }
+      ],
+      "publishRawLog": false
+    },
+    {
+      "path": "SourceAssets\\visual-review\\movie-historyv3-velocity-new01-corridor\\runtime.log",
+      "sha256": "a4d5570c3e6f164eefedac3d55d050442baf80e26bbcfb327b846ddc165885ac",
+      "readbacks": [
+        {
+          "line": 1699,
+          "variable": "r.Velocity.EnableVertexDeformation",
+          "value": 2,
+          "lastSetBy": "Constructor"
+        },
+        {
+          "line": 1702,
+          "variable": "r.VelocityOutputPass",
+          "value": 0,
+          "lastSetBy": "Constructor"
+        }
+      ],
+      "publishRawLog": false
+    },
+    {
+      "path": "SourceAssets\\visual-review\\movie-motion-state01-corridor\\runtime.log",
+      "sha256": "20dcb771878567afff325b553a85298920c180fd86172b0add5b4b6194c64a3a",
+      "readbacks": [
+        {
+          "line": 1661,
+          "variable": "r.Velocity.EnableVertexDeformation",
+          "value": 2,
+          "lastSetBy": "Constructor"
+        },
+        {
+          "line": 1664,
+          "variable": "r.VelocityOutputPass",
+          "value": 0,
+          "lastSetBy": "Constructor"
+        }
+      ],
+      "publishRawLog": false
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Renderer\\Private\\VelocityRendering.cpp",
+      "sha256": "6532925aac806eae8959fa6b2a9da6733bde980a7fad2b580f3eb93d69b8b39a",
+      "finding": "30-38 pass0 depth/pass1 base;821-826 pass0 DepthPassCanOutputVelocity subject to MSAA",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\PrimitiveSceneProxy.cpp",
+      "sha256": "492df97c11583ab760a5f3f27a0588568575e914d92183c6f84b060bd667123f",
+      "finding": "63-77 deformation2 auto;232-237 returns true for2 when output pass!=2;622 also requires primitive support and WPO material",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Shaders\\Private\\VelocityShader.usf",
+      "sha256": "110aaaf1e945d131a54f5e0fc6b246531f13cec93ae05ba667befb80a588d5b7",
+      "finding": "73 current WPO;79-82 previous vertex-factory position plus GetMaterialPreviousWorldPositionOffset",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\Materials\\MaterialExpressions.cpp",
+      "sha256": "66909943c30bdcea8f8bc47bd3b719093eeed4d11715b94cb120fb4f4330d815",
+      "finding": "9026-9033 PreviousFrameSwitch branches on compiler previous-frame state, no pass1 requirement",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\RenderCore\\Private\\Shader.cpp",
+      "sha256": "934ea4727c270965269ca8dffe71ccbcb4fdfb3e49253e5d4d0fd0071112d62d",
+      "finding": "1802-1814 pass1 GV versus pass0 VOP0 changes shared shader key; cache reuse not guaranteed",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Editor\\MaterialEditor\\Private\\MaterialEditingLibrary.cpp",
+      "sha256": "96051980458dad86719f195072da4bd34eebd07a80d647ebb50bbbb0626e5565",
+      "finding": "2116 GetStatistics retrieves candidate resource and representative stats; no pass1 prerequisite",
+      "publishSource": false
+    }
+  ],
+  "auditSha256": "64b5c9aff24960b49e1604f363ca117e4576d349cf707b8df0f425d01e7c6722",
+  "originalAssetPins": {
+    "Content/MikdashV3/Characters/ResidentV4/Textures/T_RV4_WeaveN.uasset": "1d8f79de2aec9fb886dc48a46fc30548c17bfd03de3a199efd9ef50fc50a1e27",
+    "Content/MikdashV3/Characters/ResidentV4/Textures/T_RV4_SlubMottle.uasset": "c725ca026daa1986a68f6ef3db86d5b95d4dc89fc47b705b981cf0921125625f",
+    "Content/MikdashV3/Characters/ResidentV4/Textures/T_RV4_PoresN.uasset": "7df1ca4b89d4f0813a032c1fe1cb36e1d0771c4eb8e2285e122095396afd9b8c",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Textures/T_IdleNormal.uasset": "3fc7323488740198b8e959b10bb24c79b34597678c7cd82a44d10c88b7d833ca",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy12/Cast/Man_Elder/ResidentSourceTopology/Textures/T_IdlePosition.uasset": "904867cd9b2ff334df174fd080187824ff94a5a66fe7ed6fd9b8235f9024f9b9",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Textures/T_WalkNormal.uasset": "372380c32661860a682bccbfbe3d64b11849c2d8fe834dd569b3fedf600618dc",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy12/Cast/Man_Elder/ResidentSourceTopology/Textures/T_WalkPosition.uasset": "4920df4cd1da8e0d19ae93120eb156bdb3fe96614d00ac480285103eb61ccaad",
+    "Content/MikdashV3/Characters/ResidentV4/Textures/T_RV4_StrandN.uasset": "5d719b1b0dccf1577d34c29da43933c23007e2b33a749b9cbc9d925761e45674",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/SM_ResidentDirectNormals.uasset": "23df3bb2cad2c5bbd8a352b22dbd501d1ebb762c8deec2fe41dd9e9d095149c6",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Materials/MI_RV4_Skin.uasset": "18de95f010a3caf447afdd1e560044a431b81b282783dc6cf9ae01b6a08590c5",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy12/Cast/Man_Elder/ResidentSourceTopology/Materials/M_ResidentVAT_Skin.uasset": "e49dd44b3b6c5d5e518484d226c33906567e351a3053791af7b7488df5e0f13d",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy12/Cast/Man_Elder/ResidentSourceTopology/Textures/T_WalkNormal.uasset": "1ca387bed8fe3148f9b2a0c5ef736624bdbb8984c472eb96ae7b9d0bd20046f8",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy12/Cast/Man_Elder/ResidentSourceTopology/Textures/T_IdleNormal.uasset": "22e70019a973d4c65145567454b4125dd9dd5543fd12f034214be5ea0983baef",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Materials/MI_RV4_Leather.uasset": "04b81d9844b151e4eacb8af193e6eb5337ced71169361288f7260934e3f8e7d6",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy12/Cast/Man_Elder/ResidentSourceTopology/Materials/M_ResidentVAT.uasset": "e36ddeccd5fb5fc320e59f113ceef0078ccf5befca85d3ef99251788a1510da1",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Materials/MI_RV4_Hair.uasset": "80ba74c88f24e31c6ee0c8ca521c6a1c9b063d4a20ec4696c02bd0a9bd6304c8",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Materials/MI_RV4_Garment.uasset": "6f65a3a40022a61453143bbab0b2c539f176c0f9d9a2bba72771b6330f34de4d",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Materials/MI_RV4_Eye.uasset": "bfa96c580570602801ccfe30b860c3c14d6891b6a5475ccb599f91ae8c081bbc",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Materials/MI_RV4_Cloth.uasset": "7464c6cfe358eab9dc31b6f1c791249e195425808d9feef3533329947e7660b0"
+  },
+  "candidateGraphSha256": "7e85710b87fa479a22a9ff6d9d2df14b912f3f5d6dcc2e7451b657a8071f371f",
+  "ownedHelperSha256": "0ef998314f3e68976c851e055d9aafe0e56e935334f1556a44e5e683a05fcec4",
+  "limits": [
+    "No HISM/pixels/temporal/full permutation coverage claim",
+    "Recorded packaged runs prove those settings, not every current build",
+    "No guarantee of cache reuse or completion within deadline",
+    "Outcome03 comparator is frozen to1/1 and MUST NOT be used as acceptance for this proposal"
+  ],
+  "acceptance": "Only successful wrapper cleanup/preservation with fresh matching native manifest,0/2 readbacks,positive5 statistics/clean diagnostics and expected graph. Timeout is failed candidate proof; no automatic repeat.",
+  "reviewRoute": "Confucius via coordinator; no native launch by author",
+  "nativeLaunches": 0
+}

@@ -1,0 +1,512 @@
+{
+  "scope": "Sanitized terminal addendum to published771712b32; historical Publication02 and runner untouched",
+  "manifestSha256": "de94eed20f3037a8251f84dea1d4e2b6638a207384509dfd2d231fc6be1ab357",
+  "verifiedHistoricalPins": 20,
+  "wrapper": {
+    "status": "failed",
+    "error": "Total deadline: reserve cleanup5s plus poll margin",
+    "ownedElapsedSeconds": 294.6754692,
+    "peakPrivateBytes": 3531255808,
+    "startFreeCommitBytes": 7658975232,
+    "cleanupConfirmed": true,
+    "sourcePreserved": true,
+    "slotBlocked": false
+  },
+  "rawEvidenceNeverPublish": {
+    "C:\\Mikdash\\Verification\\angular-native02-20261002\\runner\\runs\\angular-compile02\\compile\\wrapper.json": "f7b835df37f7a7d8f411d6ab538f82ef2ab5b93bfbedb36d706a30bf56b0fb96",
+    "C:\\Mikdash\\Verification\\angular-native02-20261002\\runner\\runs\\angular-compile02\\compile\\launch.json": "3698c0d19df164dc38e9701adf7fc3e56a15df6e618bd0063bf0bfa8aa7da541",
+    "C:\\Mikdash\\Verification\\angular-native02-20261002\\runner\\runs\\angular-compile02\\compile\\native.log": "90f6b90aea1ba9f64142091a74f97475d65436bfba82207ea871f77de709703a",
+    "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3\\SourceAssets\\context-review\\HaramThresholdSidesV1\\threshold-sides07\\build\\native.log": "135b14174b1ec78e5b1f2dcb2f5797939efff0b697169b04fce3cd0020771b36"
+  },
+  "observed": {
+    "shaderPlatform": "Both logs DX12/SM6",
+    "workerCount": "Both logs one local worker",
+    "candidateReceiptPresent": false,
+    "pythonScriptStartLogged": false,
+    "candidateShaderStats": null,
+    "termination": "Total deadline, not owned memory cap",
+    "peakGiB": 3.288738250732422,
+    "lastLoggedWork": "Four missing Engine default material SM6 maps; completion/progress of individual jobs not logged",
+    "materialKeys": {
+      "/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial": "756381bdeed6c3be2bd70e80f14d692db7880066",
+      "/Engine/EngineMaterials/DefaultDeferredDecalMaterial.DefaultDeferredDecalMaterial": "1faa5ec99868b9aa931fd59e1b90ba254668f148",
+      "/Engine/EngineMaterials/DefaultLightFunctionMaterial.DefaultLightFunctionMaterial": "254195f3750ed274029e3026f8f104d7f27a09ec",
+      "/Engine/EngineMaterials/DefaultPostProcessMaterial.DefaultPostProcessMaterial": "c9277fd621d1d3ab8fa2b389b05739bfcb9a6e9a"
+    }
+  },
+  "exactCommandComparison": {
+    "compile02Arguments": [
+      "C:\\Mikdash\\Verification\\angular-native02-20261002\\runner/P/AngularVATReview.uproject",
+      "-run=pythonscript",
+      "-script=C:\\Mikdash\\Verification\\angular-native02-20261002\\runner/native.py",
+      "-AngularRun=angular-compile02",
+      "-AngularMode=Compile",
+      "-nop4",
+      "-SCCProvider=None",
+      "-AllowCommandletRendering",
+      "-RenderOffscreen",
+      "-DisablePlugins=MetaHumanCharacter,MetaHumanSDK",
+      "-unattended",
+      "-nosplash",
+      "-nosound",
+      "-notraceserver",
+      "-NoAsyncLoadingThread",
+      "-NoMetaHumanAccountPortalLoginFallback",
+      "-asyncstaticmeshcompilationmaxconcurrency=1",
+      "-asyncskinnedassetcompilationmaxconcurrency=1",
+      "-asynctexturecompilationmaxconcurrency=1",
+      "-ini:Engine:[DevOptions.Shaders]:MaxShaderJobBatchSize=1",
+      "-ini:Engine:[DevOptions.Shaders]:NumUnusedShaderCompilingThreads=999",
+      "-ini:Engine:[DevOptions.Shaders]:NumUnusedShaderCompilingThreadsDuringGame=999",
+      "-ini:Engine:[DevOptions.Shaders]:bForceUseSCWMemoryPressureLimits=False",
+      "-ini:Engine:[/Script/Engine.RendererSettings]:r.DynamicGlobalIlluminationMethod=0",
+      "-ini:Engine:[/Script/Engine.RendererSettings]:r.ReflectionMethod=0",
+      "-ini:Engine:[/Script/Engine.RendererSettings]:r.Shadow.Virtual.Enable=0",
+      "-abslog=C:\\Mikdash\\Verification\\angular-native02-20261002\\runner\\runs\\angular-compile02\\compile/native.log"
+    ],
+    "threshold07Command": "C:/Mikdash/Working-5.8/MikdashCourtyardV3/MikdashCourtyardV3.uproject /Engine/Maps/Entry -run=pythonscript -script=C:/Mikdash/Working-5.8/MikdashCourtyardV3/Scripts/study_haram_threshold_sides.py -ThresholdCoordinator -ThresholdRun=threshold-sides07 -nop4 -SCCProvider=None -EnablePlugins=GeometryScripting -AllowCommandletRendering -RenderOffscreen -DisablePlugins=MetaHumanCharacter,MetaHumanSDK -unattended -nosplash -nosound -notraceserver -NoMetaHumanAccountPortalLoginFallback -NoAsyncLoadingThread -asyncstaticmeshcompilationmaxconcurrency=1 -asyncskinnedassetcompilationmaxconcurrency=1 -asynctexturecompilationmaxconcurrency=1 -ini:Engine:[DevOptions.Shaders]:NumUnusedShaderCompilingThreads=999 -ini:Engine:[DevOptions.Shaders]:NumUnusedShaderCompilingThreadsDuringGame=999 -ini:Engine:[DevOptions.Shaders]:bForceUseSCWMemoryPressureLimits=False -abslog=C:/Mikdash/Working-5.8/MikdashCourtyardV3/SourceAssets/context-review/HaramThresholdSidesV1/threshold-sides07/build/native.log -ini:Engine:[/Script/Engine.RendererSettings]:r.DynamicGlobalIlluminationMethod=0 -ini:Engine:[/Script/Engine.RendererSettings]:r.ReflectionMethod=0 -ini:Engine:[/Script/Engine.RendererSettings]:r.Shadow.Virtual.Enable=0 -ThresholdSave",
+    "shared": "commandlet rendering/offscreen, one worker settings999/999, SCW pressure False, GI0/reflection0/VSM0, async concurrency1, no p4",
+    "different": "Threshold main project and GeometryScripting enabled versus isolated tiny plugin allowlist; batch1 explicit only Compile02. Entry positional argument in threshold does not prove load; its Python explicitly loaded Entry."
+  },
+  "loggedCvarDifferences": {
+    "foliage.DensityScale": {
+      "compile02": "1.0",
+      "threshold07": "0.8"
+    },
+    "fx.Niagara.QualityLevel": {
+      "compile02": "not logged; unknown effective value",
+      "threshold07": "2"
+    },
+    "fx.NiagaraAllowRuntimeScalabilityChanges": {
+      "compile02": "not logged; unknown effective value",
+      "threshold07": "1"
+    },
+    "fx.SkipVectorVMBackendOptimizations": {
+      "compile02": "not logged; unknown effective value",
+      "threshold07": "1"
+    },
+    "grass.DensityScale": {
+      "compile02": "1.0",
+      "threshold07": "0.8"
+    },
+    "r.AOQuality": {
+      "compile02": "2",
+      "threshold07": "1"
+    },
+    "r.AmbientOcclusionMipLevelFactor": {
+      "compile02": "0.4",
+      "threshold07": "0.6"
+    },
+    "r.AmbientOcclusionRadiusScale": {
+      "compile02": "1.0",
+      "threshold07": "1.5"
+    },
+    "r.AntiAliasingMethod": {
+      "compile02": "not logged; unknown effective value",
+      "threshold07": "4"
+    },
+    "r.DOF.Gather.AccumulatorQuality": {
+      "compile02": "1        ; higher gathering accumulator quality",
+      "threshold07": "0        ; lower gathering accumulator quality"
+    },
+    "r.DOF.Gather.PostfilterMethod": {
+      "compile02": "1          ; Median3x3 postfilering method",
+      "threshold07": "2          ; Max3x3 postfilering method"
+    },
+    "r.DOF.Kernel.MaxBackgroundRadius": {
+      "compile02": "0.025",
+      "threshold07": "0.012   ; required because of AccumulatorQuality=0"
+    },
+    "r.DOF.Kernel.MaxForegroundRadius": {
+      "compile02": "0.025",
+      "threshold07": "0.012   ; required because of AccumulatorQuality=0"
+    },
+    "r.DOF.Recombine.Quality": {
+      "compile02": "1                ; cheap slight out of focus",
+      "threshold07": "0                ; no slight out of focus"
+    },
+    "r.DOF.Scatter.BackgroundCompositing": {
+      "compile02": "2    ; additive background scattering",
+      "threshold07": "1    ; no background occlusion"
+    },
+    "r.DOF.Scatter.EnableBokehSettings": {
+      "compile02": "1      ; bokeh simulation when scattering",
+      "threshold07": "0      ; no bokeh simulation when scattering"
+    },
+    "r.DOF.Scatter.MaxSpriteRatio": {
+      "compile02": "0.1         ; only a maximum of 10% of scattered bokeh",
+      "threshold07": "0.04        ; only a maximum of 4% of scattered bokeh"
+    },
+    "r.DOF.TemporalAAQuality": {
+      "compile02": "1                ; more stable temporal accumulation",
+      "threshold07": "0                ; faster temporal accumulation"
+    },
+    "r.DetailMode": {
+      "compile02": "3",
+      "threshold07": "1"
+    },
+    "r.EmitterSpawnRateScale": {
+      "compile02": "1.0",
+      "threshold07": "0.5"
+    },
+    "r.EyeAdaptation.CachedLightingPreExposure": {
+      "compile02": "not logged; unknown effective value",
+      "threshold07": "8"
+    },
+    "r.FastBlurThreshold": {
+      "compile02": "100",
+      "threshold07": "3"
+    },
+    "r.Filter.SizeScale": {
+      "compile02": "1",
+      "threshold07": "0.8"
+    },
+    "r.Fog.SeparateComposition": {
+      "compile02": "-1\t; Allow fog separate composition when FSSS is enabled.",
+      "threshold07": "0\t\t; Force fog separate composition disabled, forcing FSSS disabled for better performance"
+    },
+    "r.ForwardShading": {
+      "compile02": "not logged; unknown effective value",
+      "threshold07": "0"
+    },
+    "r.GenerateMeshDistanceFields": {
+      "compile02": "not logged; unknown effective value",
+      "threshold07": "1"
+    },
+    "r.HeterogeneousVolumes.MaxStepCount": {
+      "compile02": "256",
+      "threshold07": "96"
+    },
+    "r.HeterogeneousVolumes.Shadows.Resolution": {
+      "compile02": "512",
+      "threshold07": "256"
+    },
+    "r.Lumen.HardwareRayTracing.HitLighting.Allowed": {
+      "compile02": "1",
+      "threshold07": "0"
+    },
+    "r.Lumen.Reflections.DownsampleFactor": {
+      "compile02": "1",
+      "threshold07": "2"
+    },
+    "r.Lumen.Reflections.MaxRoughnessToTraceForFoliage": {
+      "compile02": "0.4",
+      "threshold07": "0.2"
+    },
+    "r.Lumen.Reflections.ScreenSpaceReconstruction.MinWeight": {
+      "compile02": "0",
+      "threshold07": "1"
+    },
+    "r.Lumen.Reflections.ScreenSpaceReconstruction.NumSamples": {
+      "compile02": "5",
+      "threshold07": "3"
+    },
+    "r.Lumen.ScreenProbeGather.DownsampleFactor": {
+      "compile02": "16",
+      "threshold07": "32"
+    },
+    "r.Lumen.ScreenProbeGather.IrradianceFormat": {
+      "compile02": "0",
+      "threshold07": "1"
+    },
+    "r.Lumen.ScreenProbeGather.MaxRoughnessToEvaluateRoughSpecularForFoliage": {
+      "compile02": "0.8",
+      "threshold07": "0.4"
+    },
+    "r.Lumen.ScreenProbeGather.NumAdaptiveProbes": {
+      "compile02": "8",
+      "threshold07": "16"
+    },
+    "r.Lumen.ScreenProbeGather.RadianceCache.NumProbesToTraceBudget": {
+      "compile02": "150",
+      "threshold07": "100"
+    },
+    "r.Lumen.ScreenProbeGather.RadianceCache.ProbeResolution": {
+      "compile02": "32",
+      "threshold07": "16"
+    },
+    "r.Lumen.ScreenProbeGather.ShortRangeAO.BentNormal": {
+      "compile02": "1",
+      "threshold07": "0"
+    },
+    "r.Lumen.ScreenProbeGather.ShortRangeAO.DownsampleFactor": {
+      "compile02": "1",
+      "threshold07": "2"
+    },
+    "r.Lumen.ScreenProbeGather.ShortRangeAO.HorizonSearch.ForegroundSampleRejectPower": {
+      "compile02": "1",
+      "threshold07": "1.5"
+    },
+    "r.Lumen.ScreenProbeGather.ShortRangeAO.HorizonSearch.HZB": {
+      "compile02": "0",
+      "threshold07": "1"
+    },
+    "r.Lumen.ScreenProbeGather.StochasticInterpolation": {
+      "compile02": "0",
+      "threshold07": "1"
+    },
+    "r.Lumen.ScreenProbeGather.TwoSidedFoliageBackfaceDiffuse": {
+      "compile02": "1",
+      "threshold07": "0"
+    },
+    "r.Lumen.TraceMeshSDFs.Allow": {
+      "compile02": "1",
+      "threshold07": "0"
+    },
+    "r.Lumen.TranslucencyReflections.FrontLayer.Allow": {
+      "compile02": "1",
+      "threshold07": "0"
+    },
+    "r.Lumen.TranslucencyVolume.GridPixelSize": {
+      "compile02": "32",
+      "threshold07": "64"
+    },
+    "r.Lumen.TranslucencyVolume.RadianceCache.NumProbesToTraceBudget": {
+      "compile02": "100",
+      "threshold07": "70"
+    },
+    "r.Lumen.TranslucencyVolume.TraceFromVolume": {
+      "compile02": "1",
+      "threshold07": "0"
+    },
+    "r.LumenScene.DirectLighting.MaxLightsPerTile": {
+      "compile02": "8",
+      "threshold07": "4"
+    },
+    "r.LumenScene.DirectLighting.UpdateFactor": {
+      "compile02": "32",
+      "threshold07": "64"
+    },
+    "r.LumenScene.Radiosity.HemisphereProbeResolution": {
+      "compile02": "4",
+      "threshold07": "3"
+    },
+    "r.LumenScene.Radiosity.ProbeSpacing": {
+      "compile02": "4",
+      "threshold07": "8"
+    },
+    "r.LumenScene.Radiosity.UpdateFactor": {
+      "compile02": "64",
+      "threshold07": "128"
+    },
+    "r.LumenScene.SurfaceCache.AtlasSize": {
+      "compile02": "4096",
+      "threshold07": "3584"
+    },
+    "r.LumenScene.SurfaceCache.CardMinResolution": {
+      "compile02": "2",
+      "threshold07": "4"
+    },
+    "r.MaxAnisotropy": {
+      "compile02": "8",
+      "threshold07": "4"
+    },
+    "r.MegaLights.Volume.GridPixelSize": {
+      "compile02": "8",
+      "threshold07": "16"
+    },
+    "r.MegaLights.Volume.GridSizeZ": {
+      "compile02": "128",
+      "threshold07": "64"
+    },
+    "r.MotionBlurQuality": {
+      "compile02": "4",
+      "threshold07": "3"
+    },
+    "r.ParticleLightQuality": {
+      "compile02": "2",
+      "threshold07": "1"
+    },
+    "r.RayTracing.Scene.BuildMode": {
+      "compile02": "1",
+      "threshold07": "0"
+    },
+    "r.SSGI.Quality": {
+      "compile02": "3",
+      "threshold07": "2"
+    },
+    "r.SSR.HalfResSceneColor": {
+      "compile02": "0",
+      "threshold07": "1"
+    },
+    "r.SSR.Quality": {
+      "compile02": "3",
+      "threshold07": "2"
+    },
+    "r.SSS.HalfRes": {
+      "compile02": "0",
+      "threshold07": "1"
+    },
+    "r.SSS.Quality": {
+      "compile02": "1",
+      "threshold07": "-1"
+    },
+    "r.SSS.SampleSet": {
+      "compile02": "2",
+      "threshold07": "1"
+    },
+    "r.SceneColorFormat": {
+      "compile02": "4",
+      "threshold07": "3"
+    },
+    "r.Shadow.CSM.MaxCascades": {
+      "compile02": "10",
+      "threshold07": "4"
+    },
+    "r.Shadow.CSM.TransitionScale": {
+      "compile02": "1.0",
+      "threshold07": "0.8"
+    },
+    "r.Shadow.DistanceScale": {
+      "compile02": "1.0",
+      "threshold07": "0.85"
+    },
+    "r.Shadow.MaxResolution": {
+      "compile02": "2048",
+      "threshold07": "1024"
+    },
+    "r.Shadow.PreShadowResolutionFactor": {
+      "compile02": "1.0",
+      "threshold07": "0.5"
+    },
+    "r.Shadow.RadiusThreshold": {
+      "compile02": "0.01",
+      "threshold07": "0.04"
+    },
+    "r.Shadow.Virtual.MarkCoarsePagesLocal": {
+      "compile02": "1",
+      "threshold07": "2"
+    },
+    "r.Shadow.Virtual.MaxPhysicalPages": {
+      "compile02": "4096",
+      "threshold07": "2048"
+    },
+    "r.Shadow.Virtual.ResolutionLodBiasDirectional": {
+      "compile02": "-1.5",
+      "threshold07": "0.0"
+    },
+    "r.Shadow.Virtual.ResolutionLodBiasDirectionalMoving": {
+      "compile02": "-1.5",
+      "threshold07": "0.0"
+    },
+    "r.Shadow.Virtual.SMRT.RayCountLocal": {
+      "compile02": "8",
+      "threshold07": "4"
+    },
+    "r.SkyAtmosphere.AerialPerspectiveLUT.SampleCountMaxPerSlice": {
+      "compile02": "4",
+      "threshold07": "2"
+    },
+    "r.SkyAtmosphere.FastSkyLUT.SampleCountMax": {
+      "compile02": "128.0",
+      "threshold07": "64.0"
+    },
+    "r.SkyAtmosphere.SampleCountMax": {
+      "compile02": "128.0",
+      "threshold07": "64.0"
+    },
+    "r.Streaming.LimitPoolSizeToVRAM": {
+      "compile02": "0",
+      "threshold07": "1"
+    },
+    "r.Streaming.PoolSize": {
+      "compile02": "1000",
+      "threshold07": "800"
+    },
+    "r.TranslucencyLightingVolume.Dim": {
+      "compile02": "64",
+      "threshold07": "48"
+    },
+    "r.Upscale.Quality": {
+      "compile02": "3",
+      "threshold07": "2"
+    },
+    "r.Velocity.EnableVertexDeformation": {
+      "compile02": "1",
+      "threshold07": "not logged; unknown effective value"
+    },
+    "r.VelocityOutputPass": {
+      "compile02": "1",
+      "threshold07": "not logged; unknown effective value"
+    },
+    "r.ViewDistanceScale": {
+      "compile02": "1.0",
+      "threshold07": "0.8"
+    },
+    "r.VolumetricFog.GridPixelSize": {
+      "compile02": "8",
+      "threshold07": "16"
+    },
+    "r.VolumetricFog.GridSizeZ": {
+      "compile02": "128",
+      "threshold07": "64"
+    }
+  },
+  "configEvidence": {
+    "compile02DefaultEngineSha256": "59fe2e436bac1e566021600ea3a4ec0b8dd4cb6cb3913d772dcc9364ee1702ea",
+    "currentMainDefaultEngineSha256": "5722f2355f237fb3cee166952014d2859daebc15056ab6cb810863f03fda532a",
+    "historicalLimitation": "Threshold07 snapshot has five script/audit files, no full effective configuration snapshot. Current main config is corroboration, not exact historical proof. Absence of a SetCVar line is not an effective-value readback.",
+    "velocity": "Compile02 explicitly/logged1. Threshold command/config has no override; UE default0 is source-confirmed, but threshold effective0 is an inference, not a native readback."
+  },
+  "globalKeys": {
+    "threshold07": null,
+    "compile02": null,
+    "reason": "Neither retained log records exact global keys. WorldGrid756381bdeed6c3be2bd70e80f14d692db7880066 is a MATERIAL key, not a global shader key. Cannot honestly reconstruct exact global-key equality from SM6 alone."
+  },
+  "cacheProgress": {
+    "perJobDDC": "Disabled by source for these non-cook commandlet commands; neither contains forceAllowShaderCompilerJobCache. In-process job reuse does not imply cross-process persisted progress.",
+    "wholeMaps": "Completed persistent material/global maps can be saved independently of completion of the entire startup. No evidence establishes which maps were saved here.",
+    "rerunConclusion": "Do not assume a third identical deadline-limited run resumes individual completed jobs. Do not claim every completed map was lost either.",
+    "forceFlagCaution": "Flag changes IsMaterialMapDDCEnabled/ODSC policy too; not a cache-only switch. Needs separate source review against positive representative shader proof."
+  },
+  "sourceEvidence": [
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\ShaderCompiler\\ShaderCompilerJobCache.cpp",
+      "sha256": "db863f22c722c4979ba366806061a44ce878d62d7ca15be7e34bb563edec0aed",
+      "finding": "159-177 excludes non-cook commandlets unless forceAllowShaderCompilerJobCache;185 selects material-map cache as inverse for this mode;2251-2267 gates per-job DDC Put",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\ShaderCompiler\\ShaderCompiler.cpp",
+      "sha256": "01cf29f3e0f8894f50d63dbd5ffebcc8216702ea2f08f1c46787037782d0056f",
+      "finding": "2336-2350 saves persistent material map after no incomplete materials;5632-5650 computes global key and optional dump",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\ShaderCompiler\\ShaderCompilerEditor.cpp",
+      "sha256": "80e29193109d01a674b6e096fb7fe361bb6dedf1c0bfe4364f88ed2b661dd51c",
+      "finding": "174-215 global key includes format/version, shared shader key, dependencies and environment modifications;546-578 global map save expects completeness",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\RenderCore\\Private\\Shader.cpp",
+      "sha256": "934ea4727c270965269ca8dffe71ccbcb4fdfb3e49253e5d4d0fd0071112d62d",
+      "finding": "1802-1814 VelocityOutputPass1 adds GV; other values add VOP/value to shared shader key",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Renderer\\Private\\VelocityRendering.cpp",
+      "sha256": "6532925aac806eae8959fa6b2a9da6733bde980a7fad2b580f3eb93d69b8b39a",
+      "finding": "29-37 default VelocityOutputPass0; comment states changing causes full shader recompile",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\Materials\\MaterialShader.cpp",
+      "sha256": "d792c0b7b8a160e77bff1bc4d46037eae96ebfe27618d283d1182098da006c4f",
+      "finding": "269/438 shared shader key feeds material keys;2220-2235 material cache write and verbose full-key logging",
+      "publishSource": false
+    }
+  ],
+  "nextReadOnlyWork": [
+    "Determine historical effective velocity/config from an authoritative saved artifact if available, without loading maps",
+    "Audit whether compile-only graph proof requires VelocityOutputPass1 at all; temporal render is deferred. Do not silently change it in historical runner",
+    "If exact historical keys remain unavailable, document that limit; any future diagnostic run must be separately reviewed with explicit key/progress instrumentation, same guards and fresh outputs"
+  ],
+  "noRetryProposedOrLaunched": true,
+  "claims": {
+    "shaderCompiled": false,
+    "renderedPixels": false,
+    "temporalVelocity": false,
+    "productionAcceptance": false
+  }
+}

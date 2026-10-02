@@ -1,0 +1,31 @@
+{
+  "status": "One additional identical bounded experiment proposed; no launch authorized by this artifact",
+  "frozenManifestSha256": "c0b3c5fa69e5f9c93a72109a3f9634376b51a3d830c7a3bdd7410cf7411b7b2d",
+  "terminalOutcome": "295.0030882s deadline,3663536128bytes peak; cleanup/source preservation true; slot unblocked; no Python/native receipt",
+  "workClassification": {
+    "sourceConfirmedGlobalVsmCompletionMessages": 160,
+    "otherStartupCompletionMessages": 247,
+    "candidateJobsProven": 0,
+    "ddcUniqueHits": 5363,
+    "inProcessUniqueHits": 479
+  },
+  "vsmSource": {
+    "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Renderer\\Private\\VirtualShadowMaps\\VirtualShadowMapProjection.cpp",
+    "sha256": "6476a1fc255c6153bb1c29f4771e7991147bce3f96e6bee940f3f18cd11f1abb",
+    "lines": "118 inherits FGlobalShader;221-277 permutation gates use platform VSM support, not runtime r.Shadow.Virtual.Enable"
+  },
+  "candidateCommandForCoordinatorReview": "pwsh -NoProfile -File \"C:/Mikdash/Verification/angular-native03-20261002/runner/run_native.ps1\" -RunId angular-compile04 -Mode Compile -CoordinatorNativeRun -DeadlineSeconds 300",
+  "sameInputs": "Same exact runner/config/material/helper pins, batch1, single worker, cache policy, shared DDC, velocity semantics,6/4/2 limits and300s total deadline. Only run ID/log/receipt locations change. No cache cleaning or other native job during comparison.",
+  "experimentBudget": "Exactly ONE additional attempt. Regardless of outcome, stop afterwards for independent review. No loop or automatic fifth attempt.",
+  "predeclaredSuccess": "Independently validated positive candidate proof; otherwise at least100 new DDC-hit hashes AND comparable High/VSM terminal pending<=3051 AND max completed VSM permutation>605. Python startup alone never qualifies.",
+  "thresholdRationale": "100 is a declared practical progress threshold, approximately one quarter of407 prior completion messages. It is not a statistical confidence bound or ETA model.",
+  "failureStop": "No novel-hit growth, growth alone, repeated equivalent work, regression, changed config, incomparable terminal stage without Python, memory/reserve/cleanup/preservation failure: stop and diagnose; do not repeat.",
+  "interpretation": "The dispatch count is pending work at a priority, NOT total global work remaining. New priority queues invalidate naive subtraction. Same-stage comparison is a bounded indicator, not proof of exact remaining permutation identity.",
+  "persistenceAttribution": "New DDC hits on a fresh process prove newly observed persisted cache reads. Logs lack the input hashes of completed jobs, so cannot prove each new hit was written by03 rather than another cache producer. Existing5363hits are not proof03 saved new work.",
+  "candidateLimit": "Even qualifying progress is not candidate compile proof, full material coverage, pixels or production acceptance. Positive shader receipt remains mandatory.",
+  "offlineComparisonTests": 37,
+  "nativeLaunches": 0,
+  "rawLogsExcluded": true,
+  "approvedTerminals": "Only clean child_exited_zero/exitCode0 with validated candidate evidence, or failed with exact error Total deadline: reserve cleanup5s plus poll margin. Memory/reserve/other failures STOP despite growth. Original6/4/2/300 and5s cleanup fields mandatory; peak below4GiB, elapsed<=300, confirmed cleanup/source preservation and clear slot.",
+  "candidateChecks": "Frozen manifest PIN, Compile mode, exact material identity/label, one nonempty compiler row, all5 positive integer stats, both empty diagnostic arrays, no error log markers, exact WPO/current/history dependencies, normal channels,30-channel stock census, history25, Entry/noPIE, cache/velocity readback, explicit limited coverage. Serialized receipts cannot independently recover unrecorded shader state; pinned native assertions remain part of provenance."
+}

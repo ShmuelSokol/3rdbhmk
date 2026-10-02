@@ -1,0 +1,106 @@
+{
+  "scope": "Proposed Compile03, not launch authorization",
+  "parentManifestSha256": "de94eed20f3037a8251f84dea1d4e2b6638a207384509dfd2d231fc6be1ab357",
+  "changes": [
+    "forceAllowShaderCompilerJobCache",
+    "VeryVerbose shader DDC-hit diagnostics",
+    "bLogJobCompletionTimes=True",
+    "Live cache and unchanged velocity readbacks"
+  ],
+  "same": [
+    "DX12/SM6",
+    "batch1 / one worker",
+    "VelocityOutputPass1 and vertex deformation1",
+    "positive shader statistics and clean diagnostics",
+    "6GiB start /4GiB aggregate owned /2GiB reserve /300s deadline /5s cleanup",
+    "Entry only; no project DLL/UBT"
+  ],
+  "policyEffect": "Non-cook commandlet now enables per-job DDC and disables whole material-map DDC/uses ODSC policy. Statistics still submits missing jobs, finishes compilation and must prove positive representative vertex/pixel shaders.",
+  "cacheLimit": "Success/no bypass and default/global PerShaderDDCGlobal1 permit async per-job puts. Pending puts can be lost on termination. No cache durability or compile success claimed.",
+  "sourceGuard": "Exact 20 parent pins and19 source/staged asset pairs checked before derivative; original sources unchanged",
+  "nativeLaunches": 0,
+  "engineEvidence": [
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\ShaderCompiler\\ShaderCompilerJobCache.cpp",
+      "sha256": "db863f22c722c4979ba366806061a44ce878d62d7ca15be7e34bb563edec0aed",
+      "finding": "57-60 PerShaderDDCGlobal default1;159-185 force flag enables commandlet job DDC and changes whole-material-map/ODSC policy;1627-1631 success/no-bypass gate;1925 async hit log;2251-2269 async Put (no durable acknowledgement)"
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\ShaderCompiler\\ShaderCompiler.cpp",
+      "sha256": "01cf29f3e0f8894f50d63dbd5ffebcc8216702ea2f08f1c46787037782d0056f",
+      "finding": "831-834 batch and completion-log ini reads;1651-1667 completion messages"
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Editor\\MaterialEditor\\Private\\MaterialEditingLibrary.cpp",
+      "sha256": "96051980458dad86719f195072da4bd34eebd07a80d647ebb50bbbb0626e5565",
+      "finding": "2116-2150 candidate Resource, incomplete map submit, FinishCompilation, actual representative counts; null resource all0"
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Editor\\MaterialEditor\\Private\\MaterialStatsCommon.cpp",
+      "sha256": "186572ebd07f50138dbf591295e764a3c904f693ae69aa14990ba6756ff1f598",
+      "finding": "470-550 candidate GetGameThreadShaderMap; non-UI mesh map and actual ShaderEntry required for vertex/pixel counts; no default material substitution here"
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\Materials\\MaterialShader.cpp",
+      "sha256": "d792c0b7b8a160e77bff1bc4d46037eae96ebfe27618d283d1182098da006c4f",
+      "finding": "3353-3366 IsComplete excludes IsODSCOnly permutations; cannot treat complete or positive stats as full permutation coverage"
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\Materials\\MaterialShared.cpp",
+      "sha256": "31c43df402ef7efc73514b12ae265f03b0955d1dacedfac9867763ffd0143656",
+      "finding": "4482-4500 SubmitCompileJobs requires pending map/id and can do nothing; gate must still require actual positive shader counts;4522+ sampler usage from own shader map"
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Classes\\Kismet\\KismetSystemLibrary.h",
+      "sha256": "6506c10de1a3189489b7189062cf660ad1ee241713290e40336d63c29da24e8d",
+      "finding": "631 reflected GetConsoleVariableIntValue readback"
+    }
+  ],
+  "parentPins": {
+    "candidate_builder.py": "7e85710b87fa479a22a9ff6d9d2df14b912f3f5d6dcc2e7451b657a8071f371f",
+    "check_and_pin.py": "4456d515cc378989f4b8cbc4ecfe63d15bd0978302ccf1c747e80117a75b0b8f",
+    "compile-review.json": "00b827b552c59c5cc2a861fe2529c399afcc2c7a323912a61114a683d027743e",
+    "inputs.json": "fedff49810da2c89b5d5ade64e1058d3f6c5955448b0f6d262736abd0858f0e6",
+    "native.py": "7e90b19d513e8acc7b432424ef28239c16b12ffc503b1912d8d9d697721ee362",
+    "offline-ready.json": "98d09777ce8c2f97a5231ddfefadfabff6456390f698a643a5cfa8962d3842b0",
+    "owned_ue_shim.ps1": "202124eb5796461a7287ec3c0e6b45e687f80d4fdacfb3f30c72df6908845c87",
+    "OwnedChildJob.cs": "0ef998314f3e68976c851e055d9aafe0e56e935334f1556a44e5e683a05fcec4",
+    "P/AngularVATReview.uproject": "f58b6e32a60825bb46e3f6684327fc267107474cb94dad434013e0a1e823dca3",
+    "P/Config/DefaultEngine.ini": "59fe2e436bac1e566021600ea3a4ec0b8dd4cb6cb3913d772dcc9364ee1702ea",
+    "png_safe.py": "42613c23048ae7d4e7f5a058214f9c257fb2a7526fd3844f16a7eb2a3c16168e",
+    "pose_capture.py": "5e47094c812829cb523e6320d53d5dcde7083a4a4c5c42167ae99f8550ce6bf5",
+    "reviewer-delta.json": "00b827b552c59c5cc2a861fe2529c399afcc2c7a323912a61114a683d027743e",
+    "run_native.ps1": "42094866564580889f8865b04f574e0349772eae82c012a91f901efc6d2818c9",
+    "shader-gate-tests.json": "122aac65617a8450e447f8b745b63bae000bde2cf5a9be8d117438cacba44ad6",
+    "source-context.json": "d9b1cabdc12bdf21ebf5f2bf8bf90929de147be4931154147ea2e47b341579d0",
+    "support.ps1": "bd7d6f7bf037c81f1bdf9f96709dd20a1cf3ea5dafab426e7e0dd093fb971e07",
+    "test_offline.ps1": "94772f51bf4e74a0e988c0588e9305d56a692208697828b8d17b9e25a5c42261",
+    "test_shader_gate.py": "9efa8ba962ecd7de51a2a15be3aa28756848dd76a41e509a4521db397511e8d0",
+    "vat-spec.json": "63bcc12c5f4a3470a23bb46a73cd4b77e9257358b935a1afecbe95aed315c332"
+  },
+  "originalAssetPins": {
+    "Content/MikdashV3/Characters/ResidentV4/Textures/T_RV4_WeaveN.uasset": "1d8f79de2aec9fb886dc48a46fc30548c17bfd03de3a199efd9ef50fc50a1e27",
+    "Content/MikdashV3/Characters/ResidentV4/Textures/T_RV4_SlubMottle.uasset": "c725ca026daa1986a68f6ef3db86d5b95d4dc89fc47b705b981cf0921125625f",
+    "Content/MikdashV3/Characters/ResidentV4/Textures/T_RV4_PoresN.uasset": "7df1ca4b89d4f0813a032c1fe1cb36e1d0771c4eb8e2285e122095396afd9b8c",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Textures/T_IdleNormal.uasset": "3fc7323488740198b8e959b10bb24c79b34597678c7cd82a44d10c88b7d833ca",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy12/Cast/Man_Elder/ResidentSourceTopology/Textures/T_IdlePosition.uasset": "904867cd9b2ff334df174fd080187824ff94a5a66fe7ed6fd9b8235f9024f9b9",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Textures/T_WalkNormal.uasset": "372380c32661860a682bccbfbe3d64b11849c2d8fe834dd569b3fedf600618dc",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy12/Cast/Man_Elder/ResidentSourceTopology/Textures/T_WalkPosition.uasset": "4920df4cd1da8e0d19ae93120eb156bdb3fe96614d00ac480285103eb61ccaad",
+    "Content/MikdashV3/Characters/ResidentV4/Textures/T_RV4_StrandN.uasset": "5d719b1b0dccf1577d34c29da43933c23007e2b33a749b9cbc9d925761e45674",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/SM_ResidentDirectNormals.uasset": "23df3bb2cad2c5bbd8a352b22dbd501d1ebb762c8deec2fe41dd9e9d095149c6",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Materials/MI_RV4_Skin.uasset": "18de95f010a3caf447afdd1e560044a431b81b282783dc6cf9ae01b6a08590c5",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy12/Cast/Man_Elder/ResidentSourceTopology/Materials/M_ResidentVAT_Skin.uasset": "e49dd44b3b6c5d5e518484d226c33906567e351a3053791af7b7488df5e0f13d",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy12/Cast/Man_Elder/ResidentSourceTopology/Textures/T_WalkNormal.uasset": "1ca387bed8fe3148f9b2a0c5ef736624bdbb8984c472eb96ae7b9d0bd20046f8",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy12/Cast/Man_Elder/ResidentSourceTopology/Textures/T_IdleNormal.uasset": "22e70019a973d4c65145567454b4125dd9dd5543fd12f034214be5ea0983baef",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Materials/MI_RV4_Leather.uasset": "04b81d9844b151e4eacb8af193e6eb5337ced71169361288f7260934e3f8e7d6",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy12/Cast/Man_Elder/ResidentSourceTopology/Materials/M_ResidentVAT.uasset": "e36ddeccd5fb5fc320e59f113ceef0078ccf5befca85d3ef99251788a1510da1",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Materials/MI_RV4_Hair.uasset": "80ba74c88f24e31c6ee0c8ca521c6a1c9b063d4a20ec4696c02bd0a9bd6304c8",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Materials/MI_RV4_Garment.uasset": "6f65a3a40022a61453143bbab0b2c539f176c0f9d9a2bba72771b6330f34de4d",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Materials/MI_RV4_Eye.uasset": "bfa96c580570602801ccfe30b860c3c14d6891b6a5475ccb599f91ae8c081bbc",
+    "Content/MikdashV3/Runtime/CrowdResidentStudy13/Cast/Man_Elder/Materials/MI_RV4_Cloth.uasset": "7464c6cfe358eab9dc31b6f1c791249e195425808d9feef3533329947e7660b0"
+  },
+  "recipeHashes": {
+    "prepare_proposal.py": "dd196ced8db1d122b10ad722a9bcde39155f342502761a319531c16d2953acaf",
+    "summarize_progress.py": "11c047954b86286c1730636323ec662a61525c6e065b07433fb51d6800700b53"
+  }
+}

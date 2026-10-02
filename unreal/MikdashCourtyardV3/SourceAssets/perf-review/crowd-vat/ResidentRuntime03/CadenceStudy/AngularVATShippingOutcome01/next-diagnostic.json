@@ -1,0 +1,26 @@
+{
+  "terminalShader": "FMicropolyRasterizeCS",
+  "classification": "Nanite MATERIAL shader, not a global shader or evidence the Angular candidate was reached",
+  "source": {
+    "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Renderer\\Private\\Nanite\\NaniteCullRaster.cpp",
+    "sha256": "ac52e476dd17ba103bbade4f6460cb042279b97ffe5e1bfae35d06725e392fd0",
+    "lines": "1515 Material shader declaration;1520-1550 bool permutation domain;1554+ gates;1598+ default material tessellation exception"
+  },
+  "lastPermutation": 2274,
+  "sourceDerivedSetDimensions": [
+    "TwoSided",
+    "VertexProgrammable",
+    "PixelProgrammable",
+    "Tessellation",
+    "SplineDeform"
+  ],
+  "workloadFinding": "Default materials bypass ordinary material two-sided/tessellation restrictions. Source contains a TODO about compiling unnecessary default-material shaders. This can explain broad startup permutations; it does not identify this job material by itself.",
+  "materialIdentity": "Terminal completion messages omit owning material and input hash. WorldGrid missed cache at key7208f8c673b518667fd564e656f44fac1aff4583, but temporal adjacency alone does not prove it owns this final job.",
+  "smallestNextDiagnostic": "First resolve the owning material/debug group and input hash for FMicropolyRasterizeCS2274, then compare its ShouldCompilePermutation inputs against default-material bypasses. Targeted retained SCW work-directory inspection found no files; do not launch another warm-up to guess ownership.",
+  "instrumentationSource": {
+    "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\ShaderCompiler\\ShaderCompiler.cpp",
+    "sha256": "01cf29f3e0f8894f50d63dbd5ffebcc8216702ea2f08f1c46787037782d0056f",
+    "lines": "97-101 DebugDumpJobInputHashes requests InputHash.txt alongside debug data;1440-1442 adds flag. This alone is NOT a validated bounded per-shader capture recipe."
+  },
+  "limits": "No new launch proposal, no cache deletion, no Nanite disablement or permutation pruning. A future instrumented run needs separate narrow-output design and review; cannot infer624 jobs to completion."
+}

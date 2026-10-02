@@ -1,0 +1,165 @@
+{
+  "scope": "Separate source audit; no fifth native run or historical pin edits",
+  "compile04": {
+    "wrapper": {
+      "status": "failed",
+      "error": "Total deadline: reserve cleanup5s plus poll margin",
+      "ownedElapsedSeconds": 294.7427052,
+      "peakPrivateBytes": 3634794496,
+      "cleanupConfirmed": true,
+      "sourcePreserved": true,
+      "slotBlocked": false
+    },
+    "comparison": {
+      "newDdcHitCount": 407,
+      "priorDdcHitsSeenAgain": 5363,
+      "priorHitsNotObserved": 0,
+      "sameTerminalStageComparable": false,
+      "sameStageAdvanceAtLeast100": false,
+      "boundedExperimentProgress": false,
+      "candidateProof": false,
+      "decision": "STOP: no qualifying progress or stage incomparable; diagnose before any additional run",
+      "attributionLimit": "New DDC hits establish newly observed persisted reuse, not exact attribution to Compile03 writes; completion messages lack matching input hashes. Shared DDC writers can also contribute."
+    },
+    "rawReceiptHashes": {
+      "wrapper.json": "6116ee6deeeb4ebae255c280a2ed01c9728d3a4d78d63eb7f22e920c642d7d1e",
+      "comparison.json": "e442d74b382a049ce0337d2ca6833f27e5ce627218e65c0e3af3a59d2f94182e",
+      "native.log": "b3ac0c846ec87ab2f8dabea452c39f602a72a36ed30e0d545a510ee0a659a893"
+    },
+    "rawFilesPublish": false,
+    "candidateProof": false
+  },
+  "packagedReadbacks": [
+    {
+      "path": "SourceAssets\\visual-review\\movie-historyv3-candidate01-corridor\\runtime.log",
+      "sha256": "6762b645f860108c8216cc45ad88cff5e7ae2d61c353a12323821881dc995950",
+      "readbacks": [
+        {
+          "line": 1725,
+          "variable": "r.Velocity.EnableVertexDeformation",
+          "value": 2,
+          "lastSetBy": "Constructor"
+        },
+        {
+          "line": 1728,
+          "variable": "r.VelocityOutputPass",
+          "value": 0,
+          "lastSetBy": "Constructor"
+        }
+      ],
+      "publishRawLog": false
+    },
+    {
+      "path": "SourceAssets\\visual-review\\movie-historyv3-control01-corridor\\runtime.log",
+      "sha256": "a3540d96bac21caccb02c829f946cbb61e0715bd06ec87596f0fa443a8887d1c",
+      "readbacks": [
+        {
+          "line": 1752,
+          "variable": "r.Velocity.EnableVertexDeformation",
+          "value": 2,
+          "lastSetBy": "Constructor"
+        },
+        {
+          "line": 1755,
+          "variable": "r.VelocityOutputPass",
+          "value": 0,
+          "lastSetBy": "Constructor"
+        }
+      ],
+      "publishRawLog": false
+    },
+    {
+      "path": "SourceAssets\\visual-review\\movie-historyv3-velocity-new01-corridor\\runtime.log",
+      "sha256": "a4d5570c3e6f164eefedac3d55d050442baf80e26bbcfb327b846ddc165885ac",
+      "readbacks": [
+        {
+          "line": 1699,
+          "variable": "r.Velocity.EnableVertexDeformation",
+          "value": 2,
+          "lastSetBy": "Constructor"
+        },
+        {
+          "line": 1702,
+          "variable": "r.VelocityOutputPass",
+          "value": 0,
+          "lastSetBy": "Constructor"
+        }
+      ],
+      "publishRawLog": false
+    },
+    {
+      "path": "SourceAssets\\visual-review\\movie-motion-state01-corridor\\runtime.log",
+      "sha256": "20dcb771878567afff325b553a85298920c180fd86172b0add5b4b6194c64a3a",
+      "readbacks": [
+        {
+          "line": 1661,
+          "variable": "r.Velocity.EnableVertexDeformation",
+          "value": 2,
+          "lastSetBy": "Constructor"
+        },
+        {
+          "line": 1664,
+          "variable": "r.VelocityOutputPass",
+          "value": 0,
+          "lastSetBy": "Constructor"
+        }
+      ],
+      "publishRawLog": false
+    }
+  ],
+  "angularFrozenConfig": {
+    "sha256": "59fe2e436bac1e566021600ea3a4ec0b8dd4cb6cb3913d772dcc9364ee1702ea",
+    "VelocityOutputPass": 1,
+    "EnableVertexDeformation": 1
+  },
+  "engineEvidence": [
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Renderer\\Private\\VelocityRendering.cpp",
+      "sha256": "6532925aac806eae8959fa6b2a9da6733bde980a7fad2b580f3eb93d69b8b39a",
+      "finding": "30-38 pass0 depth/pass1 base;821-826 pass0 DepthPassCanOutputVelocity subject to MSAA",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\PrimitiveSceneProxy.cpp",
+      "sha256": "492df97c11583ab760a5f3f27a0588568575e914d92183c6f84b060bd667123f",
+      "finding": "63-77 deformation2 auto;232-237 returns true for2 when output pass!=2;622 also requires primitive support and WPO material",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Shaders\\Private\\VelocityShader.usf",
+      "sha256": "110aaaf1e945d131a54f5e0fc6b246531f13cec93ae05ba667befb80a588d5b7",
+      "finding": "73 current WPO;79-82 previous vertex-factory position plus GetMaterialPreviousWorldPositionOffset",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\Materials\\MaterialExpressions.cpp",
+      "sha256": "66909943c30bdcea8f8bc47bd3b719093eeed4d11715b94cb120fb4f4330d815",
+      "finding": "9026-9033 PreviousFrameSwitch branches on compiler previous-frame state, no pass1 requirement",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\RenderCore\\Private\\Shader.cpp",
+      "sha256": "934ea4727c270965269ca8dffe71ccbcb4fdfb3e49253e5d4d0fd0071112d62d",
+      "finding": "1802-1814 pass1 GV versus pass0 VOP0 changes shared shader key; cache reuse not guaranteed",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Editor\\MaterialEditor\\Private\\MaterialEditingLibrary.cpp",
+      "sha256": "96051980458dad86719f195072da4bd34eebd07a80d647ebb50bbbb0626e5565",
+      "finding": "2116 GetStatistics retrieves candidate resource and representative stats; no pass1 prerequisite",
+      "publishSource": false
+    }
+  ],
+  "conclusion": "Forced pass1 is not a source requirement of PreviousFrameSwitch or representative material compilation. Packaged recorded runtime uses0/2, while Angular uses1/1. A new explicit0/2 profile would align these two settings with measured packaged runtime, not disable previous WPO.",
+  "limitations": [
+    "Readbacks establish these archived packaged executions, not every current build setting",
+    "No native candidate HISM, previous-WPO permutation, velocity buffer or temporal continuity proof",
+    "No assurance0/2 will fit300s or reuse existing shader keys",
+    "Compile04 is STOP under its predeclared comparator despite407 new DDC hits; no reinterpretation as passed"
+  ],
+  "separateProposalOnly": {
+    "profile": "VelocityOutputPass0 and EnableVertexDeformation2, both source-supported and measured; new config/expected readbacks/comparator contract required",
+    "same": "positive representative gate; source graph; cache policy; batch1;6/4/2/300 guards",
+    "status": "source-grounded option, not implemented or launch authorized"
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "passed": true,
+  "count": 12,
+  "cases": [
+    {
+      "case": "positive representative shader statistics",
+      "accepted": true,
+      "expected": true,
+      "calls": [
+        "compile",
+        "statistics",
+        "compile"
+      ]
+    },
+    {
+      "case": "null resource all zeros",
+      "accepted": false,
+      "expected": false,
+      "calls": [
+        "compile",
+        "statistics"
+      ]
+    },
+    {
+      "case": "zero num_vertex_shader_instructions",
+      "accepted": false,
+      "expected": false,
+      "calls": [
+        "compile",
+        "statistics"
+      ]
+    },
+    {
+      "case": "zero num_pixel_shader_instructions",
+      "accepted": false,
+      "expected": false,
+      "calls": [
+        "compile",
+        "statistics"
+      ]
+    },
+    {
+      "case": "zero num_vertex_texture_samples",
+      "accepted": false,
+      "expected": false,
+      "calls": [
+        "compile",
+        "statistics"
+      ]
+    },
+    {
+      "case": "zero num_pixel_texture_samples",
+      "accepted": false,
+      "expected": false,
+      "calls": [
+        "compile",
+        "statistics"
+      ]
+    },
+    {
+      "case": "zero num_samplers",
+      "accepted": false,
+      "expected": false,
+      "calls": [
+        "compile",
+        "statistics"
+      ]
+    },
+    {
+      "case": "negative unavailable instructions",
+      "accepted": false,
+      "expected": false,
+      "calls": [
+        "compile",
+        "statistics"
+      ]
+    },
+    {
+      "case": "initial compiler error",
+      "accepted": false,
+      "expected": false,
+      "calls": [
+        "compile"
+      ]
+    },
+    {
+      "case": "compiler error after statistics jobs",
+      "accepted": false,
+      "expected": false,
+      "calls": [
+        "compile",
+        "statistics",
+        "compile"
+      ]
+    },
+    {
+      "case": "statistics API unavailable",
+      "accepted": false,
+      "expected": false,
+      "calls": [
+        "compile"
+      ]
+    },
+    {
+      "case": "missing reflected statistics field",
+      "accepted": false,
+      "expected": false,
+      "calls": [
+        "compile",
+        "statistics"
+      ]
+    }
+  ],
+  "nativeLaunches": 0,
+  "nativeSourceSha256": "83f848f4cd1fde9343af2fe82d4d48fc9d7c7abe6dd3088de6509a6399f14a19",
+  "scope": "Actual gate control-flow fault tests with mock reflected stats; not native shader compilation"
+}

@@ -2354,3 +2354,21 @@ when the index operation refuses before mutation, not post-write rollback.
 Walking still passes only 28/162 valid cases at 120/600 seconds; matched natural
 starts improve from 9 to 15 and 6 to 15 respectively. The 134 valid failures remain open.
 Measured resident envelopes are being derived to replace synthetic body bounds.
+## Reviewed angular crowd controller source checkpoint — 2 October 2026
+
+AngularFailClosed01-Publication contains 181 pinned files plus its manifest, with
+only explicit source, sanitized receipts and compressed numerical replay data.
+The publication copy passed 362 verification checks including a fresh 88-assertion
+unit build using the current uint64 geometry-revision header. No executable, raw
+log, private review receipt, Unreal asset or production controller is included.
+It retains 134 valid walking failures and the one/three minimum-window regressions;
+no previously passing natural case was lost. This is a reproducible source study,
+not runtime adoption or a playable checkpoint.
+
+Separately, ConnectorProgress01 passed independent exact 120/600-second replay
+(all nine CSVs equal at each duration) and 212 supplied plus 29 boundary checks.
+It removes an obsolete cached endpoint below the minimum clip distance. Walking
+passes rise from 28 to 63/162 at 120 seconds and 28 to 61/162 at 600 seconds, with
+no lost passing cases. Budget caps and criteria are unchanged, but total work
+increases; 99/101 valid failures remain. This newer candidate is not part of the
+frozen AngularFailClosed01 publication and is not adopted.

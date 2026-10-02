@@ -47,6 +47,8 @@ CurvedVatPacket09-Publication01 independently reconstructs its 35-file author-so
 
 The tree worker's frozen Run16 reports positive-area texture contribution from all 7,170 faces, recovering the three misses and 57 ownership omissions without changing Run15 geometry. Its attempted normal transition remains rejected: 125 backward-facing corners and 18 vertex stars requiring local geometry or split-normal treatment. These producer results are not independent visual or native acceptance; the local correction is in progress.
 
+PairedRenderHost11 passes independent source review and replay (1,751 protocol checks, 43 structural checks; 16 payloads and 20 installed-source references exact). The project-owned raster ISM proxy compares serial/generation, all packet bytes and current/previous transforms in the actual renderer CPU-buffer update callback; this is not a standalone fence or GPU acknowledgement. Host10 remains frozen with its two defects: render-state recreation does not call OnRegister, and unconditional orthogonalization differs from UE's identity-primitive buffer arithmetic. Host11 renews only pre-admission sessions during CreateRenderState_Concurrent, retains old generations, quarantines any journal-owning recreation, and matches the engine's nonuniform-primitive condition exactly. It remains an uncompiled isolated alternative: non-Nanite, at most 64 retained publications, no default physical-world lease, no shipping HISM compatibility, no GPU proof and no production adoption.
+
 ## 1. Establish the current release baseline
 
 - [x] Read current handoff and publication HEAD (2f872366); S5 implementation is 00153f5e.

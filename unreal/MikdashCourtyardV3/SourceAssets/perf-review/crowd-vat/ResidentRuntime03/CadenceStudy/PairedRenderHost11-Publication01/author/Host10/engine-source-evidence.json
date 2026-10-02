@@ -1,0 +1,94 @@
+{
+  "installedVersion": "UE5.8",
+  "vendorImplementationExported": false,
+  "references": [
+    {
+      "path": "Engine/Source/Runtime/Engine/Public/HierarchicalStaticMeshSceneProxy.h",
+      "sha256": "400db974805de10c7d243b1321e568dc43250eb155b7a356c95de5bbbd1fd192",
+      "lines": [
+        35
+      ],
+      "finding": "Stock HISM proxy cannot be subclassed to intercept consumption."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/HierarchicalInstancedStaticMesh.cpp",
+      "sha256": "c66dce2abdc160e49daa4d4d018583107cdec9e57fbcc1c91220b9c0579fc830",
+      "lines": [
+        2993
+      ],
+      "finding": "HISM constructs final hierarchical proxy or Nanite proxy."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstancedStaticMesh.cpp",
+      "sha256": "cc8bbe0ca84ef07a67b2131789f163ec98890db7d63cdf82a2dee6e4f67146d8",
+      "lines": [
+        2544
+      ],
+      "finding": "FlushChanges before scene instance update; gated by render visibility/proxy."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstancedStaticMesh.cpp",
+      "sha256": "cc8bbe0ca84ef07a67b2131789f163ec98890db7d63cdf82a2dee6e4f67146d8",
+      "lines": [
+        3922
+      ],
+      "finding": "Marks manager custom data; bool does not attest render consumption."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstancedStaticMesh.cpp",
+      "sha256": "cc8bbe0ca84ef07a67b2131789f163ec98890db7d63cdf82a2dee6e4f67146d8",
+      "lines": [
+        4373
+      ],
+      "finding": "Explicit current/previous transform update path."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstancedStaticMesh/ISMInstanceDataManager.cpp",
+      "sha256": "df4dd8e5378731ac5291a3308006fcdc6f15c4710a9e16c18234a32fbd4190fd",
+      "lines": [
+        853
+      ],
+      "finding": "Manager marks dirty; no extra missing-dirty claim."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstanceData/InstanceDataUpdateUtils.h",
+      "sha256": "1083085c5fc9ded6de386a9365f5d88b297a39de3c0699512b9fc9b3670f12d3",
+      "lines": [
+        378
+      ],
+      "finding": "Attached data updates dispatched to render thread and may start async tasks."
+    },
+    {
+      "path": "Engine/Source/Runtime/Renderer/Private/RendererScene.cpp",
+      "sha256": "86636455750ecf0168649b977b42a6212ddf0db31761fedabc07e84f9114eec6",
+      "lines": [
+        6341
+      ],
+      "finding": "Actual renderer consumer callback after update processing; GPUScene still separate."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/PrimitiveSceneProxy.cpp",
+      "sha256": "492df97c11583ab760a5f3f27a0588568575e914d92183c6f84b060bd667123f",
+      "lines": [
+        1292
+      ],
+      "finding": "Public accessor synchronizes instance data update task by default."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Classes/Engine/InstancedStaticMesh.h",
+      "sha256": "4ec0e90a8289f79073f26251a0ab6364697c0f0df123332e23f443e91fcdac46",
+      "lines": [
+        435
+      ],
+      "finding": "Exported non-final alternative supports owned callback override."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstancedStaticMesh/ISMInstanceDataSceneProxy.cpp",
+      "sha256": "276cf3ae596c8b39d626bf48059b52775379db4b1739b7a133254e26c58ff06e",
+      "lines": [
+        170
+      ],
+      "finding": "Previous component-relative transform handling: identity/fixed-component scope only."
+    }
+  ]
+}

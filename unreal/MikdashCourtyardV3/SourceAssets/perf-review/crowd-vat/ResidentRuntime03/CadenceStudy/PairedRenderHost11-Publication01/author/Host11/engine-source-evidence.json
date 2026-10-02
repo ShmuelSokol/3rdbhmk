@@ -1,0 +1,166 @@
+{
+  "installedVersion": "UE5.8",
+  "vendorImplementationExported": false,
+  "references": [
+    {
+      "path": "Engine/Source/Runtime/Engine/Public/HierarchicalStaticMeshSceneProxy.h",
+      "sha256": "400db974805de10c7d243b1321e568dc43250eb155b7a356c95de5bbbd1fd192",
+      "lines": [
+        35
+      ],
+      "finding": "Stock HISM proxy cannot be subclassed to intercept consumption."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/HierarchicalInstancedStaticMesh.cpp",
+      "sha256": "c66dce2abdc160e49daa4d4d018583107cdec9e57fbcc1c91220b9c0579fc830",
+      "lines": [
+        2993
+      ],
+      "finding": "HISM constructs final hierarchical proxy or Nanite proxy."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstancedStaticMesh.cpp",
+      "sha256": "cc8bbe0ca84ef07a67b2131789f163ec98890db7d63cdf82a2dee6e4f67146d8",
+      "lines": [
+        2544
+      ],
+      "finding": "FlushChanges before scene instance update; gated by render visibility/proxy."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstancedStaticMesh.cpp",
+      "sha256": "cc8bbe0ca84ef07a67b2131789f163ec98890db7d63cdf82a2dee6e4f67146d8",
+      "lines": [
+        3922
+      ],
+      "finding": "Marks manager custom data; bool does not attest render consumption."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstancedStaticMesh.cpp",
+      "sha256": "cc8bbe0ca84ef07a67b2131789f163ec98890db7d63cdf82a2dee6e4f67146d8",
+      "lines": [
+        4373
+      ],
+      "finding": "Explicit current/previous transform update path."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstancedStaticMesh/ISMInstanceDataManager.cpp",
+      "sha256": "df4dd8e5378731ac5291a3308006fcdc6f15c4710a9e16c18234a32fbd4190fd",
+      "lines": [
+        853
+      ],
+      "finding": "Manager marks dirty; no extra missing-dirty claim."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstanceData/InstanceDataUpdateUtils.h",
+      "sha256": "1083085c5fc9ded6de386a9365f5d88b297a39de3c0699512b9fc9b3670f12d3",
+      "lines": [
+        378
+      ],
+      "finding": "Attached data updates dispatched to render thread and may start async tasks."
+    },
+    {
+      "path": "Engine/Source/Runtime/Renderer/Private/RendererScene.cpp",
+      "sha256": "86636455750ecf0168649b977b42a6212ddf0db31761fedabc07e84f9114eec6",
+      "lines": [
+        6341
+      ],
+      "finding": "Actual renderer consumer callback after update processing; GPUScene still separate."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/PrimitiveSceneProxy.cpp",
+      "sha256": "492df97c11583ab760a5f3f27a0588568575e914d92183c6f84b060bd667123f",
+      "lines": [
+        1292
+      ],
+      "finding": "Public accessor synchronizes instance data update task by default."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Classes/Engine/InstancedStaticMesh.h",
+      "sha256": "4ec0e90a8289f79073f26251a0ab6364697c0f0df123332e23f443e91fcdac46",
+      "lines": [
+        435
+      ],
+      "finding": "Exported non-final alternative supports owned callback override."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstancedStaticMesh/ISMInstanceDataSceneProxy.cpp",
+      "sha256": "276cf3ae596c8b39d626bf48059b52775379db4b1739b7a133254e26c58ff06e",
+      "lines": [
+        170
+      ],
+      "finding": "Previous component-relative transform handling: identity/fixed-component scope only."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/Components/ActorComponent.cpp",
+      "sha256": "4ef7600ca639b1e6a62d6f422ef25197168453c2f1b1e20f7fc9b3d295cdf902",
+      "lines": [
+        2568
+      ],
+      "finding": "Registered render recreation invokes destroy/create without OnRegister. Fix hooks CreateRenderState_Concurrent."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/Components/PrimitiveComponent.cpp",
+      "sha256": "5ce231cfef144d2263883a495290108fa7fee0162ed4ed99912c4e34377b39ee",
+      "lines": [
+        5437
+      ],
+      "finding": "PSO completion callback schedules world notification; registration not repeated."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/LevelTick.cpp",
+      "sha256": "8a5a82c1a7bb6b322906dd0513d67eff77245571b1892bb3de3b30682c82c2b5",
+      "lines": [
+        919
+      ],
+      "finding": "World tracks PSO completion for subsequent recreation handling."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Classes/Components/ActorComponent.h",
+      "sha256": "f24386916d672dd113190a6f0512f32350893907d5e0836e8ad7f050fffa7a49",
+      "lines": [
+        1157
+      ],
+      "finding": "Public game-thread end-of-frame recreate override used by derivative."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstanceData/InstanceDataUpdateUtils.h",
+      "sha256": "1083085c5fc9ded6de386a9365f5d88b297a39de3c0699512b9fc9b3670f12d3",
+      "lines": [
+        213
+      ],
+      "finding": "PrimitiveToRelativeWorld.IsScaleNonUniform selects shear removal. Uniform/identity path directly composes, no Orthogonalize."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstanceData/InstanceDataUpdateUtils.h",
+      "sha256": "1083085c5fc9ded6de386a9365f5d88b297a39de3c0699512b9fc9b3670f12d3",
+      "lines": [
+        149
+      ],
+      "finding": "Installed private SIMD composition. No vendor code exported or private header included. Public composition used only for admitted exact identity primitive, not generalized SIMD equivalence."
+    },
+    {
+      "path": "Engine/Source/Runtime/Engine/Private/InstancedStaticMesh/ISMInstanceDataSceneProxy.cpp",
+      "sha256": "276cf3ae596c8b39d626bf48059b52775379db4b1739b7a133254e26c58ff06e",
+      "lines": [
+        170
+      ],
+      "finding": "Previous data uses separate primitive previous mapping; fixed identity component premise needed."
+    },
+    {
+      "path": "Engine/Source/Runtime/RenderCore/Public/RenderTransform.h",
+      "sha256": "823bf9723b9a1c625e85f0ab8bb69659687e5cb782a31543c94a4f96564d0974",
+      "lines": [
+        212
+      ],
+      "finding": "Native condition is the installed public predicate; no independently chosen epsilon."
+    },
+    {
+      "path": "Engine/Source/Runtime/RenderCore/Public/RenderTransform.h",
+      "sha256": "823bf9723b9a1c625e85f0ab8bb69659687e5cb782a31543c94a4f96564d0974",
+      "lines": [
+        223
+      ],
+      "finding": "Extra Gram-Schmidt can change float rotation entries. Derivative only calls through shared policy when actual primitive nonuniform predicate is true."
+    }
+  ]
+}

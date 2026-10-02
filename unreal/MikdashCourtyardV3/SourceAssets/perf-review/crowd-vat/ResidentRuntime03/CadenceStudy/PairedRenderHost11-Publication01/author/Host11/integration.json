@@ -1,0 +1,41 @@
+{
+  "entry": "Disabled PairedRenderHost.uplugin; module PairedRenderHost; UPairedVatComponent (project-owned ISM scene-proxy alternative, not stock HISM)",
+  "setup": [
+    "Copy only this author plugin source into a future coordinator-approved isolated project plugin directory; do not add to active project. No engine source copied.",
+    "Owner configures fixed mesh/material/instances before RegisterComponent; NumCustomDataFloats85, previous transforms enabled; requires non-Nanite mesh and appropriate cloned9001-prefix material.",
+    "Host11 renews pre-admission closed/PSO-deferred sessions on CreateRenderState_Concurrent, not only OnRegister. Reacquire current retention handle after generation changes. Never automatically resume an ever-admitted or journal-owning session.",
+    "After registration retain GetRetentionHandle outside component lifetime in reservation owner. First pending packet cannot precede a registered live proxy.",
+    "Owner supplies immutable required physical lease and FPairedVatItem per fixed slot: exact pending09 packet and previous local basis. Fixed identity component mapping only.",
+    "Submit performs capacity/protocol preflight and retains snapshot+lease in journal BEFORE ValidateAndHold. Thereafter acquisition refusal or lifecycle failure is Quarantined with ownership retained, never early HOLD; no native write is issued on refusal.",
+    "PollConsumed with exact generation+hostserial on GT. It means matching85-float buffer and both matrices observed by renderer callback; then owner may call09 Acknowledge on matching item packet serials. Do not release promised motion tails based on render ACK.",
+    "Journal entries are never evicted: at most64successful publications then HOLD, fewer if any acquired/uncertain attempt fails. This is not a continuous shipping host. Future release requires actual stored-float drain + exact serial/generation render ACK + worldlease proof; never capacity eviction."
+  ],
+  "ordering": [
+    "GT validates/retains physical lease and immutable snapshot; one GT custom-data+current/previous-transform transaction, no latent calls.",
+    "Stock manager dirty tracking, GT end-of-frame extraction, FlushChanges, attached render task dispatch, scene update command.",
+    "Actual owned proxy UpdateInstances_RenderThread calls stock implementation then synchronized GetInstanceSceneDataBuffers. Tokens in actual buffers bind serial/generation even when update commands coalesce.",
+    "No token match means older update, remain pending; partial token coverage or matching-token content/transform mismatch quarantines.",
+    "Destroy/recreate closes old shared session; old generation cannot ACK replacement. No fence-based shortcut."
+  ],
+  "nativeProbeRequired": [
+    "Use known raster/non-Nanite instance path. bCreateNanite is explicitly rejected: no current Nanite shipping compatibility.",
+    "Delay initialPSO, trigger destroy/create without OnRegister, then submit first packet under fresh generation. Repeat empty live-proxy recreation; deliver old proxyACK/destructor. Writing/pending/observed/consumed cases must stay quarantined with leases retained.",
+    "Use known general PreviousLocal 3D rotation with identity primitive. Compare exact buffer entries without extra Orthogonalize; only actual engine nonuniform predicate permits shear removal. Verify identity primitive+zero world offset gate. No generalized SIMD equivalence claim.",
+    "UBT/UHT compile and symbol/export audit of exact installedUE5.8 APIs; source hashes in engine-source-evidence.json are read-only provenance.",
+    "Instrument proxy callback buffers and GPUScene payload; verify paired transaction serial and both transforms under delayed/coalesced updates.",
+    "Force failed data/transform write, destroy after submission/beforeACK, recreate generation, hidden/PSO delayed proxy, reordered/deleted slots, stale same-payload serial. No partial packet may be acknowledged.",
+    "Verify actual shader current/previousWPO/normal and rendered motion vectors at line/arc/hold/tail boundaries; CPU callback cannot prove GPU execution.",
+    "Complete measured swept body/support and immutable-world lease implementation, exact history rebasing and drained-tail retirement before production adoption."
+  ],
+  "standaloneReplay": "python -B replay.py --output <fresh-external-scratch> --vcvars <installed-vcvars64.bat>; only ProtocolTest.cpp standalone and source_tests.py, no UE or UBT",
+  "claimsExcluded": [
+    "Stock HISM exact-serial ACK",
+    "GPU upload/draw/pixels",
+    "Production scale/performance",
+    "General LWC component motion/rebasing",
+    "Complete physical lease implementation",
+    "Atomic rollback of partial native writes"
+  ],
+  "nativeAllowed": false,
+  "derivativeIsolation": "Host11 and frozenHost10 use the same optional module/plugin name; compile only one in an isolated project. Do not enable both or modify production."
+}

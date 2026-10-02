@@ -1,0 +1,50 @@
+{
+  "status": "UNCOMPILED_PROJECT_OWNED_ISM_ALTERNATIVE_NATIVE_HOLD",
+  "stockHismExactAckSupported": false,
+  "constraint": "Stock HISM proxy is final; public instance-write booleans/fences do not bind consumption to exact paired serial. No stock HISM render callback provided.",
+  "implementation": "Optional disabled source-only plugin, UPairedVatComponent and own FInstancedStaticMeshSceneProxy subclass; actual UpdateInstances_RenderThread validates synchronized buffer bytes and transforms. No standalone fence ACK.",
+  "transport": {
+    "version": 10001,
+    "floats": 85,
+    "shaderPrefixFloats": 77,
+    "shaderPrefixVersion": 9001,
+    "serialLanes": [
+      77,
+      78,
+      79,
+      80
+    ],
+    "generationLanes": [
+      81,
+      82,
+      83,
+      84
+    ],
+    "encoding": "Four exact16-bit float lanes per u64",
+    "compatibleExistingComponents": false,
+    "materialRequirement": "Explicit lease attestation that cloned versioned material consumes unchanged77-float prefix on85-float transport; frozen09 SubmitToIsolatedHism intentionally not used."
+  },
+  "scope": [
+    "Fixed identity component frame, explicit current and previous local transforms, fixed topology1..64instances",
+    "One pending serial per session, all writes in one GT call, game-thread end-of-frame extraction",
+    "Current/past journals retained without eviction; after64transactions HOLD. No automatic release/reuse on ACK. Caller retains session/leases across destroy. Explicit physical-drain retirement required before production scaling.",
+    "Closed/partial-write session suppresses future instance extraction, retains mutated GT data and leases; no rollback fiction",
+    "Late old serial callbacks ignored; mixed serial batch or exact serial content mismatch quarantines",
+    "Renderer CPU consumption ACK only; no GPU upload/draw/pixel proof"
+  ],
+  "physicalAdmission": "IPairedVatLease is REQUIRED, pure virtual and unsupplied. Complete measured sweep/support, immutable-world lease, exact irrevocable reservations, material and exclusive-writer enrollment must be implemented independently. No default true lease.",
+  "remainingIntegration": [
+    "Compile optional plugin only in coordinator approved isolated project; no engine private includes/patch",
+    "Provide real lease and drained-history retirement; preserve frozen09 atomic reserve+enqueue mismatch: this API reports Quarantined separately, never treats partial writes as failed unchanged state",
+    "Native verify renderer mapping/previous transform and shader previousWPO at rebases; identity mapping only here",
+    "Native inject failed second write, recreate/destroy, hidden/PSO delayed proxy, old callbacks, buffer mismatch and external-writer attempts; verify retained lease ownership and no ACK",
+    "GPUScene/draw and rendered velocity observation still required; not inferred from CPU callback",
+    "Production HISM cluster/density route requires separate integration decision; this ISM alternative loses hierarchical clustering and has no performance claim"
+  ],
+  "nativeRuns": 0,
+  "ubtRuns": 0,
+  "productionAdoption": false,
+  "capacityClarification": "At most64successful publications, fewer after uncertain/failed acquisition. Journal never evicted. Not a continuous shipping host. Capacity/busy/serial refusal occurs BEFORE physical acquisition. Lease+snapshot journal ownership precedes ValidateAndHold; false or lifecycle invalidation afterward quarantines without releasing ownership.",
+  "nativePath": "Known raster/non-Nanite mesh+ISM path ONLY; CreateStaticMeshSceneProxy explicitly rejects bCreateNanite. No compatibility claim for current Nanite shipping path.",
+  "futureReleaseRequirement": "Any future journal retirement requires actual stored-float motion/tail drain AND matching serial/generation render ACK AND continuing world/support lease/ownership proof. Capacity eviction is forbidden."
+}

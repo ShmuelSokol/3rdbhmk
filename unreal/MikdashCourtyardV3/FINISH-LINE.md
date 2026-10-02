@@ -2396,3 +2396,31 @@ arrival region contains a reachable endpoint. A 78 cm, eight-clip-segment witnes
 passes local clearance; it does not prove sustained walking or actual mesh
 clearance. The next candidate must search that unchanged arrival region and keep
 all segment, budget and fresh-execution checks. Prior frozen results remain intact.
+
+
+## Actual idle-position export and crowd follow-up — 2 October 2026
+
+IdlePositionExport revision02 passed a coordinator-owned native run in30.252s,
+peak owned Job memory1,420,840,960 bytes. Root exit0 and natural Job0 were both
+observed before cleanup; cleanup/source preservation passed and the shared slot
+was released. Independent post-exit decoding verified both RGBA16 idle-position
+PNGs, including package identity, dimensions, CRCs and pixel hashes. This supplies
+actual192-frame idle displacement data for Man_Elder and Woman_Young; it is not
+cooked GPU, collision, animation or production adoption evidence.
+
+Accepted run: C:/Mikdash/Verification/Study13IdlePositionExport01-review02/runs/idle-export02.
+Manifest: e06be5e15c29580cab412006bfd1a1608ec3221aff9782a4aea61f6df35d9b8d.
+Native receipt: 89c0f4823803ecd2865c256e3334b0c9797957fb4f7557dbeffc9315d1752862.
+The earlier01 run exported pixels but failed immediate root/job completion
+acceptance; it remains failed and its outputs are not adopted. Revision02 records
+bounded natural drain observations rather than promoting forced cleanup to success.
+New additive body measurements will replace the loose missing-idle fallback.
+
+ArrivalRequest01 was independently reproduced at120/600 seconds, with all18 CSVs
+exactly matching. Walking passes102/162 and97/162; two600s passes were lost and
+60/65 valid failures remain. Its immutable-request correction prevents obsolete
+search failures from being cached as current. These are synthetic50cm body studies,
+not actual-character clearance. Follow-up traces distinguish short graph endpoints
+below executable clip distance from7.3s reversal pauses. Both remain open; the strict
+80cm-per-member/per-final-window criterion has not been loosened. No controller or
+production map was changed by these studies.

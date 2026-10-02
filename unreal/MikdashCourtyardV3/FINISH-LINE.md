@@ -1928,7 +1928,7 @@ for loaded study dependencies so byte-pinned evidence remains reproducible after
 checkout. Strict source checks should refuse changed bytes; restore snapshots in
 an isolated reproduction tree, never silently rewrite production code to pass.
 
-## Release continuation: combined Kohen native entry point — 22 September 2026
+## Release continuation: combined Kohen native entry point ï¿½ 22 September 2026
 Owner reiterated that the finished playable release is owed, not more isolated
 candidate deliveries. Added -CombinedStudy to the existing guarded GPU harness:
 hash-pinned combined character, current production head material for fair A/B,
@@ -2219,3 +2219,39 @@ lines, so preserve its mixed bytes with -text; forcing CRLF changes its pinned h
 Its LF-normalized content equals the previous committed source exactly. A fresh
 checkout-index with core.autocrlf=false reproduces all12 prerequisite hashes.
 Do not rely on the developer's autocrlf setting for receipt reproducibility.
+
+## Isolated checkout and native shader acceptance - 2 October 2026
+
+Minimal committed cloth checkout at e1285978e reproduces all21 publication checks
+from exactly63 exported files (47 source entries, manifest,12 prerequisites and
+three attributes files), with core.autocrlf=false. All exported bytes remain
+unchanged. One historical preservation asset matches and355 are absent;
+nativeEligibility remains false. This proves source dependency closure without
+silently borrowing the working tree. It is not a Chaos or C++ runtime result.
+
+Do not treat empty MaterialEditingLibrary.RecompileMaterial diagnostics as shader
+proof: UE5.8 returns an empty array when GetMaterialResource is null. The isolated
+AngularVATNative01 gate now requires positive representative vertex/pixel shader
+instructions, texture samples and samplers from GetStatistics, which finishes
+resource compilation, plus diagnostics before and afterwards. Its12 fault cases
+and20 wrapper cases pass. Every-HISM-permutation and rendered motion acceptance
+remain separate. Compile-only native execution is isolated from production maps.
+
+Angular compile01 native attempt stopped at the owned-job memory limit during
+Engine startup shaders, before Python or candidate construction. Peak aggregate
+private bytes4302032896; elapsed130.0797721s; start free commit7538601984bytes.
+The wrapper confirms owned cleanup and all protected sources unchanged; its slot
+marker cleared. No native.json was produced, so no candidate compile is claimed.
+Keep the4GiB job cap and diagnose startup workload before another attempt. Failure
+receipts/logs stay local under AngularVATNative01/runs/angular-compile01/compile.
+
+Keep deliberate malformed-JSON test fixtures outside SourceAssets: verify.py
+correctly scans that tree for parseable receipts. The five Angular fault runs
+included corrupt.json by design; all25 scratch files were relocated intact to
+C:/Mikdash/Verification/angular-fault-history-20261002-compile01, with per-file
+hashes verified. No receipt-validation exemption or deletion was introduced.
+UE startup also writes multi-record AutoSDKInfo.json under the isolated project's
+Saved/Logs. The5 generated Saved files were preserved with hashes outside the
+receipt tree at C:/Mikdash/Verification/angular-saved-compile01. Future isolated
+project staging and fault scratch should live outside SourceAssets; do not weaken
+receipt parsing to accept engine logs or intentionally corrupt fixtures.

@@ -1,0 +1,40 @@
+{
+  "status": "OFFLINE_PACKET_AND_GENERATOR_PASS_NATIVE_HOLD",
+  "layout": {
+    "version": 9001,
+    "floats": 77,
+    "preservedPrefix": 30,
+    "activeActorHistoryFloatsObserved": 26,
+    "frozenAngularCandidateFloats": 30,
+    "oldAssetsCompatibleForCurve": false
+  },
+  "tests": {
+    "cpp": "checks=1074 failures=0 maxFloatPositionError=1.35876e-05 maxRebaseError=3.06514e-05",
+    "graphChecks": 1501,
+    "graphFailures": 0,
+    "hlslCppComparisonSamples": 208,
+    "dxcExit": 0,
+    "dxcDiagnostics": "",
+    "scope": "MSVC standalone and stock-graph float32 recording plus offline DXC compute syntax compile, no GPU/UE/UBT/render/native execution."
+  },
+  "meaningfulResults": [
+    "Original CD0..29 preserved bitwise; wrong layout tags/modes refuse decoding; new namespace and77float full-slot material contract required.",
+    "Both signed90degree curves, committed tail and post-curve straight chain serialize current+previous root/yaw/phase; old angular/linear fallback preserved.",
+    "Actual generated stock material graph consumes both curve/history records and preserves resident normal/detail graph.",
+    "World/body/support/layout/history admissions all false by default; absent physical fence prevents publication; failed fresh validation/atomic enqueue preserve state; pending ACK prevents replacement; scale change requires drained reset.",
+    "Caller passes SAME shared frame work budget to fresh float-packet validation; exhausted512queries refuses, no new route queries/scheduling/geometry mutation.",
+    "Actual native MeshYawOffsetDegrees handled in posed yaw only. Conservative storedfloat completion deadline includes irrevocable successor."
+  ],
+  "limits": [
+    "CPU/HLSL-equivalent evaluation is not rendered GPU proof; DXC cs_6_0 syntax is not UE material permutation compile or temporal renderer acceptance.",
+    "Native UE-facing header is not UBT compiled. Real worldwriter/complete-support/curved broadphase and paired HISM/render-ACK host remain absent: HOLD.",
+    "Only bounded flat records, local offsets <=8192cm and clock start<=4096s tested/accepted. Explicit LWC frame/time reset and drained scale/profile transitions needed beyond domain.",
+    "Fresh gates must validate serialized float curve/body corridor, including GPU numerical error once measured; offline .002cm comparison tolerance does NOT enlarge physical clearance or arrival criteria.",
+    "Current/previous VAT phase at record start remains an explicit producer snapshot input; no invented phase from yaw. Native actor must carry actual phase across curve/linear handoff.",
+    "No broader walking improvement claim; frozen07/08 and prior four routes unchanged."
+  ],
+  "sourceEntryPoints": "integration.json",
+  "futureNativeProbe": "native-probe.json",
+  "replay": "python -B verify.py --replay",
+  "rawOutputs": "Only compressed samples/receipts in tree; compiler executables/rawlogs/dxil remain unique local temp directories."
+}

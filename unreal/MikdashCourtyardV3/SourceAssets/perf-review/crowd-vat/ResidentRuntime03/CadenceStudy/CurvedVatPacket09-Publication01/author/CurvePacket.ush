@@ -1,0 +1,31 @@
+// Curve packet version9001: 30 preserved angular/history channels + tag + 2x23.
+// This reference is also compiled as C++ with float-only operators in the tests.
+// Stock material generator below emits equivalent nodes; no Custom expression.
+struct CurveEvaluation { float3 RootOffset; float Yaw; float Distance; float Phase; };
+float CurveEnabled(float P[77],int B) { return P[30]==9001.0f && (P[B]==1.0f || P[B]==2.0f) ? 1.0f:0.0f; }
+CurveEvaluation CurveEvaluate(float P[77],int B,float Time) {
+ float R=max(P[B+8],0.001f),Duration=max(P[B+13],0.001f);
+ float D=clamp(Time-P[B+12],0.0f,Duration)*P[B+11]/Duration;
+ float Arc=clamp(D-P[B+9],0.0f,P[B+10]),Theta=Arc/R;
+ float Along=min(D,P[B+9])+R*sin(Theta);
+ float Across=R*(1.0f-cos(Theta))+max(D-P[B+9]-P[B+10],0.0f);
+ float3 Origin=float3(P[B+1],P[B+2],P[B+3]);
+ float3 Root=Origin+float3(P[B+4],P[B+5],0.0f)*Along+float3(P[B+6],P[B+7],0.0f)*Across;
+ float3 End=Origin+float3(P[B+4],P[B+5],0.0f)*(P[B+9]+R*sin(P[B+10]/R))
+  +float3(P[B+6],P[B+7],0.0f)*(R*(1.0f-cos(P[B+10]/R))+max(P[B+11]-P[B+9]-P[B+10],0.0f));
+ float3 Tail=float3(P[B+17],P[B+18],P[B+19]);
+ float Alpha=saturate((Time-P[B+12]-Duration)/max(P[B+20],0.001f))*P[B+16];
+ CurveEvaluation E;E.RootOffset=lerp(Root,Tail,Alpha);E.Yaw=P[B+14]+P[B+15]*Theta*57.29577951308232f;
+ E.Distance=D+length(Tail-End)*Alpha;E.Phase=frac(P[B+21]+E.Distance*P[B+22]);return E;
+}
+float3 CurveRotate(float3 V,float Degrees) {
+ float A=Degrees*0.017453292519943295f,C=cos(A),S=sin(A);
+ return float3(C*V.x-S*V.y,S*V.x+C*V.y,V.z);
+}
+// Caller supplies current HISM basis/scale. Offsets are WORLD cm relative to it.
+struct CurvePose { float3 Wpo;float3 Normal;float Phase; };
+CurvePose CurveEvaluatePose(float P[77],float Time,bool PreviousFrame,float3 Rest,float3 VatDelta,float3 VatNormal,float BasisYaw,float Scale) {
+ int B=PreviousFrame && Time<P[25]?54:31;CurveEvaluation E=CurveEvaluate(P,B,Time);
+ CurvePose V;V.Wpo=E.RootOffset+CurveRotate(CurveRotate(Rest+VatDelta,E.Yaw)-Rest,BasisYaw)*Scale;
+ V.Normal=normalize(CurveRotate(CurveRotate(VatNormal,E.Yaw),BasisYaw));V.Phase=E.Phase;return V;
+}

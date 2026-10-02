@@ -1,0 +1,11 @@
+{
+  "status": "PRE_FIX_PUBLICATION_HOLD",
+  "finding": "author/spec.json top-level projectDir exposed absolute local project path outside Users; prior privacy assertion was false. Functional replay remained valid.",
+  "preservedReceipts": {
+    "detached-reconstruction01.json": "381426ce31f93f3808c3ab3a7bcf815c4ea19cf7dbdaf42f1624e4a6623499ae",
+    "pre-privacy-fix-final-receipt.json": "ae8568648472fb7cbc76942aa8ba76e709d14af21c245785e0e827073fae282f"
+  },
+  "affectedFinalManifestSha256": "701af004d369f4cdfbd15dd88d91ad77790f0a91cdbf0ffdf70f5ac8b0989724",
+  "correction": "Only derivative projectDir replaced; original frozen09 untouched. Host path audit rejects repinned regression; URLs and Unreal paths preserved.",
+  "nativeStatus": "HOLD"
+}

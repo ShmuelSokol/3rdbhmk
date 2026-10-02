@@ -1,0 +1,41 @@
+{
+  "status": "proposed-explicit-allowlist-no-publication-performed",
+  "files": [
+    "Scripts/haram_threshold_study_common.py",
+    "Scripts/study_haram_threshold_sides.py",
+    "Scripts/run_haram_threshold_study.ps1",
+    "Scripts/check_haram_threshold_preflight.py",
+    "Scripts/haram_threshold_png.py",
+    "Scripts/audit_haram_threshold_png.py",
+    "Scripts/check_haram_threshold_png.py",
+    "SourceAssets/context-review/HaramThresholdSidesV1/README.md",
+    "SourceAssets/context-review/HaramThresholdSidesV1/source-audit.json",
+    "SourceAssets/context-review/HaramThresholdSidesV1/query-source-evidence.json",
+    "SourceAssets/context-review/HaramThresholdSidesV1/pixel-audit07.json",
+    "SourceAssets/context-review/HaramThresholdSidesV1/scoped-acceptance07.json",
+    "SourceAssets/context-review/HaramThresholdSidesV1/export-hardening-tests.json",
+    "SourceAssets/context-review/HaramThresholdSidesV1/publish-allowlist.json",
+    "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/manifest.json",
+    "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/accepted-baseline-return.png",
+    "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/accepted-baseline.png",
+    "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/accepted-candidate.png",
+    "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/accepted-pair.png",
+    "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/edge-oblique-baseline-return.png",
+    "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/edge-oblique-baseline.png",
+    "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/edge-oblique-candidate.png",
+    "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/edge-oblique-pair.png",
+    "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/top-baseline-return.png",
+    "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/top-baseline.png",
+    "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/top-candidate.png",
+    "SourceAssets/context-review/HaramThresholdSidesV1/native-source07.zip",
+    "SourceAssets/context-review/HaramThresholdSidesV1/native-source07-manifest.json"
+  ],
+  "excluded": [
+    "All threshold-sides01 through threshold-sides07 raw PNGs and native logs/receipts",
+    "Any *.local-export.png staging file",
+    "Any native.log or other raw diagnostic log",
+    "verification-cache, native.lock, verification-*.txt",
+    "All Content assets, including threshold-sides07/SM_ThresholdSides.uasset; publication held",
+    "Any file not explicitly listed"
+  ]
+}

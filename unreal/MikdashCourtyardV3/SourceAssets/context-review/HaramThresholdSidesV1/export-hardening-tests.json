@@ -1,0 +1,32 @@
+{
+  "status": "offline-passed-no-native-run",
+  "checks": [
+    {
+      "command": "python -B Scripts/check_haram_threshold_png.py",
+      "exitCode": 0
+    },
+    {
+      "command": "python -B Scripts/check_haram_threshold_preflight.py",
+      "exitCode": 0
+    },
+    {
+      "command": "python -B Scripts/haram_threshold_study_common.py",
+      "exitCode": 0
+    },
+    {
+      "command": "python -B Scripts/verify.py --quick",
+      "exitCode": 0
+    }
+  ],
+  "scriptHashes": {
+    "Scripts/haram_threshold_study_common.py": "841aab8e6c0a3b53e8871c35d26605a02054d2da2e52bcd6a98bd520861759fd",
+    "Scripts/study_haram_threshold_sides.py": "20ca4975c3f5c27811aacac9287e9a2a98f14dec58a09124b70db62b85c2c605",
+    "Scripts/run_haram_threshold_study.ps1": "9ab6f3df7a2bda995574c4a1de9dda9dac312a632ff219e6165c39b82d834efd",
+    "Scripts/check_haram_threshold_preflight.py": "955fe2395a5ff88348e0914d74716e68156a37cf4aff144b0abbd7b0fc1b5855",
+    "Scripts/haram_threshold_png.py": "42613c23048ae7d4e7f5a058214f9c257fb2a7526fd3844f16a7eb2a3c16168e",
+    "Scripts/audit_haram_threshold_png.py": "25e2b9a82c1fa38a9d0f47934cd3134022356bb0c54d109f3fa2411c4407bcfb",
+    "Scripts/check_haram_threshold_png.py": "dc1fc5093ce1c815c0bf79146a01145857d2dba497a8136016d0d9b5a0d333e2"
+  },
+  "quickGate": "7/7",
+  "sanitizer": "CRC, full decode, truncated/invalid/filter/oversize rejection, exact trim, no overwrite, all 9 clean07 capture pixels matched"
+}

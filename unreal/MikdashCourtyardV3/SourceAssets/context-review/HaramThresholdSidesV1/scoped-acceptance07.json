@@ -1,0 +1,138 @@
+{
+  "status": "accepted-isolated-mapping-review-only",
+  "basis": "Coordinator confirmed clean accepted-pair sheet: both assemblies visible, baseline front stripe, candidate ashlar; decoded top equality and baseline-return equality independently audited.",
+  "nativeEvidence": {
+    "buildReceiptSha256": "ca6e008f58f922ab5528924278a61525d8a01d010fbf7717195e241f5034f735",
+    "verifyReceiptSha256": "2f3e4b6bacaa5c98b37a29851001105c94a1dab4c641cf5679489932ba1c0903",
+    "savedCandidateSha256": "0ac82a35bfec468d8691ad1a89c3b0554be82aeb644f73796f65d36495c735e1",
+    "nativeRevisionHashes": {
+      "Scripts/haram_threshold_study_common.py": "59a87a493537e4e66180239a3a61f34f0b4e4459fca1fb6c822b4e6f3a8c63af",
+      "Scripts/study_haram_threshold_sides.py": "8bbed35c81e0fe7d5f7c187f913548e435a4733301d6d48294655849c90b60f0",
+      "Scripts/run_haram_threshold_study.ps1": "9ab6f3df7a2bda995574c4a1de9dda9dac312a632ff219e6165c39b82d834efd",
+      "SourceAssets/context-review/HaramThresholdSidesV1/source-audit.json": "cd118fc1978b01b412110847bc008b2f43113654223a0428d55e9ffeec33a360",
+      "SourceAssets/context-review/HaramThresholdSidesV1/query-source-evidence.json": "b806568da08f2448453e947515cf2511250509566d3b92c9c8348a2e7f1f6960"
+    }
+  },
+  "profile": "direct-sun-mapping-v1; GI/reflections/VSM off; Nanite on; 960x720",
+  "proof": {
+    "sourceTriangles": 180,
+    "renderTriangles": 180,
+    "exactOrderedPositionsAndWinding": true,
+    "sourceCornerAttributesUnchanged": true,
+    "renderCornerAttributesUnchanged": true,
+    "topMaterialIdentityPreserved": true,
+    "physicalMaterial": {
+      "simpleBodySetupBefore": null,
+      "simpleBodySetupAfter": null,
+      "limitation": "Simple BodySetup readback only, not effective per-triangle physical material. Different section material IDs may change collision surface behavior. Cooked Chaos equivalence and production actor slot-1 overrides are not proven."
+    },
+    "policyUnchanged": true,
+    "counts": {
+      "top": 32,
+      "bottom": 32,
+      "side": 116
+    },
+    "collisionPolicy": {
+      "lods": 1,
+      "nanite": "(bEnabled=True,bExplicitTangents=False,bLerpUVs=True,bSeparable=False,bVoxelNDF=True,bVoxelOpacity=False,ShapePreservation=None,PositionPrecision=-2147483648,NormalPrecision=-1,TangentPrecision=-1,BoneWeightPrecision=-1,TargetMinimumResidencyInKB=0,KeepPercentTriangles=1.000000,TrimRelativeError=0.000000,GenerateFallback=PlatformDefault,FallbackTarget=PercentTriangles,FallbackPercentTriangles=1.000000,FallbackRelativeError=0.000000,MaxEdgeLengthFactor=0.000000,NumRays=64,VoxelLevel=0,RayBackUp=0.000000,DisplacementUVChannel=0,DisplacementMaps=,NaniteAssemblyData=(Parts=,Nodes=))",
+      "build": "(bUseMikkTSpace=True,bRecomputeNormals=False,bRecomputeTangents=True,bComputeWeightedNormals=True,bRemoveDegenerates=True,bBuildReversedIndexBuffer=True,bUseHighPrecisionTangentBasis=False,bUseFullPrecisionUVs=False,bUseBackwardsCompatibleF16TruncUVs=False,bGenerateLightmapUVs=False,bGenerateDistanceFieldAsIfTwoSided=False,bSupportFaceRemap=False,MinLightmapResolution=64,SrcLightmapIndex=0,DstLightmapIndex=1,BuildScale3D=(X=1.000000,Y=1.000000,Z=1.000000),DistanceFieldResolutionScale=1.000000,DistanceFieldReplacementMesh=None,MaxLumenMeshCards=12)",
+      "complexity": "<CollisionTraceFlag.CTF_USE_COMPLEX_AS_SIMPLE: 3>",
+      "simpleGeometry": "(SphereElems=,BoxElems=,SphylElems=,ConvexElems=,TaperedCapsuleElems=,LevelSetElems=,SkinnedLevelSetElems=,MLLevelSetElems=,SkinnedTriangleMeshElems=)",
+      "simpleCount": 0,
+      "convexCount": 0,
+      "collisionLod": 0,
+      "neverStream": false
+    }
+  },
+  "cleanManifestSha256": "1c13afa3ab8654835fc58265d9d16450cbd8cc680d16f9486659e163fe8fa5b7",
+  "pixelAuditSha256": "1ecb54f5236baf461eef72cd189ee83b4e82c44cbee94d7105e51d22323f98fd",
+  "reviewImages": [
+    {
+      "path": "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/accepted-baseline-return.png",
+      "sha256": "425c4bb3ec2199cb6c5811baa3ee3e1100648dcfa0599009de958fbdd642eb3e",
+      "trailingBytes": 0,
+      "crcValid": true
+    },
+    {
+      "path": "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/accepted-baseline.png",
+      "sha256": "425c4bb3ec2199cb6c5811baa3ee3e1100648dcfa0599009de958fbdd642eb3e",
+      "trailingBytes": 0,
+      "crcValid": true
+    },
+    {
+      "path": "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/accepted-candidate.png",
+      "sha256": "94894eb7d035b5e043fb8aeb8b8b114245e5c38de48fdc768d4470288e317b7c",
+      "trailingBytes": 0,
+      "crcValid": true
+    },
+    {
+      "path": "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/accepted-pair.png",
+      "sha256": "2f3b2b672bd1624564f387a4b6fd2927f690c0a4bb6555509db218946114d398",
+      "trailingBytes": 0,
+      "crcValid": true
+    },
+    {
+      "path": "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/edge-oblique-baseline-return.png",
+      "sha256": "bb923310b301af94f6364eb947bbf156d63d4c4d90c977b86c8340131a142e9d",
+      "trailingBytes": 0,
+      "crcValid": true
+    },
+    {
+      "path": "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/edge-oblique-baseline.png",
+      "sha256": "bb923310b301af94f6364eb947bbf156d63d4c4d90c977b86c8340131a142e9d",
+      "trailingBytes": 0,
+      "crcValid": true
+    },
+    {
+      "path": "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/edge-oblique-candidate.png",
+      "sha256": "5497177149eb5a38e2b8a6c89857650da375e40837efc28b5adaa329960d7914",
+      "trailingBytes": 0,
+      "crcValid": true
+    },
+    {
+      "path": "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/edge-oblique-pair.png",
+      "sha256": "a5463a5615eaaf8662265b84186059c87bb6dfb25967de5115a891ce564bc41f",
+      "trailingBytes": 0,
+      "crcValid": true
+    },
+    {
+      "path": "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/top-baseline-return.png",
+      "sha256": "4a9b8cc6bbdad6e676b079299ce14451e9c8ef3848e4c221cc12c54d991a3f0a",
+      "trailingBytes": 0,
+      "crcValid": true
+    },
+    {
+      "path": "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/top-baseline.png",
+      "sha256": "4a9b8cc6bbdad6e676b079299ce14451e9c8ef3848e4c221cc12c54d991a3f0a",
+      "trailingBytes": 0,
+      "crcValid": true
+    },
+    {
+      "path": "SourceAssets/context-review/HaramThresholdSidesV1/review07-clean-png/top-candidate.png",
+      "sha256": "4a9b8cc6bbdad6e676b079299ce14451e9c8ef3848e4c221cc12c54d991a3f0a",
+      "trailingBytes": 0,
+      "crcValid": true
+    }
+  ],
+  "limitations": [
+    "No production map adoption or production-lighting acceptance",
+    "No cooked Chaos/effective per-triangle physical-material equivalence",
+    "Production actor slot-1 override proof remains outside this review",
+    "Candidate uasset publication held pending explicit boundary decision"
+  ],
+  "futureExportHardening": "Offline-tested sanitizer affects future exports only; native07 evidence and original PNGs unchanged. No native08 needed to validate identical clean07 payloads.",
+  "nativeSourceSnapshot": {
+    "status": "five-files-exact-native07-revision-match",
+    "archive": "native-source07.zip",
+    "archiveSha256": "58030077cec232d5a90b9a25d4c19441259dfc7b5349440fbbed7336d16ac4f6",
+    "buildReceiptSha256": "ca6e008f58f922ab5528924278a61525d8a01d010fbf7717195e241f5034f735",
+    "files": {
+      "Scripts/haram_threshold_study_common.py": "59a87a493537e4e66180239a3a61f34f0b4e4459fca1fb6c822b4e6f3a8c63af",
+      "Scripts/study_haram_threshold_sides.py": "8bbed35c81e0fe7d5f7c187f913548e435a4733301d6d48294655849c90b60f0",
+      "Scripts/run_haram_threshold_study.ps1": "9ab6f3df7a2bda995574c4a1de9dda9dac312a632ff219e6165c39b82d834efd",
+      "SourceAssets/context-review/HaramThresholdSidesV1/source-audit.json": "cd118fc1978b01b412110847bc008b2f43113654223a0428d55e9ffeec33a360",
+      "SourceAssets/context-review/HaramThresholdSidesV1/query-source-evidence.json": "b806568da08f2448453e947515cf2511250509566d3b92c9c8348a2e7f1f6960"
+    },
+    "method": "Reversed only known PNG-hardening edits in memory; selected exact original newline encoding by receipt SHA256; unchanged files copied byte-for-byte. ZIP entries re-read and verified. Active files not overwritten."
+  }
+}

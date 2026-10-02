@@ -4891,3 +4891,38 @@ oversized-integer validation escape. V2 rechecks time after callbacks and reject
 huge numeric inputs without OverflowError; 17 regression tests were added. The
 first online receipt is historical; receipt-time-validation-v2.json pins the
 corrected source. Native adapters and browser acceptance remain owed.
+
+
+## Threshold side finish: isolated native proof - 2 October 2026
+
+HaramThresholdSidesV1 threshold-sides07 built and freshly reopened a separate
+SM_ThresholdSides candidate. Exact180 source/render triangles, corner attributes,
+collision/build/Nanite policy and top material are preserved:32 top triangles retain
+paving;116 vertical and32 bottom triangles use existing ashlar. No production mesh
+or map was changed. Direct-sun mapping review disables GI/reflections/VSM only in
+that process; Nanite remains enabled. Peak build private memory4255428608bytes
+stays below the unchanged4GiB cap, with6GiB start/2GiB reserve. This is not full
+production lighting or packaged acceptance.
+
+Coordinator reviewed paired images: the vertical projection stripes disappear,
+the top is pixel-identical, all baseline-return pixels equal baseline, and Build
+and fresh Verify corresponding RGBA pixels match exactly. An initial apparent
+empty-frame concern was disproved by pixel decode and the paired contact sheet;
+do not record it as a Nanite/mip failure. Review07-clean-png contains lossless PNG
+payloads through IEND plus original/clean hashes. Original exports remain local.
+
+UE5.8 ImageUtils::ExportRenderTarget2DAsPNG serializes GetAllocatedSize rather than
+Num, leaving allocation bytes after IEND. Do not publish those raw exports. Validate
+PNG chunks/CRCs and retain only the exact PNG payload; compare decoded pixels, not
+allocation-padded file sizes/hashes. Do not patch the engine or alter image pixels.
+
+Reflection lessons: USourceControlHelpers is exposed as SourceControl. Imported
+material slot names are read-only; supported StaticMesh.SetMaterial initializes
+them, then polygon groups use the names actually read back for slow mesh builds.
+Each -ini:Engine argument must include its full [Section]:Key; bare comma-following
+keys are skipped. Verify effective cvars before relying on overrides.
+
+Adoption still needs current actor OverrideMaterials evidence, effective physical
+material/cooked collision equivalence, protected in-place asset rollback and later
+shipping-map/package review. Existing S5 13-route acceptance is preserved, not
+reused as proof of an unadopted candidate.

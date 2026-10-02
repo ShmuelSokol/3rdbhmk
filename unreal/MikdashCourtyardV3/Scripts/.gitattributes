@@ -15,3 +15,12 @@ release_haram_wall_passages.py -text whitespace=cr-at-eol
 verify_haram_wall_surfaces.py -text whitespace=cr-at-eol
 create_resident_v4.py -text whitespace=cr-at-eol
 create_resident_v4_face.py -text whitespace=cr-at-eol
+
+# Threshold study native/source receipts pin exact script bytes.
+haram_threshold_study_common.py -text
+study_haram_threshold_sides.py -text
+run_haram_threshold_study.ps1 -text
+check_haram_threshold_preflight.py -text
+haram_threshold_png.py -text
+audit_haram_threshold_png.py -text
+check_haram_threshold_png.py -text

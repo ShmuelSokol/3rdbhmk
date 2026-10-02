@@ -1,0 +1,131 @@
+{
+  "status": "engine-source-audited-native-CDO-query-proof-pending",
+  "scope": "Only five StaticMeshEditorSubsystem CDO getters; no CDO setters or initialize assumptions",
+  "files": [
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Editor/StaticMeshEditor/Private/StaticMeshEditorSubsystem.cpp",
+      "sha256": "8c9e71501320f6ef9cb4a3d6ab668eee6184230a2f85a8b9e3748e1831ca6760",
+      "evidence": "Constructor 350-354 empty; GetLodBuildSettings 519-545; GetSimpleCollisionCount 1398-1424; GetConvexCollisionCount 1449-1471; CanModifyStaticMeshSection 1652-1678; IsSectionCastShadowEnabled 1698-1709; IsSectionCollisionEnabled 1729-1739. Five query methods do not access initialized member state."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Editor/StaticMeshEditor/Public/StaticMeshEditorSubsystem.h",
+      "sha256": "9c09f15edadff8121b501d84ee482ef1b6e978884c23aa19f19c388969813d61",
+      "evidence": "Five getters are exposed UFUNCTIONs; no Initialize/Deinitialize overrides."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Editor/UnrealEd/Private/EditorScriptingHelpers.cpp",
+      "sha256": "8f74112b0c8fa14d271baf7cad3cbf40f097942d92add9d74832910ceec9bf85",
+      "evidence": "143-161 CheckIfInEditorAndPIE: game thread, GIsEditor, no GEditor PlayWorld/GIsPlayInEditorWorld; no IsRunningCommandlet exclusion."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Editor/UnrealEd/Private/Subsystems/UnrealEditorSubsystem.cpp",
+      "sha256": "947f41155f207b79312edf49dfc193d2ef991f876896d9c0edc0675bac2a5945",
+      "evidence": "16-34 and 62-79: editor world uses same helper; game world is PIE world or null when GEditor exists."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Launch/Private/LaunchEngineLoop.cpp",
+      "sha256": "c45991a136185130235e507c9bb9ec6e926d4f2006a384b2f61e7e6227742c6f",
+      "evidence": "3995-4031: editor commandlet sets GIsEditor, creates GEditor, invokes InitEditor."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Plugins/Experimental/PythonScriptPlugin/Source/PythonScriptPlugin/Private/PythonScriptCommandlet.cpp",
+      "sha256": "068f6468b9fc37652b00c393d3e113ebb7a3a02f6b95240089006e61c58f17d0",
+      "evidence": "51-73 executes script after startup; propagates Python error as -1; returns 0 for successful execution. No quit_editor needed."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Editor/UnrealEd/Private/FileHelpers.cpp",
+      "sha256": "df8359e6d275b44e67b0491f881a866041c7463cc214972f7f1581b6db941204",
+      "evidence": "5829-5839 UEditorLoadingAndSavingUtils::LoadMap forwards literal Filename to FEditorFileUtils::LoadMap(false,true), returns current editor UWorld on success or null on failure."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Developer/SourceControl/Public/SourceControlHelpers.h",
+      "sha256": "c73a58aedd7b5425efd3c3ec492938f501287523b1f51cf563de5707d44975cd",
+      "evidence": "244 UCLASS ScriptName=\"SourceControl\"; 263-264 BlueprintPure IsEnabled exposes unreal.SourceControl.is_enabled. Preflight invokes only this read-only query; must return False."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Engine/Private/StaticMesh.cpp",
+      "sha256": "19aa05147f931d774f68bb3f4a921d5b659677d34b5db821291e12788fad3871",
+      "evidence": "8898 BuildFromStaticMeshDescriptions forwards bFastBuild; slow branch Build(true). 10168-10242 SetMaterial initializes empty imported name uniquely using material asset name; 10249 lookup compares ImportedMaterialSlotName."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Engine/Classes/Engine/StaticMesh.h",
+      "sha256": "8effdddd5ef30d453a6cd8bde93efd8c27b6677eec907fc510503e0e701ceb9e",
+      "evidence": "505/510 material_interface/material_slot_name EditAnywhere BlueprintReadWrite; 514 imported name VisibleAnywhere read-only. 1095 static_materials BlueprintSetter SetStaticMaterials; 2366 SetMaterial BlueprintCallable."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Developer/MeshBuilder/Private/StaticMeshBuilder.cpp",
+      "sha256": "ac4845329704bd8f9b1ffbe1b26c9adf0ffce864fa690521308c0792dcce6508",
+      "evidence": "1585 polygon group imported attributes; 1619 editor builder resolves MaterialIndex using GetMaterialIndexFromImportedMaterialSlotName; fallback group ID is not relied on."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Engine/Classes/Engine/StreamableRenderAsset.h",
+      "sha256": "6453ac37dffc708389ce48d8e497cffccc790d8f40e3c4ff1ae4bfcc6d834449",
+      "evidence": "369 NeverStream EditAnywhere BlueprintReadWrite; restoration allowed."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Engine/Classes/Components/SceneCaptureComponent.h",
+      "sha256": "b188b9bb5611bc3e2037cef04923c339d86de9c363edc3546620e5f25dc24d1a",
+      "evidence": "80 capture_source interp; 84/88 capture_every_frame/capture_on_movement EditAnywhere BlueprintReadWrite."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Engine/Classes/Components/SceneCaptureComponent2D.h",
+      "sha256": "b8bf77d07911c3689436911de200005ea6860a568970bd056ff18813a60e4252",
+      "evidence": "43 fov_angle EditAnywhere BlueprintReadWrite; 79 texture_target EditAnywhere BlueprintReadWrite; 86 post_process_settings interp."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Engine/Classes/Components/LightComponentBase.h",
+      "sha256": "144609a6c0e5a066123dae7d88db71a0c52d046b2a715c8375a4c2af7398a069",
+      "evidence": "36 intensity BlueprintReadOnly but interp/editor writable (no EditConst); set_editor_property uses editor flags."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Engine/Classes/Engine/Scene.h",
+      "sha256": "cd40d1a65e8635c2a561cc45786f5b588e3f3a119680c075a21dd89764c2591c",
+      "evidence": "819/921/924/936 override flags EditAnywhere BlueprintReadWrite; 1628 bloom intensity and 1932/1993/2001 exposure bias/min/max interp BlueprintReadWrite."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Plugins/Runtime/GeometryScripting/Source/GeometryScriptingCore/Public/GeometryScript/MeshAssetFunctions.h",
+      "sha256": "3e904e3f9c378c1b8fc80323c6de3b40f913dcd1c3bda32bd4c07c2b38726ad0",
+      "evidence": "61/65/73 apply_build_settings/request_tangents/use_build_scale EditAnywhere BlueprintReadWrite."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Plugins/Runtime/GeometryScripting/Source/GeometryScriptingCore/Public/GeometryScript/GeometryScriptTypes.h",
+      "sha256": "7077c216fb8d735ed8834b018cb9b592d22b33875b572357bf04bc38d00f2b04",
+      "evidence": "90/93 lod_type/lod_index EditAnywhere BlueprintReadWrite."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Plugins/Experimental/PythonScriptPlugin/Source/PythonScriptPlugin/Private/PyWrapperTypeRegistry.cpp",
+      "sha256": "6d2a9dc9da45cbee3cf41e907ba1169812ea7a88bc5fc56e8605a17d278ff344",
+      "evidence": "Struct GetSets include script-exported fields; 2343-2360 constructor InitParams derive from GetSets. C++ constructor is not automatic Python constructor exposure."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Plugins/Experimental/PythonScriptPlugin/Source/PythonScriptPlugin/Private/PyWrapperStruct.cpp",
+      "sha256": "30bbe5c848715f6796c61fcb88d56b08c28fc99be961d1b4d1c23236c100f720",
+      "evidence": "1131 set_editor_property uses EditorReadOnlyFlags. No import_text or read-only bypass used."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Engine/Classes/PhysicsEngine/BodySetup.h",
+      "sha256": "c73642d51d048ca61a9bb0d158fbee39c45be1a828d2b8c615275c9ad260cc66",
+      "evidence": "249-251 PhysMaterial is exposed simple-collision material only; does not prove effective per-triangle material or cooked Chaos equivalence."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Renderer/Private/IndirectLightRendering.cpp",
+      "sha256": "4ec96b3468cc4719a77f7ba84f101dff009e4645b145344aa1303807b20fa910",
+      "evidence": "93 DynamicGlobalIlluminationMethod=0 means no dynamic GI; 104 ReflectionMethod=0 means no global reflection method. RenderThreadSafe defaults can be overridden by process-only renderer settings."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Renderer/Private/VirtualShadowMaps/VirtualShadowMapArray.cpp",
+      "sha256": "d0349b6b1632e8b3c482b8529712da201e6678b774b63bb8d3be8e97a68b25f9",
+      "evidence": "161 r.Shadow.Virtual.Enable controls VSM; zero disables VSM, not Nanite geometry."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h",
+      "sha256": "6506c10de1a3189489b7189062cf660ad1ee241713290e40336d63c29da24e8d",
+      "evidence": "631 GetConsoleVariableIntValue exposed readback for exact profile assertion."
+    },
+    {
+      "path": "C:/Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Core/Private/Misc/ConfigCacheIni.cpp",
+      "sha256": "7f4871539400db4cf9f60cd08d8b3515e3f077d75d255305a2700799fd622dbf",
+      "evidence": "2317-2384 separate argument iteration; 2350 legacy comma quoted-value warning; 2370-2374 skip key without section separator. Six full separate -ini:Engine:[Section]:Key=Value arguments required by study."
+    }
+  ]
+}

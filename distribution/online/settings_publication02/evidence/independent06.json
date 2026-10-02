@@ -1,0 +1,149 @@
+{
+  "projection": true,
+  "reviewer": "Confucius (coordinator attribution)",
+  "original_receipt_sha256": "1d8db5a88de79e0d65a1641967465d20d3c5050c314a54f55b7b0ef223a995a2",
+  "status": "PASS",
+  "windows_checks": 32,
+  "cleanup_records": 12,
+  "all_cleanup_confirmed": true,
+  "checks": [
+    {
+      "name": "absent_deployment_premise_refused_no_io",
+      "passed": true
+    },
+    {
+      "name": "revoked_deployment_premise_refused_before_pool_write",
+      "passed": true
+    },
+    {
+      "name": "real_pool_marker_durable",
+      "passed": true
+    },
+    {
+      "name": "second_allocator_create_new_refuses",
+      "passed": true
+    },
+    {
+      "name": "fresh_server_generated_root",
+      "passed": true
+    },
+    {
+      "name": "actual_required_directory_tree_created",
+      "passed": true
+    },
+    {
+      "name": "held_identity_and_premise_readback",
+      "passed": true
+    },
+    {
+      "name": "wrong_owner_revalidation_refused",
+      "passed": true
+    },
+    {
+      "name": "active_capacity_refused",
+      "passed": true
+    },
+    {
+      "name": "pool_retire_with_live_allocation_refused",
+      "passed": true
+    },
+    {
+      "name": "retained_root_actual_rename_refused",
+      "passed": true
+    },
+    {
+      "name": "cleanly_retired_pool_never_reopened",
+      "passed": true
+    },
+    {
+      "name": "original_roots_and_marker_preserved",
+      "passed": true
+    },
+    {
+      "name": "owner_tombstone_never_reused",
+      "passed": true
+    },
+    {
+      "name": "total_allocation_budget_enforced",
+      "passed": true
+    },
+    {
+      "name": "released_roots_distinct_preserved",
+      "passed": true
+    },
+    {
+      "name": "all_journals_single_valid_json",
+      "passed": true
+    },
+    {
+      "name": "partial_reservation_fails_closed",
+      "passed": true
+    },
+    {
+      "name": "partial_reservation_charged_and_unissued",
+      "passed": true
+    },
+    {
+      "name": "partial_root_not_silently_recycled",
+      "passed": true
+    },
+    {
+      "name": "unissued_partial_handles_closed_without_deletion",
+      "passed": true
+    },
+    {
+      "name": "expired_allocation_readback_refused",
+      "passed": true
+    },
+    {
+      "name": "reviewed_nonUE_fixture_executable_exact",
+      "passed": true
+    },
+    {
+      "name": "real_allocator_consumed_by_actual_owned_host_native_lease",
+      "passed": true
+    },
+    {
+      "name": "actual_premise_loss_revokes_exact_owner",
+      "passed": true
+    },
+    {
+      "name": "native_revocation_seen_and_child_exits",
+      "passed": true
+    },
+    {
+      "name": "nonUE_native_lease_success_exit",
+      "passed": true
+    },
+    {
+      "name": "released_only_after_job_writer_and_host_cleanup",
+      "passed": true
+    },
+    {
+      "name": "gateway_and_lifecycle_share_serialization_lock",
+      "passed": true
+    },
+    {
+      "name": "real_sessioncore_request_fails_closed_without_transport",
+      "passed": true
+    },
+    {
+      "name": "actual_core_mints_owner_and_allocator_root",
+      "passed": true
+    },
+    {
+      "name": "managed_composition_cleanup_no_child_or_lease",
+      "passed": true
+    }
+  ],
+  "source_hashes": {
+    "allocator.py": "44e7860a8a0bff0014eff7d3b66bf98567ae346c3330ff66b2adcbe81183309c",
+    "contract.json": "33f1ad467b5fc46dc5cf6bb0a9de938a538b65580e6ef2d378854214c5fcdc11",
+    "managed_host.py": "68953404a85a78b4dac859009896b6480db982bb1765ab4264df83d8db4b876c",
+    "manifest.json": "45287ee46c4a9b1a6645d939506c3ccdca8e9aee422b98f0255f52935a9e63c0",
+    "outcome.json": "4fab160aefb79af4de73157d054f5aedbe3ce05cfb8669661fc28fb0ca3caed0",
+    "prerequisites.json": "6872b02242fabd33bc9c543f8935860fc64f492fc40d42de7d3b2d6e1e9af044",
+    "run_windows_tests.py": "35cb043f2ad56f0f651b1270c25f48fc297d04399d6d58c53ffb60ef9afad303"
+  },
+  "scope": "Actual cooperative non-UE Windows fixtures. No UE/browser/media/deployment readiness or hostile same-account isolation claim."
+}

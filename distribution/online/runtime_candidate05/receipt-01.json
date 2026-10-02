@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "revision": "runtime_candidate05",
+  "executedChecks": {
+    "hostPreflightTests": 15,
+    "nativeSourceContracts": 12,
+    "commands": [
+      "python -I -B test_bootstrap_record.py",
+      "python -I -B source_checks.py"
+    ]
+  },
+  "stagedNativeParserAssertions": 10,
+  "nativeParserAssertionsExecuted": false,
+  "UECompiled": false,
+  "nativeLaunched": false,
+  "listenerStarted": false,
+  "mediaStarted": false,
+  "authenticationClaim": "No authenticated attachment or ready ACK. Private provisioning relies on reviewed inherited-handle launcher, not parser success.",
+  "frozenCandidate04Verified": true,
+  "limits": [
+    "Actual native EOF/pipe/close control flow unexecuted",
+    "HMAC listener-ready handshake remains absent",
+    "Five-second module-start admission window fails if project not ready",
+    "No key export or listener/media activation capability",
+    "Quarantine requires exact owned-process cleanup proof",
+    "No comprehensive UE JSON temporary-secret erasure claim"
+  ]
+}

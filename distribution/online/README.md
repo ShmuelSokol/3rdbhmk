@@ -205,3 +205,23 @@ Seven actual Slate assertions remain uncompiled/unrun. The module is not install
 in the game; authenticated attachment, media activation and browser delivery are
 still absent. Candidate05 parsing work is outside this frozen checkpoint. Existing
 released maps, builds and network configuration are unchanged.
+
+## Private provisioning source extension — 2 October 2026
+
+`runtime_candidate05` adds bounded private-stdin parsing and stopped admission,
+separate from listener or media activation. Its12 source/metadata files are exact;
+all57 online dependencies match this publication. The27 external references are
+provenance only and are not copied. Frozen absolute-path verifiers remain local
+audit tools, not portable native-build evidence.
+
+From this directory, run `python -I -B runtime_candidate05/test_bootstrap_record.py`
+and `python -I -B runtime_candidate05/source_checks.py`:15 real Python preflight
+tests and12 source checks. Independent source review additionally exercised seven
+Windows-QPC Python cases. Ten native UE parser assertions remain uncompiled/unrun.
+Python tests do not prove native parser or pipe behavior.
+
+The private inherited handle from the reviewed launcher is the provisioning trust
+root; record parsing does not authenticate an arbitrary parent. This revision emits
+no ready acknowledgement and starts no listener or media. The existing host will
+still time out waiting for readiness. Authenticated route attachment, gameplay and
+settings isolation, native compilation and browser delivery remain unfinished.

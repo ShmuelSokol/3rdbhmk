@@ -57,6 +57,12 @@ Run19Material01 independently passes 95 payload pins, 15 assertions, exact geome
 
 Run20 source research retained CC0 Poly Haven bark candidates and a separately credited olive photograph for reference. The PBR candidates do not identify their species as olive. Run21 is an active generic-bark approximation on preserved geometry, not production adoption. Supplier normal-map negative-Z samples were reproduced in independent encodings; a mapping offset passing six views does not certify the complete material. Full export checks and visual review remain required. No new playable checkpoint has been produced.
 
+## Bounded native shader attempt — 2 October 2026
+
+The coordinator ran angular-cache-compatible03 once after its entry guard passed: local run coordinator-20261002-01/compile. It stopped during startup on the 2 GiB free-commit reserve guard, before the WorldGrid key gate or native shader checks. Start free commit was 7,236,395,008 bytes; peak owned private memory was 1,419,669,504 bytes. Owned elapsed time was 27.9981 seconds and total time 29.3385 seconds, within the 300-second limit. This is a failed attempt, not shader or playable-build acceptance.
+
+Independent review confirmed cleanup, source preservation, 36 harness pins, 135 module pins, three staged module copies and 19 assets in both locations. No blocked marker or owned engine/shader/Zen process remained. The triggering free-commit sample was not retained, so the exact threshold crossing cannot be reconstructed. Failure receipt SHA256: e28e3ad3021e273a74de4a6f756fd430b096945d37f8995b5c70ebca0ae04ff3. Raw logs and cache data stay local. No automatic retry, raised cap, production mutation or new playable checkpoint.
+
 ## 1. Establish the current release baseline
 
 - [x] Read current handoff and publication HEAD (2f872366); S5 implementation is 00153f5e.

@@ -1,6 +1,6 @@
-param([switch]$RenderTarget, [switch]$CalibrateColors, [switch]$RepairColors, [switch]$VerifyColors, [switch]$BeardStudy, [switch]$CombinedStudy)
+param([switch]$RenderTarget, [switch]$CalibrateColors, [switch]$RepairColors, [switch]$VerifyColors, [switch]$BeardStudy, [switch]$CombinedStudy, [switch]$CombinedMotion, [int]$TimeoutSeconds = 300)
 $ErrorActionPreference = 'Stop'
-if (@($RenderTarget,$CalibrateColors,$RepairColors,$VerifyColors,$BeardStudy,$CombinedStudy | Where-Object {$_}).Count -gt 1) {throw 'Choose one study mode'}
+if (@($RenderTarget,$CalibrateColors,$RepairColors,$VerifyColors,$BeardStudy,$CombinedStudy,$CombinedMotion | Where-Object {$_}).Count -gt 1) {throw 'Choose one study mode'}
 $root = (Split-Path -Parent $PSScriptRoot).Replace('\', '/')
 $busy = @(Get-Process UnrealEditor,UnrealEditor-Cmd,MikdashCourtyardV3 -ErrorAction SilentlyContinue)
 $busy += @(Get-CimInstance Win32_Process -Filter "Name='dotnet.exe'" | Where-Object {$_.CommandLine -match 'AutomationTool|UnrealBuildTool'})
@@ -16,10 +16,10 @@ function Save-Receipt { $record | ConvertTo-Json | Set-Content -LiteralPath $rec
 Save-Receipt
 $exe = 'C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor.exe'
 $arguments = @(('"'+$root+'/MikdashCourtyardV3.uproject"'),'/Engine/Maps/Entry',('-ExecCmds="py '+$root+'/Scripts/capture_kohen_skin_study.py"'),'-DisablePlugins=MetaHumanCharacter,MetaHumanSDK','-RenderOffscreen','-unattended','-nosplash','-nosound','-notraceserver','-NoMetaHumanAccountPortalLoginFallback','-NoAsyncLoadingThread','-ResX=960','-ResY=720','-asyncstaticmeshcompilationmaxconcurrency=1','-asyncskinnedassetcompilationmaxconcurrency=1','-asynctexturecompilationmaxconcurrency=1',('-abslog="'+$log+'"'))
-if ($RenderTarget -or $CalibrateColors -or $RepairColors -or $VerifyColors -or $BeardStudy -or $CombinedStudy) {
+if ($RenderTarget -or $CalibrateColors -or $RepairColors -or $VerifyColors -or $BeardStudy -or $CombinedStudy -or $CombinedMotion) {
     $exe = 'C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor-Cmd.exe'
     $arguments = @($arguments | Where-Object {$_ -ne '/Engine/Maps/Entry' -and $_ -notlike '-ExecCmds=*'})
-    $scriptName = if ($CalibrateColors) {'calibrate_kohen_vertex_colors.py'} elseif ($RepairColors -or $VerifyColors) {'repair_kohen_linear_colors.py'} else {'capture_kohen_skin_commandlet.py'}
+    $scriptName = if ($CombinedMotion) {'capture_kohen_combined_motion.py'} elseif ($CalibrateColors) {'calibrate_kohen_vertex_colors.py'} elseif ($RepairColors -or $VerifyColors) {'repair_kohen_linear_colors.py'} else {'capture_kohen_skin_commandlet.py'}
     $arguments += @('-run=pythonscript',('-script="'+$root+'/Scripts/'+$scriptName+'"'),'-AllowCommandletRendering')
     $record.scope='isolated GPU render-target commandlet, transient actors, no saves'
     $record.script=$scriptName
@@ -37,7 +37,7 @@ $child = $null
 try {
     $child = Start-Process -FilePath $exe -ArgumentList $arguments -WorkingDirectory $root -WindowStyle Hidden -PassThru
     $record.pid=$child.Id; $record.status='running'; Save-Receipt
-    $deadline = (Get-Date).AddSeconds(300)
+    $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
     do {
         Start-Sleep -Seconds 2
         $child.Refresh()

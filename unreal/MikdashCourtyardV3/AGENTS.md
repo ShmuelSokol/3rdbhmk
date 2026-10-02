@@ -4784,3 +4784,54 @@ could skip terminal receipts, and failed preservation status could exit zero.
 Actor/process cleanup now catches errors, writes terminal failure receipts, and
 Python raises on failed preservation/cleanup. The guarded CombinedStudy launch
 was refused before engine startup for <6GiB free commit; no native acceptance.
+
+
+## Goal resumed and native character review continued — 2 October 2026
+
+The owner explicitly resumed continuous build work and the persistent goal is active.
+The September 9 handoff is obsolete: preserve the accepted mapped-Haram S5 work,
+Kotel restoration and later visitor-hands checkpoint. Do not replay the old square
+plaza, terrain-toggle or cp02 fixes against the current tree. FINISH-LINE retains
+the full production and independently navigable online delivery requirements.
+
+The October 1 CombinedStudy receipt contains four successful isolated GPU head
+views, preserved maps and no saved study assets. All four were inspected on October 2:
+sidelocks are visible, but these rest-pose views do not establish garment motion,
+scene integration or production quality. Imported candidate shading differs from
+the existing native body despite preserved source parts. Compare a fresh import
+of the approved original under the SAME pipeline before attributing differences
+to the candidate geometry.
+
+New capture_kohen_combined_motion.py and -CombinedMotion wrapper mode prepare
+three-way native comparisons (production, fresh original, combined candidate) at
+idle, two previously failing walk poses and tending. Existing skeleton/clips and
+production material bindings are retained. Each rendered component pose must
+match independently evaluated clip bones within 0.05 cm. Asset/map hashes and
+no-save checks are required; selected poses are not continuous-motion acceptance.
+Native results, adoption and a refreshed package remain pending.
+
+
+## Combined character native pose review — 2 October 2026
+
+Third native run044454Z exits0 with no logged Error/Fatal,24captures and350protected
+assets/maps unchanged. Maximum component-vs-clip bone error0.004636cm. Four labeled
+front/side comparison sheets were reviewed, covering idle,two walk poses and tend.
+The original-source fresh import provides a control for importer shading changes.
+Sidelocks are visible; garments remain layered. The pronounced lifted/sloped walking
+hem persists in production and candidate, and overall face/cloth quality remains
+below the requested target. No production adoption or packaged refresh is claimed.
+
+First run refused a stale walking pose(max10.4943cm); fresh skeletal components
+per sample fixed it while retaining the0.05cm independent bone readback. Second
+run captured24frames but exited1 after unused imported GLB shader jobs crashed.
+Mesh-only review now explicitly disables those imports and uses the existing game
+material bindings. The release helper keeps material import ON by default for its
+existing callers. Failure receipts remain. Native proof and sheets are recorded in
+KohenCombinedV1/native-review-20261002.json; raw sample images/logs remain local.
+
+
+Verification runtime correction (2 October): Windows `python` currently resolves
+to Python3.8.1. Use the bundled UE Python3.11 executable explicitly for verify.py.
+The old interpreter failed pinned street-ground checking on str.removeprefix; all
+36 native math suites still passed. This is an invocation/environment failure,
+not justification to weaken the street-ground gate or change pinned surfaces.

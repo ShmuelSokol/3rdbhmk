@@ -77,7 +77,7 @@ def marker():
 
 
 # ---------------------------------------------------------------------------------------- import
-def _mesh_pipeline(ue, skeleton):
+def _mesh_pipeline(ue, skeleton, import_materials=True):
     pipeline = ue.InterchangeGenericAssetsPipeline()
     readback, missing = {}, []
 
@@ -109,7 +109,9 @@ def _mesh_pipeline(ue, skeleton):
     animation = pipeline.get_editor_property('animation_pipeline')
     apply(animation, 'import_animations', False, True)
     material = pipeline.get_editor_property('material_pipeline')
-    apply(material, 'import_materials', True, False)
+    apply(material, 'import_materials', import_materials, not import_materials)
+    if not import_materials and material.get_editor_property('import_materials'):
+        raise RuntimeError('Mesh-only review must not import unused source materials')
     if missing:
         raise RuntimeError('Interchange pipeline would not accept %r; readback %r' % (missing, readback))
     if skeleton.get_name() not in str(readback.get('skeleton', '')):

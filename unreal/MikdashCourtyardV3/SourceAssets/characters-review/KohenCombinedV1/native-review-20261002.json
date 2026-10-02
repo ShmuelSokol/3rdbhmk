@@ -1,0 +1,58 @@
+{
+  "status": "selected-native-poses-reviewed-production-adoption-pending",
+  "receipt": "native-poses-20261002T044509Z.json",
+  "wrapperReceipt": "../KohenSkinV2/gpu-head-run-20261002T044454Z.json",
+  "exitCode": 0,
+  "captures": 24,
+  "maxPoseReadbackErrorCm": 0.004635869151592769,
+  "protectedAssetCount": 350,
+  "protectedUnchanged": true,
+  "sourceSha256": "b542efdc1a053fd5ae59720a578701355a4a6e5a203691d999755d6ee4f67535",
+  "review": [
+    "All 24 frames inspected in four labeled production/fresh-control/combined front-side sheets.",
+    "Fresh original control retains the production silhouette in these samples; the combined candidate retains the garment layers and adds visible sidelocks.",
+    "Both production and candidate show a strongly sloped/lifted lower robe during walking. Clearing sampled intersections has not made the cloth silhouette natural.",
+    "Face/beard, sleeve texture and ceremonial garment material quality remain below the requested lifelike target. Isolated directional light does not establish final scene appearance.",
+    "No adoption: no production mesh/material/map saved, no playable package changed.",
+    "This is selected native pose verification, not continuous motion, every garment-layer clearance or in-scene service acceptance."
+  ],
+  "failedRuns": [
+    {
+      "receipt": "native-poses-20261002T044209Z.json",
+      "cause": "Reused component pose disagreed with requested walking clip, max10.4943cm; refused."
+    },
+    {
+      "receipt": "native-poses-20261002T044326Z.json",
+      "cause": "24captured poses passed but commandlet exited1 after unused imported GLB shader compilation errors; not clean acceptance."
+    }
+  ],
+  "fixes": [
+    "Fresh component for each native sample avoids commandlet same-frame pose reuse; actual bones independently checked.",
+    "Mesh-only import explicitly disables unused source material import and reuses original game material bindings."
+  ],
+  "sheets": [
+    {
+      "file": "native-review-20261002-idle.png",
+      "sha256": "60e7fa9474f5f3822c6a3b681abf9e4254983d59712fed1e081d8f1bd07a4a2b"
+    },
+    {
+      "file": "native-review-20261002-walk-early.png",
+      "sha256": "0bc54491fa40c01e6306b33c071d03d52ef4a87d397c9363089bd96c326e2775"
+    },
+    {
+      "file": "native-review-20261002-walk-late.png",
+      "sha256": "fe69b8c5d1b3bcae6051db86549a1d86638ef347f463bb1dccdc6fbb320abe4c"
+    },
+    {
+      "file": "native-review-20261002-tend.png",
+      "sha256": "21ff50a2308dbe724775b80d07c80aa31285647a5ff91949dedc0bcae954a8c6"
+    }
+  ],
+  "activeExecutionScriptSha256": {
+    "Scripts\\capture_kohen_combined_motion.py": "20a76c98a21d14d3f65ac7c95cd717126637ea693061abada2370f1861558972",
+    "Scripts\\release_kohen_gadol_v1.py": "bd8b3334275639cb55be26be89df85ef0fcd3d2e5806b6c8bc9ddcda6f571931",
+    "Scripts\\run_kohen_skin_study.ps1": "ec885b48bc05f9aeba9240c07fcda06432a2a3f29b191205340ae68d8bd3c98e"
+  },
+  "publicationNote": "Active helper contains earlier uncommitted reimport/slot-check changes outside this pass. Publication preserves HEAD there. The executed _mesh_pipeline function has identical normalized AST in both trees; whole-file hashes are not claimed equal.",
+  "pipelineFunctionAstSha256": "be2ee1cd640e489a2c0b0b31fb0659193cdcbb2d86cc212444fe5edf480ec0cc"
+}

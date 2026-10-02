@@ -1,0 +1,49 @@
+{
+  "revision": "flight01-source01",
+  "sourceOnlyUE": true,
+  "ueCompiled": false,
+  "listenersStarted": false,
+  "mediaStarted": false,
+  "hostTests": 15,
+  "browserGatewayCases": 8,
+  "sourceControlFlowTests": 10,
+  "standalone": {
+    "checks": 54,
+    "failures": 0,
+    "toolchain": "MSVC 14.44.35207 Hostx64/x64; Windows SDK 10.0.26100.0",
+    "compilerSha256": "88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
+    "headerSha256": "624a59c50f80048a5d489e07fdbecc41bbc5c20d88d71beb7a8ffd8fe2d181c1",
+    "fixtureSha256": "ca9eabb9255dfe3d6d9ec921b917cd6e8c09678f18781b458e41aa1afa838720",
+    "jobCapBytes": 536870912,
+    "cleanupConfirmed": true,
+    "phases": [
+      {
+        "phase": "compile",
+        "status": "passed",
+        "exitCode": 0,
+        "cleanupConfirmed": true,
+        "seconds": 0.3113919,
+        "peakJobBytes": 50360320,
+        "budgetSeconds": 60,
+        "cleanupReserveSeconds": 6
+      },
+      {
+        "phase": "tests",
+        "status": "passed",
+        "exitCode": 0,
+        "cleanupConfirmed": true,
+        "seconds": 0.7230744,
+        "peakJobBytes": 1916928,
+        "budgetSeconds": 15,
+        "cleanupReserveSeconds": 6
+      }
+    ]
+  },
+  "stage": {
+    "files": 225,
+    "manifestSha256": "6a7562cd53c78bd451850a507efdf38ffabf32c988cb61ee3241881c97695b1f",
+    "exactRecipeReplay": true
+  },
+  "publicationReady": false,
+  "remaining": "Owned authenticated media/conference transport, concrete cross-language gateway host dispatch, guarded UE compile/runtime acceptance"
+}

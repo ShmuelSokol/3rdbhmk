@@ -1,0 +1,134 @@
+#include "ServicedStoppedOwner.h"
+#include "../runtime_adoption01/ParsedAdmission.h"
+#include "WindowHierarchy.h"
+#include "../native/receiver03/Wire.h"
+#include "Engine/Engine.h"
+#include "Engine/GameViewportClient.h"
+#include "Engine/World.h"
+#include "Framework/Application/SlateApplication.h"
+#include "Misc/CoreDelegates.h"
+#include "Templates/UnrealTemplate.h"
+
+namespace MikdashOnline::RuntimeCandidate04 {
+FServicedStoppedOwner::FServicedStoppedOwner(IPixelStreaming2Module& M,
+    UGameViewportClient* V,TSharedRef<Receiver04::Bootstrap> R)
+    :Lease(M,V),Receiver(R),Viewport(V) {}
+
+TSharedRef<FServicedStoppedOwner> FServicedStoppedOwner::Create(IPixelStreaming2Module& M,
+    UGameViewportClient* V,TSharedRef<Receiver04::Bootstrap> R,const Owner& O,double D) {
+    check(IsInGameThread());
+    TSharedRef<FServicedStoppedOwner> Self=MakeShareable(new FServicedStoppedOwner(M,V,R));
+    Self->Identity=O;
+    if(IsValid(V)) { Self->World=V->GetWorld(); Self->Window=V->GetWindow(); }
+    // Native raw QPC deadline only; never Python monotonic or FPlatformTime.
+    // Receiver04's private bootstrap must use an equal or earlier deadline.
+    const bool ValidDeadline=Self->Expiry.Begin(Receiver03::QpcSeconds(),D,O.expires_at);
+    if(ValidDeadline&&Self->ScopeAndTime()&&Self->Lease.Prepare(O,D)) {
+        Self->Streamer=Self->Lease.BorrowStopped(O);
+        if(Self->Streamer.IsValid()&&Self->ScopeAndTime()) Self->Phase=State::Ready;
+    }
+    if(Self->Phase!=State::Ready) Self->Shutdown();
+    Self->Arm(); // pins quarantine too, even if caller drops returned reference
+    return Self;
+}
+
+bool FServicedStoppedOwner::ScopeAndTime() {
+    const double N=Receiver03::QpcSeconds();
+    // No catch-up/retry. A stalled frame loop invalidates the lease on resumption.
+    if(!Expiry.Observe(N)) return false;
+    if(!Viewport.IsValid()||!World.IsValid()||!Window.IsValid()||!GEngine||
+       GEngine->GameViewport!=Viewport.Get()||Viewport->GetWorld()!=World.Get()||
+       Viewport->GetWindow()!=Window.Pin()||!FSlateApplication::IsInitialized()||
+       IsEngineExitRequested()) return false;
+    const auto& Windows=FSlateApplication::Get().GetTopLevelWindows();
+    return IsSoleChildlessWindow(Windows,Window.Pin());
+}
+
+TSharedPtr<IPixelStreaming2Streamer> FServicedStoppedOwner::BorrowStopped(const Owner& O) {
+    check(IsInGameThread());
+    if(Busy||Phase!=State::Ready||RevokeRequested||!(Identity==O)) return {};
+    TSharedPtr<IPixelStreaming2Streamer> Result;
+    {
+        TGuardValue<bool> Guard(Busy,true);
+        if(ScopeAndTime()) Result=Lease.BorrowStopped(O);
+        // Callbacks may revoke or consume the deadline. Never hand out that result.
+        if(RevokeRequested||!ScopeAndTime()) Result.Reset();
+    }
+    if(!Result.IsValid()) Shutdown();
+    return Result;
+}
+
+bool FServicedStoppedOwner::AdoptParsed(TSharedRef<const Adoption01::FParsedAdmission> Parsed,
+    AReceiver04Controller* C,TSharedPtr<FOnlineInputGate> Gate) {
+    check(IsInGameThread());
+    if(AdoptionEstablished||Busy||RevokeRequested||!Parsed->Live()||!(Identity==Parsed->Identity()))return false;
+    const auto S=BorrowStopped(Identity);if(!S.IsValid())return false;
+    Receiver->MediaOwner=AsShared();
+    bool Good=false;
+    {
+        TGuardValue<bool> Guard(Busy,true);
+        Good=ScopeAndTime()&&Receiver->AdoptStopped(Parsed,C,S,Gate)&&
+            !RevokeRequested&&Parsed->Live()&&ScopeAndTime();
+    }
+    if(!Good||RevokeRequested||!BorrowStopped(Identity).IsValid()||!Receiver->IsOwnedRouteLive()) {Shutdown();return false;}
+    AdoptionEstablished=true;return true;
+}
+
+void FServicedStoppedOwner::ServiceFrame() {
+    check(IsInGameThread());
+    if(Phase!=State::Ready||Busy) return;
+    if(AdoptionEstablished&&!Receiver->IsOwnedRouteLive()) {Shutdown();return;}
+    if(!BorrowStopped(Identity).IsValid()) return; // shutdown already attempted
+    if(MediaStarted&&!Streamer->IsConnected()&&Receiver03::QpcSeconds()>=MediaConnectUntil){Shutdown();return;}
+    // Only the real owner frame loop may complete a successful service interval.
+    if(!Expiry.CompleteFrame(Receiver03::QpcSeconds())) Shutdown();
+}
+
+bool FServicedStoppedOwner::StartAuthenticatedMedia(const Owner& O,int32 Port) {
+    check(IsInGameThread());
+    if(Busy||RevokeRequested||MediaStarted||!AdoptionEstablished||!(Identity==O)||Port<1024||Port>65535)return false;
+    if(!BorrowStopped(O).IsValid())return false;
+    bool Good=false;
+    {
+        TGuardValue<bool> Guard(Busy,true);
+        MediaStarted=true;
+        MediaConnectUntil=FMath::Min(O.expires_at,Receiver03::QpcSeconds()+5.0);
+        const std::string Url="wss://127.0.0.1:"+std::to_string(Port)+"/stream/"+O.stream_id;
+        Good=ScopeAndTime()&&Lease.StartOwnedMedia(O,Url)&&!RevokeRequested&&ScopeAndTime();
+    }
+    if(!Good){Shutdown();return false;}return true;
+}
+
+bool FServicedStoppedOwner::Shutdown() {
+    check(IsInGameThread());
+    RevokeRequested=true; // revoke before ANY receiver/streamer callback
+    Expiry.Revoke();
+    if(Busy) return false;
+    if(Phase==State::Closed) return true;
+    if(Phase==State::Quarantined) return false;
+    TGuardValue<bool> Guard(Busy,true); Phase=State::Closing;
+    // Observe prohibited media activity BEFORE Shutdown can clear status flags.
+    const bool MediaObserved=Streamer.IsValid()&&(Streamer->IsStreaming()||Streamer->IsConnected());
+    const bool ReceiverClosed=Receiver->Shutdown();
+    if(!ReceiverClosed||MediaObserved) { Phase=State::Quarantined; return false; }
+    if(!Lease.Close()) { Phase=State::Quarantined; return false; }
+    Streamer.Reset(); Phase=State::Closed; Disarm(); return true;
+}
+
+void FServicedStoppedOwner::Arm() {
+    if(Phase==State::Closed) return;
+    // Strong captures intentionally retain failed cleanup until owned process exit.
+    // Each invocation makes a local pin before possibly removing its own delegate.
+    const auto Self=AsShared();
+    FrameHandle=FCoreDelegates::OnBeginFrame.AddLambda([Self]() {
+        const auto KeepAlive=Self; KeepAlive->ServiceFrame();
+    });
+    ExitHandle=FCoreDelegates::OnEnginePreExit.AddLambda([Self]() {
+        const auto KeepAlive=Self; KeepAlive->Shutdown();
+    });
+}
+void FServicedStoppedOwner::Disarm() {
+    FCoreDelegates::OnBeginFrame.Remove(FrameHandle); FrameHandle.Reset();
+    FCoreDelegates::OnEnginePreExit.Remove(ExitHandle); ExitHandle.Reset();
+}
+}

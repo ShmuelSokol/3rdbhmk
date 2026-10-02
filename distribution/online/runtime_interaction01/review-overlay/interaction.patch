@@ -1,0 +1,193 @@
+--- a/project/Public/MikdashPlayerController.h
++++ b/project/Public/MikdashPlayerController.h
+@@ -5,6 +5,7 @@
+ #include "FootstepCadence.h"
+ #include "PreparationJourney.h"
+ #include "ResidentDialogState.h"
++#include "ResidentTalkAction.h"
+ #include "ResidentSimulation.h"
+ #include "MikdashPlayerController.generated.h"
+ 
+@@ -65,6 +66,8 @@
+     // mouse: it is a hit-test-invisible overlay under the pause menu, driven from the same
+     // key bindings the walkthrough already uses.
+     UFUNCTION(BlueprintCallable, Category="Residents") void TalkToNearbyResident();
++    // Native-only result API. No default authorization callback.
++    MikdashDialog::TalkOutcome TryTalkToNearbyResident(const TFunction<bool()>& LastBranch);
+     UFUNCTION(BlueprintCallable, Category="Residents") void CloseResidentDialog();
+     UFUNCTION(BlueprintPure, Category="Residents") bool IsResidentDialogOpen() const { return Conversation.IsTalking(); }
+     UFUNCTION(BlueprintPure, Category="Residents") bool IsTalkPromptVisible() const;
+@@ -110,6 +113,7 @@
+     MikdashResidents::Simulation ResidentSimulation;
+     double ResidentClockSeconds = 0.0;
+ 
++    bool bTalkAttemptActive = false;
+     MikdashDialog::Conversation Conversation;
+     TWeakObjectPtr<AMikdashResidentCharacter> TalkTarget;
+     TArray<TWeakObjectPtr<AMikdashResidentCharacter>> KnownResidents;
+--- a/project/Private/MikdashPlayerController.cpp
++++ b/project/Private/MikdashPlayerController.cpp
+@@ -1,4 +1,5 @@
+ #include "MikdashPlayerController.h"
++#include "Templates/UnrealTemplate.h"
+ #include "MikdashFrontEnd.h"
+ #include "MikdashCinematics.h"
+ #include "MikdashDovePawn.h"
+@@ -498,16 +499,57 @@
+ 
+ void AMikdashPlayerController::TalkToNearbyResident()
+ {
+-    if (!IsLocalController() || bMenuOpen || IsPaused() || bDoveFlight) return;
+-    UpdateResidentDialog();
+-    AMikdashResidentCharacter* Resident = TalkTarget.Get();
+-    if (!IsValid(Resident)) return;
+-    const int32 Lines = Resident->GetResidentDialogLineCount();
+-    if (Lines <= 0) return;
+-    if (!Conversation.PressTalk(static_cast<std::size_t>(Lines))) return;
+-    Resident->SetConversationHold(true, GetPawn() ? GetPawn()->GetActorLocation() : Resident->GetActorLocation());
+-    UE_LOG(LogTemp, Verbose, TEXT("MIKDASH_TALK resident=%s line=%d of %d"),
+-        *Resident->GetResidentId(), static_cast<int32>(Conversation.LineIndex()) + 1, Lines);
++    // Preserve the existing local Blueprint callable void API.
++    (void)TryTalkToNearbyResident([](){ return true; });
++}
++
++MikdashDialog::TalkOutcome AMikdashPlayerController::TryTalkToNearbyResident(const TFunction<bool()>& LastBranch)
++{
++    using MikdashDialog::TalkOutcome;
++    check(IsInGameThread());
++    if (bTalkAttemptActive || !LastBranch) return TalkOutcome::Rejected;
++    TGuardValue<bool> Attempt(bTalkAttemptActive, true);
++    const TWeakObjectPtr<AMikdashPlayerController> Self=this;
++    const TWeakObjectPtr<APawn> OriginalPawn=GetPawn();
++    const TWeakObjectPtr<UWorld> OriginalWorld=GetWorld();
++    const TWeakObjectPtr<UPlayerInput> OriginalInput=PlayerInput.Get();
++    auto SameContext=[&]()
++    {
++        if (!Self.IsValid() || !OriginalPawn.IsValid() || !OriginalWorld.IsValid()) return false;
++        return IsLocalController() && GetPawn()==OriginalPawn.Get() && OriginalPawn->GetController()==this &&
++            GetWorld()==OriginalWorld.Get() && OriginalPawn->GetWorld()==OriginalWorld.Get() &&
++            PlayerInput==OriginalInput.Get() && !bMenuOpen && !IsPaused() && !bDoveFlight;
++    };
++    if (!SameContext()) return TalkOutcome::Rejected;
++    UpdateResidentDialog(); // real scan/maintenance; may invoke resident movement code
++    if (!SameContext()) return TalkOutcome::Rejected;
++    const TWeakObjectPtr<AMikdashResidentCharacter> Resident=TalkTarget;
++    const bool HadResident=Resident.IsValid();
++    const int32 Lines=HadResident ? Resident->GetResidentDialogLineCount() : 0;
++    auto SameSelection=[&]()
++    {
++        return HadResident ? Resident.IsValid() && TalkTarget==Resident && Resident->GetWorld()==OriginalWorld.Get()
++                           : !TalkTarget.IsValid();
++    };
++    return MikdashDialog::PressTalkGuarded(Conversation, Lines>0 ? static_cast<std::size_t>(Lines) : 0,
++        [&]()
++        {
++            if (!SameContext() || !SameSelection()) return false;
++            if (!LastBranch()) return false; // actual remote Fence.Revalidate after scan
++            // The callback itself may pause, destroy or repossess. Only local
++            // identity/state reads follow it before the direct PressTalk call.
++            return SameContext() && SameSelection();
++        },
++        [&]()
++        {
++            Resident->SetConversationHold(true, OriginalPawn->GetActorLocation());
++            // A consumed press cannot honestly become Rejected if its callback
++            // changes ownership/pause state. Never undo or automatically replay.
++            if (!SameContext() || !SameSelection()) return false;
++            UE_LOG(LogTemp, Verbose, TEXT("MIKDASH_TALK resident=%s line=%d of %d"),
++                *Resident->GetResidentId(), static_cast<int32>(Conversation.LineIndex()) + 1, Lines);
++            return SameContext() && SameSelection();
++        });
+ }
+ 
+ void AMikdashPlayerController::CloseResidentDialog()
+--- a/online/native/receiver04/OnlineController.cpp
++++ b/online/native/receiver04/OnlineController.cpp
+@@ -1,4 +1,5 @@
+ #include "OnlineController.h"
++#include "../../runtime_interaction01/RemoteResidentInteraction.h"
+ #include "Camera/PlayerCameraManager.h"
+ #include "Camera/CameraModifier.h"
+ #include "Camera/CameraModifier_CameraShake.h"
+@@ -37,10 +38,9 @@
+                 const bool Before=IsSoundMuted();ToggleSound();
+                 return Before!=IsSoundMuted()?Outcome::Applied:Outcome::NoOp;
+             }
+-            if(Action=="interact"&&ConsumeInteract){
+-                // Callback must perform its own last-branch check if it scans or
+-                // blocks before changing dialog state, and return an explicit outcome.
+-                return ConsumeInteract(Fence);
++            if(Action=="interact"){
++                // Explicit project consumption API; never infer Applied from void.
++                return MikdashOnline::Interaction01::ConsumeResidentInteraction(*this,Remote.ToSharedRef(),Fence);
+             }
+             return Outcome::Rejected;
+         });
+--- /dev/null
++++ b/project/Public/ResidentTalkAction.h
+@@ -0,0 +1,16 @@
++#pragma once
++#include "ResidentDialogState.h"
++
++namespace MikdashDialog {
++enum class TalkOutcome { Applied, NoOp, Rejected, Unknown };
++
++// Actual production consumption helper; no UE replacements. The caller scans
++// before entry. Nothing callback-capable occurs between FinalCheck and PressTalk.
++template<class Guard,class Finish>
++TalkOutcome PressTalkGuarded(Conversation& Conversation,std::size_t Lines,
++                             Guard FinalCheck,Finish AfterConsumption) {
++    if(!FinalCheck()) return TalkOutcome::Rejected;
++    if(!Conversation.PressTalk(Lines)) return TalkOutcome::NoOp;
++    return AfterConsumption()?TalkOutcome::Applied:TalkOutcome::Unknown;
++}
++}
+--- /dev/null
++++ b/online/runtime_interaction01/RemoteResidentInteraction.h
+@@ -0,0 +1,46 @@
++#pragma once
++#include "../native/receiver04/OnlineController.h"
++#include "../native/receiver04/Authority.h"
++#include "Engine/World.h"
++#include "GameFramework/Pawn.h"
++#include "GameFramework/PlayerInput.h"
++
++namespace MikdashOnline::Interaction01 {
++inline Receiver04::Outcome ConsumeResidentInteraction(AReceiver04Controller& Controller,
++    TSharedRef<Receiver04::Authority> Service,const Receiver04::SemanticMailbox::Fence& Fence) {
++    check(IsInGameThread());
++    using Receiver04::Outcome;
++    const TWeakObjectPtr<AReceiver04Controller> Weak=&Controller;
++    const TWeakObjectPtr<APawn> Pawn=Controller.GetPawn();
++    const TWeakObjectPtr<UPlayerInput> Input=Controller.PlayerInput.Get();
++    const TWeakObjectPtr<UWorld> World=Controller.GetWorld();
++    auto StillOwned=[&]() {
++        if(!Weak.IsValid()||!Pawn.IsValid()||!Input.IsValid()||!World.IsValid()) return false;
++        auto* C=Weak.Get();
++        if(C->GetPawn()!=Pawn.Get()||Pawn->GetController()!=C||C->PlayerInput!=Input.Get()||
++           C->GetWorld()!=World.Get()||Pawn->GetWorld()!=World.Get()||!C->IsLocalController()||
++           C->IsPaused()||C->IsWalkthroughMenuOpen()||C->IsDoveFlightActive()||Service->IsClosed()) return false;
++        const auto Current=Service->Consumers().CurrentFence();
++        return Service->BoundContext()==Fence.context&&Current.context==Fence.context&&
++            Current.epoch==Fence.epoch&&Current.until==Fence.until;
++    };
++    if(!StillOwned()) return Outcome::Rejected;
++    const auto Result=Controller.TryTalkToNearbyResident([&]() {
++        // The project calls this AFTER its resident scan, at the last branch.
++        return StillOwned()&&Service->Consumers().Revalidate(Fence);
++    });
++    // Revalidate identity/pause/possession after the callback WITHOUT refreshing
++    // AuthorizationAt after the effect. Mailbox::Complete owns final deadline/ACK.
++    if(!StillOwned()) {
++        Service->Abort();
++        return Result==MikdashDialog::TalkOutcome::Applied||Result==MikdashDialog::TalkOutcome::Unknown
++            ?Outcome::Unknown:Outcome::Rejected;
++    }
++    switch(Result) {
++        case MikdashDialog::TalkOutcome::Applied:return Outcome::Applied;
++        case MikdashDialog::TalkOutcome::NoOp:return Outcome::NoOp;
++        case MikdashDialog::TalkOutcome::Rejected:return Outcome::Rejected;
++        default:return Outcome::Unknown;
++    }
++}
++}

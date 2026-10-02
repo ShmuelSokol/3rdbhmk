@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "status": "Actual standalone C++ PASS",
+  "baseManifestSha256": "0dfd99814b56cfe52a5fcdac1f9ccdebe997d5fe35d2e749fe6c0f09cebb41d2",
+  "cases": 10,
+  "checks": 28,
+  "casesExecuted": true,
+  "exactBaseSourceSha256": {
+    "tests/ResidentTalkActionTests.cpp": "d69708e7476d15a40a657a627c46a353d95f031afbfe427ccdcbe68315d04c40",
+    "ResidentTalkAction.h": "c2e5ac131c2515d5d3f39f0bad60379e2afd288a30eda8b4d7110cfb3f8bbe43",
+    "snapshots/project/Public/ResidentDialogState.h": "95f2510a2da146483f2f0ce443df4b4234a945e97335c6003653d209dc5d7956",
+    "snapshots/native/receiver04/SemanticMailbox.h": "68d8d4bc45a4681650b7b991bf5386dc38ef6754f861910d514fa74ff8d104f8",
+    "snapshots/native/SessionBridge.h": "d0c934fb355663b040b12b1f10dd4afb28aab11c137cd26309c74404dcf25bd5"
+  },
+  "productionHeaders": "Actual frozen ResidentTalkAction, ResidentDialogState, SemanticMailbox and SessionBridge; no fake UE or parallel state implementation",
+  "toolchain": {
+    "compilerVersion": "19.44.35228.0",
+    "linkerVersion": "14.44.35228.0",
+    "MSVCToolsDirectory": "14.44.35207",
+    "WindowsSDK": "10.0.26100.0",
+    "flags": [
+      "/nologo",
+      "/Bv",
+      "/std:c++17",
+      "/EHsc",
+      "/W4",
+      "/Isnapshots/project/Public",
+      "tests/ResidentTalkActionTests.cpp",
+      "/FeResidentTalkActionTests.exe"
+    ],
+    "warnings": [
+      {
+        "code": "C4100",
+        "file": "SemanticMailbox.h",
+        "line": 45,
+        "reason": "Existing unused Before parameter; no source changed or warning pragma added"
+      }
+    ]
+  },
+  "memoryCapBytes": 536870912,
+  "phases": [
+    {
+      "phase": "compile",
+      "status": "passed",
+      "exitCode": 0,
+      "cleanupConfirmed": true,
+      "seconds": 0.8320987999999999,
+      "peakJobBytes": 60829696,
+      "budgetSeconds": 60,
+      "cleanupReserveSeconds": 6
+    },
+    {
+      "phase": "tests",
+      "status": "passed",
+      "exitCode": 0,
+      "cleanupConfirmed": true,
+      "seconds": 0.1550658,
+      "peakJobBytes": 1912832,
+      "budgetSeconds": 15,
+      "cleanupReserveSeconds": 6
+    }
+  ],
+  "totalSeconds": 1.6714031,
+  "localRunnerSha256": "232fb4704c727744541660078b40a80f390ffcefe75cee96635851315928ca71",
+  "localReceiptSha256": "25d106b7823ef4b6ac364808569824192a3f918ccbfdf23763ae2ff8f65bd9d5",
+  "priorAttempt": {
+    "reason": "/WX rejected existing C4100 before test execution",
+    "phases": [
+      {
+        "phase": "compile",
+        "status": "failed_or_children",
+        "exitCode": 2,
+        "cleanupConfirmed": true,
+        "seconds": 0.7000807,
+        "peakJobBytes": 58269696,
+        "budgetSeconds": 60,
+        "cleanupReserveSeconds": 6
+      }
+    ],
+    "localReceiptSha256": "d9f210da9bb54821744f8bbefd138c0d0f9badccf00557d1de2bf5bb2c8efc27"
+  },
+  "UECompiled": false,
+  "UEExecuted": false,
+  "listenerStarted": false,
+  "mediaStarted": false,
+  "productionModified": false,
+  "limits": [
+    "C++ tests execute actual pure headers with injected guards/clock, not UE controller callbacks",
+    "UE identity/selection/pause/possession integration remains uncompiled",
+    "No pipe/network/browser acceptance",
+    "Owned cleanup proof limited to these compiler/test jobs"
+  ],
+  "baseFolder": "runtime_interaction01",
+  "scope": "Sanitized additive evidence; baseManifestSha256 identifies unchanged original authoring snapshot, not this portable derivative",
+  "compilerFileSha256": {
+    "cl.exe": "88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
+    "link.exe": "ca11e6c45debd34bf652dfe984c5360a531a005ed78bf72852330c9c2590cf0d",
+    "c1xx.dll": "688fe28f3065283edf668868e76aeab28f03f80e2171c14c7d4e37f64513f623",
+    "c2.dll": "98050f97d60f7e95fcaf3525a7103e4818fba498a43563922476819ce88ed162"
+  },
+  "ownedJobHelperSha256": "0ef998314f3e68976c851e055d9aafe0e56e935334f1556a44e5e683a05fcec4"
+}

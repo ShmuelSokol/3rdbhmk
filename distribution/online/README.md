@@ -225,3 +225,19 @@ root; record parsing does not authenticate an arbitrary parent. This revision em
 no ready acknowledgement and starts no listener or media. The existing host will
 still time out waiting for readiness. Authenticated route attachment, gameplay and
 settings isolation, native compilation and browser delivery remain unfinished.
+
+## Explicit resident interaction outcome — 2 October 2026
+
+The runtime_interaction01 review overlay gives remote talk an explicit outcome
+through the actual resident dialog/controller path, with identity and authority
+checks immediately before the conversation action. It distinguishes successful,
+no-op, rejected and uncertain side-effect outcomes instead of inferring success
+from the previous void helper. Production source remains unchanged.
+
+The portable interaction_publication01 allowlist pins33 source/evidence files and
+ten existing repository dependencies (two have separately pinned CRLF/LF
+checkout bytes; replay snapshots remain exact). Twelve source/patch checks pass from a fresh
+export; the genuine pure dialog/mailbox headers passed10 cases/28 checks in two
+independent MSVC runs. These checks do not compile or accept the UE integration,
+start streaming, or prove browser play. The proposed controller patch still needs
+engine compilation and possession/pause/flight runtime verification.

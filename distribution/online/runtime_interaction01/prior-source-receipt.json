@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "revision": "runtime_interaction01",
+  "executedSourcePatchChecks": 12,
+  "stagedRealCppCases": 10,
+  "cppCasesExecuted": false,
+  "UECompiled": false,
+  "nativeLaunched": false,
+  "productionModified": false,
+  "publicationModified": false,
+  "sourcePinsSha256": "359d2996ee71c9532765648cddf0562f119e4ffb6f1592d4fce729622643b54f",
+  "patchSha256": "873dde69c1262dab6f4ad6cdcec075399dafeeec6e84ec0bd5f9b76497b537ff",
+  "outcomes": {
+    "Applied": "actual Conversation.PressTalk consumed; post-callback context remains valid",
+    "NoOp": "actual Conversation.PressTalk refused after valid final guard",
+    "Rejected": "authorization/context refused before consumption",
+    "Unknown": "consumed but post-callback validation failed"
+  },
+  "limits": [
+    "Python checks verify source and patch replay only",
+    "Pure C++ state/mailbox tests staged only; no fake UE",
+    "Real controller/pawn/pause/selection integration remains UE-uncompiled",
+    "Legacy interaction callback parameter retained but built-in explicit adapter replaces interact dispatch",
+    "Scan maintenance side effects are not rolled back",
+    "Existing mailbox owns late ACK suppression; no automatic replay"
+  ]
+}

@@ -1,0 +1,54 @@
+void AMikdashPlayerController::TalkToNearbyResident()
+{
+    // Preserve the existing local Blueprint callable void API.
+    (void)TryTalkToNearbyResident([](){ return true; });
+}
+
+MikdashDialog::TalkOutcome AMikdashPlayerController::TryTalkToNearbyResident(const TFunction<bool()>& LastBranch)
+{
+    using MikdashDialog::TalkOutcome;
+    check(IsInGameThread());
+    if (bTalkAttemptActive || !LastBranch) return TalkOutcome::Rejected;
+    TGuardValue<bool> Attempt(bTalkAttemptActive, true);
+    const TWeakObjectPtr<AMikdashPlayerController> Self=this;
+    const TWeakObjectPtr<APawn> OriginalPawn=GetPawn();
+    const TWeakObjectPtr<UWorld> OriginalWorld=GetWorld();
+    const TWeakObjectPtr<UPlayerInput> OriginalInput=PlayerInput.Get();
+    auto SameContext=[&]()
+    {
+        if (!Self.IsValid() || !OriginalPawn.IsValid() || !OriginalWorld.IsValid()) return false;
+        return IsLocalController() && GetPawn()==OriginalPawn.Get() && OriginalPawn->GetController()==this &&
+            GetWorld()==OriginalWorld.Get() && OriginalPawn->GetWorld()==OriginalWorld.Get() &&
+            PlayerInput==OriginalInput.Get() && !bMenuOpen && !IsPaused() && !bDoveFlight;
+    };
+    if (!SameContext()) return TalkOutcome::Rejected;
+    UpdateResidentDialog(); // real scan/maintenance; may invoke resident movement code
+    if (!SameContext()) return TalkOutcome::Rejected;
+    const TWeakObjectPtr<AMikdashResidentCharacter> Resident=TalkTarget;
+    const bool HadResident=Resident.IsValid();
+    const int32 Lines=HadResident ? Resident->GetResidentDialogLineCount() : 0;
+    auto SameSelection=[&]()
+    {
+        return HadResident ? Resident.IsValid() && TalkTarget==Resident && Resident->GetWorld()==OriginalWorld.Get()
+                           : !TalkTarget.IsValid();
+    };
+    return MikdashDialog::PressTalkGuarded(Conversation, Lines>0 ? static_cast<std::size_t>(Lines) : 0,
+        [&]()
+        {
+            if (!SameContext() || !SameSelection()) return false;
+            if (!LastBranch()) return false; // actual remote Fence.Revalidate after scan
+            // The callback itself may pause, destroy or repossess. Only local
+            // identity/state reads follow it before the direct PressTalk call.
+            return SameContext() && SameSelection();
+        },
+        [&]()
+        {
+            Resident->SetConversationHold(true, OriginalPawn->GetActorLocation());
+            // A consumed press cannot honestly become Rejected if its callback
+            // changes ownership/pause state. Never undo or automatically replay.
+            if (!SameContext() || !SameSelection()) return false;
+            UE_LOG(LogTemp, Verbose, TEXT("MIKDASH_TALK resident=%s line=%d of %d"),
+                *Resident->GetResidentId(), static_cast<int32>(Conversation.LineIndex()) + 1, Lines);
+            return SameContext() && SameSelection();
+        });
+}

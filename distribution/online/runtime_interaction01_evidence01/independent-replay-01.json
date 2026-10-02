@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "scope": "Independent actual-header replay; portable C++ bytes exactly equal replay inputs",
+  "cases": 10,
+  "checks": 28,
+  "phases": [
+    {
+      "phase": "compile",
+      "status": "passed",
+      "exitCode": 0,
+      "cleanupConfirmed": true,
+      "seconds": 0.8549637,
+      "peakJobBytes": 60841984,
+      "budgetSeconds": 60,
+      "cleanupReserveSeconds": 6
+    },
+    {
+      "phase": "tests",
+      "status": "passed",
+      "exitCode": 0,
+      "cleanupConfirmed": true,
+      "seconds": 0.1585057,
+      "peakJobBytes": 1921024,
+      "budgetSeconds": 15,
+      "cleanupReserveSeconds": 6
+    }
+  ],
+  "totalSeconds": 2.0658808,
+  "originalLocalReceiptSha256": "c332cea021af22675aaee853fd78efd759d950bad067c0448ea58998dae0c768",
+  "portableSourceSha256": {
+    "tests/ResidentTalkActionTests.cpp": "d69708e7476d15a40a657a627c46a353d95f031afbfe427ccdcbe68315d04c40",
+    "ResidentTalkAction.h": "c2e5ac131c2515d5d3f39f0bad60379e2afd288a30eda8b4d7110cfb3f8bbe43",
+    "snapshots/project/Public/ResidentDialogState.h": "95f2510a2da146483f2f0ce443df4b4234a945e97335c6003653d209dc5d7956",
+    "snapshots/native/receiver04/SemanticMailbox.h": "68d8d4bc45a4681650b7b991bf5386dc38ef6754f861910d514fa74ff8d104f8",
+    "snapshots/native/SessionBridge.h": "d0c934fb355663b040b12b1f10dd4afb28aab11c137cd26309c74404dcf25bd5"
+  },
+  "UECompiled": false,
+  "UEExecuted": false
+}

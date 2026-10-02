@@ -1,0 +1,1059 @@
+#include "MikdashPlayerController.h"
+#include "MikdashFrontEnd.h"
+#include "MikdashCinematics.h"
+#include "MikdashDovePawn.h"
+#include "MikdashEnclosure.h"
+#include "EngineUtils.h"
+#include "MikdashResidentCharacter.h"
+#include "SMikdashPreparation.h"
+#include "EngineUtils.h"
+#include "AudioDevice.h"
+#include "AudioDeviceHandle.h"
+#include "Components/InputComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Engine/SkeletalMesh.h"
+#include "Engine/StaticMesh.h"
+#include "Engine/GameViewportClient.h"
+#include "Engine/World.h"
+#include "Framework/Application/SlateApplication.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/PlayerInput.h"
+#include "InputCoreTypes.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/GameplayStatics.h"
+#include "Components/CapsuleComponent.h"
+#include "Misc/CommandLine.h"
+#include "Misc/Parse.h"
+#include "Materials/MaterialInterface.h"
+#include "Sound/SoundBase.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Styling/CoreStyle.h"
+#include "Widgets/Input/SButton.h"
+#include "Widgets/Layout/SBorder.h"
+#include "Widgets/Layout/SBox.h"
+#include "Widgets/Layout/SScrollBox.h"
+#include "Widgets/SBoxPanel.h"
+#include "Widgets/SCompoundWidget.h"
+#include "Widgets/SOverlay.h"
+#include "Widgets/Text/STextBlock.h"
+
+#define LOCTEXT_NAMESPACE "MikdashWalkthrough"
+
+namespace
+{
+class SMikdashMenu : public SCompoundWidget
+{
+public:
+    SLATE_BEGIN_ARGS(SMikdashMenu) {}
+        SLATE_ARGUMENT(TWeakObjectPtr<AMikdashPlayerController>, Controller)
+        SLATE_ARGUMENT(bool, HasStarted)
+    SLATE_END_ARGS()
+
+    void Construct(const FArguments& Args)
+    {
+        Controller = Args._Controller;
+        ButtonText = FCoreStyle::Get().GetWidgetStyle<FTextBlockStyle>("NormalText");
+        ButtonText.SetFont(FCoreStyle::GetDefaultFontStyle("Regular", 18));
+        ChildSlot
+        [
+            SNew(SBorder)
+            .BorderBackgroundColor(FLinearColor(0.025f, 0.035f, 0.05f, 0.97f))
+            .HAlign(HAlign_Center).VAlign(VAlign_Center).Padding(28)
+            [
+                SNew(SBox).WidthOverride(760).MaxDesiredHeight(640)
+                [
+                    SNew(SScrollBox)
+                    + SScrollBox::Slot()
+                [
+                    SNew(SVerticalBox)
+                    + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 18)
+                    [SNew(STextBlock).Text(LOCTEXT("Title", "Third Beis HaMikdash"))
+                        .Font(FCoreStyle::GetDefaultFontStyle("Bold", 28))]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 20)
+                    [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Regular", 18)).AutoWrapText(true).Text(LOCTEXT("Source",
+                        "A measured reconstruction based on Yechezkel.\nSurrounding Jerusalem and vegetation are illustrative.\nDevelopment preview: visuals and runtime are under review."))]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 20)
+                    [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Regular", 18)).AutoWrapText(true).Text(LOCTEXT("Controls",
+                        "W A S D or arrow keys: walk\nMouse: look around\nE: talk to someone standing near you\nF: white dove / return to walking\nDove: Space up, Ctrl down, Shift fast\nAerial exploration is an architectural review mode.\nP or Escape: pause and release the mouse\nM: mute or restore sound\nAlt+F4: close the walkthrough"))]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
+                    [SNew(SButton).TextStyle(&ButtonText).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))
+                        .Text(Args._HasStarted ? LOCTEXT("Resume", "Resume walkthrough") : LOCTEXT("Start", "Start walkthrough"))
+                        .OnClicked_Lambda([this]() { if (Controller.IsValid()) Controller->ResumeWalkthrough(); return FReply::Handled(); })]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
+                    [SNew(SButton).TextStyle(&ButtonText).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))
+                        .Text_Lambda([this]() { return Controller.IsValid() && Controller->IsDoveFlightActive()
+                            ? LOCTEXT("DoveReturn", "Return to walking") : LOCTEXT("DoveStart", "Explore as a white dove"); })
+                        .OnClicked_Lambda([this]() { if (Controller.IsValid()) { Controller->RequestDoveFlightFromMenu(); } return FReply::Handled(); })]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
+                    [SNew(STextBlock).AutoWrapText(true)
+                        .Text_Lambda([this]() { return Controller.IsValid()
+                            ? FText::FromString(Controller->GetDoveFlightStatus()) : FText::GetEmpty(); })]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
+                    [SNew(SButton).TextStyle(&ButtonText).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))
+                        .Text(LOCTEXT("Prepare", "Preparation: learn before arriving"))
+                        .OnClicked_Lambda([this]() { if (Controller.IsValid()) Controller->ShowPreparationLesson(); return FReply::Handled(); })]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
+                    [SNew(SButton).TextStyle(&ButtonText).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12))
+                        .Text_Lambda([this]() { return Controller.IsValid() && Controller->IsSoundMuted()
+                            ? LOCTEXT("SoundOff", "Sound: off — turn on") : LOCTEXT("SoundOn", "Sound: on — mute"); })
+                        .OnClicked_Lambda([this]() { if (Controller.IsValid()) Controller->ToggleSound(); return FReply::Handled(); })]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0, 5)
+                    [SNew(SButton).TextStyle(&ButtonText).HAlign(HAlign_Center).ContentPadding(FMargin(18, 12)).Text(LOCTEXT("Quit", "Quit"))
+                        .OnClicked_Lambda([this]() { if (Controller.IsValid()) Controller->QuitWalkthrough(); return FReply::Handled(); })]
+                ]
+                ]
+            ]
+        ];
+    }
+    virtual bool SupportsKeyboardFocus() const override { return true; }
+    virtual FReply OnKeyDown(const FGeometry& Geometry, const FKeyEvent& Event) override
+    {
+        if (Controller.IsValid() && (Event.GetKey() == EKeys::Escape || Event.GetKey() == EKeys::P))
+        {
+            if (!Event.IsRepeat()) Controller->ToggleWalkthroughMenu();
+            return FReply::Handled();
+        }
+        if (Controller.IsValid() && Event.GetKey() == EKeys::M)
+        {
+            if (!Event.IsRepeat()) Controller->ToggleSound();
+            return FReply::Handled();
+        }
+        return SCompoundWidget::OnKeyDown(Geometry, Event);
+    }
+private:
+    FTextBlockStyle ButtonText;
+    TWeakObjectPtr<AMikdashPlayerController> Controller;
+};
+
+/** One hit-test-invisible overlay for every in-world hint: the dove's flight controls, the
+ * "E: talk" prompt, and the resident dialog panel. It never takes focus, never captures the
+ * mouse and never pauses the game; it sits below the pause menu in the viewport. */
+class SMikdashOverlay : public SCompoundWidget
+{
+    enum class Mode { Dove, Prompt, Dialog };
+    using Getter = FString (AMikdashPlayerController::*)() const;
+
+public:
+    SLATE_BEGIN_ARGS(SMikdashOverlay) {}
+        SLATE_ARGUMENT(TWeakObjectPtr<AMikdashPlayerController>, Controller)
+    SLATE_END_ARGS()
+
+    void Construct(const FArguments& Args)
+    {
+        Controller = Args._Controller;
+        SetVisibility(EVisibility::HitTestInvisible);
+        const FLinearColor Panel(0.025f, 0.035f, 0.05f, 0.86f);
+        const FLinearColor Hint(0.025f, 0.035f, 0.05f, 0.55f);
+        ChildSlot
+        [
+            SNew(SOverlay)
+            // Flight controls, shown only while the dove is being flown.
+            + SOverlay::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top).Padding(28, 24)
+            [
+                SNew(SBorder).BorderBackgroundColor(Hint).Padding(FMargin(14, 8))
+                .Visibility_Lambda([this]() { return Visible(Mode::Dove); })
+                [SNew(STextBlock).ColorAndOpacity(FLinearColor(0.86f, 0.88f, 0.92f, 0.85f))
+                    .Font(FCoreStyle::GetDefaultFontStyle("Regular", 15))
+                    .Text_Lambda([this]() { return Text(&AMikdashPlayerController::GetDoveControlHint); })]
+            ]
+            // "E: talk" prompt, shown only when a resident is close and roughly ahead.
+            + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Bottom).Padding(0, 0, 0, 96)
+            [
+                SNew(SBorder).BorderBackgroundColor(Hint).Padding(FMargin(14, 7))
+                .Visibility_Lambda([this]() { return Visible(Mode::Prompt); })
+                [SNew(STextBlock).ColorAndOpacity(FLinearColor(0.88f, 0.90f, 0.94f, 0.90f))
+                    .Font(FCoreStyle::GetDefaultFontStyle("Regular", 16))
+                    .Text_Lambda([this]() { return Text(&AMikdashPlayerController::GetTalkPromptText); })]
+            ]
+            // The dialog panel itself.
+            + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Bottom).Padding(0, 0, 0, 64)
+            [
+                SNew(SBox).WidthOverride(720)
+                .Visibility_Lambda([this]() { return Visible(Mode::Dialog); })
+                [
+                    SNew(SBorder).BorderBackgroundColor(Panel).Padding(FMargin(22, 16))
+                    [
+                        SNew(SVerticalBox)
+                        + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 6)
+                        [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Bold", 20)).AutoWrapText(true)
+                            .Text_Lambda([this]() { return Text(&AMikdashPlayerController::GetResidentDialogHeading); })]
+                        + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 10)
+                        [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Italic", 15)).AutoWrapText(true)
+                            .ColorAndOpacity(FLinearColor(0.72f, 0.76f, 0.82f, 1.f))
+                            .Text_Lambda([this]() { return Text(&AMikdashPlayerController::GetResidentDialogMission); })]
+                        + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 12)
+                        [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Regular", 18)).AutoWrapText(true)
+                            .Text_Lambda([this]() { return Text(&AMikdashPlayerController::GetResidentDialogLine); })]
+                        + SVerticalBox::Slot().AutoHeight()
+                        [SNew(STextBlock).Font(FCoreStyle::GetDefaultFontStyle("Regular", 14))
+                            .ColorAndOpacity(FLinearColor(0.62f, 0.66f, 0.72f, 1.f))
+                            .Text_Lambda([this]() { return Text(&AMikdashPlayerController::GetResidentDialogFooter); })]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+private:
+    FText Text(Getter Read) const
+    {
+        return Controller.IsValid() ? FText::FromString((Controller.Get()->*Read)()) : FText::GetEmpty();
+    }
+    EVisibility Visible(Mode Which) const
+    {
+        const AMikdashPlayerController* Owner = Controller.Get();
+        if (!Owner || Owner->IsWalkthroughMenuOpen()) return EVisibility::Collapsed;
+        const bool Show = Which == Mode::Dove ? Owner->IsDoveFlightActive()
+            : Which == Mode::Prompt ? Owner->IsTalkPromptVisible()
+            : Owner->IsResidentDialogOpen();
+        return Show ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
+    }
+    TWeakObjectPtr<AMikdashPlayerController> Controller;
+};
+}
+
+AMikdashPlayerController::AMikdashPlayerController()
+{
+    PrimaryActorTick.bTickEvenWhenPaused = true;
+    bShowMouseCursor = true;
+    for (const TCHAR* Name : {TEXT("StoneL1"), TEXT("StoneL2"), TEXT("StoneL3"), TEXT("StoneR1"), TEXT("StoneR2"), TEXT("StoneR3")})
+    {
+        const FString Path = FString::Printf(TEXT("/Game/MikdashV3/Runtime/Audio/StoneFootstepsV1/SW_Fantozzi_%s.SW_Fantozzi_%s"), Name, Name);
+        ConstructorHelpers::FObjectFinder<USoundBase> Sample(*Path);
+        StoneSteps.Add(Sample.Object);
+    }
+    for (const TCHAR* Name : {TEXT("SandL1"), TEXT("SandL2"), TEXT("SandL3"), TEXT("SandR1"), TEXT("SandR2"), TEXT("SandR3")})
+    {
+        const FString Path = FString::Printf(TEXT("/Game/MikdashV3/Runtime/Audio/SoftFootstepsV1/SW_Fantozzi_%s.SW_Fantozzi_%s"), Name, Name);
+        ConstructorHelpers::FObjectFinder<USoundBase> Sample(*Path);
+        SoftSteps.Add(Sample.Object);
+    }
+}
+
+void AMikdashPlayerController::BeginPlay()
+{
+    Super::BeginPlay();
+    if (!IsLocalController()) return;
+    HideVisitorTemplateHands();
+    ApplySoundVolume();
+    if (FSlateApplication::IsInitialized())
+        ActivationHandle = FSlateApplication::Get().OnApplicationActivationStateChanged()
+            .AddUObject(this, &AMikdashPlayerController::ApplicationActivationChanged);
+    // Added once, below the pause menu, and hit-test invisible: the overlay changes nothing
+    // about focus, input mode or mouse capture.
+    if (GetWorld() && GetWorld()->GetGameViewport())
+    {
+        OverlayWidget = SNew(SMikdashOverlay).Controller(this);
+        GetWorld()->GetGameViewport()->AddViewportWidgetContent(OverlayWidget.ToSharedRef(), 10);
+    }
+    const UMikdashFrontEnd* FrontEnd = UMikdashFrontEnd::Get(this);
+    if (!FrontEnd || !FrontEnd->bEnabled) OpenMenu();
+#if !UE_BUILD_SHIPPING
+    FString ProbeSpec;
+    if (FParse::Value(FCommandLine::Get(), TEXT("MikdashWalkProbe="), ProbeSpec, false)) ParseWalkProbe(ProbeSpec);
+#endif
+}
+
+void AMikdashPlayerController::OnPossess(APawn* InPawn)
+{
+    Super::OnPossess(InPawn);
+    HideVisitorTemplateHands();
+}
+
+void AMikdashPlayerController::HideVisitorTemplateHands()
+{
+    APawn* Visitor = GetPawn();
+    if (!IsLocalController() || !IsValid(Visitor)
+        || Visitor->GetClass()->GetPathName() != TEXT("/Game/MikdashV3/Gameplay/BP_MikdashWalker.BP_MikdashWalker_C")) return;
+
+    // The inherited UE template renders modern Manny gloves in the historical
+    // visitor's view. Select that exact owned representation; leave collision,
+    // animation, the world-space body, and any future authored hands alone.
+    TInlineComponentArray<USkeletalMeshComponent*> Meshes(Visitor);
+    for (USkeletalMeshComponent* Mesh : Meshes)
+    {
+        if (Mesh->GetOwner() != Visitor || Mesh->GetFName() != FName(TEXT("FirstPersonMesh"))
+            || Mesh->FirstPersonPrimitiveType != EFirstPersonPrimitiveType::FirstPerson
+            || GetPathNameSafe(Mesh->GetSkeletalMeshAsset()) != TEXT("/Game/Characters/Mannequins/Meshes/SKM_Manny_Simple.SKM_Manny_Simple")) continue;
+        if (!Mesh->bHiddenInGame)
+        {
+            Mesh->SetHiddenInGame(true, false);
+            UE_LOG(LogTemp, Display, TEXT("VisitorTemplateHands hidden component=%s mesh=%s hidden=%d"),
+                *Mesh->GetPathName(), *GetPathNameSafe(Mesh->GetSkeletalMeshAsset()), Mesh->bHiddenInGame ? 1 : 0);
+        }
+    }
+}
+
+void AMikdashPlayerController::SetupInputComponent()
+{
+    Super::SetupInputComponent();
+    // Controller is above the pawn in BuildInputStack: keep template action
+    // bindings from adding movement/look a second time or enabling jumping.
+    InputComponent->bBlockInput = true;
+    InputComponent->BindKey(EKeys::F, IE_Pressed, this, &AMikdashPlayerController::ToggleDoveFlight);
+    InputComponent->BindKey(EKeys::E, IE_Pressed, this, &AMikdashPlayerController::TalkToNearbyResident);
+    InputComponent->BindKey(EKeys::Escape, IE_Pressed, this, &AMikdashPlayerController::HandleEscapeKey).bExecuteWhenPaused = true;
+    InputComponent->BindKey(EKeys::P, IE_Pressed, this, &AMikdashPlayerController::ToggleWalkthroughMenu).bExecuteWhenPaused = true;
+    InputComponent->BindKey(EKeys::M, IE_Pressed, this, &AMikdashPlayerController::ToggleSound).bExecuteWhenPaused = true;
+    InputComponent->BindKey(EKeys::V, IE_Pressed, this, &AMikdashPlayerController::CyclePrecinctView);
+    InputComponent->BindAxisKey(EKeys::MouseX, this, &AMikdashPlayerController::Turn);
+    InputComponent->BindAxisKey(EKeys::MouseY, this, &AMikdashPlayerController::LookUp);
+}
+
+void AMikdashPlayerController::PlayerTick(float DeltaTime)
+{
+    Super::PlayerTick(DeltaTime);
+    if (bDoveFlight && !IsValid(DovePawn)) ToggleDoveFlight();
+    if (bPendingMenuDove)
+    {
+        if (bMenuOpen || IsPaused()) bPendingMenuDove=false;
+        else if (GetWorld() && GetWorld()->GetRealTimeSeconds() >= MenuDoveDeadline)
+        {
+            bPendingMenuDove=false;
+            DoveFlightStatus=TEXT("Dove flight could not start: stand on clear ground and try again");
+            OpenMenu();
+        }
+        else if (ACharacter* Walker=Cast<ACharacter>(GetPawn()))
+        {
+            if (Walker->GetCharacterMovement()->IsMovingOnGround())
+            {
+                bPendingMenuDove=false;
+                ToggleDoveFlight();
+                if (!bDoveFlight) OpenMenu();
+            }
+        }
+    }
+    UpdateFootsteps(DeltaTime);
+    UpdateResidentDialog();
+    if (bMenuOpen || !IsLocalController() || !GetPawn() || IsPaused()) return;
+    TickWalkProbe(DeltaTime);
+    ResidentClockSeconds += FMath::Max(0.0, static_cast<double>(DeltaTime));
+    ResidentSimulation.AdvanceTo(static_cast<std::uint64_t>(ResidentClockSeconds));
+    const float Forward = (IsInputKeyDown(EKeys::W) || IsInputKeyDown(EKeys::Up) ? 1.f : 0.f)
+        - (IsInputKeyDown(EKeys::S) || IsInputKeyDown(EKeys::Down) ? 1.f : 0.f);
+    const float Right = (IsInputKeyDown(EKeys::D) || IsInputKeyDown(EKeys::Right) ? 1.f : 0.f)
+        - (IsInputKeyDown(EKeys::A) || IsInputKeyDown(EKeys::Left) ? 1.f : 0.f);
+    const FRotator Heading(0.f, GetControlRotation().Yaw, 0.f);
+    const FVector Direction = Heading.Vector() * Forward + FRotationMatrix(Heading).GetUnitAxis(EAxis::Y) * Right;
+    if (bDoveFlight && IsValid(DovePawn))
+    {
+        const float Up=(IsInputKeyDown(EKeys::SpaceBar) ? 1.f : 0.f)
+            -(IsInputKeyDown(EKeys::LeftControl) || IsInputKeyDown(EKeys::RightControl) ? 1.f : 0.f);
+        DovePawn->SetFlightBoost(IsInputKeyDown(EKeys::LeftShift) || IsInputKeyDown(EKeys::RightShift));
+        DovePawn->AddMovementInput((Direction+FVector(0,0,Up)).GetClampedToMaxSize(1.f));
+    }
+    else GetPawn()->AddMovementInput(Direction.GetClampedToMaxSize(1.f));
+}
+
+void AMikdashPlayerController::RequestDoveFlightFromMenu()
+{
+    if (!IsLocalController() || !GetWorld()) return;
+    ResumeWalkthrough();
+    // Choosing flight is an explicit request for control, including on first entry.
+    // Finish the intro before its saved view target can conflict with possession.
+    if (UMikdashCinematics* Cinematics = UMikdashCinematics::Get(this))
+        if (Cinematics->IsPlaying()) Cinematics->SkipIntro();
+    if (bDoveFlight)
+    {
+        ToggleDoveFlight();
+        if (bDoveFlight) OpenMenu();
+        return;
+    }
+    DoveFlightStatus=TEXT("Preparing dove flight; waiting for grounded footing");
+    bPendingMenuDove=true;
+    MenuDoveDeadline=GetWorld()->GetRealTimeSeconds()+3.0;
+}
+
+void AMikdashPlayerController::ToggleDoveFlight()
+{
+    if (!IsLocalController() || !GetWorld() || bMenuOpen || IsPaused()) return;
+    if (UMikdashCinematics* Cinematics = UMikdashCinematics::Get(this))
+        if (Cinematics->IsPlaying()) Cinematics->SkipIntro();
+    if (IsMoveInputIgnored() || IsLookInputIgnored())
+    { DoveFlightStatus=TEXT("Flight is unavailable while another activity controls the view"); return; }
+    bPendingMenuDove=false;
+    if (bDoveFlight)
+    {
+        if (!IsValid(ParkedWalker) || FVector::Dist(ParkedWalker->GetActorLocation(),ParkedWalkLocation)>5.f)
+        { DoveFlightStatus=TEXT("Return unavailable: walking character changed; restart walkthrough safely"); return; }
+        AMikdashDovePawn* PreviousDove=DovePawn;
+        Possess(ParkedWalker);
+        if (GetPawn()!=ParkedWalker) { DoveFlightStatus=TEXT("Return possession failed"); return; }
+        ParkedWalker->GetCharacterMovement()->SetMovementMode(static_cast<EMovementMode>(ParkedMovementMode),ParkedCustomMovementMode);
+        SetControlRotation(ParkedControlRotation);
+        bDoveFlight=false;DovePawn=nullptr;ParkedWalker=nullptr;
+        if (IsValid(PreviousDove)) PreviousDove->Destroy();
+        if (PlayerInput) PlayerInput->FlushPressedKeys();
+        DoveFlightStatus=TEXT("Ground walking restored at departure point");
+        return;
+    }
+    ACharacter* Walker=Cast<ACharacter>(GetPawn());
+    if (!Walker || !Walker->GetCharacterMovement()->IsMovingOnGround())
+    { DoveFlightStatus=TEXT("Stand on the ground before beginning dove flight"); return; }
+    FActorSpawnParameters Params;Params.Owner=this;Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+    AMikdashDovePawn* Bird=GetWorld()->SpawnActor<AMikdashDovePawn>(AMikdashDovePawn::StaticClass(),
+        Walker->GetActorLocation()+FVector(0,0,150),FRotator(0,GetControlRotation().Yaw,0),Params);
+    if (!Bird) { DoveFlightStatus=TEXT("No clear space above: step into an open area"); return; }
+    ParkedWalker=Walker;ParkedWalkLocation=Walker->GetActorLocation();ParkedControlRotation=GetControlRotation();
+    ParkedMovementMode=static_cast<uint8>(Walker->GetCharacterMovement()->MovementMode.GetValue());
+    ParkedCustomMovementMode=Walker->GetCharacterMovement()->CustomMovementMode;
+    Walker->GetCharacterMovement()->StopMovementImmediately();
+    Walker->ConsumeMovementInputVector();Walker->GetCharacterMovement()->DisableMovement();
+    Possess(Bird);
+    if (GetPawn()!=Bird)
+    {
+        Walker->GetCharacterMovement()->SetMovementMode(static_cast<EMovementMode>(ParkedMovementMode),ParkedCustomMovementMode);Possess(Walker);
+        Bird->Destroy();ParkedWalker=nullptr;DoveFlightStatus=TEXT("Flight possession failed; walking retained");return;
+    }
+    DovePawn=Bird;bDoveFlight=true;
+    if (PlayerInput) PlayerInput->FlushPressedKeys();
+    DoveFlightStatus=TEXT("White dove: aerial architectural exploration; F returns to departure point");
+}
+
+// ---------------------------------------------------------------------------------------
+// Talking to a resident.
+//
+// Authored lines only. The panel reads what a person wrote into people.json; it produces no
+// text of its own, states no halachah, and changes nothing about the walkthrough's rules.
+// ---------------------------------------------------------------------------------------
+
+void AMikdashPlayerController::RefreshKnownResidents()
+{
+    KnownResidents.Reset();
+    if (!GetWorld()) return;
+    for (TActorIterator<AMikdashResidentCharacter> It(GetWorld()); It; ++It)
+        if (IsValid(*It) && It->HasResidentProfile()) KnownResidents.Add(*It);
+}
+
+void AMikdashPlayerController::ReleaseTalkTarget()
+{
+    if (AMikdashResidentCharacter* Previous = TalkTarget.Get())
+        Previous->SetConversationHold(false, FVector::ZeroVector);
+    TalkTarget.Reset();
+}
+
+void AMikdashPlayerController::UpdateResidentDialog()
+{
+    APawn* Walker = GetPawn();
+    // No talking from the air, from the menu, or while paused: a conversation is something
+    // the walking visitor does, and the resident is released the moment any of that changes.
+    if (!IsLocalController() || !Walker || bMenuOpen || IsPaused() || bDoveFlight || !GetWorld())
+    {
+        Conversation.Observe(MikdashDialog::Aim());
+        ReleaseTalkTarget();
+        return;
+    }
+    const double Now = GetWorld()->GetRealTimeSeconds();
+    if (Now >= NextResidentScanSeconds)
+    {
+        // Residents are spawned once at startup, so a twice-a-second refresh is plenty and
+        // keeps a full actor iteration off the frame.
+        RefreshKnownResidents();
+        NextResidentScanSeconds = Now + 0.5;
+    }
+    const FVector Eye = Walker->GetActorLocation();
+    const FVector Forward = FRotator(0.f, GetControlRotation().Yaw, 0.f).Vector();
+    auto Measure = [&Eye, &Forward](const AMikdashResidentCharacter* Resident)
+    {
+        MikdashDialog::Aim Candidate;
+        FVector Offset = Resident->GetActorLocation() - Eye;
+        Offset.Z = 0.0;
+        const double Distance = Offset.Size();
+        Candidate.DistanceCm = Distance;
+        Candidate.FacingDot = Distance > 1.0 ? FVector::DotProduct(Forward, Offset / Distance) : 1.0;
+        Candidate.Valid = true;
+        return Candidate;
+    };
+    if (Conversation.IsTalking())
+    {
+        // A conversation never hops to a different person: it watches the one it opened on.
+        AMikdashResidentCharacter* Held = TalkTarget.Get();
+        Conversation.Observe(IsValid(Held) ? Measure(Held) : MikdashDialog::Aim());
+        if (Conversation.IsTalking() && IsValid(Held)) Held->SetConversationHold(true, Eye);
+        else ReleaseTalkTarget();
+        return;
+    }
+    ReleaseTalkTarget();
+    TArray<AMikdashResidentCharacter*> Nearby;
+    std::vector<MikdashDialog::Aim> Measured;
+    for (const TWeakObjectPtr<AMikdashResidentCharacter>& Weak : KnownResidents)
+    {
+        AMikdashResidentCharacter* Resident = Weak.Get();
+        if (!IsValid(Resident)) continue;
+        const MikdashDialog::Aim Candidate = Measure(Resident);
+        if (Candidate.DistanceCm > MikdashDialog::ReleaseRangeCm) continue;
+        Nearby.Add(Resident);
+        Measured.push_back(Candidate);
+    }
+    const int32 Best = MikdashDialog::BestCandidate(Measured);
+    if (Best >= 0 && Nearby.IsValidIndex(Best))
+    {
+        TalkTarget = Nearby[Best];
+        Conversation.Observe(Measured[static_cast<std::size_t>(Best)]);
+    }
+    else Conversation.Observe(MikdashDialog::Aim());
+}
+
+void AMikdashPlayerController::TalkToNearbyResident()
+{
+    if (!IsLocalController() || bMenuOpen || IsPaused() || bDoveFlight) return;
+    UpdateResidentDialog();
+    AMikdashResidentCharacter* Resident = TalkTarget.Get();
+    if (!IsValid(Resident)) return;
+    const int32 Lines = Resident->GetResidentDialogLineCount();
+    if (Lines <= 0) return;
+    if (!Conversation.PressTalk(static_cast<std::size_t>(Lines))) return;
+    Resident->SetConversationHold(true, GetPawn() ? GetPawn()->GetActorLocation() : Resident->GetActorLocation());
+    UE_LOG(LogTemp, Verbose, TEXT("MIKDASH_TALK resident=%s line=%d of %d"),
+        *Resident->GetResidentId(), static_cast<int32>(Conversation.LineIndex()) + 1, Lines);
+}
+
+void AMikdashPlayerController::CloseResidentDialog()
+{
+    Conversation.PressCancel();
+    ReleaseTalkTarget();
+}
+
+void AMikdashPlayerController::HandleEscapeKey()
+{
+    if (!bMenuOpen && Conversation.IsTalking()) { CloseResidentDialog(); return; }
+    ToggleWalkthroughMenu();
+}
+
+bool AMikdashPlayerController::IsTalkPromptVisible() const
+{
+    return Conversation.ShouldShowPrompt() && !bMenuOpen && !bDoveFlight && TalkTarget.IsValid();
+}
+
+FString AMikdashPlayerController::GetTalkPromptText() const
+{
+    const AMikdashResidentCharacter* Resident = TalkTarget.Get();
+    if (!Resident) return FString();
+    return FString::Printf(TEXT("E: talk to %s"), *Resident->GetResidentDisplayName());
+}
+
+FString AMikdashPlayerController::GetResidentDialogHeading() const
+{
+    const AMikdashResidentCharacter* Resident = TalkTarget.Get();
+    if (!Conversation.IsTalking() || !Resident) return FString();
+    const FString RoleTitle = Resident->GetResidentRole();
+    const FString Origin = Resident->GetResidentOrigin();
+    FString Heading = Resident->GetResidentDisplayName();
+    if (!RoleTitle.IsEmpty()) Heading += TEXT("  —  ") + RoleTitle;
+    if (!Origin.IsEmpty()) Heading += TEXT(", of ") + Origin;
+    return Heading;
+}
+
+FString AMikdashPlayerController::GetResidentDialogMission() const
+{
+    const AMikdashResidentCharacter* Resident = TalkTarget.Get();
+    if (!Conversation.IsTalking() || !Resident) return FString();
+    FString Mission = Resident->GetResidentMission();
+    const FString Presence = Resident->GetResidentPresenceNote();
+    if (!Presence.IsEmpty()) Mission += TEXT("\n") + Presence;
+    return Mission;
+}
+
+FString AMikdashPlayerController::GetResidentDialogLine() const
+{
+    const AMikdashResidentCharacter* Resident = TalkTarget.Get();
+    if (!Conversation.IsTalking() || !Resident) return FString();
+    return TEXT("“") + Resident->GetResidentDialogLine(static_cast<int32>(Conversation.LineIndex())) + TEXT("”");
+}
+
+FString AMikdashPlayerController::GetResidentDialogFooter() const
+{
+    const AMikdashResidentCharacter* Resident = TalkTarget.Get();
+    if (!Conversation.IsTalking() || !Resident) return FString();
+    return FString::Printf(TEXT("E: next  (%d of %d)     Escape: close     Authored fiction, not a source text."),
+        static_cast<int32>(Conversation.LineIndex()) + 1, Resident->GetResidentDialogLineCount());
+}
+
+FString AMikdashPlayerController::GetDoveControlHint() const
+{
+    return bDoveFlight
+        ? FString(TEXT("Space: up   Ctrl: down   Shift: fast   Mouse: look   F: return to walking"))
+        : FString();
+}
+
+void AMikdashPlayerController::Turn(float Value) { if (!bMenuOpen) AddYawInput(Value); }
+void AMikdashPlayerController::LookUp(float Value) { if (!bMenuOpen) AddPitchInput(-Value); }
+
+void AMikdashPlayerController::UpdateFootsteps(float DeltaTime)
+{
+    ACharacter* WalkingCharacter = Cast<ACharacter>(GetPawn());
+    if (!IsLocalController() || !WalkingCharacter) { FootstepPawn.Reset(); FootstepCadence.Reset(); return; }
+    const FVector Position = WalkingCharacter->GetActorLocation();
+    if (FootstepPawn.Get() != WalkingCharacter)
+    {
+        FootstepPawn = WalkingCharacter;
+        LastFootstepPosition = Position;
+        FootstepCadence.Reset();
+        return;
+    }
+    const float Distance = FVector::Dist2D(Position, LastFootstepPosition);
+    LastFootstepPosition = Position;
+    const float Speed = WalkingCharacter->GetVelocity().Size2D();
+    // Shared tested cadence uses actual displacement, never just held input.
+    if (!FootstepCadence.Advance(Distance, Speed, DeltaTime,
+        WalkingCharacter->GetCharacterMovement()->IsMovingOnGround(), bMenuOpen || IsPaused())) return;
+    const UPrimitiveComponent* FloorComponent = WalkingCharacter->GetCharacterMovement()->CurrentFloor.HitResult.GetComponent();
+    // The runtime plaza deck is walked on through collision-only proxy boxes
+    // (AMikdashEnclosure, EnclosureMath.h 6c), which carry no mesh; they are paving.
+    const bool bPlazaProxy = FloorComponent != nullptr && FloorComponent->ComponentHasTag(FName(TEXT("MikdashPlazaFloor")));
+    const UStaticMeshComponent* Floor = Cast<UStaticMeshComponent>(FloorComponent);
+    if (!bPlazaProxy && (!Floor || !Floor->GetStaticMesh())) return;
+    const FString FloorAsset = bPlazaProxy ? FString(TEXT("MikdashPlazaFloor")) : Floor->GetStaticMesh()->GetPathName();
+    const bool SoftGround = FloorAsset.StartsWith(TEXT("/Game/MikdashV3/JerusalemContext/Terrain/"))
+        || FloorAsset.StartsWith(TEXT("/Game/MikdashV3/FutureMountV1/Terrain/"));
+    const bool HardGround = FloorAsset.StartsWith(TEXT("/Game/MikdashV3/Architecture/"))
+        || FloorAsset.StartsWith(TEXT("/Game/MikdashV3/JerusalemContext/Streets/"))
+        || FloorAsset.StartsWith(TEXT("/Game/MikdashV3/JerusalemContext/Buildings/"))
+        || FloorAsset == TEXT("/Game/MikdashV3/FutureMountV1/Platform/SM_MountPlatform_Surface.SM_MountPlatform_Surface")
+        || bPlazaProxy
+        || FloorAsset.StartsWith(TEXT("/Game/MikdashV3/FutureMountV1/PrecinctPlazaV1/"));
+    // Unknown/new floor families require an explicit sound assignment.
+    if (!SoftGround && !HardGround) return;
+    const TArray<TObjectPtr<USoundBase>>& Samples = SoftGround ? SoftSteps : StoneSteps;
+    int32 Variation = FMath::RandRange(0, 2);
+    if (Variation == LastStepVariation[FootstepSide]) Variation = (Variation + FMath::RandRange(1, 2)) % 3;
+    const int32 Index = FootstepSide * 3 + Variation;
+    LastStepVariation[FootstepSide] = Variation;
+    FootstepSide = 1 - FootstepSide;
+    if (!bSoundMuted && Samples.IsValidIndex(Index) && Samples[Index])
+    {
+        UGameplayStatics::PlaySound2D(this, Samples[Index]);
+        UE_LOG(LogTemp, Verbose, TEXT("MIKDASH_FOOTSTEP sample=%d soft=%d floor=%s distance=%f"), Index, SoftGround, *FloorAsset, Distance);
+    }
+}
+
+void AMikdashPlayerController::SynchronizeFrontEndMenu(bool bVisible)
+{
+    if (GetWorld() && GetWorld()->GetGameViewport() && MenuWidget.IsValid())
+        GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(MenuWidget.ToSharedRef());
+    MenuWidget.Reset();
+    bMenuOpen = bVisible;
+    if (bVisible)
+    {
+        bPendingMenuDove = false;
+        CloseResidentDialog();
+        if (ACharacter* Walker = Cast<ACharacter>(GetPawn()))
+            Walker->GetCharacterMovement()->StopMovementImmediately();
+    }
+    else bHasStarted = true;
+    if (PlayerInput) PlayerInput->FlushPressedKeys();
+    SetPause(bVisible);
+}
+
+void AMikdashPlayerController::OpenMenu()
+{
+    if (UMikdashFrontEnd* FrontEnd = UMikdashFrontEnd::Get(this); FrontEnd && FrontEnd->bEnabled)
+    {
+        if (FrontEnd->HasWalkthroughStarted()) FrontEnd->ShowPauseMenu();
+        else FrontEnd->ShowMainMenu();
+        return;
+    }
+    if (bMenuOpen || !IsLocalController() || !GetWorld() || !GetWorld()->GetGameViewport()) return;
+    bMenuOpen = true;
+    // A conversation is a walking-world thing: opening the menu ends it and lets the
+    // resident resume its authored route.
+    CloseResidentDialog();
+    SetPause(true);
+    if (PlayerInput) PlayerInput->FlushPressedKeys();
+    if (ACharacter* WalkingCharacter = Cast<ACharacter>(GetPawn())) WalkingCharacter->GetCharacterMovement()->StopMovementImmediately();
+    bShowMouseCursor = true;
+    MenuWidget = SNew(SMikdashMenu).Controller(this).HasStarted(bHasStarted);
+    GetWorld()->GetGameViewport()->AddViewportWidgetContent(MenuWidget.ToSharedRef(), 100);
+    FInputModeGameAndUI Mode;
+    Mode.SetWidgetToFocus(MenuWidget).SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock).SetHideCursorDuringCapture(false);
+    SetInputMode(Mode);
+    UE_LOG(LogTemp, Display, TEXT("MIKDASH_MENU_OPEN cursor=visible pause=%d"), IsPaused());
+}
+
+void AMikdashPlayerController::ShowPreparationLesson()
+{
+    if (UMikdashFrontEnd* FrontEnd = UMikdashFrontEnd::Get(this); FrontEnd && FrontEnd->bEnabled
+        && FrontEnd->GetScreen() != EMikdashScreen::Preparation)
+    { FrontEnd->ShowPreparationLesson(); return; }
+    if (!bMenuOpen || !GetWorld() || !GetWorld()->GetGameViewport()) return;
+    if (MenuWidget.IsValid()) GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(MenuWidget.ToSharedRef());
+    MenuWidget = SNew(SMikdashPreparation).Journey(&PreparationJourney)
+        .OnBack(FSimpleDelegate::CreateUObject(this, &AMikdashPlayerController::BackToWalkthroughMenu));
+    GetWorld()->GetGameViewport()->AddViewportWidgetContent(MenuWidget.ToSharedRef(), 100);
+    FInputModeGameAndUI Mode;
+    Mode.SetWidgetToFocus(MenuWidget).SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock).SetHideCursorDuringCapture(false);
+    SetInputMode(Mode);
+    UE_LOG(LogTemp, Display, TEXT("MIKDASH_PREPARATION_OPEN"));
+}
+
+void AMikdashPlayerController::BackToWalkthroughMenu()
+{
+    if (GetWorld() && GetWorld()->GetGameViewport() && MenuWidget.IsValid())
+        GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(MenuWidget.ToSharedRef());
+    MenuWidget.Reset();
+    bMenuOpen = false;
+    OpenMenu();
+}
+
+void AMikdashPlayerController::ResumeWalkthrough()
+{
+    if (UMikdashFrontEnd* FrontEnd = UMikdashFrontEnd::Get(this); FrontEnd && FrontEnd->bEnabled)
+    { FrontEnd->ResumeWalkthrough(); return; }
+    if (!bMenuOpen) return;
+    if (GetWorld() && GetWorld()->GetGameViewport() && MenuWidget.IsValid())
+        GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(MenuWidget.ToSharedRef());
+    MenuWidget.Reset();
+    bMenuOpen = false;
+    bHasStarted = true;
+    if (PlayerInput) PlayerInput->FlushPressedKeys();
+    SetPause(false);
+    bShowMouseCursor = false;
+    FInputModeGameOnly Mode;
+    Mode.SetConsumeCaptureMouseDown(true);
+    SetInputMode(Mode);
+    UE_LOG(LogTemp, Display, TEXT("MIKDASH_MENU_RESUME cursor=hidden pause=%d"), IsPaused());
+}
+
+void AMikdashPlayerController::ToggleWalkthroughMenu()
+{
+    if (UMikdashFrontEnd* FrontEnd = UMikdashFrontEnd::Get(this); FrontEnd && FrontEnd->bEnabled)
+    {
+        if (FrontEnd->GetScreen() == EMikdashScreen::Preparation) BackToWalkthroughMenu();
+        else FrontEnd->TogglePauseMenu();
+        return;
+    }
+    if (bMenuOpen)
+    {
+        // Escape releases/resumes an existing walk, but never starts one.
+        // Only the explicit Start button may capture the pointer initially.
+        if (bHasStarted) ResumeWalkthrough();
+    }
+    else OpenMenu();
+}
+void AMikdashPlayerController::ApplicationActivationChanged(bool bActive) { if (!bActive) OpenMenu(); }
+
+void AMikdashPlayerController::ApplySoundVolume()
+{
+    if (GetWorld())
+        if (FAudioDeviceHandle Device = GetWorld()->GetAudioDevice()) Device->SetTransientPrimaryVolume(bSoundMuted ? 0.f : 1.f);
+}
+void AMikdashPlayerController::ToggleSound()
+{
+    bSoundMuted = !bSoundMuted;
+    ApplySoundVolume();
+    SaveConfig();
+    UE_LOG(LogTemp, Display, TEXT("MIKDASH_SOUND muted=%d"), bSoundMuted);
+}
+void AMikdashPlayerController::QuitWalkthrough()
+{
+    UKismetSystemLibrary::QuitGame(this, this, EQuitPreference::Quit, false);
+}
+
+void AMikdashPlayerController::EndPlay(const EEndPlayReason::Type Reason)
+{
+    CloseResidentDialog();
+    KnownResidents.Reset();
+    if (GetWorld() && GetWorld()->GetGameViewport() && OverlayWidget.IsValid())
+        GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(OverlayWidget.ToSharedRef());
+    OverlayWidget.Reset();
+    if (IsValid(ParkedWalker)) ParkedWalker->GetCharacterMovement()->SetMovementMode(static_cast<EMovementMode>(ParkedMovementMode),ParkedCustomMovementMode);
+    if (IsValid(DovePawn)) DovePawn->Destroy();
+    DovePawn=nullptr;ParkedWalker=nullptr;bDoveFlight=false;
+    if (FSlateApplication::IsInitialized())
+        FSlateApplication::Get().OnApplicationActivationStateChanged().Remove(ActivationHandle);
+    if (GetWorld() && GetWorld()->GetGameViewport() && MenuWidget.IsValid())
+        GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(MenuWidget.ToSharedRef());
+    MenuWidget.Reset();
+    Super::EndPlay(Reason);
+}
+
+void AMikdashPlayerController::ParseWalkProbe(const FString& Spec)
+{
+    TArray<FString> Fields;
+    Spec.ParseIntoArray(Fields, TEXT(";"), true);
+    for (const FString& Field : Fields)
+    {
+        FString Key, Value;
+        if (!Field.Split(TEXT("="), &Key, &Value)) continue;
+        Key = Key.TrimStartAndEnd().ToLower();
+        TArray<FString> Parts;
+        if (Key == TEXT("label")) WalkProbe.Label = Value;
+        else if (Key == TEXT("state")) WalkProbe.State = Value.ToUpper();
+        else if (Key == TEXT("delay")) WalkProbe.Delay = FCString::Atod(*Value);
+        else if (Key == TEXT("timeout")) WalkProbe.Timeout = FCString::Atod(*Value);
+        else if (Key == TEXT("start") && Value.ParseIntoArray(Parts, TEXT(":"), true) >= 3)
+        {
+            WalkProbe.Start = FVector(FCString::Atod(*Parts[0]), FCString::Atod(*Parts[1]), FCString::Atod(*Parts[2]));
+            if (Parts.Num() > 3) WalkProbe.Yaw = FCString::Atof(*Parts[3]);
+            if (Parts.Num() > 4) WalkProbe.Pitch = FCString::Atof(*Parts[4]);
+            WalkProbe.bActive = true;
+        }
+        else if (Key == TEXT("wp"))
+        {
+            TArray<FString> Points;
+            Value.ParseIntoArray(Points, TEXT("/"), true);
+            for (const FString& Point : Points)
+            {
+                if (Point.ParseIntoArray(Parts, TEXT(":"), true) >= 2)
+                    WalkProbe.Waypoints.Add(FVector2D(FCString::Atod(*Parts[0]), FCString::Atod(*Parts[1])));
+            }
+        }
+    }
+    UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE parsed label=%s active=%d state=%s start=%s yaw=%.1f pitch=%.1f waypoints=%d delay=%.1f timeout=%.1f"),
+        *WalkProbe.Label, WalkProbe.bActive ? 1 : 0, *WalkProbe.State, *WalkProbe.Start.ToString(), WalkProbe.Yaw, WalkProbe.Pitch,
+        WalkProbe.Waypoints.Num(), WalkProbe.Delay, WalkProbe.Timeout);
+}
+
+void AMikdashPlayerController::TickWalkProbe(float DeltaTime)
+{
+    if (!WalkProbe.bActive || WalkProbe.bDone) return;
+    UWorld* World = GetWorld();
+    ACharacter* Walker = Cast<ACharacter>(GetPawn());
+    if (!World || !Walker || bDoveFlight) return;
+    UCharacterMovementComponent* Movement = Walker->GetCharacterMovement();
+    const double Now = World->GetTimeSeconds();
+    const float HalfHeight = Walker->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+    auto Describe = [](const FHitResult& Hit)
+    {
+        const UPrimitiveComponent* Component = Hit.GetComponent();
+        const AActor* Owner = Component ? Component->GetOwner() : nullptr;
+        FString Mesh;
+        if (const UStaticMeshComponent* Static = Cast<UStaticMeshComponent>(Component))
+        {
+            if (Static->GetStaticMesh()) Mesh = Static->GetStaticMesh()->GetName();
+        }
+        FString Tags;
+        if (Component)
+        {
+            for (const FName& Tag : Component->ComponentTags) Tags += Tag.ToString() + TEXT("+");
+        }
+        return FString::Printf(TEXT("comp=%s owner=%s mesh=%s tags=%s"),
+            Component ? *Component->GetName() : TEXT("none"), Owner ? *Owner->GetName() : TEXT("none"),
+            Mesh.IsEmpty() ? TEXT("-") : *Mesh, Tags.IsEmpty() ? TEXT("-") : *Tags);
+    };
+    if (!WalkProbe.bStarted)
+    {
+        if (Now < WalkProbe.Delay) return;
+        if (UMikdashCinematics* Cinematics = UMikdashCinematics::Get(this))
+        {
+            if (Cinematics->IsPlaying()) Cinematics->SkipIntro();
+        }
+        FString EnclosureStatus = TEXT("no enclosure");
+        // Diagnostic setup must apply the requested collision state before the drop.
+        // A normal 2.5s dissolve otherwise leaves the new state's floor disabled
+        // after teleport, confounding the probe before its first movement input.
+        for (TActorIterator<AMikdashEnclosure> It(World); It; ++It)
+        {
+            if (WalkProbe.State == TEXT("MODERN")) It->SetPrecinctStateOver(EMikdashPrecinctState::Modern, 0.0f);
+            else if (WalkProbe.State == TEXT("YECHEZKEL")) It->SetPrecinctStateOver(EMikdashPrecinctState::Yechezkel, 0.0f);
+            else if (WalkProbe.State == TEXT("OVERLAY")) It->SetPrecinctStateOver(EMikdashPrecinctState::Overlay, 0.0f);
+            EnclosureStatus = It->GetPlazaCollisionStatus();
+        }
+        // Undo a capture script's Ghost (no collision, cheat flying): walk as a visitor walks.
+        Movement->bCheatFlying = false;
+        Walker->SetActorEnableCollision(true);
+        Walker->TeleportTo(WalkProbe.Start, FRotator(0.f, WalkProbe.Yaw, 0.f), false, true);
+        Movement->StopMovementImmediately();
+        Movement->SetMovementMode(MOVE_Falling);
+        SetControlRotation(FRotator(WalkProbe.Pitch, WalkProbe.Yaw, 0.f));
+        WalkProbe.bStarted = true;
+        WalkProbe.StartedAt = Now;
+        WalkProbe.FallStartZ = WalkProbe.Start.Z - HalfHeight;
+        WalkProbe.bWasFalling = true;
+        UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE start label=%s t=%.2f pawn=%s capsule=%.1f/%.1f maxStep=%.1f walkableDeg=%.2f maxWalkSpeed=%.1f gravityZ=%.1f state=%s enclosure[%s]"),
+            *WalkProbe.Label, Now, *Walker->GetClass()->GetName(), Walker->GetCapsuleComponent()->GetScaledCapsuleRadius(), HalfHeight,
+            Movement->MaxStepHeight, Movement->GetWalkableFloorAngle(), Movement->MaxWalkSpeed, Movement->GetGravityZ(),
+            *WalkProbe.State, *EnclosureStatus);
+        return;
+    }
+    const double Elapsed = Now - WalkProbe.StartedAt;
+    const FVector Position = Walker->GetActorLocation();
+    const double FeetZ = Position.Z - HalfHeight;
+    const bool bFalling = Movement->IsFalling();
+    bool bSteering = false;
+    // Hold still for one second after the drop so the first samples show where it LANDED.
+    if (Elapsed > 1.0 && WalkProbe.Next < WalkProbe.Waypoints.Num())
+    {
+        const FVector2D ToGo = WalkProbe.Waypoints[WalkProbe.Next] - FVector2D(Position.X, Position.Y);
+        if (ToGo.Size() < 75.0)
+        {
+            UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE reached label=%s wp=%d t=%.2f pos=%s feetZ=%.1f"),
+                *WalkProbe.Label, WalkProbe.Next, Elapsed, *Position.ToString(), FeetZ);
+            ++WalkProbe.Next;
+            if (WalkProbe.Next >= WalkProbe.Waypoints.Num()) WalkProbe.FinishedWaypointsAt = Elapsed;
+        }
+        else
+        {
+            const FVector2D Heading = ToGo.GetSafeNormal();
+            const FVector Direction(Heading.X, Heading.Y, 0.0);
+            Walker->AddMovementInput(Direction, 1.f);
+            bSteering = true;
+            FRotator View = GetControlRotation();
+            View.Yaw = FMath::FixedTurn(View.Yaw, Direction.Rotation().Yaw, 120.f * DeltaTime);
+            View.Pitch = WalkProbe.Pitch;
+            SetControlRotation(View);
+        }
+    }
+    // Falls: from the moment it leaves the floor to the moment it lands.
+    if (bFalling && !WalkProbe.bWasFalling) WalkProbe.FallStartZ = FeetZ;
+    if (!bFalling && WalkProbe.bWasFalling)
+    {
+        const double Drop = WalkProbe.FallStartZ - FeetZ;
+        WalkProbe.LongestFallCm = FMath::Max(WalkProbe.LongestFallCm, Drop);
+        UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE landed label=%s t=%.2f dropCm=%.1f feetZ=%.1f %s"),
+            *WalkProbe.Label, Elapsed, Drop, FeetZ, *Describe(Movement->CurrentFloor.HitResult));
+    }
+    WalkProbe.bWasFalling = bFalling;
+    if (!bFalling)
+    {
+        WalkProbe.MinFeetZ = FMath::Min(WalkProbe.MinFeetZ, FeetZ);
+        WalkProbe.MaxFeetZ = FMath::Max(WalkProbe.MaxFeetZ, FeetZ);
+    }
+    // Blocked: steering but not moving. Say what is in the way.
+    const double Speed2D = Walker->GetVelocity().Size2D();
+    WalkProbe.SlowSeconds = (bSteering && Speed2D < 10.0) ? WalkProbe.SlowSeconds + DeltaTime : 0.0;
+    if (WalkProbe.SlowSeconds > 1.5)
+    {
+        WalkProbe.SlowSeconds = 0.0;
+        ++WalkProbe.StuckEvents;
+        FHitResult Block;
+        FCollisionQueryParams Query(SCENE_QUERY_STAT(MikdashWalkProbe), false, Walker);
+        const FVector Ahead = Walker->GetActorForwardVector() * 150.0;
+        World->SweepSingleByChannel(Block, Position, Position + Ahead, FQuat::Identity, ECC_Pawn,
+            FCollisionShape::MakeCapsule(Walker->GetCapsuleComponent()->GetScaledCapsuleRadius(), HalfHeight), Query);
+        UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE stuck label=%s t=%.2f pos=%s blocking=%d at=%s normal=%s %s"),
+            *WalkProbe.Label, Elapsed, *Position.ToString(), Block.bBlockingHit ? 1 : 0, *Block.ImpactPoint.ToString(),
+            *Block.ImpactNormal.ToString(), *Describe(Block));
+        // Read-only capsule sweeps explain rejected step-ups without changing
+        // movement settings or moving the visitor to manufacture a pass.
+        if (WalkProbe.Label.StartsWith(TEXT("HaramAccess")))
+        {
+            const FCollisionShape Capsule = FCollisionShape::MakeCapsule(Walker->GetCapsuleComponent()->GetScaledCapsuleRadius(), HalfHeight);
+            const FVector Up = Position + FVector(0, 0, FMath::Max(0.f, Movement->MaxStepHeight - Movement->CurrentFloor.GetDistanceToFloor()));
+            const FVector Forward = Up + Walker->GetActorForwardVector() * 2.0;
+            auto Sweep = [&](const TCHAR* Phase, const FVector& From, const FVector& To)
+            {
+                FHitResult H;
+                World->SweepSingleByChannel(H, From, To, FQuat::Identity, ECC_Pawn, Capsule, Query);
+                const UPrimitiveComponent* C = H.GetComponent();
+                UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE stepcheck phase=%s blocking=%d penetrating=%d time=%.6f point=%s normal=%s walkable=%d stepPolicy=%d %s"),
+                    Phase, H.bBlockingHit ? 1 : 0, H.bStartPenetrating ? 1 : 0, H.Time, *H.ImpactPoint.ToString(),
+                    *H.ImpactNormal.ToString(), Movement->IsWalkable(H) ? 1 : 0, C ? static_cast<int32>(C->CanCharacterStepUpOn.GetValue()) : -1, *Describe(H));
+            };
+            Sweep(TEXT("up"), Position, Up);
+            Sweep(TEXT("forward"), Up, Forward);
+            Sweep(TEXT("down"), Forward, Forward-FVector(0,0,Movement->MaxStepHeight+5.f));
+            const UPrimitiveComponent* C = Block.GetComponent();
+            UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE floorcheck dist=%.6f line=%d normal=%s stepPolicy=%d canBase=%d"),
+                Movement->CurrentFloor.GetDistanceToFloor(), Movement->CurrentFloor.bLineTrace ? 1 : 0,
+                *Movement->CurrentFloor.HitResult.ImpactNormal.ToString(), C ? static_cast<int32>(C->CanCharacterStepUpOn.GetValue()) : -1,
+                Block.GetActor() && Block.GetActor()->CanBeBaseForCharacter(Walker) ? 1 : 0);
+        }
+        if (WalkProbe.StuckEvents >= 4 && WalkProbe.Next < WalkProbe.Waypoints.Num()) ++WalkProbe.Next;
+    }
+    ++WalkProbe.Samples;
+    if (bFalling) ++WalkProbe.FallingSamples;
+    if (WalkProbe.LastLog < 0.0 || Elapsed - WalkProbe.LastLog >= 0.5)
+    {
+        WalkProbe.LastLog = Elapsed;
+        UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE sample label=%s t=%.2f pos=%.1f,%.1f,%.1f feetZ=%.1f speed2D=%.1f velZ=%.1f mode=%d grounded=%d wp=%d/%d floorZ=%.1f %s"),
+            *WalkProbe.Label, Elapsed, Position.X, Position.Y, Position.Z, FeetZ, Speed2D, Walker->GetVelocity().Z,
+            static_cast<int32>(Movement->MovementMode.GetValue()), Movement->IsMovingOnGround() ? 1 : 0,
+            WalkProbe.Next, WalkProbe.Waypoints.Num(), Movement->CurrentFloor.HitResult.ImpactPoint.Z,
+            *Describe(Movement->CurrentFloor.HitResult));
+    }
+    const bool bFinished = WalkProbe.FinishedWaypointsAt >= 0.0 && Elapsed - WalkProbe.FinishedWaypointsAt > 3.0;
+    if (bFinished || Elapsed > WalkProbe.Timeout
+        || (WalkProbe.Waypoints.Num() == 0 && Elapsed > FMath::Min(WalkProbe.Timeout, 8.0)))
+    {
+        WalkProbe.bDone = true;
+        UE_LOG(LogTemp, Display, TEXT("MIKDASH_WALKPROBE done label=%s t=%.2f reached=%d/%d finalPos=%s finalFeetZ=%.1f groundedFeetZ=[%.1f..%.1f] longestFallCm=%.1f fallingSamples=%d/%d stuckEvents=%d grounded=%d %s"),
+            *WalkProbe.Label, Elapsed, WalkProbe.Next, WalkProbe.Waypoints.Num(), *Position.ToString(), FeetZ,
+            WalkProbe.MinFeetZ, WalkProbe.MaxFeetZ, WalkProbe.LongestFallCm, WalkProbe.FallingSamples, WalkProbe.Samples,
+            WalkProbe.StuckEvents, Movement->IsMovingOnGround() ? 1 : 0, *Describe(Movement->CurrentFloor.HitResult));
+    }
+}
+
+void AMikdashPlayerController::CyclePrecinctView()
+{
+    UWorld* World = GetWorld();
+    if (!World)
+    {
+        return;
+    }
+    int32 Cycled = 0;
+    for (TActorIterator<AMikdashEnclosure> It(World); It; ++It)
+    {
+        It->CyclePrecinctState();
+        ++Cycled;
+    }
+    if (Cycled == 0)
+    {
+        // The enclosure is placed by Scripts/release_enclosure.py; until that has run on
+        // this map the key does nothing, and saying so once beats a silent no-op.
+        static bool bWarned = false;
+        if (!bWarned)
+        {
+            bWarned = true;
+            UE_LOG(LogTemp, Log, TEXT("V pressed but no AMikdashEnclosure is in the level; run release_enclosure.py."));
+        }
+    }
+}
+
+void AMikdashPlayerController::InspectScenePixel(float U, float V)
+{
+    int32 Width = 0, Height = 0;
+    GetViewportSize(Width, Height);
+    FVector Start, Direction;
+    if (!GetWorld() || !FMath::IsFinite(U) || !FMath::IsFinite(V)
+        || U < 0 || U > 1 || V < 0 || V > 1 || Width <= 0 || Height <= 0
+        || !DeprojectScreenPositionToWorld(U * (Width - 1), V * (Height - 1), Start, Direction))
+    {
+        UE_LOG(LogTemp, Warning, TEXT("ScenePixelV1 refused invalid viewport or normalized coordinates"));
+        return;
+    }
+    const FVector End = Start + Direction * 10000.0;
+    UE_LOG(LogTemp, Display, TEXT("ScenePixelV1 ray u=%.6f v=%.6f viewport=%dx%d start=%s direction=%s rangeCm=10000"),
+        U, V, Width, Height, *Start.ToString(), *Direction.ToString());
+    for (bool bComplex : {false, true})
+    {
+        FCollisionQueryParams Query(SCENE_QUERY_STAT(MikdashScenePixel), bComplex, GetPawn());
+        Query.bReturnFaceIndex = true;
+        FHitResult Hit;
+        const bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Query);
+        UE_LOG(LogTemp, Display, TEXT("ScenePixelV1 collision complex=%d hit=%d actor=%s component=%s point=%s face=%d item=%d"),
+            bComplex, bHit, *GetPathNameSafe(Hit.GetActor()), *GetPathNameSafe(Hit.GetComponent()),
+            *Hit.ImpactPoint.ToString(), Hit.FaceIndex, Hit.Item);
+    }
+    struct FCandidate { UStaticMeshComponent* Component; double Time; };
+    TArray<FCandidate> Candidates;
+    for (TActorIterator<AActor> Actor(GetWorld()); Actor; ++Actor)
+    {
+        if (*Actor == GetPawn() || Actor->IsHidden()) continue;
+        TArray<UStaticMeshComponent*> Components;
+        Actor->GetComponents(Components);
+        for (UStaticMeshComponent* Component : Components)
+        {
+            if (!Component || !Component->IsRegistered() || !Component->IsVisible() || !Component->GetStaticMesh()) continue;
+            FVector Point, Normal;
+            float Time = 0;
+            if (FMath::LineExtentBoxIntersection(Component->Bounds.GetBox(), Start, End, FVector::ZeroVector, Point, Normal, Time))
+                Candidates.Add({Component, Time});
+        }
+    }
+    Candidates.Sort([](const FCandidate& A, const FCandidate& B) { return A.Time < B.Time; });
+    for (int32 Index = 0; Index < FMath::Min(Candidates.Num(), 24); ++Index)
+    {
+        UStaticMeshComponent* Component = Candidates[Index].Component;
+        UE_LOG(LogTemp, Display, TEXT("ScenePixelV1 bound rank=%d distanceCm=%.2f actor=%s component=%s mesh=%s material0=%s min=%s max=%s"),
+            Index, Candidates[Index].Time * 10000.0, *GetPathNameSafe(Component->GetOwner()), *Component->GetPathName(),
+            *GetPathNameSafe(Component->GetStaticMesh()), *GetPathNameSafe(Component->GetMaterial(0)),
+            *Component->Bounds.GetBox().Min.ToString(), *Component->Bounds.GetBox().Max.ToString());
+    }
+    UE_LOG(LogTemp, Display, TEXT("ScenePixelV1 complete candidates=%d reported=%d boundsAreNotTriangleHits=1"),
+        Candidates.Num(), FMath::Min(Candidates.Num(), 24));
+}
+
+#undef LOCTEXT_NAMESPACE

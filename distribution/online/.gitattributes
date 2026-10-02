@@ -88,3 +88,9 @@ runtime_candidate04/verify.py -text
 "runtime_candidate05/test_bootstrap_record.py" -text
 "runtime_candidate05/verify.py" -text
 "runtime_candidate05/allowlist-01.json" -text
+
+# Frozen interaction source/evidence; unified diff context lines intentionally contain one space.
+/runtime_interaction01/** -text
+/runtime_interaction01_evidence01/** -text
+/interaction_publication01/** -text
+/runtime_interaction01/review-overlay/interaction.patch whitespace=-blank-at-eol

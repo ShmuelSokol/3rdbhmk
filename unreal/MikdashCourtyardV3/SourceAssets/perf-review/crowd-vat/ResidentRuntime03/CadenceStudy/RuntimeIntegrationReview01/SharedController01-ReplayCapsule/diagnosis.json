@@ -1,0 +1,61 @@
+{
+  "status": "frozen_extraction_verified_legacy120_rejected",
+  "sourceFrozen": true,
+  "exact": {
+    "120": {
+      "checks": 19857820,
+      "failures": 0,
+      "walking": "12/12",
+      "exactCsv": 6
+    },
+    "600": {
+      "checks": 22760689,
+      "failures": 0,
+      "walking": "12/12",
+      "exactCsv": 6
+    }
+  },
+  "legacy": {
+    "120": {
+      "checks": 19863847,
+      "failures": 3,
+      "walking": "11/12"
+    },
+    "600": {
+      "checks": 22752495,
+      "failures": 0,
+      "walking": "12/12",
+      "faultCasesIncluded": false
+    }
+  },
+  "assertionDiagnosis": {
+    "label": "blocked or invalid recovery remains explicit without reset cycles",
+    "cases": "members2/budget17/seed; fault1 blocks recovery gate; fault2 NaN goal; fault3 out-of-domain goal",
+    "actualState": "Normal, entries0, completions0, steps0 for all three",
+    "watchdogSeconds": 7.15,
+    "longestNoMotionSeconds": 6.533333333333333,
+    "conclusion": "Conditional fault injection requires recovery entry. Continued normal movement never crosses watchdog by120s; this is fault activation/coverage failure, not evidence the injected invalid goals were accepted. Assertions remain failing and unchanged.",
+    "csvNamingCaveat": "safetyFailures is Failures-FailuresBefore, all assertion failures in row. Three increments are exactly the fault-state assertions. Log reports no physical spacing/yaw/membership assertion failures.",
+    "minSpacingCm": 80.01169778533296
+  },
+  "walkingDiagnosis": {
+    "case": "members3/budget48/seed",
+    "enteredSeconds": 55.5333333333,
+    "travellingFirstObservedSeconds": 121.1333333333,
+    "final120Phase": "Selecting initial regroup, completions0",
+    "leaderFinal30TravelCm": 591.252893779239,
+    "leaderFinal30IdleDwellSeconds": 20.6,
+    "leaderFinal120GoalDistanceCm": 101.55791836926186,
+    "settledFollowersWaitSeconds": [
+      23.2,
+      26.3666666667
+    ],
+    "conclusion": "Initial return/regroup completion is late. Settled followers hold the initial barrier and fail sustained final10s walking at120. At600 initial regroup completed; all12 walk. Do not erase120 failure or relax deadline."
+  },
+  "limitations": [
+    "No native/UBT/production adoption. Legacy experiment changes only group boundary formula; other runtime divergences persist.",
+    "600-second cases contain no fault cases; their zero failures do not retest the three120 fault activation failures.",
+    "Shared core is the scheduled recovery/travelling visit; observation/entry, commit/relocate, lifecycle and rendering remain adapter responsibilities.",
+    "Port-horizon and angular files outside this capsule are separate unfinished experiments, not part of frozen extraction."
+  ]
+}

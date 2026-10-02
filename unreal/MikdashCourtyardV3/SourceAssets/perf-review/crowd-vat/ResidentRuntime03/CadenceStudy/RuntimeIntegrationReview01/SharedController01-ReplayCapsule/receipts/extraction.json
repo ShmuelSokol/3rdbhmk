@@ -1,0 +1,13 @@
+{
+  "originalBodySha256": "0e7b3120ebe174dad2b99dde86d264b5f25873b2fb85d6bbe9453d0314367da8",
+  "transformation": "Reference aliases to adapter fields; nine outer scheduled-visitor continue statements replaced with return; arithmetic, ordering, decisions and safety gates unchanged.",
+  "adapterResponsibilities": [
+    "Own scheduled visit after live-segment return and commit/relocate",
+    "Supply common-time motion snapshots, idle/commit writes, world gate, reservation index and assertion sink",
+    "Observe actual motion and enter/drain episode; lifetime/reset/LOD outside extracted visit",
+    "No engine types or engine includes in shared header"
+  ],
+  "limitations": [
+    "Shared controller retains frozen hardcoded fixture policies. This exact replay is extraction proof, not runtime compatibility. Port constraints are separate and not mixed into this equivalence experiment."
+  ]
+}

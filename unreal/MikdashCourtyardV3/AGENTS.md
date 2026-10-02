@@ -5014,3 +5014,23 @@ the clone and its release-helper pin differs from the reviewed published helper.
 Do not copy the active release script wholesale: it contains unrelated changes.
 Resolve the precise dependency boundary and rerun the standalone publication test.
 No production map, mesh, packaged checkpoint or native module changed here.
+
+## Isolated cloth and shared crowd source checkpoint - 2 October 2026
+
+KohenClothExecutableV1 dependency revision3 isolates the identical reviewed mesh
+pipeline and constructs garments without full head assembly. The publication tree
+matches all12 remaining prerequisite hashes. Fresh clone verification passes19
+checks, then refuses29 absent historical preservation assets; cloth publication
+is held until that source-only dependency contract is resolved. The copied20-check
+receipt proves only the active-tree run. Matched control now uses the solver's own weights and deformer blend, density is explicit,
+and generated tether coverage/readback is required. This is an uncompiled isolated
+experiment, not simulated cloth acceptance. Publish only the41-file v3 allowlist
+plus itself and exact-byte attributes; compiler outputs and test scratch stay local.
+
+SharedController01-ReplayCapsule freezes the extracted controller and four test
+cases, including failures. Coordinator's fresh publication600s replay passes
+22,760,689 checks and all six CSVs match byte-for-byte. The shipping-formula120s
+case remains distinct: three injected-fault assertions never enter recovery;
+a separate three-member group finishes regrouping after121.13s, missing the120s
+walking criterion. Do not describe exact fixture replay as runtime adoption.
+Actual-horizon and continuous angular integration remain separate ongoing work.

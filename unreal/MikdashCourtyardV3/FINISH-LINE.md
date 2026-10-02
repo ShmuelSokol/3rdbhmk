@@ -2424,3 +2424,38 @@ not actual-character clearance. Follow-up traces distinguish short graph endpoin
 below executable clip distance from7.3s reversal pauses. Both remain open; the strict
 80cm-per-member/per-final-window criterion has not been loosened. No controller or
 production map was changed by these studies.
+
+## Cache-key refusal and tighter body bounds — 2 October 2026
+
+The reviewed cache-compatible02 runner made one bounded native attempt,
+angular-cache01. It refused a different complete WorldGrid key after19.975s;
+final observed elapsed21.276s, peak owned private memory1,981,878,272bytes.
+Cleanup and source preservation passed, changed files were empty, and the slot
+was released. No candidate Python receipt exists. This is a key incompatibility,
+not evidence of a cache miss or successful shader compilation. No retry is armed.
+The complete3,209,031-byte key differs only in its compilation-environment hash
+(_EMH_); project identity,132 early modules and246 plugin mounts now match.
+Saved scalability differs between the reference and attempted startup. Its exact
+contribution to _EMH_ remains under source investigation; production quality
+settings have not been changed. Raw native logs remain local.
+
+MeasuredResidentEnvelopes02 now uses the accepted idle-export02 pixels:192 idle
+and72 walk frames for both VAT variants and all six material slots. Producer
+recomputation gives combined radii54.23517/58.95127/63.66737cm at scales.92/1/1.08,
+including a.001cm arithmetic allowance. Negative lower Z is retained. Eighteen
+tests and126 input pins passed; independent review is pending. Idle UV2 mapping
+and Wrap addressing remain explicitly source-derived premises, not fresh native
+readbacks or cooked GPU proof. Actual-body controller integration is not adopted.
+
+The next crowd candidate, LateralConnector01, reports122/162 walking passes at120s
+and119/162 at600s. This still loses five/three previously passing cases and leaves
+40/43 valid failures. Independent replay and bounded failure diagnosis are pending;
+the strict per-member/per-window criterion and work caps remain unchanged. These
+results still use synthetic bodies and are not a clearance or runtime certificate.
+
+Online runtime_candidate04 adds source implementations for child-window rejection
+and a process-local stopped-streamer registry host. Its14 source checks passed,
+but the seven Slate assertions and UE compilation have not run. Independent review
+is pending; authenticated attachment, media activation and browser delivery remain
+unavailable. Candidate03 remains preserved on HOLD. No accepted map or playable
+checkpoint was replaced by these source studies.

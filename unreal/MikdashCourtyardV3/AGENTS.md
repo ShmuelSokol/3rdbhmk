@@ -4869,3 +4869,25 @@ process identity. Startup_verified is bounded startup, not visual, interaction,
 audio, route, bootstrap, or production-quality acceptance. 252 PowerShell fixture
 assertions pass without a production launch. Actual hidden-window/save isolation
 still requires a guarded packaged runtime check. No new package is claimed.
+
+
+## Independent online sessions: lifecycle core - 2 October 2026
+
+Publication distribution/online contains a reusable stdlib session authority,
+separate from the book website. Each visitor receives distinct process, stream,
+save/settings and credential identities; capacity, queue, reconnect and lifetime
+are bounded. Failed cleanup retains capacity rather than reassigning a still-owned
+process. Input is connection-bound, credentials rotate on attach, and diagnostics
+exclude secrets. All 55 adapter-contract tests pass, including concurrent admission,
+expiry/input races, partial-start cleanup and stale-owner refusal. These are tests
+with doubles: native/process and signaling adapters, browser controls, real
+independent sessions and external/mobile acceptance remain unimplemented. No
+sockets, native process, hosting spend or project-plugin configuration changed.
+The existing Windows checkpoint is unchanged. Do not present this core as an online
+walkthrough or a delivered URL.
+
+Independent review found stale lease times after slow adapter callbacks and an
+oversized-integer validation escape. V2 rechecks time after callbacks and rejects
+huge numeric inputs without OverflowError; 17 regression tests were added. The
+first online receipt is historical; receipt-time-validation-v2.json pins the
+corrected source. Native adapters and browser acceptance remain owed.

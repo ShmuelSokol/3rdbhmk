@@ -2372,3 +2372,27 @@ passes rise from 28 to 63/162 at 120 seconds and 28 to 61/162 at 600 seconds, wi
 no lost passing cases. Budget caps and criteria are unchanged, but total work
 increases; 99/101 valid failures remain. This newer candidate is not part of the
 frozen AngularFailClosed01 publication and is not adopted.
+
+## Shipping-aligned angular shader attempt — 2 October 2026
+
+The isolated runner was corrected to the actual packaged renderer readbacks:
+r.VelocityOutputPass=0 and r.Velocity.EnableVertexDeformation=2. Four existing
+packaged runtime logs support those values; this changes the review runner only,
+not the production renderer or accepted maps. Independent review checked all 21
+runner pins, 19 asset pairs, 12 shader-gate and 20 wrapper cases before launch.
+
+The single bounded attempt angular-shipping01 stopped at its deadline after
+294.597 seconds, peak owned memory 3,622,879,232 bytes. Cleanup and source
+preservation passed; the engine slot was released. The native log confirms both
+0/2 values but ends during High-priority FMicropolyRasterizeCS compilation with
+624 shader jobs remaining. No candidate Python receipt exists. This is unfinished
+startup, not a proven candidate compile, render or runtime acceptance. No automatic
+retry is armed. Local evidence stays under
+C:/Mikdash/Verification/angular-shipping02-20261002/runner/runs/angular-shipping01/compile.
+
+GoalRegionDiagnosis01 independently distinguishes another crowd failure: the
+planner rejects an obstructed exact goal center although its existing 25 cm
+arrival region contains a reachable endpoint. A 78 cm, eight-clip-segment witness
+passes local clearance; it does not prove sustained walking or actual mesh
+clearance. The next candidate must search that unchanged arrival region and keep
+all segment, budget and fresh-execution checks. Prior frozen results remain intact.

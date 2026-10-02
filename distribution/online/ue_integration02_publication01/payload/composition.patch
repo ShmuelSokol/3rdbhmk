@@ -1,0 +1,651 @@
+--- a/P/Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashDovePawn.cpp
++++ b/P/Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashDovePawn.cpp
+@@ -88,7 +88,8 @@
+ 
+ // ---------------------------------------------------------------- pawn
+ 
+-AMikdashDovePawn::AMikdashDovePawn()
++AMikdashDovePawn::AMikdashDovePawn(const FObjectInitializer& Init)
++    :Super(Init)
+ {
+     PrimaryActorTick.bCanEverTick = true;
+     AutoPossessAI = EAutoPossessAI::Disabled;
+--- a/P/Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashPlayerController.cpp
++++ b/P/Plugins/MikdashRuntime/Source/MikdashRuntime/Private/MikdashPlayerController.cpp
+@@ -1,4 +1,6 @@
+ #include "MikdashPlayerController.h"
++#include "Misc/ScopeExit.h"
++#include "Templates/UnrealTemplate.h"
+ #include "MikdashFrontEnd.h"
+ #include "MikdashCinematics.h"
+ #include "MikdashDovePawn.h"
+@@ -366,6 +368,8 @@
+     MenuDoveDeadline=GetWorld()->GetRealTimeSeconds()+3.0;
+ }
+ 
++UClass* AMikdashPlayerController::DoveClassForFlight() const { return AMikdashDovePawn::StaticClass(); }
++
+ void AMikdashPlayerController::ToggleDoveFlight()
+ {
+     if (!IsLocalController() || !GetWorld() || bMenuOpen || IsPaused()) return;
+@@ -373,6 +377,8 @@
+         if (Cinematics->IsPlaying()) Cinematics->SkipIntro();
+     if (IsMoveInputIgnored() || IsLookInputIgnored())
+     { DoveFlightStatus=TEXT("Flight is unavailable while another activity controls the view"); return; }
++    if (!BeginDoveTransition()) return;
++    ON_SCOPE_EXIT { EndDoveTransition(); };
+     bPendingMenuDove=false;
+     if (bDoveFlight)
+     {
+@@ -393,9 +399,10 @@
+     if (!Walker || !Walker->GetCharacterMovement()->IsMovingOnGround())
+     { DoveFlightStatus=TEXT("Stand on the ground before beginning dove flight"); return; }
+     FActorSpawnParameters Params;Params.Owner=this;Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+-    AMikdashDovePawn* Bird=GetWorld()->SpawnActor<AMikdashDovePawn>(AMikdashDovePawn::StaticClass(),
++    AMikdashDovePawn* Bird=GetWorld()->SpawnActor<AMikdashDovePawn>(DoveClassForFlight(),
+         Walker->GetActorLocation()+FVector(0,0,150),FRotator(0,GetControlRotation().Yaw,0),Params);
+     if (!Bird) { DoveFlightStatus=TEXT("No clear space above: step into an open area"); return; }
++    if (!AcceptDoveSpawn(Bird)) { Bird->Destroy();return; }
+     ParkedWalker=Walker;ParkedWalkLocation=Walker->GetActorLocation();ParkedControlRotation=GetControlRotation();
+     ParkedMovementMode=static_cast<uint8>(Walker->GetCharacterMovement()->MovementMode.GetValue());
+     ParkedCustomMovementMode=Walker->GetCharacterMovement()->CustomMovementMode;
+@@ -498,16 +505,57 @@
+ 
+ void AMikdashPlayerController::TalkToNearbyResident()
+ {
+-    if (!IsLocalController() || bMenuOpen || IsPaused() || bDoveFlight) return;
+-    UpdateResidentDialog();
+-    AMikdashResidentCharacter* Resident = TalkTarget.Get();
+-    if (!IsValid(Resident)) return;
+-    const int32 Lines = Resident->GetResidentDialogLineCount();
+-    if (Lines <= 0) return;
+-    if (!Conversation.PressTalk(static_cast<std::size_t>(Lines))) return;
+-    Resident->SetConversationHold(true, GetPawn() ? GetPawn()->GetActorLocation() : Resident->GetActorLocation());
+-    UE_LOG(LogTemp, Verbose, TEXT("MIKDASH_TALK resident=%s line=%d of %d"),
+-        *Resident->GetResidentId(), static_cast<int32>(Conversation.LineIndex()) + 1, Lines);
++    // Preserve the existing local Blueprint callable void API.
++    (void)TryTalkToNearbyResident([](){ return true; });
++}
++
++MikdashDialog::TalkOutcome AMikdashPlayerController::TryTalkToNearbyResident(const TFunction<bool()>& LastBranch)
++{
++    using MikdashDialog::TalkOutcome;
++    check(IsInGameThread());
++    if (bTalkAttemptActive || !LastBranch) return TalkOutcome::Rejected;
++    TGuardValue<bool> Attempt(bTalkAttemptActive, true);
++    const TWeakObjectPtr<AMikdashPlayerController> Self=this;
++    const TWeakObjectPtr<APawn> OriginalPawn=GetPawn();
++    const TWeakObjectPtr<UWorld> OriginalWorld=GetWorld();
++    const TWeakObjectPtr<UPlayerInput> OriginalInput=PlayerInput.Get();
++    auto SameContext=[&]()
++    {
++        if (!Self.IsValid() || !OriginalPawn.IsValid() || !OriginalWorld.IsValid()) return false;
++        return IsLocalController() && GetPawn()==OriginalPawn.Get() && OriginalPawn->GetController()==this &&
++            GetWorld()==OriginalWorld.Get() && OriginalPawn->GetWorld()==OriginalWorld.Get() &&
++            PlayerInput==OriginalInput.Get() && !bMenuOpen && !IsPaused() && !bDoveFlight;
++    };
++    if (!SameContext()) return TalkOutcome::Rejected;
++    UpdateResidentDialog(); // real scan/maintenance; may invoke resident movement code
++    if (!SameContext()) return TalkOutcome::Rejected;
++    const TWeakObjectPtr<AMikdashResidentCharacter> Resident=TalkTarget;
++    const bool HadResident=Resident.IsValid();
++    const int32 Lines=HadResident ? Resident->GetResidentDialogLineCount() : 0;
++    auto SameSelection=[&]()
++    {
++        return HadResident ? Resident.IsValid() && TalkTarget==Resident && Resident->GetWorld()==OriginalWorld.Get()
++                           : !TalkTarget.IsValid();
++    };
++    return MikdashDialog::PressTalkGuarded(Conversation, Lines>0 ? static_cast<std::size_t>(Lines) : 0,
++        [&]()
++        {
++            if (!SameContext() || !SameSelection()) return false;
++            if (!LastBranch()) return false; // actual remote Fence.Revalidate after scan
++            // The callback itself may pause, destroy or repossess. Only local
++            // identity/state reads follow it before the direct PressTalk call.
++            return SameContext() && SameSelection();
++        },
++        [&]()
++        {
++            Resident->SetConversationHold(true, OriginalPawn->GetActorLocation());
++            // A consumed press cannot honestly become Rejected if its callback
++            // changes ownership/pause state. Never undo or automatically replay.
++            if (!SameContext() || !SameSelection()) return false;
++            UE_LOG(LogTemp, Verbose, TEXT("MIKDASH_TALK resident=%s line=%d of %d"),
++                *Resident->GetResidentId(), static_cast<int32>(Conversation.LineIndex()) + 1, Lines);
++            return SameContext() && SameSelection();
++        });
+ }
+ 
+ void AMikdashPlayerController::CloseResidentDialog()
+--- a/P/Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashDovePawn.h
++++ b/P/Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashDovePawn.h
+@@ -45,7 +45,7 @@
+ {
+     GENERATED_BODY()
+ public:
+-    AMikdashDovePawn();
++    AMikdashDovePawn(const FObjectInitializer& Init=FObjectInitializer::Get());
+     virtual void BeginPlay() override;
+     virtual void Tick(float DeltaSeconds) override;
+     UFUNCTION(BlueprintCallable, Category="Dove") void SetFlightBoost(bool bBoost);
+--- a/P/Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashPlayerController.h
++++ b/P/Plugins/MikdashRuntime/Source/MikdashRuntime/Public/MikdashPlayerController.h
+@@ -5,6 +5,7 @@
+ #include "FootstepCadence.h"
+ #include "PreparationJourney.h"
+ #include "ResidentDialogState.h"
++#include "ResidentTalkAction.h"
+ #include "ResidentSimulation.h"
+ #include "MikdashPlayerController.generated.h"
+ 
+@@ -65,6 +66,8 @@
+     // mouse: it is a hit-test-invisible overlay under the pause menu, driven from the same
+     // key bindings the walkthrough already uses.
+     UFUNCTION(BlueprintCallable, Category="Residents") void TalkToNearbyResident();
++    // Native-only result API. No default authorization callback.
++    MikdashDialog::TalkOutcome TryTalkToNearbyResident(const TFunction<bool()>& LastBranch);
+     UFUNCTION(BlueprintCallable, Category="Residents") void CloseResidentDialog();
+     UFUNCTION(BlueprintPure, Category="Residents") bool IsResidentDialogOpen() const { return Conversation.IsTalking(); }
+     UFUNCTION(BlueprintPure, Category="Residents") bool IsTalkPromptVisible() const;
+@@ -79,6 +82,12 @@
+     /** Escape: close an open dialog panel first, otherwise reach the pause menu. */
+     void HandleEscapeKey();
+ 
++protected:
++    // Trusted native hooks; no Blueprint/network-provided class or ownership IDs.
++    virtual UClass* DoveClassForFlight() const;
++    virtual bool AcceptDoveSpawn(AMikdashDovePawn*) { return true; }
++    virtual bool BeginDoveTransition() { return true; }
++    virtual void EndDoveTransition() {}
+ private:
+     void HideVisitorTemplateHands();
+     UPROPERTY() TObjectPtr<AMikdashDovePawn> DovePawn;
+@@ -110,6 +119,7 @@
+     MikdashResidents::Simulation ResidentSimulation;
+     double ResidentClockSeconds = 0.0;
+ 
++    bool bTalkAttemptActive = false;
+     MikdashDialog::Conversation Conversation;
+     TWeakObjectPtr<AMikdashResidentCharacter> TalkTarget;
+     TArray<TWeakObjectPtr<AMikdashResidentCharacter>> KnownResidents;
+--- a/P/Receiver04Compile.uproject
++++ b/P/Receiver04Compile.uproject
+@@ -2,6 +2,35 @@
+   "FileVersion": 3,
+   "EngineAssociation": "5.8",
+   "DisableEnginePluginsByDefault": true,
+-  "Modules": [{"Name": "Receiver04Compile", "Type": "Runtime", "LoadingPhase": "Default"}],
+-  "Plugins": [{"Name": "MikdashRuntime", "Enabled": true}, {"Name": "PixelStreaming2", "Enabled": true}]
++  "Modules": [
++    {
++      "Name": "Receiver04Compile",
++      "Type": "Runtime",
++      "LoadingPhase": "Default"
++    }
++  ],
++  "Plugins": [
++    {
++      "Name": "MikdashRuntime",
++      "Enabled": true
++    },
++    {
++      "Name": "PixelStreaming2",
++      "Enabled": true
++    },
++    {
++      "Name": "PythonScriptPlugin",
++      "Enabled": true,
++      "TargetAllowList": [
++        "Editor"
++      ]
++    },
++    {
++      "Name": "EditorScriptingUtilities",
++      "Enabled": true,
++      "TargetAllowList": [
++        "Editor"
++      ]
++    }
++  ]
+ }
+--- a/P/Source/Receiver04Compile/Private/Native/receiver04/Authority.cpp
++++ b/P/Source/Receiver04Compile/Private/Native/receiver04/Authority.cpp
+@@ -4,6 +4,7 @@
+ Authority::Authority(const Receiver03::Bootstrap& B,uint64_t C,uint64_t P,TFunction<double()> InClock)
+     :Identity(B.Identity),Deadline(B.Deadline),Clock(MoveTemp(InClock)),
+      NativeContext{C,P,0},Mailbox(Deadline,[this](){return Now();}){
++    PawnSerial=P;
+     FMemory::Memcpy(Key,B.Key,sizeof(Key));
+     const double N=Now();Closed=!C||!P||N<0||!FMath::IsFinite(Deadline)||Deadline<=N||Deadline-N>86400||
+         !FMath::IsFinite(Identity.expires_at)||Deadline>Identity.expires_at;
+@@ -16,10 +17,12 @@
+ bool Authority::Receive(const TArray<uint8>& Frame,double AcceptedAt,TArray<uint8>& Immediate){
+     check(IsInGameThread());Immediate.Reset();
+     const double N=Now();
+-    if(Closed||N<0||!FMath::IsFinite(AcceptedAt)||AcceptedAt<0||AcceptedAt>N||N>=AcceptedAt+0.5)return false;
++    if(Possessing||Closed||N<0||!FMath::IsFinite(AcceptedAt)||AcceptedAt<0||AcceptedAt>N||N>=AcceptedAt+0.5)return false;
+     Packet P;if(!Receiver03::DecodeRequest(Frame,Key,P)||!(P.owner==Identity)||P.sequence<=Sequence)return false;
+     const bool Cleanup=P.operation=="release"||P.operation=="close";
+     if(Awaiting&&!Cleanup)return false;
++    if(NeedsRelease && !Cleanup)return false;
++    if(Generation>=9007199254740990ULL || NativeContext.generation>=9007199254740990ULL) { Abort();return false; }
+     ReplyUntil=FMath::Min(AcceptedAt+0.5,Deadline+(Cleanup?5:0));
+     const double Fresh=Now();if(Fresh<0||Fresh>=ReplyUntil)return false;
+     Sequence=P.sequence;
+@@ -31,13 +34,15 @@
+     if(P.operation=="open"&&!Opened&&P.connection_id.empty()){
+         Mailbox.Clear();Opened=true;
+     }else if(P.operation=="bind"&&Opened&&Connection.empty()&&!P.connection_id.empty()){
+-        NativeContext.generation=++Generation;
++        if(UsedConnections.size()>=256 || UsedConnections.count(P.connection_id)) { Abort();return false; }
++        UsedConnections.insert(P.connection_id);
++        ++Generation;++NativeContext.generation;
+         if(!Mailbox.Bind(NativeContext)){Abort();return false;}
+         Connection=P.connection_id;
+     }else if(P.operation=="release"&&(Connection.empty()||P.connection_id==Connection)){
+-        Mailbox.Clear();Connection.clear();++Generation;Awaiting=false;Waiting=Packet();
++        Mailbox.Clear();Connection.clear();++Generation;++NativeContext.generation;NeedsRelease=false;Awaiting=false;Waiting=Packet();
+     }else if(P.operation=="close"){
+-        Mailbox.Invalidate();Connection.clear();++Generation;Closed=true;Awaiting=false;Waiting=Packet();
++        Mailbox.Invalidate();Connection.clear();++Generation;++NativeContext.generation;Closed=true;Awaiting=false;Waiting=Packet();
+     }else{return false;}
+     const Consumption C{P.sequence,Generation,Outcome::Applied,Fresh};
+     return Encode(P,C,Immediate);
+@@ -48,7 +53,9 @@
+     if(!Awaiting)return false;
+     Consumption C;if(!Mailbox.Take(C))return false;
+     Awaiting=false;
+-    const bool Valid=C.sequence==Waiting.sequence&&C.generation==Generation&&Encode(Waiting,C,Out);
++    const bool NativeValid=C.sequence==Waiting.sequence&&C.generation==NativeContext.generation;
++    C.generation=Generation; // wire ACK contract remains release/bind/close +1 only
++    const bool Valid=NativeValid&&Encode(Waiting,C,Out);
+     Waiting=Packet();if(!Valid)Abort();return Valid;
+ }
+ void Authority::Maintain(){
+--- a/P/Source/Receiver04Compile/Private/Native/receiver04/Authority.h
++++ b/P/Source/Receiver04Compile/Private/Native/receiver04/Authority.h
+@@ -1,6 +1,7 @@
+ #pragma once
+ #include "../receiver03/Wire.h"
+ #include "SemanticMailbox.h"
++#include <set>
+ 
+ namespace MikdashOnline::Receiver04 {
+ // New receiver authority. Reuses ONLY frozen parser/HMAC/QPC, not enqueue-ACK
+@@ -17,6 +18,10 @@
+     std::string Connection;
+     uint64_t Sequence=0,Generation=0;
+     Packet Waiting;
++    bool Possessing=false,NeedsRelease=false;
++    uint64_t PawnSerial=0;
++    std::set<std::string> UsedConnections; // <=256 lifetime binds; no token recycling
++
+     double Now();
+     bool Encode(const Packet& P,const Consumption& C,TArray<uint8>& Out);
+ public:
+@@ -28,6 +33,9 @@
+     // true with EMPTY reply and remains pending until the real consumer runs.
+     bool Receive(const TArray<uint8>& Frame,double AcceptedAt,TArray<uint8>& Immediate);
+     bool PollReply(TArray<uint8>& Out);
++    // Trusted game-thread calls only. Never exposed as a wire operation.
++    bool BeginPossession();
++    bool FinishPossession();
+     void Maintain(); // every frame, including idle/no peer; closes at session expiry
+     SemanticMailbox& Consumers(){return Mailbox;}
+     Context BoundContext()const{return NativeContext;}
+--- a/P/Source/Receiver04Compile/Private/Native/receiver04/OnlineController.cpp
++++ b/P/Source/Receiver04Compile/Private/Native/receiver04/OnlineController.cpp
+@@ -1,4 +1,5 @@
+ #include "OnlineController.h"
++#include "../../runtime_interaction01/RemoteResidentInteraction.h"
+ #include "Camera/PlayerCameraManager.h"
+ #include "Camera/CameraModifier.h"
+ #include "Camera/CameraModifier_CameraShake.h"
+@@ -8,6 +9,7 @@
+ using namespace MikdashOnline::Receiver04;
+ bool AReceiver04Controller::ValidRemote(){
+     if(!Remote.IsValid())return false;
++    if(FlightTransition)return false;
+     if(!OwnedPawn.IsValid()||GetPawn()!=OwnedPawn.Get()||OwnedPawn->GetController()!=this||!IsLocalController()){
+         Remote->Abort();return false;
+     }
+@@ -15,7 +17,7 @@
+ }
+ bool AReceiver04Controller::ConfigureRemote(TSharedPtr<Authority> S,TFunction<bool()> Settings,
+     TFunction<Outcome(const SemanticMailbox::Fence&)> Interact,double Degrees){
+-    if(Remote.IsValid()||!S.IsValid()||!IsValid(GetPawn())||!IsLocalController()||!PlayerInput||
++    if(!SupportedInitialWalker()||Remote.IsValid()||!S.IsValid()||!IsValid(GetPawn())||!IsLocalController()||!PlayerInput||
+        !Settings||!FMath::IsFinite(Degrees)||Degrees<=0||Degrees>180)return false;
+     Remote=MoveTemp(S);OwnedPawn=GetPawn();SettingsOwned=MoveTemp(Settings);
+     ConsumeInteract=MoveTemp(Interact);LookDegrees=Degrees;return true;
+@@ -37,10 +39,9 @@
+                 const bool Before=IsSoundMuted();ToggleSound();
+                 return Before!=IsSoundMuted()?Outcome::Applied:Outcome::NoOp;
+             }
+-            if(Action=="interact"&&ConsumeInteract){
+-                // Callback must perform its own last-branch check if it scans or
+-                // blocks before changing dialog state, and return an explicit outcome.
+-                return ConsumeInteract(Fence);
++            if(Action=="interact"){
++                // Explicit project consumption API; never infer Applied from void.
++                return MikdashOnline::Interaction01::ConsumeResidentInteraction(*this,Remote.ToSharedRef(),Fence);
+             }
+             return Outcome::Rejected;
+         });
+@@ -79,5 +80,5 @@
+ }
+ void AReceiver04Controller::EndPlay(const EEndPlayReason::Type Reason){
+     if(Remote.IsValid())Remote->Abort();
+-    Remote.Reset();Super::EndPlay(Reason);
++    DetachRemoteMovement();Remote.Reset();Super::EndPlay(Reason);
+ }
+--- a/P/Source/Receiver04Compile/Private/Native/receiver04/OnlineController.h
++++ b/P/Source/Receiver04Compile/Private/Native/receiver04/OnlineController.h
+@@ -16,7 +16,20 @@
+     TFunction<MikdashOnline::Receiver04::Outcome(const MikdashOnline::Receiver04::SemanticMailbox::Fence&)> ConsumeInteract;
+     double LookDegrees=0;
+     bool ValidRemote();
++    bool FlightTransition=false;
++    TWeakObjectPtr<APawn> FlightWalker,FlightDove;
++    bool SupportedInitialWalker() const;
++    void DetachRemoteMovement();
++protected:
++    virtual UClass* DoveClassForFlight() const override;
++    virtual bool AcceptDoveSpawn(AMikdashDovePawn* P) override;
++    virtual bool BeginDoveTransition() override;
++    virtual void EndDoveTransition() override;
+ public:
++    bool RemotePossessionCurrent() const;
++    uint64_t RemotePossessionGeneration() const { return Remote.IsValid()?Remote->BoundContext().generation:0; }
++    virtual void OnPossess(APawn* P) override;
++    virtual void OnUnPossess() override;
+     bool ConfigureRemote(TSharedPtr<MikdashOnline::Receiver04::Authority> Service,
+         TFunction<bool()> SettingsOwnership,TFunction<MikdashOnline::Receiver04::Outcome(const MikdashOnline::Receiver04::SemanticMailbox::Fence&)> Interact,
+         double DegreesPerNormalizedUnit);
+--- a/P/Source/Receiver04Compile/Private/Native/receiver04/OnlineMovement.cpp
++++ b/P/Source/Receiver04Compile/Private/Native/receiver04/OnlineMovement.cpp
+@@ -3,6 +3,7 @@
+ #include "GameFramework/Character.h"
+ #include "Engine/World.h"
+ #include "CollisionQueryParams.h"
++#include "Components/SceneComponent.h"
+ 
+ using namespace MikdashOnline::Receiver04;
+ namespace {
+@@ -22,6 +23,7 @@
+     return Remote.IsValid()&&OwnedPawn.Get()==CharacterOwner&&SameOwner(OwnedController.Get(),OwnedPawn.Get());
+ }
+ bool UReceiver04WalkerMovement::ConfigureRemote(TSharedPtr<Authority> S,APlayerController* C){
++    if(GetClass()!=UReceiver04WalkerMovement::StaticClass())return false;
+     if(Remote.IsValid()||!S.IsValid()||!SameOwner(C,CharacterOwner)||CharacterMovementCVars::AsyncCharacterMovement!=0)return false;
+     Remote=MoveTemp(S);OwnedController=C;OwnedPawn=CharacterOwner;return true;
+ }
+@@ -31,44 +33,78 @@
+     Super::BuildAsyncInput(); // normal LOCAL behavior is preserved
+ }
+ void UReceiver04WalkerMovement::ControlledCharacterMove(const FVector& Local,float Dt){
+-    if(!Remote.IsValid()){Super::ControlledCharacterMove(Local,Dt);return;}
+-    if(!HasValidData()||!FMath::IsFinite(Dt)||Dt<0){Remote->Abort();return;}
+-    // Perform jump work BEFORE authorizing remote acceleration; a jump callback
+-    // can stall or replace possession. This mirrors the engine ordering without
+-    // passing remote data into the earlier ConsumeInputVector/skipped-tick path.
+-    CharacterOwner->CheckJumpInput(Dt);
+-    if(!HasValidData()){Remote->Abort();return;}
+-    FVector Effective=Local;
++    const TSharedPtr<Authority> Service=Remote; // survives synchronous DetachRemote
++    if(!Service.IsValid()){Super::ControlledCharacterMove(Local,Dt);return;}
++    const TWeakObjectPtr<UReceiver04WalkerMovement> Self(this);
++    const auto Controller=OwnedController;
++    const auto Pawn=OwnedPawn;
++    const TWeakObjectPtr<USceneComponent> Component=UpdatedComponent;
++    const TWeakObjectPtr<UWorld> World=GetWorld();
++    const Context Incarnation=Service->BoundContext();
++    auto SameBinding=[&](){
++        auto* M=Self.Get();
++        return M && M->Remote==Service && !Service->IsClosed() &&
++            Service->BoundContext()==Incarnation && Controller.IsValid() && Pawn.IsValid() &&
++            M->OwnedController==Controller && M->OwnedPawn==Pawn &&
++            M->CharacterOwner==Pawn.Get() && Component.IsValid() && M->UpdatedComponent==Component.Get() &&
++            World.IsValid() && M->GetWorld()==World.Get() && SameOwner(Controller.Get(),Pawn.Get());
++    };
++    auto Refuse=[&](){Service->Abort();};
++    Service->Maintain();
++    if(!SameBinding()||!HasValidData()||!FMath::IsFinite(Dt)||Dt<0||Local.ContainsNaN()||
++       CharacterMovementCVars::AsyncCharacterMovement!=0){Refuse();return;}
++    CharacterOwner->CheckJumpInput(Dt); // OnJumped may UnPossess and reset Remote
++    Service->Maintain();
++    if(!SameBinding()||!HasValidData()){Refuse();return;}
+     bool AccelerationConsumed=false;
+-    if(!ValidRemote()||CharacterMovementCVars::AsyncCharacterMovement!=0)Remote->Abort();
+-    else Remote->Consumers().ConsumeMovement(Remote->BoundContext(),Paused(OwnedController.Get()),
++    Service->Consumers().ConsumeMovement(Incarnation,Paused(Controller.Get()),
+         [&](double X,double Y,double)->Outcome{
+-            const auto Fence=Remote->Consumers().CurrentMovementFence();
+-            const FVector Candidate=(Local+Direction(OwnedController.Get(),X,Y)).GetClampedToMaxSize(1);
+-            const FVector CandidateAcceleration=ScaleInputAcceleration(ConstrainInputAcceleration(Candidate));
+-            if(!ValidRemote()||Paused(OwnedController.Get())||!Remote->Consumers().Revalidate(Fence)){
+-                Remote->Consumers().PauseMotion();return Outcome::Rejected;
++            if(!SameBinding()){Refuse();return Outcome::Rejected;}
++            const auto Fence=Service->Consumers().CurrentMovementFence();
++            const FVector Candidate=(Local+Direction(Controller.Get(),X,Y)).GetClampedToMaxSize(1);
++            if(!SameBinding()){Refuse();return Outcome::Rejected;}
++            const FVector Constrained=ConstrainInputAcceleration(Candidate);
++            if(!SameBinding()){Refuse();return Outcome::Rejected;}
++            const FVector Scaled=ScaleInputAcceleration(Constrained);
++            if(!SameBinding()){Refuse();return Outcome::Rejected;}
++            const float MaxAccel=GetMaxAcceleration();
++            // No acceleration write before callback-capable calculations finish.
++            if(!SameBinding()){Refuse();return Outcome::Rejected;}
++            if(Paused(Controller.Get())||!Service->Consumers().Revalidate(Fence)){
++                Service->Consumers().PauseMotion();return Outcome::Rejected;
+             }
+-            // This is semantic acceleration consumption, not a promise that
+-            // physics/collision completes before expiry.
+-            Acceleration=CandidateAcceleration;
+-            AnalogInputModifier=ComputeAnalogInputModifier();
++            if(!SameBinding()){Refuse();return Outcome::Rejected;}
++            // Stock ComputeAnalogInputModifier arithmetic, no second virtual call
++            // after mutating Acceleration. Custom movement classes are refused.
++            const float Analog=(Scaled.SizeSquared()>0.f&&MaxAccel>UE_SMALL_NUMBER)?
++                float(FMath::Clamp<FVector::FReal>(Scaled.Size()/MaxAccel,0.f,1.f)):0.f;
++            Acceleration=Scaled;AnalogInputModifier=Analog;
+             AccelerationConsumed=true;return Outcome::Applied;
+         });
+-    // The local path must still evaluate if the remote command was not consumed.
+-    // Local acceleration preserves normal virtual constrain/scale behavior when
+-    // remote expires or possession becomes invalid.
++    Service->Maintain();
++    if(!SameBinding()||!HasValidData()){Refuse();return;}
+     if(!AccelerationConsumed){
+-        Acceleration=ScaleInputAcceleration(ConstrainInputAcceleration(Effective));
+-        AnalogInputModifier=ComputeAnalogInputModifier();
++        const FVector Constrained=ConstrainInputAcceleration(Local);
++        if(!SameBinding()){Refuse();return;}
++        const FVector Scaled=ScaleInputAcceleration(Constrained);
++        if(!SameBinding()){Refuse();return;}
++        const float MaxAccel=GetMaxAcceleration();
++        if(!SameBinding()){Refuse();return;}
++        const float Analog=(Scaled.SizeSquared()>0.f&&MaxAccel>UE_SMALL_NUMBER)?
++            float(FMath::Clamp<FVector::FReal>(Scaled.Size()/MaxAccel,0.f,1.f)):0.f;
++        Acceleration=Scaled;AnalogInputModifier=Analog;
+     }
++    Service->Maintain();
++    if(!SameBinding()||!HasValidData()){Refuse();return;}
+     if(CharacterOwner->GetLocalRole()==ROLE_Authority)PerformMovement(Dt);
+     else if(CharacterOwner->GetLocalRole()==ROLE_AutonomousProxy&&IsNetMode(NM_Client))ReplicateMoveToServer(Dt,Acceleration);
++    // No member/remote access after these callback-capable physics calls.
+ }
+ bool UReceiver04DoveMovement::ValidRemote()const{
+     return Remote.IsValid()&&OwnedPawn.Get()==PawnOwner&&SameOwner(OwnedController.Get(),OwnedPawn.Get());
+ }
+ bool UReceiver04DoveMovement::ConfigureRemote(TSharedPtr<Authority> S,APlayerController* C){
++    if(GetClass()!=UReceiver04DoveMovement::StaticClass())return false;
+     if(Remote.IsValid()||!S.IsValid()||!SameOwner(C,PawnOwner))return false;
+     Remote=MoveTemp(S);OwnedController=C;OwnedPawn=PawnOwner;return true;
+ }
+@@ -90,46 +126,69 @@
+     return Out;
+ }
+ void UReceiver04DoveMovement::Commit(const Shaped& Input,float Dt){
+-    // Vector-taking form of the installed floating-movement acceleration policy:
+-    // steering boost, braking, analog speed limit, acceleration and overspeed
+-    // preservation. Never write the remote vector to shared pawn pending input.
+-    EvaluatedScale=Input.Scale;EvaluatedSliding=Input.Sliding;
++    // Exact native class only. No virtual GetMaxSpeed/IsExceedingMaxSpeed calls:
++    // calculate into locals, then commit once without intervening callbacks.
+     const FVector Control=Input.Direction.GetClampedToMaxSize(1);
+-    const double Analog=Control.Size(),Limit=GetMaxSpeed()*Analog;
+-    const bool Overspeed=IsExceedingMaxSpeed(Limit);
++    const double Analog=Control.Size(),Limit=MaxSpeed*Input.Scale*Analog;
++    FVector Next=Velocity;
++    // Match IsExceedingMaxSpeed's float parameter/threshold rounding as well.
++    const float LimitSquared=FMath::Square(FMath::Max(0.f,float(Limit)))*1.01f;
++    const bool Overspeed=Next.SizeSquared()>LimitSquared;
+     if(Analog>0&&!Overspeed){
+-        if(Velocity.SizeSquared()>0)Velocity=FMath::Lerp(Velocity,Control*Velocity.Size(),FMath::Clamp(Dt*TurningBoost,0.f,1.f));
+-    }else if(Velocity.SizeSquared()>0){
+-        const FVector Before=Velocity;
+-        Velocity=Velocity.GetSafeNormal()*FMath::Max(Velocity.Size()-FMath::Abs(Deceleration)*Dt,0.0);
+-        if(Overspeed&&Velocity.SizeSquared()<Limit*Limit)Velocity=Before.GetSafeNormal()*Limit;
++        if(Next.SizeSquared()>0)Next=FMath::Lerp(Next,Control*Next.Size(),FMath::Clamp(Dt*TurningBoost,0.f,1.f));
++    }else if(Next.SizeSquared()>0){
++        const FVector Before=Next;
++        Next=Next.GetSafeNormal()*FMath::Max(Next.Size()-FMath::Abs(Deceleration)*Dt,0.0);
++        if(Overspeed&&Next.SizeSquared()<Limit*Limit)Next=Before.GetSafeNormal()*Limit;
+     }
+-    const double Ceiling=IsExceedingMaxSpeed(Limit)?Velocity.Size():Limit;
+-    Velocity=(Velocity+Control*FMath::Abs(Acceleration)*Dt).GetClampedToMaxSize(Ceiling);
++    const double Ceiling=(Next.SizeSquared()>LimitSquared)?Next.Size():Limit;
++    Next=(Next+Control*FMath::Abs(Acceleration)*Dt).GetClampedToMaxSize(Ceiling);
++    EvaluatedScale=Input.Scale;EvaluatedSliding=Input.Sliding;Velocity=Next;
+ }
+ void UReceiver04DoveMovement::ApplyControlInputToVelocity(float Dt){
+-    if(!Remote.IsValid()){Super::ApplyControlInputToVelocity(Dt);return;}
+-    if(!UpdatedComponent||!PawnOwner||!GetWorld()||!FMath::IsFinite(Dt)||Dt<0){Remote->Abort();return;}
+-    // Consume normal local bookkeeping ONCE. Its return is local only and is
+-    // never an acknowledgment point for remote input.
++    const TSharedPtr<Authority> Service=Remote;
++    if(!Service.IsValid()){Super::ApplyControlInputToVelocity(Dt);return;}
++    const TWeakObjectPtr<UReceiver04DoveMovement> Self(this);
++    const auto Controller=OwnedController;
++    const auto Pawn=OwnedPawn;
++    const TWeakObjectPtr<USceneComponent> Component=UpdatedComponent;
++    const TWeakObjectPtr<UWorld> World=GetWorld();
++    const Context Incarnation=Service->BoundContext();
++    auto SameBinding=[&](){
++        auto* M=Self.Get();
++        return M && M->Remote==Service && !Service->IsClosed() &&
++            Service->BoundContext()==Incarnation && Controller.IsValid() && Pawn.IsValid() &&
++            M->OwnedController==Controller && M->OwnedPawn==Pawn && M->PawnOwner==Pawn.Get() &&
++            Component.IsValid() && M->UpdatedComponent==Component.Get() &&
++            World.IsValid() && M->GetWorld()==World.Get() && SameOwner(Controller.Get(),Pawn.Get());
++    };
++    auto Refuse=[&](){Service->Abort();};
++    Service->Maintain();
++    if(!SameBinding()||!FMath::IsFinite(Dt)||Dt<0){Refuse();return;}
+     const FVector Local=UPawnMovementComponent::ConsumeInputVector();
++    if(!SameBinding()||Local.ContainsNaN()){Refuse();return;}
+     bool Committed=false;
+-    if(!ValidRemote())Remote->Abort();
+-    else Remote->Consumers().ConsumeMovement(Remote->BoundContext(),Paused(OwnedController.Get()),
++    Service->Consumers().ConsumeMovement(Incarnation,Paused(Controller.Get()),
+         [&](double X,double Y,double)->Outcome{
+-            const auto Fence=Remote->Consumers().CurrentMovementFence();
+-            const Shaped Candidate=Shape(Local+Direction(OwnedController.Get(),X,Y));
+-            // Collision sweep may stall. Discard EVERYTHING derived from its
+-            // remote vector on expiry: direction, speed scale AND sliding state.
+-            if(!ValidRemote()||Paused(OwnedController.Get())||!Remote->Consumers().Revalidate(Fence)){
+-                Remote->Consumers().PauseMotion();return Outcome::Rejected;
++            if(!SameBinding()){Refuse();return Outcome::Rejected;}
++            const auto Fence=Service->Consumers().CurrentMovementFence();
++            const FVector Input=Local+Direction(Controller.Get(),X,Y);
++            if(!SameBinding()){Refuse();return Outcome::Rejected;}
++            const Shaped Candidate=Shape(Input); // real sweep may detach/destroy/repossess
++            if(!SameBinding()){Refuse();return Outcome::Rejected;}
++            if(Paused(Controller.Get())||!Service->Consumers().Revalidate(Fence)){
++                Service->Consumers().PauseMotion();return Outcome::Rejected;
+             }
+-            Commit(Candidate,Dt);Committed=true;return Outcome::Applied;
++            if(!SameBinding()){Refuse();return Outcome::Rejected;}
++            Commit(Candidate,Dt); // callback-free arithmetic after the final fence
++            Committed=true;return Outcome::Applied;
+         });
+-    if(!Committed&&UpdatedComponent&&PawnOwner&&GetWorld()){
+-        // Exactly one bounded local/coasting recomputation, never a retry of the
+-        // remote command and never reuse Candidate's obstacle/speed information.
++    Service->Maintain();
++    if(!SameBinding()){Refuse();return;}
++    if(!Committed){
+         const Shaped Fallback=Shape(Local);
+-        if(UpdatedComponent&&PawnOwner&&GetWorld())Commit(Fallback,Dt);
++        Service->Maintain();
++        if(!SameBinding()){Refuse();return;}
++        Commit(Fallback,Dt);
+     }
+ }
+--- a/P/Source/Receiver04Compile/Private/Native/receiver04/OnlineMovement.h
++++ b/P/Source/Receiver04Compile/Private/Native/receiver04/OnlineMovement.h
+@@ -14,6 +14,10 @@
+     TWeakObjectPtr<APawn> OwnedPawn;
+     bool ValidRemote() const;
+ public:
++    void DetachRemote() {
++        if(Remote.IsValid()) Remote->Consumers().PauseMotion();
++        Remote.Reset();OwnedController.Reset();OwnedPawn.Reset();
++    }
+     bool ConfigureRemote(TSharedPtr<MikdashOnline::Receiver04::Authority> Service,APlayerController* Controller);
+     virtual void ControlledCharacterMove(const FVector& Local,float DeltaSeconds) override;
+     virtual void BuildAsyncInput() override;
+@@ -32,6 +36,10 @@
+     Shaped Shape(const FVector& Input) const;
+     void Commit(const Shaped& Input,float DeltaSeconds);
+ public:
++    void DetachRemote() {
++        if(Remote.IsValid()) Remote->Consumers().PauseMotion();
++        Remote.Reset();OwnedController.Reset();OwnedPawn.Reset();EvaluatedScale=1;EvaluatedSliding=false;
++    }
+     bool ConfigureRemote(TSharedPtr<MikdashOnline::Receiver04::Authority> Service,APlayerController* Controller);
+     virtual void ApplyControlInputToVelocity(float DeltaSeconds) override;
+     virtual float GetMaxSpeed() const override{return Remote.IsValid()?MaxSpeed*EvaluatedScale:Super::GetMaxSpeed();}
+--- a/P/Source/Receiver04Compile/Private/runtime_candidate04/RegistryHost.cpp
++++ b/P/Source/Receiver04Compile/Private/runtime_candidate04/RegistryHost.cpp
+@@ -17,6 +17,7 @@
+     FRegistryHost::State Phase=FRegistryHost::State::WaitingForModule;
+     bool AdmissionUsed=false,Busy=false,Closing=false;
+     double AdmissionEnd=0,Last=-1;
++    uint64_t PossessionGeneration=0;
+     Owner Identity;
+     IPixelStreaming2Module* Module=nullptr;
+     TSharedPtr<FOwner> Owned;
+@@ -61,10 +62,19 @@
+         return;
+     }
+     if(Host->Phase!=FRegistryHost::State::StoppedReady) return;
++    // Only the authenticated controller may advance a real flight incarnation.
++    // Stopped/unattached local possession still shuts down as before.
++    if(Host->Controller.IsValid() && Host->Controller->GetPawn()!=Host->Pawn.Get() &&
++       Host->Controller->RemotePossessionCurrent() &&
++       Host->Controller->RemotePossessionGeneration()>Host->PossessionGeneration) {
++        Host->Pawn=Host->Controller->GetPawn();
++        Host->PossessionGeneration=Host->Controller->RemotePossessionGeneration();
++    }
+     // Observe each frame without mutating any foreign registry entry or streamer.
+     if(!RegistryExclusive()||!Host->Controller.IsValid()||!Host->Pawn.IsValid()||
+        Host->Controller->GetPawn()!=Host->Pawn.Get()||!Host->Controller->PlayerInput||
+-       Host->Controller->GetWorld()!=Host->World.Get()) {
++       Host->Controller->GetWorld()!=Host->World.Get()||
++       (Host->Controller->RemotePossessionGeneration()!=0 && !Host->Controller->RemotePossessionCurrent())) {
+         FRegistryHost::Shutdown(); return;
+     }
+     Host->Busy=true;
+--- a/P/Source/Receiver04Compile/Receiver04Compile.Build.cs
++++ b/P/Source/Receiver04Compile/Receiver04Compile.Build.cs
+@@ -9,7 +9,7 @@
+         bUseUnity = false;
+         PrivateDependencyModuleNames.AddRange(new[] {
+             "Core", "CoreUObject", "Engine", "InputCore", "ApplicationCore",
+-            "InputDevice", "Slate", "SlateCore", "Json", "Sockets",
++            "InputDevice", "Slate", "SlateCore", "Json", "Sockets", "PlatformFeatures",
+             "MikdashRuntime", "PixelStreaming2", "PixelStreaming2Core", "PixelStreaming2Input"
+         });
+         PublicSystemLibraries.Add("bcrypt.lib");

@@ -1,0 +1,13 @@
+{
+  "proposedRepositoryDirectory": "distribution/online/ue_integration02_publication01",
+  "files": "Exact outer allowlist only; coordinator owns copy/gates/commit.",
+  "replay": [
+    "python -I -B verify.py --expect-manifest OUTER_ALLOWLIST_SHA256",
+    "python -I -B export.py --repo REPOSITORY --destination FRESH_DESTINATION --manifest f3878732e819849c1c0ffa9394830a02462464ad202b3a8c609f9f4de0e6047a",
+    "Inside fresh destination: python -I -B stage.py --expect-manifest ab4639326b144810519655369e52570dcc870fe03cea5141a6f9ce226b2db2af",
+    "Inside fresh destination: python -I -B source_checks.py",
+    "Inside fresh destination: powershell -NoProfile -File Test-Deadline.ps1"
+  ],
+  "READMEProposal": "Exported review/README-update.json pins exact current/proposed distribution/online/README.md. Apply chosen contexts only if current hash matches; otherwise rebase targeted edits. Never copy active README wholesale.",
+  "native": "Separate coordinator assignment, exclusive slot and unchanged guard9/4/2 required. No native authorization conveyed."
+}

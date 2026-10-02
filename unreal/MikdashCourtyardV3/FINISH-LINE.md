@@ -2527,3 +2527,51 @@ in the accepted post-S5 close-up. Bark shader repair remains accepted; a new
 continuous-junction mesh must preserve foliage/root/crown and pass independent
 topology and matched visual review before any native replacement. No maps,
 materials, accepted mesh assets or packaged executables changed.
+
+## Morning integration checkpoint — 2 October 2026
+
+Published source checkpoints: 8ed767d41 (tree-fork diagnosis), cecb4a0a4
+(reviewed Unreal/browser integration source), and 72144e635 (private settings
+lease and session allocator source). These are NOT new playable releases.
+Checkpoint-visitor-hands01-20260919T072356Z remains the last verified playable
+checkpoint. The accepted S5 Haram layout and both production maps are preserved.
+
+Browser readiness01 independently passes 26 offline tests and 24 actual Windows
+host checks, with four cleanup checks. The Windows fixture uses a Python child:
+it does not execute Unreal ReadyOutput or RegistryHost. A stopped-session ACK
+does not permit authenticated stream activation. Next integration work adopts
+the already-parsed bootstrap in the real receiver without adding a second stdin
+reader; UE compilation and actual media/browser acceptance remain outstanding.
+Independent receipts: Verification/readiness01-independent-offline.json and
+Verification/readiness01-windows-independent-mklp8_9a/receipt.json, under C:/Mikdash.
+
+StreetTreeForkCollarV1 Run03 removes the disconnected cap shelves and reduces
+the experimental bark cost from Run02's 5252 triangles to 3248. Including the
+unchanged foliage, 5888 original triangles become 6200 (+5.3%). This remains
+an offline prototype: the coordinator's matched preview inspection confirms
+obvious bark grain/scale seams at the new collar charts. HOLD, not adoption.
+Independent saved-artifact replay passes seven tests and both adjacent and
+nonadjacent intersection audits, with all frozen hashes unchanged. These are
+floating-point checks, not exact-predicate certification or runtime proof.
+Branch-aware UV/tangent continuity comes next; the production tree mesh and
+approved textures remain unchanged.
+
+CornerHold02's synthetic crowd passes the weak 80cm-per-ten-second liveness
+criterion but still pauses for up to 6.63 seconds. That is not natural walking
+acceptance. The follow-up measures moving speed, duty cycle, route progress and
+hold causes while preserving the original itinerary, spacing and work budgets.
+It must not replace the requested route with an easier rolling destination.
+
+The frozen KohenBothLayerDrapeV1 deformation remains rejected: fixed posed pins
+conflict with rest edge lengths, and contact projection can reintroduce stretch
+and push cloth toward the wrong side of a foot. The additive V2 work addresses
+support constraints and contact history jointly, keeping the approved body/head
+and garment dimensions. Both garment layers and all 144 ornaments need clearance;
+flatter hems alone are not acceptance.
+
+ConservativeCookedTransform04 has independent standalone arithmetic evidence,
+including DAZ/FTZ handling. Its UE compiler/physics integration is unproved.
+Cooked geometry lifetime, shared vertex identity, complete shape enumeration and
+support-versus-obstacle separation must be established before runtime adoption.
+Memory entry guards remain unchanged; no engine job is authorized by a source
+test or by the availability of a new prototype.

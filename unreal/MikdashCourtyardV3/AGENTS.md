@@ -5053,3 +5053,10 @@ Independent AngularVATStudy01 source review passes4879 generated-graph assertion
 previous-frame WPO reconstruction and translation-gate ordering. This is preparation
 for isolated shader compilation/rendered motion proof, not crowd visual acceptance.
 Production maps, runtime modules and the preserved playable checkpoint are unchanged.
+
+Cloth V4 checkout reproducibility: three prerequisite scripts now require CRLF
+working bytes explicitly. measure_kohen_garment_clearance.py has395 CRLF and80 LF
+lines, so preserve its mixed bytes with -text; forcing CRLF changes its pinned hash.
+Its LF-normalized content equals the previous committed source exactly. A fresh
+checkout-index with core.autocrlf=false reproduces all12 prerequisite hashes.
+Do not rely on the developer's autocrlf setting for receipt reproducibility.

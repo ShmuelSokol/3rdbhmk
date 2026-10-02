@@ -34,3 +34,9 @@ study_kohen_cloth_exec_verify.py -text
 study_kohen_cloth_parts.py -text
 study_kohen_cloth_preflight.py -text
 study_kohen_hem_diagnose.py -text
+
+# Cloth V4 prerequisite receipts require exact working bytes.
+create_pilgrim_v3.py text eol=crlf
+measure_kohen_garment_clearance.py -text whitespace=cr-at-eol
+measure_pilgrim_walk.py text eol=crlf
+pilgrim_walk_v2.py text eol=crlf

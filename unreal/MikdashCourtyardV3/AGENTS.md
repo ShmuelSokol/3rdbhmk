@@ -4990,3 +4990,27 @@ sentinel based on zero Job members alone. Require confirmed owned-handle exit
 within the existing total five-second cleanup deadline; retain the prelaunch
 durable sentinel on uncertainty. Static43-assertion success had not caught this.
 Corrected helper still requires an actual OS rerun. No UE/UBT was launched.
+
+## Continuation findings: bounded native ownership and browser input - 2 October 2026
+
+The corrected cloth owned-process helper passed a real Windows Job retest:
+normal exit and a deadline-killed owned tree; cleanup took67ms, root and all
+captured child/conhost handles were signaled, Job members were zero, and an
+unrelated control remained alive until its separate cleanup. OS-JOB-INTEGRATION.json
+pins the helper/test;47 offline fault assertions also pass. This supersedes the
+pending-rerun statement above, not the preserved historical failure. It does not
+prove memory-pressure, crash, arbitrary late-descendant or UE/UBT behavior.
+
+Receiver03 independent replay passes10 Python and3 offered-load tests with15
+receipt hashes intact, but source adoption is withheld for three concrete issues:
+synchronous bootstrap pipe preload has no guaranteed time bound; InputKey queues
+samples and is not consumption-time expiry enforcement; UE FSocketBSD::Close
+invalidates its stored native handle even on failure, so retaining the FSocket
+object does not prove handle-preserving retry. Correct these in a new revision.
+Do not describe a queued-input ACK as applied gameplay or a rendered frame.
+
+Cloth V2 publication is also held: its required head-v5 generator is missing in
+the clone and its release-helper pin differs from the reviewed published helper.
+Do not copy the active release script wholesale: it contains unrelated changes.
+Resolve the precise dependency boundary and rerun the standalone publication test.
+No production map, mesh, packaged checkpoint or native module changed here.

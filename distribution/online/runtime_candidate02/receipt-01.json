@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "revision": "runtime_candidate02",
+  "sourceChecks": {
+    "command": "python -I -B source_checks.py",
+    "passed": 9,
+    "scope": "textual source control-flow assertions only"
+  },
+  "UECompiled": false,
+  "UEExecuted": false,
+  "nativeLaunched": false,
+  "listenerStarted": false,
+  "mediaStarted": false,
+  "candidate01ExactVerified": true,
+  "independentPriorProof": "14 cases / 46 assertions / 8 source checks, coordinator-reported Herschel; unchanged and not duplicated",
+  "limits": [
+    "No UE behavior proof for new owner loop",
+    "No wall-clock guarantee during game-thread stall",
+    "No render-thread window filtering; stopped only",
+    "Quarantine retains capacity until external owned-process exit proof",
+    "Host must serialize registry writes and shut down before Slate/module unload"
+  ]
+}

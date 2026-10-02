@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "scope": "Actual production ExpiryWatch.h, included by UE owner; pure C++17, no substitute UE classes",
+  "cases": 13,
+  "checks": 65,
+  "passed": true,
+  "UECompiled": false,
+  "UEExecuted": false,
+  "sourceHashes": {
+    "ExpiryWatch.h": "9043a87d0184d02711420e430d88cc200c601be20fef73a7913b2fd2b5dc0ff6",
+    "ExpiryWatchTests.cpp": "cb7432514ca55d8b737b3f2c3c6ea698534cd8aa42e9e0f623352c3b2fcb55a0",
+    "ServicedStoppedOwner.h": "1eb57bfc54fe3458168610387f241153d442f7bdc535a884582f8677ba4412dd",
+    "ServicedStoppedOwner.cpp": "7d8cef4266b0d3f0c19400160cc01938fd9a245a9a94b8693efa9ab15a8ea5e1"
+  },
+  "toolchain": {
+    "compiler": "19.44.35228.0",
+    "linker": "14.44.35228.0",
+    "MSVCDirectory": "14.44.35207",
+    "WindowsSDK": "10.0.26100.0",
+    "pins": {
+      "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat": "6b516d8fcf543c14b2d861e1f45661e0029230fe0dc48e86ce78522801822209",
+      "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\Microsoft.VCToolsVersion.default.txt": "030613df718548a88970e4c1844a8605d17aba9aa36bfea0b4359d8f28fd62bf",
+      "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe": "88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
+      "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\link.exe": "ca11e6c45debd34bf652dfe984c5360a531a005ed78bf72852330c9c2590cf0d",
+      "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\c1xx.dll": "688fe28f3065283edf668868e76aeab28f03f80e2171c14c7d4e37f64513f623",
+      "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\c2.dll": "98050f97d60f7e95fcaf3525a7103e4818fba498a43563922476819ce88ed162",
+      "C:\\Mikdash\\Verification\\runtimecandidate03-standalone03\\ExpiryWatch.h": "9043a87d0184d02711420e430d88cc200c601be20fef73a7913b2fd2b5dc0ff6",
+      "C:\\Mikdash\\Verification\\runtimecandidate03-standalone03\\ExpiryWatchTests.cpp": "cb7432514ca55d8b737b3f2c3c6ea698534cd8aa42e9e0f623352c3b2fcb55a0",
+      "C:\\Mikdash\\Verification\\runtimecandidate03-standalone03\\OwnedChildJob.cs": "0ef998314f3e68976c851e055d9aafe0e56e935334f1556a44e5e683a05fcec4",
+      "C:\\Mikdash\\Verification\\runtimecandidate03-standalone03\\run-bounded.ps1": "e149ed164c16fb8a1fe5ee4d9a6db8713d99e6c45f4efda4adfa5c2f9cb1ff00"
+    }
+  },
+  "phases": [
+    {
+      "phase": "compile",
+      "status": "passed",
+      "exitCode": 0,
+      "cleanupConfirmed": true,
+      "seconds": 0.60461,
+      "peakJobBytes": 60661760,
+      "budgetSeconds": 60,
+      "cleanupReserveSeconds": 6
+    },
+    {
+      "phase": "tests",
+      "status": "passed",
+      "exitCode": 0,
+      "cleanupConfirmed": true,
+      "seconds": 0.1199898,
+      "peakJobBytes": 1908736,
+      "budgetSeconds": 15,
+      "cleanupReserveSeconds": 6
+    }
+  ],
+  "totalSeconds": 1.3144036,
+  "localRunner": "C:\\Mikdash\\Verification\\runtimecandidate03-standalone03\\run-bounded.ps1",
+  "localRunnerSha256": "e149ed164c16fb8a1fe5ee4d9a6db8713d99e6c45f4efda4adfa5c2f9cb1ff00",
+  "localReceiptSha256": "c489b77761d9b581f3df3f900f105a998453d249a548d4e4f11604afba1e7cb4",
+  "previousAttempt": {
+    "directory": "C:/Mikdash/Verification/runtimecandidate03-standalone01",
+    "result": "cmd wrapper failed before compile, exit 1, exact Job cleanup confirmed"
+  },
+  "limitations": [
+    "UE adapter/owner loop not compiled",
+    "No window or delegate execution proof",
+    "No listener/receiver/media launch",
+    "Job cleanup evidence limited to these standalone invocations"
+  ]
+}

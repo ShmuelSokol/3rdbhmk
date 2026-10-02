@@ -182,3 +182,26 @@ application at `web/`. Its validation covers the lifecycle core only.
 No package/plugin change should follow merely from green core tests. Native and
 signaling adapters, browser controls, measured capacity, real independent sessions,
 mobile/external-network checks and online delivery remain separate acceptance work.
+
+## Stopped-streamer source checkpoint — 2 October 2026
+
+`runtime_candidate01` through `runtime_candidate04` preserve the reviewed source
+progression: owned stopped streamers, expiry handling, child-window rejection and
+a process-local registry host. Candidate03 is retained as history; its top-level-only
+window check was insufficient. Candidate04 rejects child windows as well.
+
+This checkpoint adds40 exact source/metadata files and retains22 existing online
+dependencies unchanged. All62 file hashes and four candidate manifests were checked;
+the four `source_checks.py` programs pass42 checks in total. These are source-text
+checks, not native execution. To reproduce them, run each candidate's
+`python -I -B source_checks.py` from that candidate directory.
+
+The frozen `verify.py` and source-context files retain absolute paths to the audited
+workstation. They are historical provenance, not portable clone verification.
+Do not report their success as a standalone UE build. Engine implementations,
+generated UHT files, binaries, private session payloads and raw logs are excluded.
+
+Seven actual Slate assertions remain uncompiled/unrun. The module is not installed
+in the game; authenticated attachment, media activation and browser delivery are
+still absent. Candidate05 parsing work is outside this frozen checkpoint. Existing
+released maps, builds and network configuration are unchanged.

@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "revision": "runtime_candidate03",
+  "sourceChecks": {
+    "command": "python -I -B source_checks.py",
+    "passed": 11,
+    "scope": "textual control-flow assertions only"
+  },
+  "standaloneHeader": {
+    "cases": 13,
+    "checks": 65,
+    "receiptSha256": "9fad3b6085796bc54b957838d2eca49afd1525d9d11e32880478d0406582495f"
+  },
+  "UECompiled": false,
+  "nativeUEExecuted": false,
+  "listenerStarted": false,
+  "mediaStarted": false,
+  "candidate01And02ExactVerified": true,
+  "limits": [
+    "Host exclusively serializes registry mutations",
+    "Game-thread stalls postpone cleanup; next observation fails closed",
+    "Stock backbuffer lacks render-thread window filter: stopped only",
+    "Quarantine retains capacity pending independent owned Job exit",
+    "Explicit shutdown must precede Slate/module teardown"
+  ]
+}

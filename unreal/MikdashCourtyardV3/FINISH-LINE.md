@@ -2485,3 +2485,17 @@ environments included in _EMH_. The new reviewed-runner proposal removes only
 that flag and enforces normal commandlet policy. No scalability override is
 justified by the evidence, and none is introduced. Exact native key equality
 remains the gate; the proposal is not yet a successful native run.
+
+## Reservation boundary correction — 2 October 2026
+
+Independent review found that MeasuredBodyAdapter02 used tolerance-checked caller
+From to select the old storage cell. Across a200cm boundary it could insert a
+duplicate before throwing. MeasuredBodyAdapter03 uses the authoritative stored
+Anchor and validates membership before mutation; destination capacity/allocation
+precede old-cell removal. The old study remains frozen and rejected.
+
+Actual standalone MSVC execution passes11040 checks, including40 new boundary
+cases and the existing2000-move storage test. Geometry callbacks remain test
+doubles; no runtime collision/support or visual acceptance follows from this.
+Independent review and serial project gates are required before publication.
+No production controller, map, material or packaged executable changed.

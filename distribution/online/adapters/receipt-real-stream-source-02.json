@@ -1,0 +1,93 @@
+{
+  "status": "offline-source-slice-passed",
+  "createdUtc": "2026-10-02T06:18:59.987711+00:00",
+  "coreUnchanged": true,
+  "pythonGroups": {
+    "test_session_core": {
+      "tests": 55,
+      "passed": true,
+      "failures": 0,
+      "errors": 0
+    },
+    "adapters.test_bridge": {
+      "tests": 10,
+      "passed": true,
+      "failures": 0,
+      "errors": 0
+    },
+    "adapters.test_loopback_channel": {
+      "tests": 4,
+      "passed": true,
+      "failures": 0,
+      "errors": 0
+    },
+    "native.test_source_contract": {
+      "tests": 5,
+      "passed": true,
+      "failures": 0,
+      "errors": 0
+    }
+  },
+  "javascriptTests": 28,
+  "javascriptPassed": true,
+  "browserBundleBuilt": true,
+  "sourceStable": true,
+  "fileSha256": {
+    "adapters/bridge.py": "e886454f8f632a9760c780ce42b5859db135724aad4840d5fa850f47274a186e",
+    "adapters/build-deps-lock.json": "e3bc0ffab2b50a1774fb67a833d5fdeff4ef3833af5617273bcf535db2be456c",
+    "adapters/build.mjs": "2f9ebd4337eb1570df1f26d22548af19313b3ad028c233fae49ff01ec9ab25d3",
+    "adapters/core_host.py": "9cadf25239686748c1814e1febe1c7d052711b146e8e0333df7759b270251e62",
+    "adapters/loopback_channel.py": "a964369d0372252cf310ebff80a7deee5bda324400580acab95b6fdbcadddf6a",
+    "adapters/README.md": "2188d0c82fb2015fa304caca7d1c0d62bbccf6288cf4fa0367f81320e80f876d",
+    "adapters/test_bridge.py": "e1b5f69a6db5bf279ca41c2598744ab11e2cc9307c6db29236e530b62b0abcf0",
+    "adapters/test_loopback_channel.py": "1ba4ec15eda42b6b58285cf42fa27fe3a72c5be74a10681bdce54123852403c8",
+    "adapters/validate_slice.py": "bed911eba7304458d1d09a654d7121d75b696818905ba3ca05d37edb851896aa",
+    "browser/controls.mjs": "25bd3678ba5dee9ccc0c677eac48214ab9262f52a68f97d1abf07f6902e922bf",
+    "browser/controls.test.mjs": "a3db7af45eaa2842659b7c65b07bac94d373b60317c2a8b734880424dc19b178",
+    "browser/index.html": "5623db194916de943de66fbbc6e164f5e3a32c396354794e1415df1e50ba9d3a",
+    "browser/main.mjs": "4446ecc82fe9a31561ecb6a286ddb20018a13f84fed981297eb0d1113df95ad7",
+    "native/ControllerSink.h": "0e59abf75046fd3c5243b58f598bf7a144451790f2951bb5eaab78c64dc91cea",
+    "native/ControllerSinkTests.cpp": "e57bcd54fb312c49ce8f95df67d1c92369e20b2d05cd8f6524ce2a67d39ed386",
+    "native/OnlineInputGate.h": "4529bde90929e63adc1163cb68a027c0c3c787844f9514b24a46509a1f6e7df2",
+    "native/SessionBridge.h": "d0c934fb355663b040b12b1f10dd4afb28aab11c137cd26309c74404dcf25bd5",
+    "native/test_source_contract.py": "3a7bcf567ea9a9a68cc0aa4bb098d7c19a9d85edb30f885dea25300ef288c67d",
+    "README.md": "92bea79ca4256cd3387beca0228236378dbf50aa10c0e5784db6b2b291d132c9",
+    "session_core.py": "90aad15cc31b99c69b2556db30c6c91361cd19bd1f768419b2c489af8bb6142c",
+    "signalling/gateway.mjs": "c4f15ccc8d9939c36bc0dd90126640177416f566c424b3e3b21ca979418a9772",
+    "signalling/gateway.test.mjs": "8d2652ad82949745096863bd38cf51273ced55b72066b36ee024630fff4785a2",
+    "signalling/websocket_peer.mjs": "2762b71840860d390a75c05372700089e3bf3e60bbab2d825ab9656f5e94406a",
+    "test_session_core.py": "7d0955244de9e6cf0bc315d003a147c3be30cd2f545a659a05d29e1d97aa1a8e",
+    "upstream-lock.json": "1206ad509a8b081174c1b9e72c5a2b1f4d30c01d1ebabb1dece530df34dc1bb1",
+    "validate.py": "5eb8b65dbd3c5bebbe5143db9a639db1c014a527e6a56649721271928f2f1109"
+  },
+  "upstreamCommit": "6b8cfb460bda09703e85178f1f77aa6faec9e890",
+  "nativeCompiled": false,
+  "nativeExecuted": false,
+  "socketsOpenedForTests": 0,
+  "listenersStarted": 0,
+  "productionConfigChanged": false,
+  "publicationPerformed": false,
+  "endToEndWalkthroughAccepted": false,
+  "secretsStored": false,
+  "limits": [
+    "Native checks are source assertions, not compiled/runtime tests",
+    "Loopback client tests replace socket creation; receiver is unimplemented",
+    "Native process/bootstrap/clock handshake and Node-Python host wiring absent",
+    "Authenticated browser admission/upgrade endpoints absent",
+    "No first-frame, independent-native-session, desktop/mobile usability or online acceptance"
+  ],
+  "bundle": {
+    "commit": "6b8cfb460bda09703e85178f1f77aa6faec9e890",
+    "sha256": "ff52406482b1e60b117a6d87ff331e707bdc1cf882bfa12a96176ce8b555c5ea",
+    "inputCount": 99
+  },
+  "installedEngineEvidenceSha256": {
+    "Build/Build.version": "ff99fc3dd98e7c7fd2f5700334bc792dfb7baced3828cdee32940bb69581a6a4",
+    "Plugins/Media/PixelStreaming2/Source/PixelStreaming2Input/Public/IPixelStreaming2InputHandler.h": "1ee7179d9248419b5086b3bc5868eddeba8f181b4d0ca8f895416da93657b7bd",
+    "Plugins/Media/PixelStreaming2/Source/PixelStreaming2Input/Private/PixelStreaming2DefaultDataProtocol.cpp": "d1c03f74df4c42e6fb4aacdb03408846825c4b6bec0b06177b09632b0100eece",
+    "Plugins/Media/PixelStreaming2/Source/PixelStreaming2RTC/Private/EpicRtcStreamer.cpp": "8cee200d31ca122c2c472597f0e72f699ffe9f4f3a41841de0b8877d9dd24dfb",
+    "Plugins/Media/PixelStreaming2/Source/PixelStreaming2RTC/Private/RTCInputHandler.cpp": "66c45be83b3b8717513273c1f4f83751bea3d6b6a4fa4ef5eb820a4cb7edb8d7",
+    "Source/Runtime/Engine/Private/PlayerController.cpp": "d2946876bc3c3bad60e3eb833c1cfd034a55574e420841e60b72298a8e5a5ead",
+    "Source/Runtime/Engine/Private/UserInterface/PlayerInput.cpp": "ffea97690caf6feba2f3d08ea81fdb9e3d43e8bd05b64faea382eed38e4de9ca"
+  }
+}

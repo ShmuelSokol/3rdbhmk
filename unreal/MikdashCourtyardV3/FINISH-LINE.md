@@ -2085,3 +2085,22 @@ Adoption still needs current actor OverrideMaterials evidence, effective physica
 material/cooked collision equivalence, protected in-place asset rollback and later
 shipping-map/package review. Existing S5 13-route acceptance is preserved, not
 reused as proof of an unadopted candidate.
+
+
+## Browser control and stream source slice - 2 October 2026
+
+Independent source02 verification passes74 Python checks and28 JavaScript tests;
+the real Epic WebRTC frontend bundles offline from the pinned UE5.8 source commit.
+This adds private stream routing, bounded desktop/touch controls, connection-bound
+input, release/timeout handling and an authenticated loopback client. It does not
+yet deliver an online walkthrough: native receiver, owned process bootstrap, host
+admission/RPC and real browser-to-game validation remain. Native input source and
+automation cases are uncompiled. No listener, cloud service, production config,
+plugin or packaged build changed. The existing55-test lifecycle core is unchanged.
+
+InputKey returns consumption, not delivery: unbound/polled movement may record
+input while returning false. Check the owned PlayerInput and recorded samples;
+queued input is not a gameplay/frame ACK. Browser input starts only on WebRTC
+connection, stale ACKs fail their own deadline, and held touch refreshes at200ms.
+Publication pins preserve raw source bytes, including two CRLF source files;
+never normalize them without updating the evidence chain.

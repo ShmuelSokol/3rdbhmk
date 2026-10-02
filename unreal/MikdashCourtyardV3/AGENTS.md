@@ -4961,3 +4961,32 @@ Its explicit publishFiles excludes historical raw/compressed diagnostic logs;
 reproduce.py extracts pinned sources, compiles a standalone MSVC fixture and compares
 new CSVs. Historical assessment retains omitted-local-log hashes for provenance.
 Further correction belongs in a separate study; never rewrite frozen failed cases.
+
+
+## Crowd fixture/runtime parity finding - 2 October 2026
+
+Independent StaggeredRoute01 replay passes12/12 cases at120 and600 seconds,
+19,857,820 and22,760,689 checks, with six CSVs identical at each duration. This
+is fixture evidence only. Its normal branch still calls the rejected cadence
+BoundaryLookAhead helper; current shipping code uses the original speed/horizon
+formula. Seed-start outcomes are therefore not runtime-parity proof. Terminal
+cases enter recovery directly and are narrower evidence, still without native
+validation. Extract the controller once into shared executable code, preserve
+exact fixture replay, then test the actual runtime normal branch separately.
+
+Port hazards: actual4000/500/30Hz scheduling produces a0.4s horizon and minimum
+clip step21.59cm at scale1, exceeding the study planner's20cm step acceptance.
+Use actual per-agent scales/clip rates and full reservation duration. Bound total
+planner work per frame, not merely each search; reset route latches by cohort and
+episode; invalidate failure caches when relevant outside blockers change. None
+of these findings authorizes lowering clearance, reservation or turn limits.
+
+## Owned process cleanup: observed Windows race - 2 October 2026
+
+A harmless OS integration test of KohenClothExecutableV1 found Job ActiveProcesses
+zero before the retained root process handle became signaled. The old cleanup
+returned true after2ms; the root signaled within100ms. Do not remove an ownership
+sentinel based on zero Job members alone. Require confirmed owned-handle exit
+within the existing total five-second cleanup deadline; retain the prelaunch
+durable sentinel on uncertainty. Static43-assertion success had not caught this.
+Corrected helper still requires an actual OS rerun. No UE/UBT was launched.

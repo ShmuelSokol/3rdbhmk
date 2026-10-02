@@ -1,0 +1,54 @@
+{
+  "engineSourceEvidence": [
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\ShaderCompiler\\ShaderCompiler.cpp",
+      "sha256": "01cf29f3e0f8894f50d63dbd5ffebcc8216702ea2f08f1c46787037782d0056f",
+      "finding": "831: reads DevOptions.Shaders MaxShaderJobBatchSize",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\Engine\\Private\\ShaderCompiler\\ShaderCompilerThreadRunnable.cpp",
+      "sha256": "086ae113379be8d70609ef9b4161af660cf24a3cbb7be56befdd85223ff78fbb",
+      "finding": "508 and570: both dispatch paths clamp MaxNumJobs with MaxShaderJobBatchSize; high priority normally one except startup throttling override",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Config\\BaseEngine.ini",
+      "sha256": "04bbb301be5c344f5387f15c1b543778a8de5f13f36f8f77273528f49af0e36d",
+      "finding": "2191: default MaxShaderJobBatchSize=10",
+      "publishSource": false
+    },
+    {
+      "path": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Source\\Runtime\\RHI\\Private\\Windows\\WindowsDynamicRHI.cpp",
+      "sha256": "ae011151291e149d44dbd85c5942c5d80d6807bced51d2d08c2cb69ff68ab01e",
+      "finding": "625: parses D3D12TargetedShaderFormats",
+      "publishSource": false
+    }
+  ],
+  "threshold07": "Retained build/native.log lines969/987 confirm DX12/SM6;1138 confirms one worker. Threshold used the main project with Entry-only study loading, not the tiny isolated Angular project.",
+  "thresholdLog": {
+    "sha256": "135b14174b1ec78e5b1f2dcb2f5797939efff0b697169b04fce3cd0020771b36",
+    "publish": false
+  },
+  "differences": "Angular tiny descriptor omitted Windows target settings, selected SM5 and requested uncached Engine material maps. Shared shader worker settings and GI0/reflection0/VSM0 already matched threshold07.",
+  "retryChanges": [
+    "Restore threshold07 DX12/SM6 target in external project only",
+    "Add -ini:Engine:[DevOptions.Shaders]:MaxShaderJobBatchSize=1"
+  ],
+  "limits": [
+    "Batch1 limits common-job dispatch, not total permutations or engine resident memory; no tenfold savings claim",
+    "SM6 alignment does not guarantee identical shader/DDC keys or warm cache",
+    "Keep existing DDC, renderer knobs, world/shader features and positive GetStatistics gate; no cache deletion, quality reduction or cap/deadline increase"
+  ],
+  "unmodifiedGuards": {
+    "startGiB": 6,
+    "aggregateOwnedJobGiB": 4,
+    "reserveGiB": 2,
+    "totalDeadlineSeconds": 300,
+    "cleanupSeconds": 5
+  },
+  "compile02": {
+    "stateAtPublicationPreparation": "launched by coordinator, outcome pending; no inflight receipts inspected",
+    "manifestSha256": "de94eed20f3037a8251f84dea1d4e2b6638a207384509dfd2d231fc6be1ab357"
+  }
+}

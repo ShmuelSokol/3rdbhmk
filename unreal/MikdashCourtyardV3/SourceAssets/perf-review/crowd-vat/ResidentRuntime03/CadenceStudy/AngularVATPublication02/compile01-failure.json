@@ -1,0 +1,39 @@
+{
+  "status": "failed before candidate shader proof; no native.json",
+  "historicalManifestSha256": "199bbc388482f58a437b059735815fec0fe63a764e1ad756955c26f437cf600a",
+  "observed": {
+    "error": "Owned job private cap",
+    "peakPrivateBytes": 4302032896,
+    "startFreeCommitBytes": 7538601984,
+    "ownedElapsedSeconds": 130.0797721,
+    "cleanupConfirmed": true,
+    "sourcePreserved": true,
+    "slotBlocked": false
+  },
+  "localEvidence": {
+    "wrapper.json": {
+      "path": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/AngularVATNative01/runs/angular-compile01/compile/wrapper.json",
+      "sha256": "52209dbdaeeb7ad0ef6ccc638b102696337f15a441a4bcc5ef2d597d0a8ef388",
+      "publish": false
+    },
+    "launch.json": {
+      "path": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/AngularVATNative01/runs/angular-compile01/compile/launch.json",
+      "sha256": "3300d2c367afeaf77ad6b50fb0743c87cfa7c70057e98d839a196e5c01046dcc",
+      "publish": false
+    },
+    "native.log": {
+      "path": "SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/AngularVATNative01/runs/angular-compile01/compile/native.log",
+      "sha256": "713677ed207f6ba2bf235156611b347856800aa59e502ee9b988f9c94e6f1fe6",
+      "publish": false
+    }
+  },
+  "startupEvidence": "Local log: DX12/SM5, one local shader worker; missing cached Engine WorldGrid, DeferredDecal, LightFunction and PostProcess SM5 shader maps. No candidate receipt or shader statistics.",
+  "diagnosticLimit": "Memory guard termination is established; exact per-allocation cause and savings from batch reduction are not measured. No candidate compiler diagnostic exists.",
+  "claims": {
+    "candidateCompiled": false,
+    "pixels": false,
+    "temporalVelocity": false,
+    "productionAcceptance": false
+  },
+  "preservation": "Original receipts/logs and Native01 bytes retained. Coordinator relocated malformed fault fixtures and UE Saved unchanged outside SourceAssets; no receipt-parser exemption."
+}

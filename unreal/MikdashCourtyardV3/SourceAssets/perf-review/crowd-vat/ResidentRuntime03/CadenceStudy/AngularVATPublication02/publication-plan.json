@@ -1,0 +1,60 @@
+{
+  "status": "Source-only proposal; no publish/commit/native launch by author",
+  "supersedes": "Publication01 publication-plan.json and its prepare/test instructions. Retained old files are historical evidence, not current execution guidance.",
+  "historicalHazards": [
+    "Native01/prepare.py writes P under SourceAssets",
+    "Native01/test_offline.ps1 creates deliberate invalid JSON in SourceAssets",
+    "Native01/check_and_pin.py expects that old fault directory",
+    "Publication01/make_plan.py would recreate obsolete guidance"
+  ],
+  "onlyCurrentPreparationEntrypoint": "AngularVATPublication02/prepare_external.py",
+  "preparationCommand": "& \"C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/ThirdParty/Python3/Win64/python.exe\" -B \"SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/AngularVATPublication02/prepare_external.py\" --project-root \"<checkout-root>\" --workspace \"C:/Mikdash/Verification/<fresh-unique-folder>\"",
+  "recipe": [
+    "Verify exact source allowlist with verify_publication.py; missing prerequisites mean preparation unavailable, not permission to substitute assets",
+    "Supply the28 exact original prerequisites in Publication01/prerequisites.json locally with lawful access. No raw asset/engine source redistribution",
+    "Run only the external preparation entrypoint. It refuses existing workspace, paths outside Verification, overlap with checkout, changed historical source or changed prerequisites",
+    "Copies exact20 historical pins plus manifest into external compile01-source BEFORE derivative edits; then stages19 local asset pairs in external runner/P",
+    "External derivative has explicit original-project root for protected hashes/shared sentinel; project, outputs, caches and malformed fault scratch all stay outside the recipe checkout",
+    "Runs12 shader-gate and20 wrapper tests offline, then pins the external derivative; no UE/helper OS launch. Snapshot historical prepare.py is never executed",
+    "Review generated manifest and exact command before coordinator-only native execution. Fresh fault paths change manifest hash; never impersonate Compile02 de94 receipt",
+    "Do not execute old source preparation/testing commands in the active receipt tree. No broad JSON verification exceptions"
+  ],
+  "offlinePreparationEvidence": {
+    "passedShaderGateCases": 12,
+    "passedWrapperCases": 20,
+    "stagedPackages": 19,
+    "externalManifestSha256": "de94eed20f3037a8251f84dea1d4e2b6638a207384509dfd2d231fc6be1ab357",
+    "originalSourcePreserved": true,
+    "nativeLaunchesByAuthor": 0
+  },
+  "claims": {
+    "sourceAnalyticalProof": true,
+    "compile01": "failed",
+    "compile02": "pending coordinator outcome",
+    "pixels": false,
+    "productionAcceptance": false
+  },
+  "publicationBoundary": "Exact allowlist plus itself only. Historical Native01 and Study01 remain byte-identical. Latest plan controls; no recursive folder copy.",
+  "excluded": [
+    "P/**",
+    "ReviewProject/**",
+    "Content/**",
+    "Saved/**",
+    "Intermediate/**",
+    "DDC/**",
+    "DerivedDataCache/**",
+    "runs/**",
+    "fault-tests/**",
+    "all raw logs",
+    "all Verification workspaces and snapshots",
+    "uasset/umap/ubulk/uexp/png/exr/dll/exe/zip",
+    "native.lock",
+    "__pycache__"
+  ],
+  "bytePolicy": "Apply publication.gitattributes.fragment exact -text entries; do not normalize frozen source bytes",
+  "coordinatorRelocations": [
+    "C:/Mikdash/Verification/angular-fault-history-20261002-compile01",
+    "C:/Mikdash/Verification/angular-saved-compile01"
+  ],
+  "freeze": "Compile02 runner de94 remains immutable until terminal; publication preparation does not read or change its inflight outputs"
+}

@@ -2255,3 +2255,25 @@ Saved/Logs. The5 generated Saved files were preserved with hashes outside the
 receipt tree at C:/Mikdash/Verification/angular-saved-compile01. Future isolated
 project staging and fault scratch should live outside SourceAssets; do not weaken
 receipt parsing to accept engine logs or intentionally corrupt fixtures.
+
+## Angular source checkpoint and second native attempt - 2 October 2026
+
+Angular Publication02 contains 42 exact source files plus its manifest. The only
+current preparation recipe is prepare_external.py: it stages project, logs and
+fault fixtures outside SourceAssets, retaining the frozen Compile01 sources.
+Publication verification matches all 42 files; 27 prerequisites match and one is
+absent, so native preparation from this clone is not available. No asset packages,
+engine code, runtime logs, generated caches or build outputs are published.
+
+Compile02 used DX12/SM6 and MaxShaderJobBatchSize=1 under unchanged 6/4/2 GiB
+start/job/reserve guards. It hit the total deadline after 294.6754692 seconds,
+peak aggregate private bytes 3531255808, still compiling Engine startup materials.
+No native.json or candidate compilation occurred. Cleanup and protected hashes
+pass, shared slot cleared. Compare exact successful threshold-study settings and
+cache evidence before retrying; reduced memory use alone is not shader acceptance.
+
+The independent Receiver04 mailbox driver compiled with MSVC C++17 /W4 and passed
+12 cases / 64 checks against unchanged SemanticMailbox.h and SessionBridge.h.
+This is actual standalone C++ execution; it does not exercise UE input hooks, IPC,
+streaming, a browser connection or native gameplay. Receiver04 source-level Python
+replay separately passes 97 checks. Runtime integration remains outstanding.

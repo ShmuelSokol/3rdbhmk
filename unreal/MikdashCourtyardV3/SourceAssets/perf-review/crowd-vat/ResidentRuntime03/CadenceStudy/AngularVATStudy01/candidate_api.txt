@@ -1,0 +1,50 @@
+NAMESPACE = '/Game/MikdashV3/Runtime/AngularVATStudy01'
+CUSTOM_FLOATS = 30
+
+def create_candidate(ue, spec, defaults, receipt, *, name, surface_textures=None, subsurface=False, save=False):
+    """Explicit coordinator call only, in Engine Entry. No mesh/component/map mutation.
+
+    defaults: exact reviewed VAT textures and decode boxes, supplied by coordinator.
+    surface_textures: Mottle/DetailNormal for resident mode, or None for base VAT.
+    This compiles a fresh material; compile diagnostics and rendered acceptance are external gates.
+    """
+    import re
+    if not re.fullmatch(r'M_Angular_[A-Za-z0-9_]{1,48}', name):
+        raise ValueError('Fresh isolated material name required')
+    world = ue.EditorLevelLibrary.get_editor_world()
+    if world is None or world.get_outermost().get_name() != '/Engine/Maps/Entry':
+        raise RuntimeError('Coordinator must explicitly load Engine Entry; no fallback/map load here')
+    if ue.EditorLevelLibrary.get_pie_worlds(False):
+        raise RuntimeError('PIE/game world is forbidden')
+    assets = ue.EditorAssetLibrary
+    path = NAMESPACE+'/Materials/'+name
+    if assets.does_asset_exist(path) or ue.find_object(None, path+'.'+name):
+        raise RuntimeError('Candidate already exists; never overwrite')
+    for key in ('WalkPositionTexture','WalkNormalTexture','IdlePositionTexture','IdleNormalTexture'):
+        if not isinstance(defaults.get(key), ue.Texture):
+            raise ValueError('Supply exact reviewed texture: '+key)
+    for key in ('WalkMinBBox','WalkSizeBBox','IdleMinBBox','IdleSizeBBox'):
+        if len(defaults.get(key,[])) != 3:
+            raise ValueError('Supply exact decode box: '+key)
+    if surface_textures is not None:
+        if set(surface_textures) != {'Mottle','DetailNormal'} or not all(isinstance(t,ue.Texture) for t in surface_textures.values()):
+            raise ValueError('Resident surface requires both unchanged source textures')
+    if subsurface and surface_textures is None:
+        raise ValueError('Skin mode requires resident surface')
+    material = _build(ue,spec,NAMESPACE,name,defaults,receipt)
+    if material.get_path_name() != path+'.'+name:
+        raise RuntimeError('Unexpected candidate path')
+    if surface_textures is not None:
+        _surface(ue,material,receipt,surface_textures)
+    if subsurface:
+        material.set_editor_property('shading_model',ue.MaterialShadingModel.MSM_SUBSURFACE)
+    expressions=list(ue.MaterialEditingLibrary.get_material_expressions(material))
+    indices={int(n.get_editor_property('data_index')) for n in expressions if n.get_class().get_name()=='MaterialExpressionPerInstanceCustomData'}
+    if indices != set(range(30)) or any(n.get_class().get_name()=='MaterialExpressionCustom' for n in expressions):
+        raise RuntimeError('30-float stock graph contract failed')
+    ue.MaterialEditingLibrary.recompile_material(material)
+    if save and not assets.save_loaded_asset(material,False):
+        raise RuntimeError('Isolated candidate save failed')
+    receipt['angularCandidate']={'path':path,'customFloats':30,'saved':save,'residentSurface':surface_textures is not None,
+        'subsurface':subsurface,'status':'graph_created_compile_requested_NOT_compiler_or_visual_acceptance'}
+    return material

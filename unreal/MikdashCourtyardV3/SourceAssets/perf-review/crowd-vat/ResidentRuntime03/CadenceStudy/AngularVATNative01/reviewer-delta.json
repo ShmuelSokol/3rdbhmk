@@ -1,0 +1,10 @@
+{
+  "recipient": "Confucius via coordinator; no identifiable separate Confucius thread available",
+  "priorManifestSha256": "dc4955eddd94997524f3e2a3d09a1923cd8f87024b1807eaf5c03730821239a7",
+  "scope": "Compile acceptance correction only; no Render changes in this revision",
+  "nativeChange": "compile_graph now calls GetStatistics after initial clean RecompileMaterial diagnostics. Require positive num_vertex_shader_instructions, num_pixel_shader_instructions, num_vertex_texture_samples, num_pixel_texture_samples and num_samplers. Record all eight reflected statistics. Re-read compiler diagnostics after statistics compilation. Missing API/fields or zero/nonpositive required fields fail closed. Reject -nullrhi.",
+  "wrapperChange": "Independently require positiveResourceShaderEvidence, all five positive statistics, and empty initial/after-statistics diagnostics in native receipt; retain local log compiler/fallback checks.",
+  "tests": "12 actual compile_graph AST-extracted control-flow tests: positive stats; all-zero null resource; each required field zero; negative instruction count; initial error; late error; missing API; missing field. No native execution. Existing 20 wrapper fault/source checks remain required.",
+  "evidenceLimit": "Positive representative compiled vertex/pixel resource evidence, not proof of every HISM permutation, pixels, real time or temporal velocity.",
+  "unchanged": "Compile only; two audited readonly CDO world queries; Engine Entry; exact OS-proven helper; 6GiB start/4GiB aggregate owned job/2GiB reserve; total deadline including bounded cleanup; durable ownership sentinel; protected hash exit checks; no project DLL build; coordinator alone launches."
+}

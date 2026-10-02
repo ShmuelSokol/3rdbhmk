@@ -1,0 +1,58 @@
+{
+  "status": "proposed source-only publication boundary; no publishing, commit, native launch or pinned edits performed",
+  "frozenNativeManifestSha256": "199bbc388482f58a437b059735815fec0fe63a764e1ad756955c26f437cf600a",
+  "sourceClaims": [
+    "4879 frozen generated-graph analytical assertions",
+    "12 positive shader-gate control-flow fault cases",
+    "20 wrapper filesystem/syntax/source-contract cases"
+  ],
+  "nativeClaims": {
+    "Compile01": "coordinator-owned run in progress when plan prepared; outcome intentionally not read or asserted",
+    "pixels": false,
+    "renderedMotion": false,
+    "temporalVelocity": false,
+    "productionAcceptance": false
+  },
+  "existingFinishLine": "Current FINISH-LINE.md already records positive GetStatistics gate and minimal cloth checkout proof; not modified or included wholesale in this task.",
+  "payload": "Exact publish-allowlist.json entries plus that manifest itself. Copy nothing else. Disabled pose draft is source only and remains inaccessible through frozen Compile-only entry.",
+  "excluded": [
+    "AngularVATNative01/P/** (including all 19 Content copies)",
+    "AngularVATNative01/ReviewProject/** (failed initial staging)",
+    "**/Saved/**",
+    "**/Intermediate/**",
+    "**/DerivedDataCache/**",
+    "**/DDC/**",
+    "**/Binaries/**",
+    "**/runs/**",
+    "**/fault-tests/**",
+    "**/*.log",
+    "**/*.log.gz",
+    "**/*.local-export.png",
+    "**/native.lock",
+    "**/__pycache__/**",
+    "**/*.uasset",
+    "**/*.umap",
+    "**/*.ubulk",
+    "**/*.uexp",
+    "**/*.png",
+    "**/*.exr",
+    "**/*.dll",
+    "**/*.exe",
+    "**/*.zip"
+  ],
+  "descriptorPlacement": "Publish two P text descriptors as source-templates in this folder, never in P itself. Frozen prepare requires P absent and recreates matching descriptors.",
+  "bytePolicy": "Apply exact allowlist-scoped -text entries from publication.gitattributes.fragment in the publication checkout. Do not normalize CRLF/LF or depend on core.autocrlf. Compare hashes after checkout-index/export.",
+  "assetPolicy": "No licensed/unknown-licensed raw package is published. Native staging requires locally supplied originals with the exact pins and lawful access. Absent originals mean nativeEligibility=false; do not borrow another checkout silently.",
+  "reproduction": [
+    "Export only allowlisted files to the same project-relative paths; preserve byte identity. Add exact -text attributes before committing in the publication tree. No commit is authorized here.",
+    "Run verify_plan.py --root <fresh-project-root>. It validates every allowlisted source byte and reports prerequisite availability. Missing prerequisites do not invalidate source publication, but nativeEligibility is false.",
+    "For graph regeneration supply all project_source prerequisites from prerequisites.json at matching revisions. Run generate.py only in an independent disposable source checkout, then compare candidate_builder.py with generation.json outputSha256. Never regenerate the live frozen study.",
+    "For native staging additionally supply all local_provenance and 19 local_asset_never_publish prerequisites exactly. Require verifier nativeEligibility=true. Use Windows UE5.8 bundled Python with -B. P must not exist.",
+    "Run AngularVATNative01/prepare.py in that fresh checkout. It writes only the isolated harness: reconstructs 19 packages, P project/config, helper, spec and source copies. Verify reconstructed inputs.json and P descriptors against published manifest/template hashes. No Unreal is launched.",
+    "Run test_source.py, test_shader_gate.py and test_offline.ps1 in the fresh checkout; their generated local scratch/output stays excluded. Historical offline-ready references excluded scratch and is not a substitute for this fresh verification.",
+    "Only after fresh offline checks and reviewer approval run check_and_pin.py in that reproduction checkout to create its OWN native-ready manifest. Its random fault-receipt path may change offline-ready/manifest hashes; do not impersonate Compile01 revision or reuse its receipts.",
+    "Any engine run remains coordinator-only under unchanged 6/4/2 guards and total deadline. Source publication or prerequisite availability does not authorize launch."
+  ],
+  "prepareCommand": "& \"C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/ThirdParty/Python3/Win64/python.exe\" -B SourceAssets/perf-review/crowd-vat/ResidentRuntime03/CadenceStudy/AngularVATNative01/prepare.py",
+  "validationBoundary": "Source verify reads only enumerated allowlist/prerequisite files. Does not recurse the project, inspect running receipt/logs, copy assets, run prepare or start native processes."
+}

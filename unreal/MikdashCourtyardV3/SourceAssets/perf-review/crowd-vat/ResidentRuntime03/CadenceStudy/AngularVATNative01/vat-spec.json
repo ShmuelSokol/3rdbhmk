@@ -1,0 +1,762 @@
+{
+  "specVersion": 1,
+  "prepared": "2026-09-11",
+  "purpose": "Bake the re-authored WalkV2 walk and the idle of six PilgrimRigV3 bodies into vertex animation textures (Epic AnimToTexture, Vertex mode, 16-bit) on decimated static meshes, and build the crowd VAT material, for AMikdashCrowdField. Creates NEW assets under the namespace below only; touches no map and no existing asset.",
+  "projectDir": "C:\\Mikdash\\Working-5.8\\MikdashCourtyardV3",
+  "namespace": "/Game/MikdashV3/Runtime/CrowdVATV1",
+  "receiptFolder": "SourceAssets/runtime-review/crowd-field/vat-v2",
+  "launch": "UnrealEditor.exe <uproject> /Engine/Maps/Entry -ExecutePythonScript=<this script> -unattended -nosplash -nullrhi -EnablePlugins=AnimToTexture,GeometryScripting -CrowdVatBake -abslog=<log>. AnimToTexture spawns a temporary SkeletalMeshComponent in GEditor's editor world, so this is the hidden-editor recipe, not the -run=pythonscript commandlet.",
+  "whyTheseClips": "WalkV2 (Scripts/rewalk_pilgrim_v3.py, WALK-V2-RECEIPT.md): step 71.93-71.97 cm, ground speed 119.89-119.95 cm/s, planted-foot drift 0.019 cm offline and 0.053 cm in engine. NOT the old A_Pilgrim_Original_Walk under <variant>/SkeletalMeshes, which skated 4.40-4.57 cm per step.",
+  "walk": {
+    "expectedKeys": 73,
+    "expectedLengthSec": 1.2,
+    "loopFrames": 72,
+    "sampleRateHz": 60.0,
+    "groundSpeedCmPerSecAtRate1": 119.95,
+    "stepCm": 71.97,
+    "cycleDistanceCm": 143.94,
+    "uvChannel": 1,
+    "why": "73 keys at 60 fps over 1.2 s: key 72 is key 0 of the next cycle, so frames 0..71 are baked and the material wraps 71->0. SampleRate MUST equal the clip's own key rate: AnimationToTexture samples AnimNumFrames keys at 1/SampleRate spacing."
+  },
+  "idle": {
+    "expectedKeys": 193,
+    "expectedLengthSec": 3.2,
+    "loopFrames": 192,
+    "sampleRateHz": 60.0,
+    "uvChannel": 2,
+    "why": "Measured in engine 2026-09-11 (crowd-vat-bake-20260911T041922190802Z.json): the WalkV2 import re-exported the idle at 60 fps too, 193 keys over 3.2 s. Frames 0..191 are baked at 60 Hz; the material wraps 191->0."
+  },
+  "mesh": {
+    "targetTriangles": 2400,
+    "why": "The crowd lives at 30-200 m, where a figure is 10-60 px tall. The V1 statues were 1,228 triangles; the source bodies are 13-20k. 2,400 keeps the silhouette (arms, head cover, hem) for about twice the old triangle cost per figure.",
+    "numDriverTriangles": 10,
+    "sigma": 1.0,
+    "precision": "SixteenBits",
+    "maxTextureWidth": 4096
+  },
+  "meshYawOffsetDegrees": -90.0,
+  "meshYawWhy": "PilgrimRigV3 bodies face UE +Y after the Interchange glTF frame swap (memory: pilgrim-v3-import-lessons); the crowd field's heading convention is local +X, so instance yaw = heading - 90.",
+  "customData": {
+    "count": 11,
+    "layout": {
+      "0": "walk phase at anchor (cycles, 0..1)",
+      "1": "garment tint index/(N-1)",
+      "2": "idle target (1 idle, 0 walk)",
+      "3": "anchor game time T0 (s)",
+      "4": "walk rate (cycles/s) = speed / (cycleDistance * scale)",
+      "5": "velocity X (cm/s, world)",
+      "6": "velocity Y",
+      "7": "velocity Z",
+      "8": "time of last walk/idle switch (s)",
+      "9": "idle offset / per-figure variation hash (0..1)",
+      "10": "extrapolation horizon (s)"
+    }
+  },
+  "material": {
+    "master": "M_CrowdVAT_V1",
+    "blendSeconds": 0.2,
+    "negativeDtSeconds": 0.25,
+    "palette": [
+      [
+        0.72,
+        0.68,
+        0.58
+      ],
+      [
+        0.32,
+        0.24,
+        0.16
+      ],
+      [
+        0.5,
+        0.38,
+        0.18
+      ],
+      [
+        0.16,
+        0.2,
+        0.34
+      ],
+      [
+        0.45,
+        0.2,
+        0.16
+      ],
+      [
+        0.36,
+        0.35,
+        0.33
+      ],
+      [
+        0.55,
+        0.48,
+        0.38
+      ],
+      [
+        0.86,
+        0.85,
+        0.8
+      ]
+    ],
+    "paletteSource": "Scripts/release_crowd_tint_fix.spec.json fix.garmentPalette (8 entries)",
+    "specular": 0.35
+  },
+  "variants": [
+    {
+      "id": "V3_Pilgrim_Man_Standard",
+      "short": "Man_Standard",
+      "skeletalMesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/V3_Pilgrim_Man_Standard/SkeletalMeshes/V3_Pilgrim_Man_Standard.V3_Pilgrim_Man_Standard",
+      "walk": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk",
+      "idle": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Standard/WalkV2/V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle.V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle",
+      "glb": "SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Pilgrim_Man_Standard.glb",
+      "glbTriangles": 19600,
+      "slots": {
+        "Skin": {
+          "baseColor": [
+            0.455,
+            0.272,
+            0.173
+          ],
+          "roughness": 0.62,
+          "paletteMix": 0.0,
+          "skinVariation": 1.0
+        },
+        "Linen": {
+          "baseColor": [
+            0.7,
+            0.63,
+            0.48
+          ],
+          "roughness": 0.86,
+          "paletteMix": 0.45,
+          "skinVariation": 0.0
+        },
+        "Mantle": {
+          "baseColor": [
+            0.285,
+            0.32,
+            0.268
+          ],
+          "roughness": 0.9,
+          "paletteMix": 0.85,
+          "skinVariation": 0.0
+        },
+        "Headcloth": {
+          "baseColor": [
+            0.74,
+            0.7,
+            0.58
+          ],
+          "roughness": 0.86,
+          "paletteMix": 0.25,
+          "skinVariation": 0.0
+        },
+        "Sash": {
+          "baseColor": [
+            0.47,
+            0.3,
+            0.15
+          ],
+          "roughness": 0.82,
+          "paletteMix": 0.55,
+          "skinVariation": 0.0
+        },
+        "Leather": {
+          "baseColor": [
+            0.14,
+            0.08,
+            0.042
+          ],
+          "roughness": 0.7,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Hair": {
+          "baseColor": [
+            0.07,
+            0.036,
+            0.02
+          ],
+          "roughness": 0.75,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Eyes": {
+          "baseColor": [
+            0.76,
+            0.742,
+            0.715
+          ],
+          "roughness": 0.35,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Trim": {
+          "baseColor": [
+            0.36,
+            0.255,
+            0.12
+          ],
+          "roughness": 0.8,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Iris": {
+          "baseColor": [
+            0.135,
+            0.098,
+            0.062
+          ],
+          "roughness": 0.35,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        }
+      }
+    },
+    {
+      "id": "V3_Pilgrim_Man_Elder",
+      "short": "Man_Elder",
+      "skeletalMesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/V3_Pilgrim_Man_Elder/SkeletalMeshes/V3_Pilgrim_Man_Elder.V3_Pilgrim_Man_Elder",
+      "walk": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk.V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk",
+      "idle": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Elder/WalkV2/V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle.V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle",
+      "glb": "SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Pilgrim_Man_Elder.glb",
+      "glbTriangles": 19804,
+      "slots": {
+        "Skin": {
+          "baseColor": [
+            0.51,
+            0.33,
+            0.222
+          ],
+          "roughness": 0.62,
+          "paletteMix": 0.0,
+          "skinVariation": 1.0
+        },
+        "Linen": {
+          "baseColor": [
+            0.855,
+            0.83,
+            0.76
+          ],
+          "roughness": 0.86,
+          "paletteMix": 0.45,
+          "skinVariation": 0.0
+        },
+        "Mantle": {
+          "baseColor": [
+            0.64,
+            0.615,
+            0.545
+          ],
+          "roughness": 0.9,
+          "paletteMix": 0.85,
+          "skinVariation": 0.0
+        },
+        "Headcloth": {
+          "baseColor": [
+            0.88,
+            0.86,
+            0.8
+          ],
+          "roughness": 0.86,
+          "paletteMix": 0.25,
+          "skinVariation": 0.0
+        },
+        "Sash": {
+          "baseColor": [
+            0.56,
+            0.18,
+            0.15
+          ],
+          "roughness": 0.82,
+          "paletteMix": 0.55,
+          "skinVariation": 0.0
+        },
+        "Leather": {
+          "baseColor": [
+            0.14,
+            0.08,
+            0.042
+          ],
+          "roughness": 0.7,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Hair": {
+          "baseColor": [
+            0.68,
+            0.662,
+            0.63
+          ],
+          "roughness": 0.75,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Eyes": {
+          "baseColor": [
+            0.76,
+            0.742,
+            0.715
+          ],
+          "roughness": 0.35,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Trim": {
+          "baseColor": [
+            0.5,
+            0.43,
+            0.3
+          ],
+          "roughness": 0.8,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Iris": {
+          "baseColor": [
+            0.135,
+            0.098,
+            0.062
+          ],
+          "roughness": 0.35,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        }
+      }
+    },
+    {
+      "id": "V3_Pilgrim_Man_Heavy",
+      "short": "Man_Heavy",
+      "skeletalMesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/V3_Pilgrim_Man_Heavy/SkeletalMeshes/V3_Pilgrim_Man_Heavy.V3_Pilgrim_Man_Heavy",
+      "walk": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/WalkV2/V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Walk.V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Walk",
+      "idle": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Man_Heavy/WalkV2/V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Idle.V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Idle",
+      "glb": "SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Pilgrim_Man_Heavy.glb",
+      "glbTriangles": 20084,
+      "slots": {
+        "Skin": {
+          "baseColor": [
+            0.33,
+            0.185,
+            0.112
+          ],
+          "roughness": 0.62,
+          "paletteMix": 0.0,
+          "skinVariation": 1.0
+        },
+        "Linen": {
+          "baseColor": [
+            0.51,
+            0.42,
+            0.3
+          ],
+          "roughness": 0.86,
+          "paletteMix": 0.45,
+          "skinVariation": 0.0
+        },
+        "Mantle": {
+          "baseColor": [
+            0.245,
+            0.18,
+            0.125
+          ],
+          "roughness": 0.9,
+          "paletteMix": 0.85,
+          "skinVariation": 0.0
+        },
+        "Headcloth": {
+          "baseColor": [
+            0.56,
+            0.47,
+            0.35
+          ],
+          "roughness": 0.86,
+          "paletteMix": 0.25,
+          "skinVariation": 0.0
+        },
+        "Sash": {
+          "baseColor": [
+            0.33,
+            0.14,
+            0.105
+          ],
+          "roughness": 0.82,
+          "paletteMix": 0.55,
+          "skinVariation": 0.0
+        },
+        "Leather": {
+          "baseColor": [
+            0.14,
+            0.08,
+            0.042
+          ],
+          "roughness": 0.7,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Hair": {
+          "baseColor": [
+            0.045,
+            0.024,
+            0.014
+          ],
+          "roughness": 0.75,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Eyes": {
+          "baseColor": [
+            0.76,
+            0.742,
+            0.715
+          ],
+          "roughness": 0.35,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Trim": {
+          "baseColor": [
+            0.2,
+            0.14,
+            0.085
+          ],
+          "roughness": 0.8,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Iris": {
+          "baseColor": [
+            0.135,
+            0.098,
+            0.062
+          ],
+          "roughness": 0.35,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        }
+      }
+    },
+    {
+      "id": "V3_Pilgrim_Woman_Elder",
+      "short": "Woman_Elder",
+      "skeletalMesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/V3_Pilgrim_Woman_Elder/SkeletalMeshes/V3_Pilgrim_Woman_Elder.V3_Pilgrim_Woman_Elder",
+      "walk": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/WalkV2/V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Walk.V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Walk",
+      "idle": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Elder/WalkV2/V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Idle.V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Idle",
+      "glb": "SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Pilgrim_Woman_Elder.glb",
+      "glbTriangles": 19444,
+      "slots": {
+        "Skin": {
+          "baseColor": [
+            0.44,
+            0.268,
+            0.175
+          ],
+          "roughness": 0.62,
+          "paletteMix": 0.0,
+          "skinVariation": 1.0
+        },
+        "Linen": {
+          "baseColor": [
+            0.56,
+            0.59,
+            0.6
+          ],
+          "roughness": 0.86,
+          "paletteMix": 0.45,
+          "skinVariation": 0.0
+        },
+        "Mantle": {
+          "baseColor": [
+            0.27,
+            0.33,
+            0.36
+          ],
+          "roughness": 0.9,
+          "paletteMix": 0.85,
+          "skinVariation": 0.0
+        },
+        "Headcloth": {
+          "baseColor": [
+            0.64,
+            0.66,
+            0.655
+          ],
+          "roughness": 0.86,
+          "paletteMix": 0.25,
+          "skinVariation": 0.0
+        },
+        "Sash": {
+          "baseColor": [
+            0.36,
+            0.3,
+            0.23
+          ],
+          "roughness": 0.82,
+          "paletteMix": 0.55,
+          "skinVariation": 0.0
+        },
+        "Leather": {
+          "baseColor": [
+            0.14,
+            0.08,
+            0.042
+          ],
+          "roughness": 0.7,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Hair": {
+          "baseColor": [
+            0.615,
+            0.6,
+            0.572
+          ],
+          "roughness": 0.75,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Eyes": {
+          "baseColor": [
+            0.76,
+            0.742,
+            0.715
+          ],
+          "roughness": 0.35,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Trim": {
+          "baseColor": [
+            0.24,
+            0.24,
+            0.215
+          ],
+          "roughness": 0.8,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Iris": {
+          "baseColor": [
+            0.135,
+            0.098,
+            0.062
+          ],
+          "roughness": 0.35,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        }
+      }
+    },
+    {
+      "id": "V3_Pilgrim_Woman_Young",
+      "short": "Woman_Young",
+      "skeletalMesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/V3_Pilgrim_Woman_Young/SkeletalMeshes/V3_Pilgrim_Woman_Young.V3_Pilgrim_Woman_Young",
+      "walk": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/WalkV2/V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Walk.V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Walk",
+      "idle": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Woman_Young/WalkV2/V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Idle.V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Idle",
+      "glb": "SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Pilgrim_Woman_Young.glb",
+      "glbTriangles": 19396,
+      "slots": {
+        "Skin": {
+          "baseColor": [
+            0.52,
+            0.33,
+            0.215
+          ],
+          "roughness": 0.62,
+          "paletteMix": 0.0,
+          "skinVariation": 1.0
+        },
+        "Linen": {
+          "baseColor": [
+            0.62,
+            0.6,
+            0.54
+          ],
+          "roughness": 0.86,
+          "paletteMix": 0.45,
+          "skinVariation": 0.0
+        },
+        "Mantle": {
+          "baseColor": [
+            0.14,
+            0.19,
+            0.3
+          ],
+          "roughness": 0.9,
+          "paletteMix": 0.85,
+          "skinVariation": 0.0
+        },
+        "Headcloth": {
+          "baseColor": [
+            0.64,
+            0.625,
+            0.57
+          ],
+          "roughness": 0.86,
+          "paletteMix": 0.25,
+          "skinVariation": 0.0
+        },
+        "Sash": {
+          "baseColor": [
+            0.22,
+            0.25,
+            0.38
+          ],
+          "roughness": 0.82,
+          "paletteMix": 0.55,
+          "skinVariation": 0.0
+        },
+        "Leather": {
+          "baseColor": [
+            0.14,
+            0.08,
+            0.042
+          ],
+          "roughness": 0.7,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Hair": {
+          "baseColor": [
+            0.085,
+            0.05,
+            0.028
+          ],
+          "roughness": 0.75,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Eyes": {
+          "baseColor": [
+            0.76,
+            0.742,
+            0.715
+          ],
+          "roughness": 0.35,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Trim": {
+          "baseColor": [
+            0.32,
+            0.3,
+            0.22
+          ],
+          "roughness": 0.8,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Iris": {
+          "baseColor": [
+            0.135,
+            0.098,
+            0.062
+          ],
+          "roughness": 0.35,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        }
+      }
+    },
+    {
+      "id": "V3_Pilgrim_Youth",
+      "short": "Youth",
+      "skeletalMesh": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/V3_Pilgrim_Youth/SkeletalMeshes/V3_Pilgrim_Youth.V3_Pilgrim_Youth",
+      "walk": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/WalkV2/V3_Pilgrim_YouthA_Pilgrim_Original_Walk.V3_Pilgrim_YouthA_Pilgrim_Original_Walk",
+      "idle": "/Game/MikdashV3/Characters/PilgrimRigV3/V3_Pilgrim_Youth/WalkV2/V3_Pilgrim_YouthA_Pilgrim_Original_Idle.V3_Pilgrim_YouthA_Pilgrim_Original_Idle",
+      "glb": "SourceAssets/characters-review/PilgrimRigV3/walk-v2/meshes/V3_Pilgrim_Youth.glb",
+      "glbTriangles": 13476,
+      "slots": {
+        "Skin": {
+          "baseColor": [
+            0.52,
+            0.33,
+            0.215
+          ],
+          "roughness": 0.62,
+          "paletteMix": 0.0,
+          "skinVariation": 1.0
+        },
+        "Linen": {
+          "baseColor": [
+            0.72,
+            0.545,
+            0.285
+          ],
+          "roughness": 0.86,
+          "paletteMix": 0.45,
+          "skinVariation": 0.0
+        },
+        "Headcloth": {
+          "baseColor": [
+            0.76,
+            0.62,
+            0.4
+          ],
+          "roughness": 0.86,
+          "paletteMix": 0.25,
+          "skinVariation": 0.0
+        },
+        "Sash": {
+          "baseColor": [
+            0.33,
+            0.24,
+            0.14
+          ],
+          "roughness": 0.82,
+          "paletteMix": 0.55,
+          "skinVariation": 0.0
+        },
+        "Leather": {
+          "baseColor": [
+            0.14,
+            0.08,
+            0.042
+          ],
+          "roughness": 0.7,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Hair": {
+          "baseColor": [
+            0.085,
+            0.05,
+            0.028
+          ],
+          "roughness": 0.75,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Eyes": {
+          "baseColor": [
+            0.76,
+            0.742,
+            0.715
+          ],
+          "roughness": 0.35,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Trim": {
+          "baseColor": [
+            0.29,
+            0.2,
+            0.105
+          ],
+          "roughness": 0.8,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        },
+        "Iris": {
+          "baseColor": [
+            0.135,
+            0.098,
+            0.062
+          ],
+          "roughness": 0.35,
+          "paletteMix": 0.0,
+          "skinVariation": 0.0
+        }
+      }
+    }
+  ]
+}

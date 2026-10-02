@@ -1,0 +1,46 @@
+{
+  "status": "shader generator implemented; offline source tests passed; no native run",
+  "ownership": {
+    "this_worker": "AngularVATStudy01 only: generator, generated builder, tests, reference serialization/gates",
+    "Beauvoir": "Actual-horizon route core and shared controller; no edits made to Review01/SharedController01",
+    "coordination": "Exact proposed fields below are ready for coordinator relay. No Beauvoir thread was identifiable in available thread inventory; agreement is not claimed."
+  },
+  "files": {
+    "generate.py": "Extracts audited stock builders by AST with unique source replacement anchors. Emits self-contained candidate_builder.py and exact source SHA256 manifest; no Unreal imports or invocation.",
+    "candidate_builder.py": "Generated concrete material source: 30-float stock WPO, normals, old angular history and optional resident surface/detail/subsurface. No dependency on live production Python at native execution.",
+    "candidate_api.txt": "Generator API template, not a launch script. Fresh namespace/name and Engine Entry/noPIE guards, compile request and optional save limited to fresh candidate.",
+    "controller_adapter.py": "Executable reference for serialization and physical-gate order. Does not install runtime code or mutate reservations.",
+    "test_source.py": "Records and evaluates generated graph nodes offline, rather than testing only separate angle math.",
+    "generation.json": "Input and generated shader-source hashes",
+    "source-tests.json": "4879 passed assertions; 429 graph nodes with resident surface; no native compilation claim"
+  },
+  "shared_controller_fields": {
+    "existing_basis": "Runtime HeadingDegrees / shared r_A.Yaw remains the fixed instance basis during segment. Do not assign an increment every visit.",
+    "new_current_fields": {"TurnStartGameTime":"float game-clock timestamp, CD26", "TurnDeltaDegrees":"float shortest signed degrees [-180,180], CD27; zero inactive"},
+    "previous_fields": "Copy the same two fields in pre-mutation agent snapshot; emit old values at CD28/CD29. Preserve all CD0..25 exactly, including CD25 history boundary.",
+    "config": "Fixed 90deg/s in stock graph; NumCustomDataFloats=30 and full compatible material set required before enabling. No duration or extra shader channels.",
+    "controller_hook_sites": "SharedCohortController.h waiting-turn block around 100..107 and route-following block around 122..130 currently use single-frame yaw. Beauvoir should replace with begin/hold/commit angular segment through port, preserving surrounding route and spacing gates; actual patch ownership remains Beauvoir.",
+    "required_order": "Snapshot -> finish/drain live translation -> CommitVat + Relocate endpoint -> idle and begin angular segment once -> hold root with zero velocity/rate while active -> snapshot/rebase at end -> fresh ground/sweep/CanReserve -> successful Reserve -> SetVatWalk under existing ordering/rollback policy. Never authorize movement from angle alone.",
+    "gate_reference": "controller_adapter.translation_gate short circuits physical callbacks while either linear reservation or angular segment is live. A True result is only permission to attempt existing reservation; it does not replace Reserve or its failure handling.",
+    "time_boundary": "Reference completion uses conservative float end ceiling plus one ULP. Native shader float parity remains to verify. Native controller must use same game-time epoch and preserve pre-update history; no catch-up movement.",
+    "lod_watchdog": "Angular idle agents require explicit LOD angular drain/cancel handling. Separate bounded turn deadline from movement progress; yaw is not committed displacement."
+  },
+  "native_callable_when_separately_authorized": {
+    "entry_point": "candidate_builder.create_candidate(ue, spec, defaults, receipt, name='M_Angular_<freshId>', surface_textures=residentTexturesOrNone, subsurface=False, save=False)",
+    "namespace": "/Game/MikdashV3/Runtime/AngularVATStudy01/Materials",
+    "inputs": "Coordinator supplies reviewed spec, exact Walk/Idle Position/Normal texture UObject handles and decode boxes. Resident mode requires exact Mottle and DetailNormal texture handles; skin sets subsurface=True. Do not substitute original transferred normals for reviewed direct-normal textures. Master generation alone does not copy slot-specific MI overrides; bounded capture must reproduce/read back those explicit parameters.",
+    "world": "Coordinator explicitly loads only /Engine/Maps/Entry before call. Generator refuses other/absent world and PIE; never loads a map or starts a process.",
+    "writes": "Creates fresh material only. No map/mesh/component/texture mutation. save=False by default; explicit save=True writes that isolated new material only. Existing candidate names are refused, including in-memory object lookup.",
+    "guards": "Coordinator-owned existing 6GiB-start/4GiB-private/2GiB-reserve harness, serial slot and protected production hash exit gate remain mandatory at later native invocation. This source supplies no alternate launcher or relaxed guard.",
+    "evidence": "recompile_material requests compilation but is not compiler success. Capture real compiler diagnostics, connected graph readback and rendered proof before acceptance. Require unchanged production hashes on all exits."
+  },
+  "tested": [
+    "Generated current WPO rotates rest+VAT displacement and subtracts rest, across +/-180, +/-20, zero and both scale extrema.",
+    "Generated VAT normal follows the same angle; resident derivative/detail chain retains angular normal dependencies.",
+    "PreviousFrameSwitch reconstructs old segment in new instance basis across start, end and rebase; equality takes current segment.",
+    "Zero angular segment preserves world translation drift and original negative-dt/horizon clamp.",
+    "2500/5000/10000, budgets125/500,30/60FPS: controller reference invokes no physical callbacks during turn, respects live linear reservation, and does not bypass failed ground gate.",
+    "All 30 indices exist; no Custom expression generated; source inputs still match generation hashes."
+  ],
+  "remaining_native_acceptance": "Reflection/stock-node compilation, precise HLSL float boundary behavior, actual texture/MI readback, previous-frame velocity pixels, held-root 90deg/s rendering, full rotated body bounds and physical envelope, guarded memory behavior. No production acceptance implied."
+}

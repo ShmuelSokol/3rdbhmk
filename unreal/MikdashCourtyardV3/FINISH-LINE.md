@@ -2499,3 +2499,18 @@ cases and the existing2000-move storage test. Geometry callbacks remain test
 doubles; no runtime collision/support or visual acceptance follows from this.
 Independent review and serial project gates are required before publication.
 No production controller, map, material or packaged executable changed.
+
+## Whole-footprint support source checkpoint — 2 October 2026
+
+FullFootprintSupport01-Publication01 preserves the independently tested static
+patch coverage kernel:193 actual MSVC checks in both producer and independent
+runs. Supplied convex patches are subtracted from the swept circumscribed footprint
+with exact bounded rational arithmetic; holes and overlapping-area traps
+are tested. Exhausted arithmetic/work budgets refuse rather than assume coverage.
+Six measured profiles and their signed vertical bounds are unchanged.
+
+The portable derivative includes the measured results, exact C++ sources and
+recorded execution identities. Its verifier has no live engine dependencies.
+This does not yet connect to loaded Chaos geometry or prove obstacle clearance.
+An additive engine bridge must establish shape lifetime, instance transforms,
+face identity and source equivalence before production adoption.

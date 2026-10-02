@@ -2299,3 +2299,35 @@ addition, not a rewrite of receipt02. Fourteen UE automation tests remain unrun;
 no native receiver build, IPC, listener, browser admission or online delivery is
 claimed by this source checkpoint. Owned harmless-child OS tests are preparation
 for the next integration step, not currently established execution evidence.
+
+## Receiver04 actual Windows ownership fixture — 2 October 2026
+
+Coordinator executed os_fixture04 revision03 with installed UE Python 3.11.8
+(64-bit); six of six OS cases passed in 0.926 seconds. A real filled anonymous
+pipe write returned ERROR_OPERATION_ABORTED (995) after cancellation. The frozen
+host's write deadline cleaned its owned job; injected assignment, write and
+handle-close failures preserved exact ownership and cleaned successfully. The
+unrelated control child survived every case. Final unresolved leases: zero;
+sentinel handle closed. No Unreal process, socket, authentication or media path
+was exercised. The child-only 40-second watchdog was reviewed but its expiry was
+not exercised. This is launcher ownership evidence, not a browser walkthrough.
+
+Local receipt: C:/Mikdash/Verification/receiver04-os-fixture-01.json,
+SHA256 6d58109f02bc5c5fcb81d8c51fd85cb5758a3c2b7eadc8728479d262e378a27d.
+Executed fixture manifest: 61d11a37f6109749675fd1e56d6b1f301f44beb94bf167639b3e43cf067f8595.
+Independent reviewer checked the receipt, four source pins and unchanged backend.
+Source/mailbox checkpoint e9b47d7a5 is pushed; additive OS evidence publication is
+being prepared without modifying that checkpoint's frozen manifests.
+## Angular shader Compile03 — 2 October 2026
+
+A separately reviewed isolated SM6 commandlet enabled per-shader DDC and explicit
+completion logging. It stopped at the unchanged total deadline after 295.003 s,
+with 3,663,536,128-byte peak owned memory; cleanup and source preservation passed,
+and the shared engine slot was released. The log contains 5,363 unique returned
+DDC input hashes and 407 completion messages. These prove observed cache results
+and work, not durable writes or successful candidate compilation. Startup exposed
+a further High-priority shader queue after the ExtraHigh batch. Python never
+started and no candidate receipt exists. No production shader or map was adopted.
+ForceAllowShaderCompilerJobCache also changes ODSC/material-map cache policy;
+representative positive shader statistics remain mandatory and would not establish
+full HISM permutation or rendered-motion acceptance. No automatic retry is armed.

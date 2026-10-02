@@ -1,0 +1,649 @@
+{
+  "omissions": [
+    "engine source",
+    "live Unreal packages",
+    "raw native logs",
+    "local runner files",
+    "failed exports"
+  ],
+  "originalInputManifestSha256": "4e66b7d4d250659c1d8aff9e00f50baf411d7e495fa23d642504b593cb49d103",
+  "originalMeasurementSha256": "9924d4680156894f24faae06d459d9a382a51551c3bad4f7bf5ddff1005e7a24",
+  "originalPins": [
+    {
+      "artifact": "check_export.py",
+      "bytes": 4058,
+      "sha256": "11d9427fba4fcbd40897596062e12433752f8c2f3ba788af0b6f82368269e5c4"
+    },
+    {
+      "artifact": "contract.py",
+      "bytes": 4809,
+      "sha256": "133890da2a5feea7d113f6529538604f8f48356a4876b881e9a1a6429e080550"
+    },
+    {
+      "artifact": "inputs.json",
+      "bytes": 6887,
+      "sha256": "1c8a3123d422ac01f75d546ebb2314edf3b0a3ac010c500dd31e18e9e14c6cc2"
+    },
+    {
+      "artifact": "manifest.json",
+      "bytes": 3240,
+      "sha256": "e06be5e15c29580cab412006bfd1a1608ec3221aff9782a4aea61f6df35d9b8d"
+    },
+    {
+      "artifact": "Man_Elder-IdlePosition.png",
+      "bytes": 7229015,
+      "sha256": "5376725af304033d9823d97c7c7481ed1fd1cf41dae807b56ba6cd440a5833fd"
+    },
+    {
+      "artifact": "Woman_Young-IdlePosition.png",
+      "bytes": 6086982,
+      "sha256": "5c7f3b916d1aa1a25b357edf31ff991176387ab203feb1f09b1abff5f4fc8f18"
+    },
+    {
+      "artifact": "launch.json",
+      "bytes": 1122,
+      "sha256": "b66a907313ab7221ab6fe0b7c47e3ce47936815847030e29b57a2cbb0c5113fd"
+    },
+    {
+      "artifact": "native.json",
+      "bytes": 3205,
+      "sha256": "89c0f4823803ecd2865c256e3334b0c9797957fb4f7557dbeffc9315d1752862"
+    },
+    {
+      "artifact": "source-after.json",
+      "bytes": 8555,
+      "sha256": "fc9320a56e489db278c7ca9e8efb31b773027c7e642839800ce9b20b1c0bf099"
+    },
+    {
+      "artifact": "source-before.json",
+      "bytes": 8555,
+      "sha256": "fc9320a56e489db278c7ca9e8efb31b773027c7e642839800ce9b20b1c0bf099"
+    },
+    {
+      "artifact": "wrapper.json",
+      "bytes": 2230,
+      "sha256": "fea03ed5fd4f79bd8d355dec0b67d9ec7f77ed0819c1ed5366bf5c93601bdbd4"
+    },
+    {
+      "artifact": "stage-receipt.json",
+      "bytes": 438,
+      "sha256": "f1fe159cee704857cdb2c32cad5864c4d326830fb30856bdc991eb3276122d4b"
+    },
+    {
+      "artifact": "AnimToTextureBPLibrary.cpp",
+      "bytes": 45496,
+      "sha256": "5f28221d21101bff01b3813dbcea5d81575da8641e2297f989c400aa72c062b8"
+    },
+    {
+      "artifact": "AnimToTextureUtils.h",
+      "bytes": 9847,
+      "sha256": "e1ed17302002b41b5151efa591f6eaa478de57b070a256a31c986421ae01271c"
+    },
+    {
+      "artifact": "Texture2D.cpp",
+      "bytes": 72329,
+      "sha256": "251617cd29e1e03c81b205d85890a574cb07f47f1fc862a5a4fc9244e5b6cb71"
+    },
+    {
+      "artifact": "V3_Pilgrim_Man_ElderA_Pilgrim_Original_Idle.uasset",
+      "bytes": 93020,
+      "sha256": "658ce4a0bfe707c4b68109f1ec762203148d2c80322f2d31f76489836d423c71"
+    },
+    {
+      "artifact": "V3_Pilgrim_Man_ElderA_Pilgrim_Original_Walk.uasset",
+      "bytes": 183519,
+      "sha256": "fd8d602f7d458d81a73540095ef8fd83b2040cffe363ebc706a283975d364645"
+    },
+    {
+      "artifact": "V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Idle.uasset",
+      "bytes": 93023,
+      "sha256": "203c40c3ef15c2caa16edbfef9919d413cd74df9df9f57bb0022077f8202445a"
+    },
+    {
+      "artifact": "V3_Pilgrim_Man_HeavyA_Pilgrim_Original_Walk.uasset",
+      "bytes": 183522,
+      "sha256": "8b251c98389e608b2bd4fc8e011ed6f43cc042ea696d25697a204aa8bfae8899"
+    },
+    {
+      "artifact": "V3_Pilgrim_Man_StandardA_Pilgrim_Original_Idle.uasset",
+      "bytes": 94471,
+      "sha256": "a96605ef26ef5b7d0ab7b7fae0972178f0cd00c57811a70baef549a760136388"
+    },
+    {
+      "artifact": "V3_Pilgrim_Man_StandardA_Pilgrim_Original_Walk.uasset",
+      "bytes": 186140,
+      "sha256": "596c079016c8964216528d60961497f19cd696fa171fb22c375dc0c696255489"
+    },
+    {
+      "artifact": "V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Idle.uasset",
+      "bytes": 93991,
+      "sha256": "a800988f4d9a5424768ec0317bd3aa2ab3e80285032d7c348f7880c956e49ddc"
+    },
+    {
+      "artifact": "V3_Pilgrim_Woman_ElderA_Pilgrim_Original_Walk.uasset",
+      "bytes": 185270,
+      "sha256": "adebbde53981f3e56cab925e2f7797b73b4613b1eef2bdc88942dc191f4ab1b0"
+    },
+    {
+      "artifact": "V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Idle.uasset",
+      "bytes": 93992,
+      "sha256": "663da275fe64cab5df69220cd8fc738dd4872f5585e0f00fcff36e69710d7a93"
+    },
+    {
+      "artifact": "V3_Pilgrim_Woman_YoungA_Pilgrim_Original_Walk.uasset",
+      "bytes": 185271,
+      "sha256": "6bbe7023e079b392814d73dad45c224756a24e995333386e388dd93aa114f690"
+    },
+    {
+      "artifact": "V3_Pilgrim_YouthA_Pilgrim_Original_Idle.uasset",
+      "bytes": 91112,
+      "sha256": "4bf95b3f6c4ba48ed0e7ecc9eec5eb39d5b2f1264fa7e61da4ecf911cfe3603a"
+    },
+    {
+      "artifact": "V3_Pilgrim_YouthA_Pilgrim_Original_Walk.uasset",
+      "bytes": 180051,
+      "sha256": "100922fdf514425cd71c39be052f1b8704ad7c52fec02b9ea4f1e9062b9c71be"
+    },
+    {
+      "artifact": "SK_RV4_Man_Elder.uasset",
+      "bytes": 7356291,
+      "sha256": "35900d5b01eb15896dc08575b8ff7b505dc5ee3a5dfda9987a97a13e53cf03c8"
+    },
+    {
+      "artifact": "SK_RV4_Man_Heavy.uasset",
+      "bytes": 7524008,
+      "sha256": "7712fb997369d8febd9ff6a9f1f46d14535cfd768971040fa650e7eb2ad9227d"
+    },
+    {
+      "artifact": "SK_RV4_Man_Standard.uasset",
+      "bytes": 7374454,
+      "sha256": "1cb749274cd813721ae6f2cdde55fc264f32bb00256c8723ddad67552d28204c"
+    },
+    {
+      "artifact": "SK_RV4_Woman_Elder.uasset",
+      "bytes": 6567985,
+      "sha256": "a0f021213b4a9c218ea6313e5547cc87eb6f66f2531a7557f17efbbb539ad748"
+    },
+    {
+      "artifact": "SK_RV4_Woman_Young.uasset",
+      "bytes": 6579130,
+      "sha256": "e70de841c2f87f618b4ee796f1b5c6c108a236aea17faf020775fe20d39d1868"
+    },
+    {
+      "artifact": "SK_RV4_Youth.uasset",
+      "bytes": 5162813,
+      "sha256": "f58a34553be29a32260bed362ba0a85a6363028a368b16f29427dd762c719c4a"
+    },
+    {
+      "artifact": "M_ResidentVAT.uasset",
+      "bytes": 119281,
+      "sha256": "e36ddeccd5fb5fc320e59f113ceef0078ccf5befca85d3ef99251788a1510da1"
+    },
+    {
+      "artifact": "T_IdlePosition.uasset",
+      "bytes": 10790688,
+      "sha256": "904867cd9b2ff334df174fd080187824ff94a5a66fe7ed6fd9b8235f9024f9b9"
+    },
+    {
+      "artifact": "T_WalkPosition.uasset",
+      "bytes": 6505244,
+      "sha256": "4920df4cd1da8e0d19ae93120eb156bdb3fe96614d00ac480285103eb61ccaad"
+    },
+    {
+      "artifact": "SK_RV4_Man_Elder_HeadGrid.uasset",
+      "bytes": 4532155,
+      "sha256": "e234c477e659fd7896860fab3fbc4302d2eca6d8a0bbbb84218940a1b69ec2f2"
+    },
+    {
+      "artifact": "M_ResidentVAT.uasset",
+      "bytes": 119293,
+      "sha256": "a0134f7cfa39cb4e6b9111c04ff052ce3eaf2b8201ff41655994980fb4299333"
+    },
+    {
+      "artifact": "T_IdlePosition.uasset",
+      "bytes": 8261375,
+      "sha256": "5375126361fab266b996cec027aa805ab26c070595862535e4db639fb7d6d203"
+    },
+    {
+      "artifact": "T_WalkPosition.uasset",
+      "bytes": 5472341,
+      "sha256": "7f18d71042ea2e5beb32647bf966b8d0dd0d320a7407e61120d8c1054a078da0"
+    },
+    {
+      "artifact": "SK_RV4_Woman_Young_HeadGrid.uasset",
+      "bytes": 3673543,
+      "sha256": "9d442aa5a90440cd3f5ad3ada1073cf465ca2f9946b6aa928a6c2d56e569e90c"
+    },
+    {
+      "artifact": "MI_RV4_Cloth.uasset",
+      "bytes": 11248,
+      "sha256": "7464c6cfe358eab9dc31b6f1c791249e195425808d9feef3533329947e7660b0"
+    },
+    {
+      "artifact": "MI_RV4_Eye.uasset",
+      "bytes": 11238,
+      "sha256": "bfa96c580570602801ccfe30b860c3c14d6891b6a5475ccb599f91ae8c081bbc"
+    },
+    {
+      "artifact": "MI_RV4_Garment.uasset",
+      "bytes": 11258,
+      "sha256": "6f65a3a40022a61453143bbab0b2c539f176c0f9d9a2bba72771b6330f34de4d"
+    },
+    {
+      "artifact": "MI_RV4_Hair.uasset",
+      "bytes": 11245,
+      "sha256": "80ba74c88f24e31c6ee0c8ca521c6a1c9b063d4a20ec4696c02bd0a9bd6304c8"
+    },
+    {
+      "artifact": "MI_RV4_Leather.uasset",
+      "bytes": 11258,
+      "sha256": "04b81d9844b151e4eacb8af193e6eb5337ced71169361288f7260934e3f8e7d6"
+    },
+    {
+      "artifact": "MI_RV4_Skin.uasset",
+      "bytes": 11394,
+      "sha256": "18de95f010a3caf447afdd1e560044a431b81b282783dc6cf9ae01b6a08590c5"
+    },
+    {
+      "artifact": "SM_ResidentDirectNormals.uasset",
+      "bytes": 1158335,
+      "sha256": "23df3bb2cad2c5bbd8a352b22dbd501d1ebb762c8deec2fe41dd9e9d095149c6"
+    },
+    {
+      "artifact": "T_IdleNormal.uasset",
+      "bytes": 15531055,
+      "sha256": "3fc7323488740198b8e959b10bb24c79b34597678c7cd82a44d10c88b7d833ca"
+    },
+    {
+      "artifact": "T_WalkNormal.uasset",
+      "bytes": 7858407,
+      "sha256": "372380c32661860a682bccbfbe3d64b11849c2d8fe834dd569b3fedf600618dc"
+    },
+    {
+      "artifact": "MI_RV4_Cloth.uasset",
+      "bytes": 11264,
+      "sha256": "b439586bdde1e7ba1f3ad313f3b03c5c49a464aa220659060a3dd160e0282969"
+    },
+    {
+      "artifact": "MI_RV4_Eye.uasset",
+      "bytes": 11254,
+      "sha256": "6b338da94992ce457543637444d9729cfa381c71055eb9cf56f26fc56c3aee2b"
+    },
+    {
+      "artifact": "MI_RV4_Garment.uasset",
+      "bytes": 11274,
+      "sha256": "945068004d60b3375fc8848d8dd479d2f0fa0e8459e71cbf46d51629137c4003"
+    },
+    {
+      "artifact": "MI_RV4_Hair.uasset",
+      "bytes": 11261,
+      "sha256": "dd05beb92132453ab5aca6bbe2310847e180ab9a5d105f4a67fd1771e3bf42fd"
+    },
+    {
+      "artifact": "MI_RV4_Leather.uasset",
+      "bytes": 11274,
+      "sha256": "75d12a1338e83a978f973268ddc19d0aad2ca3c88498f5abd5a150a468306dc3"
+    },
+    {
+      "artifact": "MI_RV4_Skin.uasset",
+      "bytes": 11410,
+      "sha256": "f7d61aa755baf21590929f32c0b4cdeb291274b4089b37e9889ec893d1fb0279"
+    },
+    {
+      "artifact": "SM_ResidentDirectNormals.uasset",
+      "bytes": 921739,
+      "sha256": "56ef989db5e68240a45c9f44003ec8478452fd9f96b9fd55dfd61ec55956ebc2"
+    },
+    {
+      "artifact": "T_IdleNormal.uasset",
+      "bytes": 11173224,
+      "sha256": "e456ee501dde63641638d0b9a75dc2c53c5dac02e0b476f9c64a181b16b7d7fe"
+    },
+    {
+      "artifact": "T_WalkNormal.uasset",
+      "bytes": 6347196,
+      "sha256": "2c65097b0f96a7a295803d65653363c015fd7e4ba48508fe2d6f36c90f5ebb57"
+    },
+    {
+      "artifact": "MI_RV4_Cloth.uasset",
+      "bytes": 11248,
+      "sha256": "7464c6cfe358eab9dc31b6f1c791249e195425808d9feef3533329947e7660b0"
+    },
+    {
+      "artifact": "MI_RV4_Eye.uasset",
+      "bytes": 11238,
+      "sha256": "bfa96c580570602801ccfe30b860c3c14d6891b6a5475ccb599f91ae8c081bbc"
+    },
+    {
+      "artifact": "MI_RV4_Garment.uasset",
+      "bytes": 11258,
+      "sha256": "6f65a3a40022a61453143bbab0b2c539f176c0f9d9a2bba72771b6330f34de4d"
+    },
+    {
+      "artifact": "MI_RV4_Hair.uasset",
+      "bytes": 11245,
+      "sha256": "80ba74c88f24e31c6ee0c8ca521c6a1c9b063d4a20ec4696c02bd0a9bd6304c8"
+    },
+    {
+      "artifact": "MI_RV4_Leather.uasset",
+      "bytes": 11258,
+      "sha256": "04b81d9844b151e4eacb8af193e6eb5337ced71169361288f7260934e3f8e7d6"
+    },
+    {
+      "artifact": "MI_RV4_Skin.uasset",
+      "bytes": 11394,
+      "sha256": "18de95f010a3caf447afdd1e560044a431b81b282783dc6cf9ae01b6a08590c5"
+    },
+    {
+      "artifact": "SM_ResidentDirectNormals.uasset",
+      "bytes": 1158335,
+      "sha256": "23df3bb2cad2c5bbd8a352b22dbd501d1ebb762c8deec2fe41dd9e9d095149c6"
+    },
+    {
+      "artifact": "T_IdleNormal.uasset",
+      "bytes": 15531055,
+      "sha256": "3fc7323488740198b8e959b10bb24c79b34597678c7cd82a44d10c88b7d833ca"
+    },
+    {
+      "artifact": "T_WalkNormal.uasset",
+      "bytes": 7858407,
+      "sha256": "372380c32661860a682bccbfbe3d64b11849c2d8fe834dd569b3fedf600618dc"
+    },
+    {
+      "artifact": "MI_RV4_Cloth.uasset",
+      "bytes": 11264,
+      "sha256": "b439586bdde1e7ba1f3ad313f3b03c5c49a464aa220659060a3dd160e0282969"
+    },
+    {
+      "artifact": "MI_RV4_Eye.uasset",
+      "bytes": 11254,
+      "sha256": "6b338da94992ce457543637444d9729cfa381c71055eb9cf56f26fc56c3aee2b"
+    },
+    {
+      "artifact": "MI_RV4_Garment.uasset",
+      "bytes": 11274,
+      "sha256": "945068004d60b3375fc8848d8dd479d2f0fa0e8459e71cbf46d51629137c4003"
+    },
+    {
+      "artifact": "MI_RV4_Hair.uasset",
+      "bytes": 11261,
+      "sha256": "dd05beb92132453ab5aca6bbe2310847e180ab9a5d105f4a67fd1771e3bf42fd"
+    },
+    {
+      "artifact": "MI_RV4_Leather.uasset",
+      "bytes": 11274,
+      "sha256": "75d12a1338e83a978f973268ddc19d0aad2ca3c88498f5abd5a150a468306dc3"
+    },
+    {
+      "artifact": "MI_RV4_Skin.uasset",
+      "bytes": 11410,
+      "sha256": "f7d61aa755baf21590929f32c0b4cdeb291274b4089b37e9889ec893d1fb0279"
+    },
+    {
+      "artifact": "SM_ResidentDirectNormals.uasset",
+      "bytes": 921739,
+      "sha256": "56ef989db5e68240a45c9f44003ec8478452fd9f96b9fd55dfd61ec55956ebc2"
+    },
+    {
+      "artifact": "T_IdleNormal.uasset",
+      "bytes": 11173224,
+      "sha256": "e456ee501dde63641638d0b9a75dc2c53c5dac02e0b476f9c64a181b16b7d7fe"
+    },
+    {
+      "artifact": "T_WalkNormal.uasset",
+      "bytes": 6347196,
+      "sha256": "2c65097b0f96a7a295803d65653363c015fd7e4ba48508fe2d6f36c90f5ebb57"
+    },
+    {
+      "artifact": "MikdashCrowdField.cpp",
+      "bytes": 90145,
+      "sha256": "8a8ef49652634e077b5d68cc63e0d257520837681a00be1ec20900fb31e60176"
+    },
+    {
+      "artifact": "MikdashResidentPopulation.cpp",
+      "bytes": 47701,
+      "sha256": "a5e0d046c4930b60512f1310b5dcfb46648c742b0e382f543fbad7e7739700da"
+    },
+    {
+      "artifact": "PopulationSceneMath.h",
+      "bytes": 18902,
+      "sha256": "0645721aba3dcd1f5f07e7dbdcbf51014ea3eb25c24ccf99bd88bd3138aaf186"
+    },
+    {
+      "artifact": "adopt_resident_shoulders.py",
+      "bytes": 5626,
+      "sha256": "70c9d8a7668f605aacf87925ea96dffcb321ef6c3508d4f69e464cf1fac58d37"
+    },
+    {
+      "artifact": "build_resident_direct_normals.py",
+      "bytes": 17539,
+      "sha256": "47dbabc157a8199f64faf8ac10d89a7f24a83e2637344bf2e4fe1565a8062e23"
+    },
+    {
+      "artifact": "compare_resident_vat_pose.py",
+      "bytes": 7144,
+      "sha256": "3272be1f449c0ac5fbaa0e0c4dccebcc49aaf11299eb35fb032809a7191aa000"
+    },
+    {
+      "artifact": "create_crowd_vat_v2.py",
+      "bytes": 87509,
+      "sha256": "02d1d5b35dd4c7884df1c5e227bdc8021f1e4b1a069d59457c5a32ede662665f"
+    },
+    {
+      "artifact": "measure_pilgrim_walk.py",
+      "bytes": 19906,
+      "sha256": "2efb4f368d60498e38bb64821596b255ceccfc8212a574f68236ac872d136fda"
+    },
+    {
+      "artifact": "V3_Pilgrim_Man_Elder.glb",
+      "bytes": 987196,
+      "sha256": "be5f80a99ea65e69f6c3e3083f8886c4b54c44272ebe6dbdfa096c9fc2fd434b"
+    },
+    {
+      "artifact": "V3_Pilgrim_Man_Heavy.glb",
+      "bytes": 999652,
+      "sha256": "8591ab42761c5ba283cd9135e519c2c78b095e3e3a00063ff2a1d325c7f6c84f"
+    },
+    {
+      "artifact": "V3_Pilgrim_Man_Standard.glb",
+      "bytes": 977980,
+      "sha256": "e362b72cc2c6f3e4b13930068426f560eef129b973fa796729738009ca2fffda"
+    },
+    {
+      "artifact": "V3_Pilgrim_Woman_Elder.glb",
+      "bytes": 970980,
+      "sha256": "a8730f2c12c478fbe90f17718cced1ee87df4c941a39311ec565d862d5ac7878"
+    },
+    {
+      "artifact": "V3_Pilgrim_Woman_Young.glb",
+      "bytes": 968620,
+      "sha256": "69cd152a92431354461e7a9419b77d884a0c74acc24c48a0bd50a22ca3741a88"
+    },
+    {
+      "artifact": "V3_Pilgrim_Youth.glb",
+      "bytes": 706132,
+      "sha256": "da41cc9a00c3aa2a7852acc3f8ad63cb74cc496a95bc69ca78ef27d6a1136d83"
+    },
+    {
+      "artifact": "walkv2-import-20260909T233726325326Z.json",
+      "bytes": 125154,
+      "sha256": "649bc821ae7bc957e1e55d9c72a87dcd2037c9297199c6ce34931f35d67c191e"
+    },
+    {
+      "artifact": "SK_RV4_Man_Elder_HeadGrid.glb",
+      "bytes": 9020176,
+      "sha256": "2cabfef3ca1eefcec443e445f983cc8bb83f9a285482ef861bfe8bac0f920b9e"
+    },
+    {
+      "artifact": "SK_RV4_Woman_Young_HeadGrid.glb",
+      "bytes": 7834004,
+      "sha256": "74806a0f5b174d7a29b454657ea32d9eadc0ce5a01aa5928485025a9636ab289"
+    },
+    {
+      "artifact": "SK_RV4_Man_Elder.glb",
+      "bytes": 5592176,
+      "sha256": "ef4dc8284894bf2ae173e86ab2bf715e09634a37509db43aa0e758f10b98d5b6"
+    },
+    {
+      "artifact": "SK_RV4_Man_Standard.glb",
+      "bytes": 5572056,
+      "sha256": "a2d8c690822a53172046156e3dd9d95a99491eb4ef692e093eeeebcc69bf3603"
+    },
+    {
+      "artifact": "SK_RV4_Woman_Elder.glb",
+      "bytes": 5037076,
+      "sha256": "b021fcb7ac4c55c873333dc29ccb7617fb06b8f6f3a64a4e2af21961281c4563"
+    },
+    {
+      "artifact": "SK_RV4_Woman_Young.glb",
+      "bytes": 5037064,
+      "sha256": "5d329a9af601ab01ba14cc1c5971063e46e135a178c1f0698139b9859968e212"
+    },
+    {
+      "artifact": "SK_RV4_Youth.glb",
+      "bytes": 3924732,
+      "sha256": "60f43e3995850bcb9bf84595ce231408d513b1210f55b057d45857274180d4e6"
+    },
+    {
+      "artifact": "shoulder-adopt-verify-20260919T091955Z.json",
+      "bytes": 174664,
+      "sha256": "cfe2d0c7317d0a6af5bc6c0da483bbed47e80abd756adfc0c9eb51d323d6be2f"
+    },
+    {
+      "artifact": "resident-v4-import-all-20260915T224317209596Z.json",
+      "bytes": 22177,
+      "sha256": "1aa25b837b5b6c1f8a632827c1da159235352ba00e46367fcc5be5ca04a8e6df"
+    },
+    {
+      "artifact": "SK_RV4_Man_Heavy.glb",
+      "bytes": 5813436,
+      "sha256": "ca799b0adbfcd0b53a8c4def921868c9a9a1b2a7273ed75dc6f55e39314d9761"
+    },
+    {
+      "artifact": "diagnose.py",
+      "bytes": 6205,
+      "sha256": "fc376a7f8f2aa8c7fb1f58e8323a4c72d6e2af9a033ec0879da480f2b8d1610e"
+    },
+    {
+      "artifact": "README.txt",
+      "bytes": 9468,
+      "sha256": "7667316a782d7e77397e4fbf4f7999d07a83d4e37e488fffed27fdaec2e62211"
+    },
+    {
+      "artifact": "independent-provenance.json",
+      "bytes": 34764,
+      "sha256": "978f94ffa63ce81c539740ffec3d2f544fce822a0a293f728ad0d78a1b63c31c"
+    },
+    {
+      "artifact": "inputs.json",
+      "bytes": 42643,
+      "sha256": "c833f6bc535b36fd02db854c06a79da2947dbf665b7bc50af440edd8401d6b9c"
+    },
+    {
+      "artifact": "manifest.json",
+      "bytes": 1757,
+      "sha256": "4034f9cc87ada53dde0b2c0d3e58aff7369b50050cf4b5f842bb02fbdb377f55"
+    },
+    {
+      "artifact": "measure.py",
+      "bytes": 16010,
+      "sha256": "c57034a2d3af186799b7c712e5c9b9af225812f52717fb2fb14cc2fa8b101003"
+    },
+    {
+      "artifact": "results.json",
+      "bytes": 45446,
+      "sha256": "1ae54d318b685c3e03dbae4c0fcc5782f4b43376ec88504a160744aa162a20e5"
+    },
+    {
+      "artifact": "test_measure.py",
+      "bytes": 8804,
+      "sha256": "9bba3fe71235b682e62bd0d22e01231a5125b8ca02b9c3c26feaf0f0fabafaef"
+    },
+    {
+      "artifact": "verification.json",
+      "bytes": 985,
+      "sha256": "31c2692d216b83d3c40c76b2a4ccc6779abdea4c28dc2a63794f21e6332c8d24"
+    },
+    {
+      "artifact": "verify.py",
+      "bytes": 3060,
+      "sha256": "07e908528e5a45368d10684465071fdce0deeb7716ec5dc7abbf3fe4e1c89dcd"
+    },
+    {
+      "artifact": "native-20260919T132730124383Z.json",
+      "bytes": 147642,
+      "sha256": "54347ac949d92fb2cc4e0626f63ee1cf5106e3495f7597efd65ef2a14a7cf926"
+    },
+    {
+      "artifact": "normals-20260919T133649705255Z-static.json.gz",
+      "bytes": 1161112,
+      "sha256": "4928f29c75867c7a511de3892aae157dfc3ef11149c8b71a01e7a786a3c35742"
+    },
+    {
+      "artifact": "normals-20260919T133649705255Z.json",
+      "bytes": 5594,
+      "sha256": "a69e8b835cdf3e03782204b010dd644b177781b23943bd2df1ac18b6d7517149"
+    },
+    {
+      "artifact": "posed-normals-20260919T133709802105Z-position.png",
+      "bytes": 4488132,
+      "sha256": "51e1a11f03e1d6ee60e886350f4abbeec9afcad2abbb3df7f2184d9b8d7c27ef"
+    },
+    {
+      "artifact": "posed-normals-20260919T133709802105Z.json",
+      "bytes": 3446,
+      "sha256": "303238a56aab6562686e5f6650517f4a3b27be55f3798d209b3957cd9ed15dd5"
+    },
+    {
+      "artifact": "native-20260919T132856200802Z.json",
+      "bytes": 147794,
+      "sha256": "eed199f37aaae1b964854ccd6d74bcd35a0329d6d0c491bcb3ec2f36516202b5"
+    },
+    {
+      "artifact": "normals-20260919T134008975197Z-static.json.gz",
+      "bytes": 941919,
+      "sha256": "fc5b7afce5980455a66d51f8ecd309f6df0232d8e55c830409bb815d5d5ef15e"
+    },
+    {
+      "artifact": "normals-20260919T134008975197Z.json",
+      "bytes": 5607,
+      "sha256": "c98a9bbc4ba7278d5b08ce4a1e27d026656861a4b72d64bc215dda980bb5b9e2"
+    },
+    {
+      "artifact": "posed-normals-20260919T134028895693Z-position.png",
+      "bytes": 3858105,
+      "sha256": "4ed43c0bbaad12d4ccf83374e2fea9cf0840201949c7c4fd2f90634e5c778c82"
+    },
+    {
+      "artifact": "posed-normals-20260919T134028895693Z.json",
+      "bytes": 3458,
+      "sha256": "c489f976fa44eb6ca81e8c1db782c9b5162d0088f26851b9ba56510019138b02"
+    },
+    {
+      "artifact": "native-20260919T133340655673Z.json",
+      "bytes": 212509,
+      "sha256": "0173ee3b651e3d0e8c9b0d303f903738c1ae01bd08c1aa0f6cc033e4a4f54235"
+    },
+    {
+      "artifact": "native-20260919T133627785098Z.json",
+      "bytes": 212394,
+      "sha256": "c430e5dbfd04d7f5d956c88056031621f2cf3b8f167e13aac32cf61e275bdbee"
+    },
+    {
+      "artifact": "native-20260919T133735829737Z.json",
+      "bytes": 212649,
+      "sha256": "fb4151e674fc788c02413734a1df39a594ef8da5ae1f58d73764ee4e6c9e7c34"
+    },
+    {
+      "artifact": "native-20260919T133947154254Z.json",
+      "bytes": 212534,
+      "sha256": "8e69e463a0181d795e3a229070305380368cdd03c82e2ff147b0d70301f4053c"
+    }
+  ],
+  "scope": "Archived source-pixel evidence; no live Unreal/package verification.",
+  "transformations": [
+    "Relative allowlisted paths replace workstation paths",
+    "Native and binding receipts reduced to necessary fields",
+    "Live preservation claims retained as historical facts only"
+  ]
+}

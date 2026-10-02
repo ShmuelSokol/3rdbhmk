@@ -1,0 +1,3 @@
+# Conditional source sampling contract
+Idle UV2 follows the reviewed sequential AnimToTexture bake only if VertexIDs remain unchanged. This is source-derived, not a freshly dumped idle UV2 channel. Wrap addressing likewise remains source-derived, not a fresh native property readback. The original engine-source identities/hashes are retained in provenance; no engine source is included.
+Point, LOD0 sampling and source RGBA16 decoding are checked for all frames and the wrap seam. Linear endpoint interpolation, idle/walk blending in [0,1], and triangle barycentric interpolation are convex, so endpoint radius and Z extrema bound the combinations. No cooked GPU compression/precision certificate is claimed. The .001cm allowance is numerical, not a collision tolerance.

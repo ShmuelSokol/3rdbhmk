@@ -2459,3 +2459,29 @@ but the seven Slate assertions and UE compilation have not run. Independent revi
 is pending; authenticated attachment, media activation and browser delivery remain
 unavailable. Candidate03 remains preserved on HOLD. No accepted map or playable
 checkpoint was replaced by these source studies.
+
+## Portable body-measurement checkpoint — 2 October 2026
+
+MeasuredResidentEnvelopes02-Publication02 contains24 explicit files: both native
+corner censuses, both walk and accepted idle position PNGs, a direct PNG reader,
+measurement code, archived binding/export evidence and sampling/root contracts.
+The eight numerical functions are AST-identical to the original measurement code.
+The portable replay passes21 tests and exactly reproduces every study13 result,
+including frame extrema, witness vertices and pixel hashes. It reads no live
+Unreal packages or engine sources; archived receipts are clearly historical.
+Python3.12.14/NumPy2.3.5 is the verified environment. Independent isolated replay
+and project gates are required before publishing this source checkpoint.
+
+The initial Publication folder contains only three historical evidence files:
+its preparation failed under an older Python before creating executable code.
+It is not the publication candidate and remains local. Publication02 is the
+complete candidate. No raw logs, engine sources, binaries or Unreal assets are
+included. Source-derived idle UV2 and Wrap premises still qualify the bounds;
+neither portable replay nor negative minimum Z proves runtime collision safety.
+
+The shader source audit now identifies a separate effect of the forced compiler
+job-cache flag: it enables ODSC-only shader variants and changes compilation
+environments included in _EMH_. The new reviewed-runner proposal removes only
+that flag and enforces normal commandlet policy. No scalability override is
+justified by the evidence, and none is introduced. Exact native key equality
+remains the gate; the proposal is not yet a successful native run.

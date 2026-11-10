@@ -70,8 +70,16 @@ export function createPlayer(camera, world) {
     pos.x += vel.x * dt;
     pos.z += vel.z * dt;
     // Off the platform the ground is a height map: a rise taller than a step is a wall.
-    if (!world.onDeck(pos.x, pos.z) && world.topAt(pos.x, pos.z) > pos.y + STEP) {
-      pos.x = px0; pos.z = pz0; vel.x = 0; vel.z = 0;
+    // Keep a body's width from it and slide along it rather than stopping dead.
+    const blocked = (x, z) => {
+      if (world.onDeck(x, z)) return false;
+      const lim = pos.y + STEP, r = RADIUS + 0.25;
+      return world.topAt(x, z) > lim || world.topAt(x + r, z) > lim || world.topAt(x - r, z) > lim || world.topAt(x, z + r) > lim || world.topAt(x, z - r) > lim;
+    };
+    if (blocked(pos.x, pos.z) && !blocked(px0, pz0)) {
+      if (!blocked(pos.x, pz0)) { pos.z = pz0; vel.z = 0; }
+      else if (!blocked(px0, pos.z)) { pos.x = px0; vel.x = 0; }
+      else { pos.x = px0; pos.z = pz0; vel.x = 0; vel.z = 0; }
     }
     resolveCapsule(STEP, HEIGHT, RADIUS, push);
     pos.x += push.x;
@@ -117,6 +125,7 @@ export function createPlayer(camera, world) {
     vel.x += (wish.x - vel.x) * Math.min(1, 5 * dt);
     vel.y += (wish.y - vel.y) * Math.min(1, 5 * dt);
     vel.z += (wish.z - vel.z) * Math.min(1, 5 * dt);
+    const fx0 = pos.x, fy0 = pos.y, fz0 = pos.z;
     pos.addScaledVector(vel, dt);
     sphere.center.set(pos.x, pos.y + EYE, pos.z);
     sphere.radius = 0.45;
@@ -137,7 +146,11 @@ export function createPlayer(camera, world) {
     pos.y += sphere.center.y - sy;
     pos.z += sphere.center.z - sz;
     // never below the ground or inside a house
-    pos.y = THREE.MathUtils.clamp(pos.y, world.topAt(pos.x, pos.z) + 0.7 - EYE, 320);
+    // a house ahead is a wall to fly up and over; a low rise lifts the dove gently
+    const floor = world.topAt(pos.x, pos.z) + 0.7 - EYE;
+    if (floor > pos.y + 1.5 && world.topAt(fx0, fz0) + 0.7 - EYE <= fy0 + 1.5) { pos.x = fx0; pos.z = fz0; pos.y = fy0 + 26 * dt; } // rise up the wall, then carry on over the roof
+    else if (floor > pos.y) pos.y = floor > pos.y + 1.5 ? floor : Math.min(floor, pos.y + 14 * dt);
+    pos.y = Math.min(pos.y, 320);
   }
 
   function update(dt, input) {

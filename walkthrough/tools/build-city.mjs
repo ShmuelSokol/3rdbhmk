@@ -165,6 +165,9 @@ for (const f of fs.readdirSync(facDir)) {
 }
 
 
+const KEEP_TRIM = !!process.env.CITY_TRIM;
+const genWin = new Map(); // cell -> { pos, col, idx } openings made with the rebuilt walls
+let nGenWin = 0, nGenDoor = 0;
 const roofItems = []; // x, y, z, kind, turn, clearance for each thing standing on a roof
 const cityMeshes = []; // { name, pos, idx, ao }
 const footprints = []; // triangles for rasterising: [pos, idx]
@@ -218,7 +221,9 @@ for (const [cell, files] of [...cells].sort()) {
     }
     rooflines.push([w.pos, new Uint32Array(rIdx)]);
   }
-  if (FAST) continue;
+  // The shells' loose detail (cornices, corner stones, window frames) no longer lines up with
+  // the rebuilt walls, so none of it is kept: parapets and openings are made with the walls.
+  if (FAST || !KEEP_TRIM) continue;
   const keepIdx = [];
   const wp = [], wc = [], wi = []; // openings: one quad each
   for (const c of comps.values()) {
@@ -298,7 +303,7 @@ if (!ONLY) {
   }
   const w = weldPositions(new Float32Array(P), new Uint32Array(I));
   const ao = new Float32Array(w.pos.length / 3).fill(0.55);
-  cityMeshes.push({ name: 'footings', pos: w.pos, idx: w.idx, ao });
+  if (KEEP_TRIM) cityMeshes.push({ name: 'footings', pos: w.pos, idx: w.idx, ao });
   fndTris = w.idx.length / 3;
   console.log(`footings: ${fndTris} triangles`);
 }
@@ -496,6 +501,31 @@ for (const [x, z, y] of wallSamples) { const k = node(x, z); if (k >= 0 && !W[k]
 for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) {
   if (inRing(X0 + i * STEP, Z0 + j * STEP)) H[j * N + i] = Math.min(H[j * N + i], -1.5);
 }
+// East of the city the ground is cut back so the Mount's wall stands tall above the valley,
+// as the eastern wall does today, instead of being buried to its parapet.
+{
+  const ringDist = (x, z) => {
+    let best = 1e18;
+    for (let q = 0; q < ring.length; q++) {
+      const [ax, az] = ring[q], [bx, bz] = ring[(q + 1) % ring.length];
+      const ux = bx - ax, uz = bz - az;
+      const t = Math.max(0, Math.min(1, ((x - ax) * ux + (z - az) * uz) / (ux * ux + uz * uz || 1)));
+      best = Math.min(best, (x - ax - ux * t) ** 2 + (z - az - uz * t) ** 2);
+    }
+    return Math.sqrt(best);
+  };
+  for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) {
+    const x = X0 + i * STEP, z = Z0 + j * STEP;
+    if (x < 30 || x > 300 || z < -400 || z > 400) continue;
+    const rd = ringDist(x, z);
+    if (rd > 110) continue;
+    const side = Math.min(1, (x - 30) / 60);
+    if (inRing(x, z)) { if (rd < 30) H[j * N + i] = Math.min(H[j * N + i], -1.5 - 16.5 * side); continue; }
+    const k = (1 - rd / 110) * side, sm = k * k * (3 - 2 * k);
+    const cap = -18 + rd * 0.08;
+    if (H[j * N + i] > cap) H[j * N + i] += (cap - H[j * N + i]) * Math.min(1, sm * 1.6);
+  }
+}
 let hMin = 1e9, hMax = -1e9;
 for (const h of H) { hMin = Math.min(hMin, h); hMax = Math.max(hMax, h); }
 console.log(`terrain: ${N}x${N} at ${STEP} m; ${surveyed} surveyed nodes, ${laneNodes} from lanes, ${wallSamples.length} from the wall; ${hMin.toFixed(0)}..${hMax.toFixed(0)} m`);
@@ -618,6 +648,8 @@ const solidTris = { count: 0 };
   for (let v = 2; v < FN - 2; v++) for (let u = 2; u < FN - 2; u++) {
     const k = v * FN + u;
     if (ext[k] || Number.isNaN(hgt[k])) continue;
+    // a lane stays a lane, whatever roof slab the source hung over it
+    { const lu = Math.floor((u * FP) / cmPx), lv = Math.floor((v * FP) / cmPx); if (kind[lv * CM.n + lu] === 110) continue; }
     let ok = true;
     for (let dv = -2; dv <= 2 && ok; dv++) for (let du = -2; du <= 2; du++) if (ext[k + dv * FN + du]) { ok = false; break; }
     body[k] = ok ? 1 : 0;
@@ -641,14 +673,22 @@ const solidTris = { count: 0 };
     regions.push(pix);
   }
   // fold slivers into a neighbouring region so no holes are left between houses
-  for (let pass = 0; pass < 2; pass++) {
+  for (let pass = 0; pass < 3; pass++) {
     regions.forEach((pix, r) => {
-      if (!pix.length || pix.length >= 160) return;
+      if (!pix.length) return;
       const votes = new Map();
-      for (const k of pix) for (const d of [-1, 1, -FN, FN]) { const l = label[k + d]; if (l && l !== r + 1) votes.set(l, (votes.get(l) || 0) + 1); }
+      let edge = 0;
+      for (const k of pix) {
+        let onEdge = false;
+        for (const d of [-1, 1, -FN, FN]) { const l = label[k + d]; if (l !== r + 1) { onEdge = true; if (l) votes.set(l, (votes.get(l) || 0) + 1); } }
+        if (onEdge) edge++;
+      }
+      // a strip under two metres wide is a cornice band or a gap between roofs, not a house
+      const thin = ((2 * pix.length) / Math.max(1, edge)) * FP < 2.0;
+      if (pix.length >= 160 && !thin) return;
       let best = 0, bestN = 0;
       for (const [l, n] of votes) if (n > bestN) { best = l; bestN = n; }
-      if (!best) return;
+      if (!best) { if (thin) { for (const k of pix) { label[k] = 0; body[k] = 0; } regions[r] = []; } return; }
       for (const k of pix) { label[k] = best; regions[best - 1].push(k); }
       regions[r] = [];
     });
@@ -737,6 +777,7 @@ const solidTris = { count: 0 };
     const tint0 = cellsOut.get(key).pos.length / 3;
     const out = cellsOut.get(key);
     const y0 = Math.min(gMin - 1.2, roofY - 2.5);
+    const PT = 0.3, topY = roofY + 0.85; // parapet thickness and top
     const sign = Math.sign(areaOf(outer));
     for (const l of [outer, ...holes]) {
       const flip = Math.sign(areaOf(l)) !== sign; // holes run the other way round
@@ -750,8 +791,56 @@ const solidTris = { count: 0 };
         const quad = nx * (zb - za) - nz * (xb - xa) > 0
           ? [xa, y0, za, xb, y0, zb, xb, roofY, zb, xa, y0, za, xb, roofY, zb, xa, roofY, za]
           : [xb, y0, zb, xa, y0, za, xa, roofY, za, xb, y0, zb, xa, roofY, za, xb, roofY, zb];
-        for (let q = 0; q < 18; q++) out.pos.push(quad[q]);
+        for (let q = 0; q < 18; q++) out.pos.push(quad[q] === roofY ? topY : quad[q]);
         for (let q = 0; q < 6; q++) out.nor.push(nx, 0, nz);
+        // the parapet's inner face and its coping
+        {
+          const ia = [xa - nx * PT, za - nz * PT], ib = [xb - nx * PT, zb - nz * PT];
+          const front = nx * (zb - za) - nz * (xb - xa) > 0;
+          const inner = front
+            ? [ib[0], roofY, ib[1], ia[0], roofY, ia[1], ia[0], topY, ia[1], ib[0], roofY, ib[1], ia[0], topY, ia[1], ib[0], topY, ib[1]]
+            : [ia[0], roofY, ia[1], ib[0], roofY, ib[1], ib[0], topY, ib[1], ia[0], roofY, ia[1], ib[0], topY, ib[1], ia[0], topY, ia[1]];
+          for (const v of inner) out.pos.push(v);
+          for (let q = 0; q < 6; q++) out.nor.push(-nx, 0, -nz);
+          const A = [xa, topY, za], B = [xb, topY, zb], C = [ib[0], topY, ib[1]], D = [ia[0], topY, ia[1]];
+          const upc = (B[2] - A[2]) * (C[0] - A[0]) - (B[0] - A[0]) * (C[2] - A[2]) > 0;
+          for (const P of (upc ? [A, B, C, A, C, D] : [A, C, B, A, D, C])) out.pos.push(P[0], P[1], P[2]);
+          for (let q = 0; q < 6; q++) out.nor.push(0, 1, 0);
+        }
+        // doors at lane level and windows above, on walls that face open ground
+        const L = Math.hypot(xb - xa, zb - za);
+        if (L > 2.4) {
+          const ux = (xb - xa) / L, uz = (zb - za) / L;
+          const tx = -nz, tz = nx; // the panel's own left-to-right
+          const lab = (x, z) => { const u = Math.floor((x - CM.x0) / FP), v = Math.floor((z - CM.z0) / FP); return u < 0 || v < 0 || u >= FN || v >= FN ? 0 : label[v * FN + u]; };
+          const bays = Math.max(1, Math.floor(L / 3.4));
+          if (!genWin.has(key)) genWin.set(key, { pos: [], col: [], idx: [] });
+          const G = genWin.get(key);
+          for (let j = 0; j < bays; j++) {
+            const t = (j + 0.5) / bays, mx = xa + (xb - xa) * t, mz = za + (zb - za) * t;
+            if (lab(mx + nx * 0.8, mz + nz * 0.8) || lab(mx + nx * 1.5, mz + nz * 1.5) || lab(mx + nx * 2.4, mz + nz * 2.4)) continue; // a party wall
+            if (lab(mx - nx * 0.8, mz - nz * 0.8) !== id) continue; // the normal points the wrong way here
+            const g = Math.max(terrainAt(mx + nx * 0.6, mz + nz * 0.6), terrainAt(mx + nx * 0.6 + ux, mz + nz * 0.6 + uz), terrainAt(mx + nx * 0.6 - ux, mz + nz * 0.6 - uz));
+            const hsh = (n) => ((Math.round(mx * 37.1 + mz * 91.7 + n * 13.3) * 2654435761) >>> 0) / 4294967296;
+            const put = (y0p, wdt, hgt, cls, r) => {
+              const q0 = G.pos.length / 3, d = 0.05;
+              for (const [su, yy] of [[-1, y0p], [1, y0p], [1, y0p + hgt], [-1, y0p + hgt]]) G.pos.push(mx + tx * su * wdt / 2 + nx * d, yy, mz + tz * su * wdt / 2 + nz * d);
+              const c = cls * 0.25 + r * 0.2;
+              G.col.push(0, c, 0, 1, c, 0, 1, c, 1, 0, c, 1);
+              G.idx.push(q0, q0 + 2, q0 + 1, q0, q0 + 3, q0 + 2);
+            };
+            let y = g + 1.05;
+            if (roofY - g > 2.9) {
+              const h0 = hsh(0);
+              if (h0 < 0.34) { put(g + 0.05, 1.25, 2.35, hsh(1) < 0.65 ? 3 : 2, hsh(2)); nGenDoor++; }
+              else if (h0 < 0.62 && roofY - g > 3.4) { put(y, 0.95, 1.5, hsh(1) < 0.3 ? 1 : 0, hsh(2)); nGenWin++; }
+            }
+            for (let f = 1; g + f * 3.15 + 1.0 + 1.75 < roofY - 0.35; f++) {
+              if (hsh(f * 7) > 0.78) continue;
+              put(g + f * 3.15 + 1.0, 1.0, 1.75, hsh(f * 7 + 1) < 0.4 ? 1 : 0, hsh(f * 7 + 2)); nGenWin++;
+            }
+          }
+        }
       }
     }
     const tris = THREE.ShapeUtils.triangulateShape(outer.map(([x, z]) => new THREE.Vector2(x, z)), holes.map((h) => h.map(([x, z]) => new THREE.Vector2(x, z))));
@@ -782,7 +871,7 @@ const solidTris = { count: 0 };
         if (taken.some(([tx, tz]) => Math.hypot(tx - x, tz - z) < 4)) continue;
         taken.push([x, z]);
         const h1 = ((r * 40503 + taken.length * 9973) >>> 0) % 1000 / 1000;
-        const kind = inr > 3.2 && h1 < 0.3 ? 1 : h1 < 0.72 ? 0 : 2; // 0 tank, 1 dome, 2 planters
+        const kind = inr > 2.6 && h1 < 0.36 ? 1 : h1 < 0.62 ? 0 : 2; // 0 tank, 1 dome, 2 planters
         roofItems.push(+x.toFixed(2), +roofY.toFixed(2), +z.toFixed(2), kind, +(h1 * 6.28).toFixed(2), +Math.min(inr, 5).toFixed(1));
       }
     }
@@ -828,7 +917,9 @@ const solidTris = { count: 0 };
     footprints.push([pos, idx]);
     solidTris.count += n / 3;
   }
+  for (const [key, G] of genWin) if (G.idx.length) cityMeshes.push({ name: `win_${key}`, pos: new Float32Array(G.pos), idx: new Uint32Array(G.idx), col: new Float32Array(G.col) });
   console.log(`house solids: ${nRegions} roof regions, ${solidTris.count} triangles`);
+  console.log(`openings made: ${nGenWin} windows, ${nGenDoor} doors`);
   if (process.env.CITY_SCAN) {
     const [sx0, sx1, sz] = process.env.CITY_SCAN.split(',').map(Number);
     const v = Math.round((sz - CM.z0) / FP);

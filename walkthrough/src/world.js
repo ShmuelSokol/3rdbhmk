@@ -118,7 +118,7 @@ export async function createWorld(renderer, quality, onProgress) {
   wallMat.onBeforeCompile = mats.byClass.stone.onBeforeCompile;
   wallMat.customProgramCacheKey = mats.byClass.stone.customProgramCacheKey;
   wallMat.vertexColors = false;
-  wallMat.color.set(0xb09a72);
+  wallMat.color.set(0xd9c9a4);
   const site = await createSite(scene, mats, quality, soup, soupOid, wallMat);
 
   const colliderGeo = new THREE.BufferGeometry();
@@ -127,25 +127,25 @@ export async function createWorld(renderer, quality, onProgress) {
   colliderGeo.boundsTree = bvh;
   const collider = new THREE.Mesh(colliderGeo, new THREE.MeshBasicMaterial());
 
-  // Far hills, so the horizon is not a ruled line.
-  {
-    const ring = new THREE.CylinderGeometry(4200, 4200, 1, 160, 6, true);
+  // Far hills in three ranges, each paler and bluer than the one before, so the land has depth.
+  for (const [R, H0, seed, tint] of [[3300, 170, 0, [0.60, 0.58, 0.50]], [4600, 300, 2.1, [0.63, 0.65, 0.65]], [6200, 440, 4.7, [0.66, 0.72, 0.80]]]) {
+    const ring = new THREE.CylinderGeometry(R, R, 1, 220, 7, true);
     const P = ring.attributes.position;
     const col = new Float32Array(P.count * 3);
-    const noise = (a) => Math.sin(a * 3.1) * 0.5 + Math.sin(a * 7.7 + 1.3) * 0.28 + Math.sin(a * 17.3 + 4.1) * 0.14 + Math.sin(a * 41 + 2) * 0.06;
+    const ridge = (a, f, ph) => 1 - Math.abs(Math.sin(a * f + ph));
+    const crest = (a) => 0.42 * ridge(a, 2.5, seed) + 0.27 * ridge(a, 6.5, seed * 2.3 + 1) + 0.17 * ridge(a, 14.5, seed + 3) + 0.09 * ridge(a, 33.5, seed * 1.7) + 0.05 * ridge(a, 71.5, seed + 0.4);
     for (let i = 0; i < P.count; i++) {
-      const x = P.getX(i), z = P.getZ(i);
-      const a = Math.atan2(z, x);
+      const a = Math.atan2(P.getZ(i), P.getX(i));
       const t = P.getY(i) + 0.5; // 0 bottom .. 1 top
-      const h = 260 + 170 * noise(a);
-      const r = 4200 - (1 - t) * 1500;
-      P.setXYZ(i, Math.cos(a) * r, t * t * h - 150, Math.sin(a) * r);
-      const c = 0.5 + 0.2 * t;
-      col.set([0.62 * c, 0.6 * c, 0.5 * c], i * 3);
+      const h = H0 * (0.45 + 0.75 * crest(a));
+      const r = R - (1 - t) * 1300 + 60 * Math.sin(a * 23 + t * 5 + seed);
+      P.setXYZ(i, Math.cos(a) * r, t * t * h - 300 * (1 - t) - 20, Math.sin(a) * r);
+      const c = 0.72 + 0.34 * t + 0.1 * Math.sin(a * 57 + t * 9 + seed);
+      col.set([tint[0] * c, tint[1] * c, tint[2] * c], i * 3);
     }
     ring.setAttribute('color', new THREE.BufferAttribute(col, 3));
     ring.computeVertexNormals();
-    const hills = new THREE.Mesh(ring, new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.BackSide }));
+    const hills = new THREE.Mesh(ring, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.BackSide, fog: false }));
     scene.add(hills);
   }
 
@@ -170,11 +170,11 @@ export async function createWorld(renderer, quality, onProgress) {
       float n2(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3. - 2. * f);
         return mix(mix(h2(i), h2(i + vec2(1, 0)), f.x), mix(h2(i + vec2(0, 1)), h2(i + vec2(1, 1)), f.x), f.y); }
       float fbm(vec2 p){ float a = .5, s = 0.; for (int i = 0; i < 5; i++){ s += a * n2(p); p = p * 2.07 + 11.3; a *= .5; } return s; }
-      float dens(vec2 p){ return fbm(p) * .75 + .25 * fbm(p * .23 + 40.); }
+      float dens(vec2 p){ float b = fbm(p), w = fbm(p * .27 + 40.); return b * .7 + .3 * w - .14 * (1. - smoothstep(.35, .6, w)); }
       void main(){
-        vec2 p = vP.xz * .00042 + vec2(uTime * .0016, uTime * .0006);
+        vec2 p = vP.xz * .00095 + vec2(uTime * .0016, uTime * .0006);
         float d = dens(p);
-        float a = smoothstep(uCover, uCover + .2, d);
+        float a = smoothstep(uCover, uCover + .1, d);
         // thinner toward the sun means brighter: a cheap stand-in for light through the cloud
         float d2 = dens(p + normalize(uSun.xz + 1e-4) * .09);
         float lit = clamp(.62 + (d - d2) * 3.2 + (1. - a) * .35, 0., 1.);
@@ -203,10 +203,10 @@ export async function createWorld(renderer, quality, onProgress) {
   sun.shadow.normalBias = shadowTexel * 1.6;
   scene.add(sun, sun.target);
 
-  const hemi = new THREE.HemisphereLight(0xfff2e0, 0xc8a878, 0.5);
+  const hemi = new THREE.HemisphereLight(0xcfe0ff, 0x9a7f58, 0.6);
   scene.add(hemi);
 
-  scene.fog = new THREE.FogExp2(0xd8dde0, 0.00042);
+  scene.fog = new THREE.FogExp2(0xd8dde0, 0.00032);
 
   const pmrem = new THREE.PMREMGenerator(renderer);
   const envScene = new THREE.Scene();
@@ -238,19 +238,19 @@ export async function createWorld(renderer, quality, onProgress) {
     sun.color.setRGB(1, 1 - 0.28 * warmth, 1 - 0.55 * warmth);
     sun.intensity = 3.4 * THREE.MathUtils.clamp(t.elevation / 9, 0.12, 1);
     sun.shadow.bias = -Math.min(0.004, ((shadowTexel / Math.tan(THREE.MathUtils.degToRad(t.elevation))) / 510) * 1.5);
-    hemi.intensity = 0.5 + 0.2 * (1 - warmth);
-    hemi.color.setRGB(1.0, 0.95 - 0.03 * warmth, 0.9 - 0.1 * warmth);
-    scene.fog.color.setRGB(0.84 + 0.1 * warmth, 0.86 - 0.08 * warmth, 0.88 - 0.22 * warmth);
+    hemi.intensity = 0.62 + 0.2 * (1 - warmth);
+    hemi.color.setRGB(0.97 + 0.03 * warmth, 0.95 - 0.02 * warmth, 0.97 - 0.15 * warmth);
+    scene.fog.color.setRGB(0.70 + 0.16 * warmth, 0.72 - 0.02 * warmth, 0.72 - 0.16 * warmth);
     cloudMat.uniforms.uSun.value.copy(sunDir);
-    cloudMat.uniforms.uLit.value.setRGB(1.9, 1.9 - 0.45 * warmth, 1.9 - 0.95 * warmth);
-    cloudMat.uniforms.uShade.value.setRGB(1.0 + 0.25 * warmth, 1.08 - 0.1 * warmth, 1.22 - 0.3 * warmth);
-    cloudMat.uniforms.uCover.value = t.cover ?? 0.5;
+    cloudMat.uniforms.uLit.value.setRGB(1.3, 1.3 - 0.3 * warmth, 1.3 - 0.62 * warmth);
+    cloudMat.uniforms.uShade.value.setRGB(0.62 + 0.2 * warmth, 0.68 - 0.05 * warmth, 0.8 - 0.2 * warmth);
+    cloudMat.uniforms.uCover.value = t.cover ?? 0.52;
     baseExposure = t.exposure;
     renderer.toneMappingExposure = baseExposure * (1 + 1.5 * adapt);
     if (envTarget) envTarget.dispose();
     envTarget = pmrem.fromScene(envScene, 0, 1, 2000);
     scene.environment = envTarget.texture;
-    scene.environmentIntensity = 0.22;
+    scene.environmentIntensity = 0.3;
     effects.setSun(sunDir, t);
   }
 
@@ -261,6 +261,7 @@ export async function createWorld(renderer, quality, onProgress) {
   // The eye adapts: under a roof the exposure opens up, in the open courts it closes.
   const upRay = new THREE.Ray(new THREE.Vector3(), new THREE.Vector3(0, 1, 0));
   let adapt = 0;
+  let curS = SH;
   let baseExposure = 0.6;
   function update(dt, time, camPos) {
     mats.uniforms.uTime.value = time;
@@ -270,8 +271,17 @@ export async function createWorld(renderer, quality, onProgress) {
     const roofed = bvh.raycastFirst(upRay, THREE.DoubleSide, 0, 70) ? 1 : 0;
     adapt += (roofed - adapt) * Math.min(1, dt * 1.6);
     renderer.toneMappingExposure = baseExposure * (1 + 1.5 * adapt);
-    const cx = Math.round(camPos.x / texel) * texel;
-    const cz = Math.round(camPos.z / texel) * texel;
+    // From far off or high up one wide box covers the whole House; close by a tight one follows the visitor.
+    const S = camPos.y > 35 || Math.hypot(camPos.x, camPos.z) > 150 ? 215 : SH;
+    if (S !== curS) {
+      curS = S;
+      Object.assign(sun.shadow.camera, { left: -S, right: S, top: S, bottom: -S });
+      sun.shadow.camera.updateProjectionMatrix();
+      sun.shadow.normalBias = ((2 * S) / smap) * 1.6;
+    }
+    const tx = (2 * S) / smap;
+    const cx = S > SH ? -20 : Math.round(camPos.x / tx) * tx;
+    const cz = S > SH ? 0 : Math.round(camPos.z / tx) * tx;
     sun.target.position.set(cx, 0, cz);
     sun.position.copy(sun.target.position).addScaledVector(sunDir, 260);
     sun.target.updateMatrixWorld();

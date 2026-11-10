@@ -130,9 +130,9 @@ export function install(material, { fragPars = '', color = '', rough = '', norma
     if (sky) {
       f = f.replace('#include <aomap_fragment>', `#include <aomap_fragment>
         float mkSky = skyVisibility(vWPos, wN);
-        float mkAmb = mix(.10, 1., mkSky * mkSky);
+        float mkAmb = mix(.2, 1., mkSky * mkSky);
         reflectedLight.indirectDiffuse *= mkAmb;
-        reflectedLight.indirectSpecular *= mix(vec3(.34, .24, .12), vec3(1.), mkSky);`);
+        reflectedLight.indirectSpecular *= mix(vec3(1.5, 1.1, .52), vec3(1.), mkSky);`);
     }
     shader.fragmentShader = f;
   };
@@ -156,7 +156,7 @@ export function createMaterials(roofTexture, quality) {
         vec3 base = diffuseColor.rgb;
         // steer the flat source tints toward warm Jerusalem limestone
         float lum = dot(base, vec3(.3, .5, .2));
-        vec3 lime = vec3(.80, .64, .43) * (.5 + .8 * lum);
+        vec3 lime = vec3(.93, .86, .73) * (.5 + .8 * lum);
         base = mix(base, lime, .7);
         float up = wN.y;
         vec3 ash;
@@ -188,11 +188,14 @@ export function createMaterials(roofTexture, quality) {
         c *= .94 + .12 * fbm(vWPos * 1.1 + tone * 20.);
         c *= mix(1., .8 + .4 * grain, .55 * fade + .15);
         c *= .9 + .2 * coarse;
+        // course bands and long drips that still read from across the valley
+        c *= .94 + .10 * hash11(floor(vWPos.y / 2.25) * 5.3);
+        c *= 1. - .16 * smoothstep(.5, .85, fbm(vec3(vWPos.x * .9 + vWPos.z * .9, vWPos.y * .06, 7.))) * (1. - abs(up));
         c *= mix(1.045, 1., margin * fade);
         // rain streaks and dust settle low on walls
         float streak = fbm(vec3(vWPos.x * 1.6 + vWPos.z * 1.6, vWPos.y * .12, 3.));
-        c *= 1. - .16 * smoothstep(.5, .8, streak) * (1. - abs(up));
-        c = mix(c, c * vec3(.42, .38, .33), joint * .85);
+        c *= 1. - .24 * smoothstep(.46, .8, streak) * (1. - abs(up));
+        c = mix(c, c * vec3(.58, .53, .46), joint * .7);
         c *= .97 + .06 * fine * fade;
         diffuseColor.rgb = c;
         mkBump = (margin * (.35 + .65 * grain) - joint * 1.4) * .012 + fine * .0012;
@@ -221,10 +224,10 @@ export function createMaterials(roofTexture, quality) {
             float pat = fbm(vWPos * 1.7);
             diffuseColor.rgb = vec3(1., .77, .34) * (.96 + .05 * pat) * (1. - .22 * (1. - smoothstep(.0, .03, edge)));
             diffuseColor.rgb *= 1. + .10 * palm;
-            mkMetal = 1.;
-            mkBump = frame * .012 + palm * .02 + hammer * .0012;
+            mkMetal = .7;
+            mkBump = frame * .012 + palm * .012 + hammer * .0012;
             mkBumpK = 1. - smoothstep(.02, .12, px);
-            mkRough = -.46 + (pat - .5) * .06 - palm * .05;
+            mkRough = -.32 - palm * .05;
           }
         }
       }`,
@@ -251,7 +254,7 @@ export function createMaterials(roofTexture, quality) {
         c *= .9 + .2 * grain * fade;
         c *= .93 + .14 * coarse;
         c *= 1. - .1 * smoothstep(.55, .7, veins) * fade;
-        c = mix(c, c * vec3(.5, .46, .40), joint * .6);
+        c = mix(c, c * vec3(.66, .62, .56), joint * .55);
         diffuseColor.rgb = c;
         mkBump = -joint * .012 + grain * .002;
         mkBumpK = fade * uDetail;
@@ -409,14 +412,17 @@ export function createMaterials(roofTexture, quality) {
         vec3 ash = ashlar(vWPos.xz, 1.5, 2.2);
         float px = max(length(fwidth(vWPos.xz)), 1e-4);
         float fade = 1. - smoothstep(.06, .4, px);
-        float tone = mix(.5, hash21(ash.xy + 13.), 1. - smoothstep(.15, .7, px));
+        float tone = mix(.5, hash21(ash.xy + 13.), 1. - smoothstep(.04, .2, px));
         float joint = (1. - smoothstep(.006, .006 + px * 1.6, ash.z)) * clamp(.024 / (px * 1.6 + .006), 0., 1.) * (1. - smoothstep(.25, .8, px));
         float grain = fbm(vWPos * 3.);
         float coarse = fbm(vec3(vWPos.xz * .02, 2.));
-        vec3 slab = vec3(.78, .63, .43) * (.88 + .22 * tone) * (.9 + .2 * grain * fade);
+        vec3 slab = vec3(.70, .60, .45) * (.93 + .14 * tone) * (.9 + .2 * grain * fade);
         slab = mix(slab, slab * .5, joint * .8);
         float paved = 1.;
         vec3 c = slab * (.86 + .28 * coarse);
+        // broad wear and paler patches that do not shimmer from the air
+        c *= .88 + .24 * fbm(vec3(vWPos.xz * .11, 5.));
+        c = mix(c, c * vec3(.86, .84, .80), smoothstep(.55, .8, fbm(vec3(vWPos.xz * .035, 9.))));
         diffuseColor.rgb = c;
         mkBump = -joint * .012 * paved + grain * .003;
         mkBumpK = fade * uDetail;

@@ -48,12 +48,26 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
   for (let k = 0; k < N * N; k++) H[k] = T.lo + ((tp[k * 4] * 256 + tp[k * 4 + 1]) / 65535) * T.span;
   const coreMaxX = T.x0 + (N - 1) * T.step, coreMaxZ = T.z0 + (N - 1) * T.step;
   const hills = (x, z) => 34 * Math.sin(x * 0.0011 + 1.3) * Math.cos(z * 0.0009 + 0.4) + 18 * Math.sin(x * 0.0031 + z * 0.0023) + 8 * Math.sin(x * 0.0071 - z * 0.0063 + 2.0);
+  function ringDist(x, z) {
+    let best = 1e18;
+    for (let i = 0; i < ring.length; i++) {
+      const [ax, az] = ring[i], [bx, bz] = ring[(i + 1) % ring.length];
+      const ux = bx - ax, uz = bz - az;
+      const t = Math.max(0, Math.min(1, ((x - ax) * ux + (z - az) * uz) / (ux * ux + uz * uz || 1)));
+      const dx = x - ax - ux * t, dz = z - az - uz * t;
+      const q = dx * dx + dz * dz;
+      if (q < best) best = q;
+    }
+    return Math.sqrt(best);
+  }
   function terrainAt(x, z) {
     const cx = Math.min(coreMaxX, Math.max(T.x0, x)), cz = Math.min(coreMaxZ, Math.max(T.z0, z));
     const fx = Math.min(N - 1.001, (cx - T.x0) / T.step), fz = Math.min(N - 1.001, (cz - T.z0) / T.step);
     const i = Math.floor(fx), j = Math.floor(fz), u = fx - i, v = fz - j;
     const k = j * N + i;
-    const h = (H[k] * (1 - u) + H[k + 1] * u) * (1 - v) + (H[k + N] * (1 - u) + H[k + N + 1] * u) * v;
+    // the same two flat triangles the mesh draws, so feet and tree trunks meet the ground
+    const h00 = H[k], h10 = H[k + 1], h01 = H[k + N], h11 = H[k + N + 1];
+    const h = u + v <= 1 ? h00 + (h10 - h00) * u + (h01 - h00) * v : h11 + (h01 - h11) * (1 - u) + (h10 - h11) * (1 - v);
     const d = Math.hypot(x - cx, z - cz);
     if (d <= 0) return h;
     // beyond the surveyed square the land rolls away into hills
@@ -129,19 +143,32 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
         float coarse = fbm(vec3(vWPos.xz * .012, 2.));
         float mid = fbm(vec3(vWPos.xz * .11, 5.));
         float fine = mix(.5, fbm(vWPos * 1.3), 1. - smoothstep(.2, 1.2, px));
-        vec3 earth = mix(vec3(.50, .43, .31), vec3(.67, .60, .45), coarse);
-        vec3 scrub = mix(vec3(.30, .34, .19), vec3(.46, .45, .27), mid);
-        float veg = smoothstep(.42, .60, fbm(vec3(vWPos.xz * .03, 7.)) + (mid - .5) * .3);
-        vec3 c = mix(earth, scrub, veg * .75) * (.8 + .4 * fine);
-        // bare rock shows through on the steeper slopes
+        float d2 = mix(.5, fbm(vec3(vWPos.xz * .33, 9.)), 1. - smoothstep(1.5, 9., px));
+        float d3 = mix(.5, fbm(vec3(vWPos.xz * .045, 3.)), 1. - smoothstep(12., 60., px));
+        vec3 earth = mix(vec3(.42, .33, .22), vec3(.60, .51, .36), coarse);
+        vec3 scrub = mix(vec3(.19, .24, .11), vec3(.34, .36, .19), mid);
+        // scrub in speckled clumps rather than stains
+        float veg = smoothstep(.47, .55, fbm(vec3(vWPos.xz * .06, 7.)) * .55 + d2 * .3 + d3 * .15);
+        vec3 c = mix(earth, scrub, veg * .85) * (.8 + .4 * fine) * (.74 + .5 * d2) * (.85 + .3 * d3);
+        // limestone terraces follow the contours of the slopes
         float slope = 1. - wN.y;
-        c = mix(c, vec3(.70, .65, .54) * (.75 + .45 * mid), smoothstep(.10, .32, slope) * .8);
+        float terr = fract(vWPos.y / 3.2 + (d3 - .5) * .8);
+        float ledge = smoothstep(.0, .06, terr) * (1. - smoothstep(.06, .22, terr)) * smoothstep(.02, .10, slope) * (1. - smoothstep(20., 90., px));
+        c = mix(c, vec3(.62, .57, .46) * (.7 + .5 * d2), ledge * .45 * smoothstep(.35, .6, d3 + (d2 - .5) * .6));
+        // bare rock shows through on the steeper slopes
+        c = mix(c, vec3(.58, .52, .41) * (.6 + .7 * d2), smoothstep(.12, .34, slope) * .75);
         // inside the city the ground is trodden limestone; the lanes are paved
-        c = mix(c, vec3(.60, .54, .44) * (.82 + .3 * fine), urban);
-        vec3 ash = ashlar(vWPos.xz, .55, .9);
+        c = mix(c, vec3(.56, .50, .40) * (.82 + .3 * fine), urban);
+        vec3 ash = ashlar(vWPos.xz, .42, .62);
         float joint = (1. - smoothstep(.0, .012 + px, ash.z)) * (1. - smoothstep(.03, .2, px));
-        vec3 pave = vec3(.74, .67, .54) * (.84 + .22 * hash21(ash.xy)) * (1. - .3 * joint);
+        float worn = fbm(vec3(vWPos.xz * .9, 2.));
+        vec3 pave = vec3(.70, .62, .48) * (.8 + .28 * mix(.5, hash21(ash.xy), 1. - smoothstep(.05, .25, px))) * (.86 + .28 * worn) * (1. - .35 * joint);
         c = mix(c, pave, lane);
+        // lanes lie in the shade of their houses: darker the more walls stand around
+        float enc = 0., foot = 0.;
+        for (int i = 0; i < 8; i++) { float a = float(i) * .7854; enc += step(.9, cityKind(vWPos.xz + vec2(cos(a), sin(a)) * 3.2)); }
+        for (int i = 0; i < 4; i++) { float a = float(i) * 1.5708 + .4; foot += step(.9, cityKind(vWPos.xz + vec2(cos(a), sin(a)) * 1.1)); }
+        c *= mix(1., .55, enc / 8. * urban) * mix(1., .8, min(foot, 1.) * urban);
         diffuseColor.rgb = c;
       }`,
   });
@@ -225,6 +252,16 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       for (const t of [0, 0.5, 1]) for (const d of [3, 9]) {
         outside = Math.max(outside, terrainAt(x0 + (x1 - x0) * t + nx * d, z0 + (z1 - z0) * t + nz * d));
       }
+      // where the ground falls away the wall goes down to meet it
+      let low = 1e9;
+      for (const t of [0, 0.5, 1]) for (const d of [1, 4]) low = Math.min(low, terrainAt(x0 + (x1 - x0) * t + nx * d, z0 + (z1 - z0) * t + nz * d));
+      if (low < -0.5) {
+        const dpt = -low + 3;
+        const face = new THREE.BoxGeometry(len + 0.7, dpt, 0.7);
+        face.rotateY(Math.atan2(-dz, dx));
+        face.translate(mx - nx * 0.2, -dpt / 2, mz - nz * 0.2);
+        parts.push(face);
+      }
       const h = Math.max(1.15, Math.min(30, outside + 1.15));
       const box = new THREE.BoxGeometry(len + 0.7, h + 0.6, 0.7);
       box.rotateY(Math.atan2(-dz, dx));
@@ -269,7 +306,7 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       if (Math.abs(yx - y) > 3.2 || Math.abs(yz - y) > 3.2) continue; // too steep
       const r = rnd();
       const type = kd === 60 ? 'cypress' : east ? (r < 0.62 ? 'olive' : r < 0.84 ? 'cypress' : 'pine') : (r < 0.4 ? 'olive' : r < 0.7 ? 'cypress' : 'pine');
-      spots[type].push([x, y, z, 1.0 + rnd() * 0.8, rnd() * 6.283, rnd()]);
+      spots[type].push([x, y, z, 0.7 + rnd() * rnd() * 1.4, rnd() * 6.283, rnd()]);
       placed++;
     }
     const paint = (geo, r, g, b, vary) => {
@@ -296,10 +333,33 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       g.computeVertexNormals();
       return g;
     };
+    const ni = (g) => (g.index ? g.toNonIndexed() : g);
+    // a crown is several overlapping clumps, never one ball
+    const crown = (n, R, y0, spread, flat, seed0) => {
+      const parts = [];
+      for (let k = 0; k < n; k++) {
+        const a = k * 2.4 + seed0, r = k === 0 ? 0 : spread * (0.45 + 0.55 * ((k * 0.618) % 1));
+        const rr = R * (0.55 + 0.35 * ((k * 0.37 + 0.2) % 1));
+        parts.push(ni(blob(rr, rr * flat, y0 + ((k * 0.53) % 1) * R * 0.35, 1).translate(Math.cos(a) * r, 0, Math.sin(a) * r)));
+      }
+      return mergeGeometries(parts);
+    };
+    // a cypress: a tall narrow flame, widest a third of the way up
+    const spire = () => {
+      const g = new THREE.CylinderGeometry(0.08, 0.5, 10, 7, 6).translate(0, 5.6, 0);
+      const P = g.attributes.position;
+      for (let i = 0; i < P.count; i++) {
+        const t = (P.getY(i) - 0.6) / 10, w = 1.25 * Math.sin(Math.min(1, t * 1.15 + 0.12) * Math.PI) ** 0.7 + 0.08;
+        const l = Math.hypot(P.getX(i), P.getZ(i)) || 1, wob = 1 + 0.18 * Math.sin(P.getY(i) * 2.3 + Math.atan2(P.getZ(i), P.getX(i)) * 3);
+        P.setXYZ(i, (P.getX(i) / l) * w * wob, P.getY(i), (P.getZ(i) / l) * w * wob);
+      }
+      g.computeVertexNormals();
+      return g;
+    };
     const shapes = {
-      cypress: mergeGeometries([trunk(1.2, 0.18), paint(new THREE.ConeGeometry(1.15, 10.5, 7, 3).translate(0, 6.2, 0), 0.13, 0.22, 0.12, 1)]),
-      olive: mergeGeometries([trunk(1.9, 0.3), paint(blob(2.6, 1.7, 3.1, 1), 0.33, 0.37, 0.25, 1)].map((g) => (g.index ? g.toNonIndexed() : g))),
-      pine: mergeGeometries([trunk(4.2, 0.26), paint(blob(3.0, 2.0, 6.2, 1), 0.17, 0.27, 0.15, 1)].map((g) => (g.index ? g.toNonIndexed() : g))),
+      cypress: mergeGeometries([trunk(0.9, 0.2), paint(spire(), 0.11, 0.19, 0.10, 1)].map(ni)),
+      olive: mergeGeometries([trunk(1.3, 0.42), paint(crown(quality === 'low' ? 3 : 5, 2.5, 2.4, 1.5, 0.62, 0), 0.34, 0.39, 0.28, 1)].map(ni)),
+      pine: mergeGeometries([trunk(3.6, 0.3), paint(crown(quality === 'low' ? 3 : 5, 3.1, 5.0, 1.9, 0.42, 1), 0.15, 0.25, 0.13, 1)].map(ni)),
     };
     const mat = new THREE.MeshLambertMaterial({ vertexColors: true });
     const m4 = new THREE.Matrix4(), qt = new THREE.Quaternion(), sc = new THREE.Vector3(), ps = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
@@ -310,10 +370,10 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       list.forEach(([x, y, z, s, a, v], i) => {
         qt.setFromAxisAngle(up, a);
         sc.set(s * (0.85 + v * 0.3), s, s * (0.85 + v * 0.3));
-        ps.set(x, y - 0.2, z);
+        ps.set(x, y - 0.45, z);
         m4.compose(ps, qt, sc);
         inst.setMatrixAt(i, m4);
-        inst.setColorAt(i, tint.setScalar(0.8 + v * 0.4));
+        { const b = 0.72 + v * 0.42, hsh = ((v * 7.3) % 1) - 0.5; inst.setColorAt(i, tint.setRGB(b * (1 + hsh * 0.14), b, b * (1 - hsh * 0.2))); }
       });
       inst.frustumCulled = false;
       treeGroup.add(inst);
@@ -323,7 +383,7 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
   plantTrees();
 
   // ---------------------------------------------------------------- the city
-  const cityMat = install(new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 0.94, metalness: 0 }), {
+  const cityMat = install(new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 0.94, metalness: 0, side: THREE.DoubleSide }), {
     uniforms: siteUniforms, sky: false,
     color: /* glsl */ `
       {
@@ -338,20 +398,27 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
         float grain = mix(.5, fbm(vWPos * 1.9), 1. - smoothstep(.15, .9, px));
         float tone = diffuseColor.b; // one value per rebuilt house; .5 on the trim shells
         float th = mix(t1, tone, plain), tg = mix(t2, fract(tone * 7.31), plain);
-        vec3 wall = mix(mix(vec3(.88, .77, .57), vec3(.82, .64, .40), th), vec3(.74, .69, .59), tg * .35);
+        vec3 wall = mix(vec3(.90, .79, .58), vec3(.79, .60, .37), th);
+        wall = mix(wall, vec3(.93, .87, .74), smoothstep(.72, 1., tg) * .6);       // newer pale stone
+        wall = mix(wall, vec3(.63, .57, .47), (1. - smoothstep(0., .25, tg)) * .5);  // old and weathered grey
         wall *= (.86 + .2 * big) * (.9 + .2 * grain) * mix(1., .88 + .24 * fract(tone * 3.17), plain);
         // coursed ashlar on the walls, visible until the blocks shrink below a pixel
         float wu = vWPos.x * gn.z - vWPos.z * gn.x;
         vec3 ash = ashlar(vec2(wu, vWPos.y + tone * 3.), .36, .62);
         float show = 1. - smoothstep(.03, .14, px);
-        wall *= 1. + (hash21(ash.xy) - .5) * .16 * show;
-        wall *= 1. - .22 * (1. - smoothstep(.0, .010 + px, ash.z)) * show;
-        vec3 roof = mix(vec3(.84, .79, .69), vec3(.68, .62, .51), tg) * (.88 + .2 * grain);
+        wall *= 1. + (hash21(ash.xy) - .5) * .11 * show;
+        wall *= 1. - .13 * (1. - smoothstep(.0, .008 + px, ash.z)) * show;
+        // rain streaks down the walls, and a darker foot where the lane is narrow
+        float streak = fbm(vec3(wu * 1.4, vWPos.y * .08, tone * 9.));
+        wall *= 1. - .2 * smoothstep(.5, .8, streak) * (1. - roofness);
+        vec3 rs = ashlar(vWPos.xz + tone * 5., .6, .6);
+        vec3 roof = mix(vec3(.82, .75, .61), vec3(.70, .62, .48), tg) * (.84 + .26 * grain);
+        roof *= 1. - .14 * (1. - smoothstep(0., .012 + px, rs.z)) * show;
         vec3 c = mix(wall, roof, roofness);
         // deep recesses are windows and doorways: dark glass and shade
         float opening = smoothstep(.58, .30, ao) * (1. - roofness) * (1. - plain);
         c = mix(c, vec3(.09, .11, .14), opening * .8);
-        c *= mix(.42, 1.06, smoothstep(.12, .95, ao));
+        c *= mix(mix(.42, .72, roofness), 1.06, smoothstep(.12, .95, ao));
         diffuseColor.rgb = c;
       }`,
   });
@@ -425,7 +492,7 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
     winMat.onBeforeCompile = (shader, r) => {
       inner(shader, r);
       shader.vertexShader = shader.vertexShader.replace('#include <project_vertex>', `#include <project_vertex>
-        { float dist = length(mvPosition.xyz); mvPosition.xyz *= max(.2, 1. - .55 / max(dist, .6)); gl_Position = projectionMatrix * mvPosition; }`);
+        { float dist = length(mvPosition.xyz); mvPosition.xyz *= 1. - min(.5, dist * .0012) / max(dist, .6); gl_Position = projectionMatrix * mvPosition; }`);
     };
   }
 
@@ -457,9 +524,9 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       ]),
       mergeGeometries([
         flat(new THREE.BoxGeometry(1.6, 0.4, 0.5).translate(0, 0.2, 0), 0.62, 0.42, 0.30),
-        flat(new THREE.IcosahedronGeometry(0.5, 0).scale(1.5, 0.9, 0.7).translate(0, 0.75, 0), 0.24, 0.36, 0.18),
+        flat(new THREE.IcosahedronGeometry(0.5, 1).scale(1.5, 0.9, 0.7).translate(0, 0.75, 0), 0.24, 0.36, 0.18),
         flat(new THREE.BoxGeometry(0.5, 0.45, 0.5).translate(1.5, 0.22, 0.9), 0.66, 0.46, 0.33),
-        flat(new THREE.IcosahedronGeometry(0.45, 0).translate(1.5, 0.8, 0.9), 0.30, 0.40, 0.20),
+        flat(new THREE.IcosahedronGeometry(0.45, 1).translate(1.5, 0.8, 0.9), 0.30, 0.40, 0.20),
       ]),
     ];
     const mat = new THREE.MeshLambertMaterial({ vertexColors: true });
@@ -473,7 +540,7 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       list.forEach((i, n) => {
         // tanks all face their panels south; the rest turn freely
         qt.setFromAxisAngle(up, kind === 0 ? (R[i + 4] - 3.14) * 0.12 : R[i + 4]);
-        const k = kind === 1 ? Math.min(2.6, R[i + 5] * 0.62) : 1;
+        const k = kind === 1 ? Math.min(2.6, R[i + 5] * 0.62) : 0.8 + 0.45 * ((R[i + 4] * 7.13) % 1);
         sc.set(k, k, k);
         ps.set(R[i], R[i + 1], R[i + 2]);
         inst.setMatrixAt(n, m4.compose(ps, qt, sc));
@@ -514,7 +581,9 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       mesh.matrixAutoUpdate = false;
       mesh.matrix.copy(o.matrixWorld);
       mesh.matrixWorld.copy(o.matrixWorld);
-      mesh.receiveShadow = structural;
+      const win = o.name.startsWith('win_');
+      mesh.receiveShadow = true;
+      mesh.castShadow = structural || (quality !== 'low' && o.name.startsWith('solid_'));
       if (structural) mesh.frustumCulled = false;
       group.add(mesh);
     });

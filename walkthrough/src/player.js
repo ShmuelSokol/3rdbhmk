@@ -11,7 +11,7 @@ const WALK = 3.4;
 const RUN = 8.2;
 const FLY = 13;
 const FLY_FAST = 34;
-const LIMIT = [-700, 1500]; // metres on each axis: a little beyond the precinct wall on every side
+const LIMIT = [-1430, 1800]; // metres on each axis: the Old City to the west, the valley and slope to the east
 
 export function createPlayer(camera, world) {
   const pos = new THREE.Vector3(96, 0, 0); // feet
@@ -66,8 +66,13 @@ export function createPlayer(camera, world) {
     const accel = onGround ? 16 : 4;
     vel.x += (wish.x - vel.x) * Math.min(1, accel * dt);
     vel.z += (wish.z - vel.z) * Math.min(1, accel * dt);
+    const px0 = pos.x, pz0 = pos.z;
     pos.x += vel.x * dt;
     pos.z += vel.z * dt;
+    // Off the platform the ground is a height map: a rise taller than a step is a wall.
+    if (!world.onDeck(pos.x, pos.z) && world.topAt(pos.x, pos.z) > pos.y + STEP) {
+      pos.x = px0; pos.z = pz0; vel.x = 0; vel.z = 0;
+    }
     resolveCapsule(STEP, HEIGHT, RADIUS, push);
     pos.x += push.x;
     pos.z += push.z;
@@ -82,7 +87,12 @@ export function createPlayer(camera, world) {
     }
 
     // vertical: floor under the feet
-    const ground = world.groundBelow(pos.x, pos.y + STEP + 0.05, pos.z);
+    let ground = world.groundBelow(pos.x, pos.y + STEP + 0.05, pos.z);
+    if (!world.onDeck(pos.x, pos.z)) {
+      const t = world.topAt(pos.x, pos.z);
+      if (t <= pos.y + STEP + 0.05 && (ground === null || t > ground)) ground = t;
+      else if (t > pos.y + STEP + 0.05) { pos.y = t; vy = 0; ground = t; } // set down inside something: stand on it
+    }
     if (ground !== null && vy <= 0.01 && ground >= pos.y - (onGround ? STEP : 0.02)) {
       if (ground > pos.y + 1e-3) stepSmooth = Math.min(0.6, stepSmooth + (ground - pos.y));
       else if (onGround && ground < pos.y - 1e-3) stepSmooth = Math.max(-0.6, stepSmooth - (pos.y - ground));
@@ -99,7 +109,7 @@ export function createPlayer(camera, world) {
         if (push.y < -1e-4) { pos.y += push.y; vy = 0; }
       }
       if (ground !== null && pos.y <= ground) { pos.y = ground; vy = 0; onGround = true; }
-      if (pos.y < -50) { pos.y = 0; vy = 0; }
+      if (pos.y < -260) { pos.y = world.topAt(pos.x, pos.z); vy = 0; }
     }
   }
 
@@ -126,7 +136,8 @@ export function createPlayer(camera, world) {
     pos.x += sphere.center.x - sx;
     pos.y += sphere.center.y - sy;
     pos.z += sphere.center.z - sz;
-    pos.y = THREE.MathUtils.clamp(pos.y, -EYE + 0.5, 260);
+    // never below the ground or inside a house
+    pos.y = THREE.MathUtils.clamp(pos.y, world.topAt(pos.x, pos.z) + 0.7 - EYE, 320);
   }
 
   function update(dt, input) {

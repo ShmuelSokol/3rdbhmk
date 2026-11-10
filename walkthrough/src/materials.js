@@ -114,7 +114,7 @@ vec3 bumpNormal(vec3 N, vec3 viewPos, float h, float strength){
 }
 `;
 
-function install(material, { fragPars = '', color = '', rough = '', normal = '', sky = true, uniforms }) {
+export function install(material, { fragPars = '', color = '', rough = '', normal = '', sky = true, uniforms }) {
   material.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, uniforms);
     shader.vertexShader = shader.vertexShader
@@ -415,9 +415,8 @@ export function createMaterials(roofTexture, quality) {
         float coarse = fbm(vec3(vWPos.xz * .02, 2.));
         vec3 slab = vec3(.78, .63, .43) * (.88 + .22 * tone) * (.9 + .2 * grain * fade);
         slab = mix(slab, slab * .5, joint * .8);
-        vec3 earth = mix(vec3(.50, .42, .30), vec3(.62, .55, .40), coarse) * (.9 + .2 * fbm(vWPos * .6));
-        float paved = 1. - smoothstep(730., 760., max(abs(vWPos.x - 419.), abs(vWPos.z - 418.5)) + (coarse - .5) * 30.);
-        vec3 c = mix(earth, slab, paved) * (.86 + .28 * coarse);
+        float paved = 1.;
+        vec3 c = slab * (.86 + .28 * coarse);
         diffuseColor.rgb = c;
         mkBump = -joint * .012 * paved + grain * .003;
         mkBumpK = fade * uDetail;

@@ -6,6 +6,7 @@ import { MeshBVH } from 'three-mesh-bvh';
 import { createMaterials, ROOF_MAX_H } from './materials.js';
 import { createEffects } from './effects.js';
 import objectsData from './data/objects.json';
+import { createSite } from './site.js';
 
 // The four times of day offered in settings. Azimuth is measured from north toward
 // east; the House faces east, so the morning sun lights its front.
@@ -112,101 +113,13 @@ export async function createWorld(renderer, quality, onProgress) {
   onProgress(0.9);
 
   // ---------------------------------------------------------------- surroundings
-  // A polar grid, fine near the building and coarse far away. One huge disc lost precision
-  // when the GPU interpolated positions across it, and the paving pattern broke into blocks.
-  const groundGeo = (() => {
-    const rings = 56, sectors = 96;
-    const pos = [];
-    const idx = [];
-    for (let i = 0; i <= rings; i++) {
-      const r = i === 0 ? 0 : 12 * Math.pow(6000 / 12, (i - 1) / (rings - 1));
-      for (let j = 0; j < sectors; j++) {
-        const a = (j / sectors) * Math.PI * 2;
-        pos.push(Math.cos(a) * r, 0, Math.sin(a) * r);
-      }
-    }
-    for (let i = 0; i < rings; i++) {
-      for (let j = 0; j < sectors; j++) {
-        const a = i * sectors + j, b = i * sectors + ((j + 1) % sectors);
-        const c = a + sectors, d = b + sectors;
-        if (i > 0) idx.push(a, b, c);
-        idx.push(b, d, c);
-      }
-    }
-    const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-    g.setAttribute('normal', new THREE.Float32BufferAttribute(new Float32Array(pos.length).map((_, k) => (k % 3 === 1 ? 1 : 0)), 3));
-    g.setIndex(idx);
-    return g;
-  })();
-  const ground = new THREE.Mesh(groundGeo, mats.ground);
-  ground.position.y = -0.02;
-  ground.receiveShadow = true;
-  scene.add(ground);
-
-  // The precinct wall: 3000 amot a side measured from outside, six amot high and thick
-  // (Yechezkel 42:15-20, 40:5), with the five gates of the enclosure design. It is not
-  // centred on the courts: the House stands toward its north-west.
+  // The Mount as it lies today: real ground, the platform and its edge, the Old City.
   const wallMat = mats.byClass.stone.clone();
   wallMat.onBeforeCompile = mats.byClass.stone.onBeforeCompile;
   wallMat.customProgramCacheKey = mats.byClass.stone.customProgramCacheKey;
   wallMat.vertexColors = false;
   wallMat.color.set(0xb09a72);
-  {
-    const pc = objectsData.precinct;
-    const f = pc.faces;
-    const m = 0.01;
-    const amah = pc.cmPerAmah * m;
-    const T = pc.thicknessCm * m, H = pc.heightCm * m;
-    const gateHalf = (pc.block.openingWidth / 2 + pc.block.pierWidth) * amah; // opening plus one pier
-    const openHalf = (pc.block.openingWidth / 2) * amah;
-    const gateH = pc.block.totalHeight * amah, openH = pc.block.openingHeight * amah;
-    const xW = f.xWest * m, xE = f.xEast * m, zN = f.yNorth * m, zS = f.ySouth * m;
-    const boxes = []; // [cx, cy, cz, sx, sy, sz]
-    const sides = {
-      W: { fixed: xW + T / 2, from: zN, to: zS, alongZ: true },
-      E: { fixed: xE - T / 2, from: zN, to: zS, alongZ: true },
-      N: { fixed: zN + T / 2, from: xW, to: xE, alongZ: false },
-      S: { fixed: zS - T / 2, from: xW, to: xE, alongZ: false },
-    };
-    for (const [id, side] of Object.entries(sides)) {
-      const gates = pc.gates.filter((g) => g.side === id).map((g) => g.along * m).sort((p, q) => p - q);
-      const put = (c0, c1, y0, y1) => {
-        if (c1 - c0 < 0.01) return;
-        const mid = (c0 + c1) / 2, len = c1 - c0;
-        boxes.push(side.alongZ ? [side.fixed, (y0 + y1) / 2, mid, T, y1 - y0, len] : [mid, (y0 + y1) / 2, side.fixed, len, y1 - y0, T]);
-      };
-      let cursor = side.from;
-      for (const gc of gates) {
-        put(cursor, gc - gateHalf, 0, H);
-        put(gc - gateHalf, gc - openHalf, 0, gateH);   // pier
-        put(gc + openHalf, gc + gateHalf, 0, gateH);   // pier
-        put(gc - openHalf, gc + openHalf, openH, gateH); // lintel
-        cursor = gc + gateHalf;
-      }
-      put(cursor, side.to, 0, H);
-    }
-    const wall = new THREE.Group();
-    for (const [cx, cy, cz, sx, sy, sz] of boxes) {
-      const geo = new THREE.BoxGeometry(sx, sy, sz);
-      const seg = new THREE.Mesh(geo, wallMat);
-      seg.position.set(cx, cy, cz);
-      seg.castShadow = true;
-      seg.receiveShadow = true;
-      seg.updateMatrixWorld();
-      wall.add(seg);
-      const ng = geo.toNonIndexed().applyMatrix4(seg.matrixWorld);
-      const bp = ng.attributes.position;
-      for (let i = 0; i < bp.count; i++) soup.push(bp.getX(i), bp.getY(i), bp.getZ(i));
-      for (let i = 0; i < bp.count / 3; i++) soupOid.push(-2);
-    }
-    scene.add(wall);
-  }
-
-  // Ground outside the building, so there is always something to stand on.
-  const G = 3000;
-  soup.push(-G, 0, -G, -G, 0, G, G, 0, G, -G, 0, -G, G, 0, G, G, 0, -G);
-  soupOid.push(-1, -1);
+  const site = await createSite(scene, mats, quality, soup, soupOid, wallMat);
 
   const colliderGeo = new THREE.BufferGeometry();
   colliderGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(soup), 3));
@@ -224,9 +137,9 @@ export async function createWorld(renderer, quality, onProgress) {
       const x = P.getX(i), z = P.getZ(i);
       const a = Math.atan2(z, x);
       const t = P.getY(i) + 0.5; // 0 bottom .. 1 top
-      const h = 170 + 150 * noise(a);
+      const h = 260 + 170 * noise(a);
       const r = 4200 - (1 - t) * 1500;
-      P.setXYZ(i, Math.cos(a) * r, t * t * h - 6, Math.sin(a) * r);
+      P.setXYZ(i, Math.cos(a) * r, t * t * h - 150, Math.sin(a) * r);
       const c = 0.5 + 0.2 * t;
       col.set([0.62 * c, 0.6 * c, 0.5 * c], i * 3);
     }
@@ -243,6 +156,43 @@ export async function createWorld(renderer, quality, onProgress) {
   sky.material.uniforms.mieDirectionalG.value = 0.82;
   scene.add(sky);
 
+  // Fair-weather clouds: one high sheet of drifting noise, lit from the sun's side.
+  const cloudMat = new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false, side: THREE.DoubleSide, fog: false,
+    uniforms: { uSun: { value: new THREE.Vector3(0, 1, 0) }, uLit: { value: new THREE.Color(1, 1, 1) }, uShade: { value: new THREE.Color(0.7, 0.75, 0.82) }, uTime: { value: 0 }, uCover: { value: 0.5 } },
+    vertexShader: /* glsl */ `
+      varying vec3 vP;
+      void main(){ vec4 w = modelMatrix * vec4(position, 1.); vP = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; gl_Position.z = gl_Position.w * .99999; }`,
+    fragmentShader: /* glsl */ `
+      varying vec3 vP;
+      uniform vec3 uSun, uLit, uShade; uniform float uTime, uCover;
+      float h2(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * .1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
+      float n2(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3. - 2. * f);
+        return mix(mix(h2(i), h2(i + vec2(1, 0)), f.x), mix(h2(i + vec2(0, 1)), h2(i + vec2(1, 1)), f.x), f.y); }
+      float fbm(vec2 p){ float a = .5, s = 0.; for (int i = 0; i < 5; i++){ s += a * n2(p); p = p * 2.07 + 11.3; a *= .5; } return s; }
+      float dens(vec2 p){ return fbm(p) * .75 + .25 * fbm(p * .23 + 40.); }
+      void main(){
+        vec2 p = vP.xz * .00042 + vec2(uTime * .0016, uTime * .0006);
+        float d = dens(p);
+        float a = smoothstep(uCover, uCover + .2, d);
+        // thinner toward the sun means brighter: a cheap stand-in for light through the cloud
+        float d2 = dens(p + normalize(uSun.xz + 1e-4) * .09);
+        float lit = clamp(.62 + (d - d2) * 3.2 + (1. - a) * .35, 0., 1.);
+        vec3 c = mix(uShade, uLit, lit);
+        float r = length(vP.xz - cameraPosition.xz);
+        a *= .92 * (1. - smoothstep(4500., 12500., r));
+        if (a < .004) discard;
+        gl_FragColor = vec4(c, a);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }`,
+  });
+  const clouds = new THREE.Mesh(new THREE.CircleGeometry(13000, 40).rotateX(Math.PI / 2), cloudMat);
+  clouds.position.y = 1500;
+  clouds.renderOrder = 1;
+  clouds.frustumCulled = false;
+  scene.add(clouds);
+
   const sun = new THREE.DirectionalLight(0xffffff, 3);
   sun.castShadow = true;
   const smap = quality === 'high' ? 4096 : quality === 'medium' ? 2048 : 1024;
@@ -256,7 +206,7 @@ export async function createWorld(renderer, quality, onProgress) {
   const hemi = new THREE.HemisphereLight(0xfff2e0, 0xc8a878, 0.5);
   scene.add(hemi);
 
-  scene.fog = new THREE.FogExp2(0xd8dde0, 0.00028);
+  scene.fog = new THREE.FogExp2(0xd8dde0, 0.00042);
 
   const pmrem = new THREE.PMREMGenerator(renderer);
   const envScene = new THREE.Scene();
@@ -291,6 +241,10 @@ export async function createWorld(renderer, quality, onProgress) {
     hemi.intensity = 0.5 + 0.2 * (1 - warmth);
     hemi.color.setRGB(1.0, 0.95 - 0.03 * warmth, 0.9 - 0.1 * warmth);
     scene.fog.color.setRGB(0.84 + 0.1 * warmth, 0.86 - 0.08 * warmth, 0.88 - 0.22 * warmth);
+    cloudMat.uniforms.uSun.value.copy(sunDir);
+    cloudMat.uniforms.uLit.value.setRGB(1.9, 1.9 - 0.45 * warmth, 1.9 - 0.95 * warmth);
+    cloudMat.uniforms.uShade.value.setRGB(1.0 + 0.25 * warmth, 1.08 - 0.1 * warmth, 1.22 - 0.3 * warmth);
+    cloudMat.uniforms.uCover.value = t.cover ?? 0.5;
     baseExposure = t.exposure;
     renderer.toneMappingExposure = baseExposure * (1 + 1.5 * adapt);
     if (envTarget) envTarget.dispose();
@@ -310,6 +264,8 @@ export async function createWorld(renderer, quality, onProgress) {
   let baseExposure = 0.6;
   function update(dt, time, camPos) {
     mats.uniforms.uTime.value = time;
+    cloudMat.uniforms.uTime.value = time;
+    clouds.position.x = camPos.x; clouds.position.z = camPos.z;
     upRay.origin.copy(camPos);
     const roofed = bvh.raycastFirst(upRay, THREE.DoubleSide, 0, 70) ? 1 : 0;
     adapt += (roofed - adapt) * Math.min(1, dt * 1.6);
@@ -346,7 +302,7 @@ export async function createWorld(renderer, quality, onProgress) {
     const hit = bvh.raycastFirst(raycasterRay, THREE.DoubleSide, 0, maxDist);
     if (!hit) return null;
     const oid = soupOid[hit.faceIndex];
-    if (oid === -2) return { name: 'Wall of the Mount', part: 'mount', point: hit.point, distance: hit.distance };
+    if (oid <= -2) return { name: 'Wall of the Mount', part: 'mount', point: hit.point, distance: hit.distance };
     if (oid == null || oid < 0) return { name: 'Paving of the Mount', part: 'mount', point: hit.point, distance: hit.distance };
     const [name, part] = objectsData.names[objectsData.index[oid]];
     return { name, part, point: hit.point, distance: hit.distance };
@@ -357,6 +313,7 @@ export async function createWorld(renderer, quality, onProgress) {
 
   return {
     scene, collider, bvh, mats, effects, setTime, update, groundBelow, segmentClear, identify,
+    terrainAt: site.terrainAt, topAt: site.topAt, onDeck: site.onDeck, loadCity: site.loadCity,
     get timeKey() { return timeKey; },
     triangles: soup.length / 9,
   };

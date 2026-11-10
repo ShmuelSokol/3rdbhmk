@@ -14,6 +14,7 @@ const q = new URLSearchParams({ fixed: '1', manual: '1', q: opt.q || 'medium' })
 if (opt.time) q.set('time', opt.time);
 await page.goto(`http://localhost:${opt.port || 4173}/?${q}`);
 await page.waitForFunction(() => window.__mk && window.__mk.ready, null, { timeout: 180000 });
+if (!opt.nocity) await page.waitForFunction(() => window.__mk.city, null, { timeout: 180000 });
 if (!opt.welcome) {
   await page.evaluate(() => { window.__mk.start(location.search.includes('free') ? 'free' : 'tour'); });
   await page.waitForTimeout(1200);

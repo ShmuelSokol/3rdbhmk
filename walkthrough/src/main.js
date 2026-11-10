@@ -378,6 +378,8 @@ async function boot() {
   ui.setProgress(1);
   if (manual) loop(0); else requestAnimationFrame(loop);
   setTimeout(() => { ui.ready(); input.setEnabled(true); window.__mk.ready = true; }, 60);
+  // The Old City is several megabytes; it joins the scene once the Mikdash is already usable.
+  world.loadCity().then(() => { window.__mk.city = true; }, (e) => { console.warn('The Old City did not load', e); window.__mk.city = 'failed'; });
 }
 
 // ---------------------------------------------------------------- loop

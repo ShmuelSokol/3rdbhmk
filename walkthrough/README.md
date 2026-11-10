@@ -20,6 +20,7 @@ It does not have the city, the people or sound. Those stay in the Windows build.
 ```
 npm install
 npm run assets   # rebuild public/assets and src/data from SourceAssets (only after a source change)
+npm run city     # rebuild the Old City, terrain and Mount platform (city.glb, terrain.png, citymap.png, site.json)
 npm run build    # bundle into ../docs
 npm run serve    # preview at http://localhost:4173/
 npm test         # headless browser: walks all 18 stops, checks walls, panels and the phone layout
@@ -30,6 +31,11 @@ npm test         # headless browser: walks all 18 stops, checks walls, panels an
 
 ## Where things are
 
+- `tools/build-city.mjs` turns the Old City facade shells, lane surfaces, surveyed terrain tiles, Mount
+  platform and stepped precinct wall into what the browser loads. The facade exports are detail only
+  (windows, doors, cornices), so the script rebuilds each house as a solid with its own roof height,
+  replaces every opening with one shader-drawn panel, and lists what stands on the roofs (water tanks
+  with solar panels, domes, planters).
 - `tools/build-assets.mjs` converts the FBX and OBJ sources into one compressed `mikdash.glb`,
   a top-down height map (`roof.png`, used for soft sky shadowing) and the plan (`plan.png`).
 - `src/materials.js` draws stone, paving, gold, cedar and the paroches procedurally, so no

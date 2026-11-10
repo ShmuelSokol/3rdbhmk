@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>The Third Beis HaMikdash · Walkthrough</title>
+<meta name="description" content="Walk through a measured reconstruction of the Third Beis HaMikdash as described by Yechezkel, on a phone or a computer.">
+<meta name="theme-color" content="#14110d">
+<meta property="og:title" content="The Third Beis HaMikdash · Walkthrough">
+<meta property="og:description" content="Walk through a measured reconstruction of the Beis HaMikdash of Yechezkel, on a phone or a computer.">
+<meta property="og:image" content="assets/share.jpg">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<canvas id="view" tabindex="0" aria-label="View of the Beis HaMikdash. Drag to look, use the arrow keys or W A S D to walk."></canvas>
+
+<div id="fade" aria-hidden="true"></div>
+
+<!-- Welcome and loading -->
+<section id="welcome" class="welcome" aria-labelledby="w-title">
+  <div class="welcome-card">
+    <p class="eyebrow">A measured reconstruction · Yechezkel 40–48</p>
+    <h1 id="w-title">The Third Beis HaMikdash</h1>
+    <p class="he-title" lang="he" dir="rtl">בית המקדש השלישי</p>
+    <p class="lede">Walk in from the east, through the gates and courts, up the twelve steps and into the Heikhal. Every wall stands where the sources put it.</p>
+    <div class="loadbar" id="loadbar" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
+    <p class="loadnote" id="loadnote">Loading the model…</p>
+    <div class="welcome-actions" id="w-actions" hidden>
+      <button class="btn primary" id="w-tour">Begin the guided tour</button>
+      <button class="btn" id="w-free">Walk freely</button>
+    </div>
+    <p class="fineprint">A study model, not a ruling. Where the sources disagree, each stop says who holds what.</p>
+  </div>
+</section>
+
+<!-- Heads-up display -->
+<div id="hud" class="hud" hidden>
+  <div class="place" id="place" aria-live="polite">
+    <span class="place-en" id="place-en"></span>
+    <span class="place-he" id="place-he" lang="he" dir="rtl"></span>
+  </div>
+
+  <nav class="tools" aria-label="Tools">
+    <button class="tool" id="b-map" aria-label="Plan of the Mikdash (M)" data-tip="Plan">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5L9 4Zm0 0v13.5m6-11v13.5"/></svg>
+    </button>
+    <button class="tool" id="b-stops" aria-label="All tour stops (T)" data-tip="Stops">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1.2"/><circle cx="4" cy="12" r="1.2"/><circle cx="4" cy="18" r="1.2"/></svg>
+    </button>
+    <button class="tool" id="b-fly" aria-label="Fly as a dove (F)" aria-pressed="false" data-tip="Dove flight">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13c3.5.2 5.5-1 7-3.5C11.5 7 13 4.5 17 4c-.6 2 .2 3.3 1.6 4.2L21 9l-2.2 1.3c-.2 4-3.3 7.2-8.3 7.200H7l-3 2.5 1.5-4C4.3 15.3 3.5 14.3 3 13Z"/></svg>
+    </button>
+    <button class="tool" id="b-codex" aria-label="Sources and notes" data-tip="Sources">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.500A2.5 2.5 0 0 1 7.5 2H19v17H7.500A2.5 2.5 0 0 0 5 21.500v-17Zm0 17A2.5 2.5 0 0 0 7.5 22H19M9 7h6M9 11h6"/></svg>
+    </button>
+    <button class="tool" id="b-settings" aria-label="Settings" data-tip="Settings">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.500v3M12 18.500v3M2.5 12h3M18.5 12h3M5.3 5.300l2.1 2.100M16.6 16.600l2.1 2.100M5.3 18.700l2.1-2.100M16.6 7.400l2.1-2.1"/></svg>
+    </button>
+    <button class="tool" id="b-help" aria-label="How to move (H)" data-tip="Help">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M9.3 9.200a2.8 2.8 0 1 1 4.2 2.400c-.9.6-1.5 1.1-1.5 2.300M12 17.300v.2"/></svg>
+    </button>
+  </nav>
+
+  <div class="compass" id="compass" aria-hidden="true"><div class="compass-dial" id="compass-dial"><b>N</b><i>E</i><i>S</i><i>W</i></div></div>
+
+  <div class="fly-keys" id="fly-keys" hidden>
+    <button class="tool" id="b-up" aria-label="Rise">▲</button>
+    <button class="tool" id="b-down" aria-label="Descend">▼</button>
+  </div>
+
+  <!-- Tour card -->
+  <section class="tourcard" id="tourcard" aria-label="Guided tour">
+    <button class="nav-arrow" id="t-prev" aria-label="Previous stop">‹</button>
+    <div class="tour-main">
+      <p class="tour-count" id="t-count"></p>
+      <h2 class="tour-name"><span id="t-name"></span> <span class="tour-he" id="t-he" lang="he" dir="rtl"></span></h2>
+      <p class="tour-sub" id="t-sub"></p>
+      <div class="tour-actions">
+        <button class="btn primary small" id="t-go">Take me there</button>
+        <button class="btn small" id="t-read">Read about it</button>
+      </div>
+    </div>
+    <button class="nav-arrow" id="t-next" aria-label="Next stop">›</button>
+  </section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="hint" id="hint" hidden></div>
+  <div class="tag" id="tag" hidden></div>
+</div>
+
+<div class="stick" id="stick" aria-hidden="true"><i></i></div>
+
+<!-- Side sheet used by every panel -->
+<div class="scrim" id="scrim" hidden></div>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
+  <header class="sheet-head">
+    <button class="icon-btn" id="sheet-back" aria-label="Back" hidden>‹</button>
+    <h2 id="sheet-title"></h2>
+    <button class="icon-btn" id="sheet-close" aria-label="Close">×</button>
+  </header>
+  <div class="sheet-body" id="sheet-body"></div>
+</aside>
+
+<noscript><p class="noscript">This walkthrough needs JavaScript and WebGL.</p></noscript>
+<script type="module" src="app.js"></script>
+</body>
+</html>

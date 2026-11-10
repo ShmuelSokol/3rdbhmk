@@ -140,7 +140,7 @@ export function createUI({ tour, codex, actions, settings, times }) {
       h('tr', null,
         h('td', null, m.label, m.source ? h('small', null, m.source) : null),
         h('td', { class: 'num' },
-          m.amot != null ? h('span', { class: 'amot' }, `${fmtAmot(m.amot)} amot`) : m.value || '',
+          m.amot != null ? h('span', { class: 'amot' }, `${fmtAmot(m.amot)} amot`) : m.log != null ? h('span', { class: 'amot' }, `${m.log === 0.5 ? 'half a' : m.log} log`) : m.value || '',
           m.cm != null ? h('small', null, fmtMetres(m.cm)) : null)))));
   }
   function openStop(i, from) {

@@ -413,7 +413,7 @@ const stops = tour.stops
     what: s.whatHappensHere.en,
     explanation: s.explanation.en,
     measurements: s.measurements.map((m) => ({
-      label: m.label.en, amot: m.amot, cm: m.cm, source: m.source, confidence: m.confidence,
+      label: m.label.en, amot: m.amot, cm: m.cm || undefined, log: m.log, source: m.source, confidence: m.confidence,
     })),
     sources: s.sources,
     codex: s.codexEntries,

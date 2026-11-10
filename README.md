@@ -8,4 +8,8 @@ Download both **Mikdash-Walkthrough-09-App.zip** and **Mikdash-Walkthrough-09-Da
 
 [How to install and play](unreal/DOWNLOAD.md) · [Current preview limitations](unreal/MikdashCourtyardV3/RELEASE-NOTE-Walkthrough-09.md)
 
+## Browser walkthrough (no install)
+
+`walkthrough/` holds a second, lighter walkthrough that runs in any modern browser, phone or computer, with a guided 18-stop pilgrim's route, a plan, sources and a dove-flight mode. The built site is in `docs/`. To try it locally: `cd walkthrough && npm install && npm run build && npm run serve`, then open http://localhost:4173. See [walkthrough/README.md](walkthrough/README.md).
+
 This is an evolving development preview. Visual detail, source accuracy, population behavior and other features remain under review. The game runs on the player's own Windows PC; the developer's computer does not need to remain online.

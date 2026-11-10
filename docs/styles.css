@@ -168,7 +168,9 @@ h1, h2, h3, p { margin: 0; }
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 14px 50px rgba(0, 0, 0, 0.45);
   transition: transform 0.35s ease, opacity 0.35s ease;
+  pointer-events: none; /* thumbs may start a drag on the card; only its buttons take taps */
 }
+.tourcard button { pointer-events: auto; }
 .tourcard.min { transform: translate(-50%, calc(100% + 30px)); opacity: 0; pointer-events: none; }
 .tour-main { min-width: 0; text-align: center; }
 .tour-count { font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); }
@@ -366,10 +368,31 @@ kbd {
   .tourcard { padding: 10px 4px; }
   .tool { width: 42px; height: 42px; }
 }
+/* On a phone held upright the bottom of the screen belongs to the thumbs, so the card moves up. */
+@media (pointer: coarse) and (orientation: portrait) {
+  .tourcard {
+    top: calc(64px + var(--safe-t)); bottom: auto; left: calc(12px + var(--safe-l)); right: calc(66px + var(--safe-r));
+    width: auto; transform: none; grid-template-columns: 36px 1fr 36px; padding: 8px 2px 10px; border-radius: 16px;
+  }
+  .tourcard.min { transform: translateY(-160%); }
+  .tourcard .nav-arrow { width: 36px; }
+  .tour-count { font-size: 10.5px; }
+  .tour-name { font-size: 16.5px; }
+  .tour-he { font-size: 16px; }
+  .tour-actions { margin-top: 8px; gap: 6px; }
+  .tour-actions .btn.small { padding: 6px 12px; min-height: 36px; font-size: 13.5px; }
+  .compass { display: none; }
+  .hint { bottom: calc(26% + var(--safe-b)); }
+  .fly-keys { bottom: calc(110px + var(--safe-b)); }
+}
 @media (max-height: 480px) and (orientation: landscape) {
+  .tour-main { display: flex; align-items: center; gap: 12px; text-align: left; }
+  .tour-name { flex: 1; font-size: 16px; min-width: 0; }
+  .tour-he { display: none; }
+  .tour-actions { margin-top: 0 !important; flex: none; flex-wrap: nowrap; }
   .tools { flex-direction: row; }
   .tool[data-tip]:hover::after { display: none; }
-  .tourcard { width: min(520px, calc(100vw - 260px)); padding: 8px 4px; }
+  .tourcard { width: min(620px, calc(100vw - 150px)); padding: 6px 4px; bottom: calc(8px + var(--safe-b)); }
   .tour-sub, .tour-count { display: none; }
   .tour-actions { margin-top: 6px; }
   .compass { display: none; }

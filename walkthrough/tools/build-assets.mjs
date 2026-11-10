@@ -418,6 +418,15 @@ const stops = tour.stops
     sources: s.sources,
     codex: s.codexEntries,
   }));
+// Walking routes the simulated visitor proved (npm test). The authored approach points
+// cut through the inner-court corner, the altar ramp and the golden altar, so a person
+// on foot is led around them instead. Metres, three.js frame.
+const WALK_ROUTES = {
+  'east-inner-gate': [[42, 3, -34], [42, 3, 0]],
+  kiyor: [[11.5, 6.25, -11], [-11, 6.25, -11]],
+  paroches: [[-45, 9.25, 1.2], [-48, 9.25, 1.2], [-50, 9.25, 0]],
+};
+for (const s of stops) if (WALK_ROUTES[s.key]) s.approach = WALK_ROUTES[s.key];
 fs.writeFileSync(path.join(OUT_DATA, 'tour.json'), JSON.stringify({
   name: tour.route.name.en,
   description: tour.route.description.en,

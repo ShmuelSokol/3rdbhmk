@@ -12,7 +12,7 @@ function h(tag, attrs, ...kids) {
       else el.setAttribute(k, v === true ? '' : v);
     }
   }
-  for (const kid of kids.flat()) {
+  for (const kid of kids.flat(Infinity)) {
     if (kid == null || kid === false) continue;
     el.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
   }
@@ -81,7 +81,7 @@ export function createUI({ tour, codex, actions, settings, times }) {
     $('sheet-title').textContent = title;
     $('sheet-back').hidden = !back;
     sheet.classList.toggle('wide', wide);
-    body.replaceChildren(...[content].flat());
+    body.replaceChildren(...[content].flat(Infinity).filter((k) => k != null && k !== false));
     body.scrollTop = 0;
     sheet.hidden = false;
     scrim.hidden = false;

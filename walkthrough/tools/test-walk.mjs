@@ -25,7 +25,7 @@ const check = (ok, name, detail = '') => {
 const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
 try {
   // ------------------------------------------------------------ desktop
-  const page = await browser.newPage({ viewport: { width: 480, height: 270 } });
+  const page = await browser.newPage({ viewport: { width: 740, height: 360 } });
   const errors = [];
   page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
   page.on('pageerror', (e) => errors.push(e.message));
@@ -70,14 +70,15 @@ try {
         res = { ...r, t: res.t + r.t };
         if (!r.ok) break;
       }
-      const floorErr = Math.abs(P.position.y - s.stand[1]);
+      const floorErr = Math.abs(P.position.y - mk.world.groundBelow(s.stand[0], s.stand[1] + 2.5, s.stand[2]));
       out.push({ key: s.key, ...res, floorErr: +floorErr.toFixed(2), y: +P.position.y.toFixed(2) });
       if (!res.ok) P.setPose({ x: s.stand[0], y: s.stand[1] + 0.2, z: s.stand[2] }, P.yaw, 0);
     }
     return out;
   });
   for (const leg of legs) {
-    check(leg.ok && leg.floorErr < 0.3, `walk to ${leg.key}`, leg.ok ? `${leg.t.toFixed(0)} s, floor ${leg.y} m` : `stuck at ${leg.at} ${leg.left ?? ''} m short`);
+    // 0.6 m: a stop that stands on a stair is reached within 0.7 m, which can be two steps off.
+    check(leg.ok && leg.floorErr < 0.6, `walk to ${leg.key}`, leg.ok ? `${leg.t.toFixed(0)} s, floor ${leg.y} m` : `stuck at ${leg.at} ${leg.left ?? ''} m short`);
   }
 
   // Things a visitor must not be able to walk through.

@@ -168,7 +168,7 @@ for (const f of fs.readdirSync(facDir)) {
 const KEEP_TRIM = !!process.env.CITY_TRIM;
 const genWin = new Map(); // cell -> { pos, col, idx } openings made with the rebuilt walls
 let nGenWin = 0, nGenDoor = 0, nCar = 0, nTrash = 0, nRail = 0;
-const archC = [], roofById = new Map();
+const archC = [], roofById = new Map(), bayStat = [0, 0, 0, 0];
 const streetItems = []; // eight numbers each: x, y, z, kind, turn, random, and two sizes (see streetThings in src/site.js)
 const roofItems = []; // x, y, z, kind, turn, clearance for each thing standing on a roof
 const cityMeshes = []; // { name, pos, idx, ao }
@@ -812,7 +812,8 @@ const solidTris = { count: 0 };
         }
         // doors at lane level and windows above, on walls that face open ground
         const L = Math.hypot(xb - xa, zb - za);
-        if (L > 2.4) {
+        if (L <= 1.5) bayStat[3]++;
+        if (L > 1.5) {
           const ux = (xb - xa) / L, uz = (zb - za) / L;
           const tx = -nz, tz = nx; // the panel's own left-to-right
           const lab = (x, z) => { const u = Math.floor((x - CM.x0) / FP), v = Math.floor((z - CM.z0) / FP); return u < 0 || v < 0 || u >= FN || v >= FN ? 0 : label[v * FN + u]; };
@@ -821,8 +822,9 @@ const solidTris = { count: 0 };
           const G = genWin.get(key);
           for (let j = 0; j < bays; j++) {
             const t = (j + 0.5) / bays, mx = xa + (xb - xa) * t, mz = za + (zb - za) * t;
-            if (lab(mx + nx * 0.8, mz + nz * 0.8) || lab(mx + nx * 1.5, mz + nz * 1.5) || lab(mx + nx * 2.4, mz + nz * 2.4)) continue; // a party wall
-            if (lab(mx - nx * 0.8, mz - nz * 0.8) !== id) continue; // the normal points the wrong way here
+            if (lab(mx + nx * 0.4, mz + nz * 0.4) || lab(mx + nx * 0.8, mz + nz * 0.8) || lab(mx + nx * 1.15, mz + nz * 1.15)) { bayStat[0]++; continue; } // a party wall, or a gap too tight to be a lane
+            if (lab(mx - nx * 0.8, mz - nz * 0.8) !== id) { bayStat[1]++; continue; } // the normal points the wrong way here
+            bayStat[2]++;
             const g = Math.max(terrainAt(mx + nx * 0.6, mz + nz * 0.6), terrainAt(mx + nx * 0.6 + ux, mz + nz * 0.6 + uz), terrainAt(mx + nx * 0.6 - ux, mz + nz * 0.6 - uz));
             const hsh = (n) => ((Math.round(mx * 37.1 + mz * 91.7 + n * 13.3) * 2654435761) >>> 0) / 4294967296;
             const put = (y0p, wdt, hgt, cls, r) => {
@@ -837,8 +839,8 @@ const solidTris = { count: 0 };
             const jewishQ = mx > -660 && mx < -235 && mz > -30 && mz < 330;
             let y = g + 1.05, isDoor = false;
             if (roofY - g > 2.9) {
-              const h0 = hsh(0);
-              if (hsh(33) < 0.014) {
+              const h0 = L < 2.2 ? 0.34 + hsh(0) * 0.66 : hsh(0); // a short wall has room for a window, not a door
+              if (L >= 2.2 && hsh(33) < 0.014) {
                 // a garbage room: the quarter keeps its bins behind a plain grey metal door, not in
                 // the lane. About one in four is overflowing: door open, a bin and bags outside.
                 isDoor = true; nTrash++;
@@ -893,7 +895,7 @@ const solidTris = { count: 0 };
             if (hsh(21) < 0.11) S(7, mx + tx * 1.45 + nx * 0.04, g - 0.4, mz + tz * 1.45 + nz * 0.04, yaw, hsh(24), roofY - g + 0.4);
             if (j === 0 && roofY - g > 4.3 && hsh(22) < 0.3) S(13, xa + (xb - xa) * 0.5 + nx * 0.05, g + 3.3 + hsh(25) * 0.7, za + (zb - za) * 0.5 + nz * 0.05, yaw, hsh(26), L);
             // how far to the house opposite, and which house it is
-            let cw = 1.5, oid = 0;
+            let cw = 0.75, oid = 0;
             while (cw < 7 && !(oid = lab(mx + nx * (cw + 0.25), mz + nz * (cw + 0.25)))) cw += 0.25;
             // a wire slung across the lane, an arch between the two houses
             if (oid && roofY - g > 4 && hsh(50) < 0.07) S(25, mx + nx * 0.05, g + 3.5 + hsh(51) * 1.3, mz + nz * 0.05, yaw, hsh(52), cw + 0.2);
@@ -913,7 +915,7 @@ const solidTris = { count: 0 };
             if (roofY - g > 5 && hsh(70) < 0.04) S(26, mx + tx * (hsh(71) - 0.5) * 2 + nx * 0.1, g, mz + tz * (hsh(71) - 0.5) * 2 + nz * 0.1, yaw, hsh(71), Math.min(roofY - g - 0.3, 3.5 + hsh(72) * 4));
             if (isDoor && hsh(61) < 0.08) S(21, mx + nx * 0.1, g + 2.65, mz + nz * 0.1, yaw, hsh(62));
             // what stands in the lane beside it
-            if (!isDoor) {
+            if (!isDoor && cw >= 2.4 && L >= 2.4) {
               let clear = 2.4;
               while (clear < 9 && !lab(mx + nx * (clear + 0.5), mz + nz * (clear + 0.5))) clear += 0.5;
               const r30 = hsh(30), r31 = hsh(31);
@@ -989,6 +991,7 @@ const solidTris = { count: 0 };
       }
       quad(P(sAt(0), topY, -W), P(sAt(SEG), topY, -W), P(sAt(SEG), topY, W), P(sAt(0), topY, W), [0, 1, 0]);
     }
+    console.log('bays: party', bayStat[0], 'wrong way', bayStat[1], 'used', bayStat[2], 'short walls', bayStat[3]);
     console.log(`arches over lanes: ${made.length}; handrail runs: ${nRail}`);
   }
   // The drain down the middle of each lane: the line furthest from the houses on either side,

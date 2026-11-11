@@ -599,6 +599,34 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
     const mat = new THREE.MeshLambertMaterial({ vertexColors: true });
     const m4 = new THREE.Matrix4(), qt = new THREE.Quaternion(), sc = new THREE.Vector3(), ps = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
     const step = quality === 'low' ? 2 : 1; // phones get every other one
+    // television aerials and satellite dishes beside some of the tanks and planters
+    {
+      const rod = (w, h, d, x, y, z) => flat(new THREE.BoxGeometry(w, h, d).translate(x, y, z), 0.3, 0.3, 0.31);
+      const aerial = mergeGeometries([rod(0.035, 2.6, 0.035, 0, 1.3, 0), rod(0.02, 0.02, 1.1, 0, 2.5, 0),
+        ...[-0.45, -0.3, -0.15, 0, 0.15, 0.3, 0.45].map((z, i) => rod(0.55 - i * 0.03, 0.015, 0.015, 0, 2.5, z)), rod(0.02, 0.02, 0.7, 0, 2.05, 0), rod(0.7, 0.015, 0.015, 0, 2.05, -0.3), rod(0.7, 0.015, 0.015, 0, 2.05, 0.3)]);
+      const dish = mergeGeometries([rod(0.04, 0.9, 0.04, 0, 0.45, 0),
+        flat(new THREE.SphereGeometry(0.42, 12, 4, 0, Math.PI * 2, 0, 0.7).rotateX(-1.05).translate(0, 0.62, 0.2), 0.86, 0.86, 0.84),
+        rod(0.02, 0.02, 0.4, 0, 0.98, 0.42)]);
+      const lists = [[], []];
+      for (let i = 0; i < R.length; i += 6 * step) {
+        const h = ((R[i] * 12.9898 + R[i + 2] * 78.233) % 1 + 1) % 1;
+        if (R[i + 3] === 1 || h > 0.5) continue;
+        lists[h < 0.3 ? 0 : 1].push(i);
+      }
+      [aerial, dish].forEach((geo, w) => {
+        if (!lists[w].length) return;
+        const inst = new THREE.InstancedMesh(geo, mat, lists[w].length);
+        lists[w].forEach((i, n) => {
+          const a = R[i + 4] * 3.7;
+          qt.setFromAxisAngle(up, w ? 2.6 + Math.sin(a) * 0.25 : a);
+          sc.set(1, 1, 1);
+          ps.set(R[i] + Math.cos(a) * 1.5, R[i + 1], R[i + 2] + Math.sin(a) * 1.5);
+          inst.setMatrixAt(n, m4.compose(ps, qt, sc));
+        });
+        inst.frustumCulled = false;
+        g.add(inst);
+      });
+    }
     const tankTint = new THREE.Color();
     for (let kind = 0; kind < 3; kind++) {
       const list = [];
@@ -828,7 +856,7 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       box(0.012, 0.03, 0.1, -0.38, -0.03, -0.05, IRON), box(0.012, 0.03, 0.1, 0.38, -0.03, -0.05, IRON), box(0.012, 0.03, 0.1, 0, -0.03, -0.05, IRON),
     ]);
     // a caper bush hanging out of a crack in the wall
-    const CAPER = [0.42, 0.56, 0.3], CAPER2 = [0.5, 0.62, 0.34];
+    const CAPER = [0.3, 0.52, 0.22], CAPER2 = [0.38, 0.6, 0.26];
     shapes[19] = mergeGeometries([
       leaf(0, 0.02, 0.2, 0.36, 1, CAPER), leaf(0.16, -0.3, 0.26, 0.3, 1, CAPER2), leaf(-0.2, -0.5, 0.22, 0.27, 1, CAPER), leaf(0.06, -0.85, 0.2, 0.23, 1, CAPER2),
       leaf(-0.1, -1.15, 0.16, 0.16, 1, CAPER), leaf(0.3, 0.1, 0.14, 0.2, 1, CAPER2), leaf(-0.34, -0.1, 0.14, 0.2, 1, CAPER),
@@ -863,8 +891,8 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       const parts = [tube([0, 0, 0.05], [0.1, 1.6, 0.08], 0.03, [0.3, 0.24, 0.16], 4), tube([0.1, 1.6, 0.08], [-0.1, 3.4, 0.08], 0.022, [0.3, 0.24, 0.16], 4), tube([-0.1, 3.4, 0.08], [0.05, 4.9, 0.08], 0.015, [0.3, 0.24, 0.16], 3)];
       for (let i = 0; i < 17; i++) {
         const h = 0.5 + i * 0.27, wob = Math.sin(i * 1.7) * 0.35;
-        parts.push(leaf(wob, h, 0.16, 0.3 + 0.16 * Math.abs(Math.sin(i * 2.3)), 1, i % 3 ? [0.3, 0.47, 0.2] : [0.38, 0.54, 0.24]));
-        if (i % 2) parts.push(leaf(wob + (i % 4 === 1 ? 0.5 : -0.5), h + 0.1, 0.12, 0.22, 1, [0.33, 0.5, 0.22]));
+        parts.push(leaf(wob, h, 0.16, 0.3 + 0.16 * Math.abs(Math.sin(i * 2.3)), 1, i % 3 ? [0.22, 0.46, 0.17] : [0.3, 0.55, 0.2]));
+        if (i % 2) parts.push(leaf(wob + (i % 4 === 1 ? 0.5 : -0.5), h + 0.1, 0.12, 0.22, 1, [0.25, 0.5, 0.18]));
       }
       return mergeGeometries(parts);
     })();
@@ -933,7 +961,7 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
         const pal = palette[kind];
         if (kind === 12) tint.copy(pal[r < 0.28 ? 0 : r < 0.5 ? 1 : r < 0.7 ? 2 : 3]);
         else if (pal) tint.copy(pal[Math.floor(r * pal.length) % pal.length]);
-        else if ((kind >= 19 && kind <= 21) || kind === 26) { const b = 0.7 + r2 * 0.45; tint.setRGB(b * (1.08 - r * 0.2), b, b * (0.8 + r * 0.3)); }
+        else if ((kind >= 19 && kind <= 21) || kind === 26) { const b = 0.8 + r2 * 0.4; tint.setRGB(b * (0.86 + r * 0.16), b, b * (0.8 + r * 0.2)); }
         else tint.setScalar(kind === 0 ? 0.75 + ((r * 3.3) % 1) * 0.4 : 0.86 + r2 * 0.22);
         inst.setColorAt(n, tint);
       });

@@ -765,19 +765,32 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       // a bicycle leaning on the wall
       2: bikeParts().rotateX(-0.2).translate(0, 0, 0.42),
       // a small parked car
-      3: mergeGeometries([
-        tintable(carSide([[-1.93, 0.42], [-1.97, 0.8], [-1.8, 0.95], [-1.45, 1.42], [0.25, 1.45], [0.95, 0.98], [1.85, 0.86], [1.97, 0.62], [1.95, 0.42]], 1.64), 1, 1, 1),
-        tintable(carSide([[-1.95, 0.24], [-1.95, 0.44], [1.97, 0.44], [1.97, 0.24]], 1.66), 0.1, 0.1, 0.11),
-        tintable(carSide([[-1.38, 0.98], [-1.3, 1.37], [0.22, 1.39], [0.8, 1.0]], 1.67), ...GLASS),
-        tintable(new THREE.BoxGeometry(0.78, 0.02, 1.42).rotateZ(-0.59).translate(0.612, 1.228, 0), ...GLASS),
-        tintable(new THREE.BoxGeometry(0.46, 0.02, 1.38).rotateZ(0.93).translate(-1.637, 1.194, 0), ...GLASS),
-        tintable(new THREE.BoxGeometry(0.06, 0.42, 1.69).translate(-0.52, 1.18, 0), 0.9, 0.9, 0.9),
-        wheel(-1.25, 0.76), wheel(1.25, 0.76), wheel(-1.25, -0.76), wheel(1.25, -0.76),
-        box(0.04, 0.13, 0.3, 1.95, 0.7, 0.58, [1.3, 1.3, 1.2]), box(0.04, 0.13, 0.3, 1.95, 0.7, -0.58, [1.3, 1.3, 1.2]),
-        box(0.04, 0.14, 0.26, -1.96, 0.82, 0.6, [0.7, 0.05, 0.04]), box(0.04, 0.14, 0.26, -1.96, 0.82, -0.6, [0.7, 0.05, 0.04]),
-        box(0.03, 0.11, 0.5, 1.98, 0.5, 0, [1.2, 1.1, 0.4]), box(0.03, 0.11, 0.5, -1.98, 0.52, 0, [1.2, 1.1, 0.4]),
-        box(0.07, 0.07, 0.14, 0.85, 1.02, 0.9, TYRE), box(0.07, 0.07, 0.14, 0.85, 1.02, -0.9, TYRE),
-      ]),
+      3: (() => {
+        const BK = [0.07, 0.07, 0.08];
+        const hub = (x, z) => tintable(new THREE.CylinderGeometry(0.17, 0.17, 0.215, 10).rotateX(Math.PI / 2).translate(x, 0.31, z), 0.55, 0.56, 0.58);
+        const arch = (x, z) => tintable(new THREE.CylinderGeometry(0.39, 0.39, 0.06, 12, 1, false, -Math.PI / 2, Math.PI).rotateX(Math.PI / 2).translate(x, 0.33, z), ...BK);
+        const parts = [
+          tintable(carSide([[-1.94, 0.4], [-1.98, 0.62], [-1.96, 0.84], [-1.84, 0.94], [-1.62, 1.22], [-1.42, 1.4], [-1.1, 1.45], [0.1, 1.46], [0.36, 1.4], [0.92, 1.0], [1.5, 0.92], [1.86, 0.84], [1.97, 0.7], [1.98, 0.5], [1.94, 0.4]], 1.64), 1, 1, 1),
+          tintable(carSide([[-1.97, 0.24], [-1.99, 0.42], [1.99, 0.42], [1.97, 0.24]], 1.68), ...BK),
+          tintable(carSide([[-1.36, 0.99], [-1.3, 1.36], [0.2, 1.38], [0.8, 1.0]], 1.67), ...GLASS),
+          tintable(new THREE.BoxGeometry(0.76, 0.02, 1.4).rotateZ(-0.62).translate(0.645, 1.215, 0), ...GLASS),
+          tintable(new THREE.BoxGeometry(0.42, 0.02, 1.36).rotateZ(0.81).translate(-1.52, 1.325, 0), ...GLASS),
+          tintable(new THREE.BoxGeometry(0.07, 0.42, 1.69).translate(-0.5, 1.18, 0), 0.9, 0.9, 0.9),
+          wheel(-1.25, 0.76), wheel(1.25, 0.76), wheel(-1.25, -0.76), wheel(1.25, -0.76),
+          hub(-1.25, 0.76), hub(1.25, 0.76), hub(-1.25, -0.76), hub(1.25, -0.76),
+          arch(-1.25, 0.8), arch(1.25, 0.8), arch(-1.25, -0.8), arch(1.25, -0.8),
+          box(0.04, 0.13, 0.32, 1.96, 0.72, 0.56, [1.4, 1.4, 1.3]), box(0.04, 0.13, 0.32, 1.96, 0.72, -0.56, [1.4, 1.4, 1.3]),
+          box(0.04, 0.12, 0.7, 1.975, 0.7, 0, BK),
+          box(0.04, 0.16, 0.24, -1.97, 0.8, 0.62, [0.75, 0.05, 0.04]), box(0.04, 0.16, 0.24, -1.97, 0.8, -0.62, [0.75, 0.05, 0.04]),
+          box(0.03, 0.11, 0.5, 1.995, 0.5, 0, [1.2, 1.1, 0.4]), box(0.03, 0.11, 0.5, -1.995, 0.54, 0, [1.2, 1.1, 0.4]),
+          box(0.09, 0.07, 0.16, 0.86, 1.03, 0.9, BK), box(0.09, 0.07, 0.16, 0.86, 1.03, -0.9, BK),
+          box(0.1, 0.03, 0.02, 0.1, 0.92, 0.835, [0.6, 0.6, 0.6]), box(0.1, 0.03, 0.02, 0.1, 0.92, -0.835, [0.6, 0.6, 0.6]),
+          box(0.1, 0.03, 0.02, -0.95, 0.92, 0.835, [0.6, 0.6, 0.6]), box(0.1, 0.03, 0.02, -0.95, 0.92, -0.835, [0.6, 0.6, 0.6]),
+        ];
+        // door seams, both sides
+        for (const z of [0.826, -0.826]) for (const x of [0.86, -0.48, -1.42]) parts.push(box(0.012, 0.5, 0.012, x, 0.7, z, [0.35, 0.35, 0.35]));
+        return mergeGeometries(parts);
+      })(),
       // a wheeled rubbish bin
       4: mergeGeometries([
         tintable(new THREE.CylinderGeometry(0.4, 0.33, 0.92, 4).rotateY(Math.PI / 4).translate(0, 0.52, 0), 1, 1, 1),
@@ -945,10 +958,42 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       }
       return mergeGeometries(parts);
     })();
+    // a shop front: glass in a metal frame with a door, goods on show, a painted sign board above
+    shapes[32] = (() => {
+      const AL = [0.62, 0.63, 0.64], GL = [0.07, 0.1, 0.13];
+      const parts = [box(2.5, 2.25, 0.03, 0, 1.125, 0.02, GL), box(2.6, 0.07, 0.08, 0, 2.28, 0.04, AL), box(2.6, 0.1, 0.08, 0, 0.05, 0.04, AL),
+        box(0.07, 2.3, 0.08, -1.27, 1.15, 0.04, AL), box(0.07, 2.3, 0.08, 1.27, 1.15, 0.04, AL), box(0.06, 2.3, 0.08, 0.38, 1.15, 0.04, AL),
+        box(1.6, 0.5, 0.05, -0.45, 0.3, 0.05, [0.5, 0.47, 0.4]), box(0.03, 0.3, 0.05, 0.5, 1.1, 0.09, AL),
+        box(2.7, 0.5, 0.09, 0, 2.62, 0.05, W), box(2.1, 0.26, 0.1, 0, 2.62, 0.055, [1.7, 1.65, 1.45])];
+      // things on show behind the glass
+      const show = [[0.8, 0.2, 0.15], [0.9, 0.7, 0.2], [0.2, 0.4, 0.7], [0.85, 0.85, 0.8], [0.6, 0.3, 0.5], [0.3, 0.6, 0.4]];
+      for (let i = 0; i < 9; i++) parts.push(box(0.2 + (i % 3) * 0.05, 0.2 + ((i * 7) % 4) * 0.07, 0.02, -1.05 + (i % 5) * 0.3, 0.75 + Math.floor(i / 5) * 0.55 + ((i * 3) % 2) * 0.05, 0.04, show[i % show.length]));
+      parts.push(box(1.6, 0.03, 0.03, -0.45, 1.22, 0.04, AL));
+      return mergeGeometries(parts);
+    })();
+    // a shop shut for the day behind its ribbed metal shutter
+    shapes[33] = (() => {
+      const parts = [box(2.5, 2.3, 0.04, 0, 1.15, 0.03, [0.82, 0.82, 0.82]), box(2.6, 0.12, 0.1, 0, 2.36, 0.05, [0.5, 0.5, 0.5]), box(0.06, 2.3, 0.09, -1.28, 1.15, 0.045, [0.5, 0.5, 0.5]), box(0.06, 2.3, 0.09, 1.28, 1.15, 0.045, [0.5, 0.5, 0.5]),
+        box(0.14, 0.1, 0.05, 0, 0.12, 0.07, [0.25, 0.25, 0.25])];
+      for (let i = 0; i < 18; i++) parts.push(box(2.5, 0.035, 0.022, 0, 0.1 + i * 0.125, 0.055, W));
+      return mergeGeometries(parts);
+    })();
+    // a rack of postcards outside a shop
+    shapes[34] = (() => {
+      const parts = [tintable(new THREE.CylinderGeometry(0.02, 0.02, 1.7, 5).translate(0, 0.85, 0), ...IRON), tintable(new THREE.CylinderGeometry(0.22, 0.26, 0.04, 8).translate(0, 0.02, 0), ...IRON)];
+      const cc = [[0.85, 0.3, 0.2], [0.2, 0.5, 0.8], [0.9, 0.8, 0.3], [0.9, 0.9, 0.85], [0.3, 0.6, 0.35], [0.8, 0.5, 0.2]];
+      for (let side = 0; side < 4; side++) for (let row = 0; row < 5; row++) {
+        const c = cc[(side * 3 + row * 5) % cc.length];
+        parts.push(tintable(new THREE.BoxGeometry(0.2, 0.15, 0.012).rotateX(-0.15).translate(0, 0.62 + row * 0.22, 0.17).rotateY(side * Math.PI / 2), c[0], c[1], c[2]));
+      }
+      return mergeGeometries(parts);
+    })();
     const P = (...hex) => hex.map((h) => new THREE.Color(h));
     const palette = {
       1: P(0x8c211a, 0x1f4d33, 0x243d6b, 0xb88c40, 0xccc2a8),
       28: P(0x1f4d33, 0x6e1f1b, 0x1f3560, 0x3a2a1c, 0x8a6a2a),
+      32: P(0x8f9a8a, 0x9a8f8a, 0x8a909a, 0xa39a80, 0x7f8f86),
+      33: P(0x2f5f45, 0x6f7275, 0x2f5f45, 0x35557a, 0x80705a),
       2: P(0x1b1b1d, 0xb5352a, 0x2a5fa8, 0xd8d8d2, 0x2e7d4f, 0xd9a21b),
       3: P(0xe9e9e6, 0xe9e9e6, 0xb9bcc0, 0x8d9197, 0x2b2d31, 0x27406e, 0x8a1f1c, 0x6f7a6a),
       4: P(0x1c5230, 0x1c5230, 0x2f4f3a, 0x55585c, 0x234f80),
@@ -956,7 +1001,7 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       12: P(0x29574d, 0x2b547f, 0x5c4026, 0x4d5254),
       15: P(0xc97a2b, 0x1c1c1c, 0x8a8782, 0xe8e4dc, 0x6b5a48),
     };
-    const ground = new Set([0, 2, 3, 4, 8, 9, 10, 15, 16, 17, 20, 23]);
+    const ground = new Set([0, 2, 3, 4, 8, 9, 10, 15, 16, 17, 20, 23, 34]);
     const lambert = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide });
     const paintwork = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.32, metalness: 0.35 });
     const flagMat = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide, map: flagTex });

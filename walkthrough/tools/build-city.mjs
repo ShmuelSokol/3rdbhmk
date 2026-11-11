@@ -167,7 +167,7 @@ for (const f of fs.readdirSync(facDir)) {
 
 const KEEP_TRIM = !!process.env.CITY_TRIM;
 const genWin = new Map(); // cell -> { pos, col, idx } openings made with the rebuilt walls
-let nGenWin = 0, nGenDoor = 0, nCar = 0, nTrash = 0, nRail = 0;
+let nGenWin = 0, nGenDoor = 0, nCar = 0, nTrash = 0, nRail = 0, nShop = 0;
 const archC = [], roofById = new Map(), bayStat = [0, 0, 0, 0];
 const streetItems = []; // eight numbers each: x, y, z, kind, turn, random, and two sizes (see streetThings in src/site.js)
 const roofItems = []; // x, y, z, kind, turn, clearance for each thing standing on a roof
@@ -842,7 +842,18 @@ const solidTris = { count: 0 };
             let y = g + 1.05, isDoor = false;
             if (roofY - g > 2.9) {
               const h0 = L < 2.2 ? 0.34 + hsh(0) * 0.66 : hsh(0); // a short wall has room for a window, not a door
-              if (L >= 2.2 && hsh(33) < 0.014) {
+              // shops keep together: a wall is a row of them or has none
+              const wb = Math.round(xa * 37.1 + za * 91.7); let wx = Math.imul(wb ^ 0x51ed270b, 0x85ebca6b); wx ^= wx >>> 15; wx = Math.imul(wx, 0xc2b2ae35); wx ^= wx >>> 13;
+              const shopWall = (wx >>> 0) / 4294967296 < 0.1 && L >= 3.2 && L / bays >= 3.0;
+              if (shopWall && roofY - g > 3.3 && hsh(90) < 0.75 && !lab(mx + nx * 2.2, mz + nz * 2.2) && Math.abs(terrainAt(mx + ux * 1.3 + nx * 0.5, mz + uz * 1.3 + nz * 0.5) - terrainAt(mx - ux * 1.3 + nx * 0.5, mz - uz * 1.3 + nz * 0.5)) < 0.3) {
+                isDoor = true; nShop++;
+                const shut = hsh(91) < 0.35;
+                S(shut ? 33 : 32, mx + nx * 0.03, g + 0.02, mz + nz * 0.03, yaw, hsh(92));
+                if (!shut && hsh(93) < 0.45) S(10, mx + tx * 0.9 + nx * 0.5, g, mz + tz * 0.9 + nz * 0.5, yaw + (hsh(94) - 0.5) * 0.4, hsh(94));
+                if (!shut && hsh(95) < 0.4) S(34, mx - tx * 0.9 + nx * 0.55, g, mz - tz * 0.9 + nz * 0.55, yaw + (hsh(96) - 0.5) * 0.8, hsh(96));
+                if (!shut && hsh(97) < 0.35) S(1, mx + nx * 0.06, g + 2.9, mz + nz * 0.06, yaw, hsh(98));
+              }
+              else if (L >= 2.2 && hsh(33) < 0.014) {
                 // a garbage room: the quarter keeps its bins behind a plain grey metal door, not in
                 // the lane. About one in four is overflowing: door open, a bin and bags outside.
                 isDoor = true; nTrash++;
@@ -927,12 +938,14 @@ const solidTris = { count: 0 };
               let clear = 2.4;
               while (clear < 9 && !lab(mx + nx * (clear + 0.5), mz + nz * (clear + 0.5))) clear += 0.5;
               const r30 = hsh(30), r31 = hsh(31);
+              // a car needs a street it could have driven in on, not a closed courtyard
+              const onLane = (x, z) => { const u = Math.floor((x - CM.x0) / cmPx), v = Math.floor((z - CM.z0) / cmPx); return u >= 0 && v >= 0 && u < CM.n && v < CM.n && kind[v * CM.n + u] === 110; };
               const flat = (d, half) => {
                 const cx = mx + nx * d, cz = mz + nz * d, c0 = terrainAt(cx, cz);
                 return Math.abs(terrainAt(cx + ux * half, cz + uz * half) - c0) < 0.3 && Math.abs(terrainAt(cx - ux * half, cz - uz * half) - c0) < 0.3 && Math.abs(c0 - g) < 0.45
                   && !lab(cx + ux * half, cz + uz * half) && !lab(cx - ux * half, cz - uz * half);
               };
-              if (r30 < 0.13 && clear >= 5.5 && j % 2 === 0 && L >= 5 && flat(1.3, 2.1)) { S(3, mx + nx * 1.3, g, mz + nz * 1.3, yaw + (r31 < 0.5 ? 0 : Math.PI), r31); nCar++; }
+              if (r30 < 0.13 && clear >= 5.5 && j % 2 === 0 && L >= 5 && flat(1.3, 2.1) && onLane(mx + nx * 1.3, mz + nz * 1.3) && onLane(mx + nx * 4, mz + nz * 4)) { S(3, mx + nx * 1.3, g, mz + nz * 1.3, yaw + (r31 < 0.5 ? 0 : Math.PI), r31, nx, nz); nCar++; }
               else if (r30 >= 0.13 && r30 < 0.165) S(2, mx + nx * 0.02, g, mz + nz * 0.02, yaw + (r31 < 0.5 ? 0 : Math.PI) * 0, r31, r31 < 0.5 ? 1 : -1);
               else if (r30 >= 0.235 && r30 < 0.26 && clear >= 3.4 && flat(0.4, 0.8)) S(8, mx + nx * 0.36, g, mz + nz * 0.36, yaw, r31);
               else if (r30 >= 0.26 && r30 < 0.29 && clear >= 4.4 && flat(1.1, 0.9)) S(9, mx + nx * 1.05, g, mz + nz * 1.05, yaw + r31 * 3, r31);
@@ -1141,7 +1154,7 @@ const solidTris = { count: 0 };
   }
   for (const [key, G] of genWin) if (G.idx.length) cityMeshes.push({ name: `win_${key}`, pos: new Float32Array(G.pos), idx: new Uint32Array(G.idx), col: new Float32Array(G.col) });
   console.log(`house solids: ${nRegions} roof regions, ${solidTris.count} triangles`);
-  console.log(`openings made: ${nGenWin} windows, ${nGenDoor} doors, ${nTrash} garbage rooms`);
+  console.log(`openings made: ${nGenWin} windows, ${nGenDoor} doors, ${nTrash} garbage rooms, ${nShop} shops`);
   if (process.env.CITY_SCAN) {
     const [sx0, sx1, sz] = process.env.CITY_SCAN.split(',').map(Number);
     const v = Math.round((sz - CM.z0) / FP);

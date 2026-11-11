@@ -584,7 +584,8 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
   }
 
   // Life in the lanes, as the Jewish Quarter has it today: plants in clay pots, cloth awnings,
-  // bicycles against the walls, parked cars where a lane is wide enough, bins, crates, chairs,
+  // bicycles against the walls, parked cars where a lane is wide enough, crates, chairs, the odd
+  // bin and bags outside an overflowing garbage room,
   // lanterns, drainpipes, cables, air conditioners, window boxes, flags, doors left open, cats.
   // Each thing is eight numbers: x, y, z, kind, turn, random, and two sizes.
   function streetThings() {
@@ -756,6 +757,11 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       ]),
       // a white plastic chair
       16: chair(0, 0, 0, [0.9, 0.9, 0.88]),
+      // rubbish bags, where a garbage room has overflowed
+      17: mergeGeometries([
+        leaf(0, 0.2, 0, 0.3, 1.15, [0.05, 0.05, 0.06]), leaf(0.42, 0.17, 0.12, 0.25, 1.1, [0.07, 0.07, 0.08]), leaf(0.16, 0.42, 0.06, 0.2, 1.1, [0.05, 0.05, 0.06]),
+        leaf(-0.36, 0.14, 0.2, 0.2, 1.1, [0.78, 0.78, 0.74]), box(0.4, 0.26, 0.3, 0.2, 0.13, -0.38, [0.6, 0.48, 0.32]),
+      ]),
     };
     const P = (...hex) => hex.map((h) => new THREE.Color(h));
     const palette = {
@@ -767,7 +773,7 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       12: P(0x29574d, 0x2b547f, 0x5c4026, 0x4d5254),
       15: P(0xc97a2b, 0x1c1c1c, 0x8a8782, 0xe8e4dc, 0x6b5a48),
     };
-    const ground = new Set([0, 2, 3, 4, 8, 9, 10, 15, 16]);
+    const ground = new Set([0, 2, 3, 4, 8, 9, 10, 15, 16, 17]);
     const lambert = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide });
     const paintwork = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.32, metalness: 0.35 });
     const flagMat = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide, map: flagTex });

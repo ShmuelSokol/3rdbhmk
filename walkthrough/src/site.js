@@ -473,12 +473,31 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
           c = stoneC * mix(.72, 1., smoothstep(0., .05, inner));
         } else {
           float depth = smoothstep(-.10, 0., inner); // shade under the lintel and beside the jambs
-          vec3 paint = rnd < .28 ? vec3(.16, .34, .30) : rnd < .5 ? vec3(.17, .33, .50) : rnd < .7 ? vec3(.36, .25, .15) : vec3(.30, .32, .33);
+          // doors keep the lower half of the random number for paint; the upper half marks a door
+          // standing open, in eight steps: its paint, and whether the leaf shows inside the doorway
+          bool open = door && rnd > .49;
+          float ok = floor(clamp((rnd - .525) * 16. + .25, 0., 7.9));
+          float ps = door ? (open ? (mod(ok, 4.) + .5) * .25 : rnd / .47) : rnd;
+          vec3 paint = ps < .28 ? vec3(.16, .34, .30) : ps < .5 ? vec3(.17, .33, .50) : ps < .7 ? vec3(.36, .25, .15) : vec3(.30, .32, .33);
           if (door) {
             float plank = abs(fract(p.x / .2) - .5);
             c = paint * (.85 + .25 * hash21(vec2(floor(p.x / .2), rnd * 91.)));
             c *= 1. - .35 * (1. - smoothstep(.0, .03 + px, plank)) * (1. - smoothstep(.02, .1, px));
-            c = mix(c, vec3(.05), step(.93, fract(rnd * 13.)) * .0);
+            if (open) {
+              // a dark room, its floor catching daylight at the threshold
+              float fl = 1. - smoothstep(-hb.y + .13, -hb.y + .75, p.y);
+              vec3 room = mix(vec3(.030, .026, .024), vec3(.26, .22, .17), fl * fl);
+              room += vec3(.05, .035, .02) * smoothstep(.5, .0, length(p - vec2(.1, .25))); // something lit, far inside
+              if (ok < 3.5) {
+                // the leaf swung in on its hinge: a narrowed, shaded strip of it shows at one jamb
+                float side = mod(ok, 2.) < .5 ? -1. : 1.;
+                float fromHinge = (p.x * side + hb.x - .13);
+                float wv = mix(.3, .62, fract(ok * .37 + .2)) * (sz.x - .26);
+                float top = hb.y - .13 - fromHinge * .22;
+                if (fromHinge < wv && p.y < top) room = c * mix(.62, .38, fromHinge / wv);
+              }
+              c = room;
+            }
           } else if (fract(rnd * 5.7) < .36) {
             // closed shutters with slats
             float slat = fract((p.y + 2.) / .09);
@@ -564,10 +583,14 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
     return g;
   }
 
-  // Life at the doors of the lanes: plants in clay pots, and cloth awnings.
+  // Life in the lanes, as the Jewish Quarter has it today: plants in clay pots, cloth awnings,
+  // bicycles against the walls, parked cars where a lane is wide enough, bins, crates, chairs,
+  // lanterns, drainpipes, cables, air conditioners, window boxes, flags, doors left open, cats.
+  // Each thing is eight numbers: x, y, z, kind, turn, random, and two sizes.
   function streetThings() {
     const g = new THREE.Group();
     const R = siteData.street || [];
+    const N = 8;
     const tintable = (geo, r, gr, b) => {
       const q = geo.index ? geo.toNonIndexed() : geo;
       const n = q.attributes.position.count, col = new Float32Array(n * 3);
@@ -576,46 +599,218 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       q.deleteAttribute('uv');
       return q;
     };
-    const leaf = (x, y, z, r, sx) => {
+    const box = (w, h, d, x, y, z, c) => tintable(new THREE.BoxGeometry(w, h, d).translate(x, y, z), c[0], c[1], c[2]);
+    const yv = new THREE.Vector3(0, 1, 0), va = new THREE.Vector3(), vb = new THREE.Vector3(), tq = new THREE.Quaternion();
+    const tube = (p, q, r, c, seg = 5) => {
+      va.set(...p); vb.set(...q);
+      const len = va.distanceTo(vb);
+      tq.setFromUnitVectors(yv, vb.clone().sub(va).normalize());
+      return tintable(new THREE.CylinderGeometry(r, r, len, seg).applyQuaternion(tq).translate((p[0] + q[0]) / 2, (p[1] + q[1]) / 2, (p[2] + q[2]) / 2), c[0], c[1], c[2]);
+    };
+    const leaf = (x, y, z, r, sx, c = [0.5, 0.66, 0.36]) => {
       const b = new THREE.IcosahedronGeometry(r, 1);
       const P = b.attributes.position;
       for (let i = 0; i < P.count; i++) { const k = 0.8 + 0.4 * Math.abs(Math.sin(P.getX(i) * 9 + P.getY(i) * 7 + P.getZ(i) * 5)); P.setXYZ(i, P.getX(i) * k * sx, P.getY(i) * k, P.getZ(i) * k * sx); }
-      return tintable(b.translate(x, y, z), 0.5, 0.66, 0.36);
+      return tintable(b.translate(x, y, z), c[0], c[1], c[2]);
     };
-    const shapes = [
-      mergeGeometries([
+    const W = [1, 1, 1], IRON = [0.07, 0.07, 0.08], TYRE = [0.05, 0.05, 0.05], GLASS = [0.04, 0.05, 0.07];
+    const chair = (cx, cz, turn, c) => {
+      const parts = [box(0.42, 0.04, 0.42, 0, 0.44, 0, c), box(0.42, 0.42, 0.04, 0, 0.68, -0.2, c)];
+      for (const [x, z] of [[-0.18, -0.18], [0.18, -0.18], [-0.18, 0.18], [0.18, 0.18]]) parts.push(box(0.04, 0.44, 0.04, x, 0.22, z, c));
+      return mergeGeometries(parts).rotateY(turn).translate(cx, 0, cz);
+    };
+    const wheel = (x, z) => tintable(new THREE.CylinderGeometry(0.31, 0.31, 0.2, 12).rotateX(Math.PI / 2).translate(x, 0.31, z), ...TYRE);
+    const carSide = (pts, depth) => {
+      const sh = new THREE.Shape(pts.map(([x, y]) => new THREE.Vector2(x, y)));
+      return new THREE.ExtrudeGeometry(sh, { depth, bevelEnabled: false }).translate(0, 0, -depth / 2);
+    };
+    const bikeParts = () => {
+      const p = [];
+      for (const x of [-0.52, 0.52]) {
+        p.push(tintable(new THREE.TorusGeometry(0.33, 0.022, 5, 18).translate(x, 0.35, 0), ...TYRE));
+        p.push(tintable(new THREE.TorusGeometry(0.31, 0.006, 3, 12).translate(x, 0.35, 0), 0.6, 0.6, 0.62));
+        for (let k = 0; k < 4; k++) { const an = k * Math.PI / 4; p.push(tube([x - Math.cos(an) * 0.31, 0.35 - Math.sin(an) * 0.31, 0], [x + Math.cos(an) * 0.31, 0.35 + Math.sin(an) * 0.31, 0], 0.004, [0.6, 0.6, 0.62], 3)); }
+      }
+      const Rr = [-0.52, 0.35, 0], B = [-0.08, 0.32, 0], St = [-0.2, 0.82, 0], H = [0.36, 0.86, 0], Hb = [0.41, 0.64, 0], F = [0.52, 0.35, 0];
+      for (const [u, v] of [[Rr, B], [B, St], [Rr, St], [St, H], [B, Hb], [H, Hb], [Hb, F]]) p.push(tube(u, v, 0.017, W));
+      p.push(tube([-0.215, 0.82, 0], [-0.23, 0.93, 0], 0.012, IRON), box(0.25, 0.045, 0.12, -0.24, 0.95, 0, IRON));
+      p.push(tube([0.35, 0.86, 0], [0.33, 1.0, 0], 0.012, IRON), tube([0.33, 1.0, -0.26], [0.33, 1.0, 0.26], 0.012, IRON));
+      p.push(tube([-0.08, 0.32, 0.07], [0.02, 0.2, 0.09], 0.01, IRON, 3), box(0.09, 0.02, 0.05, 0.03, 0.2, 0.11, IRON));
+      return mergeGeometries(p);
+    };
+    const flagTex = (() => {
+      const c = document.createElement('canvas'); c.width = 128; c.height = 96;
+      const x = c.getContext('2d');
+      x.fillStyle = '#f4f3ee'; x.fillRect(0, 0, 128, 96);
+      x.fillStyle = '#1c43a8'; x.fillRect(0, 10, 128, 13); x.fillRect(0, 73, 128, 13);
+      x.strokeStyle = '#1c43a8'; x.lineWidth = 3.4;
+      for (const s of [1, -1]) { x.beginPath(); for (let k = 0; k < 3; k++) { const an = -Math.PI / 2 * s + k * 2.0944; x[k ? 'lineTo' : 'moveTo'](64 + Math.cos(an) * 17, 48 + Math.sin(an) * 17); } x.closePath(); x.stroke(); }
+      const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+    })();
+    const flagGeo = (() => {
+      // a short pole out of the wall and the cloth hanging from it, a little slack
+      const cloth = new THREE.PlaneGeometry(0.95, 0.66, 6, 1);
+      const P = cloth.attributes.position;
+      for (let i = 0; i < P.count; i++) { const u = P.getX(i) / 0.95 + 0.5; P.setXYZ(i, Math.sin(u * 7) * 0.035 * (0.5 - P.getY(i) / 0.66), P.getY(i) - 0.33 + 0.5 * (0.25 + u * 0.95) - u * 0.06, 0.28 + u * 0.9); }
+      cloth.computeVertexNormals();
+      const q = cloth.toNonIndexed(), n = q.attributes.position.count;
+      q.setAttribute('color', new THREE.BufferAttribute(new Float32Array(n * 3).fill(1), 3));
+      const pole = new THREE.CylinderGeometry(0.013, 0.013, 1.42, 5).applyQuaternion(new THREE.Quaternion().setFromUnitVectors(yv, new THREE.Vector3(0, 0.447, 0.894))).translate(0, 0.32, 0.63).toNonIndexed();
+      const pn = pole.attributes.position.count;
+      pole.setAttribute('color', new THREE.BufferAttribute(new Float32Array(pn * 3).fill(0.75), 3));
+      pole.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(pn * 2).fill(0.4), 2));
+      return mergeGeometries([q, pole]);
+    })();
+
+    // Ground things have their origin on the paving at the wall, with +Z out into the lane.
+    const shapes = {
+      0: mergeGeometries([
         tintable(new THREE.CylinderGeometry(0.26, 0.18, 0.44, 9).translate(0, 0.22, 0), 1.0, 0.56, 0.36),
         leaf(0, 0.74, 0, 0.3, 1), leaf(0.1, 1.02, 0.04, 0.22, 0.9), leaf(-0.12, 0.92, -0.06, 0.2, 1),
       ]),
-      mergeGeometries([
+      1: mergeGeometries([
         tintable(new THREE.BoxGeometry(1.9, 0.03, 1.25).rotateX(0.42).translate(0, -0.26, 0.56), 1, 1, 1),
         tintable(new THREE.BoxGeometry(1.9, 0.22, 0.02).translate(0, -0.62, 1.13), 0.92, 0.92, 0.92),
         tintable(new THREE.CylinderGeometry(0.015, 0.015, 1.3, 4).rotateX(Math.PI / 2 + 0.42).translate(-0.93, -0.27, 0.56), 0.25, 0.25, 0.25),
         tintable(new THREE.CylinderGeometry(0.015, 0.015, 1.3, 4).rotateX(Math.PI / 2 + 0.42).translate(0.93, -0.27, 0.56), 0.25, 0.25, 0.25),
       ]),
-    ];
-    const cloth = [[0.55, 0.13, 0.1], [0.12, 0.3, 0.2], [0.14, 0.24, 0.42], [0.72, 0.55, 0.25], [0.8, 0.76, 0.66]];
-    const mat = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide });
+      // a bicycle leaning on the wall
+      2: bikeParts().rotateX(-0.2).translate(0, 0, 0.42),
+      // a small parked car
+      3: mergeGeometries([
+        tintable(carSide([[-1.93, 0.42], [-1.97, 0.8], [-1.8, 0.95], [-1.45, 1.42], [0.25, 1.45], [0.95, 0.98], [1.85, 0.86], [1.97, 0.62], [1.95, 0.42]], 1.64), 1, 1, 1),
+        tintable(carSide([[-1.95, 0.24], [-1.95, 0.44], [1.97, 0.44], [1.97, 0.24]], 1.66), 0.1, 0.1, 0.11),
+        tintable(carSide([[-1.38, 0.98], [-1.3, 1.37], [0.22, 1.39], [0.8, 1.0]], 1.67), ...GLASS),
+        tintable(new THREE.BoxGeometry(0.78, 0.02, 1.42).rotateZ(-0.59).translate(0.612, 1.228, 0), ...GLASS),
+        tintable(new THREE.BoxGeometry(0.46, 0.02, 1.38).rotateZ(0.93).translate(-1.637, 1.194, 0), ...GLASS),
+        tintable(new THREE.BoxGeometry(0.06, 0.42, 1.69).translate(-0.52, 1.18, 0), 0.9, 0.9, 0.9),
+        wheel(-1.25, 0.76), wheel(1.25, 0.76), wheel(-1.25, -0.76), wheel(1.25, -0.76),
+        box(0.04, 0.13, 0.3, 1.95, 0.7, 0.58, [1.3, 1.3, 1.2]), box(0.04, 0.13, 0.3, 1.95, 0.7, -0.58, [1.3, 1.3, 1.2]),
+        box(0.04, 0.14, 0.26, -1.96, 0.82, 0.6, [0.7, 0.05, 0.04]), box(0.04, 0.14, 0.26, -1.96, 0.82, -0.6, [0.7, 0.05, 0.04]),
+        box(0.03, 0.11, 0.5, 1.98, 0.5, 0, [1.2, 1.1, 0.4]), box(0.03, 0.11, 0.5, -1.98, 0.52, 0, [1.2, 1.1, 0.4]),
+        box(0.07, 0.07, 0.14, 0.85, 1.02, 0.9, TYRE), box(0.07, 0.07, 0.14, 0.85, 1.02, -0.9, TYRE),
+      ]),
+      // a wheeled rubbish bin
+      4: mergeGeometries([
+        tintable(new THREE.CylinderGeometry(0.4, 0.33, 0.92, 4).rotateY(Math.PI / 4).translate(0, 0.52, 0), 1, 1, 1),
+        box(0.62, 0.07, 0.64, 0, 1.01, 0.02, [0.85, 0.85, 0.85]),
+        tintable(new THREE.CylinderGeometry(0.09, 0.09, 0.06, 8).rotateZ(Math.PI / 2).translate(-0.25, 0.09, -0.2), ...TYRE),
+        tintable(new THREE.CylinderGeometry(0.09, 0.09, 0.06, 8).rotateZ(Math.PI / 2).translate(0.25, 0.09, -0.2), ...TYRE),
+      ]),
+      // an iron lantern on a bracket
+      5: mergeGeometries([
+        box(0.035, 0.035, 0.56, 0, 0.3, 0.28, IRON), tube([0, 0, 0.02], [0, 0.3, 0.36], 0.012, IRON, 4), box(0.1, 0.34, 0.02, 0, 0.16, 0.01, IRON),
+        tube([0, 0.3, 0.5], [0, 0.2, 0.5], 0.008, IRON, 3),
+        tintable(new THREE.ConeGeometry(0.17, 0.13, 4).rotateY(Math.PI / 4).translate(0, 0.14, 0.5), ...IRON),
+        tintable(new THREE.CylinderGeometry(0.125, 0.085, 0.3, 4).rotateY(Math.PI / 4).translate(0, -0.08, 0.5), 1.0, 0.93, 0.7),
+        tintable(new THREE.CylinderGeometry(0.09, 0.05, 0.05, 4).rotateY(Math.PI / 4).translate(0, -0.255, 0.5), ...IRON),
+      ]),
+      // the outdoor half of an air conditioner, with its pipe
+      6: mergeGeometries([
+        box(0.82, 0.56, 0.3, 0, 0, 0.2, [0.86, 0.86, 0.83]),
+        tintable(new THREE.CylinderGeometry(0.21, 0.21, 0.02, 14).rotateX(Math.PI / 2).translate(-0.12, 0, 0.356), 0.2, 0.21, 0.22),
+        box(0.04, 0.04, 0.34, -0.3, -0.3, 0.17, IRON), box(0.04, 0.04, 0.34, 0.3, -0.3, 0.17, IRON),
+        box(0.035, 1.5, 0.035, 0.47, -0.75, 0.03, [0.8, 0.8, 0.78]),
+      ]),
+      // a drainpipe, one metre tall until it is stretched to its wall
+      7: mergeGeometries([
+        tintable(new THREE.CylinderGeometry(0.05, 0.05, 1, 6).translate(0, 0.5, 0.06), 1, 1, 1),
+      ]),
+      8: mergeGeometries([
+        box(1.5, 0.05, 0.4, 0, 0.45, 0.05, [0.5, 0.33, 0.19]), box(1.5, 0.1, 0.04, 0, 0.66, -0.16, [0.5, 0.33, 0.19]), box(1.5, 0.1, 0.04, 0, 0.84, -0.18, [0.5, 0.33, 0.19]),
+        box(0.05, 0.9, 0.05, -0.68, 0.45, -0.16, IRON), box(0.05, 0.9, 0.05, 0.68, 0.45, -0.16, IRON), box(0.05, 0.45, 0.05, -0.68, 0.22, 0.22, IRON), box(0.05, 0.45, 0.05, 0.68, 0.22, 0.22, IRON),
+      ]),
+      // a cafe table and two chairs
+      9: mergeGeometries([
+        tintable(new THREE.CylinderGeometry(0.36, 0.36, 0.03, 14).translate(0, 0.73, 0), 0.9, 0.9, 0.88),
+        tintable(new THREE.CylinderGeometry(0.03, 0.03, 0.72, 6).translate(0, 0.36, 0), ...IRON),
+        tintable(new THREE.CylinderGeometry(0.22, 0.24, 0.03, 10).translate(0, 0.015, 0), ...IRON),
+        chair(-0.68, 0.05, 1.45, [0.55, 0.36, 0.2]), chair(0.62, -0.2, -1.9, [0.55, 0.36, 0.2]),
+      ]),
+      // crates and a carton, as left outside a shop
+      10: mergeGeometries([
+        box(0.55, 0.3, 0.38, 0, 0.15, 0, [0.72, 0.13, 0.1]), box(0.55, 0.3, 0.38, 0.02, 0.46, 0.01, [0.14, 0.3, 0.62]),
+        tintable(new THREE.BoxGeometry(0.46, 0.4, 0.36).rotateY(0.3).translate(0.62, 0.2, 0.06), 0.66, 0.53, 0.36),
+        box(0.5, 0.02, 0.33, 0.02, 0.6, 0.01, [0.75, 0.6, 0.2]),
+      ]),
+      // a window box in flower
+      11: mergeGeometries([
+        box(0.95, 0.17, 0.22, 0, -0.08, 0.13, [0.6, 0.36, 0.25]),
+        leaf(-0.28, 0.1, 0.14, 0.17, 1), leaf(0.05, 0.13, 0.15, 0.19, 1), leaf(0.32, 0.09, 0.14, 0.16, 1),
+        leaf(-0.2, 0.2, 0.2, 0.06, 1, [1.25, 0.2, 0.25]), leaf(0.12, 0.25, 0.2, 0.06, 1, [1.25, 0.3, 0.5]), leaf(0.33, 0.19, 0.19, 0.05, 1, [1.25, 0.2, 0.25]), leaf(-0.02, 0.07, 0.25, 0.05, 1, [1.3, 0.5, 0.6]),
+      ]),
+      // a door leaf, hinged at its origin
+      12: mergeGeometries([
+        box(1, 1, 0.05, 0.5, 0.5, 0, W), box(0.94, 0.03, 0.07, 0.5, 0.3, 0, [0.7, 0.7, 0.7]), box(0.94, 0.03, 0.07, 0.5, 0.7, 0, [0.7, 0.7, 0.7]),
+        box(0.035, 0.07, 0.11, 0.9, 0.47, 0, [0.5, 0.42, 0.2]),
+      ]),
+      // a run of cable along the wall, one metre long until stretched
+      13: mergeGeometries([box(1, 0.022, 0.022, 0, 0, 0.03, IRON), box(1, 0.016, 0.016, 0, -0.07, 0.025, IRON)]),
+      14: flagGeo,
+      // a cat, sitting
+      15: mergeGeometries([
+        tintable(new THREE.SphereGeometry(1, 8, 6).scale(0.1, 0.15, 0.13).translate(0, 0.14, 0), 1, 1, 1),
+        tintable(new THREE.SphereGeometry(0.072, 8, 6).translate(0, 0.32, 0.07), 1, 1, 1),
+        tintable(new THREE.ConeGeometry(0.03, 0.06, 4).translate(-0.04, 0.4, 0.07), 1, 1, 1), tintable(new THREE.ConeGeometry(0.03, 0.06, 4).translate(0.04, 0.4, 0.07), 1, 1, 1),
+        tube([0.02, 0.03, -0.1], [0.2, 0.03, 0.0], 0.02, W, 4),
+      ]),
+      // a white plastic chair
+      16: chair(0, 0, 0, [0.9, 0.9, 0.88]),
+    };
+    const P = (...hex) => hex.map((h) => new THREE.Color(h));
+    const palette = {
+      1: P(0x8c211a, 0x1f4d33, 0x243d6b, 0xb88c40, 0xccc2a8),
+      2: P(0x1b1b1d, 0xb5352a, 0x2a5fa8, 0xd8d8d2, 0x2e7d4f, 0xd9a21b),
+      3: P(0xe9e9e6, 0xe9e9e6, 0xb9bcc0, 0x8d9197, 0x2b2d31, 0x27406e, 0x8a1f1c, 0x6f7a6a),
+      4: P(0x1c5230, 0x1c5230, 0x2f4f3a, 0x55585c, 0x234f80),
+      7: P(0xcfcfc9, 0x8f8f8c, 0x3b3b3b, 0xcfcfc9),
+      12: P(0x29574d, 0x2b547f, 0x5c4026, 0x4d5254),
+      15: P(0xc97a2b, 0x1c1c1c, 0x8a8782, 0xe8e4dc, 0x6b5a48),
+    };
+    const ground = new Set([0, 2, 3, 4, 8, 9, 10, 15, 16]);
+    const lambert = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide });
+    const paintwork = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.32, metalness: 0.35 });
+    const flagMat = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide, map: flagTex });
     const m4 = new THREE.Matrix4(), qt = new THREE.Quaternion(), sc = new THREE.Vector3(), ps = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
     const tint = new THREE.Color();
-    for (let kind = 0; kind < 2; kind++) {
-      const list = [];
-      for (let i = 0; i < R.length; i += 6) if (R[i + 3] === kind) list.push(i);
-      if (!list.length) continue;
-      const inst = new THREE.InstancedMesh(shapes[kind], mat, list.length);
+    const low = quality === 'low';
+    // one batch per kind per 220 m square, so squares out of sight cost nothing
+    const groups = new Map();
+    for (let i = 0, n = 0; i < R.length; i += N, n++) {
+      const kind = R[i + 3];
+      if (!shapes[kind]) continue;
+      if (low && kind > 1 && kind !== 3 && kind !== 12 && n % 2) continue; // phones get every other small thing
+      const key = kind + ':' + Math.floor(R[i] / 220) + ':' + Math.floor(R[i + 2] / 220);
+      let L = groups.get(key);
+      if (!L) groups.set(key, (L = []));
+      L.push(i);
+    }
+    for (const [key, list] of groups) {
+      const kind = +key.split(':')[0];
+      const inst = new THREE.InstancedMesh(shapes[kind], kind === 3 ? paintwork : kind === 14 ? flagMat : lambert, list.length);
       list.forEach((i, n) => {
-        const r = R[i + 5];
+        const r = R[i + 5], r2 = (r * 7.31) % 1, p1 = R[i + 6], p2 = R[i + 7];
         qt.setFromAxisAngle(up, kind === 0 ? r * 6.28 : R[i + 4]);
-        const k = kind === 0 ? 0.8 + r * 0.9 : 1;
-        sc.set(k, kind === 0 ? k * (0.9 + ((r * 7.1) % 1) * 0.5) : 1, k);
-        ps.set(R[i], kind === 0 ? terrainAt(R[i], R[i + 2]) - 0.03 : R[i + 1], R[i + 2]);
+        sc.set(1, 1, 1);
+        if (kind === 0) { const k = 0.8 + r * 0.9; sc.set(k, k * (0.9 + r2 * 0.5), k); }
+        else if (kind === 2) sc.set(p1 < 0 ? -1 : 1, 0.94 + r2 * 0.12, 1);
+        else if (kind === 3) sc.set(0.94 + r2 * 0.14, 0.95 + ((r * 3.7) % 1) * 0.12, 1);
+        else if (kind === 4) { const k = 0.85 + r2 * 0.4; sc.set(k, k, k); }
+        else if (kind === 7) sc.set(1, p1, 1);
+        else if (kind === 12) sc.set(p1, p2, 1);
+        else if (kind === 13) sc.set(p1, 1, 1);
+        else if (kind === 15) { const k = 0.9 + r2 * 0.35; sc.set(k, k, k); }
+        ps.set(R[i], ground.has(kind) ? terrainAt(R[i], R[i + 2]) - 0.03 : R[i + 1], R[i + 2]);
         inst.setMatrixAt(n, m4.compose(ps, qt, sc));
-        if (kind === 1) { const c = cloth[Math.floor(r * cloth.length) % cloth.length]; tint.setRGB(c[0], c[1], c[2]); }
-        else tint.setScalar(0.75 + ((r * 3.3) % 1) * 0.4);
+        const pal = palette[kind];
+        if (kind === 12) tint.copy(pal[r < 0.28 ? 0 : r < 0.5 ? 1 : r < 0.7 ? 2 : 3]);
+        else if (pal) tint.copy(pal[Math.floor(r * pal.length) % pal.length]);
+        else tint.setScalar(kind === 0 ? 0.75 + ((r * 3.3) % 1) * 0.4 : 0.86 + r2 * 0.22);
         inst.setColorAt(n, tint);
       });
-      inst.frustumCulled = false;
-      inst.castShadow = quality !== 'low';
+      inst.computeBoundingSphere();
+      inst.castShadow = !low && kind !== 13 && kind !== 7;
+      inst.receiveShadow = kind === 3;
       g.add(inst);
     }
     return g;

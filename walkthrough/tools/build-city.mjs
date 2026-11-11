@@ -167,8 +167,8 @@ for (const f of fs.readdirSync(facDir)) {
 
 const KEEP_TRIM = !!process.env.CITY_TRIM;
 const genWin = new Map(); // cell -> { pos, col, idx } openings made with the rebuilt walls
-let nGenWin = 0, nGenDoor = 0;
-const streetItems = []; // x, y, z, kind (0 pot, 1 awning), turn, random
+let nGenWin = 0, nGenDoor = 0, nCar = 0;
+const streetItems = []; // eight numbers each: x, y, z, kind, turn, random, and two sizes (see streetThings in src/site.js)
 const roofItems = []; // x, y, z, kind, turn, clearance for each thing standing on a roof
 const cityMeshes = []; // { name, pos, idx, ao }
 const footprints = []; // triangles for rasterising: [pos, idx]
@@ -830,22 +830,68 @@ const solidTris = { count: 0 };
               G.col.push(0, c, 0, 1, c, 0, 1, c, 1, 0, c, 1);
               G.idx.push(q0, q0 + 2, q0 + 1, q0, q0 + 3, q0 + 2);
             };
-            let y = g + 1.05;
+            const S = (kind, x, y, z, yaw, r, p1 = 0, p2 = 0) => streetItems.push(+x.toFixed(2), +y.toFixed(2), +z.toFixed(2), kind, +yaw.toFixed(2), +r.toFixed(3), +p1.toFixed(2), +p2.toFixed(2));
+            const yaw = Math.atan2(nx, nz);
+            const jewishQ = mx > -660 && mx < -235 && mz > -30 && mz < 330;
+            let y = g + 1.05, isDoor = false;
             if (roofY - g > 2.9) {
               const h0 = hsh(0);
               if (h0 < 0.34) {
-                put(g + 0.05, 1.25, 2.35, hsh(1) < 0.65 ? 3 : 2, hsh(2)); nGenDoor++;
+                isDoor = true;
+                // no two doors alike: width and height wander, and about one in three stands open
+                const dw = 1.05 + hsh(12) * 0.4, dh = 2.1 + hsh(13) * 0.4, open = hsh(11) < 0.32;
+                const ok = Math.floor(hsh(14) * 8) % 8; // paint (low two bits) and which way the leaf swings
+                const paintSel = open ? ((ok & 3) + 0.5) / 4 : hsh(2);
+                put(g + 0.05, dw, dh, hsh(1) < 0.65 ? 3 : 2, open ? 0.5 + (ok + 0.5) / 16 : hsh(2) * 0.44); nGenDoor++;
+                if (open && ok >= 4) {
+                  // the leaf itself, swung out into the lane on its hinge
+                  const sd = hsh(15) < 0.5 ? -1 : 1, lw = dw * 0.76, ang = 0.7 + hsh(16) * 1.5;
+                  const dx = -sd * tx * Math.cos(ang) + nx * Math.sin(ang), dz = -sd * tz * Math.cos(ang) + nz * Math.sin(ang);
+                  S(12, mx + sd * tx * lw / 2 + nx * 0.07, g + 0.08, mz + sd * tz * lw / 2 + nz * 0.07, Math.atan2(-dz, dx), paintSel, lw, dh * 0.84);
+                }
                 // life at the door: a pot or two beside it, sometimes a cloth awning over it
-                const yaw = +Math.atan2(nx, nz).toFixed(2), r5 = hsh(5);
-                if (r5 < 0.5) { const sd = hsh(6) < 0.5 ? -1 : 1; streetItems.push(+(mx + tx * sd * 1.05 + nx * 0.38).toFixed(2), +(g + 0.02).toFixed(2), +(mz + tz * sd * 1.05 + nz * 0.38).toFixed(2), 0, yaw, +hsh(7).toFixed(2)); }
-                if (r5 > 0.3 && r5 < 0.42) streetItems.push(+(mx - tx * 1.1 + nx * 0.4).toFixed(2), +(g + 0.02).toFixed(2), +(mz - tz * 1.1 + nz * 0.4).toFixed(2), 0, yaw, +hsh(8).toFixed(2));
-                if (hsh(9) < 0.24) streetItems.push(+(mx + nx * 0.06).toFixed(2), +(g + 2.55).toFixed(2), +(mz + nz * 0.06).toFixed(2), 1, yaw, +hsh(10).toFixed(2));
+                const r5 = hsh(5);
+                if (r5 < 0.5) { const sd = hsh(6) < 0.5 ? -1 : 1; S(0, mx + tx * sd * 1.05 + nx * 0.38, g + 0.02, mz + tz * sd * 1.05 + nz * 0.38, yaw, hsh(7)); }
+                if (r5 > 0.3 && r5 < 0.42) S(0, mx - tx * 1.1 + nx * 0.4, g + 0.02, mz - tz * 1.1 + nz * 0.4, yaw, hsh(8));
+                if (hsh(9) < 0.24) S(1, mx + nx * 0.06, g + 2.55, mz + nz * 0.06, yaw, hsh(10));
+                if (hsh(17) < 0.07) S(16, mx + tx * 1.0 + nx * 0.45, g, mz + tz * 1.0 + nz * 0.45, yaw + (hsh(18) - 0.5) * 1.2, hsh(19));
               }
-              else if (h0 < 0.62 && roofY - g > 3.4) { put(y, 0.95, 1.5, hsh(1) < 0.3 ? 1 : 0, hsh(2)); nGenWin++; }
+              else if (h0 < 0.62 && roofY - g > 3.4) {
+                put(y, 0.95, 1.5, hsh(1) < 0.3 ? 1 : 0, hsh(2)); nGenWin++;
+                if (hsh(40) < 0.16) S(11, mx + nx * 0.06, y - 0.05, mz + nz * 0.06, yaw, hsh(41));
+              }
             }
             for (let f = 1; g + f * 3.15 + 1.0 + 1.75 < roofY - 0.35; f++) {
               if (hsh(f * 7) > 0.78) continue;
-              put(g + f * 3.15 + 1.0, 1.0, 1.75, hsh(f * 7 + 1) < 0.4 ? 1 : 0, hsh(f * 7 + 2)); nGenWin++;
+              const wy = g + f * 3.15 + 1.0;
+              put(wy, 1.0, 1.75, hsh(f * 7 + 1) < 0.4 ? 1 : 0, hsh(f * 7 + 2)); nGenWin++;
+              const e = hsh(f * 7 + 3);
+              if (e < 0.14) S(11, mx + nx * 0.06, wy - 0.05, mz + nz * 0.06, yaw, hsh(f * 7 + 4));
+              else if (e < 0.25) S(6, mx + tx * 1.0 + nx * 0.05, wy - 0.25, mz + tz * 1.0 + nz * 0.05, yaw, hsh(f * 7 + 4));
+              else if (e < 0.31 && jewishQ) S(14, mx + nx * 0.05, wy + 0.25, mz + nz * 0.05, yaw, hsh(f * 7 + 4));
+            }
+            // what hangs on the wall: an iron lantern, a drainpipe
+            if (roofY - g > 3.6 && hsh(20) < 0.075) S(5, mx - tx * 1.2 + nx * 0.05, g + 2.95, mz - tz * 1.2 + nz * 0.05, yaw, hsh(23));
+            if (hsh(21) < 0.11) S(7, mx + tx * 1.45 + nx * 0.04, g - 0.4, mz + tz * 1.45 + nz * 0.04, yaw, hsh(24), roofY - g + 0.4);
+            if (j === 0 && roofY - g > 4.3 && hsh(22) < 0.3) S(13, xa + (xb - xa) * 0.5 + nx * 0.05, g + 3.3 + hsh(25) * 0.7, za + (zb - za) * 0.5 + nz * 0.05, yaw, hsh(26), L);
+            // what stands in the lane beside it
+            if (!isDoor) {
+              let clear = 2.4;
+              while (clear < 9 && !lab(mx + nx * (clear + 0.5), mz + nz * (clear + 0.5))) clear += 0.5;
+              const r30 = hsh(30), r31 = hsh(31);
+              const flat = (d, half) => {
+                const cx = mx + nx * d, cz = mz + nz * d, c0 = terrainAt(cx, cz);
+                return Math.abs(terrainAt(cx + ux * half, cz + uz * half) - c0) < 0.3 && Math.abs(terrainAt(cx - ux * half, cz - uz * half) - c0) < 0.3 && Math.abs(c0 - g) < 0.45
+                  && !lab(cx + ux * half, cz + uz * half) && !lab(cx - ux * half, cz - uz * half);
+              };
+              if (r30 < 0.13 && clear >= 5.5 && j % 2 === 0 && L >= 5 && flat(1.3, 2.1)) { S(3, mx + nx * 1.3, g, mz + nz * 1.3, yaw + (r31 < 0.5 ? 0 : Math.PI), r31); nCar++; }
+              else if (r30 >= 0.13 && r30 < 0.165) S(2, mx + nx * 0.02, g, mz + nz * 0.02, yaw + (r31 < 0.5 ? 0 : Math.PI) * 0, r31, r31 < 0.5 ? 1 : -1);
+              else if (r30 < 0.235) S(4, mx + nx * 0.42, g, mz + nz * 0.42, yaw + (r31 - 0.5) * 0.5, r31);
+              else if (r30 < 0.26 && clear >= 3.4 && flat(0.4, 0.8)) S(8, mx + nx * 0.36, g, mz + nz * 0.36, yaw, r31);
+              else if (r30 < 0.29 && clear >= 4.4 && flat(1.1, 0.9)) S(9, mx + nx * 1.05, g, mz + nz * 1.05, yaw + r31 * 3, r31);
+              else if (r30 < 0.335) S(10, mx + nx * 0.36, g, mz + nz * 0.36, yaw + (r31 - 0.5) * 0.4, r31);
+              else if (r30 < 0.36) S(16, mx + nx * 0.5, g, mz + nz * 0.5, yaw + (r31 - 0.5) * 1.6, r31);
+              else if (r30 < 0.378) S(15, mx + nx * (0.3 + r31 * 0.6), g, mz + nz * (0.3 + r31 * 0.6), yaw + (r31 - 0.5) * 3, r31);
             }
           }
         }

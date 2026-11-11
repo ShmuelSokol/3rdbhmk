@@ -405,7 +405,13 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
         wall = mix(wall, vec3(.63, .57, .47), (1. - smoothstep(0., .25, tg)) * .5);  // old and weathered grey
         wall *= (.86 + .2 * big) * (.9 + .2 * grain) * mix(1., .88 + .24 * fract(tone * 3.17), plain);
         // coursed ashlar on the walls, visible until the blocks shrink below a pixel
-        float wu = vWPos.x * gn.z - vWPos.z * gn.x;
+        // distance along the wall. The normal comes from screen derivatives and trembles in its last
+        // digits, which hundreds of metres from the origin would smear the masonry sideways: so
+        // steady it, and measure from a nearby corner of a 64 m grid instead of from the origin.
+        vec2 gh = floor(gn.xz * 96. + .5) / 96.;
+        gh /= max(length(gh), 1e-4);
+        vec2 lp = vWPos.xz - floor(vWPos.xz / 64.) * 64.;
+        float wu = lp.x * gh.y - lp.y * gh.x;
         // real coursed masonry on the walls: every house starts at a different place in the photograph
         vec3 wT = normalize(vec3(gn.z, 0., -gn.x) + 1e-5);
         vec3 bOff; vec3 brick = mkScan(uBrickD, uBrickN, vec3(.454, .362, .242), vec2(wu, vWPos.y) / 3.6 + tone * vec2(7.3, 3.1), wT, vec3(0., 1., 0.), bOff);
@@ -558,6 +564,63 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
     return g;
   }
 
+  // Life at the doors of the lanes: plants in clay pots, and cloth awnings.
+  function streetThings() {
+    const g = new THREE.Group();
+    const R = siteData.street || [];
+    const tintable = (geo, r, gr, b) => {
+      const q = geo.index ? geo.toNonIndexed() : geo;
+      const n = q.attributes.position.count, col = new Float32Array(n * 3);
+      for (let i = 0; i < n; i++) { col[i * 3] = r; col[i * 3 + 1] = gr; col[i * 3 + 2] = b; }
+      q.setAttribute('color', new THREE.BufferAttribute(col, 3));
+      q.deleteAttribute('uv');
+      return q;
+    };
+    const leaf = (x, y, z, r, sx) => {
+      const b = new THREE.IcosahedronGeometry(r, 1);
+      const P = b.attributes.position;
+      for (let i = 0; i < P.count; i++) { const k = 0.8 + 0.4 * Math.abs(Math.sin(P.getX(i) * 9 + P.getY(i) * 7 + P.getZ(i) * 5)); P.setXYZ(i, P.getX(i) * k * sx, P.getY(i) * k, P.getZ(i) * k * sx); }
+      return tintable(b.translate(x, y, z), 0.5, 0.66, 0.36);
+    };
+    const shapes = [
+      mergeGeometries([
+        tintable(new THREE.CylinderGeometry(0.26, 0.18, 0.44, 9).translate(0, 0.22, 0), 1.0, 0.56, 0.36),
+        leaf(0, 0.74, 0, 0.3, 1), leaf(0.1, 1.02, 0.04, 0.22, 0.9), leaf(-0.12, 0.92, -0.06, 0.2, 1),
+      ]),
+      mergeGeometries([
+        tintable(new THREE.BoxGeometry(1.9, 0.03, 1.25).rotateX(0.42).translate(0, -0.26, 0.56), 1, 1, 1),
+        tintable(new THREE.BoxGeometry(1.9, 0.22, 0.02).translate(0, -0.62, 1.13), 0.92, 0.92, 0.92),
+        tintable(new THREE.CylinderGeometry(0.015, 0.015, 1.3, 4).rotateX(Math.PI / 2 + 0.42).translate(-0.93, -0.27, 0.56), 0.25, 0.25, 0.25),
+        tintable(new THREE.CylinderGeometry(0.015, 0.015, 1.3, 4).rotateX(Math.PI / 2 + 0.42).translate(0.93, -0.27, 0.56), 0.25, 0.25, 0.25),
+      ]),
+    ];
+    const cloth = [[0.55, 0.13, 0.1], [0.12, 0.3, 0.2], [0.14, 0.24, 0.42], [0.72, 0.55, 0.25], [0.8, 0.76, 0.66]];
+    const mat = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide });
+    const m4 = new THREE.Matrix4(), qt = new THREE.Quaternion(), sc = new THREE.Vector3(), ps = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
+    const tint = new THREE.Color();
+    for (let kind = 0; kind < 2; kind++) {
+      const list = [];
+      for (let i = 0; i < R.length; i += 6) if (R[i + 3] === kind) list.push(i);
+      if (!list.length) continue;
+      const inst = new THREE.InstancedMesh(shapes[kind], mat, list.length);
+      list.forEach((i, n) => {
+        const r = R[i + 5];
+        qt.setFromAxisAngle(up, kind === 0 ? r * 6.28 : R[i + 4]);
+        const k = kind === 0 ? 0.8 + r * 0.9 : 1;
+        sc.set(k, kind === 0 ? k * (0.9 + ((r * 7.1) % 1) * 0.5) : 1, k);
+        ps.set(R[i], kind === 0 ? terrainAt(R[i], R[i + 2]) - 0.03 : R[i + 1], R[i + 2]);
+        inst.setMatrixAt(n, m4.compose(ps, qt, sc));
+        if (kind === 1) { const c = cloth[Math.floor(r * cloth.length) % cloth.length]; tint.setRGB(c[0], c[1], c[2]); }
+        else tint.setScalar(0.75 + ((r * 3.3) % 1) * 0.4);
+        inst.setColorAt(n, tint);
+      });
+      inst.frustumCulled = false;
+      inst.castShadow = quality !== 'low';
+      g.add(inst);
+    }
+    return g;
+  }
+
   async function loadCity() {
     const [img, gltf] = await Promise.all([
       loadImage('assets/citymap.png'),
@@ -597,6 +660,7 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       group.add(mesh);
     });
     group.add(roofThings());
+    group.add(streetThings());
     scene.add(group);
     plantTrees(); // again, now that houses and lanes are known
   }

@@ -168,6 +168,7 @@ for (const f of fs.readdirSync(facDir)) {
 const KEEP_TRIM = !!process.env.CITY_TRIM;
 const genWin = new Map(); // cell -> { pos, col, idx } openings made with the rebuilt walls
 let nGenWin = 0, nGenDoor = 0;
+const streetItems = []; // x, y, z, kind (0 pot, 1 awning), turn, random
 const roofItems = []; // x, y, z, kind, turn, clearance for each thing standing on a roof
 const cityMeshes = []; // { name, pos, idx, ao }
 const footprints = []; // triangles for rasterising: [pos, idx]
@@ -832,7 +833,14 @@ const solidTris = { count: 0 };
             let y = g + 1.05;
             if (roofY - g > 2.9) {
               const h0 = hsh(0);
-              if (h0 < 0.34) { put(g + 0.05, 1.25, 2.35, hsh(1) < 0.65 ? 3 : 2, hsh(2)); nGenDoor++; }
+              if (h0 < 0.34) {
+                put(g + 0.05, 1.25, 2.35, hsh(1) < 0.65 ? 3 : 2, hsh(2)); nGenDoor++;
+                // life at the door: a pot or two beside it, sometimes a cloth awning over it
+                const yaw = +Math.atan2(nx, nz).toFixed(2), r5 = hsh(5);
+                if (r5 < 0.5) { const sd = hsh(6) < 0.5 ? -1 : 1; streetItems.push(+(mx + tx * sd * 1.05 + nx * 0.38).toFixed(2), +(g + 0.02).toFixed(2), +(mz + tz * sd * 1.05 + nz * 0.38).toFixed(2), 0, yaw, +hsh(7).toFixed(2)); }
+                if (r5 > 0.3 && r5 < 0.42) streetItems.push(+(mx - tx * 1.1 + nx * 0.4).toFixed(2), +(g + 0.02).toFixed(2), +(mz - tz * 1.1 + nz * 0.4).toFixed(2), 0, yaw, +hsh(8).toFixed(2));
+                if (hsh(9) < 0.24) streetItems.push(+(mx + nx * 0.06).toFixed(2), +(g + 2.55).toFixed(2), +(mz + nz * 0.06).toFixed(2), 1, yaw, +hsh(10).toFixed(2));
+              }
               else if (h0 < 0.62 && roofY - g > 3.4) { put(y, 0.95, 1.5, hsh(1) < 0.3 ? 1 : 0, hsh(2)); nGenWin++; }
             }
             for (let f = 1; g + f * 3.15 + 1.0 + 1.75 < roofY - 0.35; f++) {
@@ -1038,6 +1046,7 @@ for (const [pos, idx] of footprints) {
 fs.writeFileSync(path.join(OUT_DATA, 'site.json'), JSON.stringify({
   ring,
   roofs: roofItems,
+  street: streetItems,
   terrain: { x0: +X0.toFixed(4), z0: +Z0.toFixed(4), step: STEP, n: N, lo: H_LO, span: H_SPAN },
   citymap: { ...CM, lo: H_LO, span: H_SPAN },
 }));

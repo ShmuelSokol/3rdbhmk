@@ -1,11 +1,11 @@
 // Sound made in the browser, with no recordings: wind over the Mount, footsteps on stone that
-// ring a little under a roof, and the fire on the altar. It starts with the visitor's first
+// ring a little under a roof, the fire on the altar, and sparrows in the lanes of the city. It starts with the visitor's first
 // touch or key, because browsers allow no sound before that.
 
 export function createSound() {
   let ctx = null, master = null, on = true;
   let windGain, windFilter, fireGain, stepBus, roomGain, crackleAt = 0;
-  let walked = 0, lastX = 0, lastZ = 0, havePos = false, foot = 0;
+  let walked = 0, lastX = 0, lastZ = 0, havePos = false, foot = 0, birdAt = 0;
 
   function noiseBuffer(seconds, brown) {
     const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * seconds), ctx.sampleRate);
@@ -78,6 +78,23 @@ export function createSound() {
     src.start(when, Math.random() * 0.3, dur + 0.02);
   }
 
+  function chirp(t, k) {
+    const notes = 2 + Math.floor(Math.random() * 5), base = 3200 + Math.random() * 2200, far = 0.25 + Math.random() * 0.75;
+    const pan = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+    if (pan) { pan.pan.value = Math.random() * 1.6 - 0.8; pan.connect(master); }
+    for (let i = 0; i < notes; i++) {
+      const at = t + i * (0.07 + Math.random() * 0.05), o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(base * (0.9 + Math.random() * 0.3), at);
+      o.frequency.exponentialRampToValueAtTime(base * (0.6 + Math.random() * 0.8), at + 0.05);
+      g.gain.setValueAtTime(0, at);
+      g.gain.linearRampToValueAtTime(0.035 * far * k, at + 0.008);
+      g.gain.exponentialRampToValueAtTime(0.0001, at + 0.06);
+      o.connect(g).connect(pan || master);
+      o.start(at); o.stop(at + 0.08);
+    }
+  }
+
   function step(speedK) {
     const t = ctx.currentTime;
     foot ^= 1;
@@ -101,6 +118,11 @@ export function createSound() {
     if (t > crackleAt) {
       if (near > 0.02) burst(master, t, 0.012 + Math.random() * 0.03, 1500 + Math.random() * 3500, 2.5, (0.1 + Math.random() * 0.35) * near);
       crackleAt = t + 0.03 + Math.random() * Math.random() * 0.5;
+    }
+    // sparrows in the lanes of the city, west of the Mount
+    if (t > birdAt) {
+      if (s.x < -225 && !s.roofed) chirp(t, s.flying ? 0.5 : 1);
+      birdAt = t + 0.8 + Math.random() * Math.random() * 9;
     }
     if (havePos && s.walking && s.onGround) {
       const d = Math.hypot(s.x - lastX, s.z - lastZ);

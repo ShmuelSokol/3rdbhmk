@@ -826,7 +826,9 @@ const solidTris = { count: 0 };
             if (lab(mx - nx * 0.8, mz - nz * 0.8) !== id) { bayStat[1]++; continue; } // the normal points the wrong way here
             bayStat[2]++;
             const g = Math.max(terrainAt(mx + nx * 0.6, mz + nz * 0.6), terrainAt(mx + nx * 0.6 + ux, mz + nz * 0.6 + uz), terrainAt(mx + nx * 0.6 - ux, mz + nz * 0.6 - uz));
-            const hsh = (n) => ((Math.round(mx * 37.1 + mz * 91.7 + n * 13.3) * 2654435761) >>> 0) / 4294967296;
+            // a different, unrelated number for every n at this spot on the wall
+            const hbase = Math.round(mx * 37.1 + mz * 91.7);
+            const hsh = (n) => { let x = Math.imul(hbase ^ Math.imul(n + 1, 0x9e3779b1), 0x85ebca6b); x ^= x >>> 15; x = Math.imul(x, 0xc2b2ae35); x ^= x >>> 13; x = Math.imul(x, 0x27d4eb2f); x ^= x >>> 16; return (x >>> 0) / 4294967296; };
             const put = (y0p, wdt, hgt, cls, r) => {
               const q0 = G.pos.length / 3, d = 0.05;
               for (const [su, yy] of [[-1, y0p], [1, y0p], [1, y0p + hgt], [-1, y0p + hgt]]) G.pos.push(mx + tx * su * wdt / 2 + nx * d, yy, mz + tz * su * wdt / 2 + nz * d);
@@ -913,6 +915,12 @@ const solidTris = { count: 0 };
             if (roofY - g > 3.2 && hsh(57) < 0.06) S(19, mx + tx * (hsh(58) - 0.5) * 2.2 + nx * 0.04, g + 1.6 + hsh(59) * (Math.min(roofY - g, 8) - 2.2), mz + tz * (hsh(58) - 0.5) * 2.2 + nz * 0.04, yaw, hsh(60));
             if (hsh(63) < 0.05) S(19, mx + tx * (hsh(58) - 0.5) * 2.2 + nx * 0.02, roofY + 0.8, mz + tz * (hsh(58) - 0.5) * 2.2 + nz * 0.02, yaw, hsh(68));
             if (roofY - g > 5 && hsh(70) < 0.04) S(26, mx + tx * (hsh(71) - 0.5) * 2 + nx * 0.1, g, mz + tz * (hsh(71) - 0.5) * 2 + nz * 0.1, yaw, hsh(71), Math.min(roofY - g - 0.3, 3.5 + hsh(72) * 4));
+            // what people fix to a wall: a street-name plaque, a shop sign, a meter box by the door,
+            // and washing strung across to the neighbours
+            if (j === 0 && L > 4 && roofY - g > 3.4 && hsh(80) < 0.07) S(29, mx + tx * 1.35 + nx * 0.06, g + 2.75, mz + tz * 1.35 + nz * 0.06, yaw, hsh(81));
+            if (isDoor && roofY - g > 3.6 && hsh(82) < 0.08) S(28, mx + tx * 0.95 + nx * 0.05, g + 2.9, mz + tz * 0.95 + nz * 0.05, yaw, hsh(85));
+            if (isDoor && hsh(83) < 0.4) S(30, mx - tx * 1.0 + nx * 0.04, g + 1.4, mz - tz * 1.0 + nz * 0.04, yaw, hsh(86));
+            if (oid && cw >= 1.8 && cw < 5 && roofY - g > 5.6 && hsh(84) < 0.04) S(31, mx + nx * 0.05, g + 4.4 + hsh(87) * 1.2, mz + nz * 0.05, yaw, hsh(88), cw + 0.2);
             if (isDoor && hsh(61) < 0.08) S(21, mx + nx * 0.1, g + 2.65, mz + nz * 0.1, yaw, hsh(62));
             // what stands in the lane beside it
             if (!isDoor && cw >= 2.4 && L >= 2.4) {

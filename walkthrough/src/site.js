@@ -907,9 +907,48 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       parts.push(tintable(new THREE.CylinderGeometry(0.13, 0.1, 0.22, 7).translate(0.5, 0.16, 0.45), 0.8, 0.45, 0.3), leaf(0.5, 0.42, 0.45, 0.17, 1));
       return mergeGeometries(parts);
     })();
+    // a painted signboard hanging from an iron bracket
+    shapes[28] = mergeGeometries([
+      box(0.03, 0.03, 0.85, 0, 0, 0.42, IRON), tube([0, -0.3, 0.02], [0, 0, 0.4], 0.01, IRON, 3),
+      tube([0, 0, 0.25], [0, -0.1, 0.25], 0.006, IRON, 3), tube([0, 0, 0.75], [0, -0.1, 0.75], 0.006, IRON, 3),
+      box(0.03, 0.42, 0.62, 0, -0.31, 0.5, W), box(0.036, 0.3, 0.5, 0, -0.31, 0.5, [1.5, 1.45, 1.25]),
+      box(0.04, 0.03, 0.36, 0, -0.26, 0.5, [0.5, 0.5, 0.5]), box(0.04, 0.03, 0.26, 0, -0.35, 0.5, [0.5, 0.5, 0.5]),
+    ]);
+    // a street-name plaque of glazed tiles
+    shapes[29] = new THREE.PlaneGeometry(0.66, 0.4).translate(0, 0, 0.012);
+    const plaqueMats = [['משגב לדך', 'Misgav Ladach'], ['חב״ד', 'Chabad St.'], ['היהודים', 'HaYehudim St.'], ['תפארת ישראל', 'Tiferet Israel'], ['בתי מחסה', 'Batei Mahase'], ['אור החיים', 'Or HaChaim'], ['הקראים', 'HaKaraim'], ['פלוגת הכותל', 'Plugat HaKotel']].map(([he, en]) => {
+      const c = document.createElement('canvas'); c.width = 264; c.height = 160;
+      const x = c.getContext('2d');
+      x.fillStyle = '#f1efe6'; x.fillRect(0, 0, 264, 160);
+      x.strokeStyle = '#1d3f8f'; x.lineWidth = 7; x.strokeRect(7, 7, 250, 146);
+      x.strokeStyle = 'rgba(120,120,110,.35)'; x.lineWidth = 1;
+      for (let i = 1; i < 4; i++) { x.beginPath(); x.moveTo(i * 66, 11); x.lineTo(i * 66, 149); x.stroke(); }
+      x.beginPath(); x.moveTo(11, 80); x.lineTo(253, 80); x.stroke();
+      x.fillStyle = '#1b2f6b'; x.textAlign = 'center'; x.textBaseline = 'middle';
+      x.font = 'bold 40px "Arial Hebrew", "Noto Sans Hebrew", Arial, sans-serif'; x.fillText(he, 132, 52);
+      x.font = 'bold 27px Georgia, "Times New Roman", serif'; x.fillText(en, 132, 112);
+      const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+      return new THREE.MeshLambertMaterial({ map: t });
+    });
+    // an electricity meter box by a door, with its conduit
+    shapes[30] = mergeGeometries([box(0.3, 0.42, 0.13, 0, 0, 0.065, [0.7, 0.71, 0.7]), box(0.2, 0.12, 0.01, 0, 0.08, 0.135, [0.25, 0.27, 0.3]), box(0.03, 1.2, 0.03, 0.08, -0.8, 0.03, [0.3, 0.3, 0.3])]);
+    // washing on a line across the lane, three and a half metres long until fitted
+    shapes[31] = (() => {
+      const parts = [], Lw = 3.5, sag = (t) => -0.5 * t * (1 - t);
+      for (let i = 0; i < 6; i++) parts.push(tube([0, sag(i / 6), (i / 6) * Lw], [0, sag((i + 1) / 6), ((i + 1) / 6) * Lw], 0.008, [0.8, 0.8, 0.78], 3));
+      const cl = [[0.92, 0.92, 0.9], [0.25, 0.4, 0.7], [0.92, 0.92, 0.9], [0.75, 0.2, 0.2], [0.85, 0.75, 0.5], [0.3, 0.3, 0.33], [0.9, 0.6, 0.7]];
+      let z = 0.45, k = 0;
+      while (z < Lw - 0.5) {
+        const w = 0.3 + ((k * 37) % 5) * 0.09, h = 0.4 + ((k * 53) % 4) * 0.14, t = (z + w / 2) / Lw;
+        parts.push(tintable(new THREE.BoxGeometry(0.012, h, w).rotateX(((k % 3) - 1) * 0.04).translate(((k % 2) - 0.5) * 0.02, sag(t) - h / 2 + 0.01, z + w / 2), ...cl[k % cl.length]));
+        z += w + 0.07 + ((k * 29) % 3) * 0.12; k++;
+      }
+      return mergeGeometries(parts);
+    })();
     const P = (...hex) => hex.map((h) => new THREE.Color(h));
     const palette = {
       1: P(0x8c211a, 0x1f4d33, 0x243d6b, 0xb88c40, 0xccc2a8),
+      28: P(0x1f4d33, 0x6e1f1b, 0x1f3560, 0x3a2a1c, 0x8a6a2a),
       2: P(0x1b1b1d, 0xb5352a, 0x2a5fa8, 0xd8d8d2, 0x2e7d4f, 0xd9a21b),
       3: P(0xe9e9e6, 0xe9e9e6, 0xb9bcc0, 0x8d9197, 0x2b2d31, 0x27406e, 0x8a1f1c, 0x6f7a6a),
       4: P(0x1c5230, 0x1c5230, 0x2f4f3a, 0x55585c, 0x234f80),
@@ -930,14 +969,14 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       const kind = R[i + 3];
       if (!shapes[kind]) continue;
       if (low && kind > 1 && kind !== 3 && kind !== 12 && n % 2) continue; // phones get every other small thing
-      const key = kind + ':' + Math.floor(R[i] / 220) + ':' + Math.floor(R[i + 2] / 220);
+      const key = (kind === 29 ? kind + (Math.floor(R[i + 5] * 8) % 8) / 10 : kind) + ':' + Math.floor(R[i] / 220) + ':' + Math.floor(R[i + 2] / 220);
       let L = groups.get(key);
       if (!L) groups.set(key, (L = []));
       L.push(i);
     }
     for (const [key, list] of groups) {
-      const kind = +key.split(':')[0];
-      const inst = new THREE.InstancedMesh(shapes[kind], kind === 3 ? paintwork : kind === 14 ? flagMat : lambert, list.length);
+      const kv = +key.split(':')[0], kind = Math.floor(kv);
+      const inst = new THREE.InstancedMesh(shapes[kind], kind === 3 ? paintwork : kind === 14 ? flagMat : kind === 29 ? plaqueMats[Math.round((kv - 29) * 10)] : lambert, list.length);
       list.forEach((i, n) => {
         const r = R[i + 5], r2 = (r * 7.31) % 1, p1 = R[i + 6], p2 = R[i + 7];
         qt.setFromAxisAngle(up, kind === 0 ? r * 6.28 : R[i + 4]);
@@ -956,17 +995,19 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
         else if (kind === 21) { const k = 0.8 + r2 * 0.5; sc.set(k, k, 1); }
         else if (kind === 25) sc.set(1, 1, p1);
         else if (kind === 26) sc.set(0.8 + r2 * 0.6, p1 / 5, 1);
+        else if (kind === 31) sc.set(1, 1, p1 / 3.5);
         ps.set(R[i], ground.has(kind) ? terrainAt(R[i], R[i + 2]) - 0.03 : R[i + 1], R[i + 2]);
         inst.setMatrixAt(n, m4.compose(ps, qt, sc));
         const pal = palette[kind];
-        if (kind === 12) tint.copy(pal[r < 0.28 ? 0 : r < 0.5 ? 1 : r < 0.7 ? 2 : 3]);
+        if (kind === 29) tint.setScalar(1);
+        else if (kind === 12) tint.copy(pal[r < 0.28 ? 0 : r < 0.5 ? 1 : r < 0.7 ? 2 : 3]);
         else if (pal) tint.copy(pal[Math.floor(r * pal.length) % pal.length]);
         else if ((kind >= 19 && kind <= 21) || kind === 26) { const b = 0.8 + r2 * 0.4; tint.setRGB(b * (0.86 + r * 0.16), b, b * (0.8 + r * 0.2)); }
         else tint.setScalar(kind === 0 ? 0.75 + ((r * 3.3) % 1) * 0.4 : 0.86 + r2 * 0.22);
         inst.setColorAt(n, tint);
       });
       inst.computeBoundingSphere();
-      inst.castShadow = !low && kind !== 13 && kind !== 7 && kind !== 25 && kind !== 23 && kind !== 20;
+      inst.castShadow = !low && ![13, 7, 25, 23, 20, 29, 30].includes(kind);
       inst.receiveShadow = kind === 3;
       g.add(inst);
     }

@@ -243,7 +243,7 @@ export async function createWorld(renderer, quality, onProgress) {
       u.rayleigh.value = t.rayleigh;
     }
     const warmth = THREE.MathUtils.clamp(1 - t.elevation / 45, 0, 1);
-    sun.color.setRGB(1, 1 - 0.28 * warmth, 1 - 0.55 * warmth);
+    sun.color.setRGB(1, 0.97 - 0.27 * warmth, 0.9 - 0.5 * warmth);
     sun.intensity = 3.4 * THREE.MathUtils.clamp(t.elevation / 9, 0.12, 1);
     sun.shadow.bias = -Math.min(0.004, ((shadowTexel / Math.tan(THREE.MathUtils.degToRad(t.elevation))) / 510) * 1.5);
     hemi.intensity = 0.62 + 0.2 * (1 - warmth);

@@ -172,7 +172,7 @@ export function createMaterials(roofTexture, quality) {
         vec3 base = diffuseColor.rgb;
         // steer the flat source tints toward warm Jerusalem limestone
         float lum = dot(base, vec3(.3, .5, .2));
-        vec3 lime = vec3(.93, .86, .73) * (.5 + .8 * lum);
+        vec3 lime = vec3(.97, .86, .66) * (.5 + .8 * lum);
         base = mix(base, lime, .7);
         float up = wN.y;
         vec3 ash;
@@ -190,17 +190,17 @@ export function createMaterials(roofTexture, quality) {
         // metres covered by one pixel: joints and block tones melt away before they can shimmer
         float px = max(length(fwidth(uv)), 1e-4);
         float fade = 1. - smoothstep(.05, .32, px);
-        float joint = (1. - smoothstep(.008, .008 + px * 1.6, ash.z)) * clamp(.05 / (px * 1.6 + .012), 0., 1.) * (1. - smoothstep(.3, .8, px));
-        tone = mix(.5, tone, 1. - smoothstep(.08, .35, px));
+        float joint = (1. - smoothstep(.008, .008 + px * 1.6, ash.z)) * clamp(.09 / (px * 1.6 + .012), 0., 1.) * (1. - smoothstep(.35, .9, px));
+        tone = mix(.5, tone, 1. - smoothstep(.12, .5, px));
         float aa = px;
         float margin = smoothstep(.05, .05 + aa * 2., ash.z);   // 0 on the drafted margin, 1 on the boss
         float grain = fbm(vWPos * 5.5);
         float coarse = fbm(vWPos * .32 + 4.);
         float fine = vnoise(vWPos * 42.);
         // block-to-block variation: brightness and a slight swing between cream and honey
-        vec3 warm = base * vec3(1.03, .98, .90);
-        vec3 cool = base * vec3(.98, .99, 1.02);
-        vec3 c = mix(cool, warm, tone) * (.93 + .14 * mix(.5, hash11(tone * 91.7), 1. - smoothstep(.08, .35, px)));
+        vec3 warm = base * vec3(1.07, .98, .84);
+        vec3 cool = base * vec3(.96, .99, 1.02);
+        vec3 c = mix(cool, warm, tone) * (.88 + .24 * mix(.5, hash11(tone * 91.7), 1. - smoothstep(.12, .5, px)));
         c *= .94 + .12 * fbm(vWPos * 1.1 + tone * 20.);
         c *= mix(1., .8 + .4 * grain, .55 * fade + .15);
         c *= .9 + .2 * coarse;

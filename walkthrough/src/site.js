@@ -590,7 +590,7 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       mesh.matrixWorld.copy(o.matrixWorld);
       const win = o.name.startsWith('win_');
       // the contact-shading pass reads normals; the panels stay out of it
-      if (win) mesh.userData.noAO = true; else if (!structural && quality !== 'low' && !o.geometry.attributes.normal) o.geometry.computeVertexNormals();
+      if (win) mesh.userData.noAO = true;
       mesh.receiveShadow = true;
       mesh.castShadow = structural || (quality !== 'low' && o.name.startsWith('solid_'));
       if (structural) mesh.frustumCulled = false;

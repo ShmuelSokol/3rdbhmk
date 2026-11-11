@@ -66,7 +66,8 @@ const camera = new THREE.PerspectiveCamera(70, 1, 0.1, 14000);
 // cornices and where things stand on the ground, as it does in real light.
 let composer = null, aoPass = null;
 function setupAO(scene) {
-  if (coarse || quality === 'low' || params.has('noao')) return;
+  // Off unless asked for with ?ao=1: it still leaves faint dark patches on some house walls.
+  if (!params.has('ao') || coarse || quality === 'low') return;
   class ContactShade extends GTAOPass {
     _overrideVisibility() { // smoke, flame, clouds, sky and glass take no part
       const cache = this._visibilityCache;
@@ -77,15 +78,18 @@ function setupAO(scene) {
     }
   }
   const size = renderer.getDrawingBufferSize(new THREE.Vector2());
-  const target = new THREE.WebGLRenderTarget(size.x, size.y, { type: THREE.HalfFloatType, samples: 4 });
+  // a float depth buffer: with 14 km of view, anything coarser lets hidden faces show through as streaks
+  const target = new THREE.WebGLRenderTarget(size.x, size.y, { type: THREE.HalfFloatType, samples: 4, depthTexture: new THREE.DepthTexture(size.x, size.y, THREE.FloatType) });
   composer = new EffectComposer(renderer, target);
   composer.addPass(new RenderPass(scene, camera));
   aoPass = new ContactShade(scene, camera, size.x, size.y);
   aoPass.updateGtaoMaterial({ radius: 1.3, distanceExponent: 1.4, thickness: 1.2, scale: 1.15, samples: 12, distanceFallOff: 1, screenSpaceRadius: false });
   aoPass.updatePdMaterial({ lumaPhi: 10, depthPhi: 2, normalPhi: 3, radius: 6, rings: 2, samples: 12 });
+  aoPass.normalMaterial.flatShading = true; // the houses carry no normals of their own
   aoPass.blendIntensity = 0.85;
   composer.addPass(aoPass);
   composer.addPass(new OutputPass());
+  window.__ao = aoPass;
 }
 function resize() {
   const w = window.innerWidth, h = window.innerHeight;

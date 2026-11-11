@@ -167,7 +167,8 @@ for (const f of fs.readdirSync(facDir)) {
 
 const KEEP_TRIM = !!process.env.CITY_TRIM;
 const genWin = new Map(); // cell -> { pos, col, idx } openings made with the rebuilt walls
-let nGenWin = 0, nGenDoor = 0, nCar = 0, nTrash = 0;
+let nGenWin = 0, nGenDoor = 0, nCar = 0, nTrash = 0, nRail = 0;
+const archC = [], roofById = new Map();
 const streetItems = []; // eight numbers each: x, y, z, kind, turn, random, and two sizes (see streetThings in src/site.js)
 const roofItems = []; // x, y, z, kind, turn, clearance for each thing standing on a roof
 const cityMeshes = []; // { name, pos, idx, ao }
@@ -738,6 +739,7 @@ const solidTris = { count: 0 };
     }
     hs.sort((a, b) => a - b);
     const roofY = hs[hs.length >> 1] - 0.3; // just under the parapet top, so the cornice wraps the wall head
+    roofById.set(id, roofY);
     const loops = [];
     for (const [start, outs] of next) {
       while (outs.length) {
@@ -883,12 +885,33 @@ const solidTris = { count: 0 };
               const e = hsh(f * 7 + 3);
               if (e < 0.14) S(11, mx + nx * 0.06, wy - 0.05, mz + nz * 0.06, yaw, hsh(f * 7 + 4));
               else if (e < 0.25) S(6, mx + tx * 1.0 + nx * 0.05, wy - 0.25, mz + tz * 1.0 + nz * 0.05, yaw, hsh(f * 7 + 4));
+              else if (e > 0.31 && e < 0.38) S(27, mx + nx * 0.05, wy - 0.1, mz + nz * 0.05, yaw, hsh(f * 7 + 4));
               else if (e < 0.31 && jewishQ) S(14, mx + nx * 0.05, wy + 0.25, mz + nz * 0.05, yaw, hsh(f * 7 + 4));
             }
             // what hangs on the wall: an iron lantern, a drainpipe
             if (roofY - g > 3.6 && hsh(20) < 0.075) S(5, mx - tx * 1.2 + nx * 0.05, g + 2.95, mz - tz * 1.2 + nz * 0.05, yaw, hsh(23));
             if (hsh(21) < 0.11) S(7, mx + tx * 1.45 + nx * 0.04, g - 0.4, mz + tz * 1.45 + nz * 0.04, yaw, hsh(24), roofY - g + 0.4);
             if (j === 0 && roofY - g > 4.3 && hsh(22) < 0.3) S(13, xa + (xb - xa) * 0.5 + nx * 0.05, g + 3.3 + hsh(25) * 0.7, za + (zb - za) * 0.5 + nz * 0.05, yaw, hsh(26), L);
+            // how far to the house opposite, and which house it is
+            let cw = 1.5, oid = 0;
+            while (cw < 7 && !(oid = lab(mx + nx * (cw + 0.25), mz + nz * (cw + 0.25)))) cw += 0.25;
+            // a wire slung across the lane, an arch between the two houses
+            if (oid && roofY - g > 4 && hsh(50) < 0.07) S(25, mx + nx * 0.05, g + 3.5 + hsh(51) * 1.3, mz + nz * 0.05, yaw, hsh(52), cw + 0.2);
+            if (oid && oid !== id && cw >= 2.2 && cw <= 4.6 && roofY - g > 4.9 && hsh(53) < 0.06) archC.push({ mx, mz, nx, nz, ux, uz, g, cw: cw + 0.25, oid, out, W: hsh(69) < 0.55 ? 0.6 + hsh(73) * 0.5 : 1.2 + hsh(73) * 1.8 });
+            // a handrail on the wall where the lane climbs
+            {
+              const gA = terrainAt(mx - ux * 1.6 + nx * 0.5, mz - uz * 1.6 + nz * 0.5), gB = terrainAt(mx + ux * 1.6 + nx * 0.5, mz + uz * 1.6 + nz * 0.5);
+              const sl = (gB - gA) / 3.2;
+              if (!isDoor && Math.abs(sl) > 0.1 && Math.abs(sl) < 0.5 && cw < 6.9) { S(18, mx + nx * 0.1, (gA + gB) / 2 + 0.95, mz + nz * 0.1, yaw, hsh(64), L / bays + 0.05, Math.atan(-sl * (ux * tx + uz * tz))); nRail++; }
+            }
+            // what grows here: weeds at the foot of the wall, caper bushes out of its cracks and
+            // along its top, a creeper over the odd door
+            if (hsh(54) < 0.3) S(20, mx + tx * (hsh(55) - 0.5) * 2.8 + nx * 0.14, g, mz + tz * (hsh(55) - 0.5) * 2.8 + nz * 0.14, yaw, hsh(56));
+            if (hsh(65) < 0.12) S(20, mx + tx * (hsh(66) - 0.5) * 2.8 + nx * 0.2, g, mz + tz * (hsh(66) - 0.5) * 2.8 + nz * 0.2, yaw, hsh(67));
+            if (roofY - g > 3.2 && hsh(57) < 0.06) S(19, mx + tx * (hsh(58) - 0.5) * 2.2 + nx * 0.04, g + 1.6 + hsh(59) * (Math.min(roofY - g, 8) - 2.2), mz + tz * (hsh(58) - 0.5) * 2.2 + nz * 0.04, yaw, hsh(60));
+            if (hsh(63) < 0.05) S(19, mx + tx * (hsh(58) - 0.5) * 2.2 + nx * 0.02, roofY + 0.8, mz + tz * (hsh(58) - 0.5) * 2.2 + nz * 0.02, yaw, hsh(68));
+            if (roofY - g > 5 && hsh(70) < 0.04) S(26, mx + tx * (hsh(71) - 0.5) * 2 + nx * 0.1, g, mz + tz * (hsh(71) - 0.5) * 2 + nz * 0.1, yaw, hsh(71), Math.min(roofY - g - 0.3, 3.5 + hsh(72) * 4));
+            if (isDoor && hsh(61) < 0.08) S(21, mx + nx * 0.1, g + 2.65, mz + nz * 0.1, yaw, hsh(62));
             // what stands in the lane beside it
             if (!isDoor) {
               let clear = 2.4;
@@ -901,11 +924,11 @@ const solidTris = { count: 0 };
               };
               if (r30 < 0.13 && clear >= 5.5 && j % 2 === 0 && L >= 5 && flat(1.3, 2.1)) { S(3, mx + nx * 1.3, g, mz + nz * 1.3, yaw + (r31 < 0.5 ? 0 : Math.PI), r31); nCar++; }
               else if (r30 >= 0.13 && r30 < 0.165) S(2, mx + nx * 0.02, g, mz + nz * 0.02, yaw + (r31 < 0.5 ? 0 : Math.PI) * 0, r31, r31 < 0.5 ? 1 : -1);
-              else if (r30 < 0.26 && clear >= 3.4 && flat(0.4, 0.8)) S(8, mx + nx * 0.36, g, mz + nz * 0.36, yaw, r31);
-              else if (r30 < 0.29 && clear >= 4.4 && flat(1.1, 0.9)) S(9, mx + nx * 1.05, g, mz + nz * 1.05, yaw + r31 * 3, r31);
-              else if (r30 < 0.335) S(10, mx + nx * 0.36, g, mz + nz * 0.36, yaw + (r31 - 0.5) * 0.4, r31);
-              else if (r30 < 0.36) S(16, mx + nx * 0.5, g, mz + nz * 0.5, yaw + (r31 - 0.5) * 1.6, r31);
-              else if (r30 < 0.378) S(15, mx + nx * (0.3 + r31 * 0.6), g, mz + nz * (0.3 + r31 * 0.6), yaw + (r31 - 0.5) * 3, r31);
+              else if (r30 >= 0.235 && r30 < 0.26 && clear >= 3.4 && flat(0.4, 0.8)) S(8, mx + nx * 0.36, g, mz + nz * 0.36, yaw, r31);
+              else if (r30 >= 0.26 && r30 < 0.29 && clear >= 4.4 && flat(1.1, 0.9)) S(9, mx + nx * 1.05, g, mz + nz * 1.05, yaw + r31 * 3, r31);
+              else if (r30 >= 0.29 && r30 < 0.335) S(10, mx + nx * 0.36, g, mz + nz * 0.36, yaw + (r31 - 0.5) * 0.4, r31);
+              else if (r30 >= 0.335 && r30 < 0.36) S(16, mx + nx * 0.5, g, mz + nz * 0.5, yaw + (r31 - 0.5) * 1.6, r31);
+              else if (r30 >= 0.36 && r30 < 0.378) S(15, mx + nx * (0.3 + r31 * 0.6), g, mz + nz * (0.3 + r31 * 0.6), yaw + (r31 - 0.5) * 3, r31);
             }
           }
         }
@@ -947,6 +970,126 @@ const solidTris = { count: 0 };
 
   // shade the solids: lanes and courtyards are darker than rooftops
   const allPos = [];
+  // Stone arches thrown across the narrow lanes, house to house.
+  {
+    const made = [];
+    for (const A of archC) {
+      const ro = roofById.get(A.oid);
+      if (ro === undefined || ro - A.g < 4.7) continue;
+      if (made.some(([x, z]) => Math.hypot(x - A.mx, z - A.mz) < 14)) continue;
+      made.push([A.mx, A.mz]);
+      const SEG = 8, W = A.W, base = A.g + 2.75, rise = 0.95, topY = A.g + 4.4, o = A.out;
+      const P = (sd, y, w) => [A.mx + A.nx * sd + A.ux * w, y, A.mz + A.nz * sd + A.uz * w];
+      const quad = (p, q, r2, t, n) => { for (const v of [p, q, r2, p, r2, t]) { o.pos.push(v[0], v[1], v[2]); o.nor.push(n[0], n[1], n[2]); o.tint.push(0.5); } };
+      const sAt = (i) => -0.2 + (A.cw + 0.4) * (i / SEG), yAt = (i) => base + rise * Math.sin(Math.PI * Math.min(1, Math.max(0, (sAt(i)) / A.cw)));
+      for (let i = 0; i < SEG; i++) {
+        const s0 = sAt(i), s1 = sAt(i + 1), y0 = yAt(i), y1 = yAt(i + 1);
+        for (const w of [-W, W]) quad(P(s0, y0, w), P(s1, y1, w), P(s1, topY, w), P(s0, topY, w), [A.ux * Math.sign(w), 0, A.uz * Math.sign(w)]);
+        quad(P(s0, y0, -W), P(s1, y1, -W), P(s1, y1, W), P(s0, y0, W), [0, -1, 0]);
+      }
+      quad(P(sAt(0), topY, -W), P(sAt(SEG), topY, -W), P(sAt(SEG), topY, W), P(sAt(0), topY, W), [0, 1, 0]);
+    }
+    console.log(`arches over lanes: ${made.length}; handrail runs: ${nRail}`);
+  }
+  // The drain down the middle of each lane: the line furthest from the houses on either side,
+  // found on the quarter-metre raster and written as a half-metre map for the paving shader.
+  {
+    const dist = new Float32Array(FN * FN);
+    for (let k = 0; k < dist.length; k++) dist[k] = label[k] ? 0 : 1e6;
+    const D1 = 1, D2 = Math.SQRT2;
+    for (let v = 1; v < FN - 1; v++) for (let u = 1; u < FN - 1; u++) {
+      const k = v * FN + u; let d = dist[k]; if (d === 0) continue;
+      d = Math.min(d, dist[k - 1] + D1, dist[k - FN] + D1, dist[k - FN - 1] + D2, dist[k - FN + 1] + D2); dist[k] = d;
+    }
+    for (let v = FN - 2; v > 0; v--) for (let u = FN - 2; u > 0; u--) {
+      const k = v * FN + u; let d = dist[k]; if (d === 0) continue;
+      d = Math.min(d, dist[k + 1] + D1, dist[k + FN] + D1, dist[k + FN + 1] + D2, dist[k + FN - 1] + D2); dist[k] = d;
+    }
+    // soften the field a little so the crest is a single clean line
+    const sm = new Float32Array(FN * FN);
+    for (let v = 2; v < FN - 2; v++) for (let u = 2; u < FN - 2; u++) {
+      const k = v * FN + u;
+      if (dist[k] < 2 || dist[k] > 24) continue;
+      sm[k] = (dist[k] * 2 + dist[k - 1] + dist[k + 1] + dist[k - FN] + dist[k + FN] + dist[k - 2] + dist[k + 2] + dist[k - 2 * FN] + dist[k + 2 * FN]) / 10;
+    }
+    const isRidge = new Uint8Array(FN * FN);
+    let nR = 0;
+    for (let v = 5; v < FN - 5; v++) for (let u = 5; u < FN - 5; u++) {
+      const k = v * FN + u, d = sm[k];
+      if (d < 3.6 || d > 20) continue;
+      { const lu = Math.floor((u * FP) / cmPx), lv = Math.floor((v * FP) / cmPx); if (kind[lv * CM.n + lu] !== 110) continue; }
+      for (const [du, dv, sl] of [[1, 0, 1], [0, 1, 1], [1, 1, 1.414], [1, -1, 1.414]]) {
+        const o1 = dv * FN + du;
+        if (d > sm[k + o1] && d >= sm[k - o1] && d - sm[k + 4 * o1] >= 2.2 * sl && d - sm[k - 4 * o1] >= 2.2 * sl) { isRidge[k] = 1; nR++; break; }
+      }
+    }
+    // string the crest pixels into runs
+    const runs = [];
+    const NB = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1], [2, 0], [-2, 0], [0, 2], [0, -2], [2, 1], [2, -1], [-2, 1], [-2, -1], [1, 2], [-1, 2], [1, -2], [-1, -2], [2, 2], [2, -2], [-2, 2], [-2, -2]];
+    const walk = (u, v, pu, pv) => {
+      const pts = [];
+      for (;;) {
+        let best = -1, bs = -1e9, bu = 0, bv = 0;
+        for (const [du, dv] of NB) {
+          const k2 = (v + dv) * FN + u + du;
+          if (isRidge[k2] !== 1) continue;
+          const sc = (du * pu + dv * pv) / Math.hypot(du, dv) - Math.hypot(du, dv) * 0.3;
+          if (sc > bs) { bs = sc; best = k2; bu = du; bv = dv; }
+        }
+        if (best < 0 || ((pu || pv) && bs < -0.9)) break;
+        isRidge[best] = 2; u += bu; v += bv; const l = Math.hypot(bu, bv); pu = bu / l; pv = bv / l;
+        pts.push([CM.x0 + (u + 0.5) * FP, CM.z0 + (v + 0.5) * FP]);
+      }
+      return pts;
+    };
+    for (let v = 5; v < FN - 5; v++) for (let u = 5; u < FN - 5; u++) {
+      if (isRidge[v * FN + u] !== 1) continue;
+      isRidge[v * FN + u] = 2;
+      const fwd = walk(u, v, 0, 0);
+      const d0 = fwd.length > 1 ? [fwd[0][0] - fwd[1][0], fwd[0][1] - fwd[1][1]] : [0, 0];
+      const back = walk(u, v, Math.sign(d0[0]) || 0, Math.sign(d0[1]) || 0);
+      const run = [...back.reverse(), [CM.x0 + (u + 0.5) * FP, CM.z0 + (v + 0.5) * FP], ...fwd];
+      if (run.length >= 16) runs.push(run);
+    }
+    // smooth each run, then lay it as a ribbon of dished stones on the ground
+    const dp = [], dc = [], di = [];
+    let total = 0;
+    for (let run of runs) {
+      for (let pass = 0; pass < 3; pass++) {
+        const o = run.map((p) => p.slice());
+        for (let i = 1; i < run.length - 1; i++) {
+          let sx = 0, sz = 0, n = 0;
+          for (let j = Math.max(0, i - 5); j <= Math.min(run.length - 1, i + 5); j++) { sx += run[j][0]; sz += run[j][1]; n++; }
+          o[i] = [sx / n, sz / n];
+        }
+        run = o;
+      }
+      const pts = [run[0]];
+      let acc = 0;
+      for (let i = 1; i < run.length; i++) {
+        acc += Math.hypot(run[i][0] - run[i - 1][0], run[i][1] - run[i - 1][1]);
+        if (acc >= 0.9 || i === run.length - 1) { pts.push(run[i]); acc = 0; }
+      }
+      if (pts.length < 4) continue;
+      const base = dp.length / 3, HW = 0.2;
+      for (let i = 0; i < pts.length; i++) {
+        const a = pts[Math.max(0, i - 1)], b2 = pts[Math.min(pts.length - 1, i + 1)];
+        let tx = b2[0] - a[0], tz = b2[1] - a[1]; const l = Math.hypot(tx, tz) || 1; tx /= l; tz /= l;
+        if (i) total += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+        for (const sd of [-1, 1]) {
+          const x = pts[i][0] - tz * HW * sd, z = pts[i][1] + tx * HW * sd;
+          dp.push(x, terrainAt(x, z) + 0.02, z);
+          dc.push(sd < 0 ? 0 : 1, (total / 0.62) % 1 < 0.5 ? 0.25 : 0.75, 0.5);
+        }
+        if (i) { const q = base + i * 2; di.push(q - 2, q - 1, q, q - 1, q + 1, q); }
+        // an iron grate or a manhole cover in the drain, now and then
+        const h = ((Math.round(pts[i][0] * 53.7 + pts[i][1] * 97.3) * 2654435761) >>> 0) / 4294967296;
+        if (h < 0.012) streetItems.push(+pts[i][0].toFixed(2), 0, +pts[i][1].toFixed(2), 23, +Math.atan2(tx, tz).toFixed(2), +((h * 7919) % 1).toFixed(3), 0, 0);
+      }
+    }
+    if (di.length) cityMeshes.push({ name: 'drain_0', pos: new Float32Array(dp), idx: new Uint32Array(di), col: new Float32Array(dc) });
+    console.log(`lane drains: ${nR} crest pixels, ${runs.length} runs, ${(total / 1000).toFixed(1)} km, ${di.length / 3} triangles`);
+  }
   for (const o of cellsOut.values()) for (const v of o.pos) allPos.push(v);
   const bg = new THREE.BufferGeometry();
   bg.setAttribute('position', new THREE.BufferAttribute(new Float32Array(allPos), 3));

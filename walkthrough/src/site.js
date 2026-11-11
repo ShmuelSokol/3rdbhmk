@@ -165,7 +165,16 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
         float worn = fbm(vec3(vWPos.xz * .9, 2.));
         vec3 pave = vec3(.70, .62, .48) * (.8 + .28 * mix(.5, hash21(ash.xy), 1. - smoothstep(.05, .25, px))) * (.86 + .28 * worn) * (1. - .35 * joint);
         { vec3 off; vec3 st = mkStone(vWPos + vec3(ash.x * 1.3, 0., ash.y * 2.1), vec3(0., 1., 0.), 1.9, off); pave *= mix(vec3(1.), st, .55); mkTexN = off * .5 * lane; }
-        c = mix(c, pave, lane);
+        c = mix(c, pave, max(lane, urban * .9));
+        {
+          // where a lane climbs it is cut into broad shallow steps: a shadowed riser and a pale
+          // worn nosing at every hand's height of rise
+          float near = 1. - smoothstep(.12, .5, fwidth(vWPos.y) / .16);
+          float stp = fract(vWPos.y / .16 + (worn - .5) * .12);
+          float steep = smoothstep(.012, .028, slope) * lane * near;
+          c *= 1. - .42 * steep * (1. - smoothstep(.0, .09, stp));
+          c *= 1. + .16 * steep * smoothstep(.09, .13, stp) * (1. - smoothstep(.13, .26, stp));
+        }
         // lanes lie in the shade of their houses: darker the more walls stand around
         float enc = 0., foot = 0.;
         for (int i = 0; i < 8; i++) { float a = float(i) * .7854; enc += step(.9, cityKind(vWPos.xz + vec2(cos(a), sin(a)) * 3.2)); }
@@ -511,6 +520,11 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
             c = mix(glass, paint * .5, bar * (1. - smoothstep(.03, .15, px)));
             mkRough = -.72;
           }
+          if (!door && fract(rnd * 9.1) < .3) {
+            // an iron grille over the window
+            float gb = min(abs(fract(p.x / .13) - .5) * .13, abs(fract(p.y / .34) - .5) * .34);
+            c = mix(c, vec3(.045, .045, .05), (1. - smoothstep(.009, .009 + px, gb)) * (1. - smoothstep(.02, .09, px)));
+          }
           c *= mix(1., .45, depth);
         }
         diffuseColor.rgb = c;
@@ -527,6 +541,27 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
         { float dist = length(mvPosition.xyz); mvPosition.xyz *= 1. - min(.5, dist * .0012) / max(dist, .6); gl_Position = projectionMatrix * mvPosition; }`);
     };
   }
+
+  // The drain down the middle of a lane: a ribbon of dished stones, darker and damp, with a pale
+  // worn lip. Red runs across the ribbon; green alternates stone by stone along it.
+  const drainMat = install(new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 0.62, metalness: 0, polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3 }), {
+    uniforms: siteUniforms, sky: false,
+    color: /* glsl */ `
+      {
+        float u = abs(diffuseColor.r * 2. - 1.);          // 0 in the middle, 1 at the edge
+        float stoneId = step(.5, diffuseColor.g);
+        float edge = fwidth(diffuseColor.g) * 3.;           // the joint between two stones
+        vec3 st; { vec3 off; st = mkStone(vWPos * 1.7, vec3(0., 1., 0.), 1.9, off); mkTexN = off * .4; }
+        vec3 c = vec3(.40, .37, .31) * (.88 + .16 * stoneId) * mix(vec3(1.), st, .6);
+        c *= mix(.74, 1., smoothstep(.0, .5, u)) ;          // damp along the bottom
+        c *= mix(1., .55, smoothstep(.62, .8, u) * (1. - smoothstep(.8, .9, u)));  // the shadowed drop
+        c = mix(c, vec3(.74, .68, .56) * st, smoothstep(.86, .92, u)); // the worn lip
+        c *= 1. - .4 * clamp(edge, 0., 1.);
+        diffuseColor.rgb = c;
+        mkRough = -.18 * (1. - smoothstep(.0, .6, u));
+      }`,
+  });
+  drainMat.customProgramCacheKey = () => 'mk-drain';
 
   /** Loads the houses, the retaining skirt and the outer wall. Resolves when they are in the scene. */
   // What stands on the roofs of the Old City today: white water tanks with their solar
@@ -564,6 +599,7 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
     const mat = new THREE.MeshLambertMaterial({ vertexColors: true });
     const m4 = new THREE.Matrix4(), qt = new THREE.Quaternion(), sc = new THREE.Vector3(), ps = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
     const step = quality === 'low' ? 2 : 1; // phones get every other one
+    const tankTint = new THREE.Color();
     for (let kind = 0; kind < 3; kind++) {
       const list = [];
       for (let i = 0; i < R.length; i += 6 * step) if (R[i + 3] === kind) list.push(i);
@@ -576,6 +612,9 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
         sc.set(k, k, k);
         ps.set(R[i], R[i + 1], R[i + 2]);
         inst.setMatrixAt(n, m4.compose(ps, qt, sc));
+        // some of the water tanks are black plastic, the rest white
+        tankTint.setScalar(kind === 0 && ((R[i + 4] * 5.37) % 1 + 1) % 1 < 0.33 ? 0.13 : 1);
+        inst.setColorAt(n, tankTint);
       });
       inst.frustumCulled = false;
       g.add(inst);
@@ -608,11 +647,31 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       tq.setFromUnitVectors(yv, vb.clone().sub(va).normalize());
       return tintable(new THREE.CylinderGeometry(r, r, len, seg).applyQuaternion(tq).translate((p[0] + q[0]) / 2, (p[1] + q[1]) / 2, (p[2] + q[2]) / 2), c[0], c[1], c[2]);
     };
+    // Foliage is a cloud of small leaves, each its own tilted triangle, rather than a smooth lump.
+    let seedF = 7;
+    const rf = () => { seedF = (seedF * 1664525 + 1013904223) >>> 0; return seedF / 4294967296; };
     const leaf = (x, y, z, r, sx, c = [0.5, 0.66, 0.36]) => {
-      const b = new THREE.IcosahedronGeometry(r, 1);
-      const P = b.attributes.position;
-      for (let i = 0; i < P.count; i++) { const k = 0.8 + 0.4 * Math.abs(Math.sin(P.getX(i) * 9 + P.getY(i) * 7 + P.getZ(i) * 5)); P.setXYZ(i, P.getX(i) * k * sx, P.getY(i) * k, P.getZ(i) * k * sx); }
-      return tintable(b.translate(x, y, z), c[0], c[1], c[2]);
+      const n = Math.max(10, Math.round(46 * Math.min(1.6, r / 0.25)));
+      const pos = new Float32Array(n * 9), col = new Float32Array(n * 9), ls = Math.max(0.05, Math.min(0.13, r * 0.42));
+      for (let i = 0; i < n; i++) {
+        // a point in the ball, thicker toward the outside
+        const th = rf() * 6.283, ph = Math.acos(2 * rf() - 1), rr = r * (0.55 + 0.6 * rf());
+        const px = x + Math.sin(ph) * Math.cos(th) * rr * sx, py = y + Math.cos(ph) * rr, pz = z + Math.sin(ph) * Math.sin(th) * rr * sx;
+        const a1 = rf() * 6.283, a2 = rf() * 6.283, tl = ls * (0.7 + rf() * 0.7);
+        const ax = Math.cos(a1), az = Math.sin(a1), ay = (rf() - 0.5) * 1.2;
+        const bx = Math.cos(a2) * 0.45, bz = Math.sin(a2) * 0.45, by = (rf() - 0.3) * 0.6;
+        pos.set([px - ax * tl, py - ay * tl, pz - az * tl, px + ax * tl, py + ay * tl, pz + az * tl, px + bx * tl, py + by * tl + tl * 0.5, pz + bz * tl], i * 9);
+        const k = 0.62 + rf() * 0.6 + 0.25 * Math.cos(ph);
+        for (let q = 0; q < 3; q++) col.set([c[0] * k, c[1] * k, c[2] * k], i * 9 + q * 3);
+      }
+      const g2 = new THREE.BufferGeometry();
+      g2.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      g2.setAttribute('color', new THREE.BufferAttribute(col, 3));
+      g2.computeVertexNormals();
+      // leaves take the light from above whichever way they face, as a real crown does
+      const N3 = g2.attributes.normal;
+      for (let i = 0; i < N3.count; i++) N3.setXYZ(i, N3.getX(i) * 0.35, 0.85, N3.getZ(i) * 0.35);
+      return g2;
     };
     const W = [1, 1, 1], IRON = [0.07, 0.07, 0.08], TYRE = [0.05, 0.05, 0.05], GLASS = [0.04, 0.05, 0.07];
     const chair = (cx, cz, turn, c) => {
@@ -763,6 +822,63 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
         leaf(-0.36, 0.14, 0.2, 0.2, 1.1, [0.78, 0.78, 0.74]), box(0.4, 0.26, 0.3, 0.2, 0.13, -0.38, [0.6, 0.48, 0.32]),
       ]),
     };
+    // a handrail on brackets, one metre long until stretched along its wall
+    shapes[18] = mergeGeometries([
+      tintable(new THREE.CylinderGeometry(0.022, 0.022, 1, 6).rotateZ(Math.PI / 2), ...IRON),
+      box(0.012, 0.03, 0.1, -0.38, -0.03, -0.05, IRON), box(0.012, 0.03, 0.1, 0.38, -0.03, -0.05, IRON), box(0.012, 0.03, 0.1, 0, -0.03, -0.05, IRON),
+    ]);
+    // a caper bush hanging out of a crack in the wall
+    const CAPER = [0.42, 0.56, 0.3], CAPER2 = [0.5, 0.62, 0.34];
+    shapes[19] = mergeGeometries([
+      leaf(0, 0.02, 0.2, 0.36, 1, CAPER), leaf(0.16, -0.3, 0.26, 0.3, 1, CAPER2), leaf(-0.2, -0.5, 0.22, 0.27, 1, CAPER), leaf(0.06, -0.85, 0.2, 0.23, 1, CAPER2),
+      leaf(-0.1, -1.15, 0.16, 0.16, 1, CAPER), leaf(0.3, 0.1, 0.14, 0.2, 1, CAPER2), leaf(-0.34, -0.1, 0.14, 0.2, 1, CAPER),
+      tube([0, 0, 0], [0.1, -0.6, 0.25], 0.012, [0.3, 0.24, 0.16], 3), tube([0, 0, 0], [-0.15, -1.1, 0.18], 0.01, [0.3, 0.24, 0.16], 3),
+    ]);
+    // weeds at the foot of a wall
+    const blade = (x, z, h, lean) => tintable(new THREE.ConeGeometry(0.025, h, 3).rotateZ(lean).translate(x, h / 2, z), 0.52, 0.6, 0.28);
+    shapes[20] = mergeGeometries([
+      leaf(0, 0.09, 0, 0.14, 1.2, [0.4, 0.52, 0.26]), leaf(0.2, 0.07, 0.04, 0.1, 1.2, [0.48, 0.56, 0.28]), leaf(-0.17, 0.06, -0.02, 0.09, 1.2, [0.44, 0.5, 0.25]),
+      blade(0.05, 0.02, 0.42, 0.2), blade(-0.06, 0.05, 0.34, -0.3), blade(0.14, -0.03, 0.3, 0.45), blade(-0.14, 0, 0.26, -0.5), blade(0, -0.05, 0.5, -0.05),
+    ]);
+    // a creeper in flower over a doorway
+    const BG = [0.3, 0.46, 0.2], BF = [1.15, 0.16, 0.55];
+    shapes[21] = mergeGeometries([
+      leaf(0, 0, 0.18, 0.42, 1, BG), leaf(0.55, 0.12, 0.16, 0.38, 1, BG), leaf(-0.55, 0.08, 0.16, 0.36, 1, BG), leaf(0.95, -0.3, 0.14, 0.3, 1, BG), leaf(-0.95, -0.25, 0.14, 0.3, 1, BG),
+      leaf(1.05, -0.9, 0.12, 0.24, 1, BG), leaf(0.2, 0.45, 0.14, 0.3, 1, BG), leaf(-0.3, 0.5, 0.12, 0.26, 1, BG),
+      leaf(0.3, 0.1, 0.36, 0.2, 1, BF), leaf(-0.4, 0.22, 0.32, 0.18, 1, BF), leaf(0.85, -0.1, 0.3, 0.17, 1, BF), leaf(-0.9, -0.05, 0.28, 0.16, 1, BF), leaf(0, 0.5, 0.26, 0.15, 1, BF), leaf(1.05, -0.7, 0.24, 0.13, 1, BF),
+    ]);
+    // an iron drain cover set in the paving
+    shapes[23] = mergeGeometries([
+      tintable(new THREE.CylinderGeometry(0.33, 0.33, 0.02, 16).translate(0, 0.012, 0), 0.2, 0.19, 0.18),
+      tintable(new THREE.TorusGeometry(0.33, 0.02, 4, 16).rotateX(Math.PI / 2).translate(0, 0.02, 0), 0.12, 0.12, 0.12),
+      box(0.5, 0.012, 0.03, 0, 0.026, -0.12, [0.08, 0.08, 0.08]), box(0.6, 0.012, 0.03, 0, 0.026, 0, [0.08, 0.08, 0.08]), box(0.5, 0.012, 0.03, 0, 0.026, 0.12, [0.08, 0.08, 0.08]),
+    ]);
+    // a wire slung across the lane, one metre long until stretched
+    shapes[25] = mergeGeometries(Array.from({ length: 6 }, (_, i) => {
+      const a = i / 6, b = (i + 1) / 6, sag = (t) => -1.1 * t * (1 - t);
+      return tube([0, sag(a), a], [0, sag(b), b], 0.011, IRON, 3);
+    }));
+    // a creeper climbing the wall, five metres tall until fitted to its house
+    shapes[26] = (() => {
+      const parts = [tube([0, 0, 0.05], [0.1, 1.6, 0.08], 0.03, [0.3, 0.24, 0.16], 4), tube([0.1, 1.6, 0.08], [-0.1, 3.4, 0.08], 0.022, [0.3, 0.24, 0.16], 4), tube([-0.1, 3.4, 0.08], [0.05, 4.9, 0.08], 0.015, [0.3, 0.24, 0.16], 3)];
+      for (let i = 0; i < 17; i++) {
+        const h = 0.5 + i * 0.27, wob = Math.sin(i * 1.7) * 0.35;
+        parts.push(leaf(wob, h, 0.16, 0.3 + 0.16 * Math.abs(Math.sin(i * 2.3)), 1, i % 3 ? [0.3, 0.47, 0.2] : [0.38, 0.54, 0.24]));
+        if (i % 2) parts.push(leaf(wob + (i % 4 === 1 ? 0.5 : -0.5), h + 0.1, 0.12, 0.22, 1, [0.33, 0.5, 0.22]));
+      }
+      return mergeGeometries(parts);
+    })();
+    // a small balcony: a stone slab on corbels with an iron rail, and a pot left on it
+    shapes[27] = (() => {
+      const ST = [0.8, 0.74, 0.6];
+      const parts = [box(1.6, 0.1, 0.75, 0, 0, 0.375, ST), box(0.16, 0.26, 0.5, -0.6, -0.18, 0.25, ST), box(0.16, 0.26, 0.5, 0.6, -0.18, 0.25, ST),
+        box(1.6, 0.03, 0.03, 0, 0.95, 0.73, IRON), box(0.03, 0.03, 0.73, -0.785, 0.95, 0.37, IRON), box(0.03, 0.03, 0.73, 0.785, 0.95, 0.37, IRON),
+        box(1.6, 0.02, 0.02, 0, 0.14, 0.73, IRON)];
+      for (let i = 0; i <= 10; i++) parts.push(box(0.016, 0.9, 0.016, -0.785 + i * 0.157, 0.5, 0.73, IRON));
+      for (const x of [-0.785, 0.785]) for (let i = 1; i < 4; i++) parts.push(box(0.016, 0.9, 0.016, x, 0.5, i * 0.18, IRON));
+      parts.push(tintable(new THREE.CylinderGeometry(0.13, 0.1, 0.22, 7).translate(0.5, 0.16, 0.45), 0.8, 0.45, 0.3), leaf(0.5, 0.42, 0.45, 0.17, 1));
+      return mergeGeometries(parts);
+    })();
     const P = (...hex) => hex.map((h) => new THREE.Color(h));
     const palette = {
       1: P(0x8c211a, 0x1f4d33, 0x243d6b, 0xb88c40, 0xccc2a8),
@@ -773,12 +889,12 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       12: P(0x29574d, 0x2b547f, 0x5c4026, 0x4d5254),
       15: P(0xc97a2b, 0x1c1c1c, 0x8a8782, 0xe8e4dc, 0x6b5a48),
     };
-    const ground = new Set([0, 2, 3, 4, 8, 9, 10, 15, 16, 17]);
+    const ground = new Set([0, 2, 3, 4, 8, 9, 10, 15, 16, 17, 20, 23]);
     const lambert = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide });
     const paintwork = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.32, metalness: 0.35 });
     const flagMat = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide, map: flagTex });
     const m4 = new THREE.Matrix4(), qt = new THREE.Quaternion(), sc = new THREE.Vector3(), ps = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
-    const tint = new THREE.Color();
+    const tint = new THREE.Color(), q2 = new THREE.Quaternion(), zAxis = new THREE.Vector3(0, 0, 1);
     const low = quality === 'low';
     // one batch per kind per 220 m square, so squares out of sight cost nothing
     const groups = new Map();
@@ -806,16 +922,23 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
         else if (kind === 12) sc.set(p1, p2, 1);
         else if (kind === 13) sc.set(p1, 1, 1);
         else if (kind === 15) { const k = 0.9 + r2 * 0.35; sc.set(k, k, k); }
+        else if (kind === 18) { sc.set(p1, 1, 1); qt.multiply(q2.setFromAxisAngle(zAxis, p2)); }
+        else if (kind === 19) { const k = 0.7 + r2 * 1.1; sc.set(k * (0.8 + r * 0.5), k, k); }
+        else if (kind === 20) { const k = 0.6 + r2 * 1.1; sc.set(k, k * (0.7 + r * 0.8), k); }
+        else if (kind === 21) { const k = 0.8 + r2 * 0.5; sc.set(k, k, 1); }
+        else if (kind === 25) sc.set(1, 1, p1);
+        else if (kind === 26) sc.set(0.8 + r2 * 0.6, p1 / 5, 1);
         ps.set(R[i], ground.has(kind) ? terrainAt(R[i], R[i + 2]) - 0.03 : R[i + 1], R[i + 2]);
         inst.setMatrixAt(n, m4.compose(ps, qt, sc));
         const pal = palette[kind];
         if (kind === 12) tint.copy(pal[r < 0.28 ? 0 : r < 0.5 ? 1 : r < 0.7 ? 2 : 3]);
         else if (pal) tint.copy(pal[Math.floor(r * pal.length) % pal.length]);
+        else if ((kind >= 19 && kind <= 21) || kind === 26) { const b = 0.7 + r2 * 0.45; tint.setRGB(b * (1.08 - r * 0.2), b, b * (0.8 + r * 0.3)); }
         else tint.setScalar(kind === 0 ? 0.75 + ((r * 3.3) % 1) * 0.4 : 0.86 + r2 * 0.22);
         inst.setColorAt(n, tint);
       });
       inst.computeBoundingSphere();
-      inst.castShadow = !low && kind !== 13 && kind !== 7;
+      inst.castShadow = !low && kind !== 13 && kind !== 7 && kind !== 25 && kind !== 23 && kind !== 20;
       inst.receiveShadow = kind === 3;
       g.add(inst);
     }
@@ -847,14 +970,15 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       if (!o.isMesh || o.name === 'deck') return;
       const structural = o.name === 'skirt' || o.name === 'precinctwall';
       if (structural) { o.geometry.deleteAttribute('color'); o.geometry.computeVertexNormals(); }
-      const mesh = new THREE.Mesh(o.geometry, structural ? wallMat : o.name.startsWith('win_') ? winMat : cityMat);
+      const drain = o.name.startsWith('drain');
+      const mesh = new THREE.Mesh(o.geometry, structural ? wallMat : drain ? drainMat : o.name.startsWith('win_') ? winMat : cityMat);
       o.updateWorldMatrix(true, false);
       mesh.matrixAutoUpdate = false;
       mesh.matrix.copy(o.matrixWorld);
       mesh.matrixWorld.copy(o.matrixWorld);
       const win = o.name.startsWith('win_');
       // the contact-shading pass reads normals; the panels stay out of it
-      if (win) mesh.userData.noAO = true;
+      if (win || drain) mesh.userData.noAO = true;
       mesh.receiveShadow = true;
       mesh.castShadow = structural || (quality !== 'low' && o.name.startsWith('solid_'));
       if (structural) mesh.frustumCulled = false;

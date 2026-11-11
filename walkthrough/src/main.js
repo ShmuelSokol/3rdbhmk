@@ -1,4 +1,9 @@
+import { createSound } from './sound.js';
 import * as THREE from 'three';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { GTAOPass } from 'three/examples/jsm/postprocessing/GTAOPass.js';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { createWorld, TIMES } from './world.js';
 import { createPlayer, lookAngles } from './player.js';
 import { createInput } from './input.js';
@@ -14,7 +19,7 @@ const stops = tour.stops;
 // ---------------------------------------------------------------- settings
 const STORE = 'mikdash-walk-v1';
 const defaults = {
-  time: 'morning', quality: 'auto', sensitivity: 1, invertY: false, showTour: true,
+  time: 'morning', quality: 'auto', sensitivity: 1, invertY: false, showTour: true, sound: true,
   reduceMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
 };
 let saved = {};
@@ -57,9 +62,35 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = quality === 'low' ? THREE.PCFShadowMap : THREE.PCFSoftShadowMap;
 
 const camera = new THREE.PerspectiveCamera(70, 1, 0.1, 14000);
+// On a computer the picture goes through one more step: soft shade gathers in corners, under
+// cornices and where things stand on the ground, as it does in real light.
+let composer = null, aoPass = null;
+function setupAO(scene) {
+  if (coarse || quality === 'low' || params.has('noao')) return;
+  class ContactShade extends GTAOPass {
+    _overrideVisibility() { // smoke, flame, clouds, sky and glass take no part
+      const cache = this._visibilityCache;
+      this.scene.traverse((o) => {
+        const m = o.material;
+        if (o.visible && (o.userData.noAO || o.isPoints || o.isLine || o.isSprite || (m && !Array.isArray(m) && (m.transparent || m.depthWrite === false || m.isShaderMaterial)))) { o.visible = false; cache.push(o); }
+      });
+    }
+  }
+  const size = renderer.getDrawingBufferSize(new THREE.Vector2());
+  const target = new THREE.WebGLRenderTarget(size.x, size.y, { type: THREE.HalfFloatType, samples: 4 });
+  composer = new EffectComposer(renderer, target);
+  composer.addPass(new RenderPass(scene, camera));
+  aoPass = new ContactShade(scene, camera, size.x, size.y);
+  aoPass.updateGtaoMaterial({ radius: 1.3, distanceExponent: 1.4, thickness: 1.2, scale: 1.15, samples: 12, distanceFallOff: 1, screenSpaceRadius: false });
+  aoPass.updatePdMaterial({ lumaPhi: 10, depthPhi: 2, normalPhi: 3, radius: 6, rings: 2, samples: 12 });
+  aoPass.blendIntensity = 0.85;
+  composer.addPass(aoPass);
+  composer.addPass(new OutputPass());
+}
 function resize() {
   const w = window.innerWidth, h = window.innerHeight;
   renderer.setSize(w, h, false);
+  if (composer) { composer.setPixelRatio(renderer.getPixelRatio()); composer.setSize(w, h); }
   camera.aspect = w / h;
   // keep a comfortable horizontal view on tall phone screens
   camera.fov = w < h ? 82 : 68;
@@ -129,6 +160,8 @@ let panelOpen = false;
 
 const ARRIVE = (i) => (i === 0 ? 8 : 4);
 
+const sound = createSound();
+sound.setOn(prefs.sound && !params.has('manual'));
 const settingsApi = {
   get: () => ({ ...prefs, quality: prefs.quality }),
   set(key, value) {
@@ -139,6 +172,7 @@ const settingsApi = {
     else if (key === 'sensitivity' || key === 'invertY') input.settings[key] = value;
     else if (key === 'reduceMotion') player.reduceMotion = value;
     else if (key === 'showTour') ui.setTourVisible(value);
+    else if (key === 'sound') sound.setOn(value);
   },
 };
 
@@ -374,6 +408,7 @@ async function boot() {
   // warm the shaders up before the welcome buttons appear, so the first step is smooth
   camera.position.set(150, 46, 60);
   camera.lookAt(-20, 16, 0);
+  setupAO(world.scene);
   renderer.compile(world.scene, camera);
   ui.setProgress(1);
   if (manual) loop(0); else requestAnimationFrame(loop);
@@ -408,6 +443,7 @@ function loop(stepDt) {
     if (traveling) { updateTravel(dt); inp.moveX = inp.moveZ = inp.lookX = inp.lookY = 0; inp.jump = false; }
     player.update(dt, inp);
     world.update(dt, time, camera.position);
+    { const p = player.position; sound.update(dt, { x: p.x, y: p.y, z: p.z, walking: player.mode === 'walk' && !traveling, onGround: player.onGround, roofed: world.roofed, fireDist: Math.hypot(p.x, p.z, p.y - 9), flying: player.mode === 'fly' }); }
 
     placeTimer -= dt;
     if (placeTimer <= 0) {
@@ -439,16 +475,17 @@ function loop(stepDt) {
       marker.children[0].scale.set(pulse, 1, pulse);
     }
   }
-  renderer.render(world.scene, camera);
+  if (composer && aoPass.enabled) composer.render(); else renderer.render(world.scene, camera);
 
   // dynamic resolution: trade sharpness for smoothness on slow devices, and take it back
   emaMs += (dt * 1000 - emaMs) * 0.05;
   if (!fixedRes && time - lastTune > 1.5) {
     lastTune = time;
     let next = prScale;
-    if (emaMs > 36) next = Math.max(0.55, prScale - 0.12);
+    if (emaMs > 36 && composer && aoPass.enabled) { aoPass.enabled = false; emaMs = 25; } // the extra shading goes first
+    else if (emaMs > 36) next = Math.max(0.55, prScale - 0.12);
     else if (emaMs < 19 && prScale < 1) next = Math.min(1, prScale + 0.06);
-    if (next !== prScale) { prScale = next; renderer.setPixelRatio(basePR * prScale); renderer.setSize(window.innerWidth, window.innerHeight, false); }
+    if (next !== prScale) { prScale = next; renderer.setPixelRatio(basePR * prScale); resize(); }
   }
 }
 

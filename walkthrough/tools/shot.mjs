@@ -12,6 +12,7 @@ page.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') 
 page.on('pageerror', (e) => console.log('[pageerror]', e.message));
 const q = new URLSearchParams({ fixed: '1', manual: '1', q: opt.q || 'medium' });
 if (opt.time) q.set('time', opt.time);
+if (opt.noao) q.set('noao', '1');
 await page.goto(`http://localhost:${opt.port || 4173}/?${q}`);
 await page.waitForFunction(() => window.__mk && window.__mk.ready, null, { timeout: 180000 });
 if (!opt.nocity) await page.waitForFunction(() => window.__mk.city, null, { timeout: 180000 });

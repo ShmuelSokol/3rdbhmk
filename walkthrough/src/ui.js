@@ -284,6 +284,7 @@ export function createUI({ tour, codex, actions, settings, times }) {
       h('div', { class: 'field' },
         h('label', { class: 'check' }, h('input', { type: 'checkbox', checked: s.invertY, onchange: (e) => settings.set('invertY', e.target.checked) }), 'Invert up and down'),
         h('label', { class: 'check' }, h('input', { type: 'checkbox', checked: s.reduceMotion, onchange: (e) => settings.set('reduceMotion', e.target.checked) }), 'Reduce motion (no head bob, no gliding between stops)'),
+        h('label', { class: 'check' }, h('input', { type: 'checkbox', checked: s.sound, onchange: (e) => settings.set('sound', e.target.checked) }), 'Sound (wind, footsteps, the altar fire)'),
         h('label', { class: 'check' }, h('input', { type: 'checkbox', checked: s.showTour, onchange: (e) => settings.set('showTour', e.target.checked) }), 'Show the tour card')),
       h('div', { class: 'stack' },
         h('button', { class: 'btn small', onclick: () => { closeSheet(); actions.restart(); } }, 'Return to the east gate'),

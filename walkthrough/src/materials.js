@@ -17,6 +17,21 @@ uniform sampler2D uRoof;
 uniform float uSkyTaps;
 uniform float uDetail;
 
+uniform sampler2D uStoneD; uniform sampler2D uStoneN; uniform sampler2D uBrickD; uniform sampler2D uBrickN;
+// Scanned stone, laid on along whichever axis the surface faces. Returns its colour relative
+// to its own average (so 1 means "leave the tone alone") and the tilt its relief gives the normal.
+vec3 mkScan(sampler2D td, sampler2D tn, vec3 mean, vec2 uv, vec3 T, vec3 B, out vec3 off){
+  vec3 d = texture2D(tn, uv).xyz * 2. - 1.;
+  off = T * d.x + B * d.y;
+  vec3 r = texture2D(td, uv).rgb / mean;
+  return mix(vec3(dot(r, vec3(.3, .5, .2))), r, .55); // mostly light and dark, a little of the stone's own hue
+}
+vec3 mkStone(vec3 p, vec3 n, float size, out vec3 off){
+  vec3 a = abs(n);
+  if (a.y > a.x && a.y > a.z) return mkScan(uStoneD, uStoneN, vec3(.402, .279, .144), p.xz / size, vec3(1., 0., 0.), vec3(0., 0., 1.), off);
+  if (a.x > a.z) return mkScan(uStoneD, uStoneN, vec3(.402, .279, .144), p.zy / size, vec3(0., 0., 1.), vec3(0., 1., 0.), off);
+  return mkScan(uStoneD, uStoneN, vec3(.402, .279, .144), p.xy / size, vec3(1., 0., 0.), vec3(0., 1., 0.), off);
+}
 float hash11(float p){ p = fract(p * .1031); p *= p + 33.33; p *= p + p; return fract(p); }
 float hash21(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * .1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
 float hash31(vec3 p){ p = fract(p * .1031); p += dot(p, p.zyx + 31.32); return fract((p.x + p.y) * p.z); }
@@ -123,10 +138,10 @@ export function install(material, { fragPars = '', color = '', rough = '', norma
       .replace('#include <project_vertex>', '#include <project_vertex>\n vWPos = (modelMatrix * vec4(transformed, 1.)).xyz;');
     let f = shader.fragmentShader
       .replace('#include <common>', `#include <common>\n${COMMON_FRAG_PARS}\n${fragPars}`)
-      .replace('#include <color_fragment>', `#include <color_fragment>\n float mkBump = 0.; float mkBumpK = 0.; float mkRough = 0.; float mkMetal = 0.;\n vec3 wN = normalize(vWNrm);\n float camDist = length(vViewPosition);\n${color}`)
+      .replace('#include <color_fragment>', `#include <color_fragment>\n float mkBump = 0.; float mkBumpK = 0.; float mkRough = 0.; float mkMetal = 0.; vec3 mkTexN = vec3(0.);\n vec3 wN = normalize(vWNrm);\n float camDist = length(vViewPosition);\n${color}`)
       .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>\n roughnessFactor = clamp(roughnessFactor + mkRough, .04, 1.);\n${rough}`)
       .replace('#include <metalnessmap_fragment>', '#include <metalnessmap_fragment>\n metalnessFactor = mix(metalnessFactor, 1., mkMetal);')
-      .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>\n if (mkBumpK > 0.) normal = bumpNormal(normal, -vViewPosition, mkBump, mkBumpK);\n${normal}`);
+      .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>\n if (mkBumpK > 0.) normal = bumpNormal(normal, -vViewPosition, mkBump, mkBumpK);\n normal = normalize(normal + mat3(viewMatrix) * mkTexN);\n${normal}`);
     if (sky) {
       f = f.replace('#include <aomap_fragment>', `#include <aomap_fragment>
         float mkSky = skyVisibility(vWPos, wN);
@@ -146,6 +161,7 @@ export function createMaterials(roofTexture, quality) {
     uSkyTaps: { value: quality === 'low' ? 5 : 9 },
     uDetail: { value: quality === 'low' ? 0.6 : 1 },
     uTime: { value: 0 },
+    uStoneD: { value: null }, uStoneN: { value: null }, uBrickD: { value: null }, uBrickN: { value: null },
   };
 
   // ---- wall stone: coursed ashlar with drafted margins
@@ -197,6 +213,13 @@ export function createMaterials(roofTexture, quality) {
         c *= 1. - .24 * smoothstep(.46, .8, streak) * (1. - abs(up));
         c = mix(c, c * vec3(.58, .53, .46), joint * .7);
         c *= .97 + .06 * fine * fade;
+        {
+          // the pitted face of real stone, each block cut from a different part of the quarry
+          vec3 off; vec3 st = mkStone(vWPos + vec3(ash.x * 1.7, ash.y * .9, ash.x * 2.3), wN, 2.4, off);
+          vec3 off2; vec3 st2 = mkStone(vWPos, wN, 11., off2);
+          c *= mix(vec3(1.), st, .55) * mix(vec3(1.), st2, .35);
+          mkTexN = off * .55 + off2 * .25;
+        }
         diffuseColor.rgb = c;
         mkBump = (margin * (.35 + .65 * grain) - joint * 1.4) * .012 + fine * .0012;
         mkBumpK = fade * uDetail;
@@ -208,6 +231,7 @@ export function createMaterials(roofTexture, quality) {
             vec2 q = fract(vWPos.xz / 2.5) - .5;
             float rib = smoothstep(.36, .42, max(abs(q.x), abs(q.y)));
             float g2 = fbm(vec3(vWPos.x * 8., vWPos.z * .8, 2.));
+            mkTexN = vec3(0.);
             diffuseColor.rgb = mix(vec3(.20, .095, .045), vec3(.34, .17, .08), g2) * mix(.62, 1., rib);
             mkBump = rib * .03; mkBumpK = fade; mkRough = -.2;
           } else {
@@ -222,6 +246,7 @@ export function createMaterials(roofTexture, quality) {
             float palm = (mod(col, 2.) < .5 && tier < 2.5) ? palmRelief(pp) : 0.;
             float hammer = vnoise(vWPos * 30.) * .6 + vnoise(vWPos * 70.) * .4;
             float pat = fbm(vWPos * 1.7);
+            mkTexN = vec3(0.);
             diffuseColor.rgb = vec3(1., .77, .34) * (.96 + .05 * pat) * (1. - .22 * (1. - smoothstep(.0, .03, edge)));
             diffuseColor.rgb *= 1. + .10 * palm;
             mkMetal = .7;
@@ -255,11 +280,26 @@ export function createMaterials(roofTexture, quality) {
         c *= .93 + .14 * coarse;
         c *= 1. - .1 * smoothstep(.55, .7, veins) * fade;
         c = mix(c, c * vec3(.66, .62, .56), joint * .55);
+        {
+          vec3 off; vec3 st = mkStone(vWPos + vec3(ash.x * 1.3, 0., ash.y * 2.1), wN, 2.1, off);
+          c *= mix(vec3(1.), st, .5);
+          mkTexN = off * .4;
+        }
         diffuseColor.rgb = c;
         mkBump = -joint * .012 + grain * .002;
         mkBumpK = fade * uDetail;
         mkRough = (veins - .5) * .25 - .08 * tone;
+        if (abs(vWPos.z) < 9.6 && vWPos.x > -9.6 && vWPos.x < 17. && vWPos.y > 6.32 && vWPos.y < 11.4) {
+          // the altar: whole stones under lime plaster, whitened again each year, sooted near the fire
+          vec3 off; vec3 st = mkStone(vWPos, wN, 3.2, off);
+          vec3 pl = vec3(.86, .83, .75) * mix(vec3(1.), st, .3) * (.9 + .16 * fbm(vWPos * 1.3));
+          float soot = smoothstep(8.4, 11., vWPos.y) * smoothstep(.35, .75, fbm(vec3(vWPos.x * 1.5 + vWPos.z * 1.5, vWPos.y * .2, 4.)));
+          pl *= 1. - .45 * soot;
+          diffuseColor.rgb = mix(pl, pl * .82, joint * .35);
+          mkTexN = off * .3; mkBump *= .3; mkRough = .1;
+        }
         if (inHouse(vWPos + vec3(0., .1, 0.)) > .5) {
+          mkTexN *= .3;
           diffuseColor.rgb = mix(c, vec3(.86, .64, .30) * (.8 + .3 * veins), .78);
           mkMetal = .3;
           mkRough = -.50 + (veins - .5) * .12;
@@ -423,6 +463,12 @@ export function createMaterials(roofTexture, quality) {
         // broad wear and paler patches that do not shimmer from the air
         c *= .88 + .24 * fbm(vec3(vWPos.xz * .11, 5.));
         c = mix(c, c * vec3(.86, .84, .80), smoothstep(.55, .8, fbm(vec3(vWPos.xz * .035, 9.))));
+        {
+          vec3 off; vec3 st = mkStone(vWPos + vec3(ash.x * 1.3, 0., ash.y * 2.1), vec3(0., 1., 0.), 2.6, off);
+          vec3 off2; vec3 st2 = mkStone(vWPos, vec3(0., 1., 0.), 13., off2);
+          c *= mix(vec3(1.), st, .55) * mix(vec3(1.), st2, .3);
+          mkTexN = off * .5;
+        }
         diffuseColor.rgb = c;
         mkBump = -joint * .012 * paved + grain * .003;
         mkBumpK = fade * uDetail;

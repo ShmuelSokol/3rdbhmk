@@ -41,6 +41,14 @@ export async function createWorld(renderer, quality, onProgress) {
   onProgress(0.08);
 
   const mats = createMaterials(roofTex, quality);
+  // Scanned stone (CC0, Poly Haven) gives the procedural masonry the surface of the real thing.
+  await Promise.all([['uStoneD', 'stone_d', true], ['uStoneN', 'stone_n', false], ['uBrickD', 'brick_d', true], ['uBrickN', 'brick_n', false]].map(async ([u, f, colour]) => {
+    const t = await loadTexture(`assets/${f}.jpg`);
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.colorSpace = colour ? THREE.SRGBColorSpace : THREE.NoColorSpace;
+    t.anisotropy = quality === 'low' ? 2 : 8;
+    mats.uniforms[u].value = t;
+  }));
 
   // ---------------------------------------------------------------- geometry
   const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
@@ -322,6 +330,7 @@ export async function createWorld(renderer, quality, onProgress) {
   onProgress(1);
 
   return {
+    get roofed() { return adapt; },
     scene, collider, bvh, mats, effects, setTime, update, groundBelow, segmentClear, identify,
     terrainAt: site.terrainAt, topAt: site.topAt, onDeck: site.onDeck, loadCity: site.loadCity,
     get timeKey() { return timeKey; },

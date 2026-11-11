@@ -168,11 +168,11 @@ export function createEffects(scene, objectsData, quality) {
       w: big ? 1.9 + rnd() * 0.7 : 1.0 + rnd() * 0.6, h: big ? 2.6 + rnd() * 1.1 : 1.3 + rnd() * 0.8, phase: rnd(),
     });
   }
-  const altarFire = flames(altarFlames, 2.4);
+  const altarFire = flames(altarFlames, 3.6);
   group.add(altarFire);
 
   // The pillar of smoke rose straight, and no wind bent it (Avos 5:5).
-  const altarSmoke = smoke(quality === 'low' ? 36 : 64, new THREE.Vector3(0, ALTAR_TOP + 1.6, 0), new THREE.Vector4(3.2, 30, 2.2, 15), 0.34);
+  const altarSmoke = smoke(quality === 'low' ? 50 : 120, new THREE.Vector3(0, ALTAR_TOP + 1.6, 0), new THREE.Vector4(2.8, 44, 1.8, 22), 0.46);
   group.add(altarSmoke);
 
   const altarLight = new THREE.PointLight(0xff8a3c, 0, 55, 1.6);

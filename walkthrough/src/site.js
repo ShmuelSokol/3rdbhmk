@@ -115,6 +115,7 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
   maskTex.flipY = false;
   maskTex.colorSpace = THREE.NoColorSpace;
   const siteUniforms = {
+    uStoneD: mats.uniforms.uStoneD, uStoneN: mats.uniforms.uStoneN, uBrickD: mats.uniforms.uBrickD, uBrickN: mats.uniforms.uBrickN,
     ...mats.uniforms,
     uCityMap: { value: cityTex },
     uCityRect: { value: new THREE.Vector3(CM.x0, CM.z0, 1 / CM.size) },
@@ -163,6 +164,7 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
         float joint = (1. - smoothstep(.0, .012 + px, ash.z)) * (1. - smoothstep(.03, .2, px));
         float worn = fbm(vec3(vWPos.xz * .9, 2.));
         vec3 pave = vec3(.70, .62, .48) * (.8 + .28 * mix(.5, hash21(ash.xy), 1. - smoothstep(.05, .25, px))) * (.86 + .28 * worn) * (1. - .35 * joint);
+        { vec3 off; vec3 st = mkStone(vWPos + vec3(ash.x * 1.3, 0., ash.y * 2.1), vec3(0., 1., 0.), 1.9, off); pave *= mix(vec3(1.), st, .55); mkTexN = off * .5 * lane; }
         c = mix(c, pave, lane);
         // lanes lie in the shade of their houses: darker the more walls stand around
         float enc = 0., foot = 0.;
@@ -404,17 +406,22 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
         wall *= (.86 + .2 * big) * (.9 + .2 * grain) * mix(1., .88 + .24 * fract(tone * 3.17), plain);
         // coursed ashlar on the walls, visible until the blocks shrink below a pixel
         float wu = vWPos.x * gn.z - vWPos.z * gn.x;
+        // real coursed masonry on the walls: every house starts at a different place in the photograph
+        vec3 wT = normalize(vec3(gn.z, 0., -gn.x) + 1e-5);
+        vec3 bOff; vec3 brick = mkScan(uBrickD, uBrickN, vec3(.454, .362, .242), vec2(wu, vWPos.y) / 3.6 + tone * vec2(7.3, 3.1), wT, vec3(0., 1., 0.), bOff);
+        vec3 rOff; vec3 rst = mkStone(vWPos + tone * 40., vec3(0., 1., 0.), 3.1, rOff);
         vec3 ash = ashlar(vec2(wu, vWPos.y + tone * 3.), .36, .62);
         float show = 1. - smoothstep(.03, .14, px);
-        wall *= 1. + (hash21(ash.xy) - .5) * .11 * show;
-        wall *= 1. - .13 * (1. - smoothstep(.0, .008 + px, ash.z)) * show;
+        wall *= mix(vec3(1.), brick, .85);
         // rain streaks down the walls, and a darker foot where the lane is narrow
         float streak = fbm(vec3(wu * 1.4, vWPos.y * .08, tone * 9.));
         wall *= 1. - .2 * smoothstep(.5, .8, streak) * (1. - roofness);
         vec3 rs = ashlar(vWPos.xz + tone * 5., .6, .6);
         vec3 roof = mix(vec3(.82, .75, .61), vec3(.70, .62, .48), tg) * (.84 + .26 * grain);
         roof *= 1. - .14 * (1. - smoothstep(0., .012 + px, rs.z)) * show;
+        roof *= mix(vec3(1.), rst, .5);
         vec3 c = mix(wall, roof, roofness);
+        mkTexN = mix(bOff * .7, rOff * .4, roofness);
         // deep recesses are windows and doorways: dark glass and shade
         float opening = smoothstep(.58, .30, ao) * (1. - roofness) * (1. - plain);
         c = mix(c, vec3(.09, .11, .14), opening * .8);
@@ -582,6 +589,8 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       mesh.matrix.copy(o.matrixWorld);
       mesh.matrixWorld.copy(o.matrixWorld);
       const win = o.name.startsWith('win_');
+      // the contact-shading pass reads normals; the panels stay out of it
+      if (win) mesh.userData.noAO = true; else if (!structural && quality !== 'low' && !o.geometry.attributes.normal) o.geometry.computeVertexNormals();
       mesh.receiveShadow = true;
       mesh.castShadow = structural || (quality !== 'low' && o.name.startsWith('solid_'));
       if (structural) mesh.frustumCulled = false;

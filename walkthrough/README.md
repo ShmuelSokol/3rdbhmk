@@ -47,3 +47,9 @@ npm test         # headless browser: walks all 18 stops, checks walls, panels an
 Two things are this version's own choices and not in the source model: the gilded palm panels
 on the Heikhal walls (Yechezkel 41:18-20 describes them; the model leaves the walls plain)
 and the cedar coffers of its ceiling. The paroches is closed and nothing is modelled behind it.
+
+## Credits
+
+The stone surface scans in `public/assets/stone_*.jpg` and `brick_*.jpg` are the Poly Haven textures
+`worn_rock_natural_01` and `white_sandstone_bricks_03` (CC0, public domain, polyhaven.com). All sound is
+synthesised in the browser (`src/sound.js`); there are no recordings.

@@ -725,14 +725,29 @@ int main(int Argc, char** Argv)
 
     if (Argc > 1)
     {
+        // fopen_s and _MSC_VER exist only on MSVC; this test must also build with GCC and Clang.
+#if defined(_MSC_VER)
         FILE* File = nullptr;
-        if (fopen_s(&File, Argv[1], "wb") == 0 && File)
+        if (fopen_s(&File, Argv[1], "wb") != 0) { File = nullptr; }
+        const char* CompilerName = "MSVC";
+        const int CompilerVersion = static_cast<int>(_MSC_VER);
+#else
+        FILE* File = std::fopen(Argv[1], "wb");
+#if defined(__clang__)
+        const char* CompilerName = "Clang";
+        const int CompilerVersion = __clang_major__ * 100 + __clang_minor__;
+#else
+        const char* CompilerName = "GCC";
+        const int CompilerVersion = __GNUC__ * 100 + __GNUC_MINOR__;
+#endif
+#endif
+        if (File)
         {
             std::fprintf(File, "{\n");
             std::fprintf(File, "  \"status\": \"%s\",\n", Failures == 0 ? "plume_math_standalone_tests_passed" : "plume_math_standalone_tests_failed");
             std::fprintf(File, "  \"suite\": \"Plugins/MikdashRuntime/Tests/PlumeMathTest.cpp\",\n");
             std::fprintf(File, "  \"header\": \"Plugins/MikdashRuntime/Source/MikdashRuntime/Public/PlumeMath.h\",\n");
-            std::fprintf(File, "  \"compiler\": \"MSVC %d, C++%ld\",\n", static_cast<int>(_MSC_VER), static_cast<long>(__cplusplus));
+            std::fprintf(File, "  \"compiler\": \"%s %d, C++%ld\",\n", CompilerName, CompilerVersion, static_cast<long>(__cplusplus));
             std::fprintf(File, "  \"checkCount\": %d,\n", static_cast<int>(Checks.size()));
             std::fprintf(File, "  \"failureCount\": %d,\n", Failures);
             std::fprintf(File, "  \"scope\": \"Pure math only. This proves the plume envelope, the flicker spectrum, the ember distribution and NaN safety. It does NOT prove that anything renders, that a material compiles, or that the effect looks right; those remain visual acceptance items.\",\n");

@@ -610,8 +610,8 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       const lists = [[], []];
       for (let i = 0; i < R.length; i += 6 * step) {
         const h = ((R[i] * 12.9898 + R[i + 2] * 78.233) % 1 + 1) % 1;
-        if (R[i + 3] === 1 || h > 0.5) continue;
-        lists[h < 0.3 ? 0 : 1].push(i);
+        if (R[i + 3] === 1 || h > 0.8) continue;
+        lists[h < 0.55 ? 0 : 1].push(i);
       }
       [aerial, dish].forEach((geo, w) => {
         if (!lists[w].length) return;
@@ -678,9 +678,9 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
     // Foliage is a cloud of small leaves, each its own tilted triangle, rather than a smooth lump.
     let seedF = 7;
     const rf = () => { seedF = (seedF * 1664525 + 1013904223) >>> 0; return seedF / 4294967296; };
-    const leaf = (x, y, z, r, sx, c = [0.5, 0.66, 0.36]) => {
-      const n = Math.max(10, Math.round(46 * Math.min(1.6, r / 0.25)));
-      const pos = new Float32Array(n * 9), col = new Float32Array(n * 9), ls = Math.max(0.05, Math.min(0.13, r * 0.42));
+    const leaf = (x, y, z, r, sx, c = [0.5, 0.66, 0.36], big = 0) => {
+      const n = big || Math.max(10, Math.round(46 * Math.min(1.6, r / 0.25)));
+      const pos = new Float32Array(n * 9), col = new Float32Array(n * 9), ls = big ? 0.18 : Math.max(0.05, Math.min(0.13, r * 0.42));
       for (let i = 0; i < n; i++) {
         // a point in the ball, thicker toward the outside
         const th = rf() * 6.283, ph = Math.acos(2 * rf() - 1), rr = r * (0.55 + 0.6 * rf());
@@ -688,7 +688,10 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
         const a1 = rf() * 6.283, a2 = rf() * 6.283, tl = ls * (0.7 + rf() * 0.7);
         const ax = Math.cos(a1), az = Math.sin(a1), ay = (rf() - 0.5) * 1.2;
         const bx = Math.cos(a2) * 0.45, bz = Math.sin(a2) * 0.45, by = (rf() - 0.3) * 0.6;
-        pos.set([px - ax * tl, py - ay * tl, pz - az * tl, px + ax * tl, py + ay * tl, pz + az * tl, px + bx * tl, py + by * tl + tl * 0.5, pz + bz * tl], i * 9);
+        // wound so that every leaf shows its lit face to the sky
+        const A = [px - ax * tl, py - ay * tl, pz - az * tl], B = [px + ax * tl, py + ay * tl, pz + az * tl], C = [px + bx * tl, py + by * tl + tl * 0.5, pz + bz * tl];
+        const up = (B[2] - A[2]) * (C[0] - A[0]) - (B[0] - A[0]) * (C[2] - A[2]) > 0;
+        pos.set(up ? [...A, ...C, ...B] : [...A, ...B, ...C], i * 9);
         const k = 0.62 + rf() * 0.6 + 0.25 * Math.cos(ph);
         for (let q = 0; q < 3; q++) col.set([c[0] * k, c[1] * k, c[2] * k], i * 9 + q * 3);
       }
@@ -988,6 +991,13 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       }
       return mergeGeometries(parts);
     })();
+    // a tree in a courtyard: an old trunk and a broad crown
+    shapes[35] = (() => {
+      const BR = [0.33, 0.27, 0.2], G1 = [0.2, 0.36, 0.15], G2 = [0.27, 0.43, 0.18];
+      const parts = [tube([0, 0, 0], [0.12, 1.5, 0.05], 0.17, BR, 6), tube([0.12, 1.5, 0.05], [-0.25, 2.7, 0.2], 0.11, BR, 5), tube([0.12, 1.5, 0.05], [0.7, 2.6, -0.3], 0.09, BR, 5), tube([-0.25, 2.7, 0.2], [-0.5, 3.6, -0.3], 0.06, BR, 4)];
+      for (const [x, y, z, r, c] of [[-0.3, 3.5, 0.2, 1.25, G1], [0.9, 3.2, -0.4, 1.05, G2], [-1.0, 3.0, -0.5, 0.95, G2], [0.2, 4.3, 0, 1.05, G1], [0.3, 3.0, 0.9, 0.9, G1], [-0.6, 4.0, -0.7, 0.85, G2]]) parts.push(leaf(x, y, z, r, 1, c, 170));
+      return mergeGeometries(parts);
+    })();
     const P = (...hex) => hex.map((h) => new THREE.Color(h));
     const palette = {
       1: P(0x8c211a, 0x1f4d33, 0x243d6b, 0xb88c40, 0xccc2a8),
@@ -1001,8 +1011,11 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
       12: P(0x29574d, 0x2b547f, 0x5c4026, 0x4d5254),
       15: P(0xc97a2b, 0x1c1c1c, 0x8a8782, 0xe8e4dc, 0x6b5a48),
     };
-    const ground = new Set([0, 2, 3, 4, 8, 9, 10, 15, 16, 17, 20, 23, 34]);
+    const ground = new Set([0, 2, 3, 4, 8, 9, 10, 15, 16, 17, 20, 23, 34, 35]);
     const lambert = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide });
+    // leaves are single triangles seen from both sides: light the back like the front, or half
+    // of every bush goes black
+    lambert.onBeforeCompile = (sh) => { sh.fragmentShader = sh.fragmentShader.replace('#include <normal_fragment_begin>', '#include <normal_fragment_begin>\n normal = normalize(vNormal);'); };
     const paintwork = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.32, metalness: 0.35 });
     const flagMat = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide, map: flagTex });
     const m4 = new THREE.Matrix4(), qt = new THREE.Quaternion(), sc = new THREE.Vector3(), ps = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
@@ -1041,13 +1054,14 @@ export async function createSite(scene, mats, quality, soup, soupOid, wallMat) {
         else if (kind === 25) sc.set(1, 1, p1);
         else if (kind === 26) sc.set(0.8 + r2 * 0.6, p1 / 5, 1);
         else if (kind === 31) sc.set(1, 1, p1 / 3.5);
+        else if (kind === 35) { const k = 0.8 + r2 * 0.7; sc.set(k, k * (0.9 + r * 0.3), k); }
         ps.set(R[i], ground.has(kind) ? terrainAt(R[i], R[i + 2]) - 0.03 : R[i + 1], R[i + 2]);
         inst.setMatrixAt(n, m4.compose(ps, qt, sc));
         const pal = palette[kind];
         if (kind === 29) tint.setScalar(1);
         else if (kind === 12) tint.copy(pal[r < 0.28 ? 0 : r < 0.5 ? 1 : r < 0.7 ? 2 : 3]);
         else if (pal) tint.copy(pal[Math.floor(r * pal.length) % pal.length]);
-        else if ((kind >= 19 && kind <= 21) || kind === 26) { const b = 0.8 + r2 * 0.4; tint.setRGB(b * (0.86 + r * 0.16), b, b * (0.8 + r * 0.2)); }
+        else if ((kind >= 19 && kind <= 21) || kind === 26 || kind === 35) { const b = 0.8 + r2 * 0.4; tint.setRGB(b * (0.86 + r * 0.16), b, b * (0.8 + r * 0.2)); }
         else tint.setScalar(kind === 0 ? 0.75 + ((r * 3.3) % 1) * 0.4 : 0.86 + r2 * 0.22);
         inst.setColorAt(n, tint);
       });

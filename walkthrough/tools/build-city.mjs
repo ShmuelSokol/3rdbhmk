@@ -945,7 +945,9 @@ const solidTris = { count: 0 };
                 return Math.abs(terrainAt(cx + ux * half, cz + uz * half) - c0) < 0.3 && Math.abs(terrainAt(cx - ux * half, cz - uz * half) - c0) < 0.3 && Math.abs(c0 - g) < 0.45
                   && !lab(cx + ux * half, cz + uz * half) && !lab(cx - ux * half, cz - uz * half);
               };
-              if (r30 < 0.13 && clear >= 5.5 && j % 2 === 0 && L >= 5 && flat(1.3, 2.1) && onLane(mx + nx * 1.3, mz + nz * 1.3) && onLane(mx + nx * 4, mz + nz * 4)) { S(3, mx + nx * 1.3, g, mz + nz * 1.3, yaw + (r31 < 0.5 ? 0 : Math.PI), r31, nx, nz); nCar++; }
+              // a tree in a courtyard or a small square, where there is room for its crown
+              if (clear >= 7.5 && hsh(99) < 0.09 && !onLane(mx + nx * 3.6, mz + nz * 3.6) && flat(3.6, 1.5)) S(35, mx + nx * 3.6, g, mz + nz * 3.6, yaw + hsh(100) * 6, hsh(101));
+                            if (r30 < 0.13 && clear >= 5.5 && j % 2 === 0 && L >= 5 && flat(1.3, 2.1) && onLane(mx + nx * 1.3, mz + nz * 1.3) && onLane(mx + nx * 4, mz + nz * 4)) { S(3, mx + nx * 1.3, g, mz + nz * 1.3, yaw + (r31 < 0.5 ? 0 : Math.PI), r31, nx, nz); nCar++; }
               else if (r30 >= 0.13 && r30 < 0.165) S(2, mx + nx * 0.02, g, mz + nz * 0.02, yaw + (r31 < 0.5 ? 0 : Math.PI) * 0, r31, r31 < 0.5 ? 1 : -1);
               else if (r30 >= 0.235 && r30 < 0.26 && clear >= 3.4 && flat(0.4, 0.8)) S(8, mx + nx * 0.36, g, mz + nz * 0.36, yaw, r31);
               else if (r30 >= 0.26 && r30 < 0.29 && clear >= 4.4 && flat(1.1, 0.9)) S(9, mx + nx * 1.05, g, mz + nz * 1.05, yaw + r31 * 3, r31);
